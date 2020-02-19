@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <General>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="SmartSet App-Freestyle"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="2"/>
+      <MinorVersionNr Value="1"/>
+      <RevisionNr Value="4"/>
+      <CharSet Value="03B6"/>
+      <StringTable ProductVersion="Kinesis Corporation"/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="753065405567" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+      </SharedMatrixOptions>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
+    </RunParams>
+    <RequiredPackages Count="10">
+      <Item1>
+        <PackageName Value="creosource"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="gifviewer_pkg"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="bgracontrols"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="mbColorLibLaz"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="uEControls"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="eccontrols"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="LazControls"/>
+      </Item7>
+      <Item8>
+        <PackageName Value="installpkg"/>
+      </Item8>
+      <Item9>
+        <PackageName Value="richmemopackage"/>
+      </Item9>
+      <Item10>
+        <PackageName Value="LCL"/>
+      </Item10>
+    </RequiredPackages>
+    <Units Count="27">
+      <Unit0>
+        <Filename Value="SmartSetFSEdge.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="u_file_service.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="u_form_about.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormAbout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="u_key_service.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\Common\u_const.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\Common\u_debug.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\Common\u_key_layer.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\Common\u_keys.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="U_Keys"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\Common\userdialog.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\Common\versionsupport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="VersionSupport"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="u_form_saveas.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSaveAs"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="u_form_load.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormLoad"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="u_form_main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="u_form_macro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMacro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="u_base_form.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="BaseForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="u_form_settings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSettings"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\Components\animatedgif\animatedgif.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="AnimatedGif"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\Components\animatedgif\membitmap.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="u_form_timingdelays.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTimingDelays"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="u_form_intro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormIntro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="u_form_tapandhold.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTapAndHold"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="u_form_export.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormExport"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="u_form_diagnostics.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormDiagnostics"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="u_form_firmware.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormFirmware"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="u_form_troubleshoot.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTroubleshoot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="u_gif.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit26>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="SmartSet App-Freestyle (PC)"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <CodeGeneration>
+      <TargetCPU Value="i386"/>
+      <Optimizations>
+        <OptimizationLevel Value="0"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <DebugInfoType Value="dsDwarf3"/>
+        <UseHeaptrc Value="True"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

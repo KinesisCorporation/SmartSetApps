@@ -1,0 +1,869 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXSSchema</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXSSchema"></a><h1 class="cio">Class TXSSchema</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXSSchema = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+XML Schema</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TXSSchema</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#version">version</a></b>: <a  href="xquery.html#TXSSchemaVersion">TXSSchemaVersion</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#url">url</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#anyType">anyType</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#anySimpleType">anySimpleType</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#anyAtomicType">anyAtomicType</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#decimal">decimal</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#integer">integer</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#double">double</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#float">float</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#string_">string_</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#anyURI">anyURI</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#base64Binary">base64Binary</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#boolean">boolean</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#date">date</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#time">time</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#dateTime">dateTime</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#duration">duration</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#gDay">gDay</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#gMonth">gMonth</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#gMonthDay">gMonthDay</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#gYear">gYear</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#gYearMonth">gYearMonth</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#hexBinary">hexBinary</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#QName">QName</a></b>: <a  href="xquery.TXSQNameType.html">TXSQNameType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#NOTATION">NOTATION</a></b>: <a  href="xquery.TXSQNameType.html">TXSQNameType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#nonPositiveInteger">nonPositiveInteger</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#negativeInteger">negativeInteger</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#nonNegativeInteger">nonNegativeInteger</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#positiveInteger">positiveInteger</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#long">long</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#int">int</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#short">short</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#Byte">Byte</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#unsignedLong">unsignedLong</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#unsignedInt">unsignedInt</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#unsignedShort">unsignedShort</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#unsignedByte">unsignedByte</a></b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#normalizedString">normalizedString</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#token">token</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#language">language</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#NMTOKEN">NMTOKEN</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#NMTOKENS">NMTOKENS</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#Name">Name</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#NCName">NCName</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#ID">ID</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#IDREF">IDREF</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#IDREFS">IDREFS</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#ENTITY">ENTITY</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#ENTITIES">ENTITIES</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#yearMonthDuration">yearMonthDuration</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#dayTimeDuration">dayTimeDuration</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#dateTimeStamp">dateTimeStamp</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#untyped">untyped</a></b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#untypedAtomic">untypedAtomic</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#node">node</a></b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#sequence">sequence</a></b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#function_">function_</a></b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#numericPseudoType">numericPseudoType</a></b>: <a  href="xquery.TXSUnionType.html">TXSUnionType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#untypedOrNodeUnion">untypedOrNodeUnion</a></b>: <a  href="xquery.TXSUnionType.html">TXSUnionType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXSSchema.html#error">error</a></b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXSSchema.html#Create">Create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="xquery.TXSSchema.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXSSchema.html#findType">findType</a></b>(const typeName: string): <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXSSchema.html#isValidNCName">isValidNCName</a></b>(const s: string): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXSSchema.html#isValidQName">isValidQName</a></b>(s: string): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXSSchema.html#isValidationOnlyType">isValidationOnlyType</a></b>(t: <a  href="xquery.TXSType.html">TXSType</a>): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXSSchema.html#isAbstractType">isAbstractType</a></b>(t: <a  href="xquery.TXSType.html">TXSType</a>): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXSSchema.html#show">show</a></b>(const s: string);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXSSchema.html#hide">hide</a></b>(const s: string);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="version"></a><code><b>version</b>: <a  href="xquery.html#TXSSchemaVersion">TXSSchemaVersion</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+XML Schema <code>version</code>, XSD1.0 or XSD1.1. Only latter will be maintained in future</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="url"></a><code><b>url</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="anyType"></a><code><b>anyType</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="anySimpleType"></a><code><b>anySimpleType</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="anyAtomicType"></a><code><b>anyAtomicType</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="decimal"></a><code><b>decimal</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="integer"></a><code><b>integer</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="double"></a><code><b>double</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="float"></a><code><b>float</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="string_"></a><code><b>string_</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="anyURI"></a><code><b>anyURI</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="base64Binary"></a><code><b>base64Binary</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="boolean"></a><code><b>boolean</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="date"></a><code><b>date</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="time"></a><code><b>time</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="dateTime"></a><code><b>dateTime</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="duration"></a><code><b>duration</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="gDay"></a><code><b>gDay</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="gMonth"></a><code><b>gMonth</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="gMonthDay"></a><code><b>gMonthDay</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="gYear"></a><code><b>gYear</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="gYearMonth"></a><code><b>gYearMonth</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hexBinary"></a><code><b>hexBinary</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="QName"></a><code><b>QName</b>: <a  href="xquery.TXSQNameType.html">TXSQNameType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="NOTATION"></a><code><b>NOTATION</b>: <a  href="xquery.TXSQNameType.html">TXSQNameType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="nonPositiveInteger"></a><code><b>nonPositiveInteger</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="negativeInteger"></a><code><b>negativeInteger</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="nonNegativeInteger"></a><code><b>nonNegativeInteger</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="positiveInteger"></a><code><b>positiveInteger</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="long"></a><code><b>long</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="int"></a><code><b>int</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="short"></a><code><b>short</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Byte"></a><code><b>Byte</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="unsignedLong"></a><code><b>unsignedLong</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="unsignedInt"></a><code><b>unsignedInt</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="unsignedShort"></a><code><b>unsignedShort</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="unsignedByte"></a><code><b>unsignedByte</b>: <a  href="xquery.TXSNumericType.html">TXSNumericType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="normalizedString"></a><code><b>normalizedString</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="token"></a><code><b>token</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="language"></a><code><b>language</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="NMTOKEN"></a><code><b>NMTOKEN</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="NMTOKENS"></a><code><b>NMTOKENS</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Name"></a><code><b>Name</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="NCName"></a><code><b>NCName</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ID"></a><code><b>ID</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="IDREF"></a><code><b>IDREF</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="IDREFS"></a><code><b>IDREFS</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ENTITY"></a><code><b>ENTITY</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ENTITIES"></a><code><b>ENTITIES</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="yearMonthDuration"></a><code><b>yearMonthDuration</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="dayTimeDuration"></a><code><b>dayTimeDuration</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="dateTimeStamp"></a><code><b>dateTimeStamp</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="untyped"></a><code><b>untyped</b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="untypedAtomic"></a><code><b>untypedAtomic</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="node"></a><code><b>node</b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="sequence"></a><code><b>sequence</b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="function_"></a><code><b>function_</b>: <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="numericPseudoType"></a><code><b>numericPseudoType</b>: <a  href="xquery.TXSUnionType.html">TXSUnionType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="untypedOrNodeUnion"></a><code><b>untypedOrNodeUnion</b>: <a  href="xquery.TXSUnionType.html">TXSUnionType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="error"></a><code><b>error</b>: <a  href="xquery.TXSSimpleType.html">TXSSimpleType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Create"></a><code>constructor <b>Create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findType"></a><code>function <b>findType</b>(const typeName: string): <a  href="xquery.TXSType.html">TXSType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isValidNCName"></a><code>function <b>isValidNCName</b>(const s: string): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isValidQName"></a><code>function <b>isValidQName</b>(s: string): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isValidationOnlyType"></a><code>function <b>isValidationOnlyType</b>(t: <a  href="xquery.TXSType.html">TXSType</a>): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isAbstractType"></a><code>function <b>isAbstractType</b>(t: <a  href="xquery.TXSType.html">TXSType</a>): <a  href="xquery.TXSSchema.html#boolean">boolean</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="show"></a><code>procedure <b>show</b>(const s: string);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hide"></a><code>procedure <b>hide</b>(const s: string);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,813 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXQStaticContext</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQStaticContext"></a><h1 class="cio">Class TXQStaticContext</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td><a class="section" href="#PasDoc-Properties">Properties</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQStaticContext = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Static context containing values read during parsing and not changed during evaluation. Mostly corresponds to the &quot;static context&quot; in the XQuery spec</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TXQStaticContext</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#sender">sender</a></b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#moduleNamespace">moduleNamespace</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#namespaces">namespaces</a></b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#moduleContextItemDeclarations">moduleContextItemDeclarations</a></b>: array of <a  href="xquery.TXQTermDefineVariable.html">TXQTermDefineVariable</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#functions">functions</a></b>: array of <a  href="xquery.TXQValueFunction.html">TXQValueFunction</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#associatedModules">associatedModules</a></b>: TFPList;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#importedModules">importedModules</a></b>: TStringList;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#importedSchemas">importedSchemas</a></b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#defaultFunctionNamespace">defaultFunctionNamespace</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#defaultElementTypeNamespace">defaultElementTypeNamespace</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#decimalNumberFormats">decimalNumberFormats</a></b>: TFPList;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#baseURI">baseURI</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#collation">collation</a></b>: <a  href="xquery.TXQCollation.html">TXQCollation</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#stripBoundarySpace">stripBoundarySpace</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#emptyOrderSpec">emptyOrderSpec</a></b>: <a  href="xquery.html#TXQTermFlowerOrderEmpty">TXQTermFlowerOrderEmpty</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#copyNamespacePreserve">copyNamespacePreserve</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#copyNamespaceInherit">copyNamespaceInherit</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#defaultTypeNamespace">defaultTypeNamespace</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#stringEncoding">stringEncoding</a></b>: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#strictTypeChecking">strictTypeChecking</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#useLocalNamespaces">useLocalNamespaces</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#objectsRestrictedToJSONTypes">objectsRestrictedToJSONTypes</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#jsonPXPExtensions">jsonPXPExtensions</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#model">model</a></b>: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#ordering">ordering</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQStaticContext.html#constructionPreserve">constructionPreserve</a></b>: boolean;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQStaticContext.html#assign">assign</a></b>(sc: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#clone">clone</a></b>(): <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="xquery.TXQStaticContext.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findSchema">findSchema</a></b>(const namespace: string): <a  href="xquery.TXSSchema.html">TXSSchema</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findNamespace">findNamespace</a></b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findNamespaceURL">findNamespaceURL</a></b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findNamespaceURLMandatory">findNamespaceURLMandatory</a></b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQStaticContext.html#splitRawQName">splitRawQName</a></b>(out namespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; var name: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQStaticContext.html#splitRawQName">splitRawQName</a></b>(out namespace: string; var name: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#resolveDocURI">resolveDocURI</a></b>(url: string): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#retrieveFromURI">retrieveFromURI</a></b>(url: string; out contenttype: string; failErrCode: string): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#retrieveFromFile">retrieveFromFile</a></b>(url: string; out contenttype: string; failErrCode: string): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#ImplicitTimezoneInMinutes">ImplicitTimezoneInMinutes</a></b>: integer; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#CurrentDateTime">CurrentDateTime</a></b>: TDateTime; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findModule">findModule</a></b>(const namespaceURL: string): <a  href="xquery.TXQuery.html">TXQuery</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findModuleStaticContext">findModuleStaticContext</a></b>(const namespaceURL: string): <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findFunction">findFunction</a></b>(const anamespace, alocalname: string; const argcount: integer): <a  href="xquery.TXQValueFunction.html">TXQValueFunction</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findVariableDeclaration">findVariableDeclaration</a></b>( v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>): <a  href="xquery.TXQTermDefineVariable.html">TXQTermDefineVariable</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#findVariableDeclaration">findVariableDeclaration</a></b>(const namespace, varname: string): <a  href="xquery.TXQTermDefineVariable.html">TXQTermDefineVariable</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#isLibraryModule">isLibraryModule</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#compareAtomic">compareAtomic</a></b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#compareAtomic">compareAtomic</a></b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a> = nil): integer; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQStaticContext.html#compareAtomic">compareAtomic</a></b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; out result: <a  href="xquery.IXQValue.html">IXQValue</a>; accept1: integer; accept2: integer = 9999);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#equalAtomic">equalAtomic</a></b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#equalAtomic">equalAtomic</a></b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#compareGeneral">compareGeneral</a></b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>; accept1: integer; accept2: integer = 9999): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#compareGeneral">compareGeneral</a></b>(a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>; accept1: integer; accept2: integer = 9999): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQStaticContext.html#compareGeneral">compareGeneral</a></b>(a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; out result: <a  href="xquery.IXQValue.html">IXQValue</a>; accept1: integer; accept2: integer = 9999);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#compareDeepAtomic">compareDeepAtomic</a></b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#compareDeepAtomic">compareDeepAtomic</a></b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): integer; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#equalDeepAtomic">equalDeepAtomic</a></b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQStaticContext.html#equalDeepAtomic">equalDeepAtomic</a></b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQStaticContext.html#comparableTypes">comparableTypes</a></b>(const a, b: <a  href="xquery.TXQValue.html">TXQValue</a>): boolean; static;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.TXQStaticContext.html#NodeCollation">NodeCollation</a></b>: <a  href="xquery.TXQCollation.html">TXQCollation</a> read getNodeCollation write FNodeCollation;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="sender"></a><code><b>sender</b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Engine this context belongs to</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="moduleNamespace"></a><code><b>moduleNamespace</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+The namespace of this module or nil</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="namespaces"></a><code><b>namespaces</b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+All declared <code>namespaces</code>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="moduleContextItemDeclarations"></a><code><b>moduleContextItemDeclarations</b>: array of <a  href="xquery.TXQTermDefineVariable.html">TXQTermDefineVariable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="functions"></a><code><b>functions</b>: array of <a  href="xquery.TXQValueFunction.html">TXQValueFunction</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+All declared <code>functions</code>. Each function contain a pointer to a <a class="normal" href="xquery.TXQTerm.html">TXQTerm</a> and a dynamic context containing a pointer to this staticcontext</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="associatedModules"></a><code><b>associatedModules</b>: TFPList;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="importedModules"></a><code><b>importedModules</b>: TStringList;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+All imported modules as (prefix, module: <a class="normal" href="xquery.TXQuery.html">TXQuery</a>) tuples</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="importedSchemas"></a><code><b>importedSchemas</b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+All imported schemas. Currently they are just treated as to be equivalent to xs: {TODO.}</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="defaultFunctionNamespace"></a><code><b>defaultFunctionNamespace</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Default function namespace (engine default is <a  href="http://www.benibela.de/2012/pxp/extensions">http://www.benibela.de/2012/pxp/extensions</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="defaultElementTypeNamespace"></a><code><b>defaultElementTypeNamespace</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Default element type namespace (default is empty)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="decimalNumberFormats"></a><code><b>decimalNumberFormats</b>: TFPList;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="baseURI"></a><code><b>baseURI</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Static base uri</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="collation"></a><code><b>collation</b>: <a  href="xquery.TXQCollation.html">TXQCollation</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Default <code>collation</code> for string comparisons</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="stripBoundarySpace"></a><code><b>stripBoundarySpace</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+If &lt;a&gt; &lt;/a&gt; is equivalent to &lt;a/&gt;. Only used during parsing of the <a class="normal" href="xquery.html#query">query</a>, ignored during evaluation</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="emptyOrderSpec"></a><code><b>emptyOrderSpec</b>: <a  href="xquery.html#TXQTermFlowerOrderEmpty">TXQTermFlowerOrderEmpty</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="copyNamespacePreserve"></a><code><b>copyNamespacePreserve</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="copyNamespaceInherit"></a><code><b>copyNamespaceInherit</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="defaultTypeNamespace"></a><code><b>defaultTypeNamespace</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Extension: default type namespace. Behaves like the default element type namespace, but does not change the namespace of constructed elements. (default is <a  href="http://www.w3.org/2001/XMLSchema">http://www.w3.org/2001/XMLSchema</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="stringEncoding"></a><code><b>stringEncoding</b>: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Encoding of strings. Currently only affects the decoding of entities in direct element constructors</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="strictTypeChecking"></a><code><b>strictTypeChecking</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Activates strict type checking. If enabled, things like &quot;2&quot; + 3 raise an exception, otherwise it is evaluated to 5. Does not affect *correct* queries (and it makes it slower, so there is no reason to enable this option unless you need compatibility to other interpreters)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="useLocalNamespaces"></a><code><b>useLocalNamespaces</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+When a statically unknown namespace is encountered in a matching expression it is resolved using the in-scope-<a class="normal" href="xquery.TXQStaticContext.html#namespaces">namespaces</a> of the possible matching elements</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="objectsRestrictedToJSONTypes"></a><code><b>objectsRestrictedToJSONTypes</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+When false, all values can be stored in object properties; when true all property values are JSON values (e.g. sequences become arrays, () becomes null, xml is serialized, ...)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="jsonPXPExtensions"></a><code><b>jsonPXPExtensions</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Allows further json extensions, going beyond jsoniq (especially child and descendant axis test matching object properties) (for dot operator, see <a class="normal" href="xquery.TXQParsingOptions.html">TXQParsingOptions</a>) (default is true)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="model"></a><code><b>model</b>: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ordering"></a><code><b>ordering</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+unused</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="constructionPreserve"></a><code><b>constructionPreserve</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+unused</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="assign"></a><code>procedure <b>assign</b>(sc: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clone"></a><code>function <b>clone</b>(): <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findSchema"></a><code>function <b>findSchema</b>(const namespace: string): <a  href="xquery.TXSSchema.html">TXSSchema</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findNamespace"></a><code>function <b>findNamespace</b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findNamespaceURL"></a><code>function <b>findNamespaceURL</b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findNamespaceURLMandatory"></a><code>function <b>findNamespaceURLMandatory</b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="splitRawQName"></a><code>procedure <b>splitRawQName</b>(out namespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; var name: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="splitRawQName"></a><code>procedure <b>splitRawQName</b>(out namespace: string; var name: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="resolveDocURI"></a><code>function <b>resolveDocURI</b>(url: string): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="retrieveFromURI"></a><code>function <b>retrieveFromURI</b>(url: string; out contenttype: string; failErrCode: string): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="retrieveFromFile"></a><code>function <b>retrieveFromFile</b>(url: string; out contenttype: string; failErrCode: string): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ImplicitTimezoneInMinutes"></a><code>function <b>ImplicitTimezoneInMinutes</b>: integer; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="CurrentDateTime"></a><code>function <b>CurrentDateTime</b>: TDateTime; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findModule"></a><code>function <b>findModule</b>(const namespaceURL: string): <a  href="xquery.TXQuery.html">TXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findModuleStaticContext"></a><code>function <b>findModuleStaticContext</b>(const namespaceURL: string): <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findFunction"></a><code>function <b>findFunction</b>(const anamespace, alocalname: string; const argcount: integer): <a  href="xquery.TXQValueFunction.html">TXQValueFunction</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findVariableDeclaration"></a><code>function <b>findVariableDeclaration</b>( v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>): <a  href="xquery.TXQTermDefineVariable.html">TXQTermDefineVariable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findVariableDeclaration"></a><code>function <b>findVariableDeclaration</b>(const namespace, varname: string): <a  href="xquery.TXQTermDefineVariable.html">TXQTermDefineVariable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isLibraryModule"></a><code>function <b>isLibraryModule</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareAtomic"></a><code>function <b>compareAtomic</b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Compares two values atomically (eq,ne,..) and returns 0 if equal, -1 for a &lt; b, and +1 for a &gt; b; -2 for unknown</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareAtomic"></a><code>function <b>compareAtomic</b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a> = nil): integer; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Compares two values atomically (eq,ne,..) and returns 0 if equal, -1 for a &lt; b, and +1 for a &gt; b; -2 for unknown</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareAtomic"></a><code>procedure <b>compareAtomic</b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; out result: <a  href="xquery.IXQValue.html">IXQValue</a>; accept1: integer; accept2: integer = 9999);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="equalAtomic"></a><code>function <b>equalAtomic</b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="equalAtomic"></a><code>function <b>equalAtomic</b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareGeneral"></a><code>function <b>compareGeneral</b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>; accept1: integer; accept2: integer = 9999): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Compares two values (=,!=,...) and returns true if the compare value is \in [accept1,accept2]<br> (Remember that these xpath comparison operators search for a matching pair in the product of the sequences)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareGeneral"></a><code>function <b>compareGeneral</b>(a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>; accept1: integer; accept2: integer = 9999): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Compares two values (=,!=,...) and returns true if the compare value is \in [accept1,accept2]<br> (Remember that these xpath comparison operators search for a matching pair in the product of the sequences)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareGeneral"></a><code>procedure <b>compareGeneral</b>(a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; out result: <a  href="xquery.IXQValue.html">IXQValue</a>; accept1: integer; accept2: integer = 9999);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareDeepAtomic"></a><code>function <b>compareDeepAtomic</b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Compares two atomic values and returns 0 as the deepEqual function would if equal, -1 for a &lt; b, and +1 for a &gt; b; -2 for unknown</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareDeepAtomic"></a><code>function <b>compareDeepAtomic</b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): integer; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="equalDeepAtomic"></a><code>function <b>equalDeepAtomic</b>(a, b: <a  href="xquery.TXQValue.html">TXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="equalDeepAtomic"></a><code>function <b>equalDeepAtomic</b>(const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; overrideCollation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="comparableTypes"></a><code>class function <b>comparableTypes</b>(const a, b: <a  href="xquery.TXQValue.html">TXQValue</a>): boolean; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+internally used (Returns if the eq operator is defined for the types of a and b)</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="NodeCollation"></a><code>property <b>NodeCollation</b>: <a  href="xquery.TXQCollation.html">TXQCollation</a> read getNodeCollation write FNodeCollation;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

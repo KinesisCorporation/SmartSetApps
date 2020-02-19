@@ -1,0 +1,6 @@
+[3]>[a]
+[e]>[z]
+[r]>[v]
+[t]>[z]
+{lshift}{lctrl}{lalt}{d}>{a}{d}{s}{f}{a}{s}{d}{f}{s}{d}{f}{space}{s}{d}{f}{s}{a}{space}{s}{d}{space}{f}{s}{f}{shift}{shift}{-ctrl}{d}{+ctrl}
+[kp-w]>[b]

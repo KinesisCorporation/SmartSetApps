@@ -1,0 +1,184 @@
+object Form1: TForm1
+  Left = 436
+  Height = 405
+  Top = 169
+  Width = 637
+  HorzScrollBar.Page = 432
+  HorzScrollBar.Range = 259
+  VertScrollBar.Page = 404
+  VertScrollBar.Range = 121
+  ActiveControl = Edit1
+  Caption = 'Autoupdatechecker'
+  ClientHeight = 405
+  ClientWidth = 637
+  LCLVersion = '1.8.0.5'
+  object Label1: TLabel
+    Left = 16
+    Height = 18
+    Top = 16
+    Width = 76
+    Caption = 'Cur-Version:'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 15
+    Height = 18
+    Top = 46
+    Width = 78
+    Caption = 'Version-URL:'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 14
+    Height = 18
+    Top = 72
+    Width = 78
+    Caption = 'Change-URL:'
+    ParentColor = False
+  end
+  object Edit1: TEdit
+    Left = 96
+    Height = 24
+    Top = 13
+    Width = 533
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 0
+    Text = '990'
+  end
+  object Edit2: TEdit
+    Left = 96
+    Height = 24
+    Top = 40
+    Width = 533
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 1
+    Text = 'http://benibela.de/updates/autoupdateexample/version.xml'
+  end
+  object Edit3: TEdit
+    Left = 96
+    Height = 24
+    Top = 67
+    Width = 533
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 2
+    Text = 'http://benibela.de/updates/autoupdateexample/changelog.xml'
+  end
+  object Button1: TButton
+    Left = 57
+    Height = 25
+    Top = 173
+    Width = 130
+    Caption = 'existsUpdate'
+    Enabled = False
+    OnClick = Button1Click
+    TabOrder = 3
+  end
+  object Button2: TButton
+    Left = 192
+    Height = 25
+    Top = 173
+    Width = 80
+    Caption = 'details'
+    Enabled = False
+    OnClick = Button2Click
+    TabOrder = 4
+  end
+  object Button3: TButton
+    Left = 280
+    Height = 25
+    Top = 173
+    Width = 96
+    Caption = 'download'
+    Enabled = False
+    OnClick = Button3Click
+    TabOrder = 5
+  end
+  object Memo1: TMemo
+    Left = 15
+    Height = 169
+    Top = 232
+    Width = 613
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    ScrollBars = ssAutoVertical
+    TabOrder = 6
+  end
+  object Button4: TButton
+    Left = 16
+    Height = 25
+    Top = 148
+    Width = 136
+    Caption = 'create updater'
+    OnClick = Button4Click
+    TabOrder = 7
+  end
+  object Button5: TButton
+    Left = 16
+    Height = 25
+    Top = 198
+    Width = 136
+    Caption = 'free updater'
+    Enabled = False
+    OnClick = Button5Click
+    TabOrder = 8
+  end
+  object Button6: TButton
+    Left = 384
+    Height = 25
+    Top = 173
+    Width = 75
+    Caption = 'install'
+    Enabled = False
+    OnClick = Button6Click
+    TabOrder = 9
+  end
+  object Button7: TButton
+    Left = 464
+    Height = 25
+    Top = 173
+    Width = 75
+    Caption = 'browse'
+    OnClick = Button7Click
+    TabOrder = 10
+  end
+  object Label4: TLabel
+    Left = 16
+    Height = 18
+    Top = 97
+    Width = 73
+    Caption = 'User-Agent:'
+    ParentColor = False
+  end
+  object Edit4: TEdit
+    Left = 96
+    Height = 24
+    Top = 93
+    Width = 533
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 11
+    Text = 'Mozilla/5.0 (compatible)'
+  end
+  object Label5: TLabel
+    Left = 16
+    Height = 18
+    Top = 122
+    Width = 63
+    Caption = 'Language:'
+    ParentColor = False
+  end
+  object ComboBox1: TComboBox
+    Left = 96
+    Height = 30
+    Top = 120
+    Width = 533
+    Anchors = [akTop, akLeft, akRight]
+    ItemHeight = 0
+    ItemIndex = 0
+    Items.Strings = (
+      ''
+      'de'
+      'en'
+    )
+    OnChange = ComboBox1Change
+    TabOrder = 12
+  end
+end

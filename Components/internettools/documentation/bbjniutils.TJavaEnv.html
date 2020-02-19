@@ -1,0 +1,795 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>bbjniutils: record TJavaEnv</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TJavaEnv"></a><h1 class="cio">record TJavaEnv</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Hierarchy</td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="bbjniutils.html">bbjniutils</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TJavaEnv = record</code></p>
+<h2 class="description">Description</h2>
+&nbsp;<h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bbjniutils.TJavaEnv.html#env">env</a></b>: PJNIEnv;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getclass">getclass</a></b>(n: pchar): jclass;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getmethod">getmethod</a></b>(c: jclass; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getmethod">getmethod</a></b>(classname: pchar; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getfield">getfield</a></b>(c: jclass; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getfield">getfield</a></b>(classname: pchar; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getstaticmethod">getstaticmethod</a></b>(c: jclass; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getstaticmethod">getstaticmethod</a></b>(classname: pchar; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getstaticfield">getstaticfield</a></b>(c: jclass; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getstaticfield">getstaticfield</a></b>(classname: pchar; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getObjectField">getObjectField</a></b>(obj: jobject; id: jfieldID): jobject;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getStringField">getStringField</a></b>(obj: jobject; id: jfieldID): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getIntField">getIntField</a></b>(obj: jobject; id: jfieldID): jint;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getLongField">getLongField</a></b>(obj: jobject; id: jfieldID): jlong;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getBooleanField">getBooleanField</a></b>(obj: jobject; id: jfieldID): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#callVoidMethod">callVoidMethod</a></b>(obj: jobject; methodID: jmethodID); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#callVoidMethod">callVoidMethod</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callObjectMethod">callObjectMethod</a></b>(obj: jobject; methodID: jmethodID): jobject; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callObjectMethod">callObjectMethod</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jobject; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callBooleanMethod">callBooleanMethod</a></b>(obj: jobject; methodID: jmethodID): boolean; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callBooleanMethod">callBooleanMethod</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): boolean; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callIntMethod">callIntMethod</a></b>(obj: jobject; methodID: jmethodID): jint; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callIntMethod">callIntMethod</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jint; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callStringMethod">callStringMethod</a></b>(obj: jobject; methodID: jmethodID): string; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callStringMethod">callStringMethod</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): string; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#callVoidMethodChecked">callVoidMethodChecked</a></b>(obj: jobject; methodID: jmethodID); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#callVoidMethodChecked">callVoidMethodChecked</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callObjectMethodChecked">callObjectMethodChecked</a></b>(obj: jobject; methodID: jmethodID): jobject; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callObjectMethodChecked">callObjectMethodChecked</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jobject; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callBooleanMethodChecked">callBooleanMethodChecked</a></b>(obj: jobject; methodID: jmethodID): boolean; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callBooleanMethodChecked">callBooleanMethodChecked</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): boolean; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callIntMethodChecked">callIntMethodChecked</a></b>(obj: jobject; methodID: jmethodID): jint; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callIntMethodChecked">callIntMethodChecked</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jint; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callStringMethodChecked">callStringMethodChecked</a></b>(obj: jobject; methodID: jmethodID): string; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callStringMethodChecked">callStringMethodChecked</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): string; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#callStaticVoidMethod">callStaticVoidMethod</a></b>(obj: jobject; methodID: jmethodID); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#callStaticVoidMethod">callStaticVoidMethod</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callStaticObjMethod">callStaticObjMethod</a></b>(obj: jobject; methodID: jmethodID): jobject; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#callStaticObjMethod">callStaticObjMethod</a></b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jobject; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#SetObjectField">SetObjectField</a></b>(Obj:JObject;FieldID:JFieldID;Val:JObject); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#SetStringField">SetStringField</a></b>(Obj:JObject;FieldID:JFieldID;Val:string); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#SetIntField">SetIntField</a></b>(Obj:JObject;FieldID:JFieldID; i: jint); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#SetLongField">SetLongField</a></b>(Obj:JObject;FieldID:JFieldID; i: jlong); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#SetBooleanField">SetBooleanField</a></b>(Obj:JObject;FieldID:JFieldID; b: Boolean); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#setObjectArrayElement">setObjectArrayElement</a></b>(a: jobject; index: integer; v: jobject); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getObjectArrayElement">getObjectArrayElement</a></b>(a: jobject; index: integer): jobject; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#setStringArrayElement">setStringArrayElement</a></b>(a: jobject; index: integer; v: string); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getStringArrayElement">getStringArrayElement</a></b>(a: jobject; index: integer): string; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getIntArray">getIntArray</a></b>(a: jobject): <a  href="bbutils.html#TLongintArray">TLongintArray</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getArrayLength">getArrayLength</a></b>(a: jobject): jint; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#newObject">newObject</a></b>(c: jclass; m: jmethodID): jobject;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#newObject">newObject</a></b>(c: jclass; m: jmethodID; args: Pjvalue): jobject;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#newObjectArray">newObjectArray</a></b>(len: integer; c: jclass; def: jobject): jobject;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#newGlobalRefAndDelete">newGlobalRefAndDelete</a></b>(obj: jobject): jobject;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#deleteLocalRef">deleteLocalRef</a></b>(obj: jobject); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#deleteGlobalRef">deleteGlobalRef</a></b>(obj: jobject);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#NewStringUTF">NewStringUTF</a></b>(s: string): jobject; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#stringToJString">stringToJString</a></b>(s: string; conversionMode: <a  href="bbjniutils.html#TStringConversionMode">TStringConversionMode</a> = scmConvertAndRepairUTF8ToMUTF8): jobject;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#jStringToString">jStringToString</a></b>(s: jobject): string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#jStringToStringAndDelete">jStringToStringAndDelete</a></b>(s: jobject): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#arrayToJArray">arrayToJArray</a></b>(a: array of string; stringClass: jclass = nil): jobject;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#RethrowJavaExceptionIfThereIsOne">RethrowJavaExceptionIfThereIsOne</a></b>(aExceptionClass: ExceptClass);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#RethrowJavaExceptionIfThereIsOne">RethrowJavaExceptionIfThereIsOne</a></b>();</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#ExceptionDescribeAndClear">ExceptionDescribeAndClear</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#ExceptionCheck">ExceptionCheck</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#ThrowNew">ThrowNew</a></b>(c: jclass; error: string);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#ThrowNew">ThrowNew</a></b>(c: pchar; error: string);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#inputStreamToStringAndDelete">inputStreamToStringAndDelete</a></b>(stream: jobject; jmInputStreamRead, jmInputStreamClose: jmethodID): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#inputStreamToStringAndDelete">inputStreamToStringAndDelete</a></b>(stream: jobject): string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#inputStreamReadAllAndDelete">inputStreamReadAllAndDelete</a></b>(stream: jobject; readCallback: <a  href="bbutils.html#TStreamLikeWrite">TStreamLikeWrite</a>; jmInputStreamRead, jmInputStreamClose: jmethodID);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bbjniutils.TJavaEnv.html#inputStreamReadAllAndDelete">inputStreamReadAllAndDelete</a></b>(stream: jobject; readCallback: <a  href="bbutils.html#TStreamLikeWrite">TStreamLikeWrite</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#getMapProperty">getMapProperty</a></b>(map: jobject; value: jobject): jobject;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#commonClasses_String">commonClasses_String</a></b>: jclass;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#commonClasses_InputStream">commonClasses_InputStream</a></b>: jclass;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#commonMethods_InputStream_Read_B">commonMethods_InputStream_Read_B</a></b>(inputStream: jclass = nil): jmethodID;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bbjniutils.TJavaEnv.html#commonMethods_InputStream_Close">commonMethods_InputStream_Close</a></b>(inputStream: jclass = nil): jmethodID;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="env"></a><code><b>env</b>: PJNIEnv;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getclass"></a><code>function <b>getclass</b>(n: pchar): jclass;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getmethod"></a><code>function <b>getmethod</b>(c: jclass; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getmethod"></a><code>function <b>getmethod</b>(classname: pchar; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getfield"></a><code>function <b>getfield</b>(c: jclass; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getfield"></a><code>function <b>getfield</b>(classname: pchar; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getstaticmethod"></a><code>function <b>getstaticmethod</b>(c: jclass; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getstaticmethod"></a><code>function <b>getstaticmethod</b>(classname: pchar; n, sig: pchar): jmethodID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getstaticfield"></a><code>function <b>getstaticfield</b>(c: jclass; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getstaticfield"></a><code>function <b>getstaticfield</b>(classname: pchar; n, sig: pchar): jfieldID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getObjectField"></a><code>function <b>getObjectField</b>(obj: jobject; id: jfieldID): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getStringField"></a><code>function <b>getStringField</b>(obj: jobject; id: jfieldID): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getIntField"></a><code>function <b>getIntField</b>(obj: jobject; id: jfieldID): jint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getLongField"></a><code>function <b>getLongField</b>(obj: jobject; id: jfieldID): jlong;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getBooleanField"></a><code>function <b>getBooleanField</b>(obj: jobject; id: jfieldID): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callVoidMethod"></a><code>procedure <b>callVoidMethod</b>(obj: jobject; methodID: jmethodID); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callVoidMethod"></a><code>procedure <b>callVoidMethod</b>(obj: jobject; methodID: jmethodID; args: Pjvalue); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callObjectMethod"></a><code>function <b>callObjectMethod</b>(obj: jobject; methodID: jmethodID): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callObjectMethod"></a><code>function <b>callObjectMethod</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callBooleanMethod"></a><code>function <b>callBooleanMethod</b>(obj: jobject; methodID: jmethodID): boolean; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callBooleanMethod"></a><code>function <b>callBooleanMethod</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): boolean; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callIntMethod"></a><code>function <b>callIntMethod</b>(obj: jobject; methodID: jmethodID): jint; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callIntMethod"></a><code>function <b>callIntMethod</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jint; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStringMethod"></a><code>function <b>callStringMethod</b>(obj: jobject; methodID: jmethodID): string; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStringMethod"></a><code>function <b>callStringMethod</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): string; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callVoidMethodChecked"></a><code>procedure <b>callVoidMethodChecked</b>(obj: jobject; methodID: jmethodID); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callVoidMethodChecked"></a><code>procedure <b>callVoidMethodChecked</b>(obj: jobject; methodID: jmethodID; args: Pjvalue); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callObjectMethodChecked"></a><code>function <b>callObjectMethodChecked</b>(obj: jobject; methodID: jmethodID): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callObjectMethodChecked"></a><code>function <b>callObjectMethodChecked</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callBooleanMethodChecked"></a><code>function <b>callBooleanMethodChecked</b>(obj: jobject; methodID: jmethodID): boolean; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callBooleanMethodChecked"></a><code>function <b>callBooleanMethodChecked</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): boolean; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callIntMethodChecked"></a><code>function <b>callIntMethodChecked</b>(obj: jobject; methodID: jmethodID): jint; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callIntMethodChecked"></a><code>function <b>callIntMethodChecked</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jint; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStringMethodChecked"></a><code>function <b>callStringMethodChecked</b>(obj: jobject; methodID: jmethodID): string; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStringMethodChecked"></a><code>function <b>callStringMethodChecked</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): string; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStaticVoidMethod"></a><code>procedure <b>callStaticVoidMethod</b>(obj: jobject; methodID: jmethodID); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStaticVoidMethod"></a><code>procedure <b>callStaticVoidMethod</b>(obj: jobject; methodID: jmethodID; args: Pjvalue); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStaticObjMethod"></a><code>function <b>callStaticObjMethod</b>(obj: jobject; methodID: jmethodID): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="callStaticObjMethod"></a><code>function <b>callStaticObjMethod</b>(obj: jobject; methodID: jmethodID; args: Pjvalue): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SetObjectField"></a><code>procedure <b>SetObjectField</b>(Obj:JObject;FieldID:JFieldID;Val:JObject); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SetStringField"></a><code>procedure <b>SetStringField</b>(Obj:JObject;FieldID:JFieldID;Val:string); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SetIntField"></a><code>procedure <b>SetIntField</b>(Obj:JObject;FieldID:JFieldID; i: jint); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SetLongField"></a><code>procedure <b>SetLongField</b>(Obj:JObject;FieldID:JFieldID; i: jlong); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SetBooleanField"></a><code>procedure <b>SetBooleanField</b>(Obj:JObject;FieldID:JFieldID; b: Boolean); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="setObjectArrayElement"></a><code>procedure <b>setObjectArrayElement</b>(a: jobject; index: integer; v: jobject); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getObjectArrayElement"></a><code>function <b>getObjectArrayElement</b>(a: jobject; index: integer): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="setStringArrayElement"></a><code>procedure <b>setStringArrayElement</b>(a: jobject; index: integer; v: string); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getStringArrayElement"></a><code>function <b>getStringArrayElement</b>(a: jobject; index: integer): string; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getIntArray"></a><code>function <b>getIntArray</b>(a: jobject): <a  href="bbutils.html#TLongintArray">TLongintArray</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getArrayLength"></a><code>function <b>getArrayLength</b>(a: jobject): jint; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="newObject"></a><code>function <b>newObject</b>(c: jclass; m: jmethodID): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="newObject"></a><code>function <b>newObject</b>(c: jclass; m: jmethodID; args: Pjvalue): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="newObjectArray"></a><code>function <b>newObjectArray</b>(len: integer; c: jclass; def: jobject): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="newGlobalRefAndDelete"></a><code>function <b>newGlobalRefAndDelete</b>(obj: jobject): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="deleteLocalRef"></a><code>procedure <b>deleteLocalRef</b>(obj: jobject); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="deleteGlobalRef"></a><code>procedure <b>deleteGlobalRef</b>(obj: jobject);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="NewStringUTF"></a><code>function <b>NewStringUTF</b>(s: string): jobject; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="stringToJString"></a><code>function <b>stringToJString</b>(s: string; conversionMode: <a  href="bbjniutils.html#TStringConversionMode">TStringConversionMode</a> = scmConvertAndRepairUTF8ToMUTF8): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="jStringToString"></a><code>function <b>jStringToString</b>(s: jobject): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="jStringToStringAndDelete"></a><code>function <b>jStringToStringAndDelete</b>(s: jobject): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="arrayToJArray"></a><code>function <b>arrayToJArray</b>(a: array of string; stringClass: jclass = nil): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="RethrowJavaExceptionIfThereIsOne"></a><code>procedure <b>RethrowJavaExceptionIfThereIsOne</b>(aExceptionClass: ExceptClass);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="RethrowJavaExceptionIfThereIsOne"></a><code>procedure <b>RethrowJavaExceptionIfThereIsOne</b>();</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ExceptionDescribeAndClear"></a><code>function <b>ExceptionDescribeAndClear</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ExceptionCheck"></a><code>function <b>ExceptionCheck</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ThrowNew"></a><code>procedure <b>ThrowNew</b>(c: jclass; error: string);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ThrowNew"></a><code>procedure <b>ThrowNew</b>(c: pchar; error: string);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="inputStreamToStringAndDelete"></a><code>function <b>inputStreamToStringAndDelete</b>(stream: jobject; jmInputStreamRead, jmInputStreamClose: jmethodID): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="inputStreamToStringAndDelete"></a><code>function <b>inputStreamToStringAndDelete</b>(stream: jobject): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="inputStreamReadAllAndDelete"></a><code>procedure <b>inputStreamReadAllAndDelete</b>(stream: jobject; readCallback: <a  href="bbutils.html#TStreamLikeWrite">TStreamLikeWrite</a>; jmInputStreamRead, jmInputStreamClose: jmethodID);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="inputStreamReadAllAndDelete"></a><code>procedure <b>inputStreamReadAllAndDelete</b>(stream: jobject; readCallback: <a  href="bbutils.html#TStreamLikeWrite">TStreamLikeWrite</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getMapProperty"></a><code>function <b>getMapProperty</b>(map: jobject; value: jobject): jobject;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="commonClasses_String"></a><code>function <b>commonClasses_String</b>: jclass;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="commonClasses_InputStream"></a><code>function <b>commonClasses_InputStream</b>: jclass;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="commonMethods_InputStream_Read_B"></a><code>function <b>commonMethods_InputStream_Read_B</b>(inputStream: jclass = nil): jmethodID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="commonMethods_InputStream_Close"></a><code>function <b>commonMethods_InputStream_Close</b>(inputStream: jclass = nil): jmethodID;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

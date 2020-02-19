@@ -1,0 +1,17 @@
+*.bak
+*.dbg
+*.exe
+*.lps
+backup/*
+backup
+lib
+debug
+*.res
+*.lrt
+*.o
+*.ppu
+*.or
+*.compiled
+*Thumbs.db
+*.app/*
+*.dSYM

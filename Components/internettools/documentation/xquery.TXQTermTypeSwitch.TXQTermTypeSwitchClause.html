@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXQTermTypeSwitch.TXQTermTypeSwitchClause</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQTermTypeSwitchClause"></a><h1 class="cio">Class TXQTermTypeSwitch.TXQTermTypeSwitchClause</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-EnclosingClass">Enclosing Class</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQTermTypeSwitchClause = class(<a class="normal" href="xquery.TXQTerm.html">TXQterm</a>)</code></p>
+<h2 class="description">Description</h2>
+<div class="nodescription">no description available, TXQterm description follows</div><p>
+Internally used xpath term</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="ancestor"><a class="normal" href="xquery.TXQTerm.html">TXQTerm</a></li>
+<li class="thisitem">TXQTermTypeSwitch.TXQTermTypeSwitchClause</li></ul><a name="PasDoc-EnclosingClass"></a><h2 class="hierarchy">Enclosing Class</h2>
+<ul class="hierarchy"><li class="thisitem"><a class="ancestor" href="xquery.TXQTermTypeSwitch.html">TXQTermTypeSwitch</a></li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#pattern">pattern</a></b>: <a  href="xquery.TXQTermPatternMatcher.html">TXQTermPatternMatcher</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#variable">variable</a></b>: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#typ">typ</a></b>: <a  href="xquery.TXQTermSequenceType.html">TXQTermSequenceType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#expr">expr</a></b>: <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#visitchildren">visitchildren</a></b>(visitor: <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#getContextDependencies">getContextDependencies</a></b>: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#evaluate">evaluate</a></b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#clone">clone</a></b>: <a  href="xquery.TXQTerm.html">TXQTerm</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQTermTypeSwitch.TXQTermTypeSwitchClause.html#matched">matched</a></b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const v: <a  href="xquery.IXQValue.html">IXQValue</a>; out res: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="pattern"></a><code><b>pattern</b>: <a  href="xquery.TXQTermPatternMatcher.html">TXQTermPatternMatcher</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="variable"></a><code><b>variable</b>: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="typ"></a><code><b>typ</b>: <a  href="xquery.TXQTermSequenceType.html">TXQTermSequenceType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="expr"></a><code><b>expr</b>: <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="visitchildren"></a><code>function <b>visitchildren</b>(visitor: <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getContextDependencies"></a><code>function <b>getContextDependencies</b>: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluate"></a><code>function <b>evaluate</b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clone"></a><code>function <b>clone</b>: <a  href="xquery.TXQTerm.html">TXQTerm</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="matched"></a><code>function <b>matched</b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const v: <a  href="xquery.IXQValue.html">IXQValue</a>; out res: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: record TXQParsingOptions</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQParsingOptions"></a><h1 class="cio">record TXQParsingOptions</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Hierarchy</td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td>Methods</td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQParsingOptions = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+Record grouping different parsing options</p>
+<h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQParsingOptions.html#AllowExtendedStrings">AllowExtendedStrings</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQParsingOptions.html#AllowPropertyDotNotation">AllowPropertyDotNotation</a></b>: <a  href="xquery.html#TXQPropertyDotNotation">TXQPropertyDotNotation</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQParsingOptions.html#AllowJSON">AllowJSON</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQParsingOptions.html#AllowJSONLiterals">AllowJSONLiterals</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQParsingOptions.html#StringEntities">StringEntities</a></b>: (xqseDefault, xqseIgnoreLikeXPath, xqseResolveLikeXQuery);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQParsingOptions.html#LineEndingNormalization">LineEndingNormalization</a></b>: (xqlenNone, xqlenXML1, xqlenXML11);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQParsingOptions.html#AllowMutableVariables">AllowMutableVariables</a></b>: boolean;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="AllowExtendedStrings"></a><code><b>AllowExtendedStrings</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If strings with x-prefixes are allowed, like x&quot;foo{$variable}bar&quot; to embed xquery expressions in strings</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="AllowPropertyDotNotation"></a><code><b>AllowPropertyDotNotation</b>: <a  href="xquery.html#TXQPropertyDotNotation">TXQPropertyDotNotation</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If it is possible to access (json) object properties with the <code>($obj).property</code> or <a class="normal" href="bigdecimalmath.html#even">even</a> <code>$obj.property</code> syntax (default is xqpdnAllowUnambiguousDotNotation, property syntax can be used, where a dot would be an invalid expression in standard xquery)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="AllowJSON"></a><code><b>AllowJSON</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If {&quot;foo&quot;: bar} and [..] can be used to create json objects/arrays (default false, unless <a class="normal" href="xquery_json.html">xquery_json</a> was loaded, then it is true)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="AllowJSONLiterals"></a><code><b>AllowJSONLiterals</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If true/false/null literals are treated like true()/false()/jn:null() (default true! However, this option is ignored and handled as false, if <a class="normal" href="xquery.TXQParsingOptions.html#AllowJSON">allowJSON</a> is false).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="StringEntities"></a><code><b>StringEntities</b>: (xqseDefault, xqseIgnoreLikeXPath, xqseResolveLikeXQuery);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+XQuery is almost a super set of XPath, except for the fact that they parse string entities differently. This option lets you change the parsing behaviour.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="LineEndingNormalization"></a><code><b>LineEndingNormalization</b>: (xqlenNone, xqlenXML1, xqlenXML11);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If all line breaks (#$D or #$D,#$85,#$2028) should be replaced by #$A</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="AllowMutableVariables"></a><code><b>AllowMutableVariables</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If $var := 123 without let should be allowed</p>
+</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

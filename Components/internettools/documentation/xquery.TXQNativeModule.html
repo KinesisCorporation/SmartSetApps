@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXQNativeModule</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQNativeModule"></a><h1 class="cio">Class TXQNativeModule</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQNativeModule = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+A native XQuery module. Each native module has a certain <a class="normal" href="xquery.TXQNativeModule.html#namespace">namespace</a> and declares functions, types and operators *</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TXQNativeModule</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQNativeModule.html#acceptedModels">acceptedModels</a></b>: set of <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQNativeModule.html#namespace">namespace</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQNativeModule.html#parents">parents</a></b>: array of <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQNativeModule.html#create">create</a></b>(const anamespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; const aparentModule: array of <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQNativeModule.html#create">create</a></b>(const anamespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="xquery.TXQNativeModule.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQNativeModule.html#registerFunction">registerFunction</a></b>(const name: string; minArgCount, maxArgCount: integer; func: <a  href="xquery.html#TXQBasicFunction">TXQBasicFunction</a>; const typeChecking: array of string); overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQNativeModule.html#registerFunction">registerFunction</a></b>(const name: string; func: <a  href="xquery.html#TXQBasicFunction">TXQBasicFunction</a>; const typeChecking: array of string);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQNativeModule.html#registerFunction">registerFunction</a></b>(const name: string; minArgCount, maxArgCount: integer; func: <a  href="xquery.html#TXQComplexFunction">TXQComplexFunction</a>; const typeChecking: array of string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQNativeModule.html#registerFunction">registerFunction</a></b>(const name: string; func: <a  href="xquery.html#TXQComplexFunction">TXQComplexFunction</a>; const typeChecking: array of string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQNativeModule.html#registerInterpretedFunction">registerInterpretedFunction</a></b>(const name, typeDeclaration, func: string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQNativeModule.html#registerBinaryOp">registerBinaryOp</a></b>(const name:string; func: <a  href="xquery.html#TXQBinaryOp">TXQBinaryOp</a>; priority: integer; flags: <a  href="xquery.html#TXQOperatorFlags">TXQOperatorFlags</a>; const typeChecking: array of string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]): <a  href="xquery.TXQOperatorInfo.html">TXQOperatorInfo</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQNativeModule.html#findBasicFunction">findBasicFunction</a></b>(const name: string; argCount: integer; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQBasicFunctionInfo.html">TXQBasicFunctionInfo</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQNativeModule.html#findComplexFunction">findComplexFunction</a></b>(const name: string; argCount: integer; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQComplexFunctionInfo.html">TXQComplexFunctionInfo</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQNativeModule.html#findInterpretedFunction">findInterpretedFunction</a></b>(const name: string; argCount: integer; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQInterpretedFunctionInfo.html">TXQInterpretedFunctionInfo</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQNativeModule.html#findBinaryOp">findBinaryOp</a></b>(const name: string; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQOperatorInfo.html">TXQOperatorInfo</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="acceptedModels"></a><code><b>acceptedModels</b>: set of <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="namespace"></a><code><b>namespace</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parents"></a><code><b>parents</b>: array of <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(const anamespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; const aparentModule: array of <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(const anamespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerFunction"></a><code>procedure <b>registerFunction</b>(const name: string; minArgCount, maxArgCount: integer; func: <a  href="xquery.html#TXQBasicFunction">TXQBasicFunction</a>; const typeChecking: array of string); overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Registers a function that does not depend on the context. TypeChecking contains a list of standard XQuery function declarations (without the function name) for strict type checking.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerFunction"></a><code>procedure <b>registerFunction</b>(const name: string; func: <a  href="xquery.html#TXQBasicFunction">TXQBasicFunction</a>; const typeChecking: array of string);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerFunction"></a><code>procedure <b>registerFunction</b>(const name: string; minArgCount, maxArgCount: integer; func: <a  href="xquery.html#TXQComplexFunction">TXQComplexFunction</a>; const typeChecking: array of string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Registers a function that does depend on the context. TypeChecking contains a list of standard XQuery function declarations (without the function name) for strict type checking.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerFunction"></a><code>procedure <b>registerFunction</b>(const name: string; func: <a  href="xquery.html#TXQComplexFunction">TXQComplexFunction</a>; const typeChecking: array of string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerInterpretedFunction"></a><code>procedure <b>registerInterpretedFunction</b>(const name, typeDeclaration, func: string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Registers a function from an XQuery body TypeChecking must a standard XQuery function declarations (without the function name but WITH the variable names) (it uses a simplified parser, so only space whitespace is allowed)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerBinaryOp"></a><code>function <b>registerBinaryOp</b>(const name:string; func: <a  href="xquery.html#TXQBinaryOp">TXQBinaryOp</a>; priority: integer; flags: <a  href="xquery.html#TXQOperatorFlags">TXQOperatorFlags</a>; const typeChecking: array of string; contextDependencies: <a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a> = [low(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)..high(<a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>)]): <a  href="xquery.TXQOperatorInfo.html">TXQOperatorInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Registers a binary operator TypeChecking contains a list of standard XQuery function declarations (with or without the function name) for strict type checking.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findBasicFunction"></a><code>function <b>findBasicFunction</b>(const name: string; argCount: integer; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQBasicFunctionInfo.html">TXQBasicFunctionInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findComplexFunction"></a><code>function <b>findComplexFunction</b>(const name: string; argCount: integer; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQComplexFunctionInfo.html">TXQComplexFunctionInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findInterpretedFunction"></a><code>function <b>findInterpretedFunction</b>(const name: string; argCount: integer; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQInterpretedFunctionInfo.html">TXQInterpretedFunctionInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findBinaryOp"></a><code>function <b>findBinaryOp</b>(const name: string; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a> = xqpmXQuery3): <a  href="xquery.TXQOperatorInfo.html">TXQOperatorInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

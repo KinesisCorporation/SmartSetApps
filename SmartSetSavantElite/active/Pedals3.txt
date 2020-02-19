@@ -1,0 +1,7 @@
+{lpedal}>{-shift}{-h}{+h}{+shift}{-e}{+e}{-l}{+l}{-l}{+l}{-o}{+o}{-space}{+space}{-caps}{+caps}{-caps}{+caps}{-shift}{+shift}{-shift}{+shift}{-shift}{+shift}{-m}{+m}{-y}{+y}{-space}{+space}{-f}{+f}{-r}{+r}{-i}{+i}{-e}{+e}{-n}{+n}{-d}{+d}{-2}{+2}
+[mpedal]>[space]
+{rpedal}>{-ctrl}{-alt}{-delete}{+delete}{+ctrl}{+alt}
+[jack1]>[F1]
+[jack2]>[F2]
+[jack3]>[F10]
+{jack4}>{-F1}{+F1}{-F2}{+F2}{-F3}{+F3}{-F4}{+F4}

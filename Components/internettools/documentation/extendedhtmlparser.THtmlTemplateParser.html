@@ -1,0 +1,811 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>extendedhtmlparser: Class THtmlTemplateParser</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="THtmlTemplateParser"></a><h1 class="cio">Class THtmlTemplateParser</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td>Fields</td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td><a class="section" href="#PasDoc-Properties">Properties</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="extendedhtmlparser.html">extendedhtmlparser</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type THtmlTemplateParser = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+This is the template processor class which can apply a template to one or more html documents.</p>
+<p>
+
+
+<p>You can use it by calling the methods <code><a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#parseTemplate">parseTemplate</a></code> and <code><a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#parseHTML">parseHTML</a></code>. <code><a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#parseTemplate">parseTemplate</a></code> loads a certain template and <code><a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#parseHTML">parseHTML</a></code> matches the template to a html/xml file.<br> A template file is just like a html file with special commands. The parser than matches every text and tag of the template to text/tag in the html file, while ignoring every additional data in latter file. If no match is possible an exception is raised.<br> The template can extract certain values from the html file into variables, and you can access these variables with the property <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#variables">variables</a> and <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#variableChangeLog">variableChangeLog</a>. Former only contains the final value of the variables, latter records every assignment during the matching of the template.<br><br>
+
+<p><b>Getting started</b>
+
+<p>Creating a template to analyze a xml-file/webpage:
+
+<p></p>
+
+<ol class="paragraph_spacing">
+  <li value="1"><p>First, you should remove all things from the webpage that are uninteresting, dynamically generated or invalid xml (or alternatively start with an empty file as template).</p></li>
+  <li value="2"><p>Then, you should replace all parts that you want to extract with <code>&lt;t:s&gt;yourVariableName:=text()&lt;/t:s&gt;</code>.<br> This will write the value of the text node that contains the t:s tag in the variable yourVariableName.<br><br> Instead of the <code>t:s</code> tag, you can also use the short notation <code>{yourVariableName:=text()}</code>; and instead of <code>text()</code> to read the text node, you can also use <code>@attrib</code> to read an attribute; or an arbitrary complex <a class="normal" href="xquery.TXQueryEngine.html">xpath/xquery-expression</a></p></li>
+  <li value="3"><p>Then the template is finished, at least the trivial things</p></li>
+</ol>
+
+<p>
+
+<p>If you want to read several elements like table rows, you need to surround the matching tags with template:loop, e.g. <code>&lt;template:loop&gt;&lt;tr&gt;..&lt;/tr&gt;&lt;/template:loop&gt;</code> and the things between the loop-tags is repeated as long as possible. You can also use the short notation by adding a star like <code>&lt;tr&gt;..&lt;/tr&gt;* </code>.<br>
+
+<p>Using the templates from Pascal:
+
+<p></p>
+
+<ol class="paragraph_spacing">
+  <li value="1"><p>First, create a new <code>THtmlTemplateParser</code>: <code>parser := <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#create">THtmlTemplateParser.create</a>()</code></p></li>
+  <li value="2"><p>Load the template with <code>parser.parseTemplate('..template..')</code> or <code>parser.parseTemplateFile('template-file')</code></p></li>
+  <li value="3"><p>Process the webpage with <code>parser.parseHTML('..html..')</code> or <code>parser.parseHTMLFile('html-file')</code></p></li>
+  <li value="4"><p>Read the result of variable yourVariableName through parser.variables.values['yourVariableName']</p></li>
+</ol>
+
+<p>
+
+<p>If you used loops, only the last value of the variable is available in the variables property, the previous values can be enumerated through <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#variableChangeLog">variableChangelog</a>.
+
+<p><b>Template examples</b>
+
+<p></p>
+
+<dl class="paragraph_spacing">
+  <dt><i>Example, how to read first &lt;b&gt;-tag</i>:</dt>
+  <dd><p> Html-File: <code>&lt;b&gt;Hello World!&lt;/b&gt;</code><br> Template: <code>&lt;b&gt;{.}&lt;/b&gt;</code><br>
+
+<p>This will set the default variable <code>_result</code> to <code>&quot;Hello World!&quot; </code> </p></dd>
+  <dt><i>Example, how to read the first &lt;b&gt;-tag in a explicit named variable</i>:</dt>
+  <dd><p> Html-File: <code>&lt;b&gt;Hello World!&lt;/b&gt;</code><br> Template: <code>&lt;b&gt;{$test}&lt;/b&gt;</code><br>
+
+<p>This will set the variable <code>test</code> to <code>&quot;Hello World!&quot;</code>. <br> Some alternative forms are <code>&lt;b&gt;{$test := .}&lt;/b&gt;</code>, <code>&lt;b&gt;&lt;t:s&gt;test := .&lt;/t:s&gt;&lt;/b&gt;</code>, <code>&lt;b&gt;&lt;template:s&gt;test := text()&lt;/template:s&gt;&lt;/b&gt;</code> or <code>&lt;b&gt;&lt;t:read var=&quot;test&quot; source=&quot;text()&quot;&gt;&lt;/b&gt;</code>. </p></dd>
+  <dt><i>Example, how to read all &lt;b&gt;-tags:</i></dt>
+  <dd><p> Html-File: <code>&lt;b&gt;Hello &lt;/b&gt;&lt;b&gt;World!&lt;/b&gt;</code><br> Template: <code>&lt;b&gt;{.}&lt;/b&gt;* </code><br>
+
+<p>This will change the value of the variable <code>_result</code> twice, to <code>&quot;Hello &quot; </code> and <code>&quot;World!&quot;</code>. Both values are available in the variable changelog.<br> Some alternative forms are: <code>&lt;t:loop&gt;&lt;b&gt;{.}&lt;/b&gt;&lt;/t:loop&gt;</code>, <code>&lt;template:loop&gt;&lt;b&gt;{.}&lt;/b&gt;&lt;/template:loop&gt;</code>, <code>&lt;template:loop&gt;&lt;b&gt;{_result := text()}&lt;/b&gt;&lt;/template:loop&gt;</code>, ... </p></dd>
+  <dt><i>Example, how to read the first field of every row of a table</i>:</dt>
+  <dd><p> Html-File: <code>&lt;table&gt; &lt;tr&gt; &lt;td&gt; row-cell 1 &lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt; row-cell 2 &lt;/td&gt; &lt;/tr&gt; ... &lt;tr&gt; &lt;td&gt; row-cell n &lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;</code><br> Template: <code>&lt;table&gt; &lt;template:loop&gt; &lt;tr&gt; &lt;td&gt; {$field} &lt;/td&gt; &lt;/tr&gt; &lt;/template:loop&gt; &lt;/table&gt;</code><br>
+
+<p>This will read row after row, and will write each first field to the change log of the variable <code>field</code>. </p></dd>
+  <dt><i>Example, how to read several fields of every row of a table</i>:</dt>
+  <dd><p> Html-File: <code>&lt;table&gt; &lt;tr&gt; &lt;td&gt; a &lt;/td&gt; &lt;td&gt; b &lt;/td&gt; &lt;td&gt; c &lt;/td&gt; &lt;/tr&gt; ... &lt;/tr&gt; &lt;/table&gt;</code><br> Template: <code>&lt;table&gt; &lt;template:loop&gt; &lt;tr&gt; &lt;td&gt; {$field1} &lt;/td&gt; &lt;td&gt; {$field2} &lt;/td&gt; &lt;td&gt; {$field3} &lt;/td&gt; ... &lt;/tr&gt; &lt;/template:loop&gt; &lt;/table&gt;</code><br>
+
+<p>This will read <code>$field1=a, $field2=b, $field3=c</code>...<br> If you now want to process multiple pages which have a similar, but slightly different table/data layount, you can create a template for each of them, and the Pascal side of the application is independent of the source pages. Then it is <a class="normal" href="bigdecimalmath.html#even">even</a> possible for the user of the application to add new pages. </p></dd>
+  <dt><i>Example, how to read all elements between two elements</i>:</dt>
+  <dd><p> Html-File: </p>
+
+<pre class="preformatted">
+  &lt;h1&gt;Start&lt;/h1&gt;
+    &lt;b&gt;Text 1&lt;/b&gt;
+    &lt;b&gt;Text 2&lt;/b&gt;
+  &lt;h1&gt;End&lt;/h1&gt;</pre>
+
+<p><br> Template: </p>
+
+<pre class="preformatted">
+  &lt;h1&gt;Start&lt;/h1&gt;
+    &lt;b&gt;{.}&lt;/b&gt;*
+  &lt;h1&gt;End&lt;/h1&gt;
+</pre>
+
+<p><br>
+
+<p>This will read all b elements between the two headers.
+
+<p></p></dd>
+  <dt><i>Example, how to read the first list item starting with an unary prime number</i>:</dt>
+  <dd><p> Html-File: <code>... &lt;li&gt;1111: this is 4&lt;/li&gt;&lt;li&gt;1:1 is no prime&lt;/li&gt;&lt;li&gt;1111111: here is 7&lt;/li&gt;&lt;li&gt;11111111: 8&lt;/li&gt; ...</code><br> Template: <code>&lt;li template:condition=&quot;filter(text(), '1*:') != filter(text(), '&circ;1?:|&circ;(11+?)\1+:')&quot;&gt;{$prime}&lt;/li&gt;</code><br>
+
+<p>This will return &quot;1111111: here is 7&quot;, because 1111111 is the first prime in that list.</p></dd>
+</dl>
+
+<p>
+
+<p>See the unit tests in tests/extendedhtmlparser_tests.pas for more examples.
+
+<p><b>Why not XPath/CSS-Selectors?</b><br>
+
+<p>You might wonder, why you should use templates, if you already know XPath or CSS Selectors.
+
+<p>The answer is that, although XPath/CSS works fine for single values, it is not powerful enough to read multiple values or data from multiple sources, because:
+
+<p></p>
+
+<ul class="paragraph_spacing">
+  <li><p>XPath/CSS expressions are not able to return multiple values.
+
+<p>Each expression can only return a single node set, so if you need to read m different values from n different pages, you need O(m * n) expressions, while you only need O(n) templates. <br> For example, if you need to read a table listing objects and 2 values for each of them, like in this table: <br> <code>&lt;table&gt;&lt;tr&gt;&lt;td&gt;name&lt;/td&gt;&lt;td&gt;value 1&lt;/td&gt;&lt;td&gt;value 2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code> <br> you can use this template: <br> <code>&lt;table&gt;&lt;tr&gt;&lt;td&gt;{$name}&lt;/td&gt;&lt;td&gt;{$value1}&lt;/td&gt;&lt;td&gt;{$value2}&lt;/td&gt;&lt;/tr&gt;*&lt;/table&gt;</code> <br> and get three arrays with the needed values. <br> With XPath you would need three expressions: <br> <code> names := ... //table/tr/td[1] ...; <br> values1 := ... //table/tr/td[2] ...; <br> values2 := ... //table/tr/td[3] ...; </code>
+
+<p>Or CSS: <br> <code> names := ... table tr td:nth-child(1) ...; <br> values1 := ... table tr td:nth-child(2) ...; <br> values2 := ... table tr td:nth-child(3) ...; </code>
+
+<p></p></li>
+  <li><p> XPath is not suited to process html.
+
+<p>XPath was made to process xml not html, so there are some important functions missing. <br> One of the most common actions of web scraping is to select (e.g. div) elements based on their classes. Novices think this can be written as <code>//div[@class = &quot;foobar&quot;]</code>, but this is wrong, because the class attribute can list multiple classes. And the correct XPath expression <code>//div[contains(concat(&quot; &quot;, @class, &quot; &quot;), &quot; foobar &quot;)]</code> is very ugly. <br> Templates know the semantic meaning of attributes, so you can just use <code>&lt;div class=&quot;foobar&quot;&gt;&lt;/div&gt;</code>. <br> Normal XPath is also case-sensitive, while html is case-insensitive, so if the expression works at all, depends on the parser changing the case of all tags.
+
+<p>You might see this as a reason to use CSS selectors, but: </p></li>
+  <li><p>CSS Selectors are not able to process the data
+
+<p>CSS only selects the elements and cannot change their values. <br> E.g. if you need to parse numbers from two pages, one of them using the Amercian format 123,456.00 and the other one the European format 123.456,00, you cannot use CSS selectors to parse them both without changing something in the host language. <br> With templates you can use <code>{.}</code> and <code>{translate(., &quot;.,&quot;, &quot;,.&quot;)}</code> and are done. </p></li>
+  <li><p>Templates can be written much faster.
+
+<p>Because you do not need to write them at all and instead just copy them from the input page. <br> E.g. in the example above to create a template for the webpage <code>&lt;table&gt;&lt;tr&gt;&lt;td&gt;name&lt;/td&gt;&lt;td&gt;value 1&lt;/td&gt;&lt;td&gt;value 2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</code> you just need to insert some <code>{}* </code> and get the complete template <code>&lt;table&gt;&lt;tr&gt;&lt;td&gt;{$name}&lt;/td&gt;&lt;td&gt;{$value1}&lt;/td&gt;&lt;td&gt;{$value2}&lt;/td&gt;&lt;/tr&gt;*&lt;/table&gt;</code>. <br> To get the XPath-expressions <code>/table/tr/td[1,2,3]</code> you actually need to look at the structure of the page.
+
+<p>Of course the table example is trivial, only on more complex examples you can see how powerful the templates actually are:
+
+<p>Let us assume the data is not nicely packed in a table, but contained in a formatted text, like:
+
+<p><code> &lt;b&gt;name a&lt;/b&gt;: value-a1, value-a2&lt;br&gt; <br> &lt;b&gt;name b&lt;/b&gt;: value-b1, value-b2&lt;br&gt; ... </code>
+
+<p>The template is a little bit more complex, since you need to split the values:
+
+<p><code>&lt;t:loop&gt;&lt;b&gt;{$name}&lt;/b&gt;: &lt;t:s&gt;value1 := extract(text(), &quot;:(.+),&quot;, 1), value2 := extract(text(), &quot;:(.+),(.+)&quot;, 2)&lt;/t:s&gt;&lt;br/&gt;&lt;/t:loop&gt;</code>
+
+<p><br> However, if you want to solve this task with XPath 1.0 or CSS, you will discover that it is impossible. CSS can not select the text nodes at all, and XPath 1 cannot split them. <br> The best you can manage is to select the values with XPath and then split them in the host language, but then you cannot parse multiple different sources by swapping the expressions. <br> And although XPath 2 or 3 can split the values, it becomes rather ugly:
+
+<p><code> names := //b, <br> values1 := //b/substring-after(following-sibling::text()[1], &quot;:&quot;) <br> values2 := //b/substring-after(following-sibling::text()[1], &quot;,&quot;) </code>
+
+<p>Another example is if you just need the data from a part of the page, e.g. between two headers like here.
+
+<p></p>
+
+<pre class="preformatted">
+  not needed
+  ...
+  &lt;h1&gt;Header 1&lt;/h1&gt;
+
+    &lt;b&gt;name a&lt;/b&gt;: value-a1, value-a2&lt;br&gt;
+    &lt;b&gt;name b&lt;/b&gt;: value-b1, value-b2&lt;br&gt;
+
+  &lt;h1&gt;Header 2&lt;/h1&gt;
+  ...
+  not needed
+</pre>
+
+<p>
+
+<p>The template change is trivial, you just add both headers to the template:
+
+<p><code>&lt;h1&gt;Header 1&lt;/h1&gt; <br> &lt;t:loop&gt;&lt;b&gt;{$name}&lt;/b&gt;: &lt;t:s&gt;value1 := extract(text(), &quot;:(.+),&quot;, 1), value2 := extract(text(), &quot;:(.+),(.+)&quot;, 2)&lt;/t:s&gt;&lt;br&gt;&lt;/t:loop&gt; <br> &lt;h1&gt;Header 2&lt;/h1&gt;</code>
+
+<p>How to do it in XPath? (in XPath 2, it is of course still impossible with XPath 1)
+
+<p>Well, it gets just crazy:
+
+<p><code> names := //h1[. = &quot;Header 1&quot;]/following-sibling::b[following-sibling::h1[1] = &quot;Header 2&quot;], <br> values1 := //h1[. = &quot;Header 1&quot;]/following-sibling::b[following-sibling::h1[1] = &quot;Header 2&quot;]/substring-after(following-sibling::text()[1], &quot;:&quot;) <br> values2 := //h1[. = &quot;Header 1&quot;]/following-sibling::b[following-sibling::h1[1] = &quot;Header 2&quot;]/substring-after(following-sibling::text()[1], &quot;,&quot;) </code>
+
+<p></p></li>
+  <li><p>Multiple XPath/CSS expressions are not adaptable to changes
+
+<p>If the page layout changes, you need to rewrite all the expressions. With templates, you just need to apply the local change.
+
+<p>E.g. if you want to get multiple data from the last div on this page:
+
+<p></p>
+
+<pre class="preformatted">&lt;div id=&quot;foobar&quot;&gt;
+   ...
+   &lt;div class=&quot;abc&quot;&gt;...&lt;/div&gt;
+   &lt;div&gt;
+     &lt;b&gt; .. data 1 .. &lt;/b&gt;
+     &lt;i&gt; .. data 2 .. &lt;/i&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>
+
+<p>The template would be
+
+<p></p>
+
+<pre class="preformatted">&lt;div id=&quot;foobar&quot;&gt;
+   &lt;div class=&quot;abc&quot;/&gt;
+   &lt;div&gt;
+     &lt;b&gt;{$data1}&lt;/b&gt;
+     &lt;i&gt;{$data2}&lt;/i&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+             </pre>
+
+<p>
+
+<p>If you do it with XPath, you have two expressions:
+
+<p><code> data1 := ... //div[@id=&quot;foobar&quot;]/div[@class = &quot;abc&quot;]/following-sibling::div/b ... <br> data2 := ... //div[@id=&quot;foobar&quot;]/div[@class = &quot;abc&quot;]/following-sibling::div/i ... </code>
+
+<p>Now, if the page layout is changed to e.g.
+
+<p></p>
+
+<pre class="preformatted">&lt;div id=&quot;foobar&quot;&gt;
+   ...
+   &lt;div class=&quot;def&quot;&gt;...&lt;/div&gt;
+   &lt;div&gt;
+     ...
+   &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<p>
+
+<p>You get a diff
+
+<p><code> - &lt;div class=&quot;abc&quot;&gt;...&lt;/div&gt; <br> + &lt;div class=&quot;abc&quot;&gt;...&lt;/div&gt; </code>
+
+<p>Which can basically be applied directly to the template and leads to:
+
+<p><code>&lt;div id=&quot;foobar&quot;&gt; &lt;div class=&quot;def&quot;/&gt; &lt;div&gt; &lt;b&gt;{$data1}&lt;/b&gt; &lt;i&gt;{$data2}&lt;/i&gt; &lt;/div&gt; &lt;/div&gt; </code>
+
+<p>But using XPath expressions, you need to change multiple expressions and you have to look at each expression to find the correct div class to change:
+
+<p><code> data1 := ... //div[@id=&quot;foobar&quot;]/div[@class = &quot;def&quot;]/following-sibling::div/b ... <br> data2 := ... //div[@id=&quot;foobar&quot;]/div[@class = &quot;def&quot;]/following-sibling::div/i ... </code> . </p></li>
+  <li><p>XPath/CSS cannot handle errors
+
+<p>XPath/CSS do not provide any information in case the <a class="normal" href="xquery.html#query">query</a> fails.
+
+<p>E.g. if you use <code>//table[@id=&quot;foobar&quot;]/tr</code> to get all rows of a table, and it returns 0 rows, you do not know, if the table was actually empty, or if the page layout changed and the table does not exist anymore, or if you use a new html parser, which inserts (correctly) a tbody element between the table and tr.
+
+<p>But if you use a template <code>&lt;table id=&quot;foobar&quot;&gt;&lt;tr&gt;{.}*&lt;/tr&gt;&lt;/table&gt;</code> and it returns anything, it is guaranteed that the table exists, since it raises an exception in case it is missing. </p></li>
+  <li><p>Metapher: XPath/CSS are like string functions, templates are like regular expressions
+
+<p>If you write XPath/CSS expressions you give an explicit list of instructions, i.e. you write <code>/foo</code> to get all foo-children, you write <code>[bar]</code> to filter all elements that have a bar child, you write <code>..</code> to get the parent, you write <code>[position() &lt;= 10]</code> to take the first ten elements...
+
+<p>This is exactly the same concept, as if you write e.g. <code>copy(s, pos(s, 'foo'), 10) </code> to find the 'foo' substring and then take the next 10 characters.
+
+<p>But you would never do that nowadays, if you can use a regular expression like <code>'foo(.{1})'</code>.
+
+<p>Such a regular expression now implicitely selects the characters after foo, just like a template <code>&lt;foo/&gt;{text()}</code> selects the text after a foo-element.
+
+<p></p></li>
+</ul>
+
+<p>
+
+<p>That said, it is obviously also possible to use XPath or CSS with the templates:
+
+<p><code>&lt;html&gt;{//your/xpath/expression}&lt;/html&gt;</code> or <code>&lt;html&gt;{css(&quot;your.css#expression&quot;)}&lt;/html&gt;</code>
+
+<p>In fact there exists no other modern XPath/CSS interpreter for FreePascal.
+
+<p><b>Template reference</b>
+
+<p>Basically the template file is a html file, and the parser tries to match the structure of the template html file to the html file. <br> A tag of the html file is considered as equal to a tag of the template file, if the tag names are equal, all attributes are the same (regardless of their order) and every child node of the tag in the template is also equal to a child node of the tag in the html file (in the same order and nesting).<br> Text nodes are considered as equal, if the text in the html file starts with the whitespace trimmed text of the template file. All comparisons are performed case insensitive.<br> The matching occurs with backtracking, so it will always find the first and longest match.
+
+<p>The following template commands can be used: </p>
+
+<ul class="paragraph_spacing">
+  <li><p><code>&lt;template:read var=&quot;??&quot; source=&quot;??&quot; [regex=&quot;??&quot; [submatch=&quot;??&quot;]]/&gt;</code> <br> The <a class="normal" href="xquery.TXQueryEngine.html">XPath-expression</a> in source is evaluated and stored in variable of var. <br> If a regex is given, only the matching part is saved. If submatch is given, only the submatch-th match of the regex is returned. (e.g. b will be the 2nd match of &quot;(a)(b)(c)&quot;) (However, you should use the xq-function extract instead of the regex/submatch attributes, because former is more elegant) </p></li>
+  <li><p><code>&lt;template:s&gt;var:=source&lt;/template:s&gt;</code> <br> Short form of <code>template:read</code>. The expression in <code>source</code> is evaluated and assigned to the variable <code>s</code>. <br> You can also set several variables like <code>a:=1,b:=2,c:=3</code> (Remark: The := is actually part of the expression syntax, so you can use much more complex expressions.) </p></li>
+  <li><p><code>&lt;template:if test=&quot;??&quot;/&gt; .. &lt;/template:if&gt;</code> <br> Everything inside this tag is only used iff the XPath-expression in test equals to true</p></li>
+  <li><p><code>&lt;template:else [test=&quot;??&quot;]/&gt; .. &lt;/template:else&gt;</code> <br> Everything inside this tag is only used iff the immediate previous if/else block was not executed. <br> You can chain several else blocks that have test attributes together after an starting if, to create an ifelse chain, in which only one if or else block is used.<br> E.g.: <code>&lt;template:if test=&quot;$condition&quot;&gt;..&lt;/template:if&gt;&lt;template:else test=&quot;$condition2&quot;&gt;..&lt;/template:else&gt;&lt;template:else&gt;..&lt;/template:else&gt;</code> </p></li>
+  <li><p><code>&lt;template:loop [min=&quot;?&quot;] [max=&quot;?&quot;]&gt; .. &lt;/template:loop&gt;</code> <br> Everything inside this tag is repeated between [min,max] times. (default min=0, max=<a class="normal" href="bbutils.html#Infinity">infinity</a>) <br> E.g. if you write <code>&lt;template:loop&gt; X &lt;/template:loop&gt; </code>, it has the same effect as XXXXX with the largest possible count of X &lt;= max for a given html file. <br> If min=0 and there is no possible match for the loop interior the loop is completely ignored. <br> If there are more possible matches than max, they are ignored. </p></li>
+  <li><p><code>&lt;template:switch [value=&quot;??&quot;]&gt; ... &lt;/template:switch&gt;</code> This command can be used to match only one of several possibilities. It has two different forms: </p>
+
+<ol class="paragraph_spacing">
+  <li value="1"><p>Case 1: All direct child elements are template commands:<br> Then the switch statement will choose the first child command, whose attribute <code>test</code> evaluates to true. <br> Additionally, if one of the child elements has an attributes <code>value</code>, the expressions of the switch and the child <code>value</code> attribute are evaluated, and the command is only choosen, if both expressions are equal. <br> An element that has neither a <code>value</code> nor a <code>test</code> attribute is always choosen (if no element before it is choosen). <br> If no child can be choosen at the current position in the html file, the complete switch statement will skipped. </p></li>
+  <li value="2"><p>Case 2: All direct child elements are normal html tags:<br> <br> This tag is matched to an html tag, iff one of its direct children can be matched to that html tag. <br> For example <code>&lt;template:switch&gt;&lt;a&gt;..&lt;/a&gt; &lt;b&gt;..&lt;/b&gt;&lt;/template:switch&gt;</code> will match either <code>&lt;a&gt;..&lt;/a&gt;</code> or <code>&lt;b&gt;..&lt;/b&gt;</code>, but not both. If there is an &lt;a&gt; and a &lt;b&gt; tag in the html file, only the first one will be matched (if there is no loop around the switch tag). These switch-constructs are mainly used within a loop to collect the values of different tags, or to combine to different templates. <br> If no child can be matched at the current position in the html file, the matching will be tried again at the next position (different to case 1). </p></li>
+</ol>
+
+<p></p></li>
+  <li><p><code>&lt;template:switch prioritized=&quot;true&quot;&gt; ... &lt;/template:switch&gt;</code> Another version of a case 2 switch statement that only may contain normal html tags. <br> The switch-prioritized prefers earlier child element to later child elements, while the normal switch match alls child elements equally. So a normal switch containing &lt;a&gt; and &lt;b&gt;, will match &lt;a&gt; or &lt;b&gt;, whichever appears first in the html file. The switch-prioritized contrastingly would match &lt;a&gt;, if there is any &lt;a&gt;, and &lt;b&gt; only iff there is no &lt;a&gt; in the html file. <br> Therefore <code>&lt;template:switch-prioritized [value=&quot;??&quot;]&gt; &lt;a&gt;..&lt;/a&gt; &lt;b&gt;..&lt;/b&gt; .. &lt;/template:switch-prioritized&gt;</code> is identical to <code>&lt;a template:optional=&quot;true&quot;&gt;..&lt;t:s&gt;found:=true()&lt;/t:s&gt;&lt;/a&gt; &lt;b template:optional=&quot;true&quot; template:test=&quot;not($found)&quot;&gt;..&lt;t:s&gt;found:=true()&lt;/t:s&gt;&lt;/b&gt; ...</code>.<br> (this used to be called <code>&lt;template:switch-prioritized&gt;</code>, which is still supported, but will be removed in future versions) </p></li>
+  <li><p><code>&lt;template:match-text [matches=&quot;..&quot;] [starts-with=&quot;..&quot;] [ends-with=&quot;..&quot;] [contains=&quot;..&quot;] [eq=&quot;..&quot;] [case-sensitive=&quot;..&quot;] [list-contains=&quot;..&quot;]/&gt;</code><br> Matches a text node and is more versatile than just including the text in the template.<br> <code>matches</code> matches an arbitrary regular expression against the text node. <br> <code>starts-with/ends-with/contains/eq</code> check the text verbatim against the text node, in the obvious way.<br> list-contains treats the text of the node as a comma separated list and tests if that list contains the attribute value .<br> case-sensitive enables case-sensitive comparisons.<br> (older versions used regex/is instead matches/eq, which is now deprecated and will be removed in future versions) </p></li>
+  <li><p><code>&lt;template:element&gt; .. &lt;/template:element&gt;</code><br> Matches any element. <br> It is handled like an element without t: prefix, but skips the name test. E.g. if either <code>&lt;a&gt;</code> or <code>&lt;b&gt;</code> should be allowed, you can use <code>&lt;t:element t:condition=&quot;name() = ('a', 'b')&quot;&gt;</code> rather than listing both. </p></li>
+  <li><p><code>&lt;template:siblings-header [id=&quot;..&quot;]&gt; .. &lt;/template:siblings-header&gt; &lt;template:siblings [id=&quot;..&quot;]&gt;..&lt;template:siblings&gt;</code><br> These two commands connect elements in different parts of the matched document, and reorder the elements in the siblings command to the same order matched by the header command. The children of these two commands are associated by their order, i.e. the first child of the header command is associated with the first child of the sibling (replay) command. For example, the columns of a table can be associated with the columns in the table header, such the pattern can match any order of those columns. <code>&lt;table&gt;&lt;thead&gt;&lt;t:siblings-header&gt;&lt;th&gt;myheader1&lt;/th&gt;&lt;th&gt;myheader2&lt;/th&gt;..&lt;/t:siblings-header&gt;&lt;/thead&gt; &lt;tr&gt;&lt;t:siblings&gt;&lt;td&gt;..&lt;/td&gt;&lt;td&gt;..&lt;/td&gt;&lt;/t:siblings&gt;&lt;/tr&gt;&lt;/table&gt; </code>. Here you can swap the two columns in the document without affecting the matching (except for the order of the output variables). <br> The command allows loop counters and optional elements in the header. If an header element can match multiple headers in the document the corresponding element in the replay command is duplicated accordingly. <br> Sibling elements in the header that cannot be matched by the pattern are ignored. Similarly additional elements are ignored during the replay, but the elements of the document ignored are not necessarily in the same order in both cases, since the sibling command only reorders its children. E.g. if you use the above example to match table columns and apply it to a document with an additional column between the two headers, the sibling command will still match the first two columns of the table (unless the second <code>&lt;td&gt;</code> cannot match the new column, but in this case you might want to use t:switch ). You can put an additional <code> &lt;th/&gt;* </code> and <code> &lt;td/&gt; </code> at the end of the header/replay command to prevent this. The th will match any unexpected column and the td will skip it during replay. <br> It is currently not backtracked and the header command will swallow all the siblings it can. If it has swallowed too many, the matching will fail, <a class="normal" href="bigdecimalmath.html#even">even</a> if it could have succeeded, if the header had skipped some optional elements. </p></li>
+  <li><p><code>&lt;template:meta [text-matching=&quot;??&quot;] [case-sensitive=&quot;??&quot;] [attribute-text-matching=&quot;??&quot;] [attribute-case-sensitive=&quot;??&quot;]/&gt;</code> <br> Specifies meta information to change the template semantic:<br> <code>text-matching</code>: specifies how text node in the template are matched against html text nodes. You can set it to the allowed attributes of match-text. (default is &quot;starts-with&quot;) <br> <code>text-case-sensitive</code>: specifies if text nodes are matched case sensitive. <br> <code>attribute-matching</code>: like <code>text-matching</code> for the values of attribute nodes (note that is currently affecting all attributes in the template. future versions will only change it for following elements) <br> <code>attribute-case-sensitive</code>: like <code>text-case-sensitive</code> for the values of attribute nodes (note that is currently affecting all attributes in the template. future versions will only change it for following elements) <br> </p></li>
+  <li><p><code>&lt;template:meta-attribute [name=&quot;??&quot;] [text-matching=&quot;??&quot;] [case-sensitive=&quot;??&quot;]</code> <br> Like meta for all attributes with a certain name. </p></li>
+</ul>
+
+<p><br> These template attributes can be used on any template element: </p>
+
+<ul class="paragraph_spacing">
+  <li><p><code>template:test=&quot;xpath condition&quot;</code> <br> The element (and its children) is ignored if the condition does not evaluate to true (so <code>&lt;template:tag test=&quot;{condition}&quot;&gt;..&lt;/template:tag&gt;</code> is a short hand for <code>&lt;template:if test=&quot;{condition}&quot;&gt;<code>&lt;template:tag&gt;..&lt;/template:tag&gt;&lt;/template:if&gt;</code></code>). </p></li>
+  <li><p><code>template:<a class="normal" href="xquery.html#ignore">ignore</a>-self-test=&quot;xpath condition&quot;</code> <br> The element (and NOT its children) is ignored if the condition does not evaluate to true. </p></li>
+</ul>
+
+<p> <br> On html/matching tags also these matching modifying attributes can be used: </p>
+
+<ul class="paragraph_spacing">
+  <li><p><code>template:optional=&quot;true&quot;</code> <br> if this is set the file is read successesfully <a class="normal" href="bigdecimalmath.html#even">even</a> if the tag doesn't exist.<br> You should never have an optional element as direct children of a loop, because the loop has lower priority as the optional element, so the parser will skip loop iterations if it can find a later match for the optional element. But it is fine to use optional tags that have an non-optional parent tag within the loop. </p></li>
+  <li><p><code>template:condition=&quot;xpath&quot;</code> <br> if this is given, a tag is only accepted as matching, iff the given xpath-expression returns true (powerful, but slow) <br> (condition is not the same as test: if test evaluates to false, the template tag is ignored; if condition evaluates to false, the html tag is not found) </p></li>
+</ul>
+
+<p>
+
+<p>The default prefixes for template commands are &quot;template:&quot; and &quot;t:&quot;, you can change that with the templateNamespace-property or by defining a new namespace in the template like <code>xmlns:yournamespace=&quot;<a  href="http://www.benibela.de/2011/templateparser">http://www.benibela.de/2011/templateparser</a>&quot; </code>. (only the xmlns:prefix form is supported, not xmlns without prefix)
+
+<p><b>Short notation</b>
+
+<p>Commonly used commands can be abbreviated as textual symbols instead of xml tags. To avoid conflicts with text node matching, this short notation is only allowed at the beginning of template text nodes.
+
+<p>The short read tag <code>&lt;t:s&gt;foo:=..&lt;/t:s&gt;</code> to read something in variable <code>foo</code> can be abbreviated as <code>{foo:=..}</code>. Similarly {} can be written within attributes to read the attribute, e.g. <code>&lt;a href=&quot;{$dest := .}&quot;/&gt;</code>.<br> Also the trailing <code>:= .</code> can be omitted, if only one variable assignment occurs, e.g. as <code>{$foo}</code> is equivalent to <code>foo := .</code> and <code>$foo := .</code>.
+
+<p>Optional and repeated elements can be marked with ?, *, +, {min, max}; like <code>&lt;a&gt;?...&lt;/a&gt;</code> or, equivalent, <code>&lt;a&gt;..&lt;/a&gt;?</code>. <br> An element marked with ? becomes optional, which has the same effect as adding the template:optional=&quot;true&quot; attribute.<br> An element marked with * can be repeated any times, which has the same effect as surrounding it with a template:loop element.<br> An element marked with + has to be repeated at least once, which has the same effect as surrounding it with a template:loop element with attribute min=1.<br> An element marked with {min,max} has to be repeated at least min-times and at most max-times (just like in a t:loop) (remember that additional data/elements are always ignored).<br> An element marked with {count} has to be repeated exactly count-times (just like in a t:loop) (remember that additional data/elements are always ignored).<br>
+
+<p><b>Breaking changes from previous versions:</b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>As was announced in planned changes, the meaning of {$x} and {6} was changed</p></li>
+  <li><p>As was announced in planned changes, the meaning of &lt;x value=&quot;{$x}&quot;/&gt; was changed</p></li>
+  <li><p>Adding the short notation breaks all templates that match text nodes starting with *, +, ? or {</p></li>
+  <li><p>The default template prefix was changed to template: (from <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#HTMLParser">htmlparser</a>:). You can add the old prefix to the templateNamespace-property, if you want to continue to use it</p></li>
+  <li><p>All changes mentioned in pseudoxpath.</p></li>
+  <li><p>Also text() doesn't match the next text element anymore, but the next text element of the current node. Use .//text() for the old behaviour</p></li>
+  <li><p>All variable names in the pxp are now case-sensitive in the default mode. You can set variableChangeLog.caseSensitive to change it to the old behaviour (however, variables defined with in the expression by <code>for/some/every</code> (but not by <code>:=</code> ) remain case sensitive)</p></li>
+  <li><p>There was always some confusion, if the old variable changelog should be deleted or merged with the new one, if you process several html documents. Therefore the old merging option was removed and replaced by the <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#KeepPreviousVariables">KeepPreviousVariables</a> property.</p></li>
+</ul>
+
+<p>
+
+<p><b>Planned breaking changes: </b><br> </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Avoid unmatched parenthesis and pipes within text nodes:<br> Currently is no short notation to read alternatives with the template:switch command, like <code>&lt;template:switch&gt;&lt;a&gt;..&lt;/a&gt;&lt;b&gt;..&lt;/b&gt;&lt;c&gt;..&lt;/c&gt;&lt;/template:switch&gt;</code>.<br> In future this might be the same as <code>(&lt;a&gt;..&lt;/a&gt;|&lt;b&gt;..&lt;/b&gt;|&lt;c&gt;..&lt;/c&gt;)</code>.<br> </p></li>
+</ul>
+
+<p></p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">THtmlTemplateParser</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#parseHTMLSimple">parseHTMLSimple</a></b>(html, uri, contenttype: string);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#matchLastTrees">matchLastTrees</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#create">create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#destroy">destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#parseTemplate">parseTemplate</a></b>(template: string; templateName: string = '&lt;unknown&gt;');</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#parseTemplateFile">parseTemplateFile</a></b>(templatefilename: string);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#parseHTML">parseHTML</a></b>(html: string; htmlFileName: string = ''; contentType: string = ''):boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#parseHTMLFile">parseHTMLFile</a></b>(htmlfilename: string):boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#replaceVarsOld">replaceVarsOld</a></b>(s:string;customReplace: <a  href="extendedhtmlparser.html#TReplaceFunction">TReplaceFunction</a>=nil):string; deprecated;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#replaceEnclosedExpressions">replaceEnclosedExpressions</a></b>(str:string):string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#debugMatchings">debugMatchings</a></b>(const width: integer): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#debugMatchings">debugMatchings</a></b>(const width: integer; includeText: boolean; includeAttributes: array of string): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#parseQuery">parseQuery</a></b>(const expression: string): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#variables">variables</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read GetVariables;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#variableChangeLog">variableChangeLog</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read FVariableLog;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#oldVariableChangeLog">oldVariableChangeLog</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read FOldVariableLog;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#VariableChangeLogCondensed">VariableChangeLogCondensed</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read GetVariableLogCondensed;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#templateNamespaces">templateNamespaces</a></b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a> read GetTemplateNamespace;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#ParsingExceptions">ParsingExceptions</a></b>: boolean read FParsingExceptions write FParsingExceptions;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#OutputEncoding">OutputEncoding</a></b>: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a> read FOutputEncoding write FOutputEncoding;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#KeepPreviousVariables">KeepPreviousVariables</a></b>: <a  href="extendedhtmlparser.html#TKeepPreviousVariables">TKeepPreviousVariables</a> read FKeepOldVariables write FKeepOldVariables;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#trimTextNodes">trimTextNodes</a></b>: <a  href="extendedhtmlparser.html#TTrimTextNodes">TTrimTextNodes</a> read FTrimTextNodes write FTrimTextNodes;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#UnnamedVariableName">UnnamedVariableName</a></b>: string read FUnnamedVariableName write FUnnamedVariableName;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#AllowVeryShortNotation">AllowVeryShortNotation</a></b>: boolean read FVeryShortNotation write FVeryShortNotation;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#SingleQueryModule">SingleQueryModule</a></b>: boolean read FSingleQueryModule write FSingleQueryModule;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#hasRealVariableDefinitions">hasRealVariableDefinitions</a></b>: boolean read GetTemplateHasRealVariableDefinitions;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#TemplateTree">TemplateTree</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> read getTemplateTree;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#HTMLTree">HTMLTree</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> read getHTMLTree;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#TemplateParser">TemplateParser</a></b>: <a  href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a> read FTemplate;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#HTMLParser">HTMLParser</a></b>: <a  href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a> read FHTML;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#QueryEngine">QueryEngine</a></b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a> read FQueryEngine;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="extendedhtmlparser.THtmlTemplateParser.html#QueryContext">QueryContext</a></b>: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a> read FQueryContext write FQueryContext;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseHTMLSimple"></a><code>procedure <b>parseHTMLSimple</b>(html, uri, contenttype: string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Parses a HTML file without performing matching. For internal use,</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="matchLastTrees"></a><code>function <b>matchLastTrees</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="destroy"></a><code>destructor <b>destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseTemplate"></a><code>procedure <b>parseTemplate</b>(template: string; templateName: string = '&lt;unknown&gt;');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+loads the given template, stores templateName for debugging issues</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseTemplateFile"></a><code>procedure <b>parseTemplateFile</b>(templatefilename: string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+loads a template from a file</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseHTML"></a><code>function <b>parseHTML</b>(html: string; htmlFileName: string = ''; contentType: string = ''):boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+parses the given data by applying a previously loaded template. htmlFileName is just for debugging issues</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseHTMLFile"></a><code>function <b>parseHTMLFile</b>(htmlfilename: string):boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+parses the given file by applying a previously loaded template.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="replaceVarsOld"></a><code>function <b>replaceVarsOld</b>(s:string;customReplace: <a  href="extendedhtmlparser.html#TReplaceFunction">TReplaceFunction</a>=nil):string; deprecated;</code></td>
+</tr>
+<tr><td colspan="2">
+<p class="hint_directive">Warning: this symbol is deprecated.</p><p>
+This replaces every $variable; in s with variables.values['variable'] or the value returned by customReplace (should not be used anymore)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="replaceEnclosedExpressions"></a><code>function <b>replaceEnclosedExpressions</b>(str:string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+This treats str as extended string and evaluates the pxquery expression x&quot;str&quot;</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="debugMatchings"></a><code>function <b>debugMatchings</b>(const width: integer): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="debugMatchings"></a><code>function <b>debugMatchings</b>(const width: integer; includeText: boolean; includeAttributes: array of string): string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseQuery"></a><code>function <b>parseQuery</b>(const expression: string): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns a <a class="normal" href="xquery.IXQuery.html">IXQuery</a> that accesses the variable storage of the template engine. Mostly intended for internal use, but you might find it useful to evaluate external XPath expressions which are not part of the template</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="variables"></a><code>property <b>variables</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read GetVariables;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+List of all variables (<a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#variableChangeLog">variableChangeLog</a> is usually faster)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="variableChangeLog"></a><code>property <b>variableChangeLog</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read FVariableLog;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+All assignments to a variables during the matching of the template. You can use TStrings.GetNameValue to get the variable/value in a certain line</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="oldVariableChangeLog"></a><code>property <b>oldVariableChangeLog</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read FOldVariableLog;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+All assignments to a variable during the matching of previous templates. (see <a class="normal" href="extendedhtmlparser.html#TKeepPreviousVariables">TKeepPreviousVariables</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="VariableChangeLogCondensed"></a><code>property <b>VariableChangeLogCondensed</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a> read GetVariableLogCondensed;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html#variableChangeLog">VariableChangeLog</a> with duplicated objects removed (i.e. if you have obj := object(), obj.a := 1, obj.b := 2, obj := object(); the normal change log will contain 4 objects (like {}, {a:1}, {a:1,b:2}, {}), but the condensed log only two {a:1,b:2}, {})</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="templateNamespaces"></a><code>property <b>templateNamespaces</b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a> read GetTemplateNamespace;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Global namespaces to set the commands that will be recognized as template commands. Default prefixes are template: and t: <br> Namespaces can also be defined in a template with the xmlns: notation and the namespace url '<a  href="http://www.benibela.de/2011/templateparser">http://www.benibela.de/2011/templateparser</a>'</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ParsingExceptions"></a><code>property <b>ParsingExceptions</b>: boolean read FParsingExceptions write FParsingExceptions;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+If this is true (default) it will raise an exception if the matching fails.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OutputEncoding"></a><code>property <b>OutputEncoding</b>: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a> read FOutputEncoding write FOutputEncoding;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Output encoding, i.e. the encoding of the read variables. Html document and template are automatically converted to it</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="KeepPreviousVariables"></a><code>property <b>KeepPreviousVariables</b>: <a  href="extendedhtmlparser.html#TKeepPreviousVariables">TKeepPreviousVariables</a> read FKeepOldVariables write FKeepOldVariables;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Controls if old variables are deleted when processing a new document (see <a class="normal" href="extendedhtmlparser.html#TKeepPreviousVariables">TKeepPreviousVariables</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="trimTextNodes"></a><code>property <b>trimTextNodes</b>: <a  href="extendedhtmlparser.html#TTrimTextNodes">TTrimTextNodes</a> read FTrimTextNodes write FTrimTextNodes;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+How to trim text nodes (default ttnAfterReading). There is also pseudoxpath.XQGlobalTrimNodes which controls, how the values are returned.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="UnnamedVariableName"></a><code>property <b>UnnamedVariableName</b>: string read FUnnamedVariableName write FUnnamedVariableName;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Default variable name. If a something is read from the document, but not assigned to a variable, it is assigned to this one. (Default: _result)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="AllowVeryShortNotation"></a><code>property <b>AllowVeryShortNotation</b>: boolean read FVeryShortNotation write FVeryShortNotation;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Enables the the very short notation (e.g. {a:=text()}, &lt;a&gt;*) (default: true)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="SingleQueryModule"></a><code>property <b>SingleQueryModule</b>: boolean read FSingleQueryModule write FSingleQueryModule;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+If all XPath/XQuery expressions in the templates are kept in the same module. Only if true, XQuery variables/functions declared are accessible in other read commands. (declarations must be preceded by <code>xquery version &quot;1.0&quot;;</code> and followed by an expression, if only <code>()</code>) Global variables, declared with a simple $x := value, are always everywhere accessible. (default true)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hasRealVariableDefinitions"></a><code>property <b>hasRealVariableDefinitions</b>: boolean read GetTemplateHasRealVariableDefinitions;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+If the currently loaded template contains := variable definitions (contrary to assign values to the default variable with {.} ) (CAN ONLY BE USED AFTER the template has been applied!)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="TemplateTree"></a><code>property <b>TemplateTree</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> read getTemplateTree;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+A tree representation of the current template</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="HTMLTree"></a><code>property <b>HTMLTree</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> read getHTMLTree;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+A tree representation of the processed html file</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="TemplateParser"></a><code>property <b>TemplateParser</b>: <a  href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a> read FTemplate;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+X/HTML parser used to read the templates (public so you can change the parsing behaviour, if you really need it)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="HTMLParser"></a><code>property <b>HTMLParser</b>: <a  href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a> read FHTML;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+X/HTML parser used to read the pages (public so you can change the parsing behaviour, if you really need it)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="QueryEngine"></a><code>property <b>QueryEngine</b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a> read FQueryEngine;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+XQuery engine used for evaluating <a class="normal" href="xquery.html#query">query</a> expressions contained in the template</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="QueryContext"></a><code>property <b>QueryContext</b>: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a> read FQueryContext write FQueryContext;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Context used to evaluate XQuery expressions. For internal use.</p>
+</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

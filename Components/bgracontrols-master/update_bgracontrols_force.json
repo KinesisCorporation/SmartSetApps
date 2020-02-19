@@ -1,0 +1,20 @@
+{
+  "UpdatePackageData" : {
+    "DownloadZipURL" : "https://github.com/bgrabitmap/bgracontrols/archive/master.zip",
+    "Name" : "bgracontrols-master"
+  },
+  "UpdatePackageFiles" : [
+    {
+      "ForceNotify" : true,
+      "InternalVersion" : 22,
+      "Name" : "bgracontrols.lpk",
+      "Version" : "6.0.4.0"
+    },
+    {
+      "ForceNotify" : false,
+      "InternalVersion" : 1,
+      "Name" : "bgrapascalscriptcomponent.lpk",
+      "Version" : "1.0.0.0"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+language: generic
+sudo: required
+dist: trusty
+
+os:
+  - linux
+
+env:
+  global:
+    - WINEPREFIX=~/.winelaz
+    - DISPLAY=:99.0
+    - REGEX=xxxxxxxxxxxxdefault
+    - UNICODETABLE=xxxxxxxxxxxxxxxdefault
+    - LAZ_ENV=
+  matrix:
+    - LAZ_VER=1.8.0RC5
+
+matrix:
+  include:
+    - env: LAZ_VER=1.8.0RC5 INTERNETACCESS=USE_NO_WRAPPER REGEX=USE_FLRE_WITH_CACHE
+    - env: LAZ_VER=1.8.0RC5 INTERNETACCESS=USE_NO_WRAPPER REGEX=USE_FLRE
+    - env: LAZ_VER=1.8.0RC5 INTERNETACCESS=USE_NO_WRAPPER REGEX=USE_SOROKINS_REGEX UNICODETABLE=USE_BBFULL_UNICODE
+    - env: LAZ_VER=1.8.0RC5 INTERNETACCESS=USE_SYNAPSE_WRAPPER
+    - env: LAZ_VER=1.8RC5  LAZ_ENV=wine INTERNETACCESS=USE_WININET_WRAPPER LAZ_OPT="--os=win32 --cpu=i386"
+    - env: LAZ_VER=1.8.0RC5  LAZ_ENV=qemu-arm INTERNETACCESS=USE_SYNAPSE_WRAPPER LAZ_OPT="--os=linux --cpu=arm" FPC_OPT="-Parm -Tlinux"
+
+before_install:
+  # Start virtual display server
+  - Xvfb $DISPLAY &
+
+install:
+  - git clone https://github.com/benibela/travis-lazarus travis-lazarus
+  - travis-lazarus/.travis.install.py
+  # - if [[ "$LAZ_ENV" = qemu-arm ]]; then sudo apt-get install libgdk-pixbuf2.0-dev:armhf libx11-dev:armhf libgtk2.0-dev:armhf libcairo-gobject2:armhf; fi
+  - if [[ "$LAZ_ENV" = wine ]]; then find $WINEPREFIX -iname '*fpc.cfg' | head -1 | xargs -i{} ln {} ~/.fpc.cfg; ls -l ~; fi
+  - if [[ ! -e ~/.fpc.cfg ]]; then echo '#INCLUDE /etc/fpc.cfg' > ~/.fpc.cfg; fi
+  - mkdir -p import
+  - FPCSEARCHPATHS="-Fudata -Fidata -Fuinternet"
+  - if [[ "$REGEX" != "USE_SOROKINS_REGEX"  ]]; then 
+      git clone https://github.com/benibela/flre.git import/flre; 
+      echo "-Fuimport/flre/src/" >> ~/.fpc.cfg;
+    fi
+  - git clone https://github.com/benibela/rcmdline.git rcmdline
+  - if [[ "$INTERNETACCESS" == USE_SYNAPSE_WRAPPER ]]; then 
+      svn checkout http://svn.code.sf.net/p/synalist/code/synapse/40/ import/synapse; 
+      echo "-Fuimport/synapse" >> ~/.fpc.cfg; 
+    fi
+  - echo "-d$INTERNETACCESS" >> ~/.fpc.cfg
+  - echo "-d$REGEX" >> ~/.fpc.cfg
+  - echo "-d$UNICODETABLE " >> ~/.fpc.cfg
+
+script:
+  - lazbuild $LAZ_OPT --add-package internettools.lpk
+  - lazbuild $LAZ_OPT --add-package internettools_autoupdate.lpk
+  - if [[ "$LAZ_ENV" != qemu-arm ]]; then lazbuild $LAZ_OPT data/examples/xqueryExampleGUI.lpi; fi
+  - if [[ "$LAZ_ENV" != qemu-arm ]]; then lazbuild $LAZ_OPT internet/examples/autoupdatetest.lpi; fi
+  - fpc -O2 -gl $FPCSEARCHPATHS $FPC_OPT data/tests/tests.lpr 
+  - fpc -O2 -gl $FPCSEARCHPATHS $FPC_OPT data/examples/xqueryExample.pas
+  - fpc -O2 -gl $FPCSEARCHPATHS -Furcmdline $FPC_OPT data/examples/QT3testsuite.lpr
+  - $LAZ_ENV data/tests/tests
+
+notifications:
+  email:
+    on_failure: change

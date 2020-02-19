@@ -1,0 +1,651 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXQVariableChangeLog</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQVariableChangeLog"></a><h1 class="cio">Class TXQVariableChangeLog</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td><a class="section" href="#PasDoc-Properties">Properties</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQVariableChangeLog = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+XQuery variable storage</p>
+<p>
+
+
+<p>This class stores a list of variables - a <a class="normal" href="xquery.IXQValue.html">IXQValue</a> for a string name.<br><br>
+
+<p>It is called changelog because it also stores every old value. This allows you to go back in time with <a class="normal" href="xquery.TXQVariableChangeLog.html#pushAll">pushAll</a>/<a class="normal" href="xquery.TXQVariableChangeLog.html#popAll">popAll</a>.<br> Reading a variable by name will always return the latest value (unless it was deleted by <a class="normal" href="xquery.TXQVariableChangeLog.html#popAll">popAll</a>).</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TXQVariableChangeLog</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQVariableChangeLog.html#readonly">readonly</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQVariableChangeLog.html#parentLog">parentLog</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(name: string; const value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: string);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: string; const namespaceURL: string);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: integer; const namespaceURL: string = '');</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: <a  href="xquery.html#xqfloat">xqfloat</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: <a  href="bigdecimalmath.BigDecimal.html">bigdecimal</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: boolean; const namespaceURL: string = '');</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: TDateTime; const namespaceURL: string = '');</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(const name: string; const value: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#add">add</a></b>(variable: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>; const value: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#get">get</a></b>(const name: string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#get">get</a></b>(const name: string; const namespaceURL: string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#get">get</a></b>(i: integer): <a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#indexOf">indexOf</a></b>(const name: string; const namespaceURL: string = ''): integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#getName">getName</a></b>(i: integer): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#getAll">getAll</a></b>(const name: string; const namespaceURL: string = ''): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#getString">getString</a></b>(const name:string): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#isPropertyChange">isPropertyChange</a></b>(i: integer): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#hasVariable">hasVariable</a></b>(const variable: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#hasVariable">hasVariable</a></b>(const variable: string; const namespaceURL: string = ''): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#hasVariable">hasVariable</a></b>(const variable: string; out value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string = ''): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#hasVariable">hasVariable</a></b>(const variable: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>; out value: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQVariableChangeLog.html#create">create</a></b>();</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="xquery.TXQVariableChangeLog.html#destroy">destroy</a></b>(); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#clear">clear</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#pushAll">pushAll</a></b>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#popAll">popAll</a></b>(level: integer = -1);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#stringifyNodes">stringifyNodes</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#debugTextRepresentation">debugTextRepresentation</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#clone">clone</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#assign">assign</a></b>(from: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#finalValues">finalValues</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#takeFrom">takeFrom</a></b>(other: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#condensed">condensed</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#collected">collected</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQVariableChangeLog.html#condensedCollected">condensedCollected</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQVariableChangeLog.html#addObjectModification">addObjectModification</a></b>(const variable: string; value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string; properties: <a  href="bbutils.html#TStringArray">TStringArray</a>);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.TXQVariableChangeLog.html#Values">Values</a></b>[name:string]: <a  href="xquery.IXQValue.html">IXQValue</a> read <a  href="xquery.TXQVariableChangeLog.html#get">get</a> write <a  href="xquery.TXQVariableChangeLog.html#add">add</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.TXQVariableChangeLog.html#ValuesString">ValuesString</a></b>[name:string]: string read <a  href="xquery.TXQVariableChangeLog.html#getString">getString</a> write <a  href="xquery.TXQVariableChangeLog.html#add">add</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.TXQVariableChangeLog.html#Names">Names</a></b>[i:integer]: string read <a  href="xquery.TXQVariableChangeLog.html#getName">getName</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.TXQVariableChangeLog.html#count">count</a></b>: integer read varcount;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="readonly"></a><code><b>readonly</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+If true, modifying the variable value raises an error</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parentLog"></a><code><b>parentLog</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(name: string; const value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: string; const namespaceURL: string);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: integer; const namespaceURL: string = '');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: <a  href="xquery.html#xqfloat">xqfloat</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: <a  href="bigdecimalmath.BigDecimal.html">bigdecimal</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: boolean; const namespaceURL: string = '');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: TDateTime; const namespaceURL: string = '');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const name: string; const value: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; const namespaceURL: string = '');</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="xquery.TXQVariableChangeLog.html#add">Add</a> a variable (<code>value</code> is converted to a <a class="normal" href="xquery.IXQValue.html">IXQValue</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(variable: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>; const value: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<code>Add</code> a variable</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>function <b>get</b>(const name: string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the value of the variable <code>name</code> <br> The returned interface points to the same instance as the interface in the internal variable storage</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>function <b>get</b>(const name: string; const namespaceURL: string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the value of the variable <code>name</code> <br> The returned interface points to the same instance as the interface in the internal variable storage</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>function <b>get</b>(i: integer): <a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Value of the variable at index <code>i</code> <br> The returned interface points to the same instance as the interface in the internal variable storage</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="indexOf"></a><code>function <b>indexOf</b>(const name: string; const namespaceURL: string = ''): integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the last index of the variable <code>name</code> in the internal list. (Warning: doesn't support objects, yet??) It is recommended to use <a class="normal" href="xquery.TXQVariableChangeLog.html#hasVariable">hasVariable</a> instead, the index is an implementation detail</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getName"></a><code>function <b>getName</b>(i: integer): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Name of the variable at index <code>i</code></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAll"></a><code>function <b>getAll</b>(const name: string; const namespaceURL: string = ''): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns all <a class="normal" href="xquery.TXQVariableChangeLog.html#Values">values</a> of the variable with name <code>getAll</code> as sequence</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getString"></a><code>function <b>getString</b>(const name:string): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns a value as string. This is the same as <a class="normal" href="xquery.TXQVariableChangeLog.html#get">get</a>(name).toString.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isPropertyChange"></a><code>function <b>isPropertyChange</b>(i: integer): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hasVariable"></a><code>function <b>hasVariable</b>(const variable: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns if a variable with name  exists</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>variable</dt>
+<dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hasVariable"></a><code>function <b>hasVariable</b>(const variable: string; const namespaceURL: string = ''): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns if a variable with name  exists</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>variable</dt>
+<dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hasVariable"></a><code>function <b>hasVariable</b>(const variable: string; out value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string = ''): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns if a variable with name  exists, and if it does, returns its value in .</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>variable</dt>
+<dd></dd>
+<dt>value</dt>
+<dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hasVariable"></a><code>function <b>hasVariable</b>(const variable: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>; out value: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns if a variable with name  exists, and if it does, returns its value in .</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>variable</dt>
+<dd></dd>
+<dt>value</dt>
+<dd></dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>();</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="destroy"></a><code>destructor <b>destroy</b>(); override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clear"></a><code>procedure <b>clear</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<code>Clear</code> everything</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="pushAll"></a><code>function <b>pushAll</b>: integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Marks the current state of the variables (in O(1))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="popAll"></a><code>procedure <b>popAll</b>(level: integer = -1);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Reverts all variables to the latest marked state</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="stringifyNodes"></a><code>procedure <b>stringifyNodes</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="debugTextRepresentation"></a><code>function <b>debugTextRepresentation</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Dump of the log as list of name=value pairs</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clone"></a><code>function <b>clone</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="assign"></a><code>procedure <b>assign</b>(from: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="finalValues"></a><code>function <b>finalValues</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Remove all duplicates, so that only the last version of each variable remains</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="takeFrom"></a><code>procedure <b>takeFrom</b>(other: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Adds all variables from other to self, and clears other</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="condensed"></a><code>function <b>condensed</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Removes all assignments to object properties and only keeps a final assignment to the object variable that contains all properties (i.e. <code>obj.a := 123, obj.b := 456</code> is <code>condensed</code> to a single assignment like in the pseudocode <code>obj := {a: 123, b:456}</code>))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="collected"></a><code>function <b>collected</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Collects multiple assignments to single sequence assignment. (i.e. <code>a := 123, a := 456, a := 789</code> <code>collected</code> is equivalent to <code>a := (123, 456, 789)</code>) (creates a new variable log that has to be freed)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="condensedCollected"></a><code>function <b>condensedCollected</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Same as condensed.collected</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="addObjectModification"></a><code>procedure <b>addObjectModification</b>(const variable: string; value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string; properties: <a  href="bbutils.html#TStringArray">TStringArray</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Values"></a><code>property <b>Values</b>[name:string]: <a  href="xquery.IXQValue.html">IXQValue</a> read <a  href="xquery.TXQVariableChangeLog.html#get">get</a> write <a  href="xquery.TXQVariableChangeLog.html#add">add</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ValuesString"></a><code>property <b>ValuesString</b>[name:string]: string read <a  href="xquery.TXQVariableChangeLog.html#getString">getString</a> write <a  href="xquery.TXQVariableChangeLog.html#add">add</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Names"></a><code>property <b>Names</b>[i:integer]: string read <a  href="xquery.TXQVariableChangeLog.html#getName">getName</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="count"></a><code>property <b>count</b>: integer read varcount;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

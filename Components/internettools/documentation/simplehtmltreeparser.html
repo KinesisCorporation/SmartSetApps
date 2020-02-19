@@ -1,0 +1,428 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>simplehtmltreeparser</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit simplehtmltreeparser</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td><a class="section" href="#PasDoc-Constants">Constants</a></td><td><a class="section" href="#PasDoc-Variables">Variables</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+<p>
+This unit contains a html/xml -&gt; tree converter</p>
+<p>
+
+
+<p></p>
+<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-Classes"></a><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TXQHashmapStr.html"><code>TXQHashmapStr</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TXQHashmapStrOwning.html"><code>TXQHashmapStrOwning</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="simplehtmltreeparser.INamespace.html"><code>INamespace</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TNamespace.html"><code>TNamespace</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TNamespaceList.html"><code>TNamespaceList</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="simplehtmltreeparser.TAttributeEnumerator.html"><code>TAttributeEnumerator</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TAttributeList.html"><code>TAttributeList</code></a></td>
+<td class="itemdesc">A list of attributes.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TTreeNode.html"><code>TTreeNode</code></a></td>
+<td class="itemdesc">This class representates an element of the html file</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TTreeAttribute.html"><code>TTreeAttribute</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TTreeDocument.html"><code>TTreeDocument</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.ETreeParseException.html"><code>ETreeParseException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="simplehtmltreeparser.TTreeParser.html"><code>TTreeParser</code></a></td>
+<td class="itemdesc">This parses a html/sgml/xml file to a tree like structure.</td>
+</tr>
+</table>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#xmlStrEscape">xmlStrEscape</a></b>(s: string; attrib: boolean = false):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#xmlStrWhitespaceCollapse">xmlStrWhitespaceCollapse</a></b>(const s: string):string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#htmlStrEscape">htmlStrEscape</a></b>(s: string; attrib: boolean = false; encoding: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a> = <a  href="bbutils.html#CP_NONE">CP_NONE</a>):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#equalNamespaces">equalNamespaces</a></b>(const ans, bns: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>): boolean; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#equalNamespaces">equalNamespaces</a></b>(const ans, bns: string): boolean; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#namespaceGetURL">namespaceGetURL</a></b>(const n: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>): string; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#guessFormat">guessFormat</a></b>(const data, uri, contenttype: string): <a  href="simplehtmltreeparser.html#TInternetToolsFormat">TInternetToolsFormat</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#strEncodingFromContentType">strEncodingFromContentType</a></b>(const contenttype: string): <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#isInvalidUTF8">isInvalidUTF8</a></b>(const s: string): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.html#nodeNameHash">nodeNameHash</a></b>(const s: <a  href="bbutils.html#RawByteString">RawByteString</a>): cardinal;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TXQHashKeyString">TXQHashKeyString</a></b> = TFLRERawByteString;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TXQHashmapStrOwningObject">TXQHashmapStrOwningObject</a></b> = specialize <a  href="simplehtmltreeparser.TXQHashmapStrOwning.html">TXQHashmapStrOwning</a>&lt;TObject, TObjectList&gt;;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TXQHashmapStrOwningInterface">TXQHashmapStrOwningInterface</a></b> = specialize <a  href="simplehtmltreeparser.TXQHashmapStrOwning.html">TXQHashmapStrOwning</a>&lt;IUnknown, TInterfaceList&gt;;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TTreeNodeTypes">TTreeNodeTypes</a></b> = set of <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TTreeNodeFindOptions">TTreeNodeFindOptions</a></b> = set of (tefoIgnoreType, tefoIgnoreText, tefoCaseSensitive, tefoNoChildren, tefoNoGrandChildren);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a></b> = function (const a,b: string): boolean of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TTreeNodeClass">TTreeNodeClass</a></b> = class of <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TBasicParsingState">TBasicParsingState</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TParsingModel">TParsingModel</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TInternetToolsFormat">TInternetToolsFormat</a></b> = (...);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Constants"></a><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#XMLNamespaceUrl_XML">XMLNamespaceUrl_XML</a></b> = 'http://www.w3.org/XML/1998/namespace';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#XMLNamespaceUrl_XMLNS">XMLNamespaceUrl_XMLNS</a></b> = 'http://www.w3.org/2000/xmlns/';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#TreeNodesWithChildren">TreeNodesWithChildren</a></b> = [tetOpen, tetDocument];</code></td>
+</tr>
+</table>
+<a name="PasDoc-Variables"></a><h3 class="summary">Variables</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#XMLNamespace_XMLNS">XMLNamespace_XMLNS</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.html#XMLNamespace_XML">XMLNamespace_XML</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xmlStrEscape"></a><code>function <b>xmlStrEscape</b>(s: string; attrib: boolean = false):string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xmlStrWhitespaceCollapse"></a><code>function <b>xmlStrWhitespaceCollapse</b>(const s: string):string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="htmlStrEscape"></a><code>function <b>htmlStrEscape</b>(s: string; attrib: boolean = false; encoding: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a> = <a  href="bbutils.html#CP_NONE">CP_NONE</a>):string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="equalNamespaces"></a><code>function <b>equalNamespaces</b>(const ans, bns: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>): boolean; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="equalNamespaces"></a><code>function <b>equalNamespaces</b>(const ans, bns: string): boolean; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="namespaceGetURL"></a><code>function <b>namespaceGetURL</b>(const n: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>): string; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="guessFormat"></a><code>function <b>guessFormat</b>(const data, uri, contenttype: string): <a  href="simplehtmltreeparser.html#TInternetToolsFormat">TInternetToolsFormat</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="strEncodingFromContentType"></a><code>function <b>strEncodingFromContentType</b>(const contenttype: string): <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isInvalidUTF8"></a><code>function <b>isInvalidUTF8</b>(const s: string): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="nodeNameHash"></a><code>function <b>nodeNameHash</b>(const s: <a  href="bbutils.html#RawByteString">RawByteString</a>): cardinal;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQHashKeyString"></a><code><b>TXQHashKeyString</b> = TFLRERawByteString;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQHashmapStrOwningObject"></a><code><b>TXQHashmapStrOwningObject</b> = specialize <a  href="simplehtmltreeparser.TXQHashmapStrOwning.html">TXQHashmapStrOwning</a>&lt;TObject, TObjectList&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQHashmapStrOwningInterface"></a><code><b>TXQHashmapStrOwningInterface</b> = specialize <a  href="simplehtmltreeparser.TXQHashmapStrOwning.html">TXQHashmapStrOwning</a>&lt;IUnknown, TInterfaceList&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTreeNodeType"></a><code><b>TTreeNodeType</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+The type of a tree element. &lt;Open&gt;, text, or &lt;/close&gt;</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+tetOpen: &nbsp;</li>
+<li>
+tetClose: &nbsp;</li>
+<li>
+tetText: &nbsp;</li>
+<li>
+tetComment: &nbsp;</li>
+<li>
+tetProcessingInstruction: &nbsp;</li>
+<li>
+tetAttribute: &nbsp;</li>
+<li>
+tetDocument: &nbsp;</li>
+<li>
+tetInternalDoNotUseCDATAText: &nbsp;</li>
+<li>
+tetNamespace: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTreeNodeTypes"></a><code><b>TTreeNodeTypes</b> = set of <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTreeNodeFindOptions"></a><code><b>TTreeNodeFindOptions</b> = set of (tefoIgnoreType, tefoIgnoreText, tefoCaseSensitive, tefoNoChildren, tefoNoGrandChildren);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Controls the search for a tree element.<br> <a class="normal" href="bbutils.html#ignore">ignore</a> type: do not check for a matching type, <a class="normal" href="bbutils.html#ignore">ignore</a> text: do not check for a matching text, case sensitive: do not <a class="normal" href="bbutils.html#ignore">ignore</a> the case, no descend: only check elements that direct children of the current node</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TStringComparisonFunc"></a><code><b>TStringComparisonFunc</b> = function (const a,b: string): boolean of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTreeNodeClass"></a><code><b>TTreeNodeClass</b> = class of <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TBasicParsingState"></a><code><b>TBasicParsingState</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+bpmBeforeHtml: &nbsp;</li>
+<li>
+bpmBeforeHead: &nbsp;</li>
+<li>
+bpmInHead: &nbsp;</li>
+<li>
+bpmAfterHead: &nbsp;</li>
+<li>
+bpmInBody: &nbsp;</li>
+<li>
+bpmInFrameset: &nbsp;</li>
+<li>
+bpmAfterBody: &nbsp;</li>
+<li>
+bpmAfterAfterBody: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TParsingModel"></a><code><b>TParsingModel</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Parsing model used to interpret the document pmStrict: every tag must be closed explicitely (otherwise an exception is raised) pmHtml: accept everything, tries to create the best fitting tree using a heuristic to recover from faulty documents (no exceptions are raised), detect encoding</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+pmStrict: &nbsp;</li>
+<li>
+pmHTML: &nbsp;</li>
+<li>
+pmUnstrictXML: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TInternetToolsFormat"></a><code><b>TInternetToolsFormat</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+itfXML: &nbsp;</li>
+<li>
+itfHTML: &nbsp;</li>
+<li>
+itfJSON: &nbsp;</li>
+<li>
+itfXMLPreparsedEntity: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceUrl_XML"></a><code><b>XMLNamespaceUrl_XML</b> = 'http://www.w3.org/XML/1998/namespace';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceUrl_XMLNS"></a><code><b>XMLNamespaceUrl_XMLNS</b> = 'http://www.w3.org/2000/xmlns/';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TreeNodesWithChildren"></a><code><b>TreeNodesWithChildren</b> = [tetOpen, tetDocument];</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Variables</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespace_XMLNS"></a><code><b>XMLNamespace_XMLNS</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespace_XML"></a><code><b>XMLNamespace_XML</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>Benito van der Zander (<a  href="http://www.benibela.de">www.benibela.de</a>)</li>
+</ul>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>internetaccess: record TInternetConfig</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TInternetConfig"></a><h1 class="cio">record TInternetConfig</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Hierarchy</td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="internetaccess.html">internetaccess</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TInternetConfig = record</code></p>
+<h2 class="description">Description</h2>
+&nbsp;<h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#userAgent">userAgent</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#tryDefaultConfig">tryDefaultConfig</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#useProxy">useProxy</a></b>: Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#proxyHTTPName">proxyHTTPName</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#proxyHTTPPort">proxyHTTPPort</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#proxyHTTPSName">proxyHTTPSName</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#proxyHTTPSPort">proxyHTTPSPort</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#proxySOCKSName">proxySOCKSName</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#proxySOCKSPort">proxySOCKSPort</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#connectionCheckPage">connectionCheckPage</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#checkSSLCertificates">checkSSLCertificates</a></b>: boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetConfig.html#logToPath">logToPath</a></b>: string;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="internetaccess.TInternetConfig.html#setProxy">setProxy</a></b>(proxy: string);</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="userAgent"></a><code><b>userAgent</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+the user agent used when connecting</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="tryDefaultConfig"></a><code><b>tryDefaultConfig</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+should the system default configuration be used (not always supported, currently it only works with wininet)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="useProxy"></a><code><b>useProxy</b>: Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+should a proxy be used</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="proxyHTTPName"></a><code><b>proxyHTTPName</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+proxy used for HTTP</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="proxyHTTPPort"></a><code><b>proxyHTTPPort</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+proxy used for HTTP</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="proxyHTTPSName"></a><code><b>proxyHTTPSName</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+proxy used for HTTPS (not always supported, currently only with wininet)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="proxyHTTPSPort"></a><code><b>proxyHTTPSPort</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+proxy used for HTTPS (not always supported, currently only with wininet)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="proxySOCKSName"></a><code><b>proxySOCKSName</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+socks proxy</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="proxySOCKSPort"></a><code><b>proxySOCKSPort</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+socks proxy</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="connectionCheckPage"></a><code><b>connectionCheckPage</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+url we should open to check if an internet connection exists (e.g. <a  href="http://google.de">http://google.de</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="checkSSLCertificates"></a><code><b>checkSSLCertificates</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If ssl certificates should be checked in HTTPS connections (currently only for <a class="normal" href="w32internetaccess.html">w32internetaccess</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="logToPath"></a><code><b>logToPath</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="setProxy"></a><code>procedure <b>setProxy</b>(proxy: string);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

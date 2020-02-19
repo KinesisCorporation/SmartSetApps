@@ -1,0 +1,127 @@
+object Form1: TForm1
+  Left = 540
+  Height = 595
+  Top = 37
+  Width = 647
+  Caption = 'BGRA Spline interpolation'
+  ClientHeight = 595
+  ClientWidth = 647
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnMouseDown = FormMouseDown
+  OnMouseMove = FormMouseMove
+  OnMouseUp = FormMouseUp
+  OnPaint = FormPaint
+  OnResize = FormResize
+  Position = poDefaultPosOnly
+  LCLVersion = '1.6.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 51
+    Top = 544
+    Width = 647
+    Align = alBottom
+    ClientHeight = 51
+    ClientWidth = 647
+    TabOrder = 0
+    object CheckBox_Closed: TCheckBox
+      Left = 400
+      Height = 22
+      Top = 24
+      Width = 62
+      Caption = 'Closed'
+      OnChange = CheckBox_Change
+      TabOrder = 0
+    end
+    object Radio_Inside: TRadioButton
+      Left = 88
+      Height = 22
+      Top = 4
+      Width = 58
+      Caption = 'Inside'
+      OnChange = Radio_Change
+      TabOrder = 1
+    end
+    object Radio_Crossing: TRadioButton
+      Left = 192
+      Height = 22
+      Top = 4
+      Width = 73
+      Caption = 'Crossing'
+      OnChange = Radio_Change
+      TabOrder = 2
+    end
+    object Radio_Outside: TRadioButton
+      Left = 192
+      Height = 22
+      Top = 24
+      Width = 67
+      Caption = 'Outside'
+      OnChange = Radio_Change
+      TabOrder = 3
+    end
+    object Radio_Rounded: TRadioButton
+      Left = 280
+      Height = 22
+      Top = 4
+      Width = 73
+      Caption = 'Rounded'
+      Checked = True
+      OnChange = Radio_Change
+      TabOrder = 4
+      TabStop = True
+    end
+    object Radio_VertexToSide: TRadioButton
+      Left = 280
+      Height = 22
+      Top = 24
+      Width = 100
+      Caption = 'Vertex to side'
+      OnChange = Radio_Change
+      TabOrder = 6
+    end
+    object Radio_Bezier2: TRadioButton
+      Left = 8
+      Height = 22
+      Top = 4
+      Width = 67
+      Caption = 'Bezier2'
+      OnChange = Radio_Change
+      TabOrder = 7
+    end
+    object Radio_Bezier3: TRadioButton
+      Left = 8
+      Height = 22
+      Top = 24
+      Width = 67
+      Caption = 'Bezier3'
+      OnChange = Radio_Change
+      TabOrder = 8
+    end
+    object CheckBox_CanJump: TCheckBox
+      Left = 400
+      Height = 22
+      Top = 4
+      Width = 77
+      Caption = 'Can jump'
+      Checked = True
+      State = cbChecked
+      TabOrder = 9
+    end
+    object Radio_EasyBezier: TRadioButton
+      Left = 88
+      Height = 22
+      Top = 24
+      Width = 89
+      Caption = 'Easy Bezier'
+      OnChange = Radio_Change
+      TabOrder = 5
+    end
+  end
+  object Timer1: TTimer
+    Interval = 40
+    OnTimer = Timer1Timer
+    left = 97
+    top = 184
+  end
+end

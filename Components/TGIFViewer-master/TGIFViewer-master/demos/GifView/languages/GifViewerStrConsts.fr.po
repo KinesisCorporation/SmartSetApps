@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr\n"
+
+#: gifviewerstrconsts.rsbadscreensize
+msgid "Dimension de l'image Invalides : %dx%d"
+msgstr "Dimension de l'image Invalides : %dx%d"
+
+#: gifviewerstrconsts.rsbadsignature
+msgid "Signature GIF invalide : %s"
+msgstr "Signature GIF invalide : %s"
+
+#: gifviewerstrconsts.rsbitmapcreateerror
+msgid "Erreur lors de la création du TBitmap"
+msgstr "Erreur lors de la création du TBitmap"
+
+#: gifviewerstrconsts.rsbitmapscanlineoutofrange
+msgid "Scanline : Indice hors limite"
+msgstr "Scanline : Indice hors limite"
+
+#: gifviewerstrconsts.rsbufferoverflow
+msgid "Image #%d : Le décodeur s'est arrêté pour empêcher un débordement de tampon"
+msgstr "Image #%d : Le décodeur s'est arrêté pour empêcher un débordement de tampon"
+
+#: gifviewerstrconsts.rsemptycolormap
+msgid "Erreur aucune palette de couleur disponible pour cette image !"
+msgstr "Erreur aucune palette de couleur disponible pour cette image !"
+
+#: gifviewerstrconsts.rsemptyimage
+msgid "L'Image est vide"
+msgstr "L'Image est vide"
+
+#: gifviewerstrconsts.rsfilenotfound
+msgid "Le fichier %s est introuvable !"
+msgstr "Le fichier %s est introuvable !"
+
+#: gifviewerstrconsts.rsimagebadcolorsize
+msgid "Nombre de couleur dans la palette locale invalide."
+msgstr "Nombre de couleur dans la palette locale invalide."
+
+#: gifviewerstrconsts.rsinvalidbuffersize
+msgid "Image #%d : La taille du tampon d'entrée et de sortie sont invalides ( Taille <= 0)"
+msgstr "Image #%d : La taille du tampon d'entrée et de sortie sont invalides ( Taille <= 0)"
+
+#: gifviewerstrconsts.rsinvalidinputbuffersize
+msgid "Image #%d : La taille du tampon d'entrée est invalide ( Taille <= 0)"
+msgstr "Image #%d : La taille du tampon d'entrée est invalide ( Taille <= 0)"
+
+#: gifviewerstrconsts.rsinvalidoutputbuffersize
+msgid "Image #%d : La taille du tampon de sortie est invalide ( Taille <= 0)"
+msgstr "Image #%d : La taille du tampon de sortie est invalide ( Taille <= 0)"
+
+#: gifviewerstrconsts.rslzwinternalerrorinputbufferoverflow
+msgid "Dépassement du buffer d'entrée dans le décodeur GIF LZW. Signaler ce bug. C'est un bug sérieux !"
+msgstr "Dépassement du buffer d'entrée dans le décodeur GIF LZW. Signaler ce bug. C'est un bug sérieux !"
+
+#: gifviewerstrconsts.rslzwinternalerroroutputbufferoverflow
+msgid "Dépassement du buffer de sortie dans le décodeur GIF LZW. Signaler ce bug. C'est un bug sérieux !"
+msgstr "Dépassement du buffer de sortie dans le décodeur GIF LZW. Signaler ce bug. C'est un bug sérieux !"
+
+#: gifviewerstrconsts.rslzwinvalidinput
+msgid "Image #%d : Le décodeur a rencontré une entrée invalide (données corrompues)"
+msgstr "Image #%d : Le décodeur a rencontré une entrée invalide (données corrompues)"
+
+#: gifviewerstrconsts.rslzwoutputbuffertoosmall
+msgid "Image #%d : Le décodeur n'a pas pu décoder toutes les données car le tampon de sortie est trop petit"
+msgstr "Image #%d : Le décodeur n'a pas pu décoder toutes les données car le tampon de sortie est trop petit"
+
+#: gifviewerstrconsts.rsresourcenotfound
+msgid "Resource %s not found !"
+msgstr "Resource %s not found !"
+
+#: gifviewerstrconsts.rsscreenbadcolorsize
+msgid "Nombre de couleur dans la palette globale invalide."
+msgstr "Nombre de couleur dans la palette globale invalide."
+
+#: gifviewerstrconsts.rsunknownversion
+msgid "Version GIF inconnue"
+msgstr "Version GIF inconnue"

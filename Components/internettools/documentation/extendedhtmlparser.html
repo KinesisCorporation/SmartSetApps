@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>extendedhtmlparser</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit extendedhtmlparser</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td><a class="section" href="#PasDoc-Constants">Constants</a></td><td>Variables</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+<p>
+This units contains a template based html parser named <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html">THtmlTemplateParser</a></p>
+<p>
+
+
+<p></p>
+<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-Classes"></a><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="extendedhtmlparser.ETemplateParseException.html"><code>ETemplateParseException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="extendedhtmlparser.EHTMLParseException.html"><code>EHTMLParseException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="extendedhtmlparser.EHTMLParseMatchingException.html"><code>EHTMLParseMatchingException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="extendedhtmlparser.THtmlTemplateParser.html"><code>THtmlTemplateParser</code></a></td>
+<td class="itemdesc">This is the template processor class which can apply a template to one or more html documents.</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="extendedhtmlparser.TXQTerm_VisitorFindWeirdGlobalVariableDeclarations.html"><code>TXQTerm_VisitorFindWeirdGlobalVariableDeclarations</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="extendedhtmlparser.html#guessExtractionKind">guessExtractionKind</a></b>(e: string): <a  href="extendedhtmlparser.html#TExtractionKind">TExtractionKind</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TTemplateElementType">TTemplateElementType</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TTemplateElementFlag">TTemplateElementFlag</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TTemplateElementFlags">TTemplateElementFlags</a></b> = set of <a  href="extendedhtmlparser.html#TTemplateElementFlag">TTemplateElementFlag</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TReplaceFunction">TReplaceFunction</a></b> = procedure (variable: string; var value:string) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TStringAttributeList">TStringAttributeList</a></b> = tStringList;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TTrimTextNodes">TTrimTextNodes</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TKeepPreviousVariables">TKeepPreviousVariables</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TXQTermVariableArray">TXQTermVariableArray</a></b> = array of <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#TExtractionKind">TExtractionKind</a></b> = (...);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Constants"></a><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="extendedhtmlparser.html#HTMLPARSER_NAMESPACE_URL">HTMLPARSER_NAMESPACE_URL</a></b> = 'http://www.benibela.de/2011/templateparser';</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="guessExtractionKind"></a><code>function <b>guessExtractionKind</b>(e: string): <a  href="extendedhtmlparser.html#TExtractionKind">TExtractionKind</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTemplateElementType"></a><code><b>TTemplateElementType</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+These are all possible template commands, for internal use</p>
+<p>
+             </p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+tetIgnore: useless thing</li>
+<li>
+tetHTMLOpen: normal html opening tag, searched in the processed document</li>
+<li>
+tetHTMLClose: normal html closing tag, searched in the processed document</li>
+<li>
+tetHTMLText: text node, , searched in the processed document</li>
+<li>
+tetMatchElementOpen: &nbsp;</li>
+<li>
+tetMatchElementClose: &nbsp;</li>
+<li>
+tetMatchText: &nbsp;</li>
+<li>
+tetCommandMeta: &lt;template:meta&gt; command to specify how strings are compared</li>
+<li>
+tetCommandMetaAttribute: &lt;template:meta-attribute&gt; command to specify how attributes are compared</li>
+<li>
+tetCommandRead: &lt;template:read&gt; command to set a variable</li>
+<li>
+tetCommandShortRead: &lt;template:s&gt; command to execute a xq expression</li>
+<li>
+tetCommandLoopOpen: &lt;template:loop&gt; command to repeat something as long as possible</li>
+<li>
+tetCommandLoopClose: &nbsp;</li>
+<li>
+tetCommandIfOpen: &lt;template:if&gt; command to skip something</li>
+<li>
+tetCommandIfClose: &nbsp;</li>
+<li>
+tetCommandElseOpen: &lt;template:else&gt; command to skip something</li>
+<li>
+tetCommandElseClose: &nbsp;</li>
+<li>
+tetCommandSwitchOpen: &lt;template:switch&gt; command to branch</li>
+<li>
+tetCommandSwitchClose: &nbsp;</li>
+<li>
+tetCommandSwitchPrioritizedOpen: &lt;template:switch-prioritized&gt; command to branch</li>
+<li>
+tetCommandSwitchPrioritizedClose: &nbsp;</li>
+<li>
+tetCommandSiblingsOpen: &nbsp;</li>
+<li>
+tetCommandSiblingsClose: &nbsp;</li>
+<li>
+tetCommandSiblingsHeaderOpen: &nbsp;</li>
+<li>
+tetCommandSiblingsHeaderClose: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTemplateElementFlag"></a><code><b>TTemplateElementFlag</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+tefOptional: &nbsp;</li>
+<li>
+tefSwitchChild: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTemplateElementFlags"></a><code><b>TTemplateElementFlags</b> = set of <a  href="extendedhtmlparser.html#TTemplateElementFlag">TTemplateElementFlag</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TReplaceFunction"></a><code><b>TReplaceFunction</b> = procedure (variable: string; var value:string) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Possible callback for getting the value of a variable</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TStringAttributeList"></a><code><b>TStringAttributeList</b> = tStringList;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTrimTextNodes"></a><code><b>TTrimTextNodes</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Specifies when the text of text nodes is trimmed. Each value removes strictly more whitespace than the previous ones.    </p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+ttnNever: never, all whitespace is kept</li>
+<li>
+ttnForMatching: When comparing two text nodes, whitespace is ignored; but all whitespace will be returned when reading text</li>
+<li>
+ttnWhenLoadingEmptyOnly: &nbsp;</li>
+<li>
+ttnWhenLoading: All starting/ending whitespace is unconditionally removed from all text nodes</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TKeepPreviousVariables"></a><code><b>TKeepPreviousVariables</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+This specifies the handling of the variables read in the previous document <br><br>    In every case all node variables are converted to strings (because the nodes point to elements of the previous document, but the previous document will be deleted)</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+kpvForget: Old variables are deleted <br></li>
+<li>
+kpvKeepValues: Old variables are moved from the property variableChangelog to the property oldVariableChangelog <br></li>
+<li>
+kpvKeepInNewChangeLog: Old variables stay where they are (i.e. in the variableChangelog property merged with the new ones)<br></li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermVariableArray"></a><code><b>TXQTermVariableArray</b> = array of <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TExtractionKind"></a><code><b>TExtractionKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+ekAuto: &nbsp;</li>
+<li>
+ekXPath2: &nbsp;</li>
+<li>
+ekXPath3: &nbsp;</li>
+<li>
+ekPatternHTML: &nbsp;</li>
+<li>
+ekPatternXML: &nbsp;</li>
+<li>
+ekCSS: &nbsp;</li>
+<li>
+ekXQuery1: &nbsp;</li>
+<li>
+ekXQuery3: &nbsp;</li>
+<li>
+ekMultipage: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="HTMLPARSER_NAMESPACE_URL"></a><code><b>HTMLPARSER_NAMESPACE_URL</b> = 'http://www.benibela.de/2011/templateparser';</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+xml compatible namespace url to define new template prefixes</p>
+</td></tr>
+</table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>Benito van der Zander (<a  href="http://www.benibela.de">www.benibela.de</a>)</li>
+</ul>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,12 @@
+Release 19-Jun-2017 of nsunits.zip
+
+- Added support for NoCocoaAll and NoiPhoneAll defines to compile against 
+  individual framework units rather than CocoaAll and iPhoneAll.
+  Framework units are available here: https://github.com/genericptr
+- Added compile-nsunits-macos.sh and compile-nsunits-ios.sh scripts
+  for compiling units.
+
+
+Release 25-Feb-2017 of nsunits.zip
+
+- Added convenience method to ns_http_request.pas for posting form data.

@@ -1,0 +1,1009 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>bigdecimalmath_template</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit bigdecimalmath_template</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td><a class="section" href="#PasDoc-Constants">Constants</a></td><td>Variables</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+&nbsp;<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-Classes"></a><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="bigdecimalmath_template.BigDecimal.html"><code>BigDecimal</code></a></td>
+<td class="itemdesc">Big Decimal type</td>
+</tr>
+</table>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#TryStrToBigDecimal">TryStrToBigDecimal</a></b>(const s: string; res: <a  href="bigdecimalmath_template.html#PBigDecimal">PBigDecimal</a>; errCode: <a  href="bigdecimalmath_template.html#PBigDecimalErrorCode">PBigDecimalErrorCode</a> = nil): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#StrToBigDecimal">StrToBigDecimal</a></b>(const s: string): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#BigDecimalToStr">BigDecimalToStr</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; format: <a  href="bigdecimalmath_template.html#TBigDecimalFormat">TBigDecimalFormat</a> = bdfExact): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#BigDecimalToT_NativeInt_">BigDecimalToT_NativeInt_</a></b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): T_NativeInt_;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#BigDecimalToExtended">BigDecimalToExtended</a></b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): Extended;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>operator :=(const a: T_NativeInt_): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>operator :=(const a: Extended): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; deprecated 'Direct casting of float to bigdecimal might lead to rounding errors. Consider using StrToBigDecimal.';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>operator -(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>operator +(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>operator -(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>operator *(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>operator /(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>operator <b><a  href="bigdecimalmath_template.html#div">div</a></b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>operator <b><a  href="bigdecimalmath_template.html#mod">mod</a></b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>operator **(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bigdecimalmath_template.html#divideModNoAlias">divideModNoAlias</a></b>(out quotient, remainder: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const a, b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; targetPrecision: integer = 18; flags: <a  href="bigdecimalmath_template.html#TBigDecimalDivisionFlags">TBigDecimalDivisionFlags</a> = [bddfKeepDividentPrecision, bddfKeepDivisorPrecision, bddfAddHiddenDigit]);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#divide">divide</a></b>(const a, b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; maximalAdditionalFractionDigits: integer = 18; flags: <a  href="bigdecimalmath_template.html#TBigDecimalDivisionFlags">TBigDecimalDivisionFlags</a> = [bddfKeepDividentPrecision, bddfKeepDivisorPrecision, bddfAddHiddenDigit]): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bigdecimalmath_template.html#shift10">shift10</a></b>(var v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; shift: integer);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#shifted10">shifted10</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; shift: integer): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#compareBigDecimals">compareBigDecimals</a></b>(const a, b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>operator <b><a  href="bigdecimalmath_template.html#_OP_">_OP_</a></b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bigdecimalmath_template.html#normalize">normalize</a></b>(var x: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#precision">precision</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#round">round</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; toDigit: integer = 0; roundingMode: <a  href="bigdecimalmath_template.html#TBigDecimalRoundingMode">TBigDecimalRoundingMode</a> = bfrmRound): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#roundInRange">roundInRange</a></b>(mi, exact, ma: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#getDigit">getDigit</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; digit: integer): <a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="bigdecimalmath_template.html#setZero">setZero</a></b>(out r: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="bigdecimalmath_template.html#setOne">setOne</a></b>(out r: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#isZero">isZero</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#isIntegral">isIntegral</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#isLongint">isLongint</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#isInt64">isInt64</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#odd">odd</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#even">even</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#abs">abs</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#power">power</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const exp: Int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#sqrt">sqrt</a></b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; precision: integer = 9): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#gcd">gcd</a></b>(const a,b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#lcm">lcm</a></b>(const a,b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#fastpower2to">fastpower2to</a></b>(const exp: Int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="bigdecimalmath_template.html#fastpower5to">fastpower5to</a></b>(const exp: Int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = shortint;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = longint;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = smallint ;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = longint;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = smallint;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = longint;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = smallint;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = longint;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a></b> = integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#BigDecimalBinSquared">BigDecimalBinSquared</a></b> = int64;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#PBigDecimal">PBigDecimal</a></b> = &circ;<a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#TBigDecimalErrorCode">TBigDecimalErrorCode</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#PBigDecimalErrorCode">PBigDecimalErrorCode</a></b> = &circ;<a  href="bigdecimalmath_template.html#TBigDecimalErrorCode">TBigDecimalErrorCode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#TBigDecimalFormat">TBigDecimalFormat</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#TBigDecimalFloatFormat">TBigDecimalFloatFormat</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#TBigDecimalDivisionFlags">TBigDecimalDivisionFlags</a></b> = set of (bddfKeepDividentPrecision, bddfKeepDivisorPrecision, bddfAddHiddenDigit, bddfFillIntegerPart, bddfNoFractionalPart);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#TBigDecimalRoundingMode">TBigDecimalRoundingMode</a></b> = (...);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Constants"></a><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 1;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 10;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 2;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 100;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 3;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 1000;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 4;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 10000;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 5;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 100000;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 6;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 1000000;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 7;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 10000000;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 8;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 100000000;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#DIGITS_PER_ELEMENT">DIGITS_PER_ELEMENT</a></b> = 9;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="bigdecimalmath_template.html#ELEMENT_OVERFLOW">ELEMENT_OVERFLOW</a></b> = 1000000000;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TryStrToBigDecimal"></a><code>function <b>TryStrToBigDecimal</b>(const s: string; res: <a  href="bigdecimalmath_template.html#PBigDecimal">PBigDecimal</a>; errCode: <a  href="bigdecimalmath_template.html#PBigDecimalErrorCode">PBigDecimalErrorCode</a> = nil): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts a decimal string to a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a>. <br> Supports standard decimal notation, like -123.456 or 1E-2 (<code>-?[0-9]+(.[0-9]+)?([eE][-+]?[0-9]+)</code>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="StrToBigDecimal"></a><code>function <b>StrToBigDecimal</b>(const s: string): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts a decimal string to a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a>. <br> Supports standard decimal notation, like -123.456 or 1E-2 (<code>-?[0-9]+(.[0-9]+)?([eE][-+]?[0-9]+)</code>) Raises an exception on invalid input.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalToStr"></a><code>function <b>BigDecimalToStr</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; format: <a  href="bigdecimalmath_template.html#TBigDecimalFormat">TBigDecimalFormat</a> = bdfExact): string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> to a decimal string <br> The result will be fixed width format [0-9]+(.[0-9]+)?, <a class="normal" href="bigdecimalmath_template.html#even">even</a> if the input had an exponent</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalToT_NativeInt_"></a><code>function <b>BigDecimalToT_NativeInt_</b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): T_NativeInt_;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> to a native int (can overflow)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalToExtended"></a><code>function <b>BigDecimalToExtended</b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): Extended;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> to an extended (may introduce rounding errors)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name=":="></a><code>operator :=(const a: T_NativeInt_): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Converts a native integer to a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name=":="></a><code>operator :=(const a: Extended): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; deprecated 'Direct casting of float to bigdecimal might lead to rounding errors. Consider using StrToBigDecimal.';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: Direct casting of float to bigdecimal might lead to rounding errors. Consider using StrToBigDecimal.</p><p>
+Converts an extended to a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a> <br> Marked as deprecated, because it may lead to rounding errors. FloatToBigDecimal is exact, but probably some magnitudes slower. For constant values <a class="normal" href="bigdecimalmath_template.html#StrToBigDecimal">StrToBigDecimal</a> should be used instead.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="-"></a><code>operator -(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator unary -</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="+"></a><code>operator +(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator binary +</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="-"></a><code>operator -(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator binary -</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="*"></a><code>operator *(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator binary *</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="/"></a><code>operator /(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator binary / <br> If the result can not be represented as finite decimal number (e.g. 1/3) it will be calculated with 18 digit precision after the decimal point, with an additional hidden digit for rounding (so 1/3 is 0.333333333333333333, and 0.333333333333333333*3 is 0.999999999999999999, but (1/3) * 3 is 1).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="div"></a><code>operator <b>div</b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator binary div <br> The result is an integer, so 1.23E3 / 7 will be 175</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="mod"></a><code>operator <b>mod</b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator binary mod <br> Calculates the remainder of an integer division <code>a - (a div b) * b</code></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="**"></a><code>operator **(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Standard operator binary ** <br></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="divideModNoAlias"></a><code>procedure <b>divideModNoAlias</b>(out quotient, remainder: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const a, b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; targetPrecision: integer = 18; flags: <a  href="bigdecimalmath_template.html#TBigDecimalDivisionFlags">TBigDecimalDivisionFlags</a> = [bddfKeepDividentPrecision, bddfKeepDivisorPrecision, bddfAddHiddenDigit]);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Universal division/modulo function. Calculates the quotient and remainder of a / b. <br>   bddfKeepDividentPrecision: calculates as least as many non-zero digit of the quotient as the divident (1st arg) has <br> bddfKeepDivisorPrecision: calculates as least as many non-zero digit of the quotient as the divisor (2nd arg) has <br> bddfAddHiddenDigit: Calculates an additional digit for rounding, which will not be displayed by <a class="normal" href="bigdecimalmath_template.html#BigDecimalToStr">BigDecimalToStr</a><br> bddfFillIntegerPart: Calculate at least all digits of the integer part of the quotient, independent of the precision of the input <br> bddfNoFractionalPart: Do not calculate the fractional part of the quotient (remember that a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> is a scaled integer. So bfdfFillIntegerPart ensures that the result has not less digits than an integer division (necessary in case of an exponent &gt; 0) and bfdfKillFractions that the result has not more digits than an integer division (in case of an exponent &lt; 0) ) <br> not all flag combinations were tested</p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>maximalAdditionalFractionDigits</dt>
+<dd>How many digits should be added to the quotient, if the result cannot be represented with the current precision</dd>
+<dt>flags</dt>
+<dd>Division options:</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="divide"></a><code>function <b>divide</b>(const a, b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; maximalAdditionalFractionDigits: integer = 18; flags: <a  href="bigdecimalmath_template.html#TBigDecimalDivisionFlags">TBigDecimalDivisionFlags</a> = [bddfKeepDividentPrecision, bddfKeepDivisorPrecision, bddfAddHiddenDigit]): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Wrapper around <a class="normal" href="bigdecimalmath_template.html#divideModNoAlias">divideModNoAlias</a>, ignoring the calculated remainder</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="shift10"></a><code>procedure <b>shift10</b>(var v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; shift: integer);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates a decimal shift: <code>v := v * 10&circ;shift</code></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="shifted10"></a><code>function <b>shifted10</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; shift: integer): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates a decimal shift: <code>result := v * 10&circ;shift</code></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="compareBigDecimals"></a><code>function <b>compareBigDecimals</b>(const a, b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Compares the big decimals. Returns -1, 0 or 1 corresponding to a &lt;, = or &gt; b</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="_OP_"></a><code>operator <b>_OP_</b>(const a: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="normalize"></a><code>procedure <b>normalize</b>(var x: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Removes leading (pre .) and trailing (post .) zeros</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="precision"></a><code>function <b>precision</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+How many non-zero digits the number contains</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="round"></a><code>function <b>round</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; toDigit: integer = 0; roundingMode: <a  href="bigdecimalmath_template.html#TBigDecimalRoundingMode">TBigDecimalRoundingMode</a> = bfrmRound): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Universal rounding function <br> Rounds v to the precision of a certain digit, subject to a certain rounding mode. <br> Positive toDigit will <code>round</code> to an integer with toDigit trailing zeros, negative toDigit will <code>round</code> to a decimal with -toDigit numbers after the decimal point</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="roundInRange"></a><code>function <b>roundInRange</b>(mi, exact, ma: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Given mi &lt; exact &lt; ma, truncate exact to a <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> result, such that <br> mi &lt; result &lt; ma <br> result has the minimal number of non-zero digits <br> | result - exact | is minimized</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getDigit"></a><code>function <b>getDigit</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; digit: integer): <a  href="bigdecimalmath_template.html#BigDecimalBin">BigDecimalBin</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns the digit-th digit of v. <br> Last integer digit is digit 0, digits at negative indices are behind the decimal point.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="setZero"></a><code>procedure <b>setZero</b>(out r: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Sets the <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> to 0</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="setOne"></a><code>procedure <b>setOne</b>(out r: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Sets the <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> to 1</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isZero"></a><code>function <b>isZero</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns true iff the <a class="normal" href="bigdecimalmath_template.BigDecimal.html">bigdecimal</a> is zero</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isIntegral"></a><code>function <b>isIntegral</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns true iff v has no fractional digits</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isLongint"></a><code>function <b>isLongint</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns true iff v has no fractional digits and can be stored within an longint (32 bit integer)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isInt64"></a><code>function <b>isInt64</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns true iff v has no fractional digits and can be stored within an int64</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="odd"></a><code>function <b>odd</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Checks if v is <code>odd</code>. A number with fractional digits is never <code>odd</code> (only weird)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="even"></a><code>function <b>even</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): boolean; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Checks if v is <code>even</code>. A number with fractional digits is never <code>even</code> (and neither <a class="normal" href="bigdecimalmath_template.html#odd">odd</a>, which is <a class="normal" href="bigdecimalmath_template.html#odd">odd</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="abs"></a><code>function <b>abs</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns the absolute value of v</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="power"></a><code>function <b>power</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; const exp: Int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates v ** exp, with exp being an integer</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="sqrt"></a><code>function <b>sqrt</b>(const v: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; precision: integer = 9): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates the square root of v, to precision digits after the decimal point <br> Not much tested</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="gcd"></a><code>function <b>gcd</b>(const a,b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates the greatest common denominator (only makes sense for positive integer input)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="lcm"></a><code>function <b>lcm</b>(const a,b: <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates the least common multiple</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="fastpower2to"></a><code>function <b>fastpower2to</b>(const exp: Int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates 2 ** exp exactly, with exp being an integer (faster than <a class="normal" href="bigdecimalmath_template.html#power">power</a> for negative exp)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="fastpower5to"></a><code>function <b>fastpower5to</b>(const exp: Int64): <a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates 5 ** exp exactly, with exp being an integer (faster than <a class="normal" href="bigdecimalmath_template.html#power">power</a> for negative exp)</p>
+</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = shortint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = longint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = smallint ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = longint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = smallint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = longint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = smallint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = longint;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = integer;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = int64;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = integer;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = int64;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = integer;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = int64;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = integer;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = int64;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBin"></a><code><b>BigDecimalBin</b> = integer;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="BigDecimalBinSquared"></a><code><b>BigDecimalBinSquared</b> = int64;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PBigDecimal"></a><code><b>PBigDecimal</b> = &circ;<a  href="bigdecimalmath_template.BigDecimal.html">BigDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TBigDecimalErrorCode"></a><code><b>TBigDecimalErrorCode</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+bdceNoError: &nbsp;</li>
+<li>
+bdceParsingInvalidFormat: &nbsp;</li>
+<li>
+bdceParsingTooBig: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PBigDecimalErrorCode"></a><code><b>PBigDecimalErrorCode</b> = &circ;<a  href="bigdecimalmath_template.html#TBigDecimalErrorCode">TBigDecimalErrorCode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TBigDecimalFormat"></a><code><b>TBigDecimalFormat</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+bdfExact: &nbsp;</li>
+<li>
+bdfExponent: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TBigDecimalFloatFormat"></a><code><b>TBigDecimalFloatFormat</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+bdffExact: &nbsp;</li>
+<li>
+bdffShortest: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TBigDecimalDivisionFlags"></a><code><b>TBigDecimalDivisionFlags</b> = set of (bddfKeepDividentPrecision, bddfKeepDivisorPrecision, bddfAddHiddenDigit, bddfFillIntegerPart, bddfNoFractionalPart);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TBigDecimalRoundingMode"></a><code><b>TBigDecimalRoundingMode</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+bfrmTrunc: &nbsp;</li>
+<li>
+bfrmCeil: &nbsp;</li>
+<li>
+bfrmFloor: &nbsp;</li>
+<li>
+bfrmRound: &nbsp;</li>
+<li>
+bfrmRoundHalfUp: &nbsp;</li>
+<li>
+bfrmRoundHalfToEven: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 1;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 10;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 2;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 100;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 3;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 1000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 4;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 10000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 5;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 100000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 6;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 1000000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 7;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 10000000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 8;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 100000000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DIGITS_PER_ELEMENT"></a><code><b>DIGITS_PER_ELEMENT</b> = 9;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ELEMENT_OVERFLOW"></a><code><b>ELEMENT_OVERFLOW</b> = 1000000000;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

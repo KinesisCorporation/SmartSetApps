@@ -1,0 +1,967 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>simplehtmltreeparser: Class TTreeNode</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TTreeNode"></a><h1 class="cio">Class TTreeNode</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td><a class="section" href="#PasDoc-Properties">Properties</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="simplehtmltreeparser.html">simplehtmltreeparser</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TTreeNode = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+This class representates an element of the html file</p>
+<p>
+ It is stored in an unusual tree representation: All elements form a linked list and the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#next">next</a> element is the first children, or if there is none, the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#next">next</a> node on the same level, or if there is none, the closing tag of the current <a class="normal" href="simplehtmltreeparser.TTreeNode.html#parent">parent</a>.<br> E.g. a xml file like <code>&lt;foo&gt;&lt;bar&gt;x&lt;/bar&gt;&lt;/foo&gt;</code> is stored as a quadro-linked list: </p>
+
+<pre class="longcode">
+   /---------------------------------\
+   |         |  -----------          |                                   link <span class="pascal_keyword">to</span> parent (<span class="pascal_keyword">for</span> faster access, it would work without it)
+  \|/        | \|/        |          |
+   <span class="pascal_string">'            '</span>
+ &lt;foo&gt; &lt;---&gt; &lt;bar&gt;  &lt;---&gt; x &lt;---&gt;  &lt;/bar&gt;  &lt;---&gt;  &lt;/foo&gt;                 double linked list <span class="pascal_keyword">of</span> tags (previous link again <span class="pascal_keyword">for</span> faster access, a single linked list would work <span class="pascal_keyword">as</span> well)
+   <span class="pascal_float">.</span>           <span class="pascal_float">.</span>                     <span class="pascal_float">.</span>               <span class="pascal_float">.</span>
+  /|\         /|\                   /|\             /|\
+   |           -----------------------               |                   single linked <span class="pascal_keyword">of</span> corresponding node
+   ---------------------------------------------------
+  </pre>
+
+<p> There are functions (<a class="normal" href="simplehtmltreeparser.TTreeNode.html#getNextSibling">getNextSibling</a>, <a class="normal" href="simplehtmltreeparser.TTreeNode.html#getFirstChild">getFirstChild</a>, <a class="normal" href="simplehtmltreeparser.TTreeNode.html#findNext">findNext</a>, ...) to access it like a regular tree, but it is easier and faster to work directly with the list.<br> Some invariants: (SO: set of opening tags in sequence)<br> ∀a \in SO: a &lt; a.reverse<br> ∀a,b \in SO: a &lt; b &lt; a.reverse =&gt; a &lt; b.reverse &lt; a.reverse<br> <br> Attributes should be accessed with the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a> or <a class="normal" href="simplehtmltreeparser.TTreeNode.html#getAttributeTry">getAttributeTry</a> method. Or you can enumerate them all <code>for attrib in attributes</code>, if attributes is not nil. <br> #)</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TTreeNode</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#typ">typ</a></b>: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#value">value</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#hash">hash</a></b>: cardinal;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#attributes">attributes</a></b>: <a  href="simplehtmltreeparser.TAttributeList.html">TAttributeList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#next">next</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#previous">previous</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#parent">parent</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#document">document</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#reverse">reverse</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#namespace">namespace</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="simplehtmltreeparser.TTreeNode.html#offset">offset</a></b>: longint;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#deleteAll">deleteAll</a></b>();</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#changeEncoding">changeEncoding</a></b>(from,toe: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>; substituteEntities: boolean; trimText: boolean);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#findNext">findNext</a></b>(withTyp: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>; const withText:string; findOptions: <a  href="simplehtmltreeparser.html#TTreeNodeFindOptions">TTreeNodeFindOptions</a>=[]; sequenceEnd: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil):<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#findChild">findChild</a></b>(withTyp: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>; const withText:string; findOptions: <a  href="simplehtmltreeparser.html#TTreeNodeFindOptions">TTreeNodeFindOptions</a>=[]): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#deepNodeText">deepNodeText</a></b>(separator: string=''):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#outerXML">outerXML</a></b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#innerXML">innerXML</a></b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#outerHTML">outerHTML</a></b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#innerHTML">innerHTML</a></b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getValue">getValue</a></b>(): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getValueTry">getValueTry</a></b>(out valueout:string): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#hasAttribute">hasAttribute</a></b>(const a: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a></b>(const a: string):string; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a></b>(const a: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a>):string; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a></b>(const a: string; const def: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil):string; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getAttributeTry">getAttributeTry</a></b>(const a: string; out valueout: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil):boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getAttributeTry">getAttributeTry</a></b>(a: string; out valueout: <a  href="simplehtmltreeparser.TTreeAttribute.html">TTreeAttribute</a>; cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil):boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getAttributeCount">getAttributeCount</a></b>(): integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getPreviousSibling">getPreviousSibling</a></b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getNextSibling">getNextSibling</a></b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getFirstChild">getFirstChild</a></b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getParent">getParent</a></b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getPrevious">getPrevious</a></b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getRootHighest">getRootHighest</a></b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getRootElement">getRootElement</a></b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getDocument">getDocument</a></b>(): <a  href="simplehtmltreeparser.TTreeDocument.html">TTreeDocument</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#hasDocument">hasDocument</a></b>(): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getChildrenCount">getChildrenCount</a></b>(types: <a  href="simplehtmltreeparser.html#TTreeNodeTypes">TTreeNodeTypes</a>): integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getNodeName">getNodeName</a></b>(): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getNamespacePrefix">getNamespacePrefix</a></b>(): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getNamespaceURL">getNamespaceURL</a></b>(): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#getNamespaceURL">getNamespaceURL</a></b>(prefixOverride: string; cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil): string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#getOwnNamespaces">getOwnNamespaces</a></b>(var list: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#getAllNamespaces">getAllNamespaces</a></b>(var list: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>; first: boolean = true);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#isNamespaceUsed">isNamespaceUsed</a></b>(const n: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#isDeepEqual">isDeepEqual</a></b>(cmpTo: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; ignoredTypes: <a  href="simplehtmltreeparser.html#TTreeNodeTypes">TTreeNodeTypes</a> = [tetComment, tetProcessingInstruction]; cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#insert">insert</a></b>(el: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#insertSurrounding">insertSurrounding</a></b>(before, after: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#insertSurrounding">insertSurrounding</a></b>(basetag: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#addAttribute">addAttribute</a></b>(const aname, avalue: string; const anamespace: <a  href="simplehtmltreeparser.TNamespace.html">TNamespace</a> = nil); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#addAttributes">addAttributes</a></b>(const props: array of <a  href="simplehtmlparser.THTMLProperty.html">THTMLProperty</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#addNamespaceDeclaration">addNamespaceDeclaration</a></b>(n: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; overridens: boolean );</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#addChild">addChild</a></b>(child: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#removeElementFromDoubleLinkedList">removeElementFromDoubleLinkedList</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#deleteElementFromDoubleLinkedList">deleteElementFromDoubleLinkedList</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#clone">clone</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#toString">toString</a></b>(): string; reintroduce;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#toString">toString</a></b>(includeText: boolean; includeAttributes: array of string): string; reintroduce;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="simplehtmltreeparser.TTreeNode.html#create">create</a></b>(); virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="simplehtmltreeparser.TTreeNode.html#create">create</a></b>(atyp: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>; avalue: string = ''); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="simplehtmltreeparser.TTreeNode.html#createElementPair">createElementPair</a></b>(const anodename: string): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="simplehtmltreeparser.TTreeNode.html#destroy">destroy</a></b>(); override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="simplehtmltreeparser.TTreeNode.html#initialized">initialized</a></b>; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#caseInsensitiveCompare">caseInsensitiveCompare</a></b>(const a,b: string): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="simplehtmltreeparser.TTreeNode.html#caseSensitiveCompare">caseSensitiveCompare</a></b>(const a,b: string): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="simplehtmltreeparser.TTreeNode.html#compareInDocumentOrder">compareInDocumentOrder</a></b>(const a,b: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>): integer; static;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="simplehtmltreeparser.TTreeNode.html#defaultProperty">defaultProperty</a></b>[name:string]: string read <a  href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="typ"></a><code><b>typ</b>: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+open, close, text or comment node</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="value"></a><code><b>value</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+tag name for open/close nodes, text for text/comment nodes</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hash"></a><code><b>hash</b>: cardinal;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="simplehtmltreeparser.html#nodeNameHash">nodeNameHash</a>(<a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="attributes"></a><code><b>attributes</b>: <a  href="simplehtmltreeparser.TAttributeList.html">TAttributeList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+nil if there are no attributes</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="next"></a><code><b>next</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<code>next</code> element as in the file (first child if there are childs, else <code>next</code> on lowest level), so elements form a linked list</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="previous"></a><code><b>previous</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<code>previous</code> element (self.next.previous = self)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parent"></a><code><b>parent</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="document"></a><code><b>document</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="reverse"></a><code><b>reverse</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+element paired by open/closing, or corresponding attributes</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="namespace"></a><code><b>namespace</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Currently local <code>namespace</code> prefix. Might be changed to a pointer to a <code>namespace</code> map in future. (so use <a class="normal" href="simplehtmltreeparser.TTreeNode.html#getNamespacePrefix">getNamespacePrefix</a> and <a class="normal" href="simplehtmltreeparser.TTreeNode.html#getNamespaceURL">getNamespaceURL</a> instead)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="offset"></a><code><b>offset</b>: longint;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+count of characters in the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#document">document</a> before this element (so document_pchar + <code>offset</code> begins with <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a>)</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="deleteAll"></a><code>procedure <b>deleteAll</b>();</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+deletes the tree</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="changeEncoding"></a><code>procedure <b>changeEncoding</b>(from,toe: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>; substituteEntities: boolean; trimText: boolean);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+converts the tree encoding from encoding from to toe, and substitutes entities (e.g &amp;auml;)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findNext"></a><code>function <b>findNext</b>(withTyp: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>; const withText:string; findOptions: <a  href="simplehtmltreeparser.html#TTreeNodeFindOptions">TTreeNodeFindOptions</a>=[]; sequenceEnd: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil):<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the element with the given type and text which occurs before sequenceEnd.<br> This function is nil-safe, so if you call <a class="normal" href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>(nil).findNext(...) it will return nil</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findChild"></a><code>function <b>findChild</b>(withTyp: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>; const withText:string; findOptions: <a  href="simplehtmltreeparser.html#TTreeNodeFindOptions">TTreeNodeFindOptions</a>=[]): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Find a matching direct child (equivalent to <a class="normal" href="simplehtmltreeparser.TTreeNode.html#findNext">findNext</a> with certain parameters, but easier to use)<br> A direct child of X is a node Y with Y.parent = X. <br> The options tefoNoChildren, tefoNoGrandChildren have of course no effect. (former is set to false, latter to true)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="deepNodeText"></a><code>function <b>deepNodeText</b>(separator: string=''):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+concatenates the text of all (including indirect) text children</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="outerXML"></a><code>function <b>outerXML</b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="innerXML"></a><code>function <b>innerXML</b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="outerHTML"></a><code>function <b>outerHTML</b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="innerHTML"></a><code>function <b>innerHTML</b>(insertLineBreaks: boolean = false):string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getValue"></a><code>function <b>getValue</b>(): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a> of this element</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getValueTry"></a><code>function <b>getValueTry</b>(out valueout:string): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a> of this element if the element exists</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hasAttribute"></a><code>function <b>hasAttribute</b>(const a: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+returns if an attribute with that name exists. cmpFunction controls is used to compare the attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAttribute"></a><code>function <b>getAttribute</b>(const a: string):string; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a> of an attribute of this element or '' if this attribute doesn't exist cmpFunction controls is used to compare the attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAttribute"></a><code>function <b>getAttribute</b>(const a: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a>):string; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a> of an attribute of this element or '' if this attribute doesn't exist cmpFunction controls is used to compare the attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAttribute"></a><code>function <b>getAttribute</b>(const a: string; const def: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil):string; overload;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a> of an attribute of this element or '' if this attribute doesn't exist cmpFunction controls is used to compare the attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAttributeTry"></a><code>function <b>getAttributeTry</b>(const a: string; out valueout: string; const cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil):boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a> of an attribute of this element and returns false if it doesn't exist cmpFunction controls is used to compare the attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAttributeTry"></a><code>function <b>getAttributeTry</b>(a: string; out valueout: <a  href="simplehtmltreeparser.TTreeAttribute.html">TTreeAttribute</a>; cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil):boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#value">value</a> of an attribute of this element and returns false if it doesn't exist cmpFunction controls is used to compare the attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAttributeCount"></a><code>function <b>getAttributeCount</b>(): integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getPreviousSibling"></a><code>function <b>getPreviousSibling</b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#previous">previous</a> element on the same level or nil if there is none</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getNextSibling"></a><code>function <b>getNextSibling</b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Get the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#next">next</a> element on the same level or nil if there is none</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getFirstChild"></a><code>function <b>getFirstChild</b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Get the first child, or nil if there is none</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getParent"></a><code>function <b>getParent</b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Searchs the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#parent">parent</a>, notice that this is a slow function (neither the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#parent">parent</a> nor <a class="normal" href="simplehtmltreeparser.TTreeNode.html#previous">previous</a> elements are stored in the tree, so it has to search the last sibling)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getPrevious"></a><code>function <b>getPrevious</b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Searchs the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#previous">previous</a>, notice that this is a slow function (neither the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#parent">parent</a> nor <a class="normal" href="simplehtmltreeparser.TTreeNode.html#previous">previous</a> elements are stored in the tree, so it has to search the last sibling)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getRootHighest"></a><code>function <b>getRootHighest</b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the highest node ancestor</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getRootElement"></a><code>function <b>getRootElement</b>(): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the highest element node ancestor</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getDocument"></a><code>function <b>getDocument</b>(): <a  href="simplehtmltreeparser.TTreeDocument.html">TTreeDocument</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#document">document</a> node containing this node. Raises an exception if there is no associated <a class="normal" href="simplehtmltreeparser.TTreeNode.html#document">document</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="hasDocument"></a><code>function <b>hasDocument</b>(): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns if this node is contained in a <a class="normal" href="simplehtmltreeparser.TTreeNode.html#document">document</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getChildrenCount"></a><code>function <b>getChildrenCount</b>(types: <a  href="simplehtmltreeparser.html#TTreeNodeTypes">TTreeNodeTypes</a>): integer;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getNodeName"></a><code>function <b>getNodeName</b>(): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the name as namespaceprefix:name if a <a class="normal" href="simplehtmltreeparser.TTreeNode.html#namespace">namespace</a> exists, or name otherwise. Only attributes, elements and PIs have names.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getNamespacePrefix"></a><code>function <b>getNamespacePrefix</b>(): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#namespace">namespace</a> prefix. (i.e. 'a' for 'a:b', '' for 'b')</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getNamespaceURL"></a><code>function <b>getNamespaceURL</b>(): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#namespace">namespace</a> url. (very slow, it searches the parents for a matching xmlns attribute) cmpFunction controls is used to compare the xmlns: attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getNamespaceURL"></a><code>function <b>getNamespaceURL</b>(prefixOverride: string; cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil): string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the url of a <a class="normal" href="simplehtmltreeparser.TTreeNode.html#namespace">namespace</a> prefix, defined in this element or one of his parents cmpFunction controls is used to compare the xmlns: attribute name the searched string. (can be used to switch between case/in/sensitive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getOwnNamespaces"></a><code>procedure <b>getOwnNamespaces</b>(var list: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns all namespaces declared or used in this element and its attributes</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getAllNamespaces"></a><code>procedure <b>getAllNamespaces</b>(var list: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>; first: boolean = true);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns all namespaces declared/used by this element and all ancestors</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isNamespaceUsed"></a><code>function <b>isNamespaceUsed</b>(const n: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Tests if a <a class="normal" href="simplehtmltreeparser.TTreeNode.html#namespace">namespace</a> is used by this element or any child (same prefix + url)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isDeepEqual"></a><code>function <b>isDeepEqual</b>(cmpTo: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; ignoredTypes: <a  href="simplehtmltreeparser.html#TTreeNodeTypes">TTreeNodeTypes</a> = [tetComment, tetProcessingInstruction]; cmpFunction: <a  href="simplehtmltreeparser.html#TStringComparisonFunc">TStringComparisonFunc</a> = nil): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="insert"></a><code>procedure <b>insert</b>(el: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+inserts el after the current element (does only change <a class="normal" href="simplehtmltreeparser.TTreeNode.html#next">next</a>+<a class="normal" href="simplehtmltreeparser.TTreeNode.html#previous">previous</a>, not <a class="normal" href="simplehtmltreeparser.TTreeNode.html#reverse">reverse</a>+<a class="normal" href="simplehtmltreeparser.TTreeNode.html#parent">parent</a>)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="insertSurrounding"></a><code>procedure <b>insertSurrounding</b>(before, after: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Surrounds self by before and after, i.e. inserts &quot;before&quot; directly before the element and &quot;after&quot; directly after its closing tag (slow)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="insertSurrounding"></a><code>procedure <b>insertSurrounding</b>(basetag: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+inserts basetag before the current tag, and creates a matching closing tag after the closing tag of self (slow)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="addAttribute"></a><code>procedure <b>addAttribute</b>(const aname, avalue: string; const anamespace: <a  href="simplehtmltreeparser.TNamespace.html">TNamespace</a> = nil); inline;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="addAttributes"></a><code>procedure <b>addAttributes</b>(const props: array of <a  href="simplehtmlparser.THTMLProperty.html">THTMLProperty</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="addNamespaceDeclaration"></a><code>procedure <b>addNamespaceDeclaration</b>(n: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; overridens: boolean );</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="addChild"></a><code>procedure <b>addChild</b>(child: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="removeElementFromDoubleLinkedList"></a><code>procedure <b>removeElementFromDoubleLinkedList</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="deleteElementFromDoubleLinkedList"></a><code>function <b>deleteElementFromDoubleLinkedList</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clone"></a><code>function <b>clone</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toString"></a><code>function <b>toString</b>(): string; reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+converts the element to a string (not recursive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toString"></a><code>function <b>toString</b>(includeText: boolean; includeAttributes: array of string): string; reintroduce;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+converts the element to a string (not recursive)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(atyp: <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>; avalue: string = ''); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="createElementPair"></a><code>class function <b>createElementPair</b>(const anodename: string): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="destroy"></a><code>destructor <b>destroy</b>(); override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="initialized"></a><code>procedure <b>initialized</b>; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+is called after an element is read, before the <a class="normal" href="simplehtmltreeparser.TTreeNode.html#next">next</a> one is read (therefore all fields are valid except <a class="normal" href="simplehtmltreeparser.TTreeNode.html#next">next</a> (and <a class="normal" href="simplehtmltreeparser.TTreeNode.html#reverse">reverse</a> for opening tags))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="caseInsensitiveCompare"></a><code>function <b>caseInsensitiveCompare</b>(const a,b: string): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+returns true if a=b case insensitive. Can be passed to <a class="normal" href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="caseSensitiveCompare"></a><code>function <b>caseSensitiveCompare</b>(const a,b: string): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+returns true if a=b case sensitive. Can be passed to <a class="normal" href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="compareInDocumentOrder"></a><code>class function <b>compareInDocumentOrder</b>(const a,b: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>): integer; static;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="defaultProperty"></a><code>property <b>defaultProperty</b>[name:string]: string read <a  href="simplehtmltreeparser.TTreeNode.html#getAttribute">getAttribute</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,8 @@
+
+app_intro_msg=on
+saveas_msg=off
+save_msg=on
+multiplay_msg=off
+speed_msg=off
+copy_macro_msg=off
+reset_key_msg=off

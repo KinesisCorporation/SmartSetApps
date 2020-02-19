@@ -1,0 +1,446 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>internetaccess</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit internetaccess</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td><a class="section" href="#PasDoc-Constants">Constants</a></td><td><a class="section" href="#PasDoc-Variables">Variables</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+<p>
+You can use this unit to configure and create internet connections.</p>
+<p>
+
+
+<p>Currently it only supports HTTP/S connections, but this might change in future (e.g. to also support ftp)</p>
+<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-Classes"></a><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="internetaccess.TInternetConfig.html"><code>TInternetConfig</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="internetaccess.TDecodedUrl.html"><code>TDecodedUrl</code></a></td>
+<td class="itemdesc">A record storing a decoded url.</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="internetaccess.TInternetAccessDataBlock.html"><code>TInternetAccessDataBlock</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="internetaccess.TMIMEMultipartSubData.html"><code>TMIMEMultipartSubData</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="internetaccess.TMIMEMultipartData.html"><code>TMIMEMultipartData</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="internetaccess.TCookieManager.html"><code>TCookieManager</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="internetaccess.TInternetAccess.html"><code>TInternetAccess</code></a></td>
+<td class="itemdesc">Abstract base class for connections</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="internetaccess.EInternetException.html"><code>EInternetException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#decodeURL">decodeURL</a></b>(const totalURL: string; normalize: boolean = true): <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#decodeURL">decodeURL</a></b>(const protocol, host, url: string; normalize: boolean = true): <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#guessType">guessType</a></b>(const data: string): <a  href="internetaccess.html#TRetrieveType">TRetrieveType</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#httpRequest">httpRequest</a></b>(url: string): string; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#httpRequest">httpRequest</a></b>(url: string; rawpostdata: string): string; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#httpRequest">httpRequest</a></b>(url: string; postdata: TStringList): string; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#httpRequest">httpRequest</a></b>(const method, url, rawdata: string): string; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="internetaccess.html#defaultInternet">defaultInternet</a></b>: <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="internetaccess.html#freeThreadVars">freeThreadVars</a></b>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#PInternetConfig">PInternetConfig</a></b>=&circ;<a  href="internetaccess.TInternetConfig.html">TInternetConfig</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TDecodedUrlParts">TDecodedUrlParts</a></b> = set of (dupProtocol, dupUsername, dupPassword, dupHost, dupPort, dupPath, dupParams, dupLinkTarget);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#PMIMEMultipartSubData">PMIMEMultipartSubData</a></b> = &circ;<a  href="internetaccess.TMIMEMultipartSubData.html">TMIMEMultipartSubData</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#THTTPHeaderList">THTTPHeaderList</a></b> = TStringList;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TCookieFlags">TCookieFlags</a></b> = set of (cfHostOnly, cfSecure );</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TInternetAccessReaction">TInternetAccessReaction</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TProgressEvent">TProgressEvent</a></b> = procedure (sender: TObject; progress,maxprogress: longint) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TTransferStartEvent">TTransferStartEvent</a></b> = procedure (sender: TObject; var method: string; var url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; var data:string) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TTransferClearEvent">TTransferClearEvent</a></b> = procedure() of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TTransferBlockWriteEvent">TTransferBlockWriteEvent</a></b> = <a  href="bbutils.html#TStreamLikeWrite">TStreamLikeWrite</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TTransferReactEvent">TTransferReactEvent</a></b> = procedure (sender: <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>; var method: string; var url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; var data: <a  href="internetaccess.TInternetAccessDataBlock.html">TInternetAccessDataBlock</a>; var reaction: <a  href="internetaccess.html#TInternetAccessReaction">TInternetAccessReaction</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TTransferEndEvent">TTransferEndEvent</a></b> = procedure (sender: TObject; method: string; var url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; data:string; var result: string) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TUrlEncodingModel">TUrlEncodingModel</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TInternetAccessClass">TInternetAccessClass</a></b>=class of <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#TRetrieveType">TRetrieveType</a></b> = (...);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Constants"></a><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#DecodedUrlPartsALL">DecodedUrlPartsALL</a></b> = [dupProtocol, dupUsername, dupPassword, dupHost, dupPort, dupPath, dupParams, dupLinkTarget];</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#ContentTypeUrlEncoded">ContentTypeUrlEncoded</a></b>: string = 'application/x-www-form-urlencoded';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#ContentTypeMultipart">ContentTypeMultipart</a></b>: string = 'multipart/form-data';</code></td>
+</tr>
+</table>
+<a name="PasDoc-Variables"></a><h3 class="summary">Variables</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="internetaccess.html#defaultInternetConfiguration">defaultInternetConfiguration</a></b>: <a  href="internetaccess.TInternetConfig.html">TInternetConfig</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="internetaccess.html#defaultInternetAccessClass">defaultInternetAccessClass</a></b>:<a  href="internetaccess.html#TInternetAccessClass">TInternetAccessClass</a> = nil;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="decodeURL"></a><code>function <b>decodeURL</b>(const totalURL: string; normalize: boolean = true): <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Splits a url into parts </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>normalize</dt>
+<dd>performs some normalizations (e.g. foo//bar -&gt; foo/bar)</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="decodeURL"></a><code>function <b>decodeURL</b>(const protocol, host, url: string; normalize: boolean = true): <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="guessType"></a><code>function <b>guessType</b>(const data: string): <a  href="internetaccess.html#TRetrieveType">TRetrieveType</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Guesses the type of a given string<br><br>
+
+<p>E.g. for '<a  href="http://">http://</a>' it returns rtRemoteURL, for '/tmp' rtFile and for '&lt;abc/&gt;' rtXML.<br> Internally used by <a class="normal" href="simpleinternet.html#retrieve">simpleinternet.retrieve</a> to determine how to actually retrieve the data.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(url: string): string; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Make a HTTP GET request to a certain url.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(url: string; rawpostdata: string): string; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Make a HTTP POST request to a certain url, sending the data in rawpostdata unmodified to the server.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(url: string; postdata: TStringList): string; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Make a HTTP POST request to a certain url, sending the data in postdata to the server, after url encoding all name=value pairs of it.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(const method, url, rawdata: string): string; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Make a HTTP request to a certain url, sending the data in rawdata unmodified to the server.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="defaultInternet"></a><code>function <b>defaultInternet</b>: <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+This provides a thread-safe default internet</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="freeThreadVars"></a><code>procedure <b>freeThreadVars</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If you use the procedural interface from different threads, you have to call <code>freeThreadVars</code> before the thread terminates to prevent memory leaks <br></p>
+</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PInternetConfig"></a><code><b>PInternetConfig</b>=&circ;<a  href="internetaccess.TInternetConfig.html">TInternetConfig</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TDecodedUrlParts"></a><code><b>TDecodedUrlParts</b> = set of (dupProtocol, dupUsername, dupPassword, dupHost, dupPort, dupPath, dupParams, dupLinkTarget);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PMIMEMultipartSubData"></a><code><b>PMIMEMultipartSubData</b> = &circ;<a  href="internetaccess.TMIMEMultipartSubData.html">TMIMEMultipartSubData</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="THTTPHeaderList"></a><code><b>THTTPHeaderList</b> = TStringList;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TCookieFlags"></a><code><b>TCookieFlags</b> = set of (cfHostOnly, cfSecure );</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TInternetAccessReaction"></a><code><b>TInternetAccessReaction</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+iarAccept: &nbsp;</li>
+<li>
+iarFollowRedirectGET: &nbsp;</li>
+<li>
+iarFollowRedirectKeepMethod: &nbsp;</li>
+<li>
+iarRetry: &nbsp;</li>
+<li>
+iarReject: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TProgressEvent"></a><code><b>TProgressEvent</b> = procedure (sender: TObject; progress,maxprogress: longint) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event to monitor the progress of a download (measured in bytes)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTransferStartEvent"></a><code><b>TTransferStartEvent</b> = procedure (sender: TObject; var method: string; var url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; var data:string) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event to intercept transfers end/start</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTransferClearEvent"></a><code><b>TTransferClearEvent</b> = procedure() of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTransferBlockWriteEvent"></a><code><b>TTransferBlockWriteEvent</b> = <a  href="bbutils.html#TStreamLikeWrite">TStreamLikeWrite</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTransferReactEvent"></a><code><b>TTransferReactEvent</b> = procedure (sender: <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>; var method: string; var url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; var data: <a  href="internetaccess.TInternetAccessDataBlock.html">TInternetAccessDataBlock</a>; var reaction: <a  href="internetaccess.html#TInternetAccessReaction">TInternetAccessReaction</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTransferEndEvent"></a><code><b>TTransferEndEvent</b> = procedure (sender: TObject; method: string; var url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; data:string; var result: string) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TUrlEncodingModel"></a><code><b>TUrlEncodingModel</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+URL Encoding encodes every special character <code>#$AB</code> by <code>%AB</code>. This model describes which characters are special:</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+ueHTMLForm: Encode for application/x-www-form-urlencoded as defined in HTML 5 standard</li>
+<li>
+ueURLPath: Encode for the path part of an URL</li>
+<li>
+ueURLQuery: Encode for the <a class="normal" href="xquery.html#query">query</a> part of an URL</li>
+<li>
+ueXPathURI: Encode for the XPath/XQuery function fn:encode-for-uri as defined in the XPath standard</li>
+<li>
+ueXPathHTML4: Encode for the XPath/XQuery function fn:escape-html-uri as defined in the XPath standard (they quote the the HTML4 standard)</li>
+<li>
+ueXPathFromIRI: Encode for the XPath/XQuery function fn:iri-to-uri as defined in the XPath standard</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TInternetAccessClass"></a><code><b>TInternetAccessClass</b>=class of <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TRetrieveType"></a><code><b>TRetrieveType</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+rtEmpty: &nbsp;</li>
+<li>
+rtRemoteURL: &nbsp;</li>
+<li>
+rtFile: &nbsp;</li>
+<li>
+rtXML: &nbsp;</li>
+<li>
+rtJSON: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="DecodedUrlPartsALL"></a><code><b>DecodedUrlPartsALL</b> = [dupProtocol, dupUsername, dupPassword, dupHost, dupPort, dupPath, dupParams, dupLinkTarget];</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ContentTypeUrlEncoded"></a><code><b>ContentTypeUrlEncoded</b>: string = 'application/x-www-form-urlencoded';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ContentTypeMultipart"></a><code><b>ContentTypeMultipart</b>: string = 'multipart/form-data';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Variables</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="defaultInternetConfiguration"></a><code><b>defaultInternetConfiguration</b>: <a  href="internetaccess.TInternetConfig.html">TInternetConfig</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+default configuration, used by all internet access classes</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="defaultInternetAccessClass"></a><code><b>defaultInternetAccessClass</b>:<a  href="internetaccess.html#TInternetAccessClass">TInternetAccessClass</a> = nil;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+default internet access. This controls which internet library the program will use.</p>
+</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

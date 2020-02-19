@@ -1,0 +1,57 @@
+object ErrorBoxForm: TErrorBoxForm
+  Left = 0
+  Height = 440
+  Top = 0
+  Width = 576
+  ActiveControl = Button1
+  Caption = 'Erreur(s)'
+  ClientHeight = 440
+  ClientWidth = 576
+  Font.Height = -11
+  Font.Name = 'Verdana'
+  FormStyle = fsSystemStayOnTop
+  Position = poMainFormCenter
+  Visible = False
+  object Panel1: TPanel
+    Left = 8
+    Height = 50
+    Top = 8
+    Width = 560
+    Align = alTop
+    BorderSpacing.Around = 8
+    Caption = 'ATTENTION ! Des erreurs se sont produites lors du chargement de l''image'
+    Color = clRed
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Verdana'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 8
+    Height = 38
+    Top = 394
+    Width = 560
+    Align = alBottom
+    BorderSpacing.Around = 8
+    Caption = 'Fermer'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+  object Memo1: TMemo
+    Left = 8
+    Height = 320
+    Top = 66
+    Width = 560
+    Align = alClient
+    BorderSpacing.Around = 8
+    Constraints.MinHeight = 320
+    Constraints.MinWidth = 560
+    ReadOnly = True
+    ScrollBars = ssAutoBoth
+    TabOrder = 2
+    WordWrap = False
+  end
+end
