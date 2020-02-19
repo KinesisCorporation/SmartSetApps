@@ -1,0 +1,3 @@
+[caps]>[lwin]
+[lshft]>[menu]
+[z]>[rwin]

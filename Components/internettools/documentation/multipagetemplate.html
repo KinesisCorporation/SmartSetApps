@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>multipagetemplate</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit multipagetemplate</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></td><td>Functions and Procedures</td><td><a class="section" href="#PasDoc-Types">Types</a></td><td>Constants</td><td>Variables</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+<p>
+This unit contains classes to handle multi-page template scripts. A collection of single-page patterns (previously also called templates) that can be applied to different pages.</p>
+<p>
+<br><br>
+
+<p>The class <a class="normal" href="multipagetemplate.TMultiPageTemplate.html">TMultiPageTemplate</a> can be used to load a template script (and there is also the documentation of the template syntax/semantic).
+
+<p>The class <a class="normal" href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a> can be used to run the template.
+
+<p><a class="normal" href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a> does not modify the <a class="normal" href="multipagetemplate.TMultiPageTemplate.html">TMultipageTemplate</a>, so a single <a class="normal" href="multipagetemplate.TMultiPageTemplate.html">TMultipageTemplate</a> can be used by arbitrary many <a class="normal" href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a>, <a class="normal" href="bigdecimalmath.html#even">even</a> if the readers are in different threads.</p>
+<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-Classes"></a><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="multipagetemplate.TTemplateAction.html"><code>TTemplateAction</code></a></td>
+<td class="itemdesc">Internal used base class for an action within the multi page template</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="multipagetemplate.TTemplateActionMeta.html"><code>TTemplateActionMeta</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="multipagetemplate.TMultiPageTemplate.html"><code>TMultiPageTemplate</code></a></td>
+<td class="itemdesc">A multi page template, which defines which and how pages are processed. <br> </td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="multipagetemplate.ETemplateReader.html"><code>ETemplateReader</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="multipagetemplate.TMultipageTemplateReader.html"><code>TMultipageTemplateReader</code></a></td>
+<td class="itemdesc">Class to process a multi page template</td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="multipagetemplate.html#TTemplateActionClass">TTemplateActionClass</a></b> = class of <a  href="multipagetemplate.TTemplateAction.html">TTemplateAction</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="multipagetemplate.html#TLoadTemplateFile">TLoadTemplateFile</a></b> = function(name: <a  href="bbutils.html#RawByteString">RawByteString</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="multipagetemplate.html#TLogEvent">TLogEvent</a></b> = procedure (sender: <a  href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a>; logged: string; debugLevel: integer = 0) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="multipagetemplate.html#TPageProcessed">TPageProcessed</a></b> = procedure (sender: <a  href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a>; parser: <a  href="extendedhtmlparser.THtmlTemplateParser.html">THtmlTemplateParser</a>) of object;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTemplateActionClass"></a><code><b>TTemplateActionClass</b> = class of <a  href="multipagetemplate.TTemplateAction.html">TTemplateAction</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TLoadTemplateFile"></a><code><b>TLoadTemplateFile</b> = function(name: <a  href="bbutils.html#RawByteString">RawByteString</a>): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TLogEvent"></a><code><b>TLogEvent</b> = procedure (sender: <a  href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a>; logged: string; debugLevel: integer = 0) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event you can use to log, what the template is doing .<br> Arguments: logged contains the message, debugLevel the importance of this event</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TPageProcessed"></a><code><b>TPageProcessed</b> = procedure (sender: <a  href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a>; parser: <a  href="extendedhtmlparser.THtmlTemplateParser.html">THtmlTemplateParser</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event that is called after every &lt;page&gt; element is processed. <br> You can use parser to read the variables changed by the template applied to the page</p>
+</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

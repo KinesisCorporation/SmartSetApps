@@ -1,0 +1,255 @@
+object Form_KeyPress: TForm_KeyPress
+  Left = 54
+  Height = 435
+  Top = 272
+  Width = 685
+  Caption = 'KINESIS pedal configuraytion tool'
+  ClientHeight = 415
+  ClientWidth = 685
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Georgia'
+  KeyPreview = True
+  Menu = MainMenu1
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  LCLVersion = '1.2.4.0'
+  object pcMain: TPageControl
+    Left = 0
+    Height = 415
+    Top = 0
+    Width = 685
+    ActivePage = tsConfig
+    Align = alClient
+    TabIndex = 1
+    TabOrder = 0
+    object tsMain: TTabSheet
+      Caption = 'tsMain'
+      ClientHeight = 384
+      ClientWidth = 677
+      object lblCopyright: TLabel
+        Left = 0
+        Height = 18
+        Top = 366
+        Width = 677
+        Align = alBottom
+        Alignment = taCenter
+        Caption = 'lblCopyright'
+        ParentColor = False
+      end
+      object lblInfo: TLabel
+        Left = 0
+        Height = 32
+        Top = 0
+        Width = 677
+        Align = alTop
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Click on the key to configure'
+        Color = clBtnFace
+        Layout = tlCenter
+        ParentColor = False
+        Transparent = False
+      end
+      object memoLeft: TMemo
+        Left = 128
+        Height = 60
+        Top = 45
+        Width = 489
+        Anchors = [akTop, akLeft, akRight]
+        Color = clSkyBlue
+        ReadOnly = True
+        TabOrder = 3
+      end
+      object memoCenter: TMemo
+        Left = 128
+        Height = 60
+        Top = 125
+        Width = 489
+        Anchors = [akTop, akLeft, akRight]
+        Color = clSkyBlue
+        ReadOnly = True
+        TabOrder = 4
+      end
+      object memoRight: TMemo
+        Left = 128
+        Height = 60
+        Top = 205
+        Width = 489
+        Anchors = [akTop, akLeft, akRight]
+        Color = clSkyBlue
+        ReadOnly = True
+        TabOrder = 5
+      end
+      object btnLeftPedal: TButton
+        Left = 9
+        Height = 30
+        Top = 45
+        Width = 106
+        Caption = 'Left Pedal'
+        OnClick = btnLeftPedalClick
+        TabOrder = 0
+      end
+      object btnRightPedal: TButton
+        Left = 9
+        Height = 30
+        Top = 205
+        Width = 106
+        Caption = 'Right Pedal'
+        OnClick = btnRightPedalClick
+        TabOrder = 2
+      end
+      object btnCenterPedal: TButton
+        Left = 9
+        Height = 30
+        Top = 125
+        Width = 106
+        Caption = 'Center Pedal'
+        OnClick = btnCenterPedalClick
+        TabOrder = 1
+      end
+    end
+    object tsConfig: TTabSheet
+      Caption = 'tsConfig'
+      ClientHeight = 384
+      ClientWidth = 677
+      ImageIndex = 1
+      object lblInfo2: TLabel
+        Left = 0
+        Height = 32
+        Top = 0
+        Width = 677
+        Align = alTop
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'Press the key on the keyboard that you wish to configure'
+        Color = clBtnFace
+        Layout = tlCenter
+        ParentColor = False
+        Transparent = False
+      end
+      object memoKeys: TMemo
+        Left = 9
+        Height = 225
+        Top = 72
+        Width = 478
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        Color = clSkyBlue
+        OnKeyDown = memoKeysKeyDown
+        OnKeyUp = memoKeysKeyUp
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object rbSingle: TRadioButton
+        Left = 9
+        Height = 22
+        Top = 40
+        Width = 92
+        Caption = 'Single key'
+        Checked = True
+        OnClick = rbSingleClick
+        TabOrder = 1
+        TabStop = True
+      end
+      object rbMultiple: TRadioButton
+        Left = 120
+        Height = 22
+        Top = 40
+        Width = 120
+        Caption = 'Multiple  keys'
+        OnClick = rbMultipleClick
+        TabOrder = 2
+      end
+      object btnSpecial: TButton
+        Left = 496
+        Height = 30
+        Top = 72
+        Width = 159
+        Anchors = [akTop, akRight]
+        Caption = 'Insert special key'
+        OnClick = btnSpecialClick
+        TabOrder = 3
+      end
+      object pnlBot: TPanel
+        Left = 0
+        Height = 41
+        Top = 343
+        Width = 677
+        Align = alBottom
+        BevelOuter = bvNone
+        ClientHeight = 41
+        ClientWidth = 677
+        TabOrder = 4
+        object btnSave: TButton
+          Left = 7
+          Height = 30
+          Top = 6
+          Width = 75
+          Anchors = [akTop, akLeft, akBottom]
+          Caption = 'Save'
+          OnClick = btnSaveClick
+          TabOrder = 0
+        end
+        object btnCancel: TButton
+          Left = 96
+          Height = 30
+          Top = 6
+          Width = 75
+          Anchors = [akTop, akLeft, akBottom]
+          Caption = 'Cancel'
+          OnClick = btnCancelClick
+          TabOrder = 1
+        end
+      end
+      object btnClear: TButton
+        Left = 496
+        Height = 30
+        Top = 104
+        Width = 159
+        Anchors = [akTop, akRight]
+        Caption = 'Clear...'
+        OnClick = btnClearClick
+        TabOrder = 5
+      end
+    end
+  end
+  object pmuSpecial: TPopupMenu
+    left = 264
+    top = 184
+    object miLeftMouseClick: TMenuItem
+      Caption = 'Left mouse click'
+      OnClick = miLeftMouseClickClick
+    end
+    object miMiddleMouseClick: TMenuItem
+      Caption = 'Middle mouse click'
+      OnClick = miMiddleMouseClickClick
+    end
+    object miRightMouseClick: TMenuItem
+      Caption = 'Right mouse click'
+      OnClick = miRightMouseClickClick
+    end
+  end
+  object MainMenu1: TMainMenu
+    left = 100
+    top = 357
+    object miFile: TMenuItem
+      Caption = 'File'
+      object miExit: TMenuItem
+        Caption = 'Exit'
+        OnClick = miExitClick
+      end
+    end
+    object miHelp: TMenuItem
+      Caption = 'Help'
+      object miAbout: TMenuItem
+        Caption = 'About'
+        OnClick = miAboutClick
+      end
+      object miConfigGuide: TMenuItem
+        Caption = 'Configuration guide'
+      end
+    end
+  end
+end

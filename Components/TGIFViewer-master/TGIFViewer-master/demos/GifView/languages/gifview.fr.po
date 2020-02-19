@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"X-Generator: Poedit 2.0.8\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: terrorboxform.button1.caption
+msgid "Fermer"
+msgstr "Fermer"
+
+#: terrorboxform.panel1.caption
+msgid "ATTENTION ! Des erreurs se sont produites lors du chargement de l'image"
+msgstr "ATTENTION ! Des erreurs se sont produites lors du chargement de l'image"
+
+#: tmainform.lblfilename.caption
+msgid "Glissez et déposez un fichier pour l'ouvrir"
+msgstr "Glissez et déposez un fichier pour l'ouvrir"
+
+#: tmainform.btnpauseanimation.caption
+msgid "Pause"
+msgstr "Pause"
+
+#: tmainform.btnstartanimation.caption
+msgid "Start"
+msgstr "Start"
+
+#: tmainform.btnstopanimation.caption
+msgid "Stop"
+msgstr "Stop"
+
+#: tmainform.chkcentergif.caption
+msgid "Centrer"
+msgstr "Centrer"
+
+#: tmainform.chkstretchgif.caption
+msgid "Adapter"
+msgstr "Adapter"
+
+#: tmainform.chktansparent.caption
+msgid "Transparent"
+msgstr "Transparent"
+
+#: tmainform.chkviewrawframe.caption
+msgid "Parcourir images brutes"
+msgstr "Parcourir images brutes"
+
+#: tmainform.label1.caption
+msgid "Images : "
+msgstr "Images : "
+
+#: tmainform.label2.caption
+msgid "Version :"
+msgstr "Version :"
+
+#: tmainform.label3.caption
+msgid "Nombre d'images :"
+msgstr "Nombre d'images :"
+
+#: tmainform.label4.caption
+msgid "Couleur du fond : "
+msgstr "Couleur du fond : "
+
+#: tmainform.label5.caption
+msgid "Langage :"
+msgstr "Langage :"
+
+#: tmainform.label6.caption
+msgid "/ "
+msgstr ""
+
+#: tmainform.lblcurrentframe.caption
+msgctxt "tmainform.lblcurrentframe.caption"
+msgid "0"
+msgstr ""
+
+#: tmainform.gbxcomments.caption
+msgid "Commentaires"
+msgstr "Commentaires"
+
+#: tmainform.lblframecount.caption
+msgctxt "tmainform.lblframecount.caption"
+msgid "----"
+msgstr ""
+
+#: tmainform.lbltotalframe.caption
+msgctxt "tmainform.lbltotalframe.caption"
+msgid "0"
+msgstr ""
+
+#: tmainform.lblversion.caption
+msgctxt "tmainform.lblversion.caption"
+msgid "----"
+msgstr ""
+
+#: umainform.rsstretchall
+msgctxt "umainform.rsstretchall"
+msgid "Toutes"
+msgstr "Toutes"
+
+#: umainform.rsstretchmanual
+msgctxt "umainform.rsstretchmanual"
+msgid "Manuel"
+msgstr "Manuel"
+
+#: umainform.rsstretchonlybigger
+msgctxt "umainform.rsstretchonlybigger"
+msgid "Les plus grandes"
+msgstr "Les plus grandes"
+
+#: umainform.rsstretchonlysmaller
+msgctxt "umainform.rsstretchonlysmaller"
+msgid "Les plus petites"
+msgstr "Les plus petites"

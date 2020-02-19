@@ -1,0 +1,32 @@
+Files from "Developing with Objective Pascal" articles
+------------------------------------------------------
+
+*Note that these files are for OS X and iOS only.
+
+filelist.txt          This file.
+
+changelog.txt         List of changes by release date.
+
+NSHelpers.pas         Foundation framework-based string helper routines.
+
+NSFormat.pas          Foundation framework-based routine for populating a 
+                       TFormatSettings record (substitute for clocale unit).
+
+testnsfmt.pas         Test program for NSFormat unit.
+
+ns_url_request.pas    Foundation framework-based class for use by itself as an 
+                       HTTP client or with Web Service Toolkit's 
+                       ns_http_protocol.pas unit.
+
+NSMisc.pas            Miscellaneous Foundation framework-based routines.
+
+compile-nsunits-macos.sh
+                      Script file that compiles above units for 32- and 
+                       64-bit macOS.
+
+compile-nsunits-ios.sh
+                      Script file that compiles above units for 32- and 
+                       64-bit iOS Simulator and iOS (arm).
+
+CocoaHelpers.pas      Handy Cocoa framework-based routines for use in a Cocoa
+                       app.

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="gifviewer_pkg"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Jérôme Delauney (BeanzMaster)"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\source"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <Style Value="1"/>
+      </Parsing>
+      <CodeGeneration>
+        <SmartLinkUnit Value="True"/>
+      </CodeGeneration>
+    </CompilerOptions>
+    <Description Value="Paquet GIFViewer de conception et d'éxécution.
+Contient un composant visuel spécialiser dans l'affichage d'animation d'image au format GIF (Graphic Interchange Format) installé dans le groupe Beanz Extras"/>
+    <License Value="MPL"/>
+    <Version Major="1"/>
+    <Files Count="4">
+      <Item1>
+        <Filename Value="..\source\uFastBitmap.pas"/>
+        <UnitName Value="uFastBitmap"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\source\uGifViewer.pas"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="uGifViewer"/>
+      </Item2>
+      <Item3>
+        <Filename Value="ugifviewer_register.pas"/>
+        <HasRegisterProc Value="True"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="uGIFViewer_Register"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\source\GifViewerStrConsts.pas"/>
+        <UnitName Value="GifViewerStrConsts"/>
+      </Item4>
+    </Files>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="..\local"/>
+      <EnableI18NForLFM Value="True"/>
+    </i18n>
+    <RequiredPkgs Count="3">
+      <Item1>
+        <PackageName Value="IDEIntf"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+      </Item3>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

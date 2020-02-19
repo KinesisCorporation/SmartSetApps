@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: record TXQEvaluationContext</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQEvaluationContext"></a><h1 class="cio">record TXQEvaluationContext</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Hierarchy</td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQEvaluationContext = record</code></p>
+<h2 class="description">Description</h2>
+<p>
+evaluation context, internal used</p>
+<p>
+
+
+<p>Stores information about the outside scope, needed for correct evaluation of an XQuery-expression</p>
+<h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#RootElement">RootElement</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#ParentElement">ParentElement</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#TextNode">TextNode</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#SeqValue">SeqValue</a></b>: <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#SeqIndex">SeqIndex</a></b>: integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#SeqLength">SeqLength</a></b>: integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#temporaryVariables">temporaryVariables</a></b>: <a  href="xquery.TXQEvaluationStack.html">TXQEvaluationStack</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#globallyDeclaredVariables">globallyDeclaredVariables</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#namespaces">namespaces</a></b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.TXQEvaluationContext.html#staticContext">staticContext</a></b>: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#findNamespace">findNamespace</a></b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#findNamespaceURL">findNamespaceURL</a></b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQEvaluationContext.html#splitRawQName">splitRawQName</a></b>(out namespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; var name: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#getRootHighest">getRootHighest</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#hasGlobalVariable">hasGlobalVariable</a></b>(const name: string; out value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string = ''): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#hasGlobalVariable">hasGlobalVariable</a></b>(const v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>; out value: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#getGlobalVariable">getGlobalVariable</a></b>(const name: string; const namespaceURL: string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#getGlobalVariable">getGlobalVariable</a></b>(const v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>): <a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#parseDoc">parseDoc</a></b>(const data, url, contenttype: string): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#SeqValueAsString">SeqValueAsString</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.TXQEvaluationContext.html#contextNode">contextNode</a></b>(mustExists: boolean = true): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQEvaluationContext.html#raiseXPDY0002ContextItemAbsent">raiseXPDY0002ContextItemAbsent</a></b>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="RootElement"></a><code><b>RootElement</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+associated tree (returned by <code> / </code> within an expression)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ParentElement"></a><code><b>ParentElement</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+associated tree element (= context item <code> . </code>, if it is not overriden during the evaluation)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TextNode"></a><code><b>TextNode</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Use this to override the text node returned by text(). This is useful if you have an element &lt;a&gt;xx&lt;b/&gt;yy&lt;/a&gt;. If <code>TextNode</code> is nil text() will return xx, but you can set it to yy. However, ./text() will always return xx.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SeqValue"></a><code><b>SeqValue</b>: <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Context item / value of <code> . </code>, if a sequence is processed (nil otherwise)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SeqIndex"></a><code><b>SeqIndex</b>: integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Position in the sequence, if there is one</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SeqLength"></a><code><b>SeqLength</b>: integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Position in the sequence, if there is one</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="temporaryVariables"></a><code><b>temporaryVariables</b>: <a  href="xquery.TXQEvaluationStack.html">TXQEvaluationStack</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+List of variables defined in the outside scope (e.g. for/same/every)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="globallyDeclaredVariables"></a><code><b>globallyDeclaredVariables</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+List of variables declared variables (e.g. declare variable $foo...) (might be nil)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="namespaces"></a><code><b>namespaces</b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Namespace declared in the outside scope (only changed by xmlns attributes of constructed nodes)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="staticContext"></a><code><b>staticContext</b>: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="findNamespace"></a><code>function <b>findNamespace</b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="findNamespaceURL"></a><code>function <b>findNamespaceURL</b>(const nsprefix: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="splitRawQName"></a><code>procedure <b>splitRawQName</b>(out namespace: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>; var name: string; const defaultNamespaceKind: <a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getRootHighest"></a><code>function <b>getRootHighest</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="hasGlobalVariable"></a><code>function <b>hasGlobalVariable</b>(const name: string; out value: <a  href="xquery.IXQValue.html">IXQValue</a>; const namespaceURL: string = ''): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="hasGlobalVariable"></a><code>function <b>hasGlobalVariable</b>(const v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>; out value: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getGlobalVariable"></a><code>function <b>getGlobalVariable</b>(const name: string; const namespaceURL: string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getGlobalVariable"></a><code>function <b>getGlobalVariable</b>(const v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>): <a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="parseDoc"></a><code>function <b>parseDoc</b>(const data, url, contenttype: string): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="SeqValueAsString"></a><code>function <b>SeqValueAsString</b>: string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="contextNode"></a><code>function <b>contextNode</b>(mustExists: boolean = true): <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="raiseXPDY0002ContextItemAbsent"></a><code>procedure <b>raiseXPDY0002ContextItemAbsent</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

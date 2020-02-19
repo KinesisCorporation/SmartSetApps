@@ -1,0 +1,398 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXQValueSequence</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQValueSequence"></a><h1 class="cio">Class TXQValueSequence</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQValueSequence = class(<a class="normal" href="xquery.TXQValue.html">TXQValue</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Type for a sequence containing an arbitrary number (&gt;= 0) of other <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="xquery.TXQValue.html">TXQValue</a></li>
+<li class="thisitem">TXQValueSequence</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQValueSequence.html#seq">seq</a></b>: <a  href="xquery.TXQVList.html">TXQVList</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQValueSequence.html#create">create</a></b>(capacity: integer = 0);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQValueSequence.html#create">create</a></b>(firstChild: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQValueSequence.html#create">create</a></b>(list: <a  href="xquery.TXQVList.html">TXQVList</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQValueSequence.html#classKind">classKind</a></b>: <a  href="xquery.html#TXQValueKind">TXQValueKind</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#isUndefined">isUndefined</a></b>: boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toBoolean">toBoolean</a></b>: boolean; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toBooleanEffective">toBooleanEffective</a></b>: boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toInt64">toInt64</a></b>: Int64; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toDecimal">toDecimal</a></b>: <a  href="bigdecimalmath.BigDecimal.html">BigDecimal</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toFloatChecked">toFloatChecked</a></b>(scontext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>): <a  href="xquery.html#xqfloat">xqfloat</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toString">toString</a></b>: string; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toJoinedString">toJoinedString</a></b>(const sep: string=' '): string; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toDateTime">toDateTime</a></b>: TDateTime; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toNode">toNode</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toArray">toArray</a></b>: <a  href="xquery.html#TXQVArray">TXQVArray</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#toXQVList">toXQVList</a></b>: <a  href="xquery.TXQVList.html">TXQVList</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#getSequenceCount">getSequenceCount</a></b>: integer; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#get">get</a></b>(i: integer): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#GetEnumeratorPtrUnsafe">GetEnumeratorPtrUnsafe</a></b>: <a  href="xquery.TXQValueEnumeratorPtrUnsafe.html">TXQValueEnumeratorPtrUnsafe</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#map">map</a></b>(const q: string): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#order">order</a></b>(const q: string): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#clone">clone</a></b>: <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#jsonSerialize">jsonSerialize</a></b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; insertWhitespace: boolean = false; const indent: string = ''): string; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueSequence.html#xmlSerialize">xmlSerialize</a></b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; sequenceTag: string = 'seq'; elementTag: string = 'e'; objectTag: string = 'object'): string; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQValueSequence.html#add">add</a></b>(const value: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQValueSequence.html#addOrdered">addOrdered</a></b>(const node: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="xquery.TXQValueSequence.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="seq"></a><code><b>seq</b>: <a  href="xquery.TXQVList.html">TXQVList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+list of the contained sequence values.</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(capacity: integer = 0);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(firstChild: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(list: <a  href="xquery.TXQVList.html">TXQVList</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="classKind"></a><code>class function <b>classKind</b>: <a  href="xquery.html#TXQValueKind">TXQValueKind</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="isUndefined"></a><code>function <b>isUndefined</b>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toBoolean"></a><code>function <b>toBoolean</b>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the first element to boolean</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toBooleanEffective"></a><code>function <b>toBooleanEffective</b>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toInt64"></a><code>function <b>toInt64</b>: Int64; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the first element to integer</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toDecimal"></a><code>function <b>toDecimal</b>: <a  href="bigdecimalmath.BigDecimal.html">BigDecimal</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the first element to <a class="normal" href="bigdecimalmath.BigDecimal.html">BigDecimal</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toFloatChecked"></a><code>function <b>toFloatChecked</b>(scontext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>): <a  href="xquery.html#xqfloat">xqfloat</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toString"></a><code>function <b>toString</b>: string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the first element to string</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toJoinedString"></a><code>function <b>toJoinedString</b>(const sep: string=' '): string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toDateTime"></a><code>function <b>toDateTime</b>: TDateTime; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the first element to TDateTime</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toNode"></a><code>function <b>toNode</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the first element to a node</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toArray"></a><code>function <b>toArray</b>: <a  href="xquery.html#TXQVArray">TXQVArray</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns all elements as array</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toXQVList"></a><code>function <b>toXQVList</b>: <a  href="xquery.TXQVList.html">TXQVList</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns all elements as list (which must be freed by the caller)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getSequenceCount"></a><code>function <b>getSequenceCount</b>: integer; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>function <b>get</b>(i: integer): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="GetEnumeratorPtrUnsafe"></a><code>function <b>GetEnumeratorPtrUnsafe</b>: <a  href="xquery.TXQValueEnumeratorPtrUnsafe.html">TXQValueEnumeratorPtrUnsafe</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="map"></a><code>function <b>map</b>(const q: string): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="order"></a><code>function <b>order</b>(const q: string): <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clone"></a><code>function <b>clone</b>: <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="jsonSerialize"></a><code>function <b>jsonSerialize</b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; insertWhitespace: boolean = false; const indent: string = ''): string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="xmlSerialize"></a><code>function <b>xmlSerialize</b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; sequenceTag: string = 'seq'; elementTag: string = 'e'; objectTag: string = 'object'): string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="add"></a><code>procedure <b>add</b>(const value: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Simply adds a value to the sequence (notice that a xpath sequence cannot contain another sequence, so they will be merged)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="addOrdered"></a><code>procedure <b>addOrdered</b>(const node: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Adds a value to a sequence of nodes sorted in document <a class="normal" href="xquery.TXQValueSequence.html#order">order</a>(notice that a xpath sequence cannot contain another sequence, so they will be merged)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

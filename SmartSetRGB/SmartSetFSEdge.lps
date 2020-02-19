@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default">
+      <SessionMatrixOptions Count="1">
+        <Item1 ID="272924515420" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+      </SessionMatrixOptions>
+    </BuildModes>
+    <Units Count="42">
+      <Unit0>
+        <Filename Value="SmartSetFSEdge.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="9"/>
+        <CursorPos X="28" Y="11"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="u_file_service.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="753"/>
+        <CursorPos Y="760"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="u_form_about.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormAbout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="78"/>
+        <CursorPos X="75" Y="92"/>
+        <UsageCount Value="200"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="u_key_service.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="95" Y="11"/>
+        <UsageCount Value="200"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\Common\u_const.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="8"/>
+        <CursorPos X="47" Y="13"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\Common\u_debug.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="200"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\Common\u_key_layer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="237"/>
+        <CursorPos X="23" Y="260"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\Common\u_keys.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="U_Keys"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\Common\userdialog.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="12"/>
+        <CursorPos X="49" Y="25"/>
+        <UsageCount Value="200"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\Common\versionsupport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="VersionSupport"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="21"/>
+        <CursorPos X="10" Y="36"/>
+        <UsageCount Value="200"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="u_form_saveas.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSaveAs"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="21"/>
+        <CursorPos X="7" Y="35"/>
+        <UsageCount Value="444"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="u_form_load.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormLoad"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="20"/>
+        <CursorPos X="97" Y="44"/>
+        <UsageCount Value="375"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="2653"/>
+        <CursorPos X="22" Y="2664"/>
+        <UsageCount Value="203"/>
+        <Bookmarks Count="5">
+          <Item0 Y="5277" ID="7"/>
+          <Item1 X="7" Y="2875" ID="6"/>
+          <Item2 X="31" Y="3853" ID="4"/>
+          <Item3 Y="1914" ID="8"/>
+          <Item4 X="15" Y="2535" ID="9"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="u_form_main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="5569"/>
+        <CursorPos X="29" Y="5580"/>
+        <UsageCount Value="201"/>
+        <Bookmarks Count="3">
+          <Item0 X="42" Y="2586" ID="3"/>
+          <Item1 X="12" Y="3247" ID="1"/>
+          <Item2 Y="5582" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="u_form_macro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMacro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="609"/>
+        <CursorPos X="40" Y="628"/>
+        <UsageCount Value="203"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="u_base_form.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="BaseForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos X="7" Y="14"/>
+        <UsageCount Value="203"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="u_form_settings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSettings"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="38"/>
+        <CursorPos X="26" Y="59"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\Components\animatedgif\animatedgif.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="AnimatedGif"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="208"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\Components\animatedgif\membitmap.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="208"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="u_form_timingdelays.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTimingDelays"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="30"/>
+        <CursorPos X="31" Y="34"/>
+        <UsageCount Value="200"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="u_form_intro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormIntro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="55" Y="99"/>
+        <UsageCount Value="221"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="u_form_tapandhold.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTapAndHold"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="31" Y="4"/>
+        <UsageCount Value="371"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="u_form_export.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormExport"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="23"/>
+        <CursorPos X="3" Y="45"/>
+        <UsageCount Value="318"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="u_form_diagnostics.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormDiagnostics"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="73"/>
+        <CursorPos X="16" Y="80"/>
+        <UsageCount Value="318"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="u_form_firmware.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormFirmware"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="313"/>
+        <Loaded Value="True"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="u_form_troubleshoot.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTroubleshoot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="41"/>
+        <CursorPos X="16" Y="63"/>
+        <UsageCount Value="264"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="u_gif.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="48" Y="51"/>
+        <UsageCount Value="247"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="u_key_layer.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="91"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="u_form_main_old.pas"/>
+        <ComponentName Value="FormMainOld"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_form_mainOld"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3460"/>
+        <CursorPos X="3" Y="3468"/>
+        <UsageCount Value="21"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="..\Components\HSButton0.9\HSButton\HSSpeedButton.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="29" Y="5"/>
+        <UsageCount Value="20"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="..\Components\panelbutton\labelbox.pas"/>
+        <UnitName Value="LabelBox"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="50" Y="34"/>
+        <UsageCount Value="66"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="..\Components\HSButton0.9\HSButton\HSButtons.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="52"/>
+        <CursorPos X="65" Y="64"/>
+        <UsageCount Value="4"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="..\..\Lazarus Components\panelbutton\labelbox.pas"/>
+        <UnitName Value="LabelBox"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="64"/>
+        <CursorPos X="40" Y="69"/>
+        <UsageCount Value="7"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="..\..\Lazarus Components\HSButton0.9\HSButton\HSSpeedButton.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="651"/>
+        <CursorPos Y="666"/>
+        <UsageCount Value="37"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="C:\Developer\lazarus\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1733"/>
+        <CursorPos X="14" Y="1745"/>
+        <UsageCount Value="98"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\rtl\objpas\fgl.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="101"/>
+        <CursorPos X="19" Y="114"/>
+        <UsageCount Value="123"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\fcl-base\src\contnrs.pp"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="74"/>
+        <UsageCount Value="32"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="..\Components\internettools\internet\synapseinternetaccess.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="29"/>
+        <CursorPos X="3" Y="42"/>
+        <UsageCount Value="10"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="..\Components\nsunits-src\ns_url_request.pas"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="47"/>
+        <CursorPos X="34" Y="62"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="..\Components\nsunits-src\NSHelpers.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="131"/>
+        <CursorPos X="36" Y="143"/>
+        <UsageCount Value="10"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="..\Components\internettools\internet\w32internetaccess.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="unit1.pas"/>
+        <UnitName Value="Unit1"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="31"/>
+        <UsageCount Value="10"/>
+      </Unit41>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5606" TopLine="5585"/>
+      </Position1>
+      <Position2>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5575" TopLine="5560"/>
+      </Position2>
+      <Position3>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5587" Column="14" TopLine="5561"/>
+      </Position3>
+      <Position4>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5585" TopLine="5561"/>
+      </Position4>
+      <Position5>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5575" TopLine="5561"/>
+      </Position5>
+      <Position6>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5585" TopLine="5561"/>
+      </Position6>
+      <Position7>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5575" TopLine="5561"/>
+      </Position7>
+      <Position8>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5585" TopLine="5561"/>
+      </Position8>
+      <Position9>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5575" TopLine="5561"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5585" Column="22" TopLine="5561"/>
+      </Position10>
+      <Position11>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5595" Column="13" TopLine="5571"/>
+      </Position11>
+      <Position12>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5614" Column="26" TopLine="5581"/>
+      </Position12>
+      <Position13>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="94" Column="13" TopLine="79"/>
+      </Position13>
+      <Position14>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="1781" Column="46" TopLine="1775"/>
+      </Position14>
+      <Position15>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="3101" Column="15" TopLine="3077"/>
+      </Position15>
+      <Position16>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5575" Column="22" TopLine="5572"/>
+      </Position16>
+      <Position17>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5585" Column="22" TopLine="5572"/>
+      </Position17>
+      <Position18>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5595" Column="13" TopLine="5575"/>
+      </Position18>
+      <Position19>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5619" Column="60" TopLine="5608"/>
+      </Position19>
+      <Position20>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5575" TopLine="5560"/>
+      </Position20>
+      <Position21>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5614" TopLine="5599"/>
+      </Position21>
+      <Position22>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5575" TopLine="5560"/>
+      </Position22>
+      <Position23>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="5620" Column="37" TopLine="5602"/>
+      </Position23>
+      <Position24>
+        <Filename Value="u_form_main.pas"/>
+        <Caret Line="3247" Column="12" TopLine="3233"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1489" Column="75" TopLine="1486"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="10" Column="53"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1488" Column="64" TopLine="1483"/>
+      </Position27>
+      <Position28>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="10" Column="36"/>
+      </Position28>
+      <Position29>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1499" Column="20" TopLine="1482"/>
+      </Position29>
+      <Position30>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="13" Column="47"/>
+      </Position30>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode="default"/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="6">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\Lazarus Components\TGIFViewer-master\TGIFViewer-master\source\uGifViewer.pas"/>
+        <Line Value="2315"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="u_form_diagnostics.pas"/>
+        <Line Value="79"/>
+      </Item2>
+      <Item3>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="u_form_main.pas"/>
+        <Line Value="1135"/>
+      </Item3>
+      <Item4>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="u_form_main.pas"/>
+        <Line Value="7308"/>
+      </Item4>
+      <Item5>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="u_form_main.pas"/>
+        <Line Value="4929"/>
+      </Item5>
+      <Item6>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\Common\u_const.pas"/>
+        <Line Value="1500"/>
+      </Item6>
+    </BreakPoints>
+    <Watches Count="5">
+      <Item1>
+        <Expression Value="currentLine"/>
+      </Item1>
+      <Item2>
+        <Expression Value="activeKbKey.ActiveMacro.MacroRptFreq"/>
+      </Item2>
+      <Item3>
+        <Expression Value="value[i]"/>
+      </Item3>
+      <Item4>
+        <Expression Value="LengthUTF8(memoMacro.Text)"/>
+      </Item4>
+      <Item5>
+        <Expression Value="imgLoop.Top"/>
+      </Item5>
+    </Watches>
+  </Debugging>
+</CONFIG>

@@ -1,0 +1,5 @@
+{lshft}{esc}>{s2}{x2}{a}{s}{d}{f}{a}{s}{f}{d}{a}{s}{f}{d}{a}{s}{d}{f}{kpent}{a}{s}{f}{d}{a}{s}{f}{d}{kpent}{d}{s}{f}{kpent}{spc}{a}{s}{d}{kpent}{f}{a}{spc}{d}{s}{f}{kpent}{a}{s}{d}{kpent}{f}{spc}{a}{s}{d}{f}
+{lctrl}{esc}>{a}{s}{f}{d}{a}{s}{f}{d}{a}{s}{d}{f}{a}{s}{f}{spc}{j}{a}{s}{d}{l}{k}{f}{j}{spc}{k}{l}{d}{s}{f}{j}{spc}{l}{a}{k}{d}{colon}{s}{f}{j}{j}{d}{l}{k}{d}{colon}{s}{f}{j}{k}{d}{s}{f}{j}{k}{l}{d}{colon}{s}{j}{spc}{f}{k}{l}{colon}{a}{d}{s}{j}{f}{k}{a}{d}{s}{j}{spc}{f}{l}{colon}{j}{k}{d}{s}{f}{colon}{l}{k}{a}{d}{s}{j}{spc}{f}{l}{colon}{k}{j}{a}{s}{d}{f}{l}{colon}{k}{a}{d}{s}{j}{spc}{f}{l}{colon}{a}{s}{d}{f}{a}{s}
+{lalt}{F1}>{s5}{x1}{a}{d}{s}{f}
+[tilde]>[a]
+[tab]>[b]

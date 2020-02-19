@@ -1,0 +1,7 @@
+[lpedal]>
+[mpedal]>
+[rpedal]>
+[jack1]>[d]
+[jack2]>
+[jack3]>
+[jack4]>

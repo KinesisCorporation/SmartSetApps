@@ -1,0 +1,926 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXQueryEngine</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQueryEngine"></a><h1 class="cio">Class TXQueryEngine</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td><a class="section" href="#PasDoc-Properties">Properties</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQueryEngine = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+<b>This is the XPath/XQuery-engine</b></p>
+<p>
+
+
+<p>You can use this class to evaluate a XPath/XQuery-expression on a certain document tree.<br> For example, <code><a class="normal" href="xquery.TXQueryEngine.html#evaluateStaticXPath2">TXQueryEngine.evaluateStaticXPath2</a>('expression', nil)</code> returns the value of the evaluation of expression.
+
+<p>A simple functional interface is provided by the function <a class="normal" href="xquery.html#query">query</a>.<br><br>
+
+<p><b>Syntax of a XQuery / XPath / Pseudo-XPath-Expression</b>
+
+<p>This <a class="normal" href="xquery.html#query">query</a> engine currently supports XPath 2.0, XQuery 1.0 and JSONiq, with some extensions and minor deviations, as well as parts of XPath 3.0 and XQuery 3.0. <br><br>
+
+<p>A formal syntax definition of these languages is given at: <a  href="http://www.w3.org/TR/xpath20/">http://www.w3.org/TR/xpath20/</a> , <a  href="http://www.w3.org/TR/xquery/">http://www.w3.org/TR/xquery/</a> , <a  href="http://www.jsoniq.org/">http://www.jsoniq.org/</a> , <a  href="http://www.w3.org/TR/xpath-30/">http://www.w3.org/TR/xpath-30/</a> and <a  href="http://www.w3.org/TR/xquery-30/">http://www.w3.org/TR/xquery-30/</a> .
+
+<p>Some very basic, standard XPath examples, for people who have never seen XPath before: </p>
+
+<ul class="paragraph_spacing">
+  <li><p><code>&quot;something&quot;</code> or <code>&quot;something&quot;</code> <br> This returns the string 'something'.</p></li>
+  <li><p><code>$var</code> <br> This returns the value of the variable <code>var</code>.</p></li>
+  <li><p><code> a + b </code> <br> This returns the numerical sum of <code>a</code> and <code>b</code><br> Instead of +, you can also use one of operators <code>-, *, div, idiv, =, !=, &lt;, &gt;, &lt;=, =&gt;, to, or, and, eq, ne, lt, gt, le, ge</code> </p></li>
+  <li><p><code>1245.567</code> <br> This returns the number 1245.567</p></li>
+  <li><p><code>concat(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)</code> <br> This concatenates the strings a,b and c.<br> There are many more functions than <code>concat</code>, a list of extension functions is given below. Standard functions are described at <a  href="http://www.w3.org/TR/xquery-operators/">http://www.w3.org/TR/xquery-operators/</a> and <a  href="http://www.w3.org/TR/xpath-functions-30/">http://www.w3.org/TR/xpath-functions-30/</a> </p></li>
+  <li><p><code>(1,2,3)</code> <br> This returns a sequence (1,2,3). <br> Sequences cannot be nested.</p></li>
+  <li><p><code>(1,2,3)[. mod 2 = 1]</code> <br> This returns the sequence (1,3) of all <a class="normal" href="bigdecimalmath.html#odd">odd</a> numbers.</p></li>
+  <li><p><code>@attrib</code> <br> This is the value of the attribute <code>attrib</code> of the current tag</p></li>
+  <li><p><code>text()</code> <br> This returns a sequence of all direct text node children of the current tag (see below)</p></li>
+  <li><p><code>comment()</code> <br> This returns a sequence of all direct comment children of the current tag</p></li>
+  <li><p><code>xyz</code> <br> This returns a sequence of all direct children of the current tag whose node name is <code>xyz</code></p></li>
+  <li><p><code>.//xyz</code> <br> This returns a sequence of all children of the current tag whose node name is <code>xyz</code></p></li>
+  <li><p><code>abc/def</code> <br> This returns a sequence of all children of the current tag whose name is <code>def</code> and whose parent has the name <code>abc</code> and is a direct child of the current tag</p></li>
+  <li><p><code>abc//def</code> <br> This returns a sequence of all children of the current tag whose name is <code>def</code> and whose parent has the name <code>abc</code></p></li>
+  <li><p><code>/html</code> <br> This returns a the html root tag</p></li>
+  <li><p><code>/html//text()</code> <br> This returns all text nodes in the current html document</p></li>
+  <li><p><code>/html//.[condition]/text()</code> <br> This returns all text nodes in the current html document whose parent satisfies condition</p></li>
+  <li><p><code>for $x in <code>seq</code> return $x + 1</code> <br> This adds 1 to all elements in the sequence <code>seq</code></p></li>
+  <li><p><code>some $x in <code>seq</code> satisfies condition</code> <br> This returns true iff one element of <code>seq</code> satisfies <code>condition</code> </p></li>
+  <li><p><code>every $x in <code>seq</code> satisfies condition</code> <br> This returns true iff every element of <code>seq</code> satisfies <code>condition</code> </p></li>
+  <li><p><code>if (condition) then $x else $y</code> <br> This returns <code>$x</code> if <code>condition</code> is true, and <code>$y</code> otherwise </p></li>
+  <li><p><code>function ($a, $b) { $a + $b }</code> <br> This returns an anonymous function which adds two numbers. </p></li>
+</ul>
+
+<p>
+
+<p>A complete list of supported functions is given at <a  href="http://www.benibela.de/documentation/internettools/xpath-functions.html">http://www.benibela.de/documentation/internettools/xpath-functions.html</a>
+
+<p>Differences between this implementation and standard XPath/XQuery (most differences can be turned off with the respective option or the field in the default <a class="normal" href="xquery.TXQueryEngine.html#StaticContext">StaticContext</a>):
+
+<p>Extended syntax:<br>
+
+<p></p>
+
+<ul class="paragraph_spacing">
+  <li><p><code>x&quot;something{$var}{1+2+3}...&quot;</code> <br> If a string is prefixed with an x, all expressions within {..}-parenthesis are evaluated and concattenated to the raw text, similarily to the value of a xquery direct attribute constructor. (option: extended-strings)</p></li>
+  <li><p><code>var:=value</code> <br> This assigns the value <code>value</code> to the global variable <code>var</code> and returns <code>value</code> <br> So you can e.g. write <code>((a := 2) + 3)</code> and get <code>5</code> and a variable <code>$a</code> with the value <code>2</code> <br> <code>$a := 2</code> is also allowed <br> Can also be used to change object properties, array elements and sequences. <code>$a(&quot;property&quot;)(1)(&quot;foo&quot;)[] := 17</code> appends 17 to <code>{&quot;property&quot;: [{&quot;foo&quot;: THIS }]}</code>. (but remember that everything is immutable! so it makes a copy, except objects which are shared) </p></li>
+  <li><p>All string comparisons are case insensitive, and &quot;clever&quot;, e.g. <code>'9xy' = '9XY' &lt; '10XY' &lt; 'xy'</code>,<br> unless you use collations.</p></li>
+  <li><p>The default type system is weaker typed, most values are automatically converted if necessary, e.g. &quot;1&quot; + 2 returns 3. <br> (option: strict-type-checking)</p></li>
+  <li><p>If a namespace prefix is unknown, the namespace is resolved using the current context item. <br> This basically allows you to do namespace prefix only matching. (option: use-local-namespaces) </p></li>
+  <li><p>JSON-objects: JSON/JSONiq objects are supported. (option: json) <br> Arrays can be created with <code> [a,b,c] </code> <br> Like a sequence they store a list of values, but they can be nested with each other and within sequences. <br> <br> Object can be created with <code>{&quot;foobar&quot;: 123, &quot;hallo&quot;: &quot;world!&quot;, ...}</code> <br> They store a set of values as associative map. The values can be accessed similar to a function call, e.g.: <code>{&quot;name&quot;: value, ...}(&quot;name&quot;)</code> as documented in the JSONiq extension standard. <br> This implementation also provides an alternative property syntax, where these properties can be accessed with the usual OOP property dot syntax, i.e. <code>{&quot;name&quot;: 123}.name</code> will evaluate to <code>123</code> (can be changed with the option property-dot-notation). <br> If an object is assigned to a variable, you can append the dot to the variable name, e.g. <code>let $obj := {&quot;name&quot;: 123} return $obj.name</code>. (drawback: variable names are not allowed to contains dots, if this extension is enabled. If set to &quot;unambiguous&quot;, the dot operator can be used in cases where no confusion with variables with dots in their name can occur, e.g. <code>($a).b</code>, <code>$a .b</code> or <code>$a.&quot;b&quot;</code>. ) <br> Objects are immutable, but the properties of objects that are global variables can seemingly be changed with <code>$obj.property := newvalue</code>. This creates a new object with name <code>$obj</code> that has all the properties of the old objects plus the changed properties.<br> <br> Objects can be assigned to each other (e.g. <code>obj1 := {}, obj2 := {}, obj2.prop := 123, obj1.sub := obj2 </code> ). <br> Then <code>obj1.sub.prop = 123</code>, but changing obj1.sub.prop won't change obj2.prop (i.e. the objects are always copied, there are no pointers). <br> An alternative, older object creation syntax is the object-function (see below). <br> At default all values are allowed as object properties. If the option pure-json-objects is enabled, property values are converted to pure JSON types. (empty sequence =&gt; null, sequences =&gt; array, nodes =&gt; string) <br> <br> <br> The additional module <a class="normal" href="xquery_json.html">xquery_json</a> implements all JSONiq functions, except JSONiq update and roundtrip-serialization. <br> Using it also activates the JSONiq literal mode, in which <code>true, false, null</code> evaluate to <code>true(), false(), jn:null()</code>. (option: json-literals). </p></li>
+  <li><p>Element tests based on types of the xml are not supported (since it cannot read schemas ) </p></li>
+  <li><p>Regex remarks (it might be changed to standard compatible matching in future): </p>
+
+<ul class="paragraph_spacing">
+  <li><p>The usual s/i/m/x-flags are allowed, and you can also use '-g' to disable greedy matching.</p></li>
+  <li><p>$0 and $&amp; can be used as substitute for the whole regex, and $i or ${i} is substituted with the i-th submatch, for any integer i. Therefore $12 is match 12, while ${1}2 is match 1 followed by digit 2</p></li>
+</ul>
+
+<p> </p></li>
+  <li><p> Most of them can be disabled with 'declare option pxp:respective-option &quot;off&quot;' (that there are syntax modifying options is another extension) </p></li>
+</ul>
+
+<p>
+
+<p>You can look at the unit tests in the tests directory to see many (&gt; 5000) examples.
+
+<p><b>Using the class in FPC</b>
+
+<p>The simplest way to use it with the function <a class="normal" href="xquery.html#query">query</a> and the <a class="normal" href="xquery.html#defaultQueryEngine">defaultQueryEngine</a>.
+
+<p>You can evaluate XQuery/XPath-expressions by calling the class methods, e.g. <code><a class="normal" href="xquery.TXQueryEngine.html#evaluateStaticXPath3">TXQueryEngine.evaluateStaticXPath3</a>('expression', nil)</code> or <code><a class="normal" href="xquery.TXQueryEngine.html#evaluateStaticXPath2">TXQueryEngine.evaluateStaticXPath2</a>('expression', nil).toInt64</code> which returns the value of the expression, converted to the corresponding type.<br> If you want to process a html/xml document, you have to pass the root <a class="normal" href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> (obtained by <a class="normal" href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a>) instead of nil.<br><br><br> If you call <code><a class="normal" href="xquery.TXQueryEngine.html#evaluateStaticXPath3">TXQueryEngine.evaluateStaticXPath3</a>('expression', nil)</code> without a following toType-call, you obtain the result as an <a class="normal" href="xquery.IXQValue.html">IXQValue</a>. (see <a class="normal" href="xquery.IXQValue.html">IXQValue</a> on how to use it)<br> With a toType-call it is converted in the corresponding type, e.g. <code>toInt64</code> returns a int64, <code>toString</code> a string, <code>toNode</code> a <a class="normal" href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> or <code>toFloat</code> an extended. <br><br>
+
+<p>You can also create a <code>TXQueryEngine</code> instance and then call <code><a class="normal" href="xquery.TXQueryEngine.html#parseXPath2">parseXPath2</a>('expression')</code> and <code><a class="normal" href="xquery.TXQueryEngine.html#evaluateXPath2">evaluateXPath2</a>()</code>. <br> This is not as easy, but you have more options.
+
+<p>The unit <a class="normal" href="simpleinternet.html">simpleinternet</a> provided a simpler procedural interface which is now deprecated.
+
+<p><br><br><b>Compatibility to previous version</b><br> The following major breaking changes occured to make it more standard compatible: </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Language changes: </p>
+
+<ul class="paragraph_spacing">
+  <li><p>Function and type names are now case sensitive.</p></li>
+  <li><p>The function pxp:filter has been removed to avoid confusion with the function fn:filter. (The replacement pxp:extract has existed for years)</p></li>
+  <li><p>Declarations in XQuery need to be separated by <code>;</code> and conflicting declarations or non-module queries containing only declarations are forbidden </p></li>
+  <li><p>Variables are no longer replaced inside &quot;-strings. Instead x&quot;-strings were added. All old uses of &quot;$var;&quot; therefore have to be replaced by x&quot;{$var}&quot; </p></li>
+  <li><p>All string comparisons are now (non-localized ascii) case-insensitive, not only equal comparisons (as always mentioned in the documentation) </p></li>
+  <li><p>Variables defined by a PXPath expression inside an PXPath eval call are exported to the outside</p></li>
+  <li><p>== is no longer allowed as alias to = </p></li>
+  <li><p>the function deepNodeText is now called deep-text</p></li>
+  <li><p>regex flag s defaults to off</p></li>
+</ul>
+
+<p> </p></li>
+  <li><p>API changes to previous versions: </p>
+
+<ul class="paragraph_spacing">
+  <li><p>IXQValue.getChild was renamed to get, TXQValueSequence.addChild to add and addChildMerging to addOrdered. &quot;child&quot; never made any sense here</p></li>
+  <li><p>ParentElement/RootElement/TextElement have been moved from <code>TXQueryEngine</code> to <a class="normal" href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>. Avoid using them, just pass the element to <code>evaluate</code>. </p></li>
+  <li><p>Callbacks for external variables/functions have been changed to ask for a namespace URI instead a namespace object with URI/prefix (for 3's EQNames which do not have a prefix) </p></li>
+  <li><p>Parsing modifying properties Allow* are now moved in a <a class="normal" href="xquery.TXQueryEngine.html#ParsingOptions">ParsingOptions</a> record. It was becoming too confusing</p></li>
+  <li><p>everything has been renamed, pseudoxpath.pas =&gt; xquery.pas, TPseudoXPathParser =&gt; <code>TXQueryEngine</code>, TPXPValue =&gt; <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p></li>
+  <li><p>The TPXPValue class has been replaced by an interface =&gt; memory deallocation has become implicit and .free must not be called.<br> =&gt; functions like toString and asString become identically and latter has been removed. Similarly functions like getValueAsString() are not needed anymore and have been removed as well </p></li>
+  <li><p>TPXPValue is now a class with subclasses instead of a case record</p></li>
+  <li><p>Some things have been renamed, the new names should be obvious</p></li>
+  <li><p>The evaluate functions return now a TPXPValue instead of a string, since they may return a typed value or sequence. </p></li>
+</ul>
+
+<p>
+
+<p></p></li>
+</ul>
+
+<p></p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TXQueryEngine</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#CurrentDateTime">CurrentDateTime</a></b>: TDateTime;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#ImplicitTimezoneInMinutes">ImplicitTimezoneInMinutes</a></b>: Integer;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#StaticContext">StaticContext</a></b>: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#VariableChangelog">VariableChangelog</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#OnDeclareExternalVariable">OnDeclareExternalVariable</a></b>: <a  href="xquery.html#TXQDeclareExternalVariableEvent">TXQDeclareExternalVariableEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#OnDeclareExternalFunction">OnDeclareExternalFunction</a></b>: <a  href="xquery.html#TXQDeclareExternalFunctionEvent">TXQDeclareExternalFunctionEvent</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#OnImportModule">OnImportModule</a></b>: <a  href="xquery.html#TXQImportModuleEvent">TXQImportModuleEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#OnTrace">OnTrace</a></b>: <a  href="xquery.html#TXQTraceEvent">TXQTraceEvent</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#OnCollection">OnCollection</a></b>: <a  href="xquery.html#TXQEvaluateVariableEvent">TXQEvaluateVariableEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#OnUriCollection">OnUriCollection</a></b>: <a  href="xquery.html#TXQEvaluateVariableEvent">TXQEvaluateVariableEvent</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#OnParseDoc">OnParseDoc</a></b>: <a  href="xquery.html#TXQParseDocEvent">TXQParseDocEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#ParsingOptions">ParsingOptions</a></b>: <a  href="xquery.TXQParsingOptions.html">TXQParsingOptions</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#GlobalNamespaces">GlobalNamespaces</a></b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#AutomaticallyRegisterParsedModules">AutomaticallyRegisterParsedModules</a></b>: boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQueryEngine.html#DefaultParser">DefaultParser</a></b>: <a  href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQueryEngine.html#clear">clear</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#parseXPath2">parseXPath2</a></b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#parseXQuery1">parseXQuery1</a></b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#parseXPath3">parseXPath3</a></b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#parseXQuery3">parseXQuery3</a></b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#parseCSS3">parseCSS3</a></b>(s:string): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#parseQuery">parseQuery</a></b>(s:string; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a>; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluate">evaluate</a></b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluate">evaluate</a></b>(const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluate">evaluate</a></b>(tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQueryEngine.html#create">create</a></b>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="xquery.TXQueryEngine.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXPath2">evaluateXPath2</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXPath2">evaluateXPath2</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXQuery1">evaluateXQuery1</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXQuery1">evaluateXQuery1</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXPath3">evaluateXPath3</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXPath3">evaluateXPath3</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXQuery3">evaluateXQuery3</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateXQuery3">evaluateXQuery3</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateCSS3">evaluateCSS3</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#evaluateCSS3">evaluateCSS3</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXPath2">evaluateStaticXPath2</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXPath2">evaluateStaticXPath2</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXPath3">evaluateStaticXPath3</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXPath3">evaluateStaticXPath3</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXQuery1">evaluateStaticXQuery1</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXQuery1">evaluateStaticXQuery1</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXQuery3">evaluateStaticXQuery3</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticXQuery3">evaluateStaticXQuery3</a></b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#evaluateStaticCSS3">evaluateStaticCSS3</a></b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.TXQueryEngine.html#registerModule">registerModule</a></b>(module: <a  href="xquery.IXQuery.html">IXQuery</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#findModule">findModule</a></b>(const namespaceURL: string): <a  href="xquery.TXQuery.html">TXQuery</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#findNativeModule">findNativeModule</a></b>(const ns: string): <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <b><a  href="xquery.TXQueryEngine.html#registerCollation">registerCollation</a></b>(const collation: <a  href="xquery.TXQCollation.html">TXQCollation</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#getCollation">getCollation</a></b>(id:string; base: string; errCode: string = 'FOCH0002'): <a  href="xquery.TXQCollation.html">TXQCollation</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class procedure <b><a  href="xquery.TXQueryEngine.html#registerNativeModule">registerNativeModule</a></b>(const module: <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#collationsInternal">collationsInternal</a></b>: TStringList;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#getEvaluationContext">getEvaluationContext</a></b>(staticContextOverride: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQueryEngine.html#findNamespace">findNamespace</a></b>(const nsprefix: string): <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQueryEngine.html#findOperator">findOperator</a></b>(const pos: pchar): <a  href="xquery.TXQOperatorInfo.html">TXQOperatorInfo</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.TXQueryEngine.html#ExternalDocumentsCacheInternal">ExternalDocumentsCacheInternal</a></b>: TStringList read FExternalDocuments write FExternalDocuments;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.TXQueryEngine.html#LastQuery">LastQuery</a></b>: <a  href="xquery.IXQuery.html">IXQuery</a> read FLastQuery;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="CurrentDateTime"></a><code><b>CurrentDateTime</b>: TDateTime;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Current time</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ImplicitTimezoneInMinutes"></a><code><b>ImplicitTimezoneInMinutes</b>: Integer;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Local timezone (high(integer) = unknown, 0 = utc).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="StaticContext"></a><code><b>StaticContext</b>: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+XQuery static context, defining various default values.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="VariableChangelog"></a><code><b>VariableChangelog</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+All global variables that have been set (if a variable was overriden, it stores the old and new value)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OnDeclareExternalVariable"></a><code><b>OnDeclareExternalVariable</b>: <a  href="xquery.html#TXQDeclareExternalVariableEvent">TXQDeclareExternalVariableEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OnDeclareExternalFunction"></a><code><b>OnDeclareExternalFunction</b>: <a  href="xquery.html#TXQDeclareExternalFunctionEvent">TXQDeclareExternalFunctionEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Event called to import a function that is declared as &quot;declare function ... external&quot; in a XQuery expression.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OnImportModule"></a><code><b>OnImportModule</b>: <a  href="xquery.html#TXQImportModuleEvent">TXQImportModuleEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Event called to import a XQuery module that has not previously be defined</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OnTrace"></a><code><b>OnTrace</b>: <a  href="xquery.html#TXQTraceEvent">TXQTraceEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Event called by fn:trace</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OnCollection"></a><code><b>OnCollection</b>: <a  href="xquery.html#TXQEvaluateVariableEvent">TXQEvaluateVariableEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Event called by fn:collection</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OnUriCollection"></a><code><b>OnUriCollection</b>: <a  href="xquery.html#TXQEvaluateVariableEvent">TXQEvaluateVariableEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Event called by fn:collection</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="OnParseDoc"></a><code><b>OnParseDoc</b>: <a  href="xquery.html#TXQParseDocEvent">TXQParseDocEvent</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Event called by fn:doc (if nil, a default xml parser is used)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ParsingOptions"></a><code><b>ParsingOptions</b>: <a  href="xquery.TXQParsingOptions.html">TXQParsingOptions</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="GlobalNamespaces"></a><code><b>GlobalNamespaces</b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Globally defined namespaces</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="AutomaticallyRegisterParsedModules"></a><code><b>AutomaticallyRegisterParsedModules</b>: boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="DefaultParser"></a><code><b>DefaultParser</b>: <a  href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clear"></a><code>procedure <b>clear</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Clears all data.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseXPath2"></a><code>function <b>parseXPath2</b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Parses a new XPath 2.0 expression and stores it in tokenized form.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseXQuery1"></a><code>function <b>parseXQuery1</b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Parses a new XQuery 1.0 expression and stores it in tokenized form.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseXPath3"></a><code>function <b>parseXPath3</b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Parses a new XPath 3.0 expression and stores it in tokenized form. Work in progress, only a small set of 3.0 statements is supported</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseXQuery3"></a><code>function <b>parseXQuery3</b>(s:string; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Parses a new XQuery 3.0 expression and stores it in tokenized form. Work in progress, only a small set of 3.0 statements is supported</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseCSS3"></a><code>function <b>parseCSS3</b>(s:string): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Parses a new CSS 3.0 Selector expression and stores it in tokenized form.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseQuery"></a><code>function <b>parseQuery</b>(s:string; model: <a  href="xquery.html#TXQParsingModel">TXQParsingModel</a>; sharedContext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Parses a new expression and stores it in tokenized form.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluate"></a><code>function <b>evaluate</b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluate"></a><code>function <b>evaluate</b>(const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates a previously parsed <a class="normal" href="xquery.html#query">query</a> and returns its value as <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluate"></a><code>function <b>evaluate</b>(tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates a previously parsed <a class="normal" href="xquery.html#query">query</a> and returns its value as <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXPath2"></a><code>function <b>evaluateXPath2</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates an XPath 2.0 expression with a certain tree element as current node.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXPath2"></a><code>function <b>evaluateXPath2</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXQuery1"></a><code>function <b>evaluateXQuery1</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates an XQuery 1.0 expression with a certain tree element as current node.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXQuery1"></a><code>function <b>evaluateXQuery1</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXPath3"></a><code>function <b>evaluateXPath3</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates an XPath 3.0 expression with a certain tree element as current node. Work in progress, only a small set of 3.0 statements is supported</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXPath3"></a><code>function <b>evaluateXPath3</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXQuery3"></a><code>function <b>evaluateXQuery3</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates an XQuery 3.0 expression with a certain tree element as current node. Work in progress, only a small set of 3.0 statements is supported</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateXQuery3"></a><code>function <b>evaluateXQuery3</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateCSS3"></a><code>function <b>evaluateCSS3</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates an CSS 3 Selector expression with a certain tree element as current node.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateCSS3"></a><code>function <b>evaluateCSS3</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXPath2"></a><code>class function <b>evaluateStaticXPath2</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates an expression with a certain tree element as current node.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXPath2"></a><code>class function <b>evaluateStaticXPath2</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXPath3"></a><code>class function <b>evaluateStaticXPath3</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXPath3"></a><code>class function <b>evaluateStaticXPath3</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXQuery1"></a><code>class function <b>evaluateStaticXQuery1</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXQuery1"></a><code>class function <b>evaluateStaticXQuery1</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXQuery3"></a><code>class function <b>evaluateStaticXQuery3</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticXQuery3"></a><code>class function <b>evaluateStaticXQuery3</b>(expression: string; const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluateStaticCSS3"></a><code>class function <b>evaluateStaticCSS3</b>(expression: string; tree:<a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates an expression with a certain tree element as current node.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerModule"></a><code>procedure <b>registerModule</b>(module: <a  href="xquery.IXQuery.html">IXQuery</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Registers an XQuery module. A XQuery module is created by parsing (not evaluating) a XQuery expression that contains a &quot;module&quot; declaration</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findModule"></a><code>function <b>findModule</b>(const namespaceURL: string): <a  href="xquery.TXQuery.html">TXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Finds a certain registered XQuery module</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findNativeModule"></a><code>class function <b>findNativeModule</b>(const ns: string): <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Finds a native module.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerCollation"></a><code>class procedure <b>registerCollation</b>(const collation: <a  href="xquery.TXQCollation.html">TXQCollation</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Registers a collation for custom string comparisons</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getCollation"></a><code>class function <b>getCollation</b>(id:string; base: string; errCode: string = 'FOCH0002'): <a  href="xquery.TXQCollation.html">TXQCollation</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the collation for an url id</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="registerNativeModule"></a><code>class procedure <b>registerNativeModule</b>(const module: <a  href="xquery.TXQNativeModule.html">TXQNativeModule</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="collationsInternal"></a><code>class function <b>collationsInternal</b>: TStringList;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getEvaluationContext"></a><code>function <b>getEvaluationContext</b>(staticContextOverride: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a> = nil): <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findNamespace"></a><code>function <b>findNamespace</b>(const nsprefix: string): <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="findOperator"></a><code>class function <b>findOperator</b>(const pos: pchar): <a  href="xquery.TXQOperatorInfo.html">TXQOperatorInfo</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ExternalDocumentsCacheInternal"></a><code>property <b>ExternalDocumentsCacheInternal</b>: TStringList read FExternalDocuments write FExternalDocuments;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="LastQuery"></a><code>property <b>LastQuery</b>: <a  href="xquery.IXQuery.html">IXQuery</a> read FLastQuery;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Last parsed <a class="normal" href="xquery.html#query">query</a></p>
+</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

@@ -1,0 +1,116 @@
+object FormAbout: TFormAbout
+  Left = 633
+  Height = 245
+  Top = 106
+  Width = 416
+  BorderStyle = bsDialog
+  Caption = 'About'
+  ClientHeight = 245
+  ClientWidth = 416
+  Font.Height = -13
+  Font.Name = 'Segoe UI'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  Position = poDesktopCenter
+  LCLVersion = '1.4.2.0'
+  object bOk: TBitBtn
+    Left = 333
+    Height = 25
+    Top = 208
+    Width = 70
+    Anchors = [akRight, akBottom]
+    Default = True
+    DefaultCaption = True
+    Kind = bkOK
+    ModalResult = 1
+    OnClick = bOkClick
+    TabOrder = 0
+  end
+  object lblTitle: TLabel
+    Left = 43
+    Height = 17
+    Top = 16
+    Width = 331
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'lblTitle'
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object lblVersion: TLabel
+    Left = 18
+    Height = 17
+    Top = 32
+    Width = 381
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'lblVersion'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 19
+    Height = 21
+    Top = 96
+    Width = 136
+    Caption = 'Kinesis Corporation'
+    Font.Height = -16
+    Font.Name = 'Segoe UI'
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 19
+    Height = 17
+    Top = 134
+    Width = 43
+    Caption = 'Phone :'
+    ParentColor = False
+  end
+  object lblVersion1: TLabel
+    Left = 80
+    Height = 17
+    Top = 134
+    Width = 148
+    Caption = '1-800-454-6374 (US only)'
+    ParentColor = False
+  end
+  object lblVersion2: TLabel
+    Left = 80
+    Height = 17
+    Top = 151
+    Width = 97
+    Caption = 'or 425-402-8100'
+    ParentColor = False
+  end
+  object lblWebsite: TLabel
+    Cursor = crHandPoint
+    Left = 19
+    Height = 17
+    Top = 116
+    Width = 96
+    Caption = 'www.kinesis.com'
+    Font.Color = clHighlight
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsUnderline]
+    ParentColor = False
+    ParentFont = False
+    OnClick = lblWebsiteClick
+  end
+  object lblFirmware: TLabel
+    Left = -1
+    Height = 17
+    Top = 50
+    Width = 417
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'lblFirmware'
+    ParentColor = False
+  end
+end

@@ -1,0 +1,181 @@
+object FormSaveAs: TFormSaveAs
+  Left = 533
+  Height = 149
+  Top = 355
+  Width = 392
+  BorderStyle = bsDialog
+  Caption = 'Save As'
+  ClientHeight = 149
+  ClientWidth = 392
+  Color = 2500134
+  Font.Name = 'Tahoma'
+  OnCreate = FormCreate
+  Position = poMainFormCenter
+  LCLVersion = '2.0.4.0'
+  object rgLayout: TRadioButton
+    Left = 31
+    Height = 18
+    Top = 36
+    Width = 22
+    OnChange = rgLayoutChange
+    OnClick = rgLayoutClick
+    ParentFont = False
+    TabOrder = 0
+  end
+  object rgCustom: TRadioButton
+    Left = 31
+    Height = 18
+    Top = 68
+    Width = 22
+    OnChange = rgCustomChange
+    OnClick = rgCustomClick
+    ParentFont = False
+    TabOrder = 1
+  end
+  object lblLayoutFile: TLabel
+    Left = 56
+    Height = 19
+    Hint = 'Assign to position 1-9 for easy access'
+    Top = 36
+    Width = 176
+    Caption = 'Assign to Layout Position'
+    Color = 2500134
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Transparent = False
+    OnClick = lblLayoutFileClick
+  end
+  object lblCustomLayout: TLabel
+    Left = 56
+    Height = 19
+    Hint = 'Saved to the keyboard but not directly accessible'
+    Top = 68
+    Width = 110
+    Caption = 'Save as Backup'
+    Color = 2500134
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Transparent = False
+    OnClick = lblCustomLayoutClick
+  end
+  object cboLayout: TComboBox
+    Left = 280
+    Height = 20
+    Hint = 'Assign to position 1-9 for easy access'
+    Top = 32
+    Width = 56
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    ItemHeight = 26
+    ItemIndex = 0
+    Items.Strings = (
+      '1'
+      '2'
+      '3'
+      '4'
+      '5'
+      '6'
+      '7'
+      '8'
+      '9'
+    )
+    OnSelect = cboLayoutSelect
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    Style = csDropDownList
+    TabOrder = 2
+    Text = '1'
+  end
+  object eCustLayout: TEdit
+    Left = 280
+    Height = 29
+    Hint = 'Saved to the keyboard but not directly accessible'
+    Top = 64
+    Width = 101
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 3
+  end
+  object btnSave: THSSpeedButton
+    Left = 160
+    Height = 32
+    Top = 104
+    Width = 107
+    Alignment = taCenter
+    Anchors = [akTop, akRight]
+    Border = 1
+    Caption = 'Save'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ShadowColor = 4012079
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnSaveClick
+  end
+  object btnCancel: THSSpeedButton
+    Left = 274
+    Height = 32
+    Top = 104
+    Width = 107
+    Alignment = taCenter
+    Anchors = [akTop, akRight]
+    Border = 1
+    Caption = 'Cancel'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ShadowColor = 4012079
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnCancelClick
+  end
+end

@@ -1,0 +1,59 @@
+object ProgressBarDialog: TProgressBarDialog
+  Left = 293
+  Height = 62
+  Top = 191
+  Width = 501
+  HorzScrollBar.Page = 355
+  HorzScrollBar.Range = 378
+  HorzScrollBar.Visible = False
+  VertScrollBar.Page = 34
+  VertScrollBar.Range = 56
+  VertScrollBar.Visible = False
+  AutoSize = True
+  BorderIcons = []
+  BorderStyle = bsDialog
+  Caption = 'ProgressBarDialog'
+  ClientHeight = 62
+  ClientWidth = 501
+  FormStyle = fsStayOnTop
+  LCLVersion = '1.8.0.5'
+  object Label1: TLabel
+    Left = 9
+    Height = 1
+    Top = 9
+    Width = 1
+    BorderSpacing.Around = 6
+    ParentColor = False
+  end
+  object barLabel: TLabel
+    AnchorSideLeft.Control = ProgressBar1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = ProgressBar1
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Side = asrBottom
+    Left = 461
+    Height = 18
+    Top = 19
+    Width = 40
+    Anchors = [akTop, akRight]
+    BorderSpacing.Around = 6
+    Caption = '??? % '
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object ProgressBar1: TProgressBar
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = barLabel
+    Left = 8
+    Height = 25
+    Top = 16
+    Width = 447
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Around = 6
+    Smooth = True
+    TabOrder = 0
+    BarShowText = True
+  end
+end

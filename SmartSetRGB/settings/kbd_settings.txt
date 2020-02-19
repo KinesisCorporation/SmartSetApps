@@ -1,0 +1,8 @@
+startup_file=layout2.txt
+led_mode=led2.txt
+macro_speed=3
+game_mode=OFF
+profile_sync_mode=ON
+status_play_speed=2
+program_key_lock=OFF
+v_drive=manual

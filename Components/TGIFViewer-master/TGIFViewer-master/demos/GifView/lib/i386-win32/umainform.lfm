@@ -1,0 +1,454 @@
+object MainForm: TMainForm
+  Left = 0
+  Height = 480
+  Top = 0
+  Width = 640
+  ActiveControl = chkCenterGIF
+  AllowDropFiles = True
+  Caption = 'GIF Viewer'
+  ClientHeight = 480
+  ClientWidth = 640
+  Constraints.MinHeight = 480
+  Constraints.MinWidth = 640
+  Font.Height = -13
+  Font.Name = 'Verdana'
+  FormStyle = fsSystemStayOnTop
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnDropFiles = FormDropFiles
+  OnShow = FormShow
+  Position = poScreenCenter
+  Visible = False
+  object Panel1: TPanel
+    Left = 0
+    Height = 70
+    Top = 0
+    Width = 640
+    Align = alTop
+    ClientHeight = 70
+    ClientWidth = 640
+    TabOrder = 0
+    object Panel5: TPanel
+      Left = 1
+      Height = 28
+      Top = 41
+      Width = 638
+      Align = alClient
+      BorderSpacing.Top = 4
+      BevelOuter = bvNone
+      ClientHeight = 28
+      ClientWidth = 638
+      TabOrder = 0
+      object Label2: TLabel
+        Left = 4
+        Height = 25
+        Top = 0
+        Width = 57
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Bottom = 3
+        Caption = 'Version :'
+        Layout = tlCenter
+        ParentColor = False
+      end
+      object lblVersion: TLabel
+        Left = 65
+        Height = 25
+        Top = 0
+        Width = 20
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Bottom = 3
+        Caption = '----'
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label3: TLabel
+        Left = 89
+        Height = 25
+        Top = 0
+        Width = 124
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Bottom = 3
+        Caption = 'Nombre d''images :'
+        Layout = tlCenter
+        ParentColor = False
+      end
+      object lblFrameCount: TLabel
+        Left = 217
+        Height = 25
+        Top = 0
+        Width = 20
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Bottom = 3
+        Caption = '----'
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+      object btnChooseBackgroundColor: TColorButton
+        Left = 590
+        Height = 25
+        Top = 0
+        Width = 44
+        Align = alRight
+        BorderSpacing.Left = 4
+        BorderSpacing.Right = 4
+        BorderSpacing.Bottom = 3
+        BorderWidth = 0
+        ButtonColorSize = 16
+        ButtonColor = clGreen
+        OnColorChanged = btnChooseBackgroundColorColorChanged
+      end
+      object Label4: TLabel
+        Left = 471
+        Height = 25
+        Top = 0
+        Width = 115
+        Align = alRight
+        BorderSpacing.Left = 4
+        BorderSpacing.Right = 4
+        BorderSpacing.Bottom = 3
+        Caption = 'Couleur du fond : '
+        Layout = tlCenter
+        ParentColor = False
+      end
+    end
+    object Panel6: TPanel
+      Left = 1
+      Height = 36
+      Top = 1
+      Width = 638
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 36
+      ClientWidth = 638
+      TabOrder = 1
+      object lblFileName: TLabel
+        Left = 4
+        Height = 34
+        Top = 2
+        Width = 443
+        Align = alClient
+        Alignment = taCenter
+        AutoSize = False
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 2
+        BorderSpacing.Right = 4
+        Caption = 'Glissez et déposez un fichier pour l''ouvrir'
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 451
+        Height = 28
+        Top = 4
+        Width = 60
+        Align = alRight
+        Alignment = taRightJustify
+        BorderSpacing.Around = 4
+        Caption = 'Langage :'
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+      object cbxLang: TComboBox
+        Left = 515
+        Height = 32
+        Top = 4
+        Width = 119
+        Align = alRight
+        BorderSpacing.Top = 4
+        BorderSpacing.Right = 4
+        ItemHeight = 0
+        ItemIndex = 0
+        Items.Strings = (
+          'fr'
+          'en'
+        )
+        OnSelect = cbxLangSelect
+        Style = csDropDownList
+        TabOrder = 0
+        Text = 'fr'
+      end
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 48
+    Top = 432
+    Width = 640
+    Align = alBottom
+    ClientHeight = 48
+    ClientWidth = 640
+    TabOrder = 1
+    object pnlAnimationPlayer: TPanel
+      Left = 1
+      Height = 46
+      Top = 1
+      Width = 247
+      Align = alLeft
+      ClientHeight = 46
+      ClientWidth = 247
+      Enabled = False
+      TabOrder = 0
+      object btnStartAnimation: TButton
+        Left = 5
+        Height = 28
+        Top = 9
+        Width = 75
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 8
+        BorderSpacing.Bottom = 8
+        Caption = 'Start'
+        OnClick = btnStartAnimationClick
+        TabOrder = 0
+      end
+      object btnPauseAnimation: TButton
+        Left = 84
+        Height = 28
+        Top = 9
+        Width = 75
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 8
+        BorderSpacing.Bottom = 8
+        Caption = 'Pause'
+        OnClick = btnPauseAnimationClick
+        TabOrder = 1
+      end
+      object btnStopAnimation: TButton
+        Left = 163
+        Height = 28
+        Top = 9
+        Width = 75
+        Align = alLeft
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 8
+        BorderSpacing.Bottom = 8
+        Caption = 'Stop'
+        OnClick = btnStopAnimationClick
+        TabOrder = 2
+      end
+    end
+    object Panel3: TPanel
+      Left = 248
+      Height = 46
+      Top = 1
+      Width = 391
+      Align = alClient
+      ClientHeight = 46
+      ClientWidth = 391
+      TabOrder = 1
+      object Label1: TLabel
+        Left = 5
+        Height = 36
+        Top = 5
+        Width = 60
+        Align = alLeft
+        BorderSpacing.Around = 4
+        Caption = 'Images : '
+        Layout = tlCenter
+        ParentColor = False
+      end
+      object lblCurrentFrame: TLabel
+        Left = 69
+        Height = 36
+        Top = 5
+        Width = 36
+        Align = alLeft
+        Alignment = taCenter
+        AutoSize = False
+        BorderSpacing.Around = 4
+        Caption = '0'
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label6: TLabel
+        Left = 109
+        Height = 36
+        Top = 5
+        Width = 8
+        Align = alLeft
+        BorderSpacing.Around = 4
+        Caption = '/ '
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+      object lblTotalFrame: TLabel
+        Left = 121
+        Height = 36
+        Top = 5
+        Width = 36
+        Align = alLeft
+        Alignment = taCenter
+        AutoSize = False
+        BorderSpacing.Around = 4
+        Caption = '0'
+        Font.Height = -11
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+  end
+  object pnlView: TPanel
+    Left = 0
+    Height = 212
+    Top = 70
+    Width = 640
+    Align = alClient
+    Color = clGreen
+    ParentColor = False
+    TabOrder = 2
+  end
+  object Panel4: TPanel
+    Left = 0
+    Height = 45
+    Top = 387
+    Width = 640
+    Align = alBottom
+    ClientHeight = 45
+    ClientWidth = 640
+    TabOrder = 3
+    object chkCenterGIF: TCheckBox
+      Left = 5
+      Height = 35
+      Top = 5
+      Width = 67
+      Align = alLeft
+      AutoSize = False
+      BorderSpacing.Around = 4
+      Caption = 'Centrer'
+      Checked = True
+      OnClick = chkCenterGIFClick
+      State = cbChecked
+      TabOrder = 0
+    end
+    object chkStretchGIF: TCheckBox
+      Left = 76
+      Height = 35
+      Top = 5
+      Width = 75
+      Align = alLeft
+      BorderSpacing.Around = 4
+      Caption = 'Adapter'
+      OnChange = chkStretchGIFChange
+      TabOrder = 1
+    end
+    object pnlSelectFrame: TPanel
+      Left = 390
+      Height = 43
+      Top = 1
+      Width = 249
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 43
+      ClientWidth = 249
+      TabOrder = 2
+      object chkViewRawFrame: TCheckBox
+        Left = 5
+        Height = 29
+        Top = 7
+        Width = 172
+        Align = alRight
+        AutoSize = False
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 7
+        BorderSpacing.Bottom = 7
+        Caption = 'Parcourir images brutes'
+        TabOrder = 0
+      end
+      object edtViewFrameIndex: TSpinEdit
+        Left = 181
+        Height = 35
+        Top = 4
+        Width = 64
+        Align = alRight
+        BorderSpacing.Left = 4
+        BorderSpacing.Top = 4
+        BorderSpacing.Right = 4
+        BorderSpacing.Bottom = 4
+        OnChange = edtViewFrameIndexChange
+        TabOrder = 1
+      end
+    end
+    object chkTransparent: TCheckBox
+      Left = 287
+      Height = 35
+      Top = 5
+      Width = 99
+      Align = alLeft
+      AutoSize = False
+      BorderSpacing.Around = 4
+      Caption = 'Transparent'
+      Checked = True
+      OnChange = chkTransparentChange
+      State = cbChecked
+      TabOrder = 3
+    end
+    object cbxStretchMode: TComboBox
+      Left = 155
+      Height = 33
+      Top = 7
+      Width = 128
+      Align = alLeft
+      BorderSpacing.Left = 2
+      BorderSpacing.Top = 6
+      BorderSpacing.Bottom = 4
+      ItemHeight = 0
+      OnSelect = cbxStretchModeSelect
+      Style = csDropDownList
+      TabOrder = 4
+    end
+  end
+  object gbxComments: TGroupBox
+    Left = 0
+    Height = 105
+    Top = 282
+    Width = 640
+    Align = alBottom
+    Caption = 'Commentaires '
+    ClientHeight = 87
+    ClientWidth = 638
+    TabOrder = 4
+    object mmoComments: TMemo
+      Left = 4
+      Height = 79
+      Top = 4
+      Width = 630
+      Align = alClient
+      BorderSpacing.Around = 4
+      ReadOnly = True
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+    end
+  end
+end

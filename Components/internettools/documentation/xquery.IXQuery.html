@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Interface IXQuery</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="IXQuery"></a><h1 class="cio">Interface IXQuery</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td>Fields</td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td><a class="section" href="#PasDoc-Properties">Properties</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type IXQuery = interface(IInterface)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Interface for an XPath/XQuery <a class="normal" href="xquery.html#query">query</a>.</p>
+<p>
+ Reference counted. Call evaluate to evaluate it.</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">IInterface</li>
+<li class="thisitem">IXQuery</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.IXQuery.html#evaluate">evaluate</a></b>(const tree: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.IXQuery.html#evaluate">evaluate</a></b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.IXQuery.html#evaluate">evaluate</a></b>(const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.IXQuery.html#getTerm">getTerm</a></b>: <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="xquery.IXQuery.html#setTerm">setTerm</a></b>(aterm: <a  href="xquery.TXQTerm.html">TXQTerm</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.IXQuery.html#clone">clone</a></b>: <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.IXQuery.html#visit">visit</a></b>(visitor: <a  href="xquery.html#TXQTerm_VisitorClass">TXQTerm_VisitorClass</a>; parent: <a  href="xquery.TXQTerm.html">TXQTerm</a> = nil): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.IXQuery.html#visit">visit</a></b>(visitor: <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>; parent: <a  href="xquery.TXQTerm.html">TXQTerm</a> = nil): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="xquery.IXQuery.html#Term">Term</a></b>: <a  href="xquery.TXQTerm.html">TXQTerm</a> read <a  href="xquery.IXQuery.html#getTerm">getTerm</a> write <a  href="xquery.IXQuery.html#setTerm">setTerm</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluate"></a><code>function <b>evaluate</b>(const tree: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates the <a class="normal" href="xquery.html#query">query</a> with a certain root element (i.e. <code>/</code> will return tree)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluate"></a><code>function <b>evaluate</b>(var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates the <a class="normal" href="xquery.html#query">query</a> with a certain evaluation context</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="evaluate"></a><code>function <b>evaluate</b>(const contextItem: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Evaluates the <a class="normal" href="xquery.html#query">query</a> with (i.e. <code>.</code> will return contextItem. If it is a node <code>/</code> will return the root of it)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getTerm"></a><code>function <b>getTerm</b>: <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="setTerm"></a><code>procedure <b>setTerm</b>(aterm: <a  href="xquery.TXQTerm.html">TXQTerm</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clone"></a><code>function <b>clone</b>: <a  href="xquery.IXQuery.html">IXQuery</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="visit"></a><code>function <b>visit</b>(visitor: <a  href="xquery.html#TXQTerm_VisitorClass">TXQTerm_VisitorClass</a>; parent: <a  href="xquery.TXQTerm.html">TXQTerm</a> = nil): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="visit"></a><code>function <b>visit</b>(visitor: <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>; parent: <a  href="xquery.TXQTerm.html">TXQTerm</a> = nil): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Term"></a><code>property <b>Term</b>: <a  href="xquery.TXQTerm.html">TXQTerm</a> read <a  href="xquery.IXQuery.html#getTerm">getTerm</a> write <a  href="xquery.IXQuery.html#setTerm">setTerm</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+The AST of the <a class="normal" href="xquery.html#query">query</a></p>
+</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

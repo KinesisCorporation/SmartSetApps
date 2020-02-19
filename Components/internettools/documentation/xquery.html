@@ -1,0 +1,2682 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit xquery</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td><a class="section" href="#PasDoc-Constants">Constants</a></td><td><a class="section" href="#PasDoc-Variables">Variables</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+<p>
+This unit contains a modern XPath / XQuery interpreter</p>
+<p>
+
+
+<p>The most important class is <a class="normal" href="xquery.TXQueryEngine.html">TXQueryEngine</a>, which implements the interpreter, and <a class="normal" href="xquery.IXQValue.html">IXQValue</a>, which is the variant used to store the results.
+
+<p>The simplest way to evaluate an expression is to use the global function <code><a class="normal" href="xquery.html#query">query</a></code>.
+
+<p>For example, if you want to find all links on a webpage, you can do one of the following:
+
+<p><code> <a class="normal" href="xquery.html#query">query</a>('doc(&quot;<a  href="http://example.org">http://example.org</a>&quot;)//a') </code>
+
+<p><code> <a class="normal" href="xquery.html#query">query</a>('&quot;<a  href="http://example.org">http://example.org</a>&quot;').retrieve().map('//a') </code>
+
+<p><code> <a class="normal" href="xquery.html#xqvalue">xqvalue</a>('<a  href="http://example.org">http://example.org</a>').retrieve().map('//a') </code>
+
+<p><code> <a class="normal" href="xquery.html#query">query</a>('doc($_1)//a', ['<a  href="http://example.org">http://example.org</a>']) </code>
+
+<p>The first example is the simplest, the third demonstrates the functional interface of <a class="normal" href="xquery.IXQValue.html">IXQValue</a>, and the last how to use variables with <a class="normal" href="xquery.html#query">query</a>.
+
+<p></p>
+<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-Classes"></a><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.float.html"><code>float</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQValueEnumeratorPtrUnsafe.html"><code>TXQValueEnumeratorPtrUnsafe</code></a></td>
+<td class="itemdesc">Iterator over <a class="normal" href="xquery.html#PIXQValue">PIXQValue</a>.</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQValueEnumerator.html"><code>TXQValueEnumerator</code></a></td>
+<td class="itemdesc">Iterator over an <a class="normal" href="xquery.IXQValue.html">IXQValue</a>.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQStaticContext.html"><code>TXQStaticContext</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQEvaluationContext.html"><code>TXQEvaluationContext</code></a></td>
+<td class="itemdesc">evaluation context, internal used</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQValueDateTimeData.html"><code>TXQValueDateTimeData</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="xquery.IXQValue.html"><code>IXQValue</code></a></td>
+<td class="itemdesc">Variant used in XQuery-expressions</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValue.html"><code>TXQValue</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueUndefined.html"><code>TXQValueUndefined</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueBoolean.html"><code>TXQValueBoolean</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueInt64.html"><code>TXQValueInt64</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueFloat.html"><code>TXQValueFloat</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueDecimal.html"><code>TXQValueDecimal</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueString.html"><code>TXQValueString</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueQName.html"><code>TXQValueQName</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueDateTime.html"><code>TXQValueDateTime</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueSequence.html"><code>TXQValueSequence</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueJSONIQStructuredItem.html"><code>TXQValueJSONIQStructuredItem</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueNode.html"><code>TXQValueNode</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQPropertyEnumeratorInternal.html"><code>TXQPropertyEnumeratorInternal</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQProperty.html"><code>TXQProperty</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValuePropertyEnumerator.html"><code>TXQValuePropertyEnumerator</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueJSONIQItem.html"><code>TXQValueJSONIQItem</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueObject.html"><code>TXQValueObject</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueJSONArray.html"><code>TXQValueJSONArray</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueJSONNull.html"><code>TXQValueJSONNull</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQFunctionParameter.html"><code>TXQFunctionParameter</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQEQName.html"><code>TXQEQName</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQEQNameWithPrefix.html"><code>TXQEQNameWithPrefix</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQAnnotation.html"><code>TXQAnnotation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValueFunction.html"><code>TXQValueFunction</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSAnnotation.html"><code>TXSAnnotation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSConstrainingFacet.html"><code>TXSConstrainingFacet</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSConstrainingFacetOrdinal.html"><code>TXSConstrainingFacetOrdinal</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSConstrainingFacetValue.html"><code>TXSConstrainingFacetValue</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSConstrainingFacetObject.html"><code>TXSConstrainingFacetObject</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSType.html"><code>TXSType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSSimpleType.html"><code>TXSSimpleType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSUnionType.html"><code>TXSUnionType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSListType.html"><code>TXSListType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSNumericType.html"><code>TXSNumericType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSBooleanType.html"><code>TXSBooleanType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSStringType.html"><code>TXSStringType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSQNameType.html"><code>TXSQNameType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSDateTimeType.html"><code>TXSDateTimeType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQMapStringObject.html"><code>TXQMapStringObject</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXSSchema.html"><code>TXSSchema</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TJSONiqOverrideSchema.html"><code>TJSONiqOverrideSchema</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TJSONiqAdditionSchema.html"><code>TJSONiqAdditionSchema</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQVCustomList.html"><code>TXQVCustomList</code></a></td>
+<td class="itemdesc">List of <a class="normal" href="xquery.TXQValue.html">TXQValue</a>-s</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQVList.html"><code>TXQVList</code></a></td>
+<td class="itemdesc">List of <a class="normal" href="xquery.TXQValue.html">TXQValue</a>-s</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQEvaluationStack.html"><code>TXQEvaluationStack</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQFunctionParameterTypes.html"><code>TXQFunctionParameterTypes</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQAbstractFunctionInfo.html"><code>TXQAbstractFunctionInfo</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQBasicFunctionInfo.html"><code>TXQBasicFunctionInfo</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQComplexFunctionInfo.html"><code>TXQComplexFunctionInfo</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQInterpretedFunctionInfo.html"><code>TXQInterpretedFunctionInfo</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQOperatorInfo.html"><code>TXQOperatorInfo</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQPathMatchingStepFilter.html"><code>TXQPathMatchingStepFilter</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQPathMatchingStep.html"><code>TXQPathMatchingStep</code></a></td>
+<td class="itemdesc">Step of a <a class="normal" href="xquery.html#query">query</a> in a tree</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQPathNodeCondition.html"><code>TXQPathNodeCondition</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTerm_Visitor.html"><code>TXQTerm_Visitor</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTerm.html"><code>TXQTerm</code></a></td>
+<td class="itemdesc">Internally used xpath term</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermWithChildren.html"><code>TXQTermWithChildren</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermWithChildrenOnStack.html"><code>TXQTermWithChildrenOnStack</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermConstant.html"><code>TXQTermConstant</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermSequence.html"><code>TXQTermSequence</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermJSONArray.html"><code>TXQTermJSONArray</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermSequenceType.html"><code>TXQTermSequenceType</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermEQNameToken.html"><code>TXQTermEQNameToken</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermVariable.html"><code>TXQTermVariable</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermVariableGlobal.html"><code>TXQTermVariableGlobal</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermVariableGlobalImported.html"><code>TXQTermVariableGlobalImported</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermDefineVariable.html"><code>TXQTermDefineVariable</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermDefineFunction.html"><code>TXQTermDefineFunction</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermPlaceholderVariable.html"><code>TXQTermPlaceholderVariable</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermContextItem.html"><code>TXQTermContextItem</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermNodeMatcher.html"><code>TXQTermNodeMatcher</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFilterSequence.html"><code>TXQTermFilterSequence</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermPatternMatcher.html"><code>TXQTermPatternMatcher</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermNamedFunction.html"><code>TXQTermNamedFunction</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermNamedFunctionTypeConstructor.html"><code>TXQTermNamedFunctionTypeConstructor</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermDynamicFunctionCall.html"><code>TXQTermDynamicFunctionCall</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermBinaryOp.html"><code>TXQTermBinaryOp</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermSimpleMap.html"><code>TXQTermSimpleMap</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermPath.html"><code>TXQTermPath</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerSubClause.html"><code>TXQTermFlowerSubClause</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerLet.html"><code>TXQTermFlowerLet</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerFor.html"><code>TXQTermFlowerFor</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQTermFlowerWindowVarsAndCondition.html"><code>TXQTermFlowerWindowVarsAndCondition</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerWindow.html"><code>TXQTermFlowerWindow</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerLetPattern.html"><code>TXQTermFlowerLetPattern</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerForPattern.html"><code>TXQTermFlowerForPattern</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerWhere.html"><code>TXQTermFlowerWhere</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerOrder.html"><code>TXQTermFlowerOrder</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerCount.html"><code>TXQTermFlowerCount</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlowerGroup.html"><code>TXQTermFlowerGroup</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermFlower.html"><code>TXQTermFlower</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermSomeEvery.html"><code>TXQTermSomeEvery</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermIf.html"><code>TXQTermIf</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermTypeSwitch.html"><code>TXQTermTypeSwitch</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermSwitch.html"><code>TXQTermSwitch</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermReadObjectProperty.html"><code>TXQTermReadObjectProperty</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermConstructor.html"><code>TXQTermConstructor</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermConstructorComputed.html"><code>TXQTermConstructorComputed</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermJSONObjectConstructor.html"><code>TXQTermJSONObjectConstructor</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermTryCatch.html"><code>TXQTermTryCatch</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTermModule.html"><code>TXQTermModule</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Interface&nbsp;<a class="bold" href="xquery.IXQuery.html"><code>IXQuery</code></a></td>
+<td class="itemdesc">Interface for an XPath/XQuery <a class="normal" href="xquery.html#query">query</a>.</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQuery.html"><code>TXQuery</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.EXQException.html"><code>EXQException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.EXQParsingException.html"><code>EXQParsingException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.EXQEvaluationException.html"><code>EXQEvaluationException</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQParsingOptions.html"><code>TXQParsingOptions</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQueryEngine.html"><code>TXQueryEngine</code></a></td>
+<td class="itemdesc"><b>This is the XPath/XQuery-engine</b></td>
+</tr>
+<tr class="list2">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQVariable.html"><code>TXQVariable</code></a></td>
+<td class="itemdesc">A XQuery variable</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQVariableChangeLog.html"><code>TXQVariableChangeLog</code></a></td>
+<td class="itemdesc">XQuery variable storage</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQCollation.html"><code>TXQCollation</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQCollationCodepoint.html"><code>TXQCollationCodepoint</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQCollationCodepointClever.html"><code>TXQCollationCodepointClever</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQCollationCodepointInsensitive.html"><code>TXQCollationCodepointInsensitive</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQCollationCodepointInsensitiveClever.html"><code>TXQCollationCodepointInsensitiveClever</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQCollationCodepointLocalized.html"><code>TXQCollationCodepointLocalized</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQCollationCodepointLocalizedInsensitive.html"><code>TXQCollationCodepointLocalizedInsensitive</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="xquery.TXQDecimalFormatPropertyData.html"><code>TXQDecimalFormatPropertyData</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQDecimalFormat.html"><code>TXQDecimalFormat</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQValue_DatePart.html"><code>TXQValue_DatePart</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQNativeModule.html"><code>TXQNativeModule</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQAbstractParsingContext.html"><code>TXQAbstractParsingContext</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="xquery.TXQTerm_VisitorTrackKnownVariables.html"><code>TXQTerm_VisitorTrackKnownVariables</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>():<a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(const v: Boolean):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueTrue">xqvalueTrue</a></b>:<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueFalse">xqvalueFalse</a></b>:<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(const v: Int64):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(v: Integer):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(v: <a  href="xquery.html#xqfloat">xqfloat</a>):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(const v: <a  href="bigdecimalmath.BigDecimal.html">BigDecimal</a>):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(const v: string):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(intentionallyUnusedParameter: TDateTime):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(v: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(sl: TStringList): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(const sl: array of string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalue">xqvalue</a></b>(const sl: array of <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#xqvalueSeqSqueeze">xqvalueSeqSqueeze</a></b>(var v: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#xqvalueSeqSqueezed">xqvalueSeqSqueezed</a></b>(out result: <a  href="xquery.IXQValue.html">IXQValue</a>; l: <a  href="xquery.TXQVList.html">TXQVList</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#xqvalueSeqConstruct">xqvalueSeqConstruct</a></b>(var result: <a  href="xquery.IXQValue.html">IXQValue</a>; var seq: <a  href="xquery.TXQValueSequence.html">TXQValueSequence</a>; const add: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueArray">xqvalueArray</a></b>(a: array of <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.html#TXQVArray">TXQVArray</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#xqvalueMoveNoRefCount">xqvalueMoveNoRefCount</a></b>(const source: <a  href="xquery.IXQValue.html">IXQValue</a>; var dest: <a  href="xquery.IXQValue.html">IXQValue</a> ); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#xqvalueVaporize">xqvalueVaporize</a></b>(var dest: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#jsonStrEscape">jsonStrEscape</a></b>(s: string):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#requiredArgCount">requiredArgCount</a></b>(argc: <a  href="bbutils.html#SizeInt">sizeint</a>; minc: <a  href="bbutils.html#SizeInt">sizeint</a>; maxc: <a  href="bbutils.html#SizeInt">sizeint</a> = -2);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#requiredArgType">requiredArgType</a></b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>; typ: <a  href="xquery.TXSType.html">TXSType</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqfloatRounded">xqfloatRounded</a></b>(f: <a  href="xquery.html#xqfloat">xqfloat</a>; prec: integer = 0): <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#xpathRangeDefinition">xpathRangeDefinition</a></b>(argc: <a  href="bbutils.html#SizeInt">sizeint</a>; args: <a  href="xquery.html#PIXQValue">PIXQValue</a>; const maxLen: longint; out from, len: integer);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueAtomize">xqvalueAtomize</a></b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueDeep_equal">xqvalueDeep_equal</a></b>(const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; collation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#query">query</a></b>(q: string): <a  href="xquery.IXQValue.html">IXQValue</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#query">query</a></b>(q: string; const vs: array of <a  href="xquery.IXQValue.html">ixqvalue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>; overload;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#query">query</a></b>(q: string; const vs: array of string): <a  href="xquery.IXQValue.html">IXQValue</a>; overload;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#defaultQueryEngine">defaultQueryEngine</a></b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#freeThreadVars">freeThreadVars</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqFunctionConcat">xqFunctionConcat</a></b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; args: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqgetTypeInfo">xqgetTypeInfo</a></b>(wrapper: <a  href="xquery.IXQValue.html">Ixqvalue</a>): <a  href="xquery.TXQTermSequenceType.html">TXQTermSequenceType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueCastAs">xqvalueCastAs</a></b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const ta, tb: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueCastableAs">xqvalueCastableAs</a></b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const ta, tb: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueInstanceOf">xqvalueInstanceOf</a></b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const ta, tb: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueOrPlaceholder">xqvalueOrPlaceholder</a></b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#xqvalueAndPlaceholder">xqvalueAndPlaceholder</a></b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#freeAnnotations">freeAnnotations</a></b>(annotations: <a  href="xquery.html#TXQAnnotations">TXQAnnotations</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#charUnicodeZero">charUnicodeZero</a></b>(const cp: integer): integer;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#ignore">ignore</a></b>(const intentionallyUnusedParameter: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#ignore">ignore</a></b>(const intentionallyUnusedParameter: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#ignore">ignore</a></b>(const intentionallyUnusedParameter: TObject); inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#ignore">ignore</a></b>(const intentionallyUnusedParameter: <a  href="xquery.html#TXQVArray">TXQVArray</a>); inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#getNaN">getNaN</a></b>: <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#getPosInf">getPosInf</a></b>: <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#getNegInf">getNegInf</a></b>: <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#isPosInf">isPosInf</a></b>(const f: <a  href="xquery.html#xqfloat">xqfloat</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#isNegInf">isNegInf</a></b>(const f: <a  href="xquery.html#xqfloat">xqfloat</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#isSignedXQFloat">isSignedXQFloat</a></b>(const v: <a  href="xquery.html#xqfloat">xqfloat</a>): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery.html#treeElementAsString">treeElementAsString</a></b>(node: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; deepSeparator: string = ''): string; inline; deprecated 'for internal use';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery.html#urlHexDecode">urlHexDecode</a></b>(s: string): string; deprecated 'for internal use';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#raiseFORG0001InvalidConversion">raiseFORG0001InvalidConversion</a></b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>; const convTo: string);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#raiseXPTY0004TypeError">raiseXPTY0004TypeError</a></b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>; const convTo: string);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#raiseFOTY0013TypeError">raiseFOTY0013TypeError</a></b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="xquery.html#raiseXQEvaluationError">raiseXQEvaluationError</a></b>(const code, s: string; const data: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#PXQValue">PXQValue</a></b> = &circ;<a  href="xquery.TXQValue.html">TXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#PIXQValue">PIXQValue</a></b> = &circ;<a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQVArray">TXQVArray</a></b> = array of <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermArray">TXQTermArray</a></b> = array of <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#xqfloat">xqfloat</a></b> = double;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQValueKind">TXQValueKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermFlowerOrderEmpty">TXQTermFlowerOrderEmpty</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQDefaultNamespaceKind">TXQDefaultNamespaceKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPropertyDotNotation">TXQPropertyDotNotation</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQParsingModel">TXQParsingModel</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#PXQEvaluationContext">PXQEvaluationContext</a></b> = &circ;<a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQValueClass">TXQValueClass</a></b> = class of <a  href="xquery.TXQValue.html">TXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#PXQValueDateTimeData">PXQValueDateTimeData</a></b> = &circ;<a  href="xquery.TXQValueDateTimeData.html">TXQValueDateTimeData</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQValueInt64Class">TXQValueInt64Class</a></b> = class of <a  href="xquery.TXQValueInt64.html">TXQValueInt64</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQValueFloatClass">TXQValueFloatClass</a></b> = class of <a  href="xquery.TXQValueFloat.html">TXQValueFloat</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQValueDecimalClass">TXQValueDecimalClass</a></b> = class of <a  href="xquery.TXQValueDecimal.html">TXQValueDecimal</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQValueDateTimeClass">TXQValueDateTimeClass</a></b> = class of <a  href="xquery.TXQValueDateTime.html">TXQValueDateTime</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQAnnotations">TXQAnnotations</a></b> = array of <a  href="xquery.TXQAnnotation.html">TXQAnnotation</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXSConstrainingFacetKind">TXSConstrainingFacetKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXSConstrainingFacetWhitespace">TXSConstrainingFacetWhitespace</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXSConstrainingFacetExplicitTimeZone">TXSConstrainingFacetExplicitTimeZone</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXSCastingError">TXSCastingError</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXSNumericSubType">TXSNumericSubType</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXSStringSubType">TXSStringSubType</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQDateTimeTruncation">TXQDateTimeTruncation</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXSSchemaVersion">TXSSchemaVersion</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQBasicFunction">TXQBasicFunction</a></b> = function (argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQComplexFunction">TXQComplexFunction</a></b> = function (const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQBinaryOp">TXQBinaryOp</a></b> = function (const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a,b: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#PXQFunctionParameterTypes">PXQFunctionParameterTypes</a></b> = &circ;<a  href="xquery.TXQFunctionParameterTypes.html">TXQFunctionParameterTypes</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQContextDependency">TXQContextDependency</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQContextDependencies">TXQContextDependencies</a></b> = set of <a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQOperatorFlags">TXQOperatorFlags</a></b> = set of (xqofAssociativeSyntax,                              xqofCastUntypedToString,
+                             xqofCastUntypedToDouble);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathMatchingAxis">TXQPathMatchingAxis</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathMatchingKind">TXQPathMatchingKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathMatchingKinds">TXQPathMatchingKinds</a></b> = set of <a  href="xquery.html#TXQPathMatchingKind">TXQPathMatchingKind</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathMatchingStepFilters">TXQPathMatchingStepFilters</a></b> = array of <a  href="xquery.TXQPathMatchingStepFilter.html">TXQPathMatchingStepFilter</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathMatching">TXQPathMatching</a></b> = array of <a  href="xquery.TXQPathMatchingStep.html">TXQPathMatchingStep</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TTreeElementTypes">TTreeElementTypes</a></b> = set of <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathNodeConditionIteration">TXQPathNodeConditionIteration</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathNodeConditionOption">TXQPathNodeConditionOption</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQPathNodeConditionOptions">TXQPathNodeConditionOptions</a></b> = set of <a  href="xquery.html#TXQPathNodeConditionOption">TXQPathNodeConditionOption</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#PXQTerm">PXQTerm</a></b> = &circ;<a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#PXQTermVariable">PXQTermVariable</a></b> = &circ;<a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTerm_VisitorClass">TXQTerm_VisitorClass</a></b> = class of <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermClass">TXQTermClass</a></b> = class of <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTypeInformationKind">TXQTypeInformationKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQNamespaceMode">TXQNamespaceMode</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermDefineFunctionKind">TXQTermDefineFunctionKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermNodeMatcherDirect">TXQTermNodeMatcherDirect</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermNamedFunctionKind">TXQTermNamedFunctionKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermFlowerSubClauseKind">TXQTermFlowerSubClauseKind</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermFlowerWindowFlags">TXQTermFlowerWindowFlags</a></b> = set of (xqtfwSliding , xqtfwEndOnlyWhen);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTermFlowerWindowVariableCallback">TXQTermFlowerWindowVariableCallback</a></b> = procedure (data: pointer; v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQInternalPatternMatcherParse">TXQInternalPatternMatcherParse</a></b> = function (const context: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; data: string): <a  href="xquery.TXQTermPatternMatcher.html">TXQTermPatternMatcher</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQInternalPatternMatcherMatch">TXQInternalPatternMatcherMatch</a></b> = function (template, data: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; throwExceptions: boolean = false): <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQInternalPatternMatcherVisit">TXQInternalPatternMatcherVisit</a></b> = function (const template: <a  href="xquery.TXQTermPatternMatcher.html">TXQTermPatternMatcher</a>; visitor: <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQExceptionEvent">TXQExceptionEvent</a></b> = procedure (exception: <a  href="xquery.EXQException.html">EXQException</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQEvaluateVariableEvent">TXQEvaluateVariableEvent</a></b> = function (sender: TObject; const variable: string; var value: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQDeclareExternalVariableEvent">TXQDeclareExternalVariableEvent</a></b> = procedure(sender: TObject; const context: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; const namespaceUrl, variable: string; var value: <a  href="xquery.IXQValue.html">IXQValue</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQDeclareExternalFunctionEvent">TXQDeclareExternalFunctionEvent</a></b> = procedure(sender: TObject; const context: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; const namespaceURL, functionName: string; var result: <a  href="xquery.TXQValueFunction.html">TXQValueFunction</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQImportModuleEvent">TXQImportModuleEvent</a></b> = procedure (sender: TObject; const namespace: string; const at: array of string) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQTraceEvent">TXQTraceEvent</a></b> = procedure (sender: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>; value, info: <a  href="xquery.IXQValue.html">IXQValue</a>) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQParseDocEvent">TXQParseDocEvent</a></b> = procedure (sender: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>; data, url, contenttype: string; var node: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>) of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQFormatIntegerModifier">TXQFormatIntegerModifier</a></b> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQFormatIntegerModifiers">TXQFormatIntegerModifiers</a></b> = set of <a  href="xquery.html#TXQFormatIntegerModifier">TXQFormatIntegerModifier</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQFormatIntegerEvent">TXQFormatIntegerEvent</a></b> = procedure (sender: TObject; integerNumber: <a  href="bigdecimalmath.BigDecimal.html">BigDecimal</a>; primaryFormat, modifierVariant, language: string; modifiers: <a  href="xquery.html#TXQFormatIntegerModifiers">TXQFormatIntegerModifiers</a>; var formatted: string) of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQDecimalFormatProperty">TXQDecimalFormatProperty</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#TXQDebugTracingEvent">TXQDebugTracingEvent</a></b> = procedure (term: <a  href="xquery.TXQTerm.html">TXQTerm</a>; const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; args: <a  href="xquery.html#PIXQValue">PIXQValue</a>) of object;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Constants"></a><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#MY_NAMESPACE_PREFIX_URL">MY_NAMESPACE_PREFIX_URL</a></b> = 'http://www.benibela.de/2012/pxp/';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_XPathFunctions">XMLNamespaceURL_XPathFunctions</a></b> = 'http://www.w3.org/2005/xpath-functions';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_XPathFunctionsMath">XMLNamespaceURL_XPathFunctionsMath</a></b> = 'http://www.w3.org/2005/xpath-functions/math';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_XMLSchema">XMLNamespaceURL_XMLSchema</a></b> = 'http://www.w3.org/2001/XMLSchema';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_XMLSchemaInstance">XMLNamespaceURL_XMLSchemaInstance</a></b> = 'http://www.w3.org/2001/XMLSchema-instance';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_XQueryLocalFunctions">XMLNamespaceURL_XQueryLocalFunctions</a></b> = 'http://www.w3.org/2005/xquery-local-functions';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_XQTErrors">XMLNamespaceURL_XQTErrors</a></b> = 'http://www.w3.org/2005/xqt-errors';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_MyExtensionsMerged">XMLNamespaceURL_MyExtensionsMerged</a></b> = <a  href="xquery.html#MY_NAMESPACE_PREFIX_URL">MY_NAMESPACE_PREFIX_URL</a> + 'extensions';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_MyExtensionsNew">XMLNamespaceURL_MyExtensionsNew</a></b> = 'http://pxp.benibela.de';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_MyExtensionOperators">XMLNamespaceURL_MyExtensionOperators</a></b> = <a  href="xquery.html#MY_NAMESPACE_PREFIX_URL">MY_NAMESPACE_PREFIX_URL</a> + 'operators';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespaceURL_XQuery">XMLNamespaceURL_XQuery</a></b> = 'http://www.w3.org/2012/xquery';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#MicroSecsPerSec">MicroSecsPerSec</a></b> = int64(1000000);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#MATCH_ALL_NODES">MATCH_ALL_NODES</a></b> = [qmText,qmComment,qmElement,qmProcessingInstruction,qmAttribute,qmDocument];</code></td>
+</tr>
+</table>
+<a name="PasDoc-Variables"></a><h3 class="summary">Variables</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XQGlobalTrimNodes">XQGlobalTrimNodes</a></b>: boolean = true;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XQGlobalUseIDfromDTD">XQGlobalUseIDfromDTD</a></b>: boolean = false;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XQOnGlobalDebugTracing">XQOnGlobalDebugTracing</a></b>: <a  href="xquery.html#TXQDebugTracingEvent">TXQDebugTracingEvent</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#GlobalStaticNamespaces">GlobalStaticNamespaces</a></b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#AllowJSONDefaultInternal">AllowJSONDefaultInternal</a></b>: boolean = false;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#baseSchema">baseSchema</a></b>: <a  href="xquery.TJSONiqOverrideSchema.html">TJSONiqOverrideSchema</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#baseJSONiqSchema">baseJSONiqSchema</a></b>: <a  href="xquery.TJSONiqAdditionSchema.html">TJSONiqAdditionSchema</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#patternMatcherParse">patternMatcherParse</a></b>: <a  href="xquery.html#TXQInternalPatternMatcherParse">TXQInternalPatternMatcherParse</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#patternMatcherMatch">patternMatcherMatch</a></b>: <a  href="xquery.html#TXQInternalPatternMatcherMatch">TXQInternalPatternMatcherMatch</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#patternMatcherVisit">patternMatcherVisit</a></b>: <a  href="xquery.html#TXQInternalPatternMatcherVisit">TXQInternalPatternMatcherVisit</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#resolveHTMLCallback">resolveHTMLCallback</a></b>: <a  href="xquery.html#TXQComplexFunction">TXQComplexFunction</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespace_XPathFunctions">XMLNamespace_XPathFunctions</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespace_MyExtensionsNew">XMLNamespace_MyExtensionsNew</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespace_MyExtensionsMerged">XMLNamespace_MyExtensionsMerged</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespace_MyExtensionOperators">XMLNamespace_MyExtensionOperators</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery.html#XMLNamespace_XMLSchema">XMLNamespace_XMLSchema</a></b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery.html#XQDefaultDecimalFormat">XQDefaultDecimalFormat</a></b>: <a  href="xquery.TXQDecimalFormatPropertyData.html">TXQDecimalFormatPropertyData</a> = (
+    chars: (ord('.'), ord(','), ord('-'), ord('%'), $2030, ord('0'), ord('#'), ord(';'), ord('e') );
+    infinity: 'Infinity';
+    nan: 'NaN');</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>():<a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an undefined/empty-sequence <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(const v: Boolean):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an boolean <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueTrue"></a><code>function <b>xqvalueTrue</b>:<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an boolean <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueFalse"></a><code>function <b>xqvalueFalse</b>:<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an boolean <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(const v: Int64):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an integer <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(v: Integer):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an integer <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(v: <a  href="xquery.html#xqfloat">xqfloat</a>):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an <a class="normal" href="bigdecimalmath.BigDecimal.html">BigDecimal</a> <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(const v: <a  href="bigdecimalmath.BigDecimal.html">BigDecimal</a>):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an <a class="normal" href="bigdecimalmath.BigDecimal.html">BigDecimal</a> <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(const v: string):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates a string <a class="normal" href="xquery.IXQValue.html">IXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(intentionallyUnusedParameter: TDateTime):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Raises an exception (to prevent xquery(TDateTime) from using xquery(<a class="normal" href="xquery.float.html">float</a>))</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(v: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>):<a  href="xquery.IXQValue.html">IXQValue</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates a node <a class="normal" href="xquery.TXQValue.html">TXQValue</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(sl: TStringList): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates a sequence of strings (does *not* free the list)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(const sl: array of string): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates a sequence of untyped strings</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalue"></a><code>function <b>xqvalue</b>(const sl: array of <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates a sequence</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueSeqSqueeze"></a><code>procedure <b>xqvalueSeqSqueeze</b>(var v: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Squeezes an <a class="normal" href="xquery.IXQValue.html">IXQValue</a> (single element seq =&gt; single element, empty seq =&gt; undefined)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueSeqSqueezed"></a><code>procedure <b>xqvalueSeqSqueezed</b>(out result: <a  href="xquery.IXQValue.html">IXQValue</a>; l: <a  href="xquery.TXQVList.html">TXQVList</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Creates an <a class="normal" href="xquery.IXQValue.html">IXQValue</a> from a list sequence (assume it FREEs the list)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueSeqConstruct"></a><code>procedure <b>xqvalueSeqConstruct</b>(var result: <a  href="xquery.IXQValue.html">IXQValue</a>; var seq: <a  href="xquery.TXQValueSequence.html">TXQValueSequence</a>; const add: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Adds a value to an implicit sequence list in result, i.e. you call it multiple times and the result becomes a sequence of all the add values. <br> For the first call result and seq must be nil. <br> The point is that it only creates a sequence if there are multiple values, and it is especially fast, if you do not expect multiple values.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueArray"></a><code>function <b>xqvalueArray</b>(a: array of <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.html#TXQVArray">TXQVArray</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueMoveNoRefCount"></a><code>procedure <b>xqvalueMoveNoRefCount</b>(const source: <a  href="xquery.IXQValue.html">IXQValue</a>; var dest: <a  href="xquery.IXQValue.html">IXQValue</a> ); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Assigns source to dest without updating ref counts <br> This can be much faster, but will cause a crash, unless the reference count is corrected later, e.g. by <a class="normal" href="xquery.html#xqvalueVaporize">xqvalueVaporize</a> on source or dest.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueVaporize"></a><code>procedure <b>xqvalueVaporize</b>(var dest: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="jsonStrEscape"></a><code>function <b>jsonStrEscape</b>(s: string):string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns a &quot;...&quot; string for use in json (internally used)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="requiredArgCount"></a><code>procedure <b>requiredArgCount</b>(argc: <a  href="bbutils.html#SizeInt">sizeint</a>; minc: <a  href="bbutils.html#SizeInt">sizeint</a>; maxc: <a  href="bbutils.html#SizeInt">sizeint</a> = -2);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Escapes for an URL (internally used)
+
+<p>Checks the length of the args array (internally used)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="requiredArgType"></a><code>procedure <b>requiredArgType</b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>; typ: <a  href="xquery.TXSType.html">TXSType</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqfloatRounded"></a><code>function <b>xqfloatRounded</b>(f: <a  href="xquery.html#xqfloat">xqfloat</a>; prec: integer = 0): <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xpathRangeDefinition"></a><code>procedure <b>xpathRangeDefinition</b>(argc: <a  href="bbutils.html#SizeInt">sizeint</a>; args: <a  href="xquery.html#PIXQValue">PIXQValue</a>; const maxLen: longint; out from, len: integer);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Calculates starting position / length from a range definition (checks for things like <a class="normal" href="bbutils.html#NaN">NaN</a>, INF, ...) (internally used)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueAtomize"></a><code>function <b>xqvalueAtomize</b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueDeep_equal"></a><code>function <b>xqvalueDeep_equal</b>(const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>; collation: <a  href="xquery.TXQCollation.html">TXQCollation</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="query"></a><code>function <b>query</b>(q: string): <a  href="xquery.IXQValue.html">IXQValue</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Evaluates an XQuery 3 <a class="normal" href="xquery.html#query">query</a> using the <a class="normal" href="xquery.html#defaultQueryEngine">defaultQueryEngine</a>.
+
+<p>For example <code><a class="normal" href="xquery.html#query">query</a>('1 to 10')</code> to get all numbers from 1 to 10. Or <code><a class="normal" href="xquery.html#query">query</a>('doc(&quot;<a  href="http://example.org">http://example.org</a>&quot;)//title')</code> to get the title of a webpage.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="query"></a><code>function <b>query</b>(q: string; const vs: array of <a  href="xquery.IXQValue.html">ixqvalue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Evaluates an XQuery 3 <a class="normal" href="xquery.html#query">query</a> using the <a class="normal" href="xquery.html#defaultQueryEngine">defaultQueryEngine</a>. All values in vs are available as $_1, $_2, $_3, ...</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="query"></a><code>function <b>query</b>(q: string; const vs: array of string): <a  href="xquery.IXQValue.html">IXQValue</a>; overload;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Evaluates an XQuery 3 <code>query</code> using the <a class="normal" href="xquery.html#defaultQueryEngine">defaultQueryEngine</a>. All values in vs are available as $_1, $_2, $_3, ...
+
+<p>For example <code><code>query</code>('$_1 to $_2', ['10', '100'])</code> to get all numbers from 10 to 100. <br> Or <code><code>query</code>('doc($_1)//title', ['<a  href="http://example.org">http://example.org</a>'])</code> to get the title of a webpage. <br> Or <code><code>query</code>('form(doc($_1)//form, {&quot;q&quot;: $_2})', ['<a  href="http://google.com">http://google.com</a>', 'search term']).retrieve()</code> to fill in a formular on a webpage/search something on Google.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="defaultQueryEngine"></a><code>function <b>defaultQueryEngine</b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+This is a thread local global <a class="normal" href="xquery.html#query">query</a> engine. You must call <a class="normal" href="xquery.html#freeThreadVars">freeThreadVars</a>, after having using it from different threads. When loading additional XML/HTML documents (e.g. with doc or <a class="normal" href="simpleinternet.html#retrieve">retrieve</a>) they are also only freed by <a class="normal" href="xquery.html#freeThreadVars">freeThreadVars</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="freeThreadVars"></a><code>procedure <b>freeThreadVars</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If you use the default <a class="normal" href="xquery.html#query">query</a> engine from different threads, you have to call <code>freeThreadVars</code>. before the thread terminates to prevent memory leaks <br> This also calls <code>freeThreadVars</code> of <a class="normal" href="internetaccess.html">internetaccess</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqFunctionConcat"></a><code>function <b>xqFunctionConcat</b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; args: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqgetTypeInfo"></a><code>function <b>xqgetTypeInfo</b>(wrapper: <a  href="xquery.IXQValue.html">Ixqvalue</a>): <a  href="xquery.TXQTermSequenceType.html">TXQTermSequenceType</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueCastAs"></a><code>function <b>xqvalueCastAs</b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const ta, tb: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueCastableAs"></a><code>function <b>xqvalueCastableAs</b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const ta, tb: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueInstanceOf"></a><code>function <b>xqvalueInstanceOf</b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const ta, tb: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueOrPlaceholder"></a><code>function <b>xqvalueOrPlaceholder</b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqvalueAndPlaceholder"></a><code>function <b>xqvalueAndPlaceholder</b>(const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a, b: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="freeAnnotations"></a><code>procedure <b>freeAnnotations</b>(annotations: <a  href="xquery.html#TXQAnnotations">TXQAnnotations</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="charUnicodeZero"></a><code>function <b>charUnicodeZero</b>(const cp: integer): integer;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ignore"></a><code>procedure <b>ignore</b>(const intentionallyUnusedParameter: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ignore"></a><code>procedure <b>ignore</b>(const intentionallyUnusedParameter: <a  href="xquery.IXQValue.html">IXQValue</a>); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ignore"></a><code>procedure <b>ignore</b>(const intentionallyUnusedParameter: TObject); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="ignore"></a><code>procedure <b>ignore</b>(const intentionallyUnusedParameter: <a  href="xquery.html#TXQVArray">TXQVArray</a>); inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getNaN"></a><code>function <b>getNaN</b>: <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getPosInf"></a><code>function <b>getPosInf</b>: <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getNegInf"></a><code>function <b>getNegInf</b>: <a  href="xquery.html#xqfloat">xqfloat</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isPosInf"></a><code>function <b>isPosInf</b>(const f: <a  href="xquery.html#xqfloat">xqfloat</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isNegInf"></a><code>function <b>isNegInf</b>(const f: <a  href="xquery.html#xqfloat">xqfloat</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="isSignedXQFloat"></a><code>function <b>isSignedXQFloat</b>(const v: <a  href="xquery.html#xqfloat">xqfloat</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="treeElementAsString"></a><code>function <b>treeElementAsString</b>(node: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; deepSeparator: string = ''): string; inline; deprecated 'for internal use';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: for internal use</p>&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="urlHexDecode"></a><code>function <b>urlHexDecode</b>(s: string): string; deprecated 'for internal use';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: for internal use</p>&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="raiseFORG0001InvalidConversion"></a><code>procedure <b>raiseFORG0001InvalidConversion</b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>; const convTo: string);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="raiseXPTY0004TypeError"></a><code>procedure <b>raiseXPTY0004TypeError</b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>; const convTo: string);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="raiseFOTY0013TypeError"></a><code>procedure <b>raiseFOTY0013TypeError</b>(const v: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="raiseXQEvaluationError"></a><code>procedure <b>raiseXQEvaluationError</b>(const code, s: string; const data: <a  href="xquery.IXQValue.html">IXQValue</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PXQValue"></a><code><b>PXQValue</b> = &circ;<a  href="xquery.TXQValue.html">TXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PIXQValue"></a><code><b>PIXQValue</b> = &circ;<a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQVArray"></a><code><b>TXQVArray</b> = array of <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermArray"></a><code><b>TXQTermArray</b> = array of <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqfloat"></a><code><b>xqfloat</b> = double;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQValueKind"></a><code><b>TXQValueKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Type of <a class="normal" href="xquery.html#xqvalue">xqvalue</a> (see <a class="normal" href="xquery.TXQValue.html">TXQValue</a>)</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+pvkUndefined: &nbsp;</li>
+<li>
+pvkBoolean: &nbsp;</li>
+<li>
+pvkInt64: &nbsp;</li>
+<li>
+pvkFloat: &nbsp;</li>
+<li>
+pvkBigDecimal: &nbsp;</li>
+<li>
+pvkString: &nbsp;</li>
+<li>
+pvkQName: &nbsp;</li>
+<li>
+pvkDateTime: &nbsp;</li>
+<li>
+pvkSequence: &nbsp;</li>
+<li>
+pvkNode: &nbsp;</li>
+<li>
+pvkObject: &nbsp;</li>
+<li>
+pvkArray: &nbsp;</li>
+<li>
+pvkNull: &nbsp;</li>
+<li>
+pvkFunction: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermFlowerOrderEmpty"></a><code><b>TXQTermFlowerOrderEmpty</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqeoStatic: &nbsp;</li>
+<li>
+xqeoEmptyLeast: &nbsp;</li>
+<li>
+xqeoEmptyGreatest: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQDefaultNamespaceKind"></a><code><b>TXQDefaultNamespaceKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqdnkUnknown: &nbsp;</li>
+<li>
+xqdnkAny: &nbsp;</li>
+<li>
+xqdnkElementType: &nbsp;</li>
+<li>
+xqdnkType: &nbsp;</li>
+<li>
+xqdnkFunction: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPropertyDotNotation"></a><code><b>TXQPropertyDotNotation</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If it is possible to access object properties with <code>.property</code> <br> xqpdnDisallowDotNotation: do not allow the dot operator anywhere <br> xqpdnAllowUnambiguousDotNotation: allow the dot operator when disabling it would be a syntax error. E.g. cases like <code>($obj).property</code>, <code>func(..).property</code>, <code>{&quot;a&quot;: ..}.property</code>, ... <br> xqpdnAllowFullDotNotation: allow the dot operator everywhere. <a class="normal" href="bigdecimalmath.html#even">Even</a> in $obj.property <br></p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqpdnDisallowDotNotation: &nbsp;</li>
+<li>
+xqpdnAllowUnambiguousDotNotation: &nbsp;</li>
+<li>
+xqpdnAllowFullDotNotation: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTreeNodeSerialization"></a><code><b>TTreeNodeSerialization</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+tnsText: &nbsp;</li>
+<li>
+tnsXML: &nbsp;</li>
+<li>
+tnsHTML: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQParsingModel"></a><code><b>TXQParsingModel</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqpmXPath2: &nbsp;</li>
+<li>
+xqpmXQuery1: &nbsp;</li>
+<li>
+xqpmXPath3: &nbsp;</li>
+<li>
+xqpmXQuery3: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PXQEvaluationContext"></a><code><b>PXQEvaluationContext</b> = &circ;<a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQValueClass"></a><code><b>TXQValueClass</b> = class of <a  href="xquery.TXQValue.html">TXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PXQValueDateTimeData"></a><code><b>PXQValueDateTimeData</b> = &circ;<a  href="xquery.TXQValueDateTimeData.html">TXQValueDateTimeData</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQValueInt64Class"></a><code><b>TXQValueInt64Class</b> = class of <a  href="xquery.TXQValueInt64.html">TXQValueInt64</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQValueFloatClass"></a><code><b>TXQValueFloatClass</b> = class of <a  href="xquery.TXQValueFloat.html">TXQValueFloat</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQValueDecimalClass"></a><code><b>TXQValueDecimalClass</b> = class of <a  href="xquery.TXQValueDecimal.html">TXQValueDecimal</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQValueDateTimeClass"></a><code><b>TXQValueDateTimeClass</b> = class of <a  href="xquery.TXQValueDateTime.html">TXQValueDateTime</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQAnnotations"></a><code><b>TXQAnnotations</b> = array of <a  href="xquery.TXQAnnotation.html">TXQAnnotation</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXSConstrainingFacetKind"></a><code><b>TXSConstrainingFacetKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xsfLength: &nbsp;</li>
+<li>
+xsfMinLength: &nbsp;</li>
+<li>
+xsfMaxLength: &nbsp;</li>
+<li>
+xsfPattern: &nbsp;</li>
+<li>
+xsfEnumeration: &nbsp;</li>
+<li>
+xsfMaxInclusive: &nbsp;</li>
+<li>
+xsfMinInclusive: &nbsp;</li>
+<li>
+xsfTotalDigits: &nbsp;</li>
+<li>
+xsfFractionDigits: &nbsp;</li>
+<li>
+xsfAssertions: &nbsp;</li>
+<li>
+xsfExplicitTimezone: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXSConstrainingFacetWhitespace"></a><code><b>TXSConstrainingFacetWhitespace</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xsfwAbsent: &nbsp;</li>
+<li>
+xsfwPreserve: &nbsp;</li>
+<li>
+xsfwReplace: &nbsp;</li>
+<li>
+xsfwCollapse: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXSConstrainingFacetExplicitTimeZone"></a><code><b>TXSConstrainingFacetExplicitTimeZone</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xsfetRequired: &nbsp;</li>
+<li>
+xsfetProhibited: &nbsp;</li>
+<li>
+xsfetOptional: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXSCastingError"></a><code><b>TXSCastingError</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xsceNoError: &nbsp;</li>
+<li>
+xsceXPTY0004: &nbsp;</li>
+<li>
+xsceFORG0001: &nbsp;</li>
+<li>
+xsceFOCA0002: &nbsp;</li>
+<li>
+xsceFODT0001: &nbsp;</li>
+<li>
+xsceFODT0002: &nbsp;</li>
+<li>
+xsceFOAR0002: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXSNumericSubType"></a><code><b>TXSNumericSubType</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xsstInteger: &nbsp;</li>
+<li>
+xsstDecimal: &nbsp;</li>
+<li>
+xsstFloat: &nbsp;</li>
+<li>
+xsstDouble: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXSStringSubType"></a><code><b>TXSStringSubType</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+XML Schema string type, derived from xs:string, xs:anyURI, xs:hexBinary, xs:base64Binary or xs:untypedAtomic</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xsstString: &nbsp;</li>
+<li>
+xsstHexBinary: &nbsp;</li>
+<li>
+xsstBase64Binary: &nbsp;</li>
+<li>
+xsstUrl: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQDateTimeTruncation"></a><code><b>TXQDateTimeTruncation</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqdttNone: &nbsp;</li>
+<li>
+xqdttTime: &nbsp;</li>
+<li>
+xqdttDate: &nbsp;</li>
+<li>
+xqdttYearMonth: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXSSchemaVersion"></a><code><b>TXSSchemaVersion</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xsd10: &nbsp;</li>
+<li>
+xsd11: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQBasicFunction"></a><code><b>TXQBasicFunction</b> = function (argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Basic/pure function, taking some <a class="normal" href="xquery.TXQValue.html">TXQValue</a>-arguments and returning a new <a class="normal" href="xquery.IXQValue.html">IXQValue</a>.</p>
+<p>
+ It should not modify the values passed in the args in case there are other references, but it may assign one of them to result.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQComplexFunction"></a><code><b>TXQComplexFunction</b> = function (const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Function, taking some <a class="normal" href="xquery.TXQValue.html">TXQValue</a>-arguments and returning a new <a class="normal" href="xquery.TXQValue.html">TXQValue</a> which can depend on the current context state</p>
+<p>
+ It should not modify the values passed in the args in case there are other references, but it may assign one of them to result.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQBinaryOp"></a><code><b>TXQBinaryOp</b> = function (const cxt: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; const a,b: <a  href="xquery.IXQValue.html">IXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Binary operator of TXQValues</p>
+<p>
+ It should not modify the values passed in the args in case there are other references, but it may assign one of them to result.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PXQFunctionParameterTypes"></a><code><b>PXQFunctionParameterTypes</b> = &circ;<a  href="xquery.TXQFunctionParameterTypes.html">TXQFunctionParameterTypes</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQContextDependency"></a><code><b>TXQContextDependency</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+The dynamic/static context values a <a class="normal" href="xquery.html#query">query</a> depends on (internal used for optimizations) xqcdFocusItem: context item/node (e.g. .) xqcdFocusPosition: index (e.g. position()) xqcdFocusLast: size (e.g. last()) xqcdContextCollation, xqcdContextTime, xqcdContextVariables, xqcdContextOther: context, obvious</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqcdFocusItem: &nbsp;</li>
+<li>
+xqcdFocusPosition: &nbsp;</li>
+<li>
+xqcdFocusLast: &nbsp;</li>
+<li>
+xqcdContextCollation: &nbsp;</li>
+<li>
+xqcdContextTime: &nbsp;</li>
+<li>
+xqcdContextVariables: &nbsp;</li>
+<li>
+xqcdContextOther: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQContextDependencies"></a><code><b>TXQContextDependencies</b> = set of <a  href="xquery.html#TXQContextDependency">TXQContextDependency</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQOperatorFlags"></a><code><b>TXQOperatorFlags</b> = set of (xqofAssociativeSyntax,                              xqofCastUntypedToString,
+                             xqofCastUntypedToDouble);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Information about a xquery binary operator</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathMatchingAxis"></a><code><b>TXQPathMatchingAxis</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+qcSameNode: &nbsp;</li>
+<li>
+qcDirectParent: &nbsp;</li>
+<li>
+qcDirectChildImplicit: &nbsp;</li>
+<li>
+qcDirectChild: &nbsp;</li>
+<li>
+qcSameOrDescendant: &nbsp;</li>
+<li>
+qcDescendant: &nbsp;</li>
+<li>
+qcFollowing: &nbsp;</li>
+<li>
+qcFollowingSibling: &nbsp;</li>
+<li>
+qcAncestor: &nbsp;</li>
+<li>
+qcPrecedingSibling: &nbsp;</li>
+<li>
+qcPreceding: &nbsp;</li>
+<li>
+qcSameOrAncestor: &nbsp;</li>
+<li>
+qcDocumentRoot: &nbsp;</li>
+<li>
+qcFunctionSpecialCase: &nbsp;</li>
+<li>
+qcAttribute: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathMatchingKind"></a><code><b>TXQPathMatchingKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+qmValue: &nbsp;</li>
+<li>
+qmElement: &nbsp;</li>
+<li>
+qmText: &nbsp;</li>
+<li>
+qmComment: &nbsp;</li>
+<li>
+qmProcessingInstruction: &nbsp;</li>
+<li>
+qmAttribute: &nbsp;</li>
+<li>
+qmDocument: &nbsp;</li>
+<li>
+qmSchemaFail: &nbsp;</li>
+<li>
+qmCheckNamespaceURL: &nbsp;</li>
+<li>
+qmCheckNamespacePrefix: &nbsp;</li>
+<li>
+qmCheckOnSingleChild: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathMatchingKinds"></a><code><b>TXQPathMatchingKinds</b> = set of <a  href="xquery.html#TXQPathMatchingKind">TXQPathMatchingKind</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathMatchingStepFilters"></a><code><b>TXQPathMatchingStepFilters</b> = array of <a  href="xquery.TXQPathMatchingStepFilter.html">TXQPathMatchingStepFilter</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathMatching"></a><code><b>TXQPathMatching</b> = array of <a  href="xquery.TXQPathMatchingStep.html">TXQPathMatchingStep</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTreeElementTypes"></a><code><b>TTreeElementTypes</b> = set of <a  href="simplehtmltreeparser.html#TTreeNodeType">TTreeNodeType</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathNodeConditionIteration"></a><code><b>TXQPathNodeConditionIteration</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+qcnciNext: &nbsp;</li>
+<li>
+qcnciPreceding: &nbsp;</li>
+<li>
+qcnciParent: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathNodeConditionOption"></a><code><b>TXQPathNodeConditionOption</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqpncMatchStartNode: &nbsp;</li>
+<li>
+xqpncCheckValue: &nbsp;</li>
+<li>
+xqpncCheckNamespace: &nbsp;</li>
+<li>
+xqpncCheckOnSingleChild: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQPathNodeConditionOptions"></a><code><b>TXQPathNodeConditionOptions</b> = set of <a  href="xquery.html#TXQPathNodeConditionOption">TXQPathNodeConditionOption</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PXQTerm"></a><code><b>PXQTerm</b> = &circ;<a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="PXQTermVariable"></a><code><b>PXQTermVariable</b> = &circ;<a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTerm_VisitAction"></a><code><b>TXQTerm_VisitAction</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqtvaContinue: &nbsp;</li>
+<li>
+xqtvaAbort: &nbsp;</li>
+<li>
+xqtvaNoRecursion: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTerm_VisitorClass"></a><code><b>TXQTerm_VisitorClass</b> = class of <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermClass"></a><code><b>TXQTermClass</b> = class of <a  href="xquery.TXQTerm.html">TXQTerm</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTypeInformationKind"></a><code><b>TXQTypeInformationKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+tikNone: &nbsp;</li>
+<li>
+tikAny: &nbsp;</li>
+<li>
+tikAtomic: &nbsp;</li>
+<li>
+tikFunctionTest: &nbsp;</li>
+<li>
+tikElementTest: &nbsp;</li>
+<li>
+tikUnion: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQNamespaceMode"></a><code><b>TXQNamespaceMode</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqnmNone: &nbsp;</li>
+<li>
+xqnmURL: &nbsp;</li>
+<li>
+xqnmPrefix: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermDefineFunctionKind"></a><code><b>TXQTermDefineFunctionKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqtdfUserDefined: &nbsp;</li>
+<li>
+xqtdfNamedReference: &nbsp;</li>
+<li>
+xqtdfStaticPartialApplication: &nbsp;</li>
+<li>
+xqtdfDynamicPartialApplication: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermNodeMatcherDirect"></a><code><b>TXQTermNodeMatcherDirect</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqnmdRoot: &nbsp;</li>
+<li>
+xqnmdParent: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermNamedFunctionKind"></a><code><b>TXQTermNamedFunctionKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqfkBasic: &nbsp;</li>
+<li>
+xqfkComplex: &nbsp;</li>
+<li>
+xqfkNativeInterpreted: &nbsp;</li>
+<li>
+xqfkUnknown: &nbsp;</li>
+<li>
+xqfkTypeConstructor: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermFlowerSubClauseKind"></a><code><b>TXQTermFlowerSubClauseKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqtfcFor: &nbsp;</li>
+<li>
+xqtfcLet: &nbsp;</li>
+<li>
+xqtfcWindow: &nbsp;</li>
+<li>
+xqtfcForPattern: &nbsp;</li>
+<li>
+xqtfcLetPattern: &nbsp;</li>
+<li>
+xqtfcWhere: &nbsp;</li>
+<li>
+xqtfcOrder: &nbsp;</li>
+<li>
+xqtfcCount: &nbsp;</li>
+<li>
+xqtfcGroup: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermFlowerWindowFlags"></a><code><b>TXQTermFlowerWindowFlags</b> = set of (xqtfwSliding , xqtfwEndOnlyWhen);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTermFlowerWindowVariableCallback"></a><code><b>TXQTermFlowerWindowVariableCallback</b> = procedure (data: pointer; v: <a  href="xquery.TXQTermVariable.html">TXQTermVariable</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQInternalPatternMatcherParse"></a><code><b>TXQInternalPatternMatcherParse</b> = function (const context: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; data: string): <a  href="xquery.TXQTermPatternMatcher.html">TXQTermPatternMatcher</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQInternalPatternMatcherMatch"></a><code><b>TXQInternalPatternMatcherMatch</b> = function (template, data: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; var context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; throwExceptions: boolean = false): <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQInternalPatternMatcherVisit"></a><code><b>TXQInternalPatternMatcherVisit</b> = function (const template: <a  href="xquery.TXQTermPatternMatcher.html">TXQTermPatternMatcher</a>; visitor: <a  href="xquery.TXQTerm_Visitor.html">TXQTerm_Visitor</a>): <a  href="xquery.html#TXQTerm_VisitAction">TXQTerm_VisitAction</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQExceptionEvent"></a><code><b>TXQExceptionEvent</b> = procedure (exception: <a  href="xquery.EXQException.html">EXQException</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQEvaluateVariableEvent"></a><code><b>TXQEvaluateVariableEvent</b> = function (sender: TObject; const variable: string; var value: <a  href="xquery.IXQValue.html">IXQValue</a>): boolean of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event callback that is called to receive the value of the variable <code>variable</code></p>
+<p>
+. Should return true, if the value was changed. (returning false will cause an unknown variable exceptiono)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQDeclareExternalVariableEvent"></a><code><b>TXQDeclareExternalVariableEvent</b> = procedure(sender: TObject; const context: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; const namespaceUrl, variable: string; var value: <a  href="xquery.IXQValue.html">IXQValue</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event callback that is called to set the <code>value</code> of a XQuery variable declared as &quot;declare variable ... external&quot;</p>
+<p>
+.
+
+<p>The return value can be created with one of the <a class="normal" href="xquery.html#xqvalue">xqvalue</a>(..) functions.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQDeclareExternalFunctionEvent"></a><code><b>TXQDeclareExternalFunctionEvent</b> = procedure(sender: TObject; const context: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>; const namespaceURL, functionName: string; var result: <a  href="xquery.TXQValueFunction.html">TXQValueFunction</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event callback that is called to set a function <code>value</code> of a XQuery function declared as &quot;declare function ... external&quot;</p>
+<p>
+.
+
+<p>The function in <code>result</code> has already been initialized with the parameters and result type, only the term in <code>result.body</code> has to be set.<br> You can either create an syntax tree for the function with the respective <a class="normal" href="xquery.TXQTerm.html">TXQTerm</a> classes or derive a class from <a class="normal" href="xquery.TXQTerm.html">TXQTerm</a> and override the evaluate function to calculate it natively.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQImportModuleEvent"></a><code><b>TXQImportModuleEvent</b> = procedure (sender: TObject; const namespace: string; const at: array of string) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQTraceEvent"></a><code><b>TXQTraceEvent</b> = procedure (sender: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>; value, info: <a  href="xquery.IXQValue.html">IXQValue</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event called by the fn:trace(value,info) function.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQParseDocEvent"></a><code><b>TXQParseDocEvent</b> = procedure (sender: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>; data, url, contenttype: string; var node: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Event called by the fn:doc to parse a downloaded document.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQFormatIntegerModifier"></a><code><b>TXQFormatIntegerModifier</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Modifier for integer formatting, as described in fn:format-integer. The absence of xqfimOrdinal means cardinal , the absence of traditional means alphabetic. (traditional is a traditional way of writing integers with letters, e.g. roman numbers)</p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqfimOrdinal: &nbsp;</li>
+<li>
+xqfimTraditional: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQFormatIntegerModifiers"></a><code><b>TXQFormatIntegerModifiers</b> = set of <a  href="xquery.html#TXQFormatIntegerModifier">TXQFormatIntegerModifier</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQFormatIntegerEvent"></a><code><b>TXQFormatIntegerEvent</b> = procedure (sender: TObject; integerNumber: <a  href="bigdecimalmath.BigDecimal.html">BigDecimal</a>; primaryFormat, modifierVariant, language: string; modifiers: <a  href="xquery.html#TXQFormatIntegerModifiers">TXQFormatIntegerModifiers</a>; var formatted: string) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQDecimalFormatProperty"></a><code><b>TXQDecimalFormatProperty</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+xqdfpDecimalSeparator: &nbsp;</li>
+<li>
+xqdfpGroupingSeparator: &nbsp;</li>
+<li>
+xqdfpMinusSign: &nbsp;</li>
+<li>
+xqdfpPercent: &nbsp;</li>
+<li>
+xqdfpPerMille: &nbsp;</li>
+<li>
+xqdfpZeroDigit: &nbsp;</li>
+<li>
+xqdfpDigit: &nbsp;</li>
+<li>
+xqdfpPatternSeparator: &nbsp;</li>
+<li>
+xqdfpExponentSeparator: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TXQDebugTracingEvent"></a><code><b>TXQDebugTracingEvent</b> = procedure (term: <a  href="xquery.TXQTerm.html">TXQTerm</a>; const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; args: <a  href="xquery.html#PIXQValue">PIXQValue</a>) of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="MY_NAMESPACE_PREFIX_URL"></a><code><b>MY_NAMESPACE_PREFIX_URL</b> = 'http://www.benibela.de/2012/pxp/';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_XPathFunctions"></a><code><b>XMLNamespaceURL_XPathFunctions</b> = 'http://www.w3.org/2005/xpath-functions';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_XPathFunctionsMath"></a><code><b>XMLNamespaceURL_XPathFunctionsMath</b> = 'http://www.w3.org/2005/xpath-functions/math';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_XMLSchema"></a><code><b>XMLNamespaceURL_XMLSchema</b> = 'http://www.w3.org/2001/XMLSchema';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_XMLSchemaInstance"></a><code><b>XMLNamespaceURL_XMLSchemaInstance</b> = 'http://www.w3.org/2001/XMLSchema-instance';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_XQueryLocalFunctions"></a><code><b>XMLNamespaceURL_XQueryLocalFunctions</b> = 'http://www.w3.org/2005/xquery-local-functions';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_XQTErrors"></a><code><b>XMLNamespaceURL_XQTErrors</b> = 'http://www.w3.org/2005/xqt-errors';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_MyExtensionsMerged"></a><code><b>XMLNamespaceURL_MyExtensionsMerged</b> = <a  href="xquery.html#MY_NAMESPACE_PREFIX_URL">MY_NAMESPACE_PREFIX_URL</a> + 'extensions';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_MyExtensionsNew"></a><code><b>XMLNamespaceURL_MyExtensionsNew</b> = 'http://pxp.benibela.de';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_MyExtensionOperators"></a><code><b>XMLNamespaceURL_MyExtensionOperators</b> = <a  href="xquery.html#MY_NAMESPACE_PREFIX_URL">MY_NAMESPACE_PREFIX_URL</a> + 'operators';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespaceURL_XQuery"></a><code><b>XMLNamespaceURL_XQuery</b> = 'http://www.w3.org/2012/xquery';</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="MicroSecsPerSec"></a><code><b>MicroSecsPerSec</b> = int64(1000000);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="MATCH_ALL_NODES"></a><code><b>MATCH_ALL_NODES</b> = [qmText,qmComment,qmElement,qmProcessingInstruction,qmAttribute,qmDocument];</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Variables</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XQGlobalTrimNodes"></a><code><b>XQGlobalTrimNodes</b>: boolean = true;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If <code>XQGlobalTrimNodes</code> is true, the result of every node-&gt;string conversion is trimmed. This trimming occurs after and not during the conversion.<br> E.g. If it is true, <code>text()</code> and <code>deep-text()</code> for <code>&lt;a&gt; a &lt;/a&gt;</code> return 'a', and deep-text() for <code>&lt;x&gt;&lt;a&gt; a &lt;/a&gt;&lt;a&gt; b &lt;/a&gt;&lt;/x&gt;</code> returns 'a b'. <br> (This variable should actually be a property of <a class="normal" href="xquery.TXQueryEngine.html">TXQueryEngine</a>, but that is not possible in the current design, since the values convert themself, and don't know their corresponding parser)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XQGlobalUseIDfromDTD"></a><code><b>XQGlobalUseIDfromDTD</b>: boolean = false;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If <code>XQGlobalUseIDfromDTD</code> is false, the fn:*id* functions will thus assume every attribute with name id is an ID attribute<br> If <code>XQGlobalUseIDfromDTD</code> is true, only real ID attributes are used. However, <a class="normal" href="simplehtmltreeparser.html">simplehtmltreeparser</a> cannot handle DTDs, so it cannot detect ID attributes. So if this is true, only the wrapped fcl-xml parser from simplehtmltreeparserfpdom can be used</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XQOnGlobalDebugTracing"></a><code><b>XQOnGlobalDebugTracing</b>: <a  href="xquery.html#TXQDebugTracingEvent">TXQDebugTracingEvent</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Experimental event to trace the evaluation of a <a class="normal" href="xquery.html#query">query</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="GlobalStaticNamespaces"></a><code><b>GlobalStaticNamespaces</b>: <a  href="simplehtmltreeparser.TNamespaceList.html">TNamespaceList</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+List of namespaces which are known in all XPath/XQuery expressions, <a class="normal" href="bigdecimalmath.html#even">even</a> if they are not declared there</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="AllowJSONDefaultInternal"></a><code><b>AllowJSONDefaultInternal</b>: boolean = false;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Default setting for JSON (internally used).</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="baseSchema"></a><code><b>baseSchema</b>: <a  href="xquery.TJSONiqOverrideSchema.html">TJSONiqOverrideSchema</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="baseJSONiqSchema"></a><code><b>baseJSONiqSchema</b>: <a  href="xquery.TJSONiqAdditionSchema.html">TJSONiqAdditionSchema</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="patternMatcherParse"></a><code><b>patternMatcherParse</b>: <a  href="xquery.html#TXQInternalPatternMatcherParse">TXQInternalPatternMatcherParse</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="patternMatcherMatch"></a><code><b>patternMatcherMatch</b>: <a  href="xquery.html#TXQInternalPatternMatcherMatch">TXQInternalPatternMatcherMatch</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="patternMatcherVisit"></a><code><b>patternMatcherVisit</b>: <a  href="xquery.html#TXQInternalPatternMatcherVisit">TXQInternalPatternMatcherVisit</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="resolveHTMLCallback"></a><code><b>resolveHTMLCallback</b>: <a  href="xquery.html#TXQComplexFunction">TXQComplexFunction</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespace_XPathFunctions"></a><code><b>XMLNamespace_XPathFunctions</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespace_MyExtensionsNew"></a><code><b>XMLNamespace_MyExtensionsNew</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespace_MyExtensionsMerged"></a><code><b>XMLNamespace_MyExtensionsMerged</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespace_MyExtensionOperators"></a><code><b>XMLNamespace_MyExtensionOperators</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XMLNamespace_XMLSchema"></a><code><b>XMLNamespace_XMLSchema</b>: <a  href="simplehtmltreeparser.INamespace.html">INamespace</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="XQDefaultDecimalFormat"></a><code><b>XQDefaultDecimalFormat</b>: <a  href="xquery.TXQDecimalFormatPropertyData.html">TXQDecimalFormatPropertyData</a> = (
+    chars: (ord('.'), ord(','), ord('-'), ord('%'), $2030, ord('0'), ord('#'), ord(';'), ord('e') );
+    infinity: 'Infinity';
+    nan: 'NaN');</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>Benito van der Zander (<a  href="http://www.benibela.de">www.benibela.de</a>)</li>
+</ul>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

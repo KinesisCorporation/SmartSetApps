@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>Overview</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="externalitem">Internet-Tools Overview</h1>
+ 
+
+<p><h2 class=""><a name="AnchorNameInstallation"></a>Installation</h2>
+
+
+<p>Since the Internet Tools and their XQuery-Engine consist of a set of plain Pascal units they do not require installation. You just need to extract all files from the .zip package and ensure that FPC can find the .pas files.
+
+<p>You can do one of the following to set the paths:
+
+<p></p>
+
+<ul class="paragraph_spacing">
+  <li><p>Put this in your <code>fpc.cfg</code> or <code>&tilde;/.fpc.cfg</code> </p>
+
+<pre class="longcode">-Fu&lt;PATH&gt;/data/
+-Fu&lt;PATH&gt;/internet/
+-Fu&lt;PATH&gt;/system</pre>
+
+<p>(replace &lt;PATH&gt; with the directory you have extracted everything to)</p></li>
+  <li><p>Set the search paths of your project to the extracted files. The important directories are data/, internet/ and system/ </p></li>
+  <li><p>Install the package internettools.lpk in Lazarus.</p></li>
+</ul>
+
+<p>
+
+<p>On Linux you also need to install Synapse and OpenSSL devel. For Android you need the standard Android SDK/NDK and initialize the JVM reference in <a class="normal" href="bbjniutils.html">bbjniutils</a>. In the default settings it uses FLRE as regular expression library, you can set a define USE_SOROKINS_REGEX to use Sorokin/FPC's regexpr unit.
+
+<p>The Internet Tools is modularly structured and you can activate different features, depending on which units are included in the unit clause of your project. You need one of <a class="normal" href="synapseinternetaccess.html">synapseinternetaccess</a>, <a class="normal" href="w32internetaccess.html">w32internetaccess</a> or <a class="normal" href="androidinternetaccess.html">androidinternetaccess</a>, so it knows, which underlying library to use for internet access. You do not need to use anything of these units, just including them in the unit clause already activates them.
+
+<p><h2 class=""><a name="AnchorNameStarted"></a>Getting Started</h2>
+
+
+<p>The most important unit is <a class="normal" href="xquery.html">xquery</a>, which contains the XPath/XQuery interpreter from which you can call most of the other units.
+
+<p>For example, this will write the title of a webpage:
+
+<p></p>
+
+<pre class="longcode">
+  <span class="pascal_keyword">uses</span> xquery;
+  writeln(query(<span class="pascal_string">'doc(&quot;http://example.org&quot;)//title'</span>)<span class="pascal_float">.</span>toString);
+</pre>
+
+<p>
+
+<p>This will write the destination of all the links there:
+
+<p></p>
+
+<pre class="longcode">
+  <span class="pascal_keyword">uses</span> xquery;
+  <span class="pascal_keyword">var</span> v: IXQValue;
+  <span class="pascal_keyword">begin</span>
+    <span class="pascal_keyword">for</span> v <span class="pascal_keyword">in</span> query(<span class="pascal_string">'doc(&quot;http://example.org&quot;)//a/@href'</span>) <span class="pascal_keyword">do</span>
+      writeln(v.toString);      
+  <span class="pascal_keyword">end</span>.
+</pre>
+
+<p>
+
+<p>And this will write the destination and name of all links :
+
+<p></p>
+
+<pre class="longcode">
+  <span class="pascal_keyword">uses</span> xquery;
+  <span class="pascal_keyword">var</span> v: IXQValue;
+  <span class="pascal_keyword">begin</span>
+    <span class="pascal_keyword">for</span> v <span class="pascal_keyword">in</span> query(<span class="pascal_string">'doc(&quot;http://example.org&quot;)//a/concat(., &quot;: &quot;, @href)'</span>) <span class="pascal_keyword">do</span>
+      writeln(v.toString);      
+  <span class="pascal_keyword">end</span>.
+</pre>
+
+<p>
+
+<p>The examples use the XQuery function <code>doc</code> to download the HTML page, and hard codes the URL in the call of <a class="normal" href="xquery.html#query">query</a>. Often you need to query a webpage that is only know at runtime. For that you can call <a class="normal" href="xquery.html#query">query</a> with additional variables in an open array, which will be put in <code>$_1</code>, <code>$_2</code>, ...:
+
+<p></p>
+
+<pre class="longcode">
+  <span class="pascal_keyword">uses</span> xquery;
+  <span class="pascal_keyword">var</span> v: IXQValue;
+  <span class="pascal_keyword">begin</span>
+    <span class="pascal_keyword">for</span> v <span class="pascal_keyword">in</span> query(<span class="pascal_string">'doc($_1)//a/concat(., &quot;: &quot;, @href)'</span>, [<span class="pascal_string">'http://example.org'</span>]) <span class="pascal_keyword">do</span>
+      writeln(v.toString);      
+  <span class="pascal_keyword">end</span>.
+</pre>
+
+<p>
+
+<p>Or, alternatively, do not use <a class="normal" href="xquery.html#query">query</a> at all, but store the url in an ixqvalue, then download and transform that value:
+
+<p></p>
+
+<pre class="longcode">
+  <span class="pascal_keyword">uses</span> xquery;
+  <span class="pascal_keyword">var</span> v: IXQValue;
+  <span class="pascal_keyword">begin</span>
+    <span class="pascal_keyword">for</span> v <span class="pascal_keyword">in</span> xqvalue(<span class="pascal_string">'http://example.org'</span>)<span class="pascal_float">.</span>retrieve()<span class="pascal_float">.</span>map(<span class="pascal_string">'//a/concat(., &quot;: &quot;, @href)'</span>) <span class="pascal_keyword">do</span>
+      writeln(v.toString);      
+  <span class="pascal_keyword">end</span>.
+</pre>
+
+<p>
+
+<p>There is also the unit <a class="normal" href="simpleinternet.html">simpleinternet</a>, which provides a function <a class="normal" href="simpleinternet.html#process">simpleinternet.process</a> to directly run a query on a webpage, i.e. <code>process('<a  href="http://example.org">http://example.org</a>', '//a/concat(., &quot;: &quot;, @href)')</code>. Although this is simpler for trivial queries, it does not generalize well and thus is now deprecated.
+
+<p>The <a class="normal" href="xquery.IXQValue.html">IXQValue</a> transformation methods generalize extremely well to multiple pages. For example you can start on a search page, fill in a search term on the form field &quot;q&quot;, download all links and get the title of every page referenced by a link:
+
+<p></p>
+
+<pre class="longcode">
+  <span class="pascal_keyword">uses</span> xquery;
+  <span class="pascal_keyword">var</span> v: IXQValue;
+  <span class="pascal_keyword">begin</span>
+    <span class="pascal_keyword">for</span> v <span class="pascal_keyword">in</span> xqvalue(<span class="pascal_string">'http://www.google.com'</span>)<span class="pascal_float">.</span>retrieve()
+             <span class="pascal_float">.</span>map(<span class="pascal_string">'form(//form, {&quot;q&quot;: $_1})'</span>, [<span class="pascal_string">'search term'</span>])<span class="pascal_float">.</span>retrieve()
+             <span class="pascal_float">.</span>map(<span class="pascal_string">'//a'</span>)<span class="pascal_float">.</span>retrieve()
+             <span class="pascal_float">.</span>map(<span class="pascal_string">'//title'</span>) <span class="pascal_keyword">do</span>
+      writeln(v.toString);      
+  <span class="pascal_keyword">end</span>.
+</pre>
+
+<p>
+
+<p>The two most important units are <a class="normal" href="internetaccess.html">internetaccess</a> and <a class="normal" href="xquery.html">xquery</a>. <a class="normal" href="internetaccess.html">Internetaccess</a> provides the functions to download things and xquery the functions to understand them.
+
+<p><h2 class=""><a name="AnchorNameXYZ"></a>Accessing the internet/downloading things</h2>
+
+
+<p>The primary unit for accessing the internet is the unit <a class="normal" href="internetaccess.html">internetaccess</a>. It contains the functions <a class="normal" href="internetaccess.html#httpRequest">httpRequest</a> for GET/POST HTTP-requests as well as the abstract base class <a class="normal" href="internetaccess.TInternetAccess.html">TInternetAccess</a> that implements them. (other internet services like ftp/smtp might be added in future versions).
+
+<p><a class="normal" href="internetaccess.html#httpRequest">httpRequest</a> can be used as a simple function call and returns the webpage as string:
+
+<p></p>
+
+<pre class="longcode">
+  <span class="pascal_keyword">uses</span> internetaccess;
+  <span class="pascal_keyword">begin</span>
+    writeln(httpRequest(<span class="pascal_string">'http://www.example.org'</span>)); 
+  <span class="pascal_keyword">end</span>.
+</pre>
+
+<p>
+
+<p>The 1-parameter function sends a GET request, the 2-parameter function a POST-request. Multiple calls to the functions keep a session active (i.e. cookies, referrers), and are thread-safe.
+
+<p>If <a class="normal" href="internetaccess.TInternetAccess.html">TInternetAccess</a> is used, every object has its own session. However, you cannot use <a class="normal" href="internetaccess.TInternetAccess.html">TInternetAccess</a> itself, and you need to use one of its implementing classes <a class="normal" href="synapseinternetaccess.TSynapseInternetAccess.html">TSynapseInternetAccess</a>, <a class="normal" href="w32internetaccess.TW32InternetAccess.html">TW32InternetAccess</a> or <a class="normal" href="androidinternetaccess.TAndroidInternetAccess.html">TAndroidInternetAccess</a>. In the unit <a class="normal" href="internetaccess.html">internetaccess</a> there is a global variable <a class="normal" href="internetaccess.html#defaultInternetAccessClass">defaultInternetAccessClass</a> which should be set to one of the implementing classes. You can then create the object from this class variable, so you can easily switch between the implementations and choose the most appropriate (wininet integrates better with windows systems, because it does not require openssl, but synapse it platform independent).
+
+<p><h2 class=""><a name="AnchorNameXYZABC"></a>Data processing</h2>
+
+
+<p>There are several ways to actually process a downloaded HTML/XML-document.<br> It is implemented as a hierarchy of data processing classes, from high level languages to a low level tokenizer, where each levels uses the things from the lower level. Only the high level interface is stable. The lower level classes are used internally to implement the higher level ones.
+
+<p><h3 class=""><a name="AnchorNameTemplate"></a>Transcendent-Level: Multi-page Template</h3>
+
+
+<p>On the utmost highest level there is the multi-page template, but as standalone programming language it is floating so far above usual libraries, that you might want to skip to the next section.
+
+<p>The template is an XML file containing a set of actions. Each action is like a procedure that can contain control structures like if and loop as XML-elements and also call other actions. Thus the XML-elements of the template are Turing-complete (although actual calculations need to be done with XPath/XQuery expressions included in the template). The actions also contain lists of webpages and HTML-patterns. All the webpages are downloaded and then pattern matched against the HTML-patterns, leading to a list of matched HTML-elements or data read from those elements stored in a list/changelog of variables. These variables are the output of the template, and send to the Pascal side. If used as intended, the entire program logic is moved to the template, and the Pascal program is only used to display its output.
+
+<p>The entire template can be loaded with the <a class="normal" href="multipagetemplate.TMultiPageTemplate.html">TMultipageTemplate</a> class and evaluated by the <a class="normal" href="multipagetemplate.TMultipageTemplateReader.html">TMultipageTemplateReader</a> class.
+
+<p><h3 class=""><a name="AnchorNamePXP"></a>High-Level: XQuery/XPath-Expression processing and pattern matching</h3>
+
+
+<p>The class <a class="normal" href="xquery.TXQueryEngine.html">TXQueryEngine</a> in the unit xquery implements an XQuery/XPath 3 interpreter, interpreting Turing complete programming languages. The function <a class="normal" href="xquery.html#query">query</a> can be used to evaluate an expression, which returns the results of the evaluation as <a class="normal" href="xquery.IXQValue.html">IXQValue</a> which can be chained through a LINQ-like pipeline.
+
+<p>All the other functions and methods can be accessed from within the interpreted language. Not all features are enabled at default. Add the units <a class="normal" href="xquery_json.html">xquery_json</a> and <a class="normal" href="xquery_utf8.html">xquery_utf8</a> to a uses clause of any unit to activate JSONiq and UTF-8 support. Their presence in the unit clause is enough to activate them. Further modules are available in the units <a class="normal" href="xquery_module_math.html">xquery_module_math</a> (XPath/XQuery 3.0 math functions) and <a class="normal" href="xquery_module_file.html">xquery_module_file</a> (EXPath file module). They are activated by calling the register function of the corresponding unit.
+
+<p>The unit <a class="normal" href="extendedhtmlparser.html">extendedhtmlparser</a> contains an XML/HTML-pattern matcher. A pattern is a stripped-down, annotated version of the data that should be parsed. To create a pattern, you take the document you want to process, remove all unimportant things and mark the things of interest. The class <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html">THtmlTemplateParser</a> is used to match the pattern against the data and return all matches in a variable changelog. Including the unit in a uses clause also registers the pattern matcher to the XQuery interpreter, so you can call pattern matching functionality from evaluated XQuery expressions. And the other way around the pattern can also contain arbitrary XQuery expressons.
+
+<p><h3 class=""><a name="AnchorNameTree"></a>Mid-Level: Tree/DOM-like processing</h3>
+
+
+<p>To process a html file directly in fpc, without using another, interpreted language, you can use the class <a class="normal" href="simplehtmltreeparser.TTreeParser.html">TTreeParser</a> in the unit <a class="normal" href="simplehtmltreeparser.html">simplehtmltreeparser</a>. <br>
+
+<p>It creates a tree of TTreeElement-s from the html document text (you know such trees from DOM, but this tree has nothing to do with do(o)m).<br>
+
+<p>You can also use the class <a class="normal" href="simplexmltreeparserfpdom.TTreeParserDOM.html">TTreeParserDOM</a> in the unit <a class="normal" href="simplexmltreeparserfpdom.html">simplexmltreeparserfpdom</a> to import a DOM document read by the standard fpc xml parser
+
+<p><h3 class=""><a name="AnchorNameSimple"></a>Low-Level: Lexer/SAX-like interface</h3>
+
+
+<p>At the lowest level you find the <a class="normal" href="simplehtmlparser.html#parseHTML">parseHTML</a> function of the unit <a class="normal" href="simplehtmlparser.html">simplehtmlparser</a>. <br>
+
+<p>It just splits a html document into tags and text elements and calls a callback function for each of the elements. <br><br>
+
+<p>A similar function, <a class="normal" href="simplexmlparser.html#parseXML">parseXML</a>, exists for xml data in the unit <a class="normal" href="simplexmlparser.html">simplexmlparser</a> (it treats the xml file as html file, but checks for things like xml processing instructions).
+
+<p><h2 class=""><a name="AnchorNameOthers"></a>Other  things</h2>
+
+
+<p></p>
+
+<ul class="paragraph_spacing">
+  <li><p>The unit <a class="normal" href="autoupdate.html">autoupdate</a> contains the <a class="normal" href="autoupdate.TAutoUpdater.html">TAutoUpdater</a> class which can look online for an available update for the current system architecture and then download/install it</p></li>
+  <li><p>The unit <a class="normal" href="bigdecimalmath.html">bigdecimalmath</a> contains functions to do calculations with arbitrary precision decimals.</p></li>
+  <li><p>The unit <a class="normal" href="int65math.html">int65math</a> contains functions to do calculations with 65-bit integers.</p></li>
+  <li><p>The unit <a class="normal" href="bbutils.html">bbutils</a> contains low-level functions, that are way below the <a class="normal" href="simplehtmlparser.html">simplehtmlparser</a> and should actually be in the fpc rtl, but are not. </p></li>
+  <li><p>The unit <a class="normal" href="pastemplate.html">pastemplate</a> implements a very simple template language for pascal units (such a template is used to generate <a class="normal" href="bbutils.html">bbutils</a>) </p></li>
+</ul>
+
+<p><hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

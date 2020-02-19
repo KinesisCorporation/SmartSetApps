@@ -1,0 +1,233 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>simpleinternet</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit simpleinternet</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td>Classes, Interfaces, Objects and Records</td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td>Constants</td><td>Variables</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+<p>
+<b>This unit contains a very simple procedural interface to make http requests and process the returned data.</b></p>
+<p>
+<br><br>
+
+<p>To get started, you can just use the function <a class="normal" href="simpleinternet.html#retrieve">retrieve</a>('...url...') to get the data you need as a string. <br>
+
+<p><a class="normal" href="simpleinternet.html#retrieve">Retrieve</a> also supports <a  href="file://">file://</a> urls or other data source; if you want to restrict it to http GET/POST-requests only, you can use the <a class="normal" href="simpleinternet.html#httpRequest">httpRequest</a> function.<br><br>
+
+<p>The data can then be processed with process which applies an XPath/XQuery expression or a html template to it.<br><br>
+
+<p><b>Example</b>
+
+<p>Get all links on a page:
+
+<p></p>
+
+<pre class="longcode">
+    <span class="pascal_keyword">for</span> v <span class="pascal_keyword">in</span> process(<span class="pascal_string">'http://www.freepascal.org'</span>, <span class="pascal_string">'//a'</span>) <span class="pascal_keyword">do</span>
+      writeln(v.toString, <span class="pascal_string">' =&gt; '</span>, v.toNode[<span class="pascal_string">'href'</span>]);
+  </pre>
+
+<p></p>
+<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#retrieve">retrieve</a></b>(data: string): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#httpRequest">httpRequest</a></b>(url: string): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#httpRequest">httpRequest</a></b>(url: string; rawpostdata: string): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#httpRequest">httpRequest</a></b>(url: string; postdata: TStringList): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#httpRequest">httpRequest</a></b>(const method, url, rawdata: string): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#httpRequest">httpRequest</a></b>(const destination: <a  href="xquery.IXQValue.html">xquery.IXQValue</a>): string; overload; deprecated 'Use destination.retrieve() instead.';</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#process">process</a></b>(data: string; query: string): <a  href="xquery.IXQValue.html">xquery.IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#processedTree">processedTree</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#processedVariables">processedVariables</a></b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="simpleinternet.html#freeThreadVars">freeThreadVars</a></b>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#defaultInternet">defaultInternet</a></b>: <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>; inline;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simpleinternet.html#defaultQueryEngine">defaultQueryEngine</a></b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>; inline;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="simpleinternet.html#needInternetAccess">needInternetAccess</a></b>; deprecated 'This procedure no longer does anything';</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simpleinternet.html#IXQValue">IXQValue</a></b> = <a  href="xquery.IXQValue.html">xquery.IXQValue</a>;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="retrieve"></a><code>function <b>retrieve</b>(data: string): string;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+<code>Retrieve</code> data from any url.<br><br>
+
+<p>It is really simple to use, you pass the desired url as single parameter and get the data of the url.<br><br>
+
+<p>It supports:
+
+<p></p>
+
+<ul class="paragraph_spacing">
+  <li><p><a  href="http://">http://</a>...</p></li>
+  <li><p><a  href="https://">https://</a>...</p></li>
+  <li><p><a  href="file://">file://</a>...</p></li>
+  <li><p>/normal/unix/file/paths</p></li>
+  <li><p>C:\normal\windows\paths</p></li>
+  <li><p>&lt;html&gt;data&lt;/html&gt;</p></li>
+</ul>
+
+<p></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(url: string): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: The httpRequest functions have been moved to the internetaccess unit.</p>&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(url: string; rawpostdata: string): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: The httpRequest functions have been moved to the internetaccess unit.</p>&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(url: string; postdata: TStringList): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: The httpRequest functions have been moved to the internetaccess unit.</p>&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(const method, url, rawdata: string): string; overload; deprecated 'The httpRequest functions have been moved to the internetaccess unit.';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: The httpRequest functions have been moved to the internetaccess unit.</p>&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="httpRequest"></a><code>function <b>httpRequest</b>(const destination: <a  href="xquery.IXQValue.html">xquery.IXQValue</a>): string; overload; deprecated 'Use destination.retrieve() instead.';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: Use destination.retrieve() instead.</p><p>
+Make a http request to an address given in an IXQValue. <br> node: if a link (a), download @href. If a resource (img, frame), download @src. Otherwise download the text<br>. object: Download obj.url, possibly sending obj.post as postdata. else: Download the string value.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="process"></a><code>function <b>process</b>(data: string; query: string): <a  href="xquery.IXQValue.html">xquery.IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Processes data with a certain <a class="normal" href="xquery.html#query">query</a>.<br><br>
+
+<p>data can be an url, or a html/xml file in a string, like in <a class="normal" href="simpleinternet.html#retrieve">retrieve</a>.<br><br>
+
+<p><a class="normal" href="xquery.html#query">query</a> can be a <a class="normal" href="xquery.TXQueryEngine.html">XPath/XQuery expression</a>, like in <code>process('<a  href="http://www.google.de">http://www.google.de</a>', '//title');</code>. <br><br>
+
+<p>Or <a class="normal" href="xquery.html#query">query</a> can be a <a class="normal" href="extendedhtmlparser.THtmlTemplateParser.html">html template</a> like <code>process('<a  href="http://www.google.de">http://www.google.de</a>', '&lt;title&gt;&lt;t:s&gt;result:=text()&lt;/t:s&gt;&lt;/title&gt;');</code> The advantage of such templates is that they can return several variables at once and a canonical representation of the same data on different web sites. To get a list of all variables of the last <a class="normal" href="xquery.html#query">query</a> you can use <a class="normal" href="simpleinternet.html#processedVariables">processedVariables</a>.<br><br>
+
+<p>This function returns an IXQValue value, which is a variant for XQuery expression. If you want a string value, you can convert it like <code>process(...).toString</code>. Or if you want to access a retrieved node directly, you can use <code>process(..).toNode</code>.<br> It can also contain multiple values, which can be access like <code>for x in process(..)</code>, where x is another IXQValue.
+
+<p>The global function <a class="normal" href="simpleinternet.html#processedTree">processedTree</a> returns a tree representation of the last processed data string.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="processedTree"></a><code>function <b>processedTree</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns a tree representation of the last processed html/xml data<br> Might return nil</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="processedVariables"></a><code>function <b>processedVariables</b>: <a  href="xquery.TXQVariableChangeLog.html">TXQVariableChangeLog</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Returns all variable assignments during the last <a class="normal" href="xquery.html#query">query</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="freeThreadVars"></a><code>procedure <b>freeThreadVars</b>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+If you use the functions in this unit from different threads, you have to call <code>freeThreadVars</code> before the thread terminates to prevent memory leaks <br> This also calls <code>freeThreadVars</code> of the xquery and <a class="normal" href="internetaccess.html">internetaccess</a> units</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="defaultInternet"></a><code>function <b>defaultInternet</b>: <a  href="internetaccess.TInternetAccess.html">TInternetAccess</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="defaultQueryEngine"></a><code>function <b>defaultQueryEngine</b>: <a  href="xquery.TXQueryEngine.html">TXQueryEngine</a>; inline;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="needInternetAccess"></a><code>procedure <b>needInternetAccess</b>; deprecated 'This procedure no longer does anything';</code></td>
+</tr>
+<tr><td colspan="1">
+<p class="hint_directive">Warning: this symbol is deprecated: This procedure no longer does anything</p>&nbsp;</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="IXQValue"></a><code><b>IXQValue</b> = <a  href="xquery.IXQValue.html">xquery.IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+IXQValue from the xquery unit. Just a wrapper, so that no other unit needs to be included </p>
+</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

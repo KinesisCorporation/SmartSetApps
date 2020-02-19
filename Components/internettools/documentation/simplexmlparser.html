@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>simplexmlparser</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit simplexmlparser</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td>Constants</td><td>Variables</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+<p>
+This file <b>doesn't</b> contain a xml parser.<br></p>
+<p>
+ But you can use the procedure <a class="normal" href="simplexmlparser.html#parseXML">parseXML</a> to parse a xml file stored in a string. (although you should not expect, that this can actually parse the xml data)
+
+<p> *</p>
+<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-Classes"></a><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">record&nbsp;<a class="bold" href="simplexmlparser.TProperty.html"><code>TProperty</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="simplexmlparser.html#parseXML">parseXML</a></b>(xml:string; enterTag:<a  href="simplexmlparser.html#TEnterTagEvent">TEnterTagEvent</a>; leaveTag: <a  href="simplexmlparser.html#TLeaveTagEvent">TLeaveTagEvent</a>; textRead: <a  href="simplexmlparser.html#TTextEvent">TTextEvent</a>; outputEncoding: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="simplexmlparser.html#getProperty">getProperty</a></b>(propertyName: string; properties:<a  href="simplexmlparser.html#TProperties">TProperties</a>; const def: string = ''):string;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>procedure <b><a  href="simplexmlparser.html#addProperty">addProperty</a></b>(propertyName,value: string;var properties:<a  href="simplexmlparser.html#TProperties">TProperties</a>);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="simplexmlparser.html#setProperty">setProperty</a></b>(propertyName,value: string;var properties:<a  href="simplexmlparser.html#TProperties">TProperties</a>);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplexmlparser.html#TProperties">TProperties</a></b>=array of <a  href="simplexmlparser.TProperty.html">TProperty</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplexmlparser.html#TEnterTagEvent">TEnterTagEvent</a></b> = function (tagName: string; properties: <a  href="simplexmlparser.html#TProperties">TProperties</a>):<a  href="simplehtmlparser.html#TParsingResult">TParsingResult</a> of object;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="simplexmlparser.html#TLeaveTagEvent">TLeaveTagEvent</a></b> = function (tagName: string):<a  href="simplehtmlparser.html#TParsingResult">TParsingResult</a> of object;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="simplexmlparser.html#TTextEvent">TTextEvent</a></b> = function (text: string):<a  href="simplehtmlparser.html#TParsingResult">TParsingResult</a> of object;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="parseXML"></a><code>procedure <b>parseXML</b>(xml:string; enterTag:<a  href="simplexmlparser.html#TEnterTagEvent">TEnterTagEvent</a>; leaveTag: <a  href="simplexmlparser.html#TLeaveTagEvent">TLeaveTagEvent</a>; textRead: <a  href="simplexmlparser.html#TTextEvent">TTextEvent</a>; outputEncoding: <a  href="bbutils.html#TSystemCodePage">TSystemCodePage</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Perhaps this parses xml data, perhaps it doesn't. Who knows...     </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>xml</dt>
+<dd>The xml data</dd>
+<dt>enterTag</dt>
+<dd>Event to be called when a tag is entered</dd>
+<dt>leaveTag</dt>
+<dd>Event to be called when a tag is leaved</dd>
+<dt>textRead</dt>
+<dd>Event to be called when text between tags is read</dd>
+<dt>outputEncoding</dt>
+<dd>Encoding to be used in the parameters passed to the event</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="getProperty"></a><code>function <b>getProperty</b>(propertyName: string; properties:<a  href="simplexmlparser.html#TProperties">TProperties</a>; const def: string = ''):string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="addProperty"></a><code>procedure <b>addProperty</b>(propertyName,value: string;var properties:<a  href="simplexmlparser.html#TProperties">TProperties</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="setProperty"></a><code>procedure <b>setProperty</b>(propertyName,value: string;var properties:<a  href="simplexmlparser.html#TProperties">TProperties</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TProperties"></a><code><b>TProperties</b>=array of <a  href="simplexmlparser.TProperty.html">TProperty</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TEnterTagEvent"></a><code><b>TEnterTagEvent</b> = function (tagName: string; properties: <a  href="simplexmlparser.html#TProperties">TProperties</a>):<a  href="simplehtmlparser.html#TParsingResult">TParsingResult</a> of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TLeaveTagEvent"></a><code><b>TLeaveTagEvent</b> = function (tagName: string):<a  href="simplehtmlparser.html#TParsingResult">TParsingResult</a> of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TTextEvent"></a><code><b>TTextEvent</b> = function (text: string):<a  href="simplehtmlparser.html#TParsingResult">TParsingResult</a> of object;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h2 class="authors">Author</h2>
+<ul class="authors">
+<li>Benito van der Zander (<a  href="http://www.benibela.de">www.benibela.de</a>)</li>
+</ul>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

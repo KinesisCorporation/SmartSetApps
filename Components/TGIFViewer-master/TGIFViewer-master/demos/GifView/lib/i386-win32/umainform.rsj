@@ -1,0 +1,6 @@
+{"version":1,"strings":[
+{"hash":87579580,"name":"umainform.rsstretchmanual","sourcebytes":[77,97,110,117,101,108],"value":"Manuel"},
+{"hash":95865539,"name":"umainform.rsstretchall","sourcebytes":[84,111,117,116,101,115],"value":"Toutes"},
+{"hash":166896627,"name":"umainform.rsstretchonlybigger","sourcebytes":[76,101,115,32,112,108,117,115,32,103,114,97,110,100,101,115],"value":"Les plus grandes"},
+{"hash":29221859,"name":"umainform.rsstretchonlysmaller","sourcebytes":[76,101,115,32,112,108,117,115,32,112,101,116,105,116,101,115],"value":"Les plus petites"}
+]}

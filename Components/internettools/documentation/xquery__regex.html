@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery__regex</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<h1 class="unit">Unit xquery__regex</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td>Uses</td><td>Classes, Interfaces, Objects and Records</td><td><a class="section" href="#PasDoc-FuncsProcs">Functions and Procedures</a></td><td><a class="section" href="#PasDoc-Types">Types</a></td><td><a class="section" href="#PasDoc-Constants">Constants</a></td><td>Variables</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="description">Description</h2>
+&nbsp;<a name="PasDoc-Uses"></a><h2 class="overview">Overview</h2>
+<a name="PasDoc-FuncsProcs"></a><h3 class="summary">Functions and Procedures</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#regexprreencode">regexprreencode</a></b>(regexpr: string; flags: <a  href="xquery__regex.html#TWrappedRegExprFlags">TWrappedRegExprFlags</a>): string;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#wregexprParseInternal">wregexprParseInternal</a></b>(const pattern: string; flags: <a  href="xquery__regex.html#TWrappedRegExprFlags">TWrappedRegExprFlags</a>): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#wregexprParse">wregexprParse</a></b>(pattern: string; flags: <a  href="xquery__regex.html#TWrappedRegExprFlags">TWrappedRegExprFlags</a>): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#wregexprParse">wregexprParse</a></b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>; flagsPos: integer; allowEmptyMatch: boolean; toescape: PBoolean = nil; all: PBoolean = nil): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#wregexprClone">wregexprClone</a></b>(regexpr: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>procedure <b><a  href="xquery__regex.html#wregexprFree">wregexprFree</a></b>(wregexp: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#wregexprMatches">wregexprMatches</a></b>(regexpr: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>; input: string): Boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#wregexprExtract">wregexprExtract</a></b>(regexpr: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>; input: string; out matches: <a  href="xquery__regex.html#TWrappedMatchArray">TWrappedMatchArray</a>): boolean;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#xqFunctionReplace">xqFunctionReplace</a></b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#xqFunctionMatches">xqFunctionMatches</a></b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#xqFunctionTokenize">xqFunctionTokenize</a></b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#xqFunctionAnalyze_String">xqFunctionAnalyze_String</a></b>(const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code>function <b><a  href="xquery__regex.html#xqFunctionExtract">xqFunctionExtract</a></b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Types"></a><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a></b> = TFLRE;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery__regex.html#EWrappedRegExpr">EWrappedRegExpr</a></b> = EFLRE;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery__regex.html#TWrappedMatchArray">TWrappedMatchArray</a></b> = TFLREStrings;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><b><a  href="xquery__regex.html#TWrappedRegExprFlag">TWrappedRegExprFlag</a></b> = (...);</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery__regex.html#TWrappedRegExprFlags">TWrappedRegExprFlags</a></b> = set of <a  href="xquery__regex.html#TWrappedRegExprFlag">TWrappedRegExprFlag</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Constants"></a><h3 class="summary">Constants</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><b><a  href="xquery__regex.html#UsingFLRE">UsingFLRE</a></b> = true ;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Functions and Procedures</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="regexprreencode"></a><code>function <b>regexprreencode</b>(regexpr: string; flags: <a  href="xquery__regex.html#TWrappedRegExprFlags">TWrappedRegExprFlags</a>): string;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="wregexprParseInternal"></a><code>function <b>wregexprParseInternal</b>(const pattern: string; flags: <a  href="xquery__regex.html#TWrappedRegExprFlags">TWrappedRegExprFlags</a>): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="wregexprParse"></a><code>function <b>wregexprParse</b>(pattern: string; flags: <a  href="xquery__regex.html#TWrappedRegExprFlags">TWrappedRegExprFlags</a>): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="wregexprParse"></a><code>function <b>wregexprParse</b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>; flagsPos: integer; allowEmptyMatch: boolean; toescape: PBoolean = nil; all: PBoolean = nil): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="wregexprClone"></a><code>function <b>wregexprClone</b>(regexpr: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>): <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="wregexprFree"></a><code>procedure <b>wregexprFree</b>(wregexp: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="wregexprMatches"></a><code>function <b>wregexprMatches</b>(regexpr: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>; input: string): Boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="wregexprExtract"></a><code>function <b>wregexprExtract</b>(regexpr: <a  href="xquery__regex.html#TWrappedRegExpr">TWrappedRegExpr</a>; input: string; out matches: <a  href="xquery__regex.html#TWrappedMatchArray">TWrappedMatchArray</a>): boolean;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqFunctionReplace"></a><code>function <b>xqFunctionReplace</b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqFunctionMatches"></a><code>function <b>xqFunctionMatches</b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqFunctionTokenize"></a><code>function <b>xqFunctionTokenize</b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqFunctionAnalyze_String"></a><code>function <b>xqFunctionAnalyze_String</b>(const context: <a  href="xquery.TXQEvaluationContext.html">TXQEvaluationContext</a>; argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="xqFunctionExtract"></a><code>function <b>xqFunctionExtract</b>(argc: <a  href="bbutils.html#SizeInt">SizeInt</a>; argv: <a  href="xquery.html#PIXQValue">PIXQValue</a>): <a  href="xquery.IXQValue.html">IXQValue</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TWrappedRegExpr"></a><code><b>TWrappedRegExpr</b> = TFLRE;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="EWrappedRegExpr"></a><code><b>EWrappedRegExpr</b> = EFLRE;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TWrappedMatchArray"></a><code><b>TWrappedMatchArray</b> = TFLREStrings;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TWrappedRegExprFlag"></a><code><b>TWrappedRegExprFlag</b> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+wrfSingleLine: &nbsp;</li>
+<li>
+wrfMultiLine: &nbsp;</li>
+<li>
+wrfIgnoreCase: &nbsp;</li>
+<li>
+wrfStripWhitespace: &nbsp;</li>
+<li>
+wrfQuote: &nbsp;</li>
+<li>
+wrfSkipSyntaxNormalization: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="TWrappedRegExprFlags"></a><code><b>TWrappedRegExprFlags</b> = set of <a  href="xquery__regex.html#TWrappedRegExprFlag">TWrappedRegExprFlag</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Constants</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><a name="UsingFLRE"></a><code><b>UsingFLRE</b> = true ;</code></td>
+</tr>
+<tr><td colspan="1">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

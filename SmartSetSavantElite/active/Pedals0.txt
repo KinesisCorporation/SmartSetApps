@@ -1,0 +1,111 @@
+* default filename: pedals.txt  (edited july 16, 2014)
+* firmware version: see version.txt file
+* copyright 2014 kinesis corporation 
+*
+* brief instructions for re-programming your savant elite2
+* it is recommended that you read the user's manual before 
+* making changes.
+*
+* assigned actions, showing pedal & jack locations and actions 
+*                  (actions are after the > symbol)
+**************************************************************
+{lpedal}>{a}{s}{d}{f}{a}{s}{f}{d}
+{mpedal}>{-shift}{m}{+shift}{i}{d}{d}{l}{e}{.}{.}{.}
+[rpedal]>[r]
+
+{jack1}>{a}{s}{d}{f}{a}{d}{s}
+[jack2]>[rmouse]
+[jack3]>[a]
+{jack4}>{a}
+
+***************************************************************
+*
+* above are the assigned actions for 7 possible inputs(left, 
+* middle, and right pedals and jacks 1-4). your device will only 
+* have some of these inputs (see drawing below). to be used by the
+* device, this file must be in plain text format and named 
+* "pedals.txt" and it must be located in the active folder on the 
+* virtual flash drive(see user?s manual regarding accessing the 
+* virtual flash drive).
+*
+* to change a single key assignement: 
+*
+* to edit the pedal actions, after the > symbol change the text
+* inside the [ ] to a letter, number, or named key or mouse button 
+* action. 
+*
+* example: left pedal does pagedown. see user's manual for list of 
+* abbreviations used for other named key actions.
+* [lpedal]>[pdown]
+*
+* when you are done editing, save the file as pedals.txt in plain 
+* text format to the active folder. changes are then implemented 
+* after moving the slide switch to "play mode" or unplugging 
+* and reconnecting the device to a usb port.
+*
+* if you are using windows and opened this file in notepad, just 
+* save it when you are done editing. if it opened in word, use 
+* "save as" and select plain text as the "save as type." if you
+* are using another word processing program, select "simple text" 
+* or "plain text" as the "save as type." 
+*
+* advanced programming, macros (multiple actions stored on a pedal)
+*
+* a macro is a sequence of actions. the default jack4 assignment is an 
+* example of a macro. all square brackets must be changed to { } 
+* (curly braces). make this change first around the pedal or jack 
+* name and then around each action to the right of > symbol. each
+* character or action requires a "press" using -, followed by a 
+* "release" using +. modifier key actions must bracket (surround) the 
+* key action which is modified.
+*
+* then save the file as pedals.txt and activate changes as described above. 
+*
+* note: on mac osx, modifiers by themselves are not useful to assign to a 
+* pedal because one usb device cannot modify another. 
+*
+* example: macro playing "no" using the right pedal.
+* {rpedal}>{-n}{+n}{-o}{+o} 
+*
+* note: {rpedal}>{-n}{+n}{-o}{+o} also plays no. to produce a shifted key 
+* action to produce "no," use "shift" as shown in the next example. 
+*
+* example: macro playing "no" using the right pedal.
+* {rpedal}>{-shift}{-n}{+n}{+shift}{-o}{+o} 
+*
+* example: macro playing "shift-f1" using the right pedal.
+* {rpedal}>{-shift}{-f1}{+f1}{+shift} 
+*
+* note:  modifiers such as "shift" must surround or bracket the action 
+* being modified. see user's manual for more details and examples of 
+* using shift and other modifier keys in macros.
+* 
+* example: macro of double mouse click using left pedal.
+* (the default action of jack4). note: this particular macro 
+* requires a .125 second delay between actions. 
+*
+* {lpedal}>{-lmouse}{+lmouse}{125}{-lmouse}{+lmouse}
+*
+* the locations of pedals and jacks are shown in the diagram 
+* below, which depicts the savant elite2 control module and three
+* pedals.
+*
+* pedal & jack locations (not all devices have pedals or jacks)
+*
+*                      | |
+*                      | |cable
+*                      | |
+*    __________________|_|___________________
+*   |                                        |
+*  [|jack 3                            jack 1|]
+*   |                                        |
+*   |            looking from top            |
+*   |                                        |
+*  [|jack 4                            jack 2|]
+*   |                                        |
+*   |________________________________________|
+*                      u u        
+*                      leds
+*		
+*   left pedal 	  middle pedal	  right pedal
+*    (lpedal)      (mpedal)       (rpedal)

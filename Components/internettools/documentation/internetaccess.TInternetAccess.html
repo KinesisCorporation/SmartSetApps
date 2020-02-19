@@ -1,0 +1,560 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>internetaccess: Class TInternetAccess</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TInternetAccess"></a><h1 class="cio">Class TInternetAccess</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-InternalTypes">Internal Types</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td><a class="section" href="#PasDoc-Properties">Properties</a></td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="internetaccess.html">internetaccess</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TInternetAccess = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Abstract base class for connections</p>
+<p>
+ This class defines the interface methods for HTTP requests, like <a class="normal" href="internetaccess.TInternetAccess.html#get">get</a>, <a class="normal" href="internetaccess.TInternetAccess.html#post">post</a> or <a class="normal" href="internetaccess.TInternetAccess.html#request">request</a>.<br> If a method fails, it will raise a <a class="normal" href="internetaccess.EInternetException.html">EInternetException</a><br><br> Since this is an abstract class, you cannot use it directly, but need to use one of the implementing child classes <a class="normal" href="w32internetaccess.TW32InternetAccess.html">TW32InternetAccess</a>, <a class="normal" href="synapseinternetaccess.TSynapseInternetAccess.html">TSynapseInternetAccess</a>, <a class="normal" href="androidinternetaccess.TAndroidInternetAccess.html">TAndroidInternetAccess</a> or <a class="normal" href="mockinternetaccess.TMockInternetAccess.html">TMockInternetAccess</a>. <br> The recommended usage is to assign one of the child classes to <a class="normal" href="internetaccess.html#defaultInternetAccessClass">defaultInternetAccessClass</a> and then create an actual internet access class with <code>defaultInternetAccessClass.create()</code>. <br> Then it is trivial to swap between different implementations on different platforms, and the depending units (e.g. <a class="normal" href="simpleinternet.html">simpleinternet</a> or xquery ) will use the implementation you have choosen.</p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TInternetAccess</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-InternalTypes"></a><h3 class="summary">Internal Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#THeaderEnumCallback">THeaderEnumCallback</a></b> = procedure (data: pointer; headerKindHint: <a  href="internetaccess.TInternetAccess.html#THeaderKind">THeaderKind</a>; const name, value: string);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#THeaderKind">THeaderKind</a></b> = (...);</code></td>
+</tr>
+</table>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#internetConfig">internetConfig</a></b>: <a  href="internetaccess.html#PInternetConfig">PInternetConfig</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#additionalHeaders">additionalHeaders</a></b>: TStringList;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#ContentTypeForData">ContentTypeForData</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#multipartFormData">multipartFormData</a></b>: <a  href="internetaccess.TMIMEMultipartData.html">TMIMEMultipartData</a>;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#lastHTTPResultCode">lastHTTPResultCode</a></b>: longint;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#lastUrl">lastUrl</a></b>: String;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="internetaccess.TInternetAccess.html#cookies">cookies</a></b>: <a  href="internetaccess.TCookieManager.html">TCookieManager</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="internetaccess.TInternetAccess.html#parseHeaderLineKind">parseHeaderLineKind</a></b>(const line: string): <a  href="internetaccess.TInternetAccess.html#THeaderKind">THeaderKind</a>; static;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#getFinalMultipartFormData">getFinalMultipartFormData</a></b>: string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#getLastContentType">getLastContentType</a></b>: string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="internetaccess.TInternetAccess.html#create">create</a></b>(); virtual;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>destructor <b><a  href="internetaccess.TInternetAccess.html#Destroy">Destroy</a></b>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#post">post</a></b>(const totalUrl, data:string):string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#post">post</a></b>(const protocol,host,url: string; data:string):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="internetaccess.TInternetAccess.html#get">get</a></b>(const totalUrl: string; stream:TStream);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#get">get</a></b>(const totalUrl: string):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="internetaccess.TInternetAccess.html#get">get</a></b>(const protocol,host,url: string; stream:TStream);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#get">get</a></b>(const protocol,host,url: string):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#request">request</a></b>(const method, fullUrl, data:string):string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#request">request</a></b>(method, protocol,host,url, data:string):string;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#request">request</a></b>(method: string; url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; data:string):string;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="internetaccess.TInternetAccess.html#request">request</a></b>(const method: string; const url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; const uploadData:string; outStream: TStream);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="internetaccess.TInternetAccess.html#request">request</a></b>(const method: string; const url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; const uploadData: <a  href="internetaccess.TInternetAccessDataBlock.html">TInternetAccessDataBlock</a>; const onClear: <a  href="internetaccess.html#TTransferClearEvent">TTransferClearEvent</a>; const onReceivedBlock: <a  href="internetaccess.html#TTransferBlockWriteEvent">TTransferBlockWriteEvent</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#existsConnection">existsConnection</a></b>():boolean; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#needConnection">needConnection</a></b>():boolean; virtual; abstract;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <b><a  href="internetaccess.TInternetAccess.html#closeOpenedConnections">closeOpenedConnections</a></b>(); virtual; abstract;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="internetaccess.TInternetAccess.html#urlEncodeData">urlEncodeData</a></b>(const data: string; encodingModel: <a  href="internetaccess.html#TUrlEncodingModel">TUrlEncodingModel</a> = ueHTMLForm): string; static;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="internetaccess.TInternetAccess.html#urlEncodeData">urlEncodeData</a></b>(data: TStringList; encodingModel: <a  href="internetaccess.html#TUrlEncodingModel">TUrlEncodingModel</a> = ueHTMLForm): string; static;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="internetaccess.TInternetAccess.html#reactFromCodeString">reactFromCodeString</a></b>(const codes: string; actualCode: integer; var reaction: <a  href="internetaccess.html#TInternetAccessReaction">TInternetAccessReaction</a>): string; static;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="internetaccess.TInternetAccess.html#internalHandle">internalHandle</a></b>: TObject; virtual; abstract;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Properties"></a><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <b><a  href="internetaccess.TInternetAccess.html#lastHTTPHeaders">lastHTTPHeaders</a></b>: TStringList read FLastHTTPHeaders;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <b><a  href="internetaccess.TInternetAccess.html#OnTransferStart">OnTransferStart</a></b>: <a  href="internetaccess.html#TTransferStartEvent">TTransferStartEvent</a> read FOnTransferStart write FOnTransferStart;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <b><a  href="internetaccess.TInternetAccess.html#OnTransferReact">OnTransferReact</a></b>: <a  href="internetaccess.html#TTransferReactEvent">TTransferReactEvent</a> read FOnTransferReact write FOnTransferReact;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <b><a  href="internetaccess.TInternetAccess.html#OnTransferEnd">OnTransferEnd</a></b>: <a  href="internetaccess.html#TTransferEndEvent">TTransferEndEvent</a> read FOnTransferEnd write FOnTransferEnd;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><code>property <b><a  href="internetaccess.TInternetAccess.html#OnProgress">OnProgress</a></b>: <a  href="internetaccess.html#TProgressEvent">TProgressEvent</a> read FOnProgress write FOnProgress;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Internal Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><a name="THeaderEnumCallback"></a><code><b>THeaderEnumCallback</b> = procedure (data: pointer; headerKindHint: <a  href="internetaccess.TInternetAccess.html#THeaderKind">THeaderKind</a>; const name, value: string);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><a name="THeaderKind"></a><code><b>THeaderKind</b> = (...);</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;<h6 class="description_section">Values</h6>
+<ul>
+<li>
+iahUnknown: &nbsp;</li>
+<li>
+iahContentType: &nbsp;</li>
+<li>
+iahAccept: &nbsp;</li>
+<li>
+iahReferer: &nbsp;</li>
+<li>
+iahLocation: &nbsp;</li>
+<li>
+iahSetCookie: &nbsp;</li>
+<li>
+iahCookie: &nbsp;</li>
+</ul>
+</td></tr>
+</table>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="internetConfig"></a><code><b>internetConfig</b>: <a  href="internetaccess.html#PInternetConfig">PInternetConfig</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Configuration to use. Defaults to defaultInternetConfig</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="additionalHeaders"></a><code><b>additionalHeaders</b>: TStringList;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Defines additional headers that should be send to the server</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="ContentTypeForData"></a><code><b>ContentTypeForData</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Defines the Content-Type that is used to transmit data. Usually <code>application/x-www-form-urlencoded</code> or <code>multipart/form-data; boundary=...</code>. <br> This is overriden by a Content-Type set in <a class="normal" href="internetaccess.TInternetAccess.html#additionalHeaders">additionalHeaders</a>.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="multipartFormData"></a><code><b>multipartFormData</b>: <a  href="internetaccess.TMIMEMultipartData.html">TMIMEMultipartData</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="lastHTTPResultCode"></a><code><b>lastHTTPResultCode</b>: longint;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+HTTP Status code of the last request</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="lastUrl"></a><code><b>lastUrl</b>: String;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Last retrieved URL</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="cookies"></a><code><b>cookies</b>: <a  href="internetaccess.TCookieManager.html">TCookieManager</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<code>Cookies</code> receive from/to-send the server</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="parseHeaderLineKind"></a><code>class function <b>parseHeaderLineKind</b>(const line: string): <a  href="internetaccess.TInternetAccess.html#THeaderKind">THeaderKind</a>; static;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getFinalMultipartFormData"></a><code>function <b>getFinalMultipartFormData</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="getLastContentType"></a><code>function <b>getLastContentType</b>: string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Same as getLastHTTPHeader('Content-Type') but easier to remember and without magic string</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(); virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="Destroy"></a><code>destructor <b>Destroy</b>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="post"></a><code>function <b>post</b>(const totalUrl, data:string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="internetaccess.TInternetAccess.html#post">post</a> the (raw) data to the given url and returns the resulting document as string</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="post"></a><code>function <b>post</b>(const protocol,host,url: string; data:string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<code>post</code> the (raw) data to the url given as three parts and returns the page as string</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>procedure <b>get</b>(const totalUrl: string; stream:TStream);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="internetaccess.TInternetAccess.html#get">get</a> the url as stream</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>function <b>get</b>(const totalUrl: string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="internetaccess.TInternetAccess.html#get">get</a> the url as string</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>procedure <b>get</b>(const protocol,host,url: string; stream:TStream);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<a class="normal" href="internetaccess.TInternetAccess.html#get">get</a> the url as stream</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="get"></a><code>function <b>get</b>(const protocol,host,url: string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+<code>get</code> the url as string</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="request"></a><code>function <b>request</b>(const method, fullUrl, data:string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+performs a HTTP request</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="request"></a><code>function <b>request</b>(method, protocol,host,url, data:string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+performs a HTTP request</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="request"></a><code>function <b>request</b>(method: string; url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; data:string):string;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+performs a HTTP request</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="request"></a><code>procedure <b>request</b>(const method: string; const url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; const uploadData:string; outStream: TStream);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+performs a HTTP request</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="request"></a><code>procedure <b>request</b>(const method: string; const url: <a  href="internetaccess.TDecodedUrl.html">TDecodedUrl</a>; const uploadData: <a  href="internetaccess.TInternetAccessDataBlock.html">TInternetAccessDataBlock</a>; const onClear: <a  href="internetaccess.html#TTransferClearEvent">TTransferClearEvent</a>; const onReceivedBlock: <a  href="internetaccess.html#TTransferBlockWriteEvent">TTransferBlockWriteEvent</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+performs a HTTP request</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="existsConnection"></a><code>function <b>existsConnection</b>():boolean; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+checks if an internet connection exists</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="needConnection"></a><code>function <b>needConnection</b>():boolean; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+call this to open a connection (very unreliable). It will return true on success</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="closeOpenedConnections"></a><code>procedure <b>closeOpenedConnections</b>(); virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Should close all connections (doesn't work)</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="urlEncodeData"></a><code>class function <b>urlEncodeData</b>(const data: string; encodingModel: <a  href="internetaccess.html#TUrlEncodingModel">TUrlEncodingModel</a> = ueHTMLForm): string; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Encodes the passed string in the url encoded format</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="urlEncodeData"></a><code>class function <b>urlEncodeData</b>(data: TStringList; encodingModel: <a  href="internetaccess.html#TUrlEncodingModel">TUrlEncodingModel</a> = ueHTMLForm): string; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Encodes all var=... pairs of data in the url encoded format</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="reactFromCodeString"></a><code>class function <b>reactFromCodeString</b>(const codes: string; actualCode: integer; var reaction: <a  href="internetaccess.html#TInternetAccessReaction">TInternetAccessReaction</a>): string; static;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+parses a string like 200=accept,400=abort,300=redirect</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="internalHandle"></a><code>function <b>internalHandle</b>: TObject; virtual; abstract;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="lastHTTPHeaders"></a><code>property <b>lastHTTPHeaders</b>: TStringList read FLastHTTPHeaders;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+HTTP headers received by the last request</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><a name="OnTransferStart"></a><code>property <b>OnTransferStart</b>: <a  href="internetaccess.html#TTransferStartEvent">TTransferStartEvent</a> read FOnTransferStart write FOnTransferStart;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><a name="OnTransferReact"></a><code>property <b>OnTransferReact</b>: <a  href="internetaccess.html#TTransferReactEvent">TTransferReactEvent</a> read FOnTransferReact write FOnTransferReact;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><a name="OnTransferEnd"></a><code>property <b>OnTransferEnd</b>: <a  href="internetaccess.html#TTransferEndEvent">TTransferEndEvent</a> read FOnTransferEnd write FOnTransferEnd;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="published.gif" alt="Published" title="Published"></a></td>
+<td class="itemcode"><a name="OnProgress"></a><code>property <b>OnProgress</b>: <a  href="internetaccess.html#TProgressEvent">TProgressEvent</a> read FOnProgress write FOnProgress;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>

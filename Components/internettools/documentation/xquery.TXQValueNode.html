@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
+<html>
+<head>
+<title>xquery: Class TXQValueNode</title>
+<meta name="generator" content="PasDoc 0.14.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<table class="container"><tr><td class="navigation">
+<p><a href="pasdocIntroductionInternettools.html" class="navigation">Overview</a></p><p><a href="AllUnits.html" class="navigation">Units</a></p><p><a href="ClassHierarchy.html" class="navigation">Class Hierarchy</a></p><p><a href="AllClasses.html" class="navigation">Classes, Interfaces, Objects and Records</a></p><p><a href="AllTypes.html" class="navigation">Types</a></p><p><a href="AllVariables.html" class="navigation">Variables</a></p><p><a href="AllConstants.html" class="navigation">Constants</a></p><p><a href="AllFunctions.html" class="navigation">Functions and Procedures</a></p><p><a href="AllIdentifiers.html" class="navigation">Identifiers</a></p></td><td class="content">
+<a name="TXQValueNode"></a><h1 class="cio">Class TXQValueNode</h1>
+<table class="sections wide_list">
+<tr>
+<td><a class="section" href="#PasDoc-Description">Description</a></td><td><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></td><td><a class="section" href="#PasDoc-Fields">Fields</a></td><td><a class="section" href="#PasDoc-Methods">Methods</a></td><td>Properties</td></tr></table>
+<a name="PasDoc-Description"></a><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a  href="xquery.html">xquery</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TXQValueNode = class(<a class="normal" href="xquery.TXQValueJSONIQStructuredItem.html">TXQValueJSONIQStructuredItem</a>)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Type for a <a class="normal" href="xquery.TXQValueNode.html#node">node</a></p>
+<a name="PasDoc-Hierarchy"></a><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TInterfacedObject</li>
+<li class="ancestor"><a class="normal" href="xquery.TXQValue.html">TXQValue</a></li>
+<li class="ancestor"><a class="normal" href="xquery.TXQValueJSONIQStructuredItem.html">TXQValueJSONIQStructuredItem</a></li>
+<li class="thisitem">TXQValueNode</li></ul><h2 class="overview">Overview</h2>
+<a name="PasDoc-Fields"></a><h3 class="summary">Fields</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code><b><a  href="xquery.TXQValueNode.html#node">node</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+</table>
+<a name="PasDoc-Methods"></a><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <b><a  href="xquery.TXQValueNode.html#create">create</a></b>(anode: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil); reintroduce; virtual;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQValueNode.html#classKind">classKind</a></b>: <a  href="xquery.html#TXQValueKind">TXQValueKind</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#toBoolean">toBoolean</a></b>: boolean; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#toBooleanEffective">toBooleanEffective</a></b>: boolean; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#toString">toString</a></b>: string; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#toDateTime">toDateTime</a></b>: TDateTime; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#toFloatChecked">toFloatChecked</a></b>(scontext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>): <a  href="xquery.html#xqfloat">xqfloat</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#toNode">toNode</a></b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#clone">clone</a></b>: <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#jsonSerialize">jsonSerialize</a></b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; insertWhitespace: boolean = false; const indent: string = ''): string; override;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <b><a  href="xquery.TXQValueNode.html#xmlSerialize">xmlSerialize</a></b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; sequenceTag: string = 'seq'; elementTag: string = 'e'; objectTag: string = 'object'): string; override;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>class function <b><a  href="xquery.TXQValueNode.html#nodeTypeAnnotation">nodeTypeAnnotation</a></b>(tn: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>): <a  href="xquery.TXSType.html">TXSType</a>; static;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Fields</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="node"></a><code><b>node</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+reference to a tree <code>node</code> in the html tree.<br> Attention: this tree is shared, you don't have to free anything, but the pointer becomes invalid if the tree is free</p>
+</td></tr>
+</table>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="create"></a><code>constructor <b>create</b>(anode: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a> = nil); reintroduce; virtual;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="classKind"></a><code>class function <b>classKind</b>: <a  href="xquery.html#TXQValueKind">TXQValueKind</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toBoolean"></a><code>function <b>toBoolean</b>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the <a class="normal" href="xquery.TXQValue.html">TXQValue</a> dynamically to boolean</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toBooleanEffective"></a><code>function <b>toBooleanEffective</b>: boolean; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns true</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toString"></a><code>function <b>toString</b>: string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the <a class="normal" href="xquery.TXQValue.html">TXQValue</a> dynamically to string</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toDateTime"></a><code>function <b>toDateTime</b>: TDateTime; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Converts the <a class="normal" href="xquery.TXQValue.html">TXQValue</a> dynamically to TDateTime</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toFloatChecked"></a><code>function <b>toFloatChecked</b>(scontext: <a  href="xquery.TXQStaticContext.html">TXQStaticContext</a>): <a  href="xquery.html#xqfloat">xqfloat</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="toNode"></a><code>function <b>toNode</b>: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Returns the <a class="normal" href="xquery.TXQValueNode.html#node">node</a></p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="clone"></a><code>function <b>clone</b>: <a  href="xquery.IXQValue.html">IXQValue</a>; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="jsonSerialize"></a><code>function <b>jsonSerialize</b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; insertWhitespace: boolean = false; const indent: string = ''): string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="xmlSerialize"></a><code>function <b>xmlSerialize</b>(nodeFormat: <a  href="xquery.html#TTreeNodeSerialization">TTreeNodeSerialization</a>; sequenceTag: string = 'seq'; elementTag: string = 'e'; objectTag: string = 'object'): string; override;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a  href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><a name="nodeTypeAnnotation"></a><code>class function <b>nodeTypeAnnotation</b>(tn: <a  href="simplehtmltreeparser.TTreeNode.html">TTreeNode</a>): <a  href="xquery.TXSType.html">TXSType</a>; static;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
+</table>
+<hr noshade size="1"><span class="appinfo"><em>Generated by <a  href="http://pasdoc.sourceforge.net/">PasDoc 0.14.0</a>. </em>
+</span>
+</td></tr></table></body></html>
