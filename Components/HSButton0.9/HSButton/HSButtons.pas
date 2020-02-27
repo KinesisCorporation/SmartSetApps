@@ -245,6 +245,10 @@ var
          end;
      {$ifdef FPC}
      Bitmap.LoadFromIntfImage(LazImage);
+
+     //Memory leak fix
+     LazImage.Free;
+     LazImage := nil;
      {$endif}
 //     aBitmap.FreeImage;
 //     aBitmap.ReleaseHandle;

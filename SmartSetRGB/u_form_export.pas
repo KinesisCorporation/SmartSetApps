@@ -155,17 +155,17 @@ begin
       begin
         layoutContent := MainForm.keyService.ConvertToTextFileFmtRGB;
         if not(MainForm.fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(MainForm.currentLayoutFile), layoutContent, true, errorMsgLayout)) then
-          ShowDialog('Export', 'Error exporting layout file: ' + errorMsgLayout, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+          ShowDialog('Export', 'Error exporting layout file: ' + errorMsgLayout, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
       if (chkBoth.Checked) or (chkLighting.Checked) then
       begin
         ledContent := MainForm.keyService.ConvertLedToTextFileFmtRGB;
         if not(MainForm.fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(MainForm.currentLedFile), ledContent, true, errorMsgLed)) then
-          ShowDialog('Export', 'Error exporting lighting file: ' + errorMsgLed, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+          ShowDialog('Export', 'Error exporting lighting file: ' + errorMsgLed, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
       if (errorMsgLayout = '') and (errorMsgLed = '') then
       begin
-        ShowDialog('Export', 'Files exported successfully!', mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog('Export', 'Files exported successfully!', mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
         self.ModalResult := mrOK;
       end;
     finally

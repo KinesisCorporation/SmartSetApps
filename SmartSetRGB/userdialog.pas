@@ -40,7 +40,7 @@ var
   FormUserDialog: TFormUserDialog;
   LastDialog: TFormUserDialog;
   function ShowDialog(Caption, Message: string; dlgType: TMsgDlgTypeApp; dlgButtons: TMsgDlgButtons;
-    dialogHeight: integer = DEFAULT_DIAG_HEIGHT; customButtons: TCustomButtons = nil;
+    dialogHeight: integer = DEFAULT_DIAG_HEIGHT_RGB; customButtons: TCustomButtons = nil;
     checkBoxCaption: string = ''; openPosition: TPosition = poMainFormCenter; dialogWidth: integer = 0): integer;
   procedure CloseDialog(resultType: integer);
 
@@ -57,7 +57,7 @@ end;
 
 //Function to call a dialog box
 function ShowDialog(Caption, Message: string; dlgType: TMsgDlgTypeApp; dlgButtons: TMsgDlgButtons;
-  dialogHeight: integer = DEFAULT_DIAG_HEIGHT; customButtons: TCustomButtons = nil;
+  dialogHeight: integer = DEFAULT_DIAG_HEIGHT_RGB; customButtons: TCustomButtons = nil;
   checkBoxCaption: string = ''; openPosition: TPosition = poMainFormCenter; dialogWidth: integer = 0): integer;
 var
   i: integer;

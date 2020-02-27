@@ -1002,9 +1002,13 @@ begin
   //If we need keyboard input (ex: file prompt) allow key presses
   if (NeedInput) or
     (FormMain.eRed.Focused) or
+    (FormMain.eRedBase.Focused) or
     (FormMain.eGreen.Focused) or
+    (FormMain.eGreenBase.Focused) or
     (FormMain.eBlue.Focused) or
+    (FormMain.eBlueBase.Focused) or
     (FormMain.eHTML.Focused) or
+    (FormMain.eHTMLBase.Focused) or
     ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused) then
   begin
     Result := CallNextHookEx(WH_KEYBOARD, Code, wParam, lParam);
@@ -1135,9 +1139,13 @@ begin
   //If we need keyboard input (ex: file prompt) allow key presses
   if (NeedInput) or
     (FormMain.eRed.Focused) or
+    (FormMain.eRedBase.Focused) or
     (FormMain.eGreen.Focused) or
+    (FormMain.eGreenBase.Focused) or
     (FormMain.eBlue.Focused) or
+    (FormMain.eBlueBase.Focused) or
     (FormMain.eHTML.Focused) or
+    (FormMain.eHTMLBase.Focused) or
     ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused) then
   begin
     exit;
@@ -1476,7 +1484,7 @@ begin
     begin
       createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsClick);
       ShowDialog('SmartSet App File Error', 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the keyboard to regenerate these files and try launching the App again.',
-        mtFSEdge, [], DEFAULT_DIAG_HEIGHT, customBtns);
+        mtFSEdge, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
       appError := true;
       Close;
     end;
@@ -1650,7 +1658,7 @@ begin
     message := 'To save your changes you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.';
     createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsClick);
 
-    if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT, customBtns, '', openPosition, 700) = mrCancel) then
+    if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns, '', openPosition, 700) = mrCancel) then
       result := false;
   end;
 
@@ -1671,7 +1679,7 @@ begin
   //createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsClick);
   //createCustomButton(customBtns, 'Launch in Demo Mode', 200, @launchDemoMode);
   //
-  //if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT, customBtns, '', openPosition, 700) = mrCancel) then
+  //if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns, '', openPosition, 700) = mrCancel) then
   //  result := false;
 end;
 
@@ -2075,7 +2083,7 @@ begin
       Result := true;
     end;
     //else
-    //  ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+    //  ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
   finally
     loadingSettings := false;
   end;
@@ -2119,7 +2127,7 @@ begin
       else
       begin
         LoadButtonImage(imgProfile, imgListProfileDefault, 0);
-        ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
 
       SetActiveLayer(TOPLAYER_IDX);
@@ -2171,7 +2179,7 @@ begin
       end
       else
       begin
-        ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
 
       if (ConfigMode = CONFIG_LIGHTING) then
@@ -2304,13 +2312,13 @@ begin
           begin
             diagMessage := 'Use the Refresh Shortcut (SmartSet + Profile) to preview your Layout and Lighting updates or simply Eject the “FS EDGE RGB” drive in File Explorer and then disconnect the v-Drive (SmartSet + F8).';
             diagTitle := 'Profile ' + IntToStr(profileNumber) + ' Saved';
-            dialHeight := DEFAULT_DIAG_HEIGHT;
+            dialHeight := DEFAULT_DIAG_HEIGHT_RGB;
           end
           else
           begin
             diagMessage := 'To load Profile ' + IntToStr(profileNumber) + ' to the keyboard, hold the SmartSet key and tap the ' + IntToStr(profileNumber) + ' key.';
             diagTitle := 'Profile ' + IntToStr(profileNumber) + ' Saved';
-            dialHeight := DEFAULT_DIAG_HEIGHT;
+            dialHeight := DEFAULT_DIAG_HEIGHT_RGB;
           end;
           hideNotif := ShowDialog(diagTitle, diagMessage,
             mtInformation, [mbOK], dialHeight, nil, 'Hide this notification?');
@@ -2323,13 +2331,13 @@ begin
       end
       else
         ShowDialog('Save Profile', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
-          mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+          mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       if (ledContent <> nil) then
         FreeAndNil(ledContent);
     end
     else
       ShowDialog('Save Profile', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
-        mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+        mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 
     if (layoutContent <> nil) then
       FreeAndNil(layoutContent);
@@ -2348,7 +2356,7 @@ begin
   //      begin
   //        diagMessage := 'This custom layout has been saved as ' + filename + '. To load this layout to the keyboard it must first be assigned to position 1-9 using the Save As button.';
   //        diagTitle := 'Backup Layout Saved';
-  //        dialHeight := DEFAULT_DIAG_HEIGHT;
+  //        dialHeight := DEFAULT_DIAG_HEIGHT_RGB;
   //      end
   //      else
   //      begin
@@ -2371,7 +2379,7 @@ begin
   //  end
   //  else
   //    ShowDialog('Save', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
-  //      mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+  //      mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
   //
   //  if result and continue and ((SaveStateLighting = ssModified) or isNew) then
   //  begin
@@ -2388,7 +2396,7 @@ begin
   //        begin
   //          diagMessage := 'This ' + sLedMode + ' Effect has been saved as backup file ' + filename + '. To load this Lighting Profile to the keyboard it must first be assigned to position 1-9 using the Save As button.';
   //          diagTitle := 'Backup Lighting Saved';
-  //          dialHeight := DEFAULT_DIAG_HEIGHT;
+  //          dialHeight := DEFAULT_DIAG_HEIGHT_RGB;
   //        end
   //        else
   //        begin
@@ -2415,7 +2423,7 @@ begin
   //    end
   //    else
   //      ShowDialog('Save', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
-  //        mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+  //        mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
   //  end;
   //end;
 end;
@@ -2708,9 +2716,9 @@ begin
   if (modeToCheck <> ConfigMode) then
   begin
     if (modeToCheck = CONFIG_LAYOUT) then
-      ShowDialog('Editor', 'Your must select the Layout editor to continue', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT)
+      ShowDialog('Editor', 'Your must select the Layout editor to continue', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_RGB)
     else
-      ShowDialog('Editor', 'Your must select the Lighting editor to continue', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT);
+      ShowDialog('Editor', 'Your must select the Lighting editor to continue', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
     result := false;
   end;
 end;
@@ -2724,7 +2732,7 @@ begin
   errorMsg := fileService.SaveStateSettings;
 
   if (errorMsg <> '') then
-    ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+    ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 end;
 
 function TFormMain.CheckSaveKey(canSave: boolean; checkMacroOpen: boolean
@@ -2744,7 +2752,7 @@ begin
       begin
         msgResult := ShowDialog('Apply changes',
           'This macro has been modified, do you want to apply these changes?', mtConfirmation,
-          [mbYes, mbNo, mbCancel], DEFAULT_DIAG_HEIGHT);
+          [mbYes, mbNo, mbCancel], DEFAULT_DIAG_HEIGHT_RGB);
       if msgResult = mrYes then
         result := AcceptMacro
        else if msgResult = mrNo then
@@ -2754,7 +2762,7 @@ begin
       end
       else
       begin
-        ShowDialog('Macro', 'You must finish editing macro before proceeding', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog('Macro', 'You must finish editing macro before proceeding', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
         result := false;
       end;
     end
@@ -2790,7 +2798,7 @@ begin
 
       dialogResult := ShowDialog('Save',
         'Do you want to save changes to Profile ' + IntToStr(currentProfileNumber) + '?',
-        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT);
+        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB);
 
       if dialogResult = mrYes then
         result := SaveAll(false, false)
@@ -2883,7 +2891,7 @@ begin
   //if FileExists(filePath) then
   //  OpenDocument(filePath)
   //else
-  //  ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+  //  ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 end;
 
 procedure TFormMain.openTroubleshootingTipsClick(Sender: TObject);
@@ -3901,15 +3909,15 @@ begin
               SetConfigMode(CONFIG_LAYOUT);
           end
           else
-            ShowDialog('Import File', 'File not recognized', mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+            ShowDialog('Import File', 'File not recognized', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
         end
         else
         begin
-          ShowDialog('Import File', errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+          ShowDialog('Import File', errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
         end;
       end
       else
-        ShowDialog('Import File', 'File size must not exceed ' + IntToStr(MAX_IMPORT_SIZE) + ' KB', mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog('Import File', 'File size must not exceed ' + IntToStr(MAX_IMPORT_SIZE) + ' KB', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
     finally
       if (fileContent <> nil) then
         FreeAndNil(fileContent);
@@ -4326,7 +4334,7 @@ begin
       else if (activeKbKey <> nil) then
       begin
         activeKbKey := nil;
-        ShowDialog('Select key', 'You cannot edit this key', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog('Select key', 'You cannot edit this key', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
     end;
 
@@ -4410,7 +4418,7 @@ begin
         //isValid := false;
         createCustomButton(customBtns, 'OK', 150, nil, bkOK);
         ShowDialog('Macro Capacity Reached', 'Only ' + IntToStr(maxMacros) + ' macros can be saved to a layout.',
-          mtWarning, [], DEFAULT_DIAG_HEIGHT, customBtns);
+          mtWarning, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
       end
       else
       begin
@@ -4418,14 +4426,14 @@ begin
         begin
           isValid := false;
           ShowDialog('Macro Limit Reached', 'You have reached the macro limit for Profile ' + IntToStr(currentProfileNumber) + '. To proceed, please delete an unused macro from this layout or create a new layout.',
-            mtError, [mbOk], DEFAULT_DIAG_HEIGHT, customBtns);
+            mtError, [mbOk], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
         end;
       end;
     end;
   end
   else
   begin
-    ShowDialog(errorTitle, errorMsg, mtError, [mbOk], DEFAULT_DIAG_HEIGHT, customBtns);
+    ShowDialog(errorTitle, errorMsg, mtError, [mbOk], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
   end;
 
   result := isValid;
@@ -4441,7 +4449,7 @@ begin
   //end;
   //
   //if not isValid then
-  //  ShowDialog(errorTitle, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+  //  ShowDialog(errorTitle, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
   //
   //result := isValid;
 end;
@@ -4857,7 +4865,7 @@ begin
   begin
     if ShowDialog('Reset layout',
           'Do you want to reset the current Layout?' + #10 + 'All remapped keys and stored macros in both layers will be lost.',
-          mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT) = mrYes then
+          mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       CancelMacro;
       keyService.ResetLayout;
@@ -4873,7 +4881,7 @@ begin
     if (keyService.LedMode = lmIndividual) then
       sMessage := 'Do you want to erase color assignments for each key';
     if ShowDialog('Reset Lighting', sMessage,
-          mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT) = mrYes then
+          mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       ReloadKeyButtonsColor(true);
       SetSaveState(SaveStateLayout, ssModified);
@@ -4964,7 +4972,7 @@ begin
     begin
       response := ShowDialog('Reset current key',
         'Do you want to reset the current Key?' + #10 + 'The remapped key action and any stored macros will be lost.',
-        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT, nil, 'Hide this notification?');
+        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
       if (response >= DISABLE_NOTIF) then
       begin
         CancelMacro;
@@ -4985,7 +4993,7 @@ begin
     RefreshRemapInfo;
   end
   else
-    ShowDialog('Reset key', 'You must select a key to reset', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT);
+    ShowDialog('Reset key', 'You must select a key to reset', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 
   SetHovered(sender, false, true);
 end;
@@ -5475,20 +5483,20 @@ begin
       keyOtherLayer := keyService.GetKbKeyByIndex(otherLayer, activeKbKey.Index);
 
       if (keyOtherLayer <> nil) and (keyOtherLayer.TapAndHold) then
-        ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to the same key in both layers.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT)
+        ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to the same key in both layers.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_RGB)
       else if (activeKbKey.TapAndHold = false) and (tapHoldCount >= MAX_TAP_HOLD) then
-        ShowDialog('Tap and Hold', 'You have reached the maximum number of Tap and Hold actions for this Profile.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT)
+        ShowDialog('Tap and Hold', 'You have reached the maximum number of Tap and Hold actions for this Profile.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_RGB)
       else if (activeKbKey.IsMacro) then
       begin
         ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to a macro trigger key.',
-          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT);
+          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_RGB);
       end
       else if (keyService.ActiveLayer.LayerIndex = TOPLAYER_IDX) and
         (((activeKbKey.OriginalKey.Key >= VK_A) and (activeKbKey.OriginalKey.Key <= VK_Z)) or
         ((activeKbKey.OriginalKey.Key >= VK_0) and (activeKbKey.OriginalKey.Key <= VK_9))) then
       begin
         ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to these keys (A-Z, 0-9) on the Top Layer.',
-          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT);
+          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_RGB);
       end
       else
       begin
@@ -5507,7 +5515,7 @@ begin
       createCustomButton(customBtns, 'OK', 100, nil, bkOK);
       //createCustomButton(customBtns, 'Upgrade Firmware', 150, @openFirwareWebsite);
       ShowDialog('Tap and Hold', 'To utilize Tap and Hold Actions, please download and install the latest firmware.',
-        mtWarning, [], DEFAULT_DIAG_HEIGHT, customBtns);
+        mtWarning, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
     end;
   end;
 end;
@@ -6234,7 +6242,7 @@ begin
       begin
         createCustomButton(customBtns, 'OK', 100, nil, bkOK);
         ShowDialog('Multimodifiers', 'To utilize Multimodifiers, please download and install the latest firmware.',
-          mtWarning, [], DEFAULT_DIAG_HEIGHT, customBtns);
+          mtWarning, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
       end;
     end
     else if (aMenuAction.ActionLabel = lblSpecialActions) then
@@ -6257,7 +6265,7 @@ begin
     end;
 
     //if (mustSelectKey) and (not IsKeyLoaded) then
-    //  ShowDialog('Action', 'You must select a key on the keyboard', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT);
+    //  ShowDialog('Action', 'You must select a key on the keyboard', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 
     if (lbMenu.Items.Count > 0) then
     begin
@@ -6363,7 +6371,7 @@ begin
         ShowDialog('Alternate Layout',
           'To which Layer would you like to apply this alternate layout?' + #10#10 +
           'Note: Implementing this layout may overwrite existing remaps.',
-          mtWarning, [], DEFAULT_DIAG_HEIGHT, customBtns);
+          mtWarning, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
       end
       else if (mnuAction  = VK_NUMERIC_RIGHT) then
       begin
@@ -6667,7 +6675,7 @@ begin
       sMessage := sMessage  + #10#10 + 'Note: There is no numlock indicator light on the keyboard.';
 
     if ShowDialog('Insert Numeric Keypad', sMessage,
-      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT) = mrYes then
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       aFnLayer := keyService.GetLayer(BOTLAYER_IDX);
       if (aFnLayer <> nil) then
@@ -6718,7 +6726,7 @@ begin
       sMessage := sMessage  + #10#10 + 'Note: There is no numlock indicator light on the keyboard.';
 
     if ShowDialog('Insert Numeric Keypad', sMessage,
-      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT) = mrYes then
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       aFnLayer := keyService.GetLayer(BOTLAYER_IDX);
       if (aFnLayer <> nil) then
@@ -6769,7 +6777,7 @@ begin
   if CheckSaveKey then
   begin
     if ShowDialog('Preconfigured Hotkeys', 'Insert Mac Modifiers?' + #10#10 + 'Note: Implementing this layout may overwrite existing macros/remaps.',
-      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT) = mrYes then
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       KeyModified := true;
       SetSaveState(ssModified, SaveStateLighting);
@@ -6803,7 +6811,7 @@ begin
   if CheckSaveKey then
   begin
     if ShowDialog('Preconfigured Hotkeys', 'Insert Freestyle2 Hotkeys?' + #10#10 + 'Note: Implementing this layout may overwrite existing macros/remaps.',
-      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT) = mrYes then
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       aMacro := TKeyList.Create;
       KeyModified := true;
@@ -6910,7 +6918,7 @@ begin
   if CheckSaveKey then
   begin
     if ShowDialog('Preconfigured Hotkeys', 'Insert Freestyle Pro Hotkeys?' + #10#10 + 'Note: Implementing this layout may overwrite existing macros/remaps.',
-      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT) = mrYes then
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       aMacro := TKeyList.Create;
       KeyModified := true;
@@ -7263,7 +7271,7 @@ begin
         nbKeystrokes := nbKeystrokes + (keyService.CountModifiers(Modifiers) * 2);
         if (nbKeystrokes > MAX_KEYSTROKES_MACRO_FS) then
           ShowDialog('Maximum Length Reached', 'Macros are limited to approximately 300 characters.',
-            mtError, [mbOK], DEFAULT_DIAG_HEIGHT)
+            mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB)
         else
         begin
           //First keystroke in macro assign 1 to multiplay position
@@ -7453,7 +7461,7 @@ begin
     //end;
   end;
   //else
- //   ShowDialog('Remap', 'You must select a key on the keyboard', mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+ //   ShowDialog('Remap', 'You must select a key on the keyboard', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 end;
 
 procedure TFormMain.PopupMenuClick(Sender: TObject);
@@ -7520,7 +7528,7 @@ begin
   if (IsKeyLoaded and activeKbKey.TapAndHold) then
   begin
     ShowDialog('Tap and Hold', 'You cannot assign a macro to a Tap and Hold action key.',
-      mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT);
+      mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_RGB);
   end;
 
   if (not EditingMacro) then
@@ -7572,24 +7580,24 @@ begin
       activeKbKey.ActiveMacro := activeKbKey.Macro3;
 
     chkGlobalSpeed.Checked := activeKbKey.ActiveMacro.MacroSpeed = 0;
-    if (activeKbKey.ActiveMacro.MacroSpeed >= MACRO_SPEED_MIN) and (activeKbKey.ActiveMacro.MacroSpeed <= MACRO_SPEED_MAX) then
+    if (activeKbKey.ActiveMacro.MacroSpeed >= MACRO_SPEED_MIN_RGB) and (activeKbKey.ActiveMacro.MacroSpeed <= MACRO_SPEED_MAX_RGB) then
     begin
       sliderMacroSpeed.Position := activeKbKey.ActiveMacro.MacroSpeed;
     end
     else
     begin
-      sliderMacroSpeed.Position := DEFAULT_MACRO_SPEED;
+      sliderMacroSpeed.Position := DEFAULT_MACRO_SPEED_RGB;
     end;
     sliderMacroSpeedChange(self);
 
     chkRepeatMultiplay.Checked := activeKbKey.ActiveMacro.MacroRptFreq = 0;
-    if (activeKbKey.ActiveMacro.MacroRptFreq >= MACRO_FREQ_MIN) and (activeKbKey.ActiveMacro.MacroRptFreq <= MACRO_FREQ_MAX) then
+    if (activeKbKey.ActiveMacro.MacroRptFreq >= MACRO_FREQ_MIN_RGB) and (activeKbKey.ActiveMacro.MacroRptFreq <= MACRO_FREQ_MAX_RGB) then
     begin
       sliderMultiplay.Position := activeKbKey.ActiveMacro.MacroRptFreq
     end
     else
     begin
-      sliderMultiplay.Position := DEFAULT_MACRO_FREQ;
+      sliderMultiplay.Position := DEFAULT_MACRO_FREQ_RGB;
     end;
     sliderMultiplayChange(self);
 
@@ -7798,7 +7806,7 @@ begin
       if (not fileService.AppSettings.CopyMacroMsg) then
       begin
         hideNotif := ShowDialog('Copy', 'Macro copied. Now select a new trigger key or load a new layout, then hit Paste.',
-          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT, nil, 'Hide this notification?');
+          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
         if (hideNotif >= DISABLE_NOTIF) then
         begin
           fileService.SetCopyMacroMsg(true);
@@ -7807,7 +7815,7 @@ begin
       end;
     end
     else
-      ShowDialog('Copy Macro', 'You must have an active maro to copy', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT);
+      ShowDialog('Copy Macro', 'You must have an active maro to copy', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
   end;
   SetHovered(sender, false, true);
 end;
@@ -8077,7 +8085,7 @@ begin
     if (not fileService.AppSettings.WindowsComboMsg) then
     begin
       hideNotif := ShowDialog('Windows Combination Active', 'Now press the key(s) you wish to combine with the Windows key in your macro. Then deselect Windows Combination from the Special Actions menu if you wish to continue programming or click Accept.',
-        mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT, nil, 'Hide this notification?');
+        mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
 
       if (hideNotif >= DISABLE_NOTIF) then
       begin
