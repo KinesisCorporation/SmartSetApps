@@ -147,7 +147,7 @@ begin
   if FileExists(filePath) then
     OpenDocument(filePath)
   else
-    ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+    ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 end;
 
 end.

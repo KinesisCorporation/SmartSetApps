@@ -79,9 +79,9 @@ begin
       diagnosticFileCreated := (MainForm.fileService.SaveFile(GetDesktopDirectory + Trim(eSerial.Text) + '.txt', fileContent, true, errorMsg));
 
       if (diagnosticFileCreated) then
-        ShowDialog('Diagnostics', 'Diagnostics file saved to Desktop!', mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT)
+        ShowDialog('Diagnostics', 'Diagnostics file saved to Desktop!', mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB)
       else
-        ShowDialog('Diagnostics', 'Error creating diagnostics file: ' + errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog('Diagnostics', 'Error creating diagnostics file: ' + errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 
     finally
       Cursor := crDefault;

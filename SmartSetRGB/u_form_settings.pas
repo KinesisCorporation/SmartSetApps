@@ -273,7 +273,7 @@ begin
       if (not MainForm.fileService.AppSettings.SaveMsg) then
       begin
         hideNotif := ShowDialog('Settings Saved', 'Changes will be implemented when v-Drive is closed.',
-          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT, nil, 'Hide this notification?');
+          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
         if (hideNotif >= DISABLE_NOTIF) then
         begin
           MainForm.fileService.SetSaveMsg(true);
@@ -335,7 +335,7 @@ begin
   begin
     dialogResult := ShowDialog('Save Settings?',
       'Do you want to save changes?',
-      mtConfirmation, [mbYes, mbNo, mbCancel], DEFAULT_DIAG_HEIGHT);
+      mtConfirmation, [mbYes, mbNo, mbCancel], DEFAULT_DIAG_HEIGHT_RGB);
 
     if dialogResult = mrYes then
       btnSave.Click

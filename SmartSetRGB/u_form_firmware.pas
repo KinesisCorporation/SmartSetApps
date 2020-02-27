@@ -149,7 +149,7 @@ begin
 
       //Debug firmware show version info
       if (GDebugFirmware) then
-        ShowDialog('Json Result', verInfo, mtInformation, [mbOk], DEFAULT_DIAG_HEIGHT, nil, '', poMainFormCenter, 900);
+        ShowDialog('Json Result', verInfo, mtInformation, [mbOk], DEFAULT_DIAG_HEIGHT_RGB, nil, '', poMainFormCenter, 900);
 
       if (verInfo <> '') then
       begin
@@ -231,7 +231,7 @@ begin
         pnlKBFirware.Caption := 'Check connection';
         pnlLightningFirmware.Caption := 'Check connection';
         pnlApp.Caption := 'Check connection';
-        ShowDialog('Firmware', 'Error accessing internet or firmware website: ' + #10 + e.Message, mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT);
+        ShowDialog('Firmware', 'Error accessing internet or firmware website: ' + #10 + e.Message, mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
     end;
   finally
