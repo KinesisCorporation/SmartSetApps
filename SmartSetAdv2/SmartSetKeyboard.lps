@@ -18,7 +18,6 @@
         <ComponentName Value="FormMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="921"/>
         <CursorPos X="64" Y="949"/>
         <UsageCount Value="200"/>
@@ -27,6 +26,7 @@
           <Item1 X="34" Y="2728" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\Common\u_const.pas"/>
@@ -443,8 +443,9 @@
       <Unit53>
         <Filename Value="userdialog.pas"/>
         <UnitName Value="UserDialog"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="22"/>
+        <TopLine Value="52"/>
         <CursorPos X="148" Y="47"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>

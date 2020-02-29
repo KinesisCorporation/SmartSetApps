@@ -1378,6 +1378,9 @@ begin
   //Set keyboard Hook
   SetKeyboardHook;
 
+  //Check for v-drive
+  SetBaseDirectory(true);
+
   //Init app
   InitApp;
 end;

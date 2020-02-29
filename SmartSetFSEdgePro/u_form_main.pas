@@ -9,7 +9,8 @@ uses
   lcltype, Menus, ExtCtrls, Buttons, lclintf, ComCtrls, u_const, u_key_service,
   u_key_layer, u_file_service, LabelBox, LineObj, uEKnob, ueled, ECSwitch,
   ECSlider, HSSpeedButton, RichMemo, u_keys, userdialog, contnrs, u_form_about,
-  LazUTF8, u_form_saveas, u_form_load, u_form_timingdelays, u_form_tapandhold
+  LazUTF8, u_form_saveas, u_form_load, u_form_timingdelays, u_form_tapandhold,
+  u_form_troubleshoot
   {$ifdef Win32},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonDef, CarbonProc}{$endif};
 
@@ -43,6 +44,8 @@ type
     btnSave: THSSpeedButton;
     btnSaveAs: THSSpeedButton;
     btnNew: THSSpeedButton;
+    CheckVDriveTmr: TIdleTimer;
+    lblDemoMode: TLabel;
     lblKnobOff: TLabel;
     lblPitchBlack: TLabel;
     lblBreathe: TLabel;
@@ -69,6 +72,8 @@ type
     lblPlaybackSpeed2: TLabel;
     lblMacroMultiR: TLabel;
     lblKnobMax: TLabel;
+    lblVDriveError: TLabel;
+    lblVDriveOk: TLabel;
     miTapHold: TMenuItem;
     miMeh: TMenuItem;
     miHyper: TMenuItem;
@@ -371,6 +376,7 @@ type
     procedure btnPasteClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure CheckVDriveTmrTimer(Sender: TObject);
     procedure eMacroFreqChange(Sender: TObject);
     procedure eMacroFreqEnter(Sender: TObject);
     procedure eMacroFreqKeyPress(Sender: TObject; var Key: char);
@@ -421,7 +427,8 @@ type
     procedure ledPBClick(Sender: TObject);
     procedure watchTutorialClick(Sender: TObject);
     procedure readManualClick(Sender: TObject);
-    procedure openTroubleshootingTipsClick(Sender: TObject);
+    procedure openTroubleshootingTipsEdgeClick(Sender: TObject);
+    procedure openTroubleshootingTipsProClick(Sender: TObject);
     procedure openFirwareWebsite(Sender: TObject);
     procedure createCustomButton(var customBtns: TCustomButtons; btnCaption: string; btnWidth: integer; btnOnClick: TNotifyEvent; btnKind: TBitBtnKind = bkCustom);
     procedure setDvorakBothLayers(Sender: TObject);
@@ -461,10 +468,17 @@ type
     maxMacros : integer;
     maxKeystrokes : integer;
     totalKeystrokes: integer;
+    appError: boolean;
+    closing: boolean;
 
+    function CheckVDrive: boolean;
     function DoneKey: boolean;
     function DoneMacro: boolean;
+    procedure InitApp(scanVDrive: boolean = false);
+    procedure LaunchDemoMode;
     procedure OpenTapAndHold;
+    procedure ScanVDrive(init: boolean);
+    procedure scanVDriveClick(Sender: TObject);
     procedure SetConfigOS;
     procedure SetKeyboardHook;
     procedure RemoveKeyboardHook;
@@ -477,11 +491,12 @@ type
     function LoadStateSettings: boolean;
     function LoadVersionInfo: boolean;
     function LoadKeyboardLayout(layoutFile: string): boolean;
-    function CheckToSave: boolean;
+    function CheckToSave(checkForVDrive: boolean): boolean;
     function Save(layoutFile: string; isNew: boolean = false; showSaveDialog: boolean = true): boolean;
     procedure SaveAs(isNew: boolean = false);
     procedure LoadLayer(layer: TKBLayer);
     procedure ShowIntroduction;
+    function ShowTroubleshootingDialog(init: boolean): boolean;
     procedure UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox; unselectKey: boolean = false);
     function GetKeyButtonByIndex(index: integer): TLabelBox;
     procedure SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false);
@@ -748,6 +763,7 @@ begin
   if screen.Height < self.Height then
     self.Height := screen.Height - 20;
 
+  closing := false;
   lblLayoutFile.Caption := '';
   infoMessageShown := false;
   loadingSettings := false;
@@ -774,35 +790,35 @@ begin
   SetKeyboardHook;
   SetMacroMode(false);
 
-  canShowApp := LoadVersionInfo;
+  {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
+  {$ifdef Darwin}
+  self.BorderStyle := bsSizeable;
+  btnClose.Visible := false;
+  btnMinimize.Visible := false;
+  btnMaximize.Visible := false;
+  {$endif}
+
+  knobBright.Image := imageKnob.Picture.Bitmap;
+
+  //Check for v-drive
+  SetBaseDirectory(true);
+
+  InitApp;
+end;
+
+procedure TFormMain.InitApp(scanVDrive: boolean);
+var
+  customBtns: TCustomButtons;
+  canShowApp: boolean;
+  aListDrives: TStringList;
+  drives: string;
+  i: integer;
+  titleError: string;
+begin
+  canShowApp := GDemoMode or CheckVDrive;
+
   if (canShowApp) then
   begin
-    //Firmware version 1.0.340 or more
-    if (fileService.VersionBiggerEqual(1, 0, 340)) then
-    begin
-      maxMacros := MAX_MACRO_FS_340_PLUS;
-      maxKeystrokes := MAX_KEYSTROKES_FS;
-    end
-    //Firwmware version prior to 1.0.340
-    else
-    begin
-      maxMacros := MAX_MACRO_FS_PRIOR_340;
-      maxKeystrokes := MAX_KEYSTROKES_FS;
-    end;
-    lblMacroInfo.Hint := lblMacroInfo.Hint + #10 + 'Each layout can store ' + IntToStr(maxKeystrokes) +
-      ' total macro characters and up to ' + IntToStr(maxMacros) + ' macros';
-
-    //Load config keys depending on app version
-    keyService.LoadConfigKeys;
-
-    {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
-    {$ifdef Darwin}
-    self.BorderStyle := bsSizeable;
-    btnClose.Visible := false;
-    btnMinimize.Visible := false;
-    btnMaximize.Visible := false;
-    {$endif}
-
     //Set UI elements according to keyboard version
     if (GApplication = APPL_FSPRO) then
     begin
@@ -825,6 +841,9 @@ begin
       shpLine.Color := blueColor;
       shpMenu.Color := blueColor;
       shpSettings.Color := blueColor;
+      lblVDriveOk.Font.Color := RGB(75, 220, 35);
+      lblVDriveError.Font.Color := clRed;
+      lblDemoMode.Font.Color := RGB(75, 220, 35);
       imgLogoEdge.Visible := false;
       imgLogoPro.Visible := true;
       imgKinesisFSPro.Visible := true;
@@ -897,50 +916,130 @@ begin
       {$endif}
     end;
 
-    knobBright.Image := imageKnob.Picture.Bitmap;
-    //Tries to load Pedals.txt file
-    //LoadLayoutFile(GPedalsFile);
+    //Firmware version 1.0.340 or more
+    if (fileService.VersionBiggerEqual(1, 0, 340) or GDemoMode) then
+    begin
+      maxMacros := MAX_MACRO_FS_340_PLUS;
+      maxKeystrokes := MAX_KEYSTROKES_FS;
+    end
+    //Firwmware version prior to 1.0.340
+    else
+    begin
+      maxMacros := MAX_MACRO_FS_PRIOR_340;
+      maxKeystrokes := MAX_KEYSTROKES_FS;
+    end;
+    lblMacroInfo.Hint := lblMacroInfo.Hint + #10 + 'Each layout can store ' + IntToStr(maxKeystrokes) +
+      ' total macro characters and up to ' + IntToStr(maxMacros) + ' macros';
+
+    //Load config keys depending on app version
+    keyService.LoadConfigKeys;
 
     RefreshRemapInfo;
 
-    //Sets default directory as the active folder
-    //if DirectoryExists(GPedalsFilePath) then
-    //begin
-    //  pedalOpenDialog.InitialDir := GPedalsFilePath;
-    //  pedalSaveDialog.InitialDir := GPedalsFilePath;
-    //end;
-
-    //SetActiveLayer(TOPLAYER_IDX);
     swLayerSwitch.Checked := true;
 
-    if (LoadStateSettings) then
+    keyService.LoadLayerList(LAYER_QWERTY);
+
+    if (GDemoMode) then
     begin
-      fileService.LoadAppSettings(GAppSettingsFile);
-      LoadKeyboardLayout(currentLayoutFile);
+      btnSave.Enabled := false;
+      btnSaveAs.Enabled := false;
+      btnLoad.Enabled := false;
+      SetActiveLayer(TOPLAYER_IDX);
+      SetActiveKeyButton(nil);
     end
     else
-      canShowApp := false;
+    begin
+      if (LoadStateSettings) then
+      begin
+        fileService.LoadAppSettings(GAppSettingsFile);
+        LoadKeyboardLayout(currentLayoutFile);
+
+        CheckVDriveTmr.Enabled := true;
+      end
+      else
+        canShowApp := false;
+    end;
   end;
 
   if not canShowApp then
   begin
-    createCustomButton(customBtns, 'Troubleshooting Tips', 175, @openTroubleshootingTipsClick);
-    ShowDialog('SmartSet App File Error', 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the keyboard to regenerate these files and try launching the App again.',
-      mtFSEdge, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
-    Application.Terminate;
+    if (GDesktopMode) then
+    begin
+      if (not ShowTroubleshootingDialog(true)) then
+      begin
+        appError := true;
+        Close;
+      end;
+    end
+    else
+    begin
+      createCustomButton(customBtns, 'Troubleshooting Tips Edge', 200, @openTroubleshootingTipsEdgeClick);
+      createCustomButton(customBtns, 'Troubleshooting Tips Pro', 200, @openTroubleshootingTipsProClick);
+      ShowDialog('SmartSet App File Error', 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the keyboard to regenerate these files and try launching the App again.',
+        mtFSEdge, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+      appError := true;
+      Close;
+    end;
+  end;
+end;
+
+function TFormMain.CheckVDrive: boolean;
+begin
+  result := LoadVersionInfo;
+  lblVDriveOk.Visible := Result and not(GDemoMode);
+  lblVDriveError.Visible := not(Result) and not(GDemoMode);
+  lblDemoMode.Visible := GDemoMode;
+end;
+
+function TFormMain.ShowTroubleshootingDialog(init: boolean): boolean;
+var
+  customBtns: TCustomButtons;
+  title: string;
+  message: string;
+  openPosition: TPosition;
+  resultTroubleshoot: integer;
+begin
+  result := true;
+
+  if init then
+  begin
+    title := 'Keyboard not detected';
+      resultTroubleshoot := ShowTroubleshoot(title, init);
+    if (resultTroubleshoot = 1) then
+      ScanVDrive(init)
+    else if (resultTroubleshoot = 2) then
+      LaunchDemoMode;
+    result := resultTroubleshoot > 0;
+  end
+  else
+  begin
+    openPosition := poMainFormCenter;
+    createCustomButton(customBtns, 'Scan for v-Drive', 200, @scanVDriveClick);
+    title := 'Keyboard Connection Lost';
+    message := 'To save your changes you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.';
+    if (GApplication = APPL_FSPRO) then
+       createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsProClick)
+    else
+       createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsEdgeClick);
+
+    if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns, '', 700) = mrCancel) then
+      result := false;
   end;
 end;
 
 procedure TFormMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  if not CheckToSave then
+  if not CheckToSave(false) then
     CloseAction := caNone
   else
   begin
+    closing := true;
     FreeAndNil(keyService);
     FreeAndNil(fileService);
     if CloseAction = caFree then
       self := nil;
+    Application.Terminate;
   end;
 end;
 
@@ -982,7 +1081,7 @@ var
   customBtns: TCustomButtons;
   hideNotif: integer;
 begin
-  if (not infoMessageShown) and (not fileService.AppSettings.AppIntroMsg) then
+  if (not closing) and (not infoMessageShown) and (not fileService.AppSettings.AppIntroMsg) then
   begin
     createCustomButton(customBtns, 'Continue', 130, @continueClick);
     createCustomButton(customBtns, 'Watch Tutorial', 130, @watchTutorialClick);
@@ -1001,6 +1100,40 @@ begin
   if (self.Visible) and (not infoMessageShown) then
      pnlKb.SetFocus;
   infoMessageShown := true;
+end;
+
+procedure TFormMain.ScanVDrive(init: boolean);
+begin
+  if (init) then
+  begin
+    CloseDialog(mrOK);
+    SetBaseDirectory(true);
+    InitApp(true);
+  end
+  else
+  begin
+    if (CheckVDrive) then
+    begin
+      CloseDialog(mrOK);
+      SetBaseDirectory;
+    end;
+  end;
+end;
+
+procedure TFormMain.LaunchDemoMode;
+begin
+  GDemoMode := true;
+  if (CheckVDrive or GDemoMode) then
+  begin
+    CloseDialog(mrOK);
+    SetBaseDirectory;
+    InitApp(false);
+  end;
+end;
+
+procedure TFormMain.scanVDriveClick(Sender: TObject);
+begin
+  ScanVDrive(false);
 end;
 
 procedure TFormMain.pnlTitleMouseDown(Sender: TObject; Button: TMouseButton;
@@ -1431,18 +1564,30 @@ procedure TFormMain.btnLoadClick(Sender: TObject);
 var
   fileName: string;
   errorMsg: string;
+  continue: boolean;
 begin
-  if CheckSaveKey(true) then
+  continue := true;
+
+  if (GDemoMode) then
+    continue := false;
+
+  if continue and (not CheckVDrive) then
+    continue := ShowTroubleshootingDialog(false);
+
+  if (continue) then
   begin
-    CheckToSave;
-    fileName := ShowLoad(backColor, fontColor);
-    if (fileName <> '') then
+    if CheckSaveKey(true) then
     begin
-      if not fileService.CheckIfFileExists(GLayoutFilePath + fileName) then
-        fileService.SaveFile(GLayoutFilePath + fileName, nil, true, errorMsg);
-      currentLayoutFile := GLayoutFilePath + fileName;
-      LoadKeyboardLayout(currentLayoutFile);
-      SetSaveState(ssNone);
+      CheckToSave(true);
+      fileName := ShowLoad(backColor, fontColor);
+      if (fileName <> '') then
+      begin
+        if not fileService.CheckIfFileExists(GLayoutFilePath + fileName) then
+          fileService.SaveFile(GLayoutFilePath + fileName, nil, true, errorMsg);
+        currentLayoutFile := GLayoutFilePath + fileName;
+        LoadKeyboardLayout(currentLayoutFile);
+        SetSaveState(ssNone);
+      end;
     end;
   end;
 end;
@@ -1475,6 +1620,12 @@ begin
     SaveAs
   else
     Save(currentLayoutFile);
+end;
+
+procedure TFormMain.CheckVDriveTmrTimer(Sender: TObject);
+begin
+  if (not GDemoMode) then
+     CheckVDrive;
 end;
 
 procedure TFormMain.eMacroFreqChange(Sender: TObject);
@@ -1947,7 +2098,7 @@ begin
     SetModifiedKey(VK_500MS, '', true)
   else if menuItem = miRandomDelaysM then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 340)) then
+    if (fileService.VersionBiggerEqual(1, 0, 340) or GDemoMode) then
       SetModifiedKey(VK_RAND_DELAY, '', true)
     else
     begin
@@ -1959,7 +2110,7 @@ begin
   end
   else if menuItem = miCustomDelayM then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 340)) then
+    if (fileService.VersionBiggerEqual(1, 0, 340) or GDemoMode) then
     begin
       NeedInput := True;
       timingDelay := ShowTimingDelays(backColor, fontColor);
@@ -2203,7 +2354,7 @@ begin
     SetModifiedKey(VK_MOUSE_BTN5, '', false)
   else if (menuItem = miHyper) or (menuItem = miMeh) then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 480)) then
+    if (fileService.VersionBiggerEqual(1, 0, 480) or GDemoMode) then
     begin
       if (menuItem = miHyper) then
         SetModifiedKey(VK_HYPER, '', false)
@@ -2391,7 +2542,7 @@ var
 begin
   if CheckSaveKey(true) then
   begin
-    CloseDialog;
+    CloseDialog(mrOk);
 
     for i := 0 to keyService.KBLayers.Count - 1 do
     begin
@@ -2459,7 +2610,7 @@ var
 begin
   if CheckSaveKey(true) then
   begin
-    CloseDialog;
+    CloseDialog(mrOk);
 
     for i := 0 to keyService.KBLayers.Count - 1 do
     begin
@@ -2526,9 +2677,14 @@ begin
 //    ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
 end;
 
-procedure TFormMain.openTroubleshootingTipsClick(Sender: TObject);
+procedure TFormMain.openTroubleshootingTipsEdgeClick(Sender: TObject);
 begin
-  OpenUrl('https://gaming.kinesis-ergo.com/support/fs-edge-support/');
+  OpenUrl(FSEDGE_TROUBLESHOOT);
+end;
+
+procedure TFormMain.openTroubleshootingTipsProClick(Sender: TObject);
+begin
+  OpenUrl(FSPRO_TROUBLESHOOT);
 end;
 
 procedure TFormMain.openFirwareWebsite(Sender: TObject);
@@ -2586,7 +2742,7 @@ end;
 
 procedure TFormMain.continueClick(Sender: TObject);
 begin
-  CloseDialog;
+  CloseDialog(mrOk);
 end;
 
 procedure TFormMain.bCoTriggerClick(Sender: TObject);
@@ -3033,7 +3189,7 @@ end;
 procedure TFormMain.SetSaveState(Value: TSaveState);
 begin
   SaveState := Value;
-  btnSave.Enabled := SaveState = ssModified;
+  btnSave.Enabled := (SaveState = ssModified) and not(GDemoMode);
 end;
 
 //jm to remove
@@ -3068,6 +3224,19 @@ begin
     swGameMode.Checked := fileService.StateSettings.GameMode;
 
     ledMode := AnsiUpperCase(fileService.StateSettings.LedMode);
+    SetLedMode(ledMode);
+    Result := true;
+  end
+  else if (GDemoMode) then
+  begin
+    currentLayoutFile := '';
+    tbStatusReport.Position := 0;
+    slStatusReport.Position := 0;
+    tbMacroSpeed.Position := 0;
+    slMacroSpeed.Position := 0;
+    swGameMode.Checked := false;
+
+    ledMode := AnsiUpperCase('1');
     SetLedMode(ledMode);
     Result := true;
   end;
@@ -3124,47 +3293,55 @@ const
   TitleStateFile = 'Load Layout File';
 begin
   Result := False;
+  errorMsg := '';
 
-  errorMsg := fileService.LoadLayoutFile(layoutFile);
-
-  keyService.LoadLayerList(LAYER_QWERTY);
-
-  if (errorMsg = '') then
+  if (not GDemoMode) then
   begin
-    activeLayer := nil;
-    swLayerSwitch.Checked := true;
-    layoutFile := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
-    idxNumber := GetIndexOfNumber(layoutFile);
-    if (idxNumber >= 1) then
-      layoutFile := Copy(layoutFile, 1, idxNumber - 1) + ' ' + Copy(layoutFile, idxNumber, Length(layoutFile));
-    lblLayoutFile.Caption := UpperCase(Copy(layoutFile, 1, 1)) + Copy(layoutFile, 2, Length(layoutFile));
-    keyService.ConvertFromTextFileFmtFS(fileService.LayoutContent);
-    SetActiveLayer(TOPLAYER_IDX);
-    SetActiveKeyButton(nil);
-    RefreshRemapInfo;
-    Result := true;
-  end
-  else
-    ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+    errorMsg := fileService.LoadLayoutFile(layoutFile);
+
+    if (errorMsg = '') then
+    begin
+      activeLayer := nil;
+      swLayerSwitch.Checked := true;
+      layoutFile := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
+      idxNumber := GetIndexOfNumber(layoutFile);
+      if (idxNumber >= 1) then
+        layoutFile := Copy(layoutFile, 1, idxNumber - 1) + ' ' + Copy(layoutFile, idxNumber, Length(layoutFile));
+      lblLayoutFile.Caption := UpperCase(Copy(layoutFile, 1, 1)) + Copy(layoutFile, 2, Length(layoutFile));
+      keyService.ConvertFromTextFileFmtFS(fileService.LayoutContent);
+      SetActiveLayer(TOPLAYER_IDX);
+      SetActiveKeyButton(nil);
+      RefreshRemapInfo;
+      Result := true;
+    end
+    else
+      ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+  end;
 end;
 
-function TFormMain.CheckToSave: boolean;
+function TFormMain.CheckToSave(checkForVDrive: boolean): boolean;
 var
   dialogResult: integer;
 begin
   result := true;
-  if SaveState = ssModified then
+  if (SaveState = ssModified) and not(GDemoMode) then
   begin
-    dialogResult := ShowDialog('Save',
-      'Do you want to save changes?',
-      mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+    if checkForVDrive and (not CheckVDrive) then
+      result := ShowTroubleshootingDialog(false);
 
-    if dialogResult = mrYes then
-      result := Save(currentLayoutFile)
-    else if dialogResult = mrNo then
-      SetSaveState(ssNone)
-    else
-      result := false;
+    if (result) then
+    begin
+      dialogResult := ShowDialog('Save',
+        'Do you want to save changes?',
+        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+
+      if dialogResult = mrYes then
+        result := Save(currentLayoutFile)
+      else if dialogResult = mrNo then
+        SetSaveState(ssNone)
+      else
+        result := false;
+    end;
   end;
 end;
 
@@ -3225,48 +3402,59 @@ var
   isCustomLayout: boolean;
   diagMessage: string;
   diagTitle: string;
+  continue: boolean;
 begin
   result := false;
   errorMsg := '';
+  continue := true;
 
-  if (CheckSaveKey(true)) then
+  if (GDemoMode) then
+    continue := false;
+
+  if continue and (not CheckVDrive) then
+    continue := ShowTroubleshootingDialog(false);
+
+  if (continue) then
   begin
-    if (ValidateBeforeSave) then
+    if (CheckSaveKey(true)) then
     begin
-      layoutContent := keyService.ConvertToTextFileFmtFS;
-      if fileService.SaveFile(layoutFile, layoutContent, isNew, errorMsg) then
+      if (ValidateBeforeSave) then
       begin
-        if (not fileService.AppSettings.SaveMsg) and (showSaveDialog) then
+        layoutContent := keyService.ConvertToTextFileFmtFS;
+        if fileService.SaveFile(layoutFile, layoutContent, isNew, errorMsg) then
         begin
-          fileName := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
-          idxNumber := fileService.GetFileNumber(fileName);
-          isCustomLayout := LowerCase(Copy(fileName, 1, Length(FILE_LAYOUT))) <> FILE_LAYOUT;
-          if (isCustomLayout) then
+          if (not fileService.AppSettings.SaveMsg) and (showSaveDialog) then
           begin
-            diagMessage := 'This custom layout has been saved as ' + filename + '. To load this layout to the keyboard it must first be assigned to position 1-9 using the Save As button.';
-            diagTitle := 'Backup Layout & Settings Saved';
-          end
-          else
-          begin
-            diagMessage := 'Your changes have been saved to Layout ' + layoutNumber + '. To implement your changes use the Refresh Shortcut (SmartSet + Layout) or simply close the v-Drive (SmartSet + F8).';
-            diagTitle := 'Layout & Settings Saved';
+            fileName := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
+            idxNumber := fileService.GetFileNumber(fileName);
+            isCustomLayout := LowerCase(Copy(fileName, 1, Length(FILE_LAYOUT))) <> FILE_LAYOUT;
+            if (isCustomLayout) then
+            begin
+              diagMessage := 'This custom layout has been saved as ' + filename + '. To load this layout to the keyboard it must first be assigned to position 1-9 using the Save As button.';
+              diagTitle := 'Backup Layout & Settings Saved';
+            end
+            else
+            begin
+              diagMessage := 'Your changes have been saved to Layout ' + layoutNumber + '. To implement your changes use the Refresh Shortcut (SmartSet + Layout) or simply close the v-Drive (SmartSet + F8).';
+              diagTitle := 'Layout & Settings Saved';
+            end;
+            hideNotif := ShowDialog(diagTitle, diagMessage,
+              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, nil, 'Hide this notification?');
+            if (hideNotif >= DISABLE_NOTIF) then
+            begin
+              fileService.SetSaveMsg(true);
+              fileService.SaveAppSettings;
+            end;
           end;
-          hideNotif := ShowDialog(diagTitle, diagMessage,
-            mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, nil, 'Hide this notification?');
-          if (hideNotif >= DISABLE_NOTIF) then
-          begin
-            fileService.SetSaveMsg(true);
-            fileService.SaveAppSettings;
-          end;
-        end;
-        SetSaveState(ssNone);
-        result := true;
-      end
-      else
-        ShowDialog('Save', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
-          mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+          SetSaveState(ssNone);
+          result := true;
+        end
+        else
+          ShowDialog('Save', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
+            mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
 
-      SaveStateSettings;
+        SaveStateSettings;
+      end;
     end;
   end;
 end;
@@ -3277,36 +3465,48 @@ var
   isBackupFile: boolean;
   layoutPosition: string;
   layoutFile: string;
+  continue: boolean;
 begin
-  NeedInput := True;
-  fileName := ShowSaveAs(backColor, fontColor, isBackupFile, layoutPosition);
-  if (fileName <> '') then
-  begin
-    //ShowDialog('Save', 'To access this layout it must first be saved as one of the nine numbered layouts. Load your new layout by holding the SmartSet key and tapping the corresponding number.',
-    //      mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
-    //SaveDialog.InitialDir := GLayoutFilePath;
-    //SaveDialog.FileName := 'layout.txt';
-    //if SaveDialog.Execute then
-    //begin
-      if (isNew) then
-        keyService.ResetLayout;
-      layoutFile := GLayoutFilePath + fileName; //SaveDialog.FileName;
-      if (Save(layoutFile, true, false)) then
-      begin
-        currentLayoutFile := layoutFile;
-        LoadKeyboardLayout(currentLayoutFile);
+  continue := true;
 
-        filename := ExtractFileNameWithoutExt(ExtractFileName(fileName));
-        if (isBackupFile) then
-          ShowDialog('Backup Layout & Settings Saved', 'This custom layout has been saved as ' + filename + '. To load this layout to the keyboard it must first be assigned to position 1-9 using the Save As button.',
-            mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor)
-        else
-          ShowDialog('Layout & Settings Saved', 'This custom layout has been saved to Layout ' + layoutPosition + '. To implement your changes use the Refresh Shortcut (SmartSet + Layout) or simply close the v-Drive (SmartSet + F8). To load this layout to the keyboard press SmartSet + ' + layoutPosition + '.',
-            mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
-      end;
-    //end;
+  if (GDemoMode) then
+    continue := false;
+
+  if continue and (not CheckVDrive) then
+    continue := ShowTroubleshootingDialog(false);
+
+  if (continue) then
+  begin
+    NeedInput := True;
+    fileName := ShowSaveAs(backColor, fontColor, isBackupFile, layoutPosition);
+    if (fileName <> '') then
+    begin
+      //ShowDialog('Save', 'To access this layout it must first be saved as one of the nine numbered layouts. Load your new layout by holding the SmartSet key and tapping the corresponding number.',
+      //      mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+      //SaveDialog.InitialDir := GLayoutFilePath;
+      //SaveDialog.FileName := 'layout.txt';
+      //if SaveDialog.Execute then
+      //begin
+        if (isNew) then
+          keyService.ResetLayout;
+        layoutFile := GLayoutFilePath + fileName; //SaveDialog.FileName;
+        if (Save(layoutFile, true, false)) then
+        begin
+          currentLayoutFile := layoutFile;
+          LoadKeyboardLayout(currentLayoutFile);
+
+          filename := ExtractFileNameWithoutExt(ExtractFileName(fileName));
+          if (isBackupFile) then
+            ShowDialog('Backup Layout & Settings Saved', 'This custom layout has been saved as ' + filename + '. To load this layout to the keyboard it must first be assigned to position 1-9 using the Save As button.',
+              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor)
+          else
+            ShowDialog('Layout & Settings Saved', 'This custom layout has been saved to Layout ' + layoutPosition + '. To implement your changes use the Refresh Shortcut (SmartSet + Layout) or simply close the v-Drive (SmartSet + F8). To load this layout to the keyboard press SmartSet + ' + layoutPosition + '.',
+              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+        end;
+      //end;
+    end;
+    NeedInput := False;
   end;
-  NeedInput := False;
 end;
 
 procedure TFormMain.LoadLayer(layer: TKBLayer);
@@ -3894,7 +4094,7 @@ var
 begin
   if (IsKeyLoaded) then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 480)) then
+    if (fileService.VersionBiggerEqual(1, 0, 480) or GDemoMode) then
     begin
       //Check key other layer
       if (activeLayer.LayerIndex = TOPLAYER_IDX) then

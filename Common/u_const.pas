@@ -183,7 +183,7 @@ function GetIndexOfNumber(value: string): integer;
 function IsPreWin8: boolean;
 function GetAvailableDrives: TStringList;
 function GetVolumeLabel(DriveChar: Char): string;
-function SetBaseDirectory: boolean;
+function SetBaseDirectory(init: boolean = false): boolean;
 function GetHTMLColor(color: TColor): string;
 function GetColorHTML(html: string): TColor;
 function RGBColorToString(color: Tcolor; setNoneAsBlack: boolean = false): string;
@@ -501,6 +501,8 @@ const
   ADV2_MANUAL = 'https://kinesis-ergo.com/support/advantage2/#manuals';
   FSPRO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0Z7Gx0T5N7TTzceorPHXJr5';
   ADV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0aNmELoR6kakcNf7AInoEfW';
+  FSPRO_TROUBLESHOOT = 'https://kinesis-ergo.com/support/freestyle-pro/';
+  FSEDGE_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -510,7 +512,10 @@ const
   MIN_LED_FILE = 1;
   MAX_LED_FILE = 9;
   DEFAULT_CUST_COLOR = clNone;
-  FSEDGEV2_DRIVE = 'FS EDGE RGB';
+  RGB_DRIVE = 'FS EDGE RGB';
+  FSEDGE_DRIVE = 'FS EDGE';
+  FSPRO_DRIVE = 'FS PRO';
+  ADV2_DRIVE = 'KINESIS KB';
   TAP_AND_HOLD = 't&h';
   DEFAULT_SPEED_TAP_HOLD = 250;
   MAX_TAP_HOLD = 10;
@@ -872,46 +877,79 @@ begin
   {$endif}
 end;
 
-function SetBaseDirectory: boolean;
+function SetBaseDirectory(init: boolean = false): boolean;
 var
   driveList: TStringList;
   i: integer;
   dirFirmware: string;
   driveName: string;
+  kbDrive: string;
 begin
   result := false;
-  //if (GApplication in [APPL_FSEDGE, APPL_RGB]) then
+  kbDrive := '';
+  if (GApplication = APPL_FSEDGE) then
+     kbDrive := FSEDGE_DRIVE
+  else if (GApplication = APPL_FSPRO) then
+     kbDrive := FSPRO_DRIVE
+  else if (GApplication = APPL_ADV2) then
+     kbDrive := ADV2_DRIVE
+  else if (GApplication = APPL_RGB) then
+     kbDrive := RGB_DRIVE;
+  GApplicationPath := GExecutablePath;
+  if not DirectoryExists(GApplicationPath + '\firmware\') then
   begin
-    GApplicationPath := GExecutablePath;
-    if not DirectoryExists(GApplicationPath + '\firmware\') then
+    GDesktopMode := true;
+    {$ifdef Win32}
+    driveList := GetAvailableDrives;
+    for i := 0 to driveList.Count - 1 do
     begin
-      GDesktopMode := true;
-      {$ifdef Win32}
-      driveList := GetAvailableDrives;
-      for i := 0 to driveList.Count - 1 do
+      dirFirmware := driveList[i] + '\firmware\';
+      driveName := GetVolumeLabel(driveList[i][1]);
+
+      if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
       begin
-        dirFirmware := driveList[i] + '\firmware\';
-        driveName := GetVolumeLabel(driveList[i][1]);
-        if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and (pos(UpperCase(FSEDGEV2_DRIVE), UpperCase(driveName)) > 0) then
+        if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
+        ((pos(UpperCase(FSEDGE_DRIVE), UpperCase(driveName)) > 0) or (pos(UpperCase(FSPRO_DRIVE), UpperCase(driveName)) > 0)) then
+        begin
+          GApplicationPath := driveList[i];
+          result := true;
+        end;
+        //if (pos(UpperCase(FSEDGE_DRIVE), UpperCase(driveName)) > 0) then
+        //begin
+        //  GApplication := APPL_FSEDGE;
+        //  kbDrive := FSEDGE_DRIVE;
+        //end
+        //else if (pos(UpperCase(FSPRO_DRIVE), UpperCase(driveName)) > 0) then
+        //begin
+        //  GApplication := APPL_FSPRO;
+        //  kbDrive := FSPRO_DRIVE;
+        //end;
+      end
+      else
+      begin
+        if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and (pos(UpperCase(kbDrive), UpperCase(driveName)) > 0) then
         begin
           GApplicationPath := driveList[i];
           result := true;
         end;
       end;
-      {$endif}
-
-      //MacOS
-      {$ifdef Darwin}
-      driveName := IncludeTrailingBackslash('/VOLUMES/' + FSEDGEV2_DRIVE);
-      dirFirmware := driveName + '/firmware/';
-      if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) then
-      begin
-        GApplicationPath := driveName;
-        result := true;
-      end;
-      {$endif}
     end;
+    {$endif}
+
+    //MacOS
+    {$ifdef Darwin}
+    driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
+    dirFirmware := driveName + '/firmware/';
+    if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) then
+    begin
+      GApplicationPath := driveName;
+      result := true;
+    end;
+    {$endif}
   end;
+
+  if (result) then
+     ResetAppPaths;
 end;
 
 procedure ResetAppPaths;
@@ -1660,7 +1698,6 @@ initialization
   GApplicationName := 'SmartSet App (Win)';
   GApplicationPath := IncludeTrailingBackslash(ExtractFileDir(ParamStr(0)));
   GExecutablePath := GApplicationPath;
-  SetBaseDirectory;
   {$endif}
 
   //MacOS
@@ -1678,9 +1715,8 @@ initialization
     GApplicationPath := IncludeTrailingBackslash(Copy(GApplicationPath, 0, LastDelimiter('/', GApplicationPath) - 1));
   end;
   GExecutablePath := GApplicationPath;
-  SetBaseDirectory;
   {$endif}
 
+  //SetBaseDirectory;
   ResetAppPaths;
-
 end.
