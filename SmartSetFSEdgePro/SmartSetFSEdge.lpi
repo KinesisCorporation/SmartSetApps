@@ -16,8 +16,7 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="7"/>
+      <MajorVersionNr Value="2"/>
       <CharSet Value="03B6"/>
       <StringTable ProductVersion="Kinesis Corporation"/>
     </VersionInfo>

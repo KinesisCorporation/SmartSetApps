@@ -2626,6 +2626,51 @@ object FormMain: TFormMain
         }
         Visible = False
       end
+      object lblDemoMode: TLabel
+        Left = 413
+        Height = 16
+        Top = 48
+        Width = 75
+        Anchors = []
+        Caption = 'Demo Mode'
+        Font.Color = clLime
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Visible = False
+      end
+      object lblVDriveError: TLabel
+        Left = 406
+        Height = 16
+        Top = 48
+        Width = 147
+        Anchors = []
+        Caption = 'v-Drive Not Connected'
+        Font.Color = clRed
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Visible = False
+      end
+      object lblVDriveOk: TLabel
+        Left = 408
+        Height = 16
+        Top = 48
+        Width = 121
+        Anchors = []
+        Caption = 'v-Drive Connected'
+        Font.Color = clLime
+        Font.Height = -13
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Visible = False
+      end
     end
     object pnlBot: TPanel
       Left = 0
@@ -10501,5 +10546,12 @@ object FormMain: TFormMain
       0000000000000000000000000000000000000000000000000000000000000000
       004C000000A10000000400000000
     }
+  end
+  object CheckVDriveTmr: TIdleTimer
+    Enabled = False
+    Interval = 30000
+    OnTimer = CheckVDriveTmrTimer
+    left = 560
+    top = 56
   end
 end

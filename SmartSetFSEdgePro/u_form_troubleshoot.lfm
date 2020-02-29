@@ -1,0 +1,270 @@
+object FormTroubleshoot: TFormTroubleshoot
+  Left = 427
+  Height = 172
+  Top = 128
+  Width = 871
+  ClientHeight = 172
+  ClientWidth = 871
+  Color = 2500134
+  Font.Color = clWhite
+  Font.Height = -19
+  KeyPreview = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  Position = poScreenCenter
+  LCLVersion = '2.0.6.0'
+  object btnTroubleshootingTips: THSSpeedButton
+    Left = 231
+    Height = 32
+    Top = 120
+    Width = 200
+    Alignment = taCenter
+    Anchors = [akRight, akBottom]
+    Border = 1
+    Caption = 'Troubleshooting Tips'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ShadowColor = 4012079
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnTroubleshootingTipsClick
+  end
+  object btnDemoModeFsEdge: THSSpeedButton
+    Left = 445
+    Height = 32
+    Hint = 'Launch Freestyle Edge app in Demo Mode'
+    Top = 120
+    Width = 200
+    Alignment = taCenter
+    Anchors = [akRight, akBottom]
+    Border = 1
+    Caption = 'Demo Mode FS Edge'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ParentShowHint = False
+    ShadowColor = 4012079
+    ShowHint = True
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnDemoModeFsEdgeClick
+  end
+  object btnScan: THSSpeedButton
+    Left = 18
+    Height = 32
+    Top = 120
+    Width = 200
+    Alignment = taCenter
+    Anchors = [akRight, akBottom]
+    Border = 1
+    Caption = 'Scan for v-Drive'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ShadowColor = 4012079
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnScanClick
+  end
+  object lblSaveMsg: TLabel
+    Left = 18
+    Height = 76
+    Top = 36
+    Width = 832
+    AutoSize = False
+    Caption = 'To save your changes you must use the onboard shortcut      + F8 to open the v-Drive and re-establish the connection with the SmartSet App.'
+    Color = 2500134
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    WordWrap = True
+  end
+  object imgSmartSave: TImage
+    Left = 509
+    Height = 23
+    Top = 52
+    Width = 23
+    Anchors = [akLeft, akRight, akBottom]
+    Center = True
+    Picture.Data = {
+      1754506F727461626C654E6574776F726B477261706869637902000089504E47
+      0D0A1A0A0000000D4948445200000014000000130806000000908C2DB5000000
+      0774494D4507E3041A0F033497E532FC000000097048597300000AF000000AF0
+      0142AC34980000000467414D410000B18F0BFC6105000002084944415478DA8D
+      D4C14B554114C7F1F75EA949886690A084546E9410C2D0705560A21B2121C320
+      FA174282A840C985B50AC94DAB20288202458444298BA0AD4652B629AA5766D9
+      A24C49CCBC7D4FFE464E9777A50B1F6466CE3D6FEECC39A6A3284A253C65388D
+      5654633B7EE005467113F578805FE1A5748E84F9388B0B58C230A6F00DA5A843
+      1BF2F01D6730B8F1B625940CC6F01B4BE842815BF7DAB01CAD3FE37ECD07EDC2
+      9A82EE2624F23FDE8C4125AECA95D0F4E209EA63F32D18C1D11CC92B50932BE1
+      01A4DD381F0368C71DEDFC168EE19AD6436C13EEA3234C94E10376BAA093D1E6
+      4FA78B9DD2DCBC0DB6E291260EBA209BFF88559CD7175CD438ABF5107B45E73F
+      6C833E2C2AE171051CC6B4826EC4CEECB6E66DBDC1CD3FC6D50C95D3AD227D83
+      42555315F65B9D221BABD3ACE66D7D8F9B5FFE5BC3CA7E49E710C6DB70045FF0
+      16E5EE46DFE393BEC25FCC73F46494FD196A50EC7E6D0525A8C42B3CC50C76AB
+      637E2A26A5B1B5E76448F850FD78C27DC2825ACFD6E6D088594C60517D1D9E53
+      8A9DF0876DB5F50E456E6E87BAA25B97764EE3121763A536A79BFEA7B06D6116
+      F7B02576B379D8ABBFBEFD0AD4CBAFC346E26DD4A8121AD2EE927AB9D54A44A5
+      F215B549BD6C0EA970ED26FB3183CB6E57BD2A6EABC597BE8F93129A6215FC82
+      CECE12146A57A109E61597FA9F8481F5EB675C777376BE95D1FA7F9E7DF177FE
+      00BA38C82BE9D21A9D0000000049454E44AE426082
+    }
+  end
+  object lblTitle: TLabel
+    Left = 24
+    Height = 36
+    Top = 3
+    Width = 816
+    Alignment = taCenter
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'Keyboard not detected'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+  object btnDemoModeFsPro: THSSpeedButton
+    Left = 656
+    Height = 32
+    Hint = 'Launch Freestyle Pro app in Demo Mode'
+    Top = 120
+    Width = 200
+    Alignment = taCenter
+    Anchors = [akRight, akBottom]
+    Border = 1
+    Caption = 'Demo Mode FS Pro'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ParentShowHint = False
+    ShadowColor = 4012079
+    ShowHint = True
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnDemoModeFsProClick
+  end
+  object lblInitMessage: TLabel
+    Left = 18
+    Height = 76
+    Top = 36
+    Width = 832
+    AutoSize = False
+    Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by using the onboard shortcut      + F8. Please connect the v-Drive and then click the “Scan for v-Drive” button below.'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+    WordWrap = True
+  end
+  object imgSmartInit: TImage
+    Left = 256
+    Height = 23
+    Top = 64
+    Width = 23
+    Anchors = [akLeft, akRight, akBottom]
+    Center = True
+    Picture.Data = {
+      1754506F727461626C654E6574776F726B477261706869637902000089504E47
+      0D0A1A0A0000000D4948445200000014000000130806000000908C2DB5000000
+      0774494D4507E3041A0F033497E532FC000000097048597300000AF000000AF0
+      0142AC34980000000467414D410000B18F0BFC6105000002084944415478DA8D
+      D4C14B554114C7F1F75EA949886690A084546E9410C2D0705560A21B2121C320
+      FA174282A840C985B50AC94DAB20288202458444298BA0AD4652B629AA5766D9
+      A24C49CCBC7D4FFE464E9777A50B1F6466CE3D6FEECC39A6A3284A253C65388D
+      5654633B7EE005467113F578805FE1A5748E84F9388B0B58C230A6F00DA5A843
+      1BF2F01D6730B8F1B625940CC6F01B4BE842815BF7DAB01CAD3FE37ECD07EDC2
+      9A82EE2624F23FDE8C4125AECA95D0F4E209EA63F32D18C1D11CC92B50932BE1
+      01A4DD381F0368C71DEDFC168EE19AD6436C13EEA3234C94E10376BAA093D1E6
+      4FA78B9DD2DCBC0DB6E291260EBA209BFF88559CD7175CD438ABF5107B45E73F
+      6C833E2C2AE171051CC6B4826EC4CEECB6E66DBDC1CD3FC6D50C95D3AD227D83
+      42555315F65B9D221BABD3ACE66D7D8F9B5FFE5BC3CA7E49E710C6DB70045FF0
+      16E5EE46DFE393BEC25FCC73F46494FD196A50EC7E6D0525A8C42B3CC50C76AB
+      637E2A26A5B1B5E76448F850FD78C27DC2825ACFD6E6D088594C60517D1D9E53
+      8A9DF0876DB5F50E456E6E87BAA25B97764EE3121763A536A79BFEA7B06D6116
+      F7B02576B379D8ABBFBEFD0AD4CBAFC346E26DD4A8121AD2EE927AB9D54A44A5
+      F215B549BD6C0EA970ED26FB3183CB6E57BD2A6EABC597BE8F93129A6215FC82
+      CECE12146A57A109E61597FA9F8481F5EB675C777376BE95D1FA7F9E7DF177FE
+      00BA38C82BE9D21A9D0000000049454E44AE426082
+    }
+  end
+end

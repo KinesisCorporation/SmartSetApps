@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="2"/>
       <MinorVersionNr Value="1"/>
-      <RevisionNr Value="5"/>
+      <RevisionNr Value="6"/>
       <CharSet Value="03B6"/>
       <StringTable ProductVersion="Kinesis Corporation"/>
     </VersionInfo>
