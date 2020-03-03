@@ -2899,7 +2899,7 @@ end;
 
 procedure TFormMain.openTroubleshootingTipsClick(Sender: TObject);
 begin
-  OpenUrl('https://gaming.kinesis-ergo.com/fs-edge-rgb-support/');
+  OpenUrl(RGB_TROUBLESHOOT);
 end;
 
 procedure TFormMain.ScanVDrive(init: boolean);

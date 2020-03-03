@@ -502,7 +502,9 @@ const
   FSPRO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0Z7Gx0T5N7TTzceorPHXJr5';
   ADV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0aNmELoR6kakcNf7AInoEfW';
   FSPRO_TROUBLESHOOT = 'https://kinesis-ergo.com/support/freestyle-pro/';
-  FSEDGE_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
+  FSEDGE_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-support/';
+  RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
+  ADV2_TROUBLESHOOT = 'https://www.kinesis-ergo.com/advantage2-resources/';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';

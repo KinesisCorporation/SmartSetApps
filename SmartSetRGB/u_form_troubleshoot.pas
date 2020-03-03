@@ -110,7 +110,7 @@ end;
 
 procedure TFormTroubleshoot.btnTroubleshootingTipsClick(Sender: TObject);
 begin
-  OpenUrl('https://gaming.kinesis-ergo.com/fs-edge-rgb-support/');
+  OpenUrl(RGB_TROUBLESHOOT);
 end;
 
 
