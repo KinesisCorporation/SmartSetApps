@@ -930,7 +930,16 @@ begin
 
     //MacOS
     {$ifdef Darwin}
-    driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
+    if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
+    begin
+      if DirectoryExists('/VOLUMES/' + FSPRO_DRIVE) then
+        driveName := IncludeTrailingBackslash('/VOLUMES/' + FSPRO_DRIVE)
+      else
+        driveName := IncludeTrailingBackslash('/VOLUMES/' + FSEDGE_DRIVE);
+    end
+    else
+      driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
+
     dirFirmware := driveName + '/firmware/';
     if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) then
     begin

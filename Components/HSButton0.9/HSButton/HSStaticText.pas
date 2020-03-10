@@ -30,7 +30,7 @@ interface
 
 uses
   {$ifdef Win32}Windows, {$endif}
-  {$ifdef Darwin}MacOSAll, CarbonUtils, CarbonDef, CarbonProc, {$endif}
+  {$ifdef Darwin}MacOSAll, CocoaAll, {$endif} //CarbonUtils, CarbonDef, CarbonProc, {$endif}
   {$ifdef fpc} LMessages {$else} messages {$endif}, Classes, Graphics, Controls, Forms, HSButtons,
   LCLIntf, LCLType;
 
