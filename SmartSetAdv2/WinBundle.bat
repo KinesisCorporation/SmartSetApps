@@ -1,2 +1,2 @@
-upx "Adv2 SmartSet App (Win).exe"
+upx "Adv2 SmartSet App (PC).exe"
 pause

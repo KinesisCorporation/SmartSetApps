@@ -36,15 +36,15 @@ type
 var
   FormUserDialog: TFormUserDialog;
   LastDialog: TFormUserDialog;
-  function ShowDialog(Caption, Message: string; dlgType: TMsgDlgTypeApp; dlgButtons: TMsgDlgButtons; dialogHeight: integer = DEFAULT_DIAG_HEIGHT_ADV2; backColor: TColor = clWhite; fontColor: TColor = clDefault; customButtons: TCustomButtons = nil; checkBoxCaption: string = ''): integer;
-  procedure CloseDialog;
+  function ShowDialog(Caption, Message: string; dlgType: TMsgDlgTypeApp; dlgButtons: TMsgDlgButtons; dialogHeight: integer = DEFAULT_DIAG_HEIGHT_ADV2; backColor: TColor = clWhite; fontColor: TColor = clDefault; customButtons: TCustomButtons = nil; checkBoxCaption: string = ''; dialogWidth: integer = 0): integer;
+  procedure CloseDialog(resultType: integer);
 
 implementation
 
 {$R *.lfm}
 
 //Function to call a dialog box
-function ShowDialog(Caption, Message: string; dlgType: TMsgDlgTypeApp; dlgButtons: TMsgDlgButtons; dialogHeight: integer = DEFAULT_DIAG_HEIGHT_ADV2; backColor: TColor = clWhite; fontColor: TColor = clDefault; customButtons: TCustomButtons = nil; checkBoxCaption: string = ''): integer;
+function ShowDialog(Caption, Message: string; dlgType: TMsgDlgTypeApp; dlgButtons: TMsgDlgButtons; dialogHeight: integer = DEFAULT_DIAG_HEIGHT_ADV2; backColor: TColor = clWhite; fontColor: TColor = clDefault; customButtons: TCustomButtons = nil; checkBoxCaption: string = ''; dialogWidth: integer = 0): integer;
 var
   i: integer;
   formDialog: TFormUserDialog;
@@ -69,6 +69,8 @@ begin
   formDialog.Caption := Caption;
   formDialog.lblMessage.Caption := Message;
   formDialog.Height := dialogHeight;
+  if (dialogWidth <> 0) then
+    formDialog.Width := dialogWidth;
 
   //Loads colors
   formDialog.Color := backColor;
@@ -149,12 +151,11 @@ begin
     result := modalResult;
 end;
 
-procedure CloseDialog;
+procedure CloseDialog(resultType: integer);
 begin
   if LastDialog <> nil then
   begin
-    LastDialog.Close;
-    LastDialog := nil;
+    LastDialog.ModalResult := resultType;
   end;
 end;
 
