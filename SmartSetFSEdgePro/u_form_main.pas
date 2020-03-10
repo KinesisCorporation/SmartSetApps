@@ -496,7 +496,7 @@ type
     procedure SaveAs(isNew: boolean = false);
     procedure LoadLayer(layer: TKBLayer);
     procedure ShowIntroduction;
-    function ShowTroubleshootingDialog(init: boolean): boolean;
+    function ShowTroubleshootingDialog(init: boolean; saveMsg: boolean; loadMsg: boolean): boolean;
     procedure UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox; unselectKey: boolean = false);
     function GetKeyButtonByIndex(index: integer): TLabelBox;
     procedure SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false);
@@ -966,7 +966,7 @@ begin
   begin
     if (GDesktopMode) then
     begin
-      if (not ShowTroubleshootingDialog(true)) then
+      if (not ShowTroubleshootingDialog(true, false, false)) then
       begin
         appError := true;
         Close;
@@ -992,7 +992,7 @@ begin
   lblDemoMode.Visible := GDemoMode;
 end;
 
-function TFormMain.ShowTroubleshootingDialog(init: boolean): boolean;
+function TFormMain.ShowTroubleshootingDialog(init: boolean; saveMsg: boolean; loadMsg: boolean): boolean;
 var
   customBtns: TCustomButtons;
   title: string;
@@ -1017,7 +1017,10 @@ begin
     openPosition := poMainFormCenter;
     createCustomButton(customBtns, 'Scan for v-Drive', 200, @scanVDriveClick);
     title := 'Keyboard Connection Lost';
-    message := 'To save your changes you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.';
+    if (saveMsg) then
+      message := 'To save your changes you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.'
+    else if (loadMsg) then
+      message := 'To load a layout you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.';
     if (GApplication = APPL_FSPRO) then
        createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsProClick)
     else
@@ -1572,7 +1575,7 @@ begin
     continue := false;
 
   if continue and (not CheckVDrive) then
-    continue := ShowTroubleshootingDialog(false);
+    continue := ShowTroubleshootingDialog(false, false, true);
 
   if (continue) then
   begin
@@ -3327,7 +3330,7 @@ begin
   if (SaveState = ssModified) and not(GDemoMode) then
   begin
     if checkForVDrive and (not CheckVDrive) then
-      result := ShowTroubleshootingDialog(false);
+      result := ShowTroubleshootingDialog(false, true, false);
 
     if (result) then
     begin
@@ -3412,7 +3415,7 @@ begin
     continue := false;
 
   if continue and (not CheckVDrive) then
-    continue := ShowTroubleshootingDialog(false);
+    continue := ShowTroubleshootingDialog(false, true, false);
 
   if (continue) then
   begin
@@ -3473,7 +3476,7 @@ begin
     continue := false;
 
   if continue and (not CheckVDrive) then
-    continue := ShowTroubleshootingDialog(false);
+    continue := ShowTroubleshootingDialog(false, true, false);
 
   if (continue) then
   begin
