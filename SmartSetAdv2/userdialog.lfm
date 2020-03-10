@@ -12,7 +12,7 @@ object FormUserDialog: TFormUserDialog
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object pnlBottom: TPanel
     Left = 0
     Height = 42
@@ -27,18 +27,18 @@ object FormUserDialog: TFormUserDialog
     TabOrder = 0
     object chkCheckBox: TCheckBox
       Left = 8
-      Height = 18
+      Height = 19
       Top = 8
-      Width = 22
+      Width = 20
       Color = clWhite
       ParentColor = False
       TabOrder = 0
     end
     object lblCheckBox: TLabel
       Left = 24
-      Height = 18
+      Height = 21
       Top = 6
-      Width = 90
+      Width = 84
       Caption = 'lblCheckBox'
       ParentColor = False
       OnClick = lblCheckBoxClick

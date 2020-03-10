@@ -906,30 +906,20 @@ begin
     for i := 0 to driveList.Count - 1 do
     begin
       dirFirmware := driveList[i] + '\firmware\';
-      driveName := GetVolumeLabel(driveList[i][1]);
+      driveName := UpperCase(Trim(GetVolumeLabel(driveList[i][1])));
 
       if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
       begin
         if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
-        ((pos(UpperCase(FSEDGE_DRIVE), UpperCase(driveName)) > 0) or (pos(UpperCase(FSPRO_DRIVE), UpperCase(driveName)) > 0)) then
+        ((driveName = FSEDGE_DRIVE) or (driveName = FSPRO_DRIVE)) then
         begin
           GApplicationPath := driveList[i];
           result := true;
         end;
-        //if (pos(UpperCase(FSEDGE_DRIVE), UpperCase(driveName)) > 0) then
-        //begin
-        //  GApplication := APPL_FSEDGE;
-        //  kbDrive := FSEDGE_DRIVE;
-        //end
-        //else if (pos(UpperCase(FSPRO_DRIVE), UpperCase(driveName)) > 0) then
-        //begin
-        //  GApplication := APPL_FSPRO;
-        //  kbDrive := FSPRO_DRIVE;
-        //end;
       end
       else
       begin
-        if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and (pos(UpperCase(kbDrive), UpperCase(driveName)) > 0) then
+        if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and (driveName = kbDrive) then
         begin
           GApplicationPath := driveList[i];
           result := true;

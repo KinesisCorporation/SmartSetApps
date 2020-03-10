@@ -17,7 +17,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="1"/>
+      <MinorVersionNr Value="2"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -58,7 +58,7 @@
         <PackageName Value="LCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="14">
+    <Units Count="13">
       <Unit0>
         <Filename Value="SmartSetKeyboard.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -92,47 +92,42 @@
         <UnitName Value="U_Keys"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\Common\userdialog.lfm"/>
-        <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="..\Common\userdialog.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormUserDialog"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="UserDialog"/>
-      </Unit8>
-      <Unit9>
         <Filename Value="..\Common\customcaptionpanel.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="CustomCaptionPanel"/>
-      </Unit9>
-      <Unit10>
+      </Unit7>
+      <Unit8>
         <Filename Value="u_form_about.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit10>
-      <Unit11>
+      </Unit8>
+      <Unit9>
         <Filename Value="..\Common\u_base_key_service.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit11>
-      <Unit12>
+      </Unit9>
+      <Unit10>
         <Filename Value="u_form_new.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormNew"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
+      </Unit10>
+      <Unit11>
         <Filename Value="u_form_tapandhold.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTapAndHold"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit13>
+      </Unit11>
+      <Unit12>
+        <Filename Value="u_form_troubleshoot.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormTroubleshoot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
