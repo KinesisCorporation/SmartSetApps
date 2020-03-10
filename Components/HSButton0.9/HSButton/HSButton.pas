@@ -30,7 +30,7 @@ interface
 
 uses
    {$ifdef Win32}Windows, {$endif}
-   {$ifdef Darwin}MacOSAll, CarbonUtils, CarbonDef, CarbonProc, {$endif}
+   //{$ifdef Darwin}MacOSAll, CarbonUtils, CarbonDef, CarbonProc, {$endif}
    {$ifdef fpc} LMessages {$else} messages {$endif},SysUtils, Classes, Graphics, Controls, Forms, ImgList, ActnList, HSButtons, Dialogs,
    LCLIntf, LCLType;
 
@@ -716,7 +716,7 @@ end;
 procedure THSButton.DoStep(Sender: TObject);
 begin
    if csDestroying in ComponentState then exit;
-   
+
    if bCursorOnButton then
      inc(FHotTrackStep)
    else
