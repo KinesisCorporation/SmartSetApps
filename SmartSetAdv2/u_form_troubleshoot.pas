@@ -16,10 +16,7 @@ type
     btnDemoMode: THSSpeedButton;
     btnTroubleshooting: THSSpeedButton;
     btnScanVDrive: THSSpeedButton;
-    imgSmartInit: TImage;
-    imgSmartSave: TImage;
     lblInitMessage: TLabel;
-    lblSaveMsg: TLabel;
     lblTitle: TLabel;
     procedure btnTroubleshootingClick(Sender: TObject);
     procedure btnScanVDriveClick(Sender: TObject);
@@ -51,9 +48,6 @@ begin
   Application.CreateForm(TFormTroubleshoot, FormTroubleshoot);
   FormTroubleshoot.lblTitle.Caption := title;
   FormTroubleshoot.lblInitMessage.Visible := init;
-  FormTroubleshoot.lblSaveMsg.Visible := not init;
-  FormTroubleshoot.imgSmartInit.Visible := init;
-  FormTroubleshoot.imgSmartSave.Visible := not init;
 
   FormTroubleshoot.ShowModal;
   if (FormTroubleshoot.scanVDrive) then
