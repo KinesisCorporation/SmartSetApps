@@ -194,8 +194,10 @@ object FormMain: TFormMain
         Height = 270
         Top = 344
         Width = 145
+        ParentShowHint = False
         Pen.Color = 13529600
         Pen.Width = 3
+        ShowHint = True
       end
       object slMacroSpeed: TECSlider
         Left = 14
@@ -220,6 +222,7 @@ object FormMain: TFormMain
         PageSize = 10
         ParentColor = False
         ParentFont = False
+        ParentShowHint = False
         Position = 0
         ProgressColor = 13529600
         ProgressColor2 = 13529600
@@ -238,6 +241,7 @@ object FormMain: TFormMain
         Scale.ValueVisible = evvBounds
         ScaleFontOptions.FontSize = 7
         ScaleFontOptions.FontStyles = []
+        ShowHint = True
         TabOrder = 0
         TabStop = False
         OnChange = slMacroSpeedChange
@@ -307,6 +311,7 @@ object FormMain: TFormMain
         PageSize = 10
         ParentColor = False
         ParentFont = False
+        ParentShowHint = False
         Position = 0
         ProgressColor = 13529600
         ProgressColor2 = 13529600
@@ -325,6 +330,7 @@ object FormMain: TFormMain
         Scale.ValueVisible = evvBounds
         ScaleFontOptions.FontSize = 7
         ScaleFontOptions.FontStyles = []
+        ShowHint = True
         TabOrder = 1
         TabStop = False
         OnChange = slStatusReportChange
@@ -373,6 +379,7 @@ object FormMain: TFormMain
         KnobIndent = 3
         ParentFont = False
         ParentShowHint = False
+        ShowHint = True
         State = cbChecked
         SwitchColor = clNone
         SwitchHeight = 25
@@ -425,6 +432,7 @@ object FormMain: TFormMain
         KnobIndent = 3
         ParentFont = False
         ParentShowHint = False
+        ShowHint = True
         State = cbChecked
         SwitchColor = clNone
         SwitchHeight = 25
@@ -477,6 +485,7 @@ object FormMain: TFormMain
         KnobIndent = 3
         ParentFont = False
         ParentShowHint = False
+        ShowHint = True
         State = cbChecked
         SwitchColor = clNone
         SwitchHeight = 25

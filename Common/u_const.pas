@@ -905,7 +905,10 @@ begin
     driveList := GetAvailableDrives;
     for i := 0 to driveList.Count - 1 do
     begin
-      dirFirmware := driveList[i] + '\firmware\';
+      if (GApplication = APPL_ADV2) then
+        dirFirmware := driveList[i] + '\active\'
+      else
+        dirFirmware := driveList[i] + '\firmware\';
       driveName := UpperCase(Trim(GetVolumeLabel(driveList[i][1])));
 
       if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
@@ -940,7 +943,10 @@ begin
     else
       driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
 
-    dirFirmware := driveName + '/firmware/';
+    if (GApplication = APPL_ADV2) then
+      dirFirmware := driveName + '/active/'
+    else
+      dirFirmware := driveName + '/firmware/';
     if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) then
     begin
       GApplicationPath := driveName;
