@@ -3,12 +3,16 @@
 unit u_const;
 
 {$mode objfpc}{$H+}
+{$ifdef Darwin}
+  {$modeswitch objectivec1}
+{$endif}
+
 
 interface
 
 uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
-  {$ifdef Darwin}LCLIntf, ns_url_request, {$endif}
+  {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
   HSSpeedButton, internetaccess, LazFileUtils;
 
@@ -197,6 +201,9 @@ function GetDesktopDirectory: string;
 procedure GetVersionNumbers(versionNumber: string; var major: integer; var minor: integer; var revision: integer);
 function IsVersionBiggerOrEqual(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;
 function IsVersionSmaller(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;
+function GetPrefString(const KeyName : string) : string;
+function IsDarkTheme:boolean;
+
 
 const
   //START OF VIRTUAL KEY OPTIONS
@@ -1679,6 +1686,24 @@ begin
         result := false;
     end;
   end;
+end;
+
+// Retrieve key's string value from user preferences. Result is encoded using NSStrToStr's default encoding.
+function GetPrefString(const KeyName : string) : string;
+begin
+  Result := '';
+  {$ifdef Darwin}
+  Result := NSStringToString(NSUserDefaults.standardUserDefaults.stringForKey(NSStr(@KeyName[1])));
+  {$endif}
+end;
+
+// IsDarkTheme: Detects if the Dark Theme (true) has been enabled or not (false)
+function IsDarkTheme:boolean;
+begin
+  Result := false;
+  {$ifdef Darwin}
+  Result := pos('DARK',UpperCase(GetPrefString('AppleInterfaceStyle')))>0;
+  {$endif}
 end;
 
 initialization

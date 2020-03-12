@@ -89,8 +89,11 @@ begin
   end
   else if (GApplication = APPL_FSPRO) then
   begin
-    Self.Color := clWhite;
-    SetFontColor(self, clDefault);
+    if (not IsDarkTheme) then
+    begin
+      Self.Color := clWhite;
+      SetFontColor(self, clBlack);
+    end;
     lblCompany.Caption := 'Kinesis Corporation';
     lblWebsite.Caption := 'www.Kinesis-Ergo.com';
   end;

@@ -823,8 +823,16 @@ begin
     if (GApplication = APPL_FSPRO) then
     begin
       blueColor := KINESIS_BLUE;
-      fontColor := clDefault;
-      backColor := clWhite;
+      if (IsDarkTheme) then
+      begin
+        fontColor := clWhite;
+        backColor := KINESIS_DARK_GRAY_FS;
+      end
+      else
+      begin
+        fontColor := clBlack;
+        backColor := clWhite;
+      end;
       SetFontColor(self, fontColor);
       self.Color := backColor;
       pnlMain.Color := backColor;
@@ -848,22 +856,6 @@ begin
       imgLogoPro.Visible := true;
       imgKinesisFSPro.Visible := true;
       imgKinesisFSEdge.Visible := false;
-      {$ifdef Darwin}
-      btnHelpIcon.Color := clWhite;
-      btnHelpIcon.HotTrackColor := clWhite;
-      btnHelpIcon.ShadowColor := clWhite;
-      memoMacro.Color := clBtnFace;
-      {$endif}
-
-      //Menu buttons
-      btnHelpIcon.TransparentColor := clNone;
-      btnMinimize.TransparentColor := clNone;
-      btnMaximize.TransparentColor := clNone;
-      btnClose.TransparentColor := clNone;
-      imageList.GetBitmap(3, btnHelpIcon.Glyph);
-      imageList.GetBitmap(2, btnMinimize.Glyph);
-      imageList.GetBitmap(4, btnMaximize.Glyph);
-      imageList.GetBitmap(6, btnClose.Glyph);
 
       //Hide Lighting section
       shpLighting.Visible := false;
@@ -886,11 +878,6 @@ begin
       swGameMode.Visible := false;
 
       miLed.Visible := false;
-
-      //Layer switch
-      swLayerSwitch.Font.Color := clWhite;
-      //swLayerSwitch.GrooveCheckedClr := blueColor;
-      //swLayerSwitch.GrooveUncheckedClr := blueColor;
     end
     else //FS EDGE
     begin
@@ -907,14 +894,39 @@ begin
       imgLogoPro.Visible := false;
       imgKinesisFSPro.Visible := false;
       imgKinesisFSEdge.Visible := true;
+    end;
 
+    if (IsDarkTheme) or (GApplication = APPL_FSPRO) then
+    begin
       {$ifdef Darwin}
       btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
       btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
       btnMaximize.TransparentColor := KINESIS_DARK_GRAY_FS;
       btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
       {$endif}
+    end
+    else
+    begin
+      //Menu buttons
+      btnHelpIcon.TransparentColor := clNone;
+      btnMinimize.TransparentColor := clNone;
+      btnMaximize.TransparentColor := clNone;
+      btnClose.TransparentColor := clNone;
+      imageList.GetBitmap(3, btnHelpIcon.Glyph);
+      imageList.GetBitmap(2, btnMinimize.Glyph);
+      imageList.GetBitmap(4, btnMaximize.Glyph);
+      imageList.GetBitmap(6, btnClose.Glyph);
+
+      {$ifdef Darwin}
+      btnHelpIcon.Color := clWhite;
+      btnHelpIcon.HotTrackColor := clWhite;
+      btnHelpIcon.ShadowColor := clWhite;
+      {$endif}
+
+      //Layer switch
+      swLayerSwitch.Font.Color := clWhite;
     end;
+
 
     //Firmware version 1.0.340 or more
     if (fileService.VersionBiggerEqual(1, 0, 340) or GDemoMode) then
