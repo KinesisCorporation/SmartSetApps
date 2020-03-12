@@ -800,6 +800,12 @@ begin
         fileService.LoadAppSettings(GAppSettingsFile);
         LoadKeyboardLayout(currentLayoutFile);
 
+        slMacroSpeed.Enabled := fileService.AllowEditSettings;
+        slStatusReport.Enabled := fileService.AllowEditSettings;
+        swKeyClicks.Enabled := fileService.AllowEditSettings;
+        swKeyTones.Enabled := fileService.AllowEditSettings;
+        swAutoVDrive.Enabled := fileService.AllowEditSettings;
+
         CheckVDriveTmr.Enabled := true;
       end
       else
