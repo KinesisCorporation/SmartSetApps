@@ -765,8 +765,10 @@ var
   drives: string;
   i: integer;
   titleError: string;
+  hint2MB: string;
 begin
   canShowApp := GDemoMode or CheckVDrive;
+  hint2MB := 'Modifying Settings is not supported on 2MB keyboards';
 
   if (canShowApp) then
   begin
@@ -805,6 +807,14 @@ begin
         swKeyClicks.Enabled := fileService.AllowEditSettings;
         swKeyTones.Enabled := fileService.AllowEditSettings;
         swAutoVDrive.Enabled := fileService.AllowEditSettings;
+        if (not fileService.AllowEditSettings) then
+        begin
+          slMacroSpeed.Hint := hint2MB;
+          slStatusReport.Hint := hint2MB;
+          swKeyClicks.Hint := hint2MB;
+          swKeyTones.Hint := hint2MB;
+          swAutoVDrive.Hint := hint2MB;
+        end;
 
         CheckVDriveTmr.Enabled := true;
       end
