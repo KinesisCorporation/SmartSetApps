@@ -896,7 +896,7 @@ begin
       imgKinesisFSEdge.Visible := true;
     end;
 
-    if (IsDarkTheme) or (GApplication = APPL_FSPRO) then
+    if (IsDarkTheme) or (GApplication = APPL_FSEDGE) then
     begin
       {$ifdef Darwin}
       btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;

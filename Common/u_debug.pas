@@ -39,7 +39,7 @@ begin
         SetLength(aFileList, Length(aFileList) + 1);
         aFileList[Length(aFileList) - 1].FileName := TempSearchDel.Name;
         aFileList[Length(aFileList) - 1].FileDate :=
-          FileDateToDateTime(FileAge(aPath + '\' + TempSearchDel.Name));
+        FileDateToDateTime(FileAge(IncludeTrailingBackslash(aPath) + TempSearchDel.Name));
         TempResultDel := FindNext(TempSearchDel);
       end;
 
@@ -76,7 +76,7 @@ begin
     CustomDirectory := ExcludeTrailingBackslash(CustomDirectory);
   ForceDirectories(CustomDirectory);
   Filename := FormatDateTime('yyyymmddhhnnsszzz', Now);
-  WriteExceptionLog(CustomDirectory + '\' + Filename, E, MsgLog);
+  WriteExceptionLog(IncludeTrailingBackslash(CustomDirectory) + Filename, E, MsgLog);
   if not SilentMode then
   begin
     if MsgLog <> '' then

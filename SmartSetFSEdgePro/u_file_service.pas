@@ -32,7 +32,7 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
-    function LoadFile(sFileName: string; fileContent: TStringList): string;
+    function LoadFile(sFileName: string; fileContent: TStringList; criticalFile: boolean): string;
     function SaveFile(sFileName: string; fileContent: TStringList; allowNew: boolean; var error: string): boolean;
     function CheckIfFileExists(sFileName: string): boolean;
     function SetNewFileName(sFileName: string): boolean;
@@ -167,7 +167,7 @@ begin
   if (fileExists) then
   begin
     fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent);
+    result := LoadFile(sFilePath, fileContent, true);
 
     if result = '' then //no error
     begin
@@ -216,7 +216,7 @@ begin
   if (fileExists) then
   begin
     fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent);
+    result := LoadFile(sFilePath, fileContent, true);
 
     if result = '' then //no error
     begin
@@ -292,7 +292,7 @@ begin
   if (fileExists) then
   begin
     fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent);
+    result := LoadFile(sFilePath, fileContent, true);
 
     if result = '' then //no error
     begin
@@ -335,7 +335,7 @@ begin
   fileExists := CheckIfFileExists(aFileName);
   if (fileExists) then
   begin
-    result := LoadFile(aFileName, FLayoutContent);
+    result := LoadFile(aFileName, FLayoutContent, false);
 //
 //    if result = '' then //no error
 //    begin
@@ -379,7 +379,7 @@ begin
   fileContent := TStringList.Create;
   sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
   if CheckIfFileExists(sFilePath) then
-    result := LoadFile(sFilePath, fileContent);
+    result := LoadFile(sFilePath, fileContent, true);
 
   if result = '' then //no error
   begin
@@ -409,7 +409,7 @@ begin
   if (fileExists) then
   begin
     fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent);
+    result := LoadFile(sFilePath, fileContent, true);
 
     if result = '' then //no error
     begin
@@ -514,12 +514,14 @@ begin
 end;
 
 //Receives complete file name and tries to load file
-function TFileService.LoadFile(sFileName: string; fileContent: TStringList): string;
+function TFileService.LoadFile(sFileName: string; fileContent: TStringList; criticalFile: boolean): string;
 var
   filePedals: TextFile;
   currentLine: string;
+  fileOpen: boolean;
 begin
   Result := '';
+  fileOpen := false;
   FFilePath := IncludeTrailingBackslash(ExtractFileDir(sFileName));
   FFileName := ExtractFileName(sFileName);
 
@@ -530,6 +532,7 @@ begin
     try
       AssignFile(filePedals, FFilePath + FFileName);
       Reset(filePedals);
+      fileOpen := true;
       repeat
         Readln(filePedals, currentLine); // Reads the whole line from the file
         fileContent.Add(currentLine) ;
@@ -537,12 +540,16 @@ begin
     except
       on E: Exception do
       begin
-        Result := 'Error loading file: ' + sFileName + ', ' + E.Message;
+        if (criticalFile) then
+          Result := 'A file error has occurred. Please disconnect and re-connect the v-Drive and try launching the SmartSet App again.'
+        else
+          Result := 'Error loading file: ' + sFileName + ', ' + E.Message;
         HandleExcept(E, False, Result);
       end;
     end;
   finally
-    CloseFile(filePedals);
+    if (fileOpen) then
+      CloseFile(filePedals);
   end;
 end;
 
