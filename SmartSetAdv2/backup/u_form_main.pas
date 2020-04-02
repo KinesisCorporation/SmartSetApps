@@ -371,9 +371,6 @@ type
     loadingSettings: boolean;
     infoMessageShown: boolean;
     loadingMacro: boolean;
-    blueColor: TColor;
-    fontColor: TColor;
-    backColor: TColor;
     copiedMacro: TKeyList;
     remapCount: integer;
     macroCount: integer;
@@ -445,6 +442,9 @@ type
     { public declarations }
     keyService: TKeyService;
     fileService: TFileService;
+    blueColor: TColor;
+    fontColor: TColor;
+    backColor: TColor;
   end;
 
 
@@ -703,9 +703,6 @@ begin
   shpMenu.Color := KINESIS_BLUE;
   lblMenu.Font.Color := KINESIS_BLUE;
   lblRemap.Font.Color := KINESIS_BLUE;
-  blueColor := KINESIS_BLUE;
-  fontColor := clDefault;
-  backColor := clWhite;
   {$ifdef Win32}
   self.BorderStyle := bsNone;
   pnlMain.BorderStyle := bsSingle;
@@ -761,15 +758,54 @@ procedure TFormMain.InitApp(scanVDrive: boolean);
 var
   customBtns: TCustomButtons;
   canShowApp: boolean;
-  aListDrives: TStringList;
-  drives: string;
-  i: integer;
-  titleError: string;
+  hint2MB: string;
 begin
   canShowApp := GDemoMode or CheckVDrive;
+  hint2MB := 'Modifying Settings is not supported on 2MB keyboards';
 
   if (canShowApp) then
   begin
+    blueColor := KINESIS_BLUE;
+    if (IsDarkTheme) then
+    begin
+      fontColor := clWhite;
+      backColor := KINESIS_DARK_GRAY_FS;
+      btnHelpIcon.Color := KINESIS_DARK_GRAY_FS;
+      btnHelpIcon.HotTrackColor := KINESIS_DARK_GRAY_FS;
+      btnHelpIcon.LightColor := KINESIS_DARK_GRAY_FS;
+      btnHelpIcon.ShadowColor := KINESIS_DARK_GRAY_FS;
+      {$ifdef Darwin}
+      btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
+      btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
+      btnMaximize.TransparentColor := KINESIS_DARK_GRAY_FS;
+      btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
+      {$endif}
+      imageList.GetBitmap(3, btnHelpIcon.Glyph);
+    end
+    else
+    begin
+      blueColor := KINESIS_BLUE;
+      fontColor := clBlack;
+      backColor := clWhite;
+      btnHelpIcon.Color := clWhite;
+      btnHelpIcon.HotTrackColor := clWhite;
+      btnHelpIcon.LightColor := clWhite;
+      btnHelpIcon.ShadowColor := clWhite;
+    end;
+    SetFontColor(self, fontColor);
+    self.Color := backColor;
+    pnlBody.Color := backColor;
+    pnlKeys.Color := backColor;
+    pnlMenu.Color := backColor;
+    pnlTitle.Color := backColor;
+    pnlBot.Color := backColor;
+    pnlKb.Color := backColor;
+    shpSettings.Brush.Color := backColor;
+    shpKeys.Brush.Color := backColor;
+    shpMenu.Brush.Color := backColor;
+    gbPedals.Color := backColor;
+    gbThumbKeys.Color := backColor;
+
     //Load config keys depending on app version
     keyService.LoadConfigKeys;
 
@@ -799,6 +835,20 @@ begin
         LoadFirwareVersion;
         fileService.LoadAppSettings(GAppSettingsFile);
         LoadKeyboardLayout(currentLayoutFile);
+
+        slMacroSpeed.Enabled := fileService.AllowEditSettings;
+        slStatusReport.Enabled := fileService.AllowEditSettings;
+        swKeyClicks.Enabled := fileService.AllowEditSettings;
+        swKeyTones.Enabled := fileService.AllowEditSettings;
+        swAutoVDrive.Enabled := fileService.AllowEditSettings;
+        if (not fileService.AllowEditSettings) then
+        begin
+          slMacroSpeed.Hint := hint2MB;
+          slStatusReport.Hint := hint2MB;
+          swKeyClicks.Hint := hint2MB;
+          swKeyTones.Hint := hint2MB;
+          swAutoVDrive.Hint := hint2MB;
+        end;
 
         CheckVDriveTmr.Enabled := true;
       end
@@ -848,7 +898,7 @@ begin
   if init then
   begin
     title := 'Keyboard not detected';
-      resultTroubleshoot := ShowTroubleshoot(title, init);
+      resultTroubleshoot := ShowTroubleshoot(title, init, backColor, fontColor);
     if (resultTroubleshoot = 1) then
       ScanVDrive(init)
     else if (resultTroubleshoot = 2) then
@@ -857,7 +907,6 @@ begin
   end
   else
   begin
-    openPosition := poMainFormCenter;
     createCustomButton(customBtns, 'Scan for v-Drive', 200, @scanVDriveClick);
     title := 'Keyboard Connection Lost';
     if (save) then
@@ -1020,10 +1069,6 @@ begin
   SetFont(self, 'Tahoma Bold');
   defaultKeyFontName := 'Arial Unicode MS';
   defaultKeyFontSize := 10;
-  btnHelpIcon.Color := clWhite;
-  btnHelpIcon.HotTrackColor := clWhite;
-  btnHelpIcon.LightColor := clWhite;
-  btnHelpIcon.ShadowColor := clWhite;
   btnHelpIcon.Left := btnClose.Left;
   rgMacro1.Left := rgMacro1.Left + 18;
   rgMacro2.Left := rgMacro2.Left + 18;
@@ -1563,7 +1608,7 @@ procedure TFormMain.swAutoVDriveChange(Sender: TObject);
 begin
   if (not loadingSettings) then
   begin
-    fileService.SetVDriveStatut(swAutoVDrive.Checked);
+    fileService.SetVDriveStatus(swAutoVDrive.Checked);
     SetSaveState(ssModified);
     if (swAutoVDrive.Checked) then
       ShowDialog('V-Drive', 'Caution! V-Drive will remain open. Read manual before enabling.', mtWarning, [mbOK]);
@@ -1921,7 +1966,7 @@ begin
     SetModifiedKey(VK_MOUSE_RIGHT, '', false)
   else if (menuItem = miHyper) or (menuItem = miMeh) then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 516) or GDemoMode) then
+    if (fileService.VersionBiggerEqualKBD(1, 0, 516) or GDemoMode) then
     begin
       if (menuItem = miHyper) then
         SetModifiedKey(VK_HYPER, '', false)
@@ -2052,7 +2097,7 @@ end;
 procedure TFormMain.btnHelpIconClick(Sender: TObject);
 begin
   Application.CreateForm(TFormAbout, FormAbout);
-  FormAbout.SetFirmwareVersion(fileService.FirmwareVersion);
+  FormAbout.SetFirmwareVersion(fileService.FirmwareVersionKBD);
   FormAbout.ShowModal;
 end;
 
@@ -2145,7 +2190,7 @@ var
 begin
   if (IsKeyLoaded) then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 516) or GDemoMode) then
+    if (fileService.VersionBiggerEqualKBD(1, 0, 516) or GDemoMode) then
     begin
       //Check key other layer
       if (activeLayer.LayerIndex = TOPLAYER_IDX) then
@@ -2336,7 +2381,7 @@ begin
       if (activeKbKey <> nil) and (activeKbKey.CanEdit) then
       begin
         activePnlBtn := pnlbutton;
-        activePnlBtn.SetButtonColor(clBtnFace);
+        activePnlBtn.SetButtonColor(clWhite);
         keyService.BackupKbKey(activeKbKey);
       end
       else if (activeKbKey <> nil) then
@@ -2978,6 +3023,7 @@ begin
       pnlButton := (container.Controls[i] as TPanelBtn);
       pnlButton.DefaultFontSize := defaultKeyFontSize;
       pnlButton.DefaultFontName := defaultKeyFontName;
+      pnlButton.Font.Color := clWhite;
       pnlButton.OnClick := @PnlButtonClick;
       pnlButton.OnMouseDown := @PnlButtonMouseDown;
       panelBtnList.Add(pnlButton);
@@ -3065,7 +3111,7 @@ var
 begin
   Result := False;
 
-  errorMsg := fileService.LoadFirmwareVersion;
+  errorMsg := fileService.LoadVersionInfo;
 
   if (errorMsg = '') then
   begin

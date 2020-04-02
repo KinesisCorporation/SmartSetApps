@@ -22,8 +22,14 @@
       <CharSet Value="03B6"/>
       <StringTable ProductVersion="Kinesis Corporation"/>
     </VersionInfo>
+    <MacroValues Count="1">
+      <Macro1 Name="LCLWidgetType" Value="cocoa"/>
+    </MacroValues>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="488510427706" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+      </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -63,87 +69,87 @@
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="u_file_service.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit1>
-      <Unit2>
         <Filename Value="u_form_about.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit2>
-      <Unit3>
+      </Unit1>
+      <Unit2>
         <Filename Value="u_form_main.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="u_key_service.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="u_key_service.pas"/>
+        <Filename Value="..\Common\u_const.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\Common\u_const.pas"/>
+        <Filename Value="..\Common\u_debug.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="..\Common\u_debug.pas"/>
+        <Filename Value="..\Common\u_key_layer.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\Common\u_key_layer.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
         <Filename Value="..\Common\u_keys.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="U_Keys"/>
-      </Unit8>
-      <Unit9>
+      </Unit7>
+      <Unit8>
         <Filename Value="..\Common\versionsupport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="VersionSupport"/>
-      </Unit9>
-      <Unit10>
+      </Unit8>
+      <Unit9>
         <Filename Value="u_form_saveas.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormSaveAs"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit10>
-      <Unit11>
+      </Unit9>
+      <Unit10>
         <Filename Value="u_form_load.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormLoad"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
+      </Unit10>
+      <Unit11>
         <Filename Value="..\Common\u_base_key_service.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit12>
-      <Unit13>
+      </Unit11>
+      <Unit12>
         <Filename Value="u_form_timingdelays.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTimingDelays"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit13>
-      <Unit14>
+      </Unit12>
+      <Unit13>
         <Filename Value="u_form_tapandhold.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTapAndHold"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit14>
-      <Unit15>
+      </Unit13>
+      <Unit14>
         <Filename Value="u_form_troubleshoot.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTroubleshoot"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit15>
     </Units>
   </ProjectOptions>
@@ -151,16 +157,19 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SmartSet App-Freestyle (PC)"/>
+      <Filename Value="SmartSet App-Freestyle (Mac)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <CodeGeneration>
+      <TargetCPU Value="x86_64"/>
+    </CodeGeneration>
     <Linking>
       <Debugging>
-        <GenerateDebugInfo Value="False"/>
+        <DebugInfoType Value="dsDwarf2Set"/>
         <StripSymbols Value="True"/>
       </Debugging>
       <LinkSmart Value="True"/>

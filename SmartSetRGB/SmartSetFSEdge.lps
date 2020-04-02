@@ -8,19 +8,19 @@
         <Item1 ID="272924515420" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SessionMatrixOptions>
     </BuildModes>
-    <Units Count="44">
+    <Units Count="45">
       <Unit0>
         <Filename Value="SmartSetFSEdge.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="16"/>
-        <CursorPos X="28" Y="11"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="15"/>
+        <CursorPos X="28" Y="5"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="u_file_service.pas"/>
-        <IsPartOfProject Value="True"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="316"/>
         <CursorPos X="3" Y="349"/>
         <UsageCount Value="200"/>
@@ -32,7 +32,7 @@
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="120"/>
         <CursorPos X="37" Y="132"/>
         <UsageCount Value="200"/>
@@ -48,7 +48,7 @@
       <Unit4>
         <Filename Value="..\Common\u_const.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="476"/>
         <CursorPos X="19" Y="506"/>
         <UsageCount Value="200"/>
@@ -66,7 +66,7 @@
       <Unit6>
         <Filename Value="..\Common\u_key_layer.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="237"/>
         <CursorPos X="23" Y="260"/>
         <UsageCount Value="200"/>
@@ -76,13 +76,12 @@
         <Filename Value="..\Common\u_keys.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="U_Keys"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="..\Common\userdialog.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="FormUserDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
@@ -126,7 +125,7 @@
       <Unit12>
         <Filename Value="..\Common\u_base_key_service.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="2653"/>
         <CursorPos X="22" Y="2664"/>
         <UsageCount Value="203"/>
@@ -185,7 +184,7 @@
         <ComponentName Value="FormSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="315"/>
         <CursorPos X="71" Y="338"/>
         <UsageCount Value="200"/>
@@ -248,7 +247,7 @@
         <ComponentName Value="FormExport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="141"/>
         <CursorPos X="122" Y="158"/>
         <UsageCount Value="318"/>
@@ -260,7 +259,7 @@
         <ComponentName Value="FormDiagnostics"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="64"/>
         <CursorPos X="68" Y="76"/>
         <UsageCount Value="318"/>
@@ -284,9 +283,8 @@
         <ComponentName Value="FormTroubleshoot"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="84"/>
+        <TopLine Value="76"/>
         <CursorPos X="27" Y="113"/>
         <UsageCount Value="264"/>
         <Loaded Value="True"/>
@@ -347,11 +345,10 @@
       </Unit32>
       <Unit33>
         <Filename Value="..\..\Lazarus Components\HSButton0.9\HSButton\HSSpeedButton.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="460"/>
         <CursorPos X="16" Y="467"/>
         <UsageCount Value="39"/>
-        <Loaded Value="True"/>
       </Unit33>
       <Unit34>
         <Filename Value="C:\Developer\lazarus\lcl\controls.pp"/>
@@ -383,7 +380,7 @@
       </Unit37>
       <Unit38>
         <Filename Value="..\Components\nsunits-src\ns_url_request.pas"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="47"/>
         <CursorPos X="34" Y="62"/>
         <UsageCount Value="13"/>
@@ -411,7 +408,7 @@
       <Unit42>
         <Filename Value="userdialog.pas"/>
         <UnitName Value="UserDialog"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="18"/>
         <CursorPos X="24" Y="45"/>
         <UsageCount Value="12"/>
@@ -424,8 +421,17 @@
         <CursorPos X="14" Y="252"/>
         <UsageCount Value="10"/>
       </Unit43>
+      <Unit44>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="21"/>
+      </Unit44>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="u_form_main.pas"/>
         <Caret Line="1399" Column="17" TopLine="1383"/>
@@ -537,13 +543,9 @@
         <Caret Line="1381" Column="3" TopLine="1365"/>
       </Position28>
       <Position29>
-        <Filename Value="u_form_main.pas"/>
-        <Caret Line="1624" Column="34" TopLine="1638"/>
-      </Position29>
-      <Position30>
         <Filename Value="..\Common\u_const.pas"/>
         <Caret Line="418" Column="76" TopLine="408"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

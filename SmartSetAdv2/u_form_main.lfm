@@ -7,6 +7,7 @@ object FormMain: TFormMain
   ClientWidth = 1100
   Color = clWhite
   Font.CharSet = ANSI_CHARSET
+  Font.Color = clWindowText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Pitch = fpVariable
@@ -827,9 +828,9 @@ object FormMain: TFormMain
       end
       object lblTitle: TLabel
         Left = 104
-        Height = 45
+        Height = 38
         Top = 20
-        Width = 452
+        Width = 446
         Caption = 'SmartSet App for Advantage2'
         Font.CharSet = ANSI_CHARSET
         Font.Color = 13529600
@@ -1244,10 +1245,10 @@ object FormMain: TFormMain
         OnClick = btnCloseClick
       end
       object lblDemoMode: TLabel
-        Left = 583
+        Left = 615
         Height = 16
-        Top = 37
-        Width = 75
+        Top = 35
+        Width = 77
         Anchors = []
         Caption = 'Demo Mode'
         Font.Color = 2350155
@@ -1259,10 +1260,10 @@ object FormMain: TFormMain
         Visible = False
       end
       object lblVDriveError: TLabel
-        Left = 576
+        Left = 608
         Height = 16
-        Top = 37
-        Width = 147
+        Top = 35
+        Width = 148
         Anchors = []
         Caption = 'v-Drive Not Connected'
         Font.Color = clRed
@@ -1274,9 +1275,9 @@ object FormMain: TFormMain
         Visible = False
       end
       object lblVDriveOk: TLabel
-        Left = 578
+        Left = 611
         Height = 16
-        Top = 37
+        Top = 35
         Width = 121
         Anchors = []
         Caption = 'v-Drive Connected'
@@ -1327,9 +1328,9 @@ object FormMain: TFormMain
         TabOrder = 0
         object lblProgramming: TLabel
           Left = 28
-          Height = 30
+          Height = 24
           Top = 0
-          Width = 136
+          Width = 133
           Caption = 'Programming'
           Font.CharSet = ANSI_CHARSET
           Font.Height = -21
@@ -1342,9 +1343,9 @@ object FormMain: TFormMain
         end
         object lblProgramming1: TLabel
           Left = 552
-          Height = 30
+          Height = 24
           Top = 0
-          Width = 110
+          Width = 109
           Caption = 'Layout file:'
           Font.CharSet = ANSI_CHARSET
           Font.Height = -21
@@ -1357,9 +1358,9 @@ object FormMain: TFormMain
         end
         object lblLayoutFile: TLabel
           Left = 672
-          Height = 30
+          Height = 24
           Top = 0
-          Width = 15
+          Width = 17
           Caption = '...'
           Font.CharSet = ANSI_CHARSET
           Font.Height = -21
@@ -1408,8 +1409,8 @@ object FormMain: TFormMain
             Height = 165
             Top = 145
             Width = 256
-            ClientHeight = 147
-            ClientWidth = 252
+            ClientHeight = 146
+            ClientWidth = 246
             Color = cl3DLight
             Font.CharSet = ANSI_CHARSET
             Font.Height = -11
@@ -1429,8 +1430,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1439,9 +1440,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 0
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1450,9 +1451,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1471,8 +1472,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1481,9 +1482,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 1
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1492,9 +1493,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1513,8 +1514,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1523,9 +1524,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 2
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1534,9 +1535,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1555,8 +1556,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1565,9 +1566,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 3
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1576,9 +1577,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1597,8 +1598,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 98
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1607,9 +1608,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 4
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 94
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1618,9 +1619,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 94
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1639,8 +1640,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 98
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1649,9 +1650,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 5
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 94
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1660,9 +1661,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 94
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1681,8 +1682,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1691,9 +1692,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 6
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1702,9 +1703,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1723,8 +1724,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1733,9 +1734,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 7
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1744,9 +1745,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1765,8 +1766,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 98
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1775,9 +1776,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 8
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 94
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1786,9 +1787,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 94
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1807,8 +1808,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 98
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1817,9 +1818,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 9
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 94
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1828,9 +1829,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 94
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1849,8 +1850,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1859,9 +1860,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 10
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1870,9 +1871,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1891,8 +1892,8 @@ object FormMain: TFormMain
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 50
+              ClientWidth = 40
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -1901,9 +1902,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 11
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 46
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 36
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -1912,9 +1913,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 46
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 36
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1934,8 +1935,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -1944,9 +1945,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 0
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -1955,9 +1956,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -1976,8 +1977,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -1986,9 +1987,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 1
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -1997,9 +1998,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2018,8 +2019,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2028,9 +2029,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 2
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2039,9 +2040,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2060,8 +2061,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2070,9 +2071,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 3
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2081,9 +2082,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2102,8 +2103,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2112,9 +2113,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 4
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2123,9 +2124,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2144,8 +2145,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2154,9 +2155,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 5
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2165,9 +2166,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2186,8 +2187,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2196,9 +2197,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 6
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2207,9 +2208,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2228,8 +2229,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2238,9 +2239,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 7
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2249,9 +2250,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2270,8 +2271,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2280,9 +2281,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 8
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2291,9 +2292,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2312,8 +2313,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2322,9 +2323,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 9
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2333,9 +2334,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2354,8 +2355,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2364,9 +2365,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 10
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2375,9 +2376,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2396,8 +2397,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2406,9 +2407,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 11
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2417,9 +2418,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2438,8 +2439,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2448,9 +2449,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 12
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2459,9 +2460,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2480,8 +2481,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
@@ -2490,9 +2491,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 13
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2501,9 +2502,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2522,8 +2523,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
@@ -2532,9 +2533,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 14
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2543,9 +2544,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2564,8 +2565,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
@@ -2574,9 +2575,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 15
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2585,9 +2586,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2606,8 +2607,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
@@ -2616,9 +2617,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 16
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2627,9 +2628,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2648,8 +2649,8 @@ object FormMain: TFormMain
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 50
+            ClientWidth = 37
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
@@ -2658,9 +2659,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 17
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 33
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2669,9 +2670,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 33
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2690,8 +2691,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2700,9 +2701,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 18
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2711,9 +2712,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2732,8 +2733,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2742,9 +2743,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 19
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2753,9 +2754,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2774,8 +2775,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2784,9 +2785,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 20
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2795,9 +2796,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2816,8 +2817,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2826,9 +2827,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 21
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2837,9 +2838,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2858,8 +2859,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2868,9 +2869,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 22
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2879,9 +2880,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2900,8 +2901,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2910,9 +2911,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 23
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2921,9 +2922,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2942,8 +2943,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2952,9 +2953,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 24
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -2963,9 +2964,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2984,8 +2985,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -2994,9 +2995,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 25
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3005,9 +3006,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3026,8 +3027,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3036,9 +3037,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 26
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3047,9 +3048,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3068,8 +3069,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3078,9 +3079,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 27
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3089,9 +3090,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3110,8 +3111,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3120,9 +3121,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 28
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3131,9 +3132,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3152,8 +3153,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3162,9 +3163,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 29
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3173,9 +3174,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3194,8 +3195,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3204,9 +3205,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 30
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3215,9 +3216,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3236,8 +3237,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3246,9 +3247,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 31
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3257,9 +3258,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3278,8 +3279,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3288,9 +3289,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 32
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3299,9 +3300,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3320,8 +3321,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3330,9 +3331,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 33
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3341,9 +3342,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3362,8 +3363,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3372,9 +3373,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 34
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3383,9 +3384,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3404,8 +3405,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3414,9 +3415,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 35
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3425,9 +3426,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3446,8 +3447,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3456,9 +3457,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 36
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3467,9 +3468,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3488,8 +3489,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3498,9 +3499,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 37
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3509,9 +3510,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3530,8 +3531,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3540,9 +3541,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 38
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3551,9 +3552,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3572,8 +3573,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3582,9 +3583,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 39
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3593,9 +3594,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3614,8 +3615,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3624,9 +3625,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 40
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3635,9 +3636,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3656,8 +3657,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3666,9 +3667,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 41
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3677,9 +3678,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3698,8 +3699,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3708,9 +3709,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 42
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3719,9 +3720,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3740,8 +3741,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3750,9 +3751,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 43
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3761,9 +3762,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3782,8 +3783,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3792,9 +3793,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 44
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3803,9 +3804,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3824,8 +3825,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3834,9 +3835,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 45
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3845,9 +3846,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3866,8 +3867,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3876,9 +3877,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 46
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3887,9 +3888,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3908,8 +3909,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3918,9 +3919,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 47
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3929,9 +3930,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3950,8 +3951,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -3960,9 +3961,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 48
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -3971,9 +3972,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3992,8 +3993,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4002,9 +4003,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 49
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4013,9 +4014,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4034,8 +4035,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4044,9 +4045,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 50
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4055,9 +4056,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4076,8 +4077,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4086,9 +4087,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 51
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4097,9 +4098,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4118,8 +4119,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4128,9 +4129,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 52
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4139,9 +4140,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4160,8 +4161,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4170,9 +4171,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 53
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4181,9 +4182,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4202,8 +4203,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4212,9 +4213,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 54
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4223,9 +4224,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4244,8 +4245,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4254,9 +4255,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 55
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4265,9 +4266,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4286,8 +4287,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4296,9 +4297,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 56
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4307,9 +4308,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4328,8 +4329,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4338,9 +4339,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 57
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4349,9 +4350,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4370,8 +4371,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4380,9 +4381,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 58
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4391,9 +4392,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4412,8 +4413,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4422,9 +4423,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 59
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4433,9 +4434,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4454,8 +4455,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4464,9 +4465,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 60
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4475,9 +4476,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4496,8 +4497,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4506,9 +4507,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 61
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4517,9 +4518,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4538,8 +4539,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4548,9 +4549,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 62
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4559,9 +4560,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4580,8 +4581,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4590,9 +4591,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 63
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4601,9 +4602,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4622,8 +4623,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4632,9 +4633,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 64
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4643,9 +4644,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4664,8 +4665,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4674,9 +4675,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 65
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4685,9 +4686,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4706,8 +4707,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4716,9 +4717,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 66
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4727,9 +4728,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4748,8 +4749,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4758,9 +4759,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 67
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4769,9 +4770,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4790,8 +4791,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4800,9 +4801,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 68
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4811,9 +4812,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4832,8 +4833,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4842,9 +4843,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 69
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4853,9 +4854,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4874,8 +4875,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4884,9 +4885,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 70
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4895,9 +4896,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4916,8 +4917,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4926,9 +4927,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 71
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4937,9 +4938,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4958,8 +4959,8 @@ object FormMain: TFormMain
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 50
+            ClientWidth = 48
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -4968,9 +4969,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 72
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 44
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -4979,9 +4980,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 44
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4997,8 +4998,8 @@ object FormMain: TFormMain
             Height = 130
             Top = 8
             Width = 204
-            ClientHeight = 112
-            ClientWidth = 200
+            ClientHeight = 111
+            ClientWidth = 194
             Color = cl3DLight
             Font.CharSet = ANSI_CHARSET
             Font.Height = -11
@@ -5017,8 +5018,8 @@ object FormMain: TFormMain
               Width = 56
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 86
-              ClientWidth = 52
+              ClientHeight = 90
+              ClientWidth = 56
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -5027,9 +5028,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 0
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 82
+              EmbeddedLabel.Height = 86
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 48
+              EmbeddedLabel.Width = 52
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -5038,9 +5039,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 82
+              EmbeddedShape.Height = 86
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 48
+              EmbeddedShape.Width = 52
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -5069,8 +5070,8 @@ object FormMain: TFormMain
               Width = 56
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 86
-              ClientWidth = 52
+              ClientHeight = 90
+              ClientWidth = 56
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -5079,9 +5080,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 1
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 82
+              EmbeddedLabel.Height = 86
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 48
+              EmbeddedLabel.Width = 52
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -5090,9 +5091,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 82
+              EmbeddedShape.Height = 86
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 48
+              EmbeddedShape.Width = 52
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -5121,8 +5122,8 @@ object FormMain: TFormMain
               Width = 56
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 86
-              ClientWidth = 52
+              ClientHeight = 90
+              ClientWidth = 56
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
@@ -5131,9 +5132,9 @@ object FormMain: TFormMain
               ParentFont = False
               TabOrder = 2
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 82
+              EmbeddedLabel.Height = 86
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 48
+              EmbeddedLabel.Width = 52
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
@@ -5142,9 +5143,9 @@ object FormMain: TFormMain
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 82
+              EmbeddedShape.Height = 86
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 48
+              EmbeddedShape.Width = 52
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -5174,8 +5175,8 @@ object FormMain: TFormMain
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 50
+            ClientWidth = 74
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
@@ -5184,9 +5185,9 @@ object FormMain: TFormMain
             ParentFont = False
             TabOrder = 74
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 46
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 70
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
@@ -5195,9 +5196,9 @@ object FormMain: TFormMain
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 46
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 70
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -5261,9 +5262,9 @@ object FormMain: TFormMain
           TabOrder = 2
           object lblRemap: TLabel
             Left = 7
-            Height = 30
+            Height = 24
             Top = 2
-            Width = 67
+            Width = 69
             Caption = 'Remap'
             Font.CharSet = ANSI_CHARSET
             Font.Color = 13529600
@@ -5277,9 +5278,9 @@ object FormMain: TFormMain
           end
           object lblLayer: TLabel
             Left = 159
-            Height = 30
+            Height = 24
             Top = 2
-            Width = 64
+            Width = 66
             Caption = 'Layer :'
             Font.CharSet = ANSI_CHARSET
             Font.Height = -21
@@ -5558,11 +5559,12 @@ object FormMain: TFormMain
               Height = 85
               Top = 40
               Width = 744
-              Color = clBtnFace
+              Color = clWhite
               Font.Height = -16
               Font.Name = 'Segoe UI'
               Font.Style = [fsBold]
               HideSelection = False
+              Lines.Strings = (              )
               OnMouseUp = memoMacroMouseUp
               ParentBidiMode = False
               ParentFont = False
@@ -5576,7 +5578,7 @@ object FormMain: TFormMain
             end
             object lblMacro: TLabel
               Left = 8
-              Height = 30
+              Height = 24
               Top = 8
               Width = 62
               Caption = 'Macro'
@@ -6350,7 +6352,7 @@ object FormMain: TFormMain
               Height = 16
               Hint = 'Select a modifier to act as a macro co-trigger'
               Top = 134
-              Width = 77
+              Width = 78
               Caption = 'Co-Trigger :'
               Font.CharSet = ANSI_CHARSET
               Font.Height = -13
@@ -6735,7 +6737,7 @@ object FormMain: TFormMain
     left = 464
     top = 56
     Bitmap = {
-      4C69070000001000000010000000000000000000000000000000000000000000
+      4C69080000001000000010000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000FFFFFFDFFFFFFFE7FFFFFFE7FFFFFFE7FFFF
       FFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFF
@@ -6959,7 +6961,39 @@ object FormMain: TFormMain
       004C0000000000000000000000000000000000000000000000000000004C0000
       00F9000000FF000000A7000000040000000000000004000000A10000004C0000
       0000000000000000000000000000000000000000000000000000000000000000
-      004C000000A10000000400000000
+      004C000000A1000000040000000000000000000000000000000000000000FFFF
+      FF06FFFFFF78FFFFFFBBFFFFFFD9FFFFFFF3FFFFFFD1FFFFFF76FFFFFF060000
+      0000000000000000000000000000000000000000000000000000FFFFFF02FFFF
+      FFB3FFFFFFCFFFFFFF04FFFFFF02FFFFFF9FFFFFFFFFFFFFFFFFFFFFFFB1FFFF
+      FF00000000000000000000000000000000000000000000000000FFFFFF44FFFF
+      FFFFFFFFFFF7FFFFFF1800000000FFFFFF1EFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FF42000000000000000000000000000000000000000000000000FFFFFF62FFFF
+      FFFFFFFFFFFFFFFFFF5C00000000FFFFFF02FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FF6C000000000000000000000000000000000000000000000000FFFFFF16FFFF
+      FFD5FFFFFFE1FFFFFF2400000000FFFFFF08FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FF50000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000FFFFFF3AFFFFFFFFFFFFFFFFFFFFFFD9FFFF
+      FF08000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000FFFFFFA5FFFFFFFFFFFFFFDDFFFFFF240000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF28FFFFFFFDFFFFFFA7FFFFFF10000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF93FFFFFF780000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFFA3FFFFFF000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000FFFFFF56000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FFFFFF4CFFFFFFA3FFFFFF5A0000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF24FFFFFFFBFFFFFFFFFFFFFFFFFFFFFF3600000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF38FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4E00000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF02FFFFFF9DFFFFFFF5FFFFFFADFFFFFF0600000000000000000000
+      0000000000000000000000000000
     }
   end
   object CheckVDriveTmr: TIdleTimer
