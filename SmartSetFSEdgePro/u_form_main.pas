@@ -898,6 +898,8 @@ begin
 
     if (IsDarkTheme) or (GApplication = APPL_FSEDGE) then
     begin
+      imgLogoPro.Visible := false;
+      imgLogoEdge.Visible := true;
       {$ifdef Darwin}
       btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
       btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
@@ -929,7 +931,7 @@ begin
 
 
     //Firmware version 1.0.340 or more
-    if (fileService.VersionBiggerEqual(1, 0, 340) or GDemoMode) then
+    if (fileService.VersionBiggerEqualKBD(1, 0, 340) or GDemoMode) then
     begin
       maxMacros := MAX_MACRO_FS_340_PLUS;
       maxKeystrokes := MAX_KEYSTROKES_FS;
@@ -2113,7 +2115,7 @@ begin
     SetModifiedKey(VK_500MS, '', true)
   else if menuItem = miRandomDelaysM then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 340) or GDemoMode) then
+    if (fileService.VersionBiggerEqualKBD(1, 0, 340) or GDemoMode) then
       SetModifiedKey(VK_RAND_DELAY, '', true)
     else
     begin
@@ -2125,7 +2127,7 @@ begin
   end
   else if menuItem = miCustomDelayM then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 340) or GDemoMode) then
+    if (fileService.VersionBiggerEqualKBD(1, 0, 340) or GDemoMode) then
     begin
       NeedInput := True;
       timingDelay := ShowTimingDelays(backColor, fontColor);
@@ -2369,7 +2371,7 @@ begin
     SetModifiedKey(VK_MOUSE_BTN5, '', false)
   else if (menuItem = miHyper) or (menuItem = miMeh) then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 480) or GDemoMode) then
+    if (fileService.VersionBiggerEqualKBD(1, 0, 480) or GDemoMode) then
     begin
       if (menuItem = miHyper) then
         SetModifiedKey(VK_HYPER, '', false)
@@ -2802,7 +2804,7 @@ end;
 procedure TFormMain.btnHelpIconClick(Sender: TObject);
 begin
   Application.CreateForm(TFormAbout, FormAbout);
-  FormAbout.SetFirmwareVersion(fileService.FirmwareVersion);
+  FormAbout.SetFirmwareVersion(fileService.FirmwareVersionKBD);
   FormAbout.ShowModal;
 end;
 
@@ -3291,7 +3293,7 @@ begin
     begin
       GApplication := APPL_FSEDGE;
     end;
-    //firmware := fileService.FirmwareVersion;
+    //firmware := fileService.FirmwareVersionKBD;
     //idxThirdPoint := GetPosOfNthString(firmware, '.', 3) - 1;
     //if (idxThirdPoint < 0) then
     //  idxThirdPoint := Length(firmware);
@@ -4109,7 +4111,7 @@ var
 begin
   if (IsKeyLoaded) then
   begin
-    if (fileService.VersionBiggerEqual(1, 0, 480) or GDemoMode) then
+    if (fileService.VersionBiggerEqualKBD(1, 0, 480) or GDemoMode) then
     begin
       //Check key other layer
       if (activeLayer.LayerIndex = TOPLAYER_IDX) then

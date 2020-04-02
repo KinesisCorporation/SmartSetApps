@@ -21,11 +21,8 @@ object FormTroubleshoot: TFormTroubleshoot
     Width = 832
     AutoSize = False
     Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by first enabling Power User Mode (if necessary) using the onboard shortcut Program + Shift + Esc, and then connecting the v-Drive using the shortcut Program + F1. Please connect the v-Drive and then click the “Scan for v-Drive” button below.'
-    Font.Height = -19
-    Font.Name = 'Tahoma'
     Layout = tlCenter
     ParentColor = False
-    ParentFont = False
     WordWrap = True
   end
   object btnScanVDrive: THSSpeedButton
@@ -136,11 +133,7 @@ object FormTroubleshoot: TFormTroubleshoot
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     Caption = 'Keyboard not detected'
-    Font.Height = -19
-    Font.Name = 'Tahoma'
-    Font.Style = [fsBold]
     Layout = tlCenter
     ParentColor = False
-    ParentFont = False
   end
 end

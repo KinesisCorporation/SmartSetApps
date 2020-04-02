@@ -33,13 +33,18 @@ type
 
 var
   FormTroubleshoot: TFormTroubleshoot;
-  function ShowTroubleshoot(title: string; init: boolean): integer;
+  function ShowTroubleshoot(title: string; init: boolean; backColor: TColor; fontColor: TColor): integer;
 
 implementation
 
 uses u_form_main;
 
-function ShowTroubleshoot(title: string; init: boolean): integer;
+function MainForm: TFormMain;
+begin
+  result := (Application.MainForm as TFormMain);
+end;
+
+function ShowTroubleshoot(title: string; init: boolean; backColor: TColor; fontColor: TColor): integer;
 begin
   if FormTroubleshoot <> nil then
     FreeAndNil(FormTroubleshoot);
@@ -48,6 +53,8 @@ begin
   Application.CreateForm(TFormTroubleshoot, FormTroubleshoot);
   FormTroubleshoot.lblTitle.Caption := title;
   FormTroubleshoot.lblInitMessage.Visible := init;
+  FormTroubleshoot.Color := backColor;
+  FormTroubleshoot.Font.Color := fontColor;
 
   FormTroubleshoot.ShowModal;
   if (FormTroubleshoot.scanVDrive) then
@@ -59,11 +66,6 @@ begin
   end
   else
     result := 0;
-end;
-
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
 end;
 
 {$R *.lfm}

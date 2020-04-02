@@ -6,5 +6,4 @@ macro_disable=OFF
 macro_speed=4
 status_play_speed=3
 power_user=true
-
-v_drive_open_on_startup=off
+v_drive_open_on_startup=ON
