@@ -15,18 +15,15 @@ type
   TFormAbout = class(TForm)
     btnReadManual: THSSpeedButton;
     btnWatchTutorial: THSSpeedButton;
-    Label5: TLabel;
+    btnRequestSupport: THSSpeedButton;
     lblTitle: TLabel;
     lblCompany: TLabel;
-    Label4: TLabel;
     lblFirmware: TLabel;
     lblWebsite: TLabel;
     lblVersion: TLabel;
-    lblVersion1: TLabel;
-    lblVersion2: TLabel;
-    lblEmail: TLabel;
     procedure bOkClick(Sender: TObject);
     procedure btnReadManualClick(Sender: TObject);
+    procedure btnRequestSupportClick(Sender: TObject);
     procedure btnWatchTutorialClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -58,6 +55,14 @@ end;
 procedure TFormAbout.btnReadManualClick(Sender: TObject);
 begin
   OpenHelpFile;
+end;
+
+procedure TFormAbout.btnRequestSupportClick(Sender: TObject);
+begin
+  if (GApplication = APPL_FSPRO) then
+    OpenUrl(FSPRO_SUPPORT)
+  else
+    OpenUrl(FSEDGE_SUPPORT);
 end;
 
 procedure TFormAbout.btnWatchTutorialClick(Sender: TObject);
@@ -98,7 +103,6 @@ begin
     lblWebsite.Caption := 'www.Kinesis-Ergo.com';
   end;
   lblWebsite.Font.Color := clHighlight;
-  lblEmail.Font.Color := clHighlight;
   btnReadManual.Font.Color := clWhite;
   btnWatchTutorial.Font.Color := clWhite;
 end;

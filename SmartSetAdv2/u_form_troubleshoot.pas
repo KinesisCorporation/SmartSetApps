@@ -55,6 +55,8 @@ begin
   FormTroubleshoot.lblInitMessage.Visible := init;
   FormTroubleshoot.Color := backColor;
   FormTroubleshoot.Font.Color := fontColor;
+  FormTroubleshoot.lblTitle.Font.Color := fontColor;
+  FormTroubleshoot.lblInitMessage.Font.Color := fontColor;
 
   FormTroubleshoot.ShowModal;
   if (FormTroubleshoot.scanVDrive) then

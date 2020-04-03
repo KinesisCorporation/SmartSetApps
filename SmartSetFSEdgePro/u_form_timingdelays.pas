@@ -80,7 +80,8 @@ begin
   if ((timingDelay >= MIN_TIMING_DELAY) and (timingDelay <= MAX_TIMING_DELAY)) then
     ModalResult := mrOK
   else
-    ShowDialog('Timing Delays', 'Please select a timing delay between 1ms and 999ms. To achieve a longer delay, insert multiple delays back-to-back.', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
+    ShowDialog('Timing Delays', 'Please select a timing delay between 1ms and 999ms. To achieve a longer delay, insert multiple delays back-to-back.', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
+      self.Color, self.Font.Color);
 end;
 
 procedure TFormTimingDelays.eCustomDelayChange(Sender: TObject);

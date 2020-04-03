@@ -139,13 +139,13 @@ begin
   if (rgLayout.Checked) and (Trim(cboLayout.Text) = '') then
   begin
     ShowDialog('Load', 'You must select a layout position 1 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-          KINESIS_DARK_GRAY_FS, clWhite);
+          self.Color, self.Font.Color);
     cboLayout.SetFocus;
   end
   else if (rgCustom.Checked) and (Trim(cboBackup.Text) = '') then
   begin
     ShowDialog('Load', 'You must select a backup layout', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-          KINESIS_DARK_GRAY_FS, clWhite);
+          self.Color, self.Font.Color) ;
     cboBackup.SetFocus;
   end
   else

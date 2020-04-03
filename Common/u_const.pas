@@ -512,6 +512,8 @@ const
   FSEDGE_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-support/';
   RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   ADV2_TROUBLESHOOT = 'https://www.kinesis-ergo.com/advantage2-resources/';
+  FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
+  FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -1351,11 +1353,11 @@ begin
   ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', 'speed1', '', '', false, false, '', False));
   ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', 'speed3', '', '', false, false, '', False));
   ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', 'speed5', '', '', false, false, '', False));
-  //if not(GApplication in [APPL_RGB]) then
-  //begin
-  //  ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False));
-  //  ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', 'd500', '', '', false, false, '', False));
-  //end;
+  if not(GApplication in [APPL_RGB]) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False));
+    ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', 'd500', '', '', false, false, '', False));
+  end;
   ConfigKeys.Add(TKey.Create(VK_RAND_DELAY, 'dran', '', 'dran', '', '', false, false, '', False));
 
   //Timing delays 1 to 999
