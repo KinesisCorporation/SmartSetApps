@@ -1090,6 +1090,8 @@ end;
 
 procedure TFormMain.FormActivate(Sender: TObject);
 begin
+  if (not closing) then
+    self.Show;
   ShowIntroduction;
 end;
 
@@ -2119,8 +2121,8 @@ begin
       SetModifiedKey(VK_RAND_DELAY, '', true)
     else
     begin
-      createCustomButton(customBtns, 'OK', 150, nil, bkOK);
-      createCustomButton(customBtns, 'Upgrade Firmware', 150, @openFirwareWebsite);
+      createCustomButton(customBtns, 'OK', 175, nil, bkOK);
+      createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
       ShowDialog('Macro Delays', 'To utilize custom or random delays, please download and install the latest firmware.',
         mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
     end;
@@ -2137,8 +2139,8 @@ begin
     end
     else
     begin
-      createCustomButton(customBtns, 'OK', 150, nil, bkOK);
-      createCustomButton(customBtns, 'Upgrade Firmware', 150, @openFirwareWebsite);
+      createCustomButton(customBtns, 'OK', 175, nil, bkOK);
+      createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
       ShowDialog('Macro Delays', 'To utilize custom or random delays, please download and install the latest firmware.',
         mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
     end;
@@ -2959,8 +2961,8 @@ begin
       begin
         //Allow clicking done but not saving
         //isValid := false;
-        createCustomButton(customBtns, 'OK', 150, nil, bkOK);
-        createCustomButton(customBtns, 'Upgrade Firmware', 150, @openFirwareWebsite);
+        createCustomButton(customBtns, 'OK', 175, nil, bkOK);
+        createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
         ShowDialog('Macro Capacity Reached', 'Only ' + IntToStr(maxMacros) + ' macros can be saved to a layout. If you need additional macros, please download and install the latest firmware.',
           mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
       end
@@ -2997,6 +2999,7 @@ end;
 procedure TFormMain.EnableMacroBox(value: boolean);
 begin
   memoMacro.Enabled := value;
+  memoMacro.ReadOnly:= not value;
   rgMacro1.Enabled := value;
   rgMacro2.Enabled := value;
   rgMacro3.Enabled := value;

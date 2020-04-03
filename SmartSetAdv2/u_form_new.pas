@@ -101,7 +101,7 @@ begin
   if (Trim(cboLayout.Text) = '') then
   begin
     ShowDialog('New Layout', 'You must select a layout position a-z or 0 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2,
-          clWhite, clDefault);
+          self.Color, self.Font.Color);
     cboLayout.SetFocus;
   end
   else

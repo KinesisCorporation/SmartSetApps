@@ -6,7 +6,7 @@ object FormTroubleshoot: TFormTroubleshoot
   ClientHeight = 197
   ClientWidth = 871
   Color = clWhite
-  Font.Color = clWhite
+  Font.Color = clBlack
   Font.Height = -19
   KeyPreview = True
   OnClose = FormClose

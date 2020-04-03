@@ -714,39 +714,34 @@ begin
   btnMaximize.Visible := false;
   {$endif}
 
-  //canShowApp := fileService.FirmwareExists;
-  //if (canShowApp) then
-  //begin
-  //  //Load config keys depending on app version
-  //  keyService.LoadConfigKeys;
-  //
-  //  RefreshRemapInfo;
-  //
-  //  swLayerSwitch.Checked := true;
-  //
-  //  if (LoadStateSettings) then
-  //  begin
-  //    LoadFirwareVersion;
-  //    fileService.LoadAppSettings(GAppSettingsFile);
-  //    LoadKeyboardLayout(currentLayoutFile);
-  //
-  //    slMacroSpeed.Enabled := fileService.AllowEditSettings;
-  //    slStatusReport.Enabled := fileService.AllowEditSettings;
-  //    swKeyClicks.Enabled := fileService.AllowEditSettings;
-  //    swKeyTones.Enabled := fileService.AllowEditSettings;
-  //    swAutoVDrive.Enabled := fileService.AllowEditSettings;
-  //  end
-  //  else
-  //    canShowApp := false;
-  //end;
-  //
-  //if not canShowApp then
-  //begin
-  //  createCustomButton(customBtns, 'Troubleshooting Tips', 175, @openTroubleshootingTipsClick);
-  //  ShowDialog('SmartSet App File Error', 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the keyboard to regenerate these files and try launching the App again.',
-  //    mtFSEdge, [], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor, customBtns);
-  //  Application.Terminate;
-  //end;
+  //Set colors also check if DarkTheme is enabled on OS
+  blueColor := KINESIS_BLUE;
+  if (IsDarkTheme) then
+  begin
+    fontColor := clWhite;
+    backColor := KINESIS_DARK_GRAY_FS;
+    btnHelpIcon.Color := KINESIS_DARK_GRAY_FS;
+    btnHelpIcon.HotTrackColor := KINESIS_DARK_GRAY_FS;
+    btnHelpIcon.LightColor := KINESIS_DARK_GRAY_FS;
+    btnHelpIcon.ShadowColor := KINESIS_DARK_GRAY_FS;
+    {$ifdef Darwin}
+    btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
+    btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
+    btnMaximize.TransparentColor := KINESIS_DARK_GRAY_FS;
+    btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
+    {$endif}
+    imageList.GetBitmap(7, btnHelpIcon.Glyph);
+  end
+  else
+  begin
+    blueColor := KINESIS_BLUE;
+    fontColor := clBlack;
+    backColor := clWhite;
+    btnHelpIcon.Color := clWhite;
+    btnHelpIcon.HotTrackColor := clWhite;
+    btnHelpIcon.LightColor := clWhite;
+    btnHelpIcon.ShadowColor := clWhite;
+  end;
 
   //Check for v-drive
   SetBaseDirectory(true);
@@ -765,35 +760,11 @@ begin
 
   if (canShowApp) then
   begin
-    blueColor := KINESIS_BLUE;
-    if (IsDarkTheme) then
-    begin
-      fontColor := clWhite;
-      backColor := KINESIS_DARK_GRAY_FS;
-      btnHelpIcon.Color := KINESIS_DARK_GRAY_FS;
-      btnHelpIcon.HotTrackColor := KINESIS_DARK_GRAY_FS;
-      btnHelpIcon.LightColor := KINESIS_DARK_GRAY_FS;
-      btnHelpIcon.ShadowColor := KINESIS_DARK_GRAY_FS;
-      {$ifdef Darwin}
-      btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
-      btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
-      btnMaximize.TransparentColor := KINESIS_DARK_GRAY_FS;
-      btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
-      {$endif}
-      imageList.GetBitmap(3, btnHelpIcon.Glyph);
-    end
-    else
-    begin
-      blueColor := KINESIS_BLUE;
-      fontColor := clBlack;
-      backColor := clWhite;
-      btnHelpIcon.Color := clWhite;
-      btnHelpIcon.HotTrackColor := clWhite;
-      btnHelpIcon.LightColor := clWhite;
-      btnHelpIcon.ShadowColor := clWhite;
-    end;
     SetFontColor(self, fontColor);
     self.Color := backColor;
+    lblVDriveOk.Font.Color := RGB(75, 220, 35);
+    lblVDriveError.Font.Color := clRed;
+    lblDemoMode.Font.Color := RGB(75, 220, 35);
     pnlBody.Color := backColor;
     pnlKeys.Color := backColor;
     pnlMenu.Color := backColor;
@@ -949,6 +920,8 @@ end;
 
 procedure TFormMain.FormActivate(Sender: TObject);
 begin
+  if (not closing) then
+     self.Show;
   ShowIntroduction;
 //var
 //  customBtns: TCustomButtons;
@@ -2169,6 +2142,7 @@ end;
 procedure TFormMain.EnableMacroBox(value: boolean);
 begin
   memoMacro.Enabled := value;
+  memoMacro.ReadOnly := not value;
   rgMacro1.Enabled := value;
   rgMacro2.Enabled := value;
   rgMacro3.Enabled := value;
