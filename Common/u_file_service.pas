@@ -95,6 +95,7 @@ type
     property FirmwareVersionKBD: string read FFirmwareVersionKBD;
     property FirmwareVersionLED: string read FFirmwareVersionLED;
     property AllowEditSettings: boolean read FAllowEditSettings;
+    property AppVersion: string read FAppVersion;
   end;
 
   const

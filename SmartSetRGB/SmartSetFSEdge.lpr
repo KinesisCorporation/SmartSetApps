@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces,  // this includes the LCL widgetset
   dialogs, Forms, u_const,
-  u_form_main, u_form_intro;
+  u_form_main, u_form_intro, UserDialog;
 
 {$R *.res}
 begin

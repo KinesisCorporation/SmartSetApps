@@ -2115,7 +2115,7 @@ begin
       else
       begin
         layoutContent := TStringList.Create;
-        errorMsg := fileService.LoadFile(layoutFile, layoutContent);
+        errorMsg := fileService.LoadFile(layoutFile, layoutContent, false);
       end;
 
       if (errorMsg = '') then
@@ -2166,7 +2166,7 @@ begin
       else
       begin
         ledContent := TStringList.Create;
-        errorMsg := fileService.LoadFile(ledFile, ledContent);
+        errorMsg := fileService.LoadFile(ledFile, ledContent, false);
       end;
 
       if (errorMsg = '') then
@@ -3893,7 +3893,7 @@ begin
       if (iFileSize / 1024) <= MAX_IMPORT_SIZE then
       begin
         fileContent := TStringList.Create;
-        errorMsg := fileService.LoadFile(OpenDialog.FileName, fileContent);
+        errorMsg := fileService.LoadFile(OpenDialog.FileName, fileContent, false);
 
         if (errorMsg = '') then
         begin

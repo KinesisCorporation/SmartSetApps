@@ -12,12 +12,12 @@ object FormAbout: TFormAbout
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poMainFormCenter
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '2.0.6.0'
   object btnWatchTutorial: THSSpeedButton
-    Left = 293
+    Left = 148
     Height = 32
     Top = 200
-    Width = 107
+    Width = 120
     Alignment = taCenter
     Border = 1
     Caption = 'Watch Tutorial'
@@ -74,45 +74,21 @@ object FormAbout: TFormAbout
   end
   object Label3: TLabel
     Left = 19
-    Height = 21
+    Height = 18
     Top = 96
-    Width = 136
+    Width = 142
     Caption = 'Kinesis Corporation'
     Font.Height = -16
     Font.Name = 'Segoe UI'
     ParentColor = False
     ParentFont = False
   end
-  object Label4: TLabel
-    Left = 19
-    Height = 17
-    Top = 134
-    Width = 43
-    Caption = 'Phone :'
-    ParentColor = False
-  end
-  object lblVersion1: TLabel
-    Left = 80
-    Height = 17
-    Top = 134
-    Width = 148
-    Caption = '1-800-454-6374 (US only)'
-    ParentColor = False
-  end
-  object lblVersion2: TLabel
-    Left = 80
-    Height = 17
-    Top = 151
-    Width = 97
-    Caption = 'or 425-402-8100'
-    ParentColor = False
-  end
   object lblWebsite: TLabel
     Cursor = crHandPoint
     Left = 19
-    Height = 17
+    Height = 16
     Top = 116
-    Width = 96
+    Width = 104
     Caption = 'www.kinesis.com'
     Font.Color = clHighlight
     Font.Height = -13
@@ -133,34 +109,11 @@ object FormAbout: TFormAbout
     Caption = 'lblFirmware'
     ParentColor = False
   end
-  object Label5: TLabel
-    Left = 19
-    Height = 17
-    Top = 168
-    Width = 38
-    Caption = 'Email :'
-    ParentColor = False
-  end
-  object lblEmail: TLabel
-    Cursor = crHandPoint
-    Left = 80
-    Height = 17
-    Top = 168
-    Width = 102
-    Caption = 'tech@kinesis.com'
-    Font.Color = clHighlight
-    Font.Height = -13
-    Font.Name = 'Segoe UI'
-    Font.Style = [fsUnderline]
-    ParentColor = False
-    ParentFont = False
-    OnClick = lblEmailClick
-  end
   object btnReadManual: THSSpeedButton
     Left = 18
     Height = 32
     Top = 200
-    Width = 107
+    Width = 120
     Alignment = taCenter
     Border = 1
     Caption = 'Read Manual'
@@ -188,5 +141,38 @@ object FormAbout: TFormAbout
     Index = -1
     TransparentColor = clBlack
     OnClick = btnReadManualClick
+  end
+  object btnRequestSupport: THSSpeedButton
+    Left = 280
+    Height = 32
+    Top = 200
+    Width = 120
+    Alignment = taCenter
+    Border = 1
+    Caption = 'Request Support'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ShadowColor = 4012079
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnRequestSupportClick
   end
 end
