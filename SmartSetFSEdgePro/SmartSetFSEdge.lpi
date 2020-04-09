@@ -28,7 +28,7 @@
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="488510427706" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item1 ID="488510427706" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -164,9 +164,6 @@
       <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
-    <CodeGeneration>
-      <TargetCPU Value="x86_64"/>
-    </CodeGeneration>
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="False"/>

@@ -15,18 +15,15 @@ type
   TFormAbout = class(TForm)
     btnReadManual: THSSpeedButton;
     btnWatchTutorial: THSSpeedButton;
-    Label5: TLabel;
-    lblEmail: TLabel;
+    btnRequestSupport: THSSpeedButton;
     lblTitle: TLabel;
     Label3: TLabel;
-    Label4: TLabel;
     lblFirmware: TLabel;
     lblWebsite: TLabel;
     lblVersion: TLabel;
-    lblVersion1: TLabel;
-    lblVersion2: TLabel;
     procedure bOkClick(Sender: TObject);
     procedure btnReadManualClick(Sender: TObject);
+    procedure btnRequestSupportClick(Sender: TObject);
     procedure btnWatchTutorialClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -67,6 +64,11 @@ begin
 //    OpenDocument(filePath)
 //  else
 //    ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT, KINESIS_DARK_GRAY_FS, clWhite);
+end;
+
+procedure TFormAbout.btnRequestSupportClick(Sender: TObject);
+begin
+  OpenUrl(ADV2_SUPPORT);
 end;
 
 procedure TFormAbout.btnWatchTutorialClick(Sender: TObject);

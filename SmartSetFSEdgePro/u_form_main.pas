@@ -845,6 +845,8 @@ begin
       lblFile.Font.Color := blueColor;
       lblSettings.Font.Color := blueColor;
       lblProgramming.Font.Color := blueColor;
+      memoMacro.Color := backColor;
+      memoMacro.Font.Color := fontColor;
       shpKeys.Color := blueColor;
       shpLine.Color := blueColor;
       shpMenu.Color := blueColor;
@@ -3694,7 +3696,7 @@ begin
           if (isLongKey) then
             memoMacro.SetRangeColor(cursorPos, LengthUTF8(textKey), clRed)
           else
-            memoMacro.SetRangeColor(cursorPos, LengthUTF8(textKey), clDefault);
+            memoMacro.SetRangeColor(cursorPos, LengthUTF8(textKey), fontColor);
 
           textMacroInput.Visible := activeKbKey.ActiveMacro.Count = 0;
         end;
@@ -3930,7 +3932,7 @@ var
   i: integer;
 begin
   //Reset to default color before setting red (MacOS bug)
-  aMemo.SetRangeColor(0, Length(aMemo.Text), clDefault);
+  aMemo.SetRangeColor(0, Length(aMemo.Text), fontColor);
 
   if (aKeysPos <> nil) then
   begin

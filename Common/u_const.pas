@@ -514,6 +514,7 @@ const
   ADV2_TROUBLESHOOT = 'https://www.kinesis-ergo.com/advantage2-resources/';
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
+  ADV2_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -1022,7 +1023,7 @@ begin
   ConfigKeys := TKeyList.Create;
 
   smallFontSize := 8;
-  {$ifdef Darwin}smallFontSize := 10;{$endif}
+  {$ifdef Darwin}smallFontSize := 9;{$endif}
 
   ConfigKeys.Clear;
   //Control keys

@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="2"/>
       <MinorVersionNr Value="1"/>
-      <RevisionNr Value="6"/>
+      <RevisionNr Value="7"/>
       <CharSet Value="03B6"/>
       <StringTable ProductVersion="Kinesis Corporation"/>
     </VersionInfo>
@@ -28,7 +28,7 @@
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="753065405567" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item1 ID="753065405567" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -215,12 +215,16 @@
         <ResourceBaseClass Value="Form"/>
       </Unit23>
       <Unit24>
-        <Filename Value="u_gif.pas"/>
+        <Filename Value="..\Common\u_file_service.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit24>
       <Unit25>
-        <Filename Value="..\Common\u_file_service.pas"/>
+        <Filename Value="userdialog.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
       </Unit25>
     </Units>
   </ProjectOptions>
@@ -228,7 +232,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SmartSet App-Freestyle (PC)"/>
+      <Filename Value="SmartSet App-Freestyle (Mac)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
@@ -236,7 +240,6 @@
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
-      <TargetCPU Value="x86_64"/>
       <Optimizations>
         <OptimizationLevel Value="0"/>
       </Optimizations>

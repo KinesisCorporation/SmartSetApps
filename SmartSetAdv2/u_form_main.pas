@@ -600,6 +600,14 @@ begin
 
   currentKey := key;
 
+  //Mac version of Advantage2 does not support generic modifier, replace with left versions
+  if (currentKey = VK_MENU) then
+     currentKey := VK_LMENU //keyService.AddModifier(VK_LMENU)
+  else if (currentKey = VK_CONTROL) then
+     currentKey := VK_LCONTROL //keyService.AddModifier(VK_LCONTROL)
+  else if (currentKey = VK_SHIFT) then
+     currentKey := VK_LSHIFT; //keyService.AddModifier(VK_LSHIFT)
+
   //If not a modifier
   if not (IsModifier(currentKey)) then
   begin
@@ -630,6 +638,14 @@ procedure TFormMain.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
 begin
   {$ifdef Darwin}
   currentKey := key;
+
+  //Mac version of Advantage2 does not support generic modifier, replace with left versions
+  if (currentKey = VK_MENU) then
+     currentKey := VK_LMENU
+  else if (currentKey = VK_CONTROL) then
+     currentKey := VK_LCONTROL
+  else if (currentKey = VK_SHIFT) then
+     currentKey := VK_LSHIFT;
 
   //When last key pressed is released we reset it
   if currentKey = lastKeyPressed then
@@ -770,6 +786,8 @@ begin
     lblSettings.Font.Color := blueColor;
     lblMenu.Font.Color := blueColor;
     lblPSGlobal.Font.Color := blueColor;
+    memoMacro.Font.Color := fontColor;
+    memoMacro.Color := backColor;
     pnlBody.Color := backColor;
     pnlKeys.Color := backColor;
     pnlMenu.Color := backColor;
@@ -925,8 +943,9 @@ end;
 
 procedure TFormMain.FormActivate(Sender: TObject);
 begin
-  if (not closing) then
-     self.Show;
+  //Bug Catalina screen turns black
+  //if (not closing) then
+  //   self.Show;
   ShowIntroduction;
 //var
 //  customBtns: TCustomButtons;
@@ -1589,7 +1608,7 @@ begin
     fileService.SetVDriveStatus(swAutoVDrive.Checked);
     SetSaveState(ssModified);
     if (swAutoVDrive.Checked) then
-      ShowDialog('V-Drive', 'Caution! V-Drive will remain open. Read manual before enabling.', mtWarning, [mbOK]);
+      ShowDialog('V-Drive', 'Caution! V-Drive will remain open. Read manual before enabling.', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
   end;
 end;
 
@@ -1672,7 +1691,7 @@ procedure TFormMain.pnlMacroClick(Sender: TObject);
 begin
   if (IsKeyLoaded and not(activeKbKey.CanAssignMacro)) then
   begin
-    ShowDialog('Macro', 'You cannot assign a macro to a modifier key', mtError, [mbOK]);
+    ShowDialog('Macro', 'You cannot assign a macro to a modifier key', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
   end;
 end;
 
@@ -2058,7 +2077,7 @@ begin
       end
       else
       begin
-        ShowDialog('Co-Triggers', 'You cannot add more than 3 co-triggers', mtWarning, [mbOK]);
+        ShowDialog('Co-Triggers', 'You cannot add more than 3 co-triggers', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
         ResetCoTrigger(button);
       end;
     end
@@ -2506,6 +2525,7 @@ var
   errorMsg: string;
   layoutContent: TStringList;
   continue: boolean;
+  osExplorerText: string;
 begin
   result := false;
   errorMsg := '';
@@ -2525,15 +2545,21 @@ begin
 
       if fileService.SaveFile(currentLayoutFile, layoutContent, allowNew, errorMsg) then
       begin
+        osExplorerText := 'Windows Explorer';
+        {$ifdef Darwin}
+        osExplorerText := 'Finder';
+        {$endif}
         if (showSaveDialog) then
-          ShowDialog('Save', 'Save done!' + #10 + 'Your changes will be implemented once the v-Drive has been closed. Before closing the v-Drive, exit the App and then right-click the “Kinesis-KB” drive in Windows Explorer and “Eject” it.', mtConfirmation, [mbOK]);
+          ShowDialog('Save', 'Save done!' + #10 +
+                             'Your changes will be implemented once the v-Drive has been closed. Before closing the v-Drive, exit the App and then right-click the “Kinesis-KB” drive in ' + osExplorerText + ' and “Eject” it.',
+                mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
         SetSaveState(ssNone);
         result := true;
         SaveStateSettings;
       end
       else
         ShowDialog('Save', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
-          mtError, [mbOK]);
+          mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
     end;
   end;
 end;
@@ -2664,7 +2690,7 @@ begin
           mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor)
       else if (not activeKbKey.CanAssignMacro) then
       begin
-        ShowDialog('Macro', 'You cannot assign a macro to a modifier key', mtError, [mbOK]);
+        ShowDialog('Macro', 'You cannot assign a macro to a modifier key', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
       end
       else
       begin
@@ -2714,7 +2740,7 @@ begin
           if (isLongKey) then
             memoMacro.SetRangeColor(cursorPos, LengthUTF8(textKey), clRed)
           else
-            memoMacro.SetRangeColor(cursorPos, LengthUTF8(textKey), clDefault);
+            memoMacro.SetRangeColor(cursorPos, LengthUTF8(textKey), fontColor);
 
           textMacroInput.Visible := activeKbKey.ActiveMacro.Count = 0;
         end;
@@ -2894,7 +2920,7 @@ var
   i: integer;
 begin
   //Reset to default color before setting red (MacOS bug)
-  aMemo.SetRangeColor(0, Length(aMemo.Text), clDefault);
+  aMemo.SetRangeColor(0, Length(aMemo.Text), fontColor);
 
   if (aKeysPos <> nil) then
   begin
@@ -3000,7 +3026,14 @@ begin
     if (container.Controls[i] is TPanelBtn) then
     begin
       pnlButton := (container.Controls[i] as TPanelBtn);
-      pnlButton.DefaultFontSize := defaultKeyFontSize;
+      if (pnlButton.Parent = gbThumbKeys) then
+      begin
+        pnlButton.DefaultFontSize := defaultKeyFontSize - 1;
+      end
+      else
+      begin
+        pnlButton.DefaultFontSize := defaultKeyFontSize;
+      end;
       pnlButton.DefaultFontName := defaultKeyFontName;
       pnlButton.Font.Color := clWhite;
       pnlButton.OnClick := @PnlButtonClick;

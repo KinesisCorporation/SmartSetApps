@@ -3,7 +3,11 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="11"/>
-    <BuildModes Active="Default"/>
+    <BuildModes Active="Default">
+      <SessionMatrixOptions Count="1">
+        <Item1 ID="821871335214" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+      </SessionMatrixOptions>
+    </BuildModes>
     <Units Count="38">
       <Unit0>
         <Filename Value="SE2ConfigAppWin.lpr"/>
@@ -52,8 +56,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="327"/>
-        <CursorPos X="125" Y="360"/>
+        <TopLine Value="328"/>
+        <CursorPos X="18" Y="328"/>
         <UsageCount Value="330"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="276" ID="7"/>
@@ -124,7 +128,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="76"/>
         <CursorPos X="17" Y="94"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="35"/>
       </Unit10>
       <Unit11>
         <Filename Value="u_keyexception.pas"/>
@@ -132,7 +136,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="38"/>
         <CursorPos X="14" Y="38"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="34"/>
       </Unit11>
       <Unit12>
         <Filename Value="MacBundle.sh"/>
