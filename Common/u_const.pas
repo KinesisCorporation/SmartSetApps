@@ -1313,16 +1313,16 @@ begin
   end
   else
   begin
-    ConfigKeys.Add(TKey.Create(VK_0, '0', ')' + #10 + '0', '0', '0', ')', true, true));
-    ConfigKeys.Add(TKey.Create(VK_1, '1', '!' + #10 + '1', '1', '1', '!', true, true));
-    ConfigKeys.Add(TKey.Create(VK_2, '2', '@' + #10 + '2', '2', '2', '@', true, true));
-    ConfigKeys.Add(TKey.Create(VK_3, '3', '#' + #10 + '3', '3', '3', '#', true, true));
-    ConfigKeys.Add(TKey.Create(VK_4, '4', '$' + #10 + '4', '4', '4', '$', true, true));
-    ConfigKeys.Add(TKey.Create(VK_5, '5', '%' + #10 + '5', '5', '5', '%', true, true));
-    ConfigKeys.Add(TKey.Create(VK_6, '6', '^' + #10 + '6', '6', '6', '^', true, true));
-    ConfigKeys.Add(TKey.Create(VK_7, '7', '&' + #10 + '7', '7', '7', '&', true, true));
-    ConfigKeys.Add(TKey.Create(VK_8, '8', '*' + #10 + '8', '8', '8', '*', true, true));
-    ConfigKeys.Add(TKey.Create(VK_9, '9', '(' + #10 + '9', '9', '9', '(', true, true));
+    ConfigKeys.Add(TKey.Create(VK_0, '0', ')' + #10 + '0', '0', '0', ')', true, true, '', true, false, 0, '', '0 )'));
+    ConfigKeys.Add(TKey.Create(VK_1, '1', '!' + #10 + '1', '1', '1', '!', true, true, '', true, false, 0, '', '1 !'));
+    ConfigKeys.Add(TKey.Create(VK_2, '2', '@' + #10 + '2', '2', '2', '@', true, true, '', true, false, 0, '', '2 @'));
+    ConfigKeys.Add(TKey.Create(VK_3, '3', '#' + #10 + '3', '3', '3', '#', true, true, '', true, false, 0, '', '3 #'));
+    ConfigKeys.Add(TKey.Create(VK_4, '4', '$' + #10 + '4', '4', '4', '$', true, true, '', true, false, 0, '', '4 $'));
+    ConfigKeys.Add(TKey.Create(VK_5, '5', '%' + #10 + '5', '5', '5', '%', true, true, '', true, false, 0, '', '5 %'));
+    ConfigKeys.Add(TKey.Create(VK_6, '6', '^' + #10 + '6', '6', '6', '^', true, true, '', true, false, 0, '', '6 ^'));
+    ConfigKeys.Add(TKey.Create(VK_7, '7', '&' + #10 + '7', '7', '7', '&', true, true, '', true, false, 0, '', '7 &'));
+    ConfigKeys.Add(TKey.Create(VK_8, '8', '*' + #10 + '8', '8', '8', '*', true, true, '', true, false, 0, '', '8 *'));
+    ConfigKeys.Add(TKey.Create(VK_9, '9', '(' + #10 + '9', '9', '9', '(', true, true, '', true, false, 0, '', '9 ('));
   end;
 
   //a to z
