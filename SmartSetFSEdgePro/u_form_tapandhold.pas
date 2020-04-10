@@ -120,7 +120,7 @@ function TFormTapAndHold.Validate: boolean;
 begin
   result := false;
   if (timingDelay < MIN_TIMING_DELAY) or (timingDelay > MAX_TIMING_DELAY) then
-    ShowDialog('Tap and Hold Action', 'Please select a timing delay between 1ms and 999ms. To achieve a longer delay, insert multiple delays back-to-back.', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
+    ShowDialog('Tap and Hold Action', 'Please select a timing delay between 1ms and 999ms.', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
       FormTapAndHold.Color, FormTapAndHold.Font.Color)
   else if (tapAction <= 0) then
     ShowDialog('Tap and Hold Action', 'Plese select a Tap Action', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, FormTapAndHold.Color, FormTapAndHold.Font.Color)
