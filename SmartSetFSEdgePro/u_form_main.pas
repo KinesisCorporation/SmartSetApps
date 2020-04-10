@@ -394,6 +394,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormPaint(Sender: TObject);
+    procedure FormWindowStateChange(Sender: TObject);
     procedure imgBackdropClick(Sender: TObject);
     procedure KeyButtonMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -470,6 +471,9 @@ type
     totalKeystrokes: integer;
     appError: boolean;
     closing: boolean;
+    customWindowState: TCusWinState;
+    defaultWidth: integer;
+    defaultHeight: integer;
 
     function CheckVDrive: boolean;
     function DoneKey: boolean;
@@ -480,6 +484,8 @@ type
     procedure ScanVDrive(init: boolean);
     procedure scanVDriveClick(Sender: TObject);
     procedure SetConfigOS;
+    procedure RepaintForm(fullRepaint: boolean);
+    procedure SetFormBorder(formBorder: TFormBorderStyle);
     procedure SetKeyboardHook;
     procedure RemoveKeyboardHook;
     procedure KeyButtonClick(Sender: TObject);
@@ -527,6 +533,7 @@ type
     procedure SetDvorakKb(layerIdx: integer; bothLayers: boolean);
     procedure SetColemakKb(layerIdx: integer; bothLayers: boolean);
     procedure SetLedMode(ledMode: string);
+    procedure UpdateStateSettings;
     function ValidateBeforeDone: boolean;
     procedure AppDeactivate(Sender: TObject);
     procedure EnableMacroBox(value: boolean);
@@ -763,6 +770,9 @@ begin
   if screen.Height < self.Height then
     self.Height := screen.Height - 20;
 
+  defaultWidth := self.Width;
+  defaultHeight := self.Height;
+  customWindowState := cwNormal;
   closing := false;
   lblLayoutFile.Caption := '';
   infoMessageShown := false;
@@ -790,13 +800,15 @@ begin
   SetKeyboardHook;
   SetMacroMode(false);
 
-  {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
-  {$ifdef Darwin}
-  self.BorderStyle := bsSizeable;
-  btnClose.Visible := false;
-  btnMinimize.Visible := false;
-  btnMaximize.Visible := false;
-  {$endif}
+  SetFormBorder(bsNone);
+  pnlMain.BorderStyle := bsSingle;
+  //{$ifdef Win32}self.BorderStyle := bsNone;{$endif}
+  //{$ifdef Darwin}
+  //self.BorderStyle := bsSizeable;
+  //btnClose.Visible := false;
+  //btnMinimize.Visible := false;
+  //btnMaximize.Visible := false;
+  //{$endif}
 
   knobBright.Image := imageKnob.Picture.Bitmap;
 
@@ -912,20 +924,31 @@ begin
     else
     begin
       //Menu buttons
-      btnHelpIcon.TransparentColor := clNone;
-      btnMinimize.TransparentColor := clNone;
-      btnMaximize.TransparentColor := clNone;
-      btnClose.TransparentColor := clNone;
       imageList.GetBitmap(3, btnHelpIcon.Glyph);
       imageList.GetBitmap(2, btnMinimize.Glyph);
       imageList.GetBitmap(4, btnMaximize.Glyph);
       imageList.GetBitmap(6, btnClose.Glyph);
 
-      {$ifdef Darwin}
       btnHelpIcon.Color := clWhite;
       btnHelpIcon.HotTrackColor := clWhite;
+      btnHelpIcon.LightColor := clWhite;
       btnHelpIcon.ShadowColor := clWhite;
-      {$endif}
+      btnHelpIcon.TransparentColor := clNone;
+      btnMinimize.Color := clWhite;
+      btnMinimize.HotTrackColor := clWhite;
+      btnMinimize.LightColor := clWhite;
+      btnMinimize.ShadowColor := clWhite;
+      btnMinimize.TransparentColor := clNone;
+      btnMaximize.Color := clWhite;
+      btnMaximize.HotTrackColor := clWhite;
+      btnMaximize.LightColor := clWhite;
+      btnMaximize.ShadowColor := clWhite;
+      btnMaximize.TransparentColor := clNone;
+      btnClose.Color := clWhite;
+      btnClose.HotTrackColor := clWhite;
+      btnClose.LightColor := clWhite;
+      btnClose.ShadowColor := clWhite;
+      btnClose.TransparentColor := clNone;
 
       //Layer switch
       swLayerSwitch.Font.Color := clWhite;
@@ -1200,7 +1223,7 @@ begin
   lblMacro2.Left := rgMacro2.Left - lblMacro2.Width - 5;
   lblMacro3.Left := rgMacro3.Left - lblMacro3.Width - 5;
   lblLayer.Top := lblLayer.Top + 2;
-  btnHelpIcon.Left := btnClose.Left;
+  //btnHelpIcon.Left := btnClose.Left;
   btnBackspace.Caption := 'Delete';
   bLCtrlMacro.Caption := 'Left Control';
   bRCtrlMacro.Caption := 'Right Control';
@@ -1389,7 +1412,30 @@ begin
 end;
 
 procedure TFormMain.btnMaximizeClick(Sender: TObject);
+var
+  aRect: TRect;
 begin
+  aRect := Screen.PrimaryMonitor.WorkareaRect;
+
+  if (customWindowState = cwMaximized) then
+  begin
+    self.Height := defaultHeight;
+    self.Width := defaultWidth;
+    self.Left := (aRect.Width - defaultWidth) div 2;
+    self.Top := (aRect.Height - defaultHeight) div 2;
+    customWindowState := cwNormal;
+  end
+  else
+  begin
+    self.Left := aRect.Left;
+    self.Top := aRect.Top;
+    self.Width := aRect.Width;
+    self.Height := aRect.Height;
+    customWindowState := cwMaximized;
+  end;
+
+  UpdateStateSettings;
+  {
   if (Self.WindowState = wsMaximized) then
   begin
     Self.WindowState := wsNormal;
@@ -1408,16 +1454,80 @@ begin
       imageList.GetBitmap(1, btnMaximize.Glyph);
     btnMaximize.Hint := 'Restore window';
   end;
+  }
 end;
 
-//When minimize make border sizeable so we can restore it
+procedure TFormMain.UpdateStateSettings;
+begin
+  self.DisableAlign;
+
+  {$ifdef Win32}
+  //Disable paint on form
+  SendMessage(self.Handle, WM_SETREDRAW, Integer(False), 0);
+  {$endif}
+
+  if (customWindowState = cwMaximized) then
+  begin
+    if (IsDarkTheme or (GApplication = APPL_FSEDGE)) then
+      imageList.GetBitmap(1, btnMaximize.Glyph)
+    else
+      imageList.GetBitmap(5, btnMaximize.Glyph);
+    btnMaximize.Hint := 'Restore window';
+  end
+  else
+  begin
+    if (IsDarkTheme or (GApplication = APPL_FSEDGE)) then
+      imageList.GetBitmap(0, btnMaximize.Glyph)
+    else
+      imageList.GetBitmap(4, btnMaximize.Glyph);
+    btnMaximize.Hint := 'Maximize';
+  end;
+
+  {$ifdef Win32}
+  //Enable paint on form on repaint
+  SendMessage(self.Handle, WM_SETREDRAW, Integer(True), 0);
+  {$endif}
+
+  self.EnableAlign;
+  self.Repaint;
+end;
+
+procedure TFormMain.RepaintForm(fullRepaint: boolean);
+var
+   region: TRect;
+begin
+  //Do a form repaint
+  try
+    if (fullRepaint) then
+      Repaint  //Invalidate;
+    else
+    begin
+      region := TRect.Create(pnlKb.Left, pnlKb.Top, pnlKb.Left + pnlKb.Width, pnlKb.Top + pnlKb.Height);
+      InvalidateRect(Handle, @region, false);
+    end;
+  finally
+  end;
+end;
+
+procedure TFormMain.SetFormBorder(formBorder: TFormBorderStyle);
+begin
+  self.BorderStyle := formBorder;
+  RepaintForm(true);
+end;
+
+procedure TFormMain.FormWindowStateChange(Sender: TObject);
+begin
+  UpdateStateSettings;
+end;
+
 procedure TFormMain.btnMinimizeClick(Sender: TObject);
 begin
-  if (GApplication = APPL_FSEDGE) then
-  begin
-    {$ifdef Win32}self.BorderStyle := bsSizeable;{$endif}
+  try
+    //Does not work if border style = none
+    //Self.WindowState := TWindowState.wsMinimized;
+    Application.Minimize;
+  finally
   end;
-  Self.WindowState := wsMinimized;
 end;
 
 procedure TFormMain.btnSpecialActionsMacroClick(Sender: TObject);

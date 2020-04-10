@@ -328,6 +328,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormWindowStateChange(Sender: TObject);
     procedure imgKinesisClick(Sender: TObject);
     procedure memoMacroMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -379,6 +380,9 @@ type
     defaultKeyFontSize: integer;
     appError: boolean;
     closing: boolean;
+    customWindowState: TCusWinState;
+    defaultWidth: integer;
+    defaultHeight: integer;
 
     function CheckVDrive: boolean;
     procedure InitApp(scanVDrive: boolean = false);
@@ -433,11 +437,14 @@ type
     function GetCursorPrevKey(cursorPos: integer): integer;
     function GetCursorNextKey(cursorPos: integer): integer;
     function GetKeyOtherLayer(keyIdx: integer): TKBKey;
+    procedure UpdateStateSettings;
     procedure watchTutorialClick(Sender: TObject);
     function ValidateBeforeDone: boolean;
     procedure EnableMacroBox(value: boolean);
     procedure OpenTapAndHold;
     procedure openFirwareWebsite(Sender: TObject);
+    procedure SetFormBorder(formBorder: TFormBorderStyle);
+    procedure RepaintForm(fullRepaint: boolean);
   public
     { public declarations }
     keyService: TKeyService;
@@ -688,6 +695,9 @@ begin
   if screen.Height < self.Height then
     self.Height := screen.Height - 20;
 
+  defaultWidth := self.Width;
+  defaultHeight := self.Height;
+  customWindowState := cwNormal;
   closing := false;
   lblLayoutFile.Caption := '';
   loadingSettings := false;
@@ -720,15 +730,19 @@ begin
   lblMenu.Font.Color := KINESIS_BLUE;
   lblRemap.Font.Color := KINESIS_BLUE;
   {$ifdef Win32}
-  self.BorderStyle := bsNone;
+  SetFormBorder(bsNone);
   pnlMain.BorderStyle := bsSingle;
   {$endif}
   {$ifdef Darwin}
-  self.BorderStyle := bsSizeable;
-  btnClose.Visible := false;
-  btnMinimize.Visible := false;
-  btnMaximize.Visible := false;
+  SetFormBorder(bsNone);
+  pnlMain.BorderStyle := bsSingle;
+  //btnClose.Visible := false;
+  //btnMinimize.Visible := false;
+  //btnMaximize.Visible := false;
   {$endif}
+
+  //App shows in Taskbar only when minimized
+  Application.MainFormOnTaskBar := true;
 
   //Set colors also check if DarkTheme is enabled on OS
   blueColor := KINESIS_BLUE;
@@ -740,6 +754,18 @@ begin
     btnHelpIcon.HotTrackColor := KINESIS_DARK_GRAY_FS;
     btnHelpIcon.LightColor := KINESIS_DARK_GRAY_FS;
     btnHelpIcon.ShadowColor := KINESIS_DARK_GRAY_FS;
+    btnMinimize.Color := KINESIS_DARK_GRAY_FS;
+    btnMinimize.HotTrackColor := KINESIS_DARK_GRAY_FS;
+    btnMinimize.LightColor := KINESIS_DARK_GRAY_FS;
+    btnMinimize.ShadowColor := KINESIS_DARK_GRAY_FS;
+    btnMaximize.Color := KINESIS_DARK_GRAY_FS;
+    btnMaximize.HotTrackColor := KINESIS_DARK_GRAY_FS;
+    btnMaximize.LightColor := KINESIS_DARK_GRAY_FS;
+    btnMaximize.ShadowColor := KINESIS_DARK_GRAY_FS;
+    btnClose.Color := KINESIS_DARK_GRAY_FS;
+    btnClose.HotTrackColor := KINESIS_DARK_GRAY_FS;
+    btnClose.LightColor := KINESIS_DARK_GRAY_FS;
+    btnClose.ShadowColor := KINESIS_DARK_GRAY_FS;
     {$ifdef Darwin}
     btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
     btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
@@ -747,16 +773,15 @@ begin
     btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
     {$endif}
     imageList.GetBitmap(7, btnHelpIcon.Glyph);
+    imageList.GetBitmap(8, btnMinimize.Glyph);
+    imageList.GetBitmap(9, btnClose.Glyph);
+    imageList.GetBitmap(0, btnMaximize.Glyph);
   end
   else
   begin
     blueColor := KINESIS_BLUE;
     fontColor := clBlack;
     backColor := clWhite;
-    btnHelpIcon.Color := clWhite;
-    btnHelpIcon.HotTrackColor := clWhite;
-    btnHelpIcon.LightColor := clWhite;
-    btnHelpIcon.ShadowColor := clWhite;
   end;
 
   //Check for v-drive
@@ -978,6 +1003,7 @@ var
 begin
   if (not closing) and (not infoMessageShown) and (not fileService.AppSettings.AppIntroMsg) then
   begin
+    self.Show;
     createCustomButton(customBtns, 'Continue', 120, @continueClick);
     //createCustomButton(customBtns, 'Watch Tutorial', 120, @watchTutorialClick);
     createCustomButton(customBtns, 'Read Manual', 120, @readManualClick);
@@ -1066,7 +1092,7 @@ begin
   SetFont(self, 'Tahoma Bold');
   defaultKeyFontName := 'Arial Unicode MS';
   defaultKeyFontSize := 10;
-  btnHelpIcon.Left := btnClose.Left;
+  //btnHelpIcon.Left := btnClose.Left;
   rgMacro1.Left := rgMacro1.Left + 18;
   rgMacro2.Left := rgMacro2.Left + 18;
   rgMacro3.Left := rgMacro3.Left + 18;
@@ -1248,7 +1274,30 @@ begin
 end;
 
 procedure TFormMain.btnMaximizeClick(Sender: TObject);
+var
+  aRect: TRect;
 begin
+  aRect := Screen.PrimaryMonitor.WorkareaRect;
+
+  if (customWindowState = cwMaximized) then
+  begin
+    self.Height := defaultHeight;
+    self.Width := defaultWidth;
+    self.Left := (aRect.Width - defaultWidth) div 2;
+    self.Top := (aRect.Height - defaultHeight) div 2;
+    customWindowState := cwNormal;
+  end
+  else
+  begin
+    self.Left := aRect.Left;
+    self.Top := aRect.Top;
+    self.Width := aRect.Width;
+    self.Height := aRect.Height;
+    customWindowState := cwMaximized;
+  end;
+
+  UpdateStateSettings;
+  {
   if (Self.WindowState = wsMaximized) then
   begin
     Self.WindowState := wsNormal;
@@ -1261,12 +1310,81 @@ begin
     imageList.GetBitmap(5, btnMaximize.Glyph);
     btnMaximize.Hint := 'Restore window';
   end;
+  }
+end;
+
+procedure TFormMain.UpdateStateSettings;
+begin
+  self.DisableAlign;
+
+  {$ifdef Win32}
+  //Disable paint on form
+  SendMessage(self.Handle, WM_SETREDRAW, Integer(False), 0);
+  {$endif}
+
+  if (customWindowState = cwMaximized) then
+  begin
+    if (IsDarkTheme) then
+      imageList.GetBitmap(1, btnMaximize.Glyph)
+    else
+      imageList.GetBitmap(5, btnMaximize.Glyph);
+    btnMaximize.Hint := 'Restore window';
+  end
+  else
+  begin
+    if (IsDarkTheme) then
+      imageList.GetBitmap(0, btnMaximize.Glyph)
+    else
+      imageList.GetBitmap(4, btnMaximize.Glyph);
+    btnMaximize.Hint := 'Maximize';
+  end;
+
+  {$ifdef Win32}
+  //Enable paint on form on repaint
+  SendMessage(self.Handle, WM_SETREDRAW, Integer(True), 0);
+  {$endif}
+
+  self.EnableAlign;
+  self.Repaint;
+end;
+
+
+procedure TFormMain.FormWindowStateChange(Sender: TObject);
+begin
+  UpdateStateSettings;
+end;
+
+procedure TFormMain.SetFormBorder(formBorder: TFormBorderStyle);
+begin
+  self.BorderStyle := formBorder;
+  RepaintForm(true);
+end;
+
+procedure TFormMain.RepaintForm(fullRepaint: boolean);
+var
+   region: TRect;
+begin
+  //Do a form repaint
+  try
+    if (fullRepaint) then
+      Repaint  //Invalidate;
+    else
+    begin
+      region := TRect.Create(pnlKb.Left, pnlKb.Top, pnlKb.Left + pnlKb.Width, pnlKb.Top + pnlKb.Height);
+      InvalidateRect(Handle, @region, false);
+    end;
+  finally
+  end;
 end;
 
 procedure TFormMain.btnMinimizeClick(Sender: TObject);
 begin
-  {$ifdef Win32}self.BorderStyle := bsSizeable;{$endif}
-  Self.WindowState := wsMinimized;
+  try
+    //Does not work if border style = none
+    //Self.WindowState := TWindowState.wsMinimized;
+    Application.Minimize;
+  finally
+  end;
 end;
 
 procedure TFormMain.btnSpecialActionsMacroClick(Sender: TObject);
@@ -2261,8 +2379,8 @@ end;
 //On application restore, remove borderstyle
 procedure TFormMain.OnRestore(Sender: TObject);
 begin
-  self.WindowState := wsNormal;
-  {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
+  //self.WindowState := wsNormal;
+  //{$ifdef Win32}self.BorderStyle := bsNone;{$endif}
 
   //To repaint red color in macro box
   SetMacroText(true);
