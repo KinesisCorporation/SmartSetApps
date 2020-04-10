@@ -89,6 +89,12 @@ begin
   SetFont(self, 'Segoe UI');
   lblTitle.Caption := GApplicationName;
   lblVersion.Caption := 'Version : ' + GetFileVersion;
+  if (IsDarkTheme) then
+  begin
+     self.Color := KINESIS_DARK_GRAY_FS;
+     SetFontColor(self, clWhite);
+     lblWebsite.Font.Color := clHighlight;
+  end;
 end;
 
 procedure TFormAbout.lblEmailClick(Sender: TObject);

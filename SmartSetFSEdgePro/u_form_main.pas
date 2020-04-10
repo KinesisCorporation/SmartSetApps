@@ -810,6 +810,9 @@ begin
   //btnMaximize.Visible := false;
   //{$endif}
 
+  //App shows in Taskbar only when minimized
+  Application.MainFormOnTaskBar := true;
+
   knobBright.Image := imageKnob.Picture.Bitmap;
 
   //Check for v-drive
