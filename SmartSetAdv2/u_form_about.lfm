@@ -7,6 +7,7 @@ object FormAbout: TFormAbout
   Caption = 'About'
   ClientHeight = 245
   ClientWidth = 416
+  Color = clWhite
   Font.Height = -13
   Font.Name = 'Segoe UI'
   OnClose = FormClose
@@ -74,9 +75,9 @@ object FormAbout: TFormAbout
   end
   object Label3: TLabel
     Left = 19
-    Height = 18
+    Height = 21
     Top = 96
-    Width = 142
+    Width = 136
     Caption = 'Kinesis Corporation'
     Font.Height = -16
     Font.Name = 'Segoe UI'
@@ -86,9 +87,9 @@ object FormAbout: TFormAbout
   object lblWebsite: TLabel
     Cursor = crHandPoint
     Left = 19
-    Height = 16
+    Height = 17
     Top = 116
-    Width = 104
+    Width = 96
     Caption = 'www.kinesis.com'
     Font.Color = clHighlight
     Font.Height = -13
