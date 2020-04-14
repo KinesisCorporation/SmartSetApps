@@ -1569,14 +1569,15 @@ begin
 
   if (continue) then
   begin
-    CheckToSave(true);
-
-    OpenDialog.InitialDir := GPedalsFilePath;
-    if OpenDialog.Execute then
+    if (CheckSaveKey(true) and CheckToSave(true)) then
     begin
-      currentLayoutFile := OpenDialog.FileName;
-      LoadKeyboardLayout(currentLayoutFile);
-      SetSaveState(ssNone);
+      OpenDialog.InitialDir := GPedalsFilePath;
+      if OpenDialog.Execute then
+      begin
+        currentLayoutFile := OpenDialog.FileName;
+        LoadKeyboardLayout(currentLayoutFile);
+        SetSaveState(ssNone);
+      end;
     end;
   end;
 end;
@@ -3181,27 +3182,30 @@ begin
 
   if (continue) then
   begin
-    NeedInput := True;
-    fileName := ShowNewFile(backColor, fontColor, fileService.AllowEditSettings, layoutType, layoutPosition, loadAfterSave);
-    if (fileName <> '') then
+    if (CheckSaveKey(true) and CheckToSave(true)) then
     begin
-      keyService.ResetLayout;
-      currentLayoutFile := GPedalsFilePath + fileName;
-      if (loadAfterSave) then
+      NeedInput := True;
+      fileName := ShowNewFile(backColor, fontColor, fileService.AllowEditSettings, layoutType, layoutPosition, loadAfterSave);
+      if (fileName <> '') then
       begin
-        fileService.SetStatupFile(fileName);
-        SetSaveState(ssModified);
+        keyService.ResetLayout;
+        currentLayoutFile := GPedalsFilePath + fileName;
+        if (loadAfterSave) then
+        begin
+          fileService.SetStatupFile(fileName);
+          SetSaveState(ssModified);
+        end;
+
+        Save(true, false);
+        LoadKeyboardLayout(currentLayoutFile);
+
+        filename := ExtractFileNameWithoutExt(ExtractFileName(fileName));
+
+        ShowDialog('New Layout', 'This layout has been saved to layout ' + layoutType + ', position: ' + layoutPosition,
+            mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
       end;
-
-      Save(true, false);
-      LoadKeyboardLayout(currentLayoutFile);
-
-      filename := ExtractFileNameWithoutExt(ExtractFileName(fileName));
-
-      ShowDialog('New Layout', 'This layout has been saved to layout ' + layoutType + ', position: ' + layoutPosition,
-          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2, backColor, fontColor);
+      NeedInput := False;
     end;
-    NeedInput := False;
   end;
 end;
 
