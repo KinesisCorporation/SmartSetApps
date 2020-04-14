@@ -511,10 +511,10 @@ const
   FSPRO_TROUBLESHOOT = 'https://kinesis-ergo.com/support/freestyle-pro/';
   FSEDGE_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-support/';
   RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
-  ADV2_TROUBLESHOOT = 'https://www.kinesis-ergo.com/advantage2-resources/';
+  ADV2_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage2/';
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
-  ADV2_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
+  ADV2_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
