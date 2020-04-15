@@ -3432,6 +3432,9 @@ begin
 
   if (not GDemoMode) then
   begin
+    //Unselect active key before loading to prevent access violation
+    SetActiveKeyButton(nil);
+
     errorMsg := fileService.LoadLayoutFile(layoutFile);
 
     if (errorMsg = '') then
@@ -3445,7 +3448,6 @@ begin
       lblLayoutFile.Caption := UpperCase(Copy(layoutFile, 1, 1)) + Copy(layoutFile, 2, Length(layoutFile));
       keyService.ConvertFromTextFileFmtFS(fileService.LayoutContent);
       SetActiveLayer(TOPLAYER_IDX);
-      SetActiveKeyButton(nil);
       RefreshRemapInfo;
       Result := true;
     end

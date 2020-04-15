@@ -2590,6 +2590,9 @@ begin
   begin
     errorMsg := fileService.LoadLayoutFile(layoutFile);
 
+    //Unselect active key before loading to prevent access violation
+    SetActivePnlButton(nil);
+
     if (Pos(QWERTY_LAYOUT_TEXT, LowerCase(layoutFile)) <> 0) then
       keyService.LoadLayerList(LAYER_QWERTY)
     else if (Pos(DVORAK_LAYOUT_TEXT, LowerCase(layoutFile)) <> 0) then
@@ -2604,7 +2607,6 @@ begin
       lblLayoutFile.Caption := ExtractFileName(layoutFile);
       keyService.ConvertFromTextFileFmtAdv2(fileService.LayoutContent);
       SetActiveLayer(TOPLAYER_IDX);
-      SetActivePnlButton(nil);
       RefreshRemapInfo;
       Result := true;
     end
