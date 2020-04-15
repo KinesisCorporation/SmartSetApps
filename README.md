@@ -3,9 +3,13 @@ This repository is for SmartSet apps used for Kinesis Corporation keyboards and 
 All apps are build using Lazarus IDE (pascal programming language): https://www.lazarus-ide.org/.
 These apps currently support Windows 32-bit and MacOS 32-bit/64-bit.
 
-You can get compiled versions on these websites:
+You can get compiled versions of the Apps and detailed installation and usage instructions on these websites:
 * Savant Elite, Advantage2, Freestyle Pro: https://kinesis-ergo.com/support/#support-for-my-device
 * Freestyle Edge RGB, Freestyle Edge: https://gaming.kinesis-ergo.com/support/
+
+SmartSet Apps are designed as a lightweight GUI to read and write to the simple .txt configuration files stored on virtual flash drive (aka the "v-Drive") of each (programmable) Kinesis and Kinesis Gaming keyboard and foot pedal. At present, each device has its own unique version of the SmartSet App which reflects unique drive names, folder structures, programming syntax, firmware features, and App functionality.
+
+Windows and/or Mac Apps are pre-loaded on to most devices and were originally intended to be run directly from the v-Drive for maximum convenience and portability. New versions of the SmartSet App are designed to run from the "desktop" with the v-Drive simply "connected" to your PC. 
 
 ## Getting started
 Install the latest version of Lazarus IDE for your computer.  Windows 32-bit version and Mac 64-bit for Catalina. Go to the lazarus-ide website: https://www.lazarus-ide.org/
