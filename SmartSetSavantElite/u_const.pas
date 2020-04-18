@@ -10,9 +10,9 @@ unit u_const;
 interface
 
 uses
-  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics
+  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics, LCLIntf
   {$ifdef Win32}, Windows, jwawinuser{$endif}
-  {$ifdef Darwin},LCLIntf, CocoaUtils, CocoaAll{$endif};
+  {$ifdef Darwin}, CocoaUtils, CocoaAll{$endif};
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
