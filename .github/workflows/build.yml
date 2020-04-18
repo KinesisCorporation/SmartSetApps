@@ -1,0 +1,95 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      ## MacOS Setup
+
+      - name: install lazarus (mac)
+        run: |
+          brew update
+          brew cask install lazarus
+        if: matrix.os == 'macos-latest'
+
+      ## Linux Setup
+
+      - name: install lazarus (linux)
+        run: |
+          sudo apt-get update
+          sudo apt-get install lazarus
+        # 'ubuntu-latest' currently resolves to 18.04, which has lazarus 1.8.2+dfsg-3 .
+        # It will probably become ubuntu 20.04 in the future, which currently has lazarus 2.0.6+dfsg-3 .
+        # https://help.github.com/en/actions/reference/virtual-environments-for-github-hosted-runners#supported-runners-and-hardware-resources
+        # Instead, if desired, specific builds can be installed like this:
+        #     sudo apt-get install libgtk2.0-dev
+        #     wget https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.8/fpc-laz_3.0.4-1_amd64.deb/download -O fpc-laz_3.0.4-1_amd64.deb
+        #     wget https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.8/lazarus-project_2.0.8-0_amd64.deb/download -O lazarus-project_2.0.8-0_amd64.deb
+        #     wget https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.8/fpc-src_3.0.4-2_amd64.deb/download -O fpc-src_3.0.4-2_amd64.deb
+        #     sudo dpkg -i fpc-laz_3.0.4-1_amd64.deb
+        #     sudo dpkg -i fpc-src_3.0.4-2_amd64.deb
+        #     sudo dpkg -i lazarus-project_2.0.8-0_amd64.deb
+
+        if: matrix.os == 'ubuntu-latest'
+
+      ## Windows Setup
+
+      - name: install make (windows)
+        if: matrix.os == 'windows-latest'
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install make
+
+      - name: install 32-bit lazarus (windows)
+        if: matrix.os == 'windows-latest'
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install --x86 lazarus
+
+      # https://github.community/t5/GitHub-Actions/Append-PATH-on-Windows/td-p/31120
+      - name: add lazarus to path (windows)
+        run: echo "##[add-path]C:\lazarus"
+        if: matrix.os == 'windows-latest'
+
+      ## Build
+
+      - run: lazbuild --version
+
+      - uses: actions/checkout@v2
+
+      - run: make smartset_fsedge
+
+      - run: make smartset_rgb
+
+      - run: make smartset_adv2
+
+      - run: make smartset_savant_elite
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: SmartSetFSEdgePro-${{ runner.os }}
+          path: SmartSetFSEdgePro
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: SmartSetRGB-${{ runner.os }}
+          path: SmartSetRGB
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: SmartSetAdv2-${{ runner.os }}
+          path: SmartSetAdv2
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: SmartSetSavantElite-${{ runner.os }}
+          path: SmartSetSavantElite
