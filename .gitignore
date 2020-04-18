@@ -28,3 +28,11 @@ trace.log
 */lib
 SmartSetAdv2/SmartSetKeyboard.lps
 SmartSetFSEdgePro/SmartSetFSEdge.lps
+
+Components/**/x86_64-darwin
+Components/**/x86_64-linux
+
+SmartSetFSEdgePro/SmartSet App-Freestyle (PC)
+SmartSetRGB/SmartSet App-Freestyle (Mac)
+SmartSetAdv2/Adv2 SmartSet App (PC)
+SmartSetSavantElite/SE2 SmartSet App (Mac)
