@@ -14,6 +14,7 @@ interface
 uses
   Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics, Buttons
   {$ifdef Win32}, Windows, jwawinuser{$endif}
+  {$ifdef Linux}, LCLIntf{$endif}
   {$ifdef Darwin},LCLIntf, CocoaUtils, CocoaAll{$endif};
 
 type
