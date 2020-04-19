@@ -3809,8 +3809,6 @@ begin
     attachments.Add(currentLedFile);
     message.Add('Test email from RGB App');
     message.Add(' (With Attachments)');
-    //SendToEx('no-reply@creosource.com','info@creosource.com','FS Edge RBG','smtp.sendgrid.net:587',message,
-    //  'martineweb','martsou17')
     DoSendMailAndAttachments('dhargreaves@kinesis.com', 'FS Edge RBG', message, attachments);
   finally
     Cursor := crDefault;
@@ -3844,8 +3842,6 @@ begin
 //    // Compose message
 //    Mime.EncodeMessage;
 //    // Send using SendToRaw
-//    sent := SendToRaw('no-reply@kinesis.com',ATo,'smtp.sendgrid.net:587',Mime.Lines,
-//      'martineweb', 'martsou17');
 //    if not sent then
 //      ShowDialog('Email', 'Could not send the message', mtWarning, [mbOk])
 //    else
