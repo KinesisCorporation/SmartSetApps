@@ -14,7 +14,7 @@ uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
   {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
-  HSSpeedButton, internetaccess, LazFileUtils;
+  HSSpeedButton, internetaccess, LazFileUtils, u_kinesis_device;
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -127,6 +127,14 @@ type
 
   TKeysPos = array of TKeyPos;
 
+{$ifdef Win32}
+type
+    LPDWORD = ^DWORD;
+function AddFontMemResourceEx(pbFont: Pointer; cbFont: DWORD; pdv: Pointer; pcFonts: LPDWORD): LongWord; stdcall;
+  external 'gdi32.dll' Name 'AddFontMemResourceEx';
+function RemoveFontMemResourceEx(fh: LongWord): LongBool; stdcall;
+  external 'gdi32.dll' Name 'RemoveFontMemResourceEx';
+{$endif}
 
 var
   GApplication: integer; //Id of application
@@ -203,7 +211,8 @@ function IsVersionBiggerOrEqual(sourceMajor, sourceMinor, sourceRevision: intege
 function IsVersionSmaller(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;
 function GetPrefString(const KeyName : string) : string;
 function IsDarkTheme:boolean;
-
+function IsDeviceConnected(aDevice: TDevice): boolean;
+function LoadFontFromRes(FontName: string):THandle;
 
 const
   //START OF VIRTUAL KEY OPTIONS
@@ -465,6 +474,8 @@ const
   APPL_FSEDGE = 2;
   APPL_FSPRO = 3;
   APPL_RGB = 4;
+  APPL_CROSSKP = 5;
+  APPL_CROSSTKO = 6;
 
   //Led modes
   LED_MONO = '[mono]';
@@ -527,7 +538,11 @@ const
   RGB_DRIVE = 'FS EDGE RGB';
   FSEDGE_DRIVE = 'FS EDGE';
   FSPRO_DRIVE = 'FS PRO';
-  ADV2_DRIVE = 'KINESIS KB';
+  ADV2_DRIVE = 'ADVANTAGE2';
+  ADV2_DRIVE_2 = 'KINESIS KB';
+  ADV2_DRIVE_3 = 'ADV2';
+  CROSSKP_DRIVE = 'CROSSFIRE KEYPAD';
+  CROSSTKO_DRIVE = 'CROSSFIRE TKO';
   TAP_AND_HOLD = 't&h';
   DEFAULT_SPEED_TAP_HOLD = 250;
   MAX_TAP_HOLD = 10;
@@ -930,6 +945,15 @@ begin
           result := true;
         end;
       end
+      else if (GApplication in [APPL_ADV2]) then
+      begin
+        if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
+        ((driveName = ADV2_DRIVE) or (driveName = ADV2_DRIVE_2) or (driveName = ADV2_DRIVE_3)) then
+        begin
+          GApplicationPath := driveList[i];
+          result := true;
+        end;
+      end
       else
       begin
         if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and (driveName = kbDrive) then
@@ -953,11 +977,18 @@ begin
     else
       driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
 
-    if (GApplication = APPL_ADV2) then
-      dirFirmware := driveName + '/active/'
-    else
-      dirFirmware := driveName + '/firmware/';
-    if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) then
+    if (GApplication in [APPL_ADV2]) then
+    begin
+      if ((DirectoryExists(IncludeTrailingBackslash('/VOLUMES/' + ADV2_DRIVE) + 'active/') or
+          (DirectoryExists(IncludeTrailingBackslash('/VOLUMES/' + ADV2_DRIVE_2) + 'active/') or
+          (DirectoryExists(IncludeTrailingBackslash('/VOLUMES/' + ADV2_DRIVE_3) + 'active/')) and
+          FileExists(dirFirmware + 'version.txt') then
+      begin
+        GApplicationPath := driveName;
+        result := true;
+      end;
+    end
+    else if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
     begin
       GApplicationPath := driveName;
       result := true;
@@ -1713,6 +1744,88 @@ begin
   {$ifdef Darwin}
   Result := pos('DARK',UpperCase(GetPrefString('AppleInterfaceStyle')))>0;
   {$endif}
+end;
+
+function IsDeviceConnected(aDevice: TDevice): boolean;
+var
+  driveList: TStringList;
+  i: integer;
+  dirFirmware: string;
+  driveName: string;
+  kbDrive: string;
+begin
+  result := false;
+  kbDrive := '';
+  {$ifdef Win32}
+  driveList := GetAvailableDrives;
+  for i := 0 to driveList.Count - 1 do
+  begin
+    if (aDevice.DeviceNumber = APPL_ADV2) then
+    begin
+      dirFirmware := driveList[i] + '\active\';
+
+      if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
+        ((driveName = ADV2_DRIVE) or (driveName = ADV2_DRIVE_2) or (driveName = ADV2_DRIVE_3)) then
+      begin
+        aDevice.Connected := true;
+        result := true;
+      end;
+    end
+    else
+    begin
+      dirFirmware := driveList[i] + '\firmware\';
+      driveName := UpperCase(Trim(GetVolumeLabel(driveList[i][1])));
+
+      if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
+        (driveName = aDevice.VDriveName) then
+      begin
+        aDevice.Connected := true;
+        result := true;
+      end;
+    end;
+  end;
+  {$endif}
+
+  //MacOS
+  {$ifdef Darwin}
+  driveName := IncludeTrailingBackslash('/VOLUMES/' + aDevice.VDriveName);
+  if (GApplication = APPL_ADV2) then
+    dirFirmware := driveName + '/active/'
+  else
+    dirFirmware := driveName + '/firmware/';
+
+  if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) then
+  begin
+    aDevice.Connected := true;
+    result := true;
+  end;
+  {$endif}
+end;
+
+function LoadFontFromRes(FontName: string):THandle;
+{$ifdef Win32}
+var
+  ResHandle: HRSRC;
+  ResSize, NbFontAdded: Cardinal;
+  ResAddr: HGLOBAL;
+{$endif}
+begin
+{$ifdef Win32}
+  ResHandle := FindResource(system.HINSTANCE, PChar(FontName), RT_RCDATA);
+  if ResHandle = 0 then
+    RaiseLastOSError;
+  ResAddr := LoadResource(system.HINSTANCE, ResHandle);
+  if ResAddr = 0 then
+    RaiseLastOSError;
+  ResSize := SizeOfResource(system.HINSTANCE, ResHandle);
+  if ResSize = 0 then
+    RaiseLastOSError;
+  Result := AddFontMemResourceEx(Pointer(ResAddr), ResSize, nil, @NbFontAdded);
+  if Result = 0 then
+    RaiseLastOSError;
+{$else}
+  Result := 0;
+{$endif}
 end;
 
 initialization
