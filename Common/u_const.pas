@@ -979,19 +979,32 @@ begin
 
     if (GApplication in [APPL_ADV2]) then
     begin
-      if ((DirectoryExists(IncludeTrailingBackslash('/VOLUMES/' + ADV2_DRIVE) + 'active/') or
-          (DirectoryExists(IncludeTrailingBackslash('/VOLUMES/' + ADV2_DRIVE_2) + 'active/') or
-          (DirectoryExists(IncludeTrailingBackslash('/VOLUMES/' + ADV2_DRIVE_3) + 'active/')) and
-          FileExists(dirFirmware + 'version.txt') then
+      for i := 1 to 3 do
+      begin
+        case i of
+         1: kbDrive := ADV2_DRIVE;
+         2: kbDrive := ADV2_DRIVE_2;
+         3: kbDrive := ADV2_DRIVE_3;
+        end;
+        driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
+        dirFirmware := driveName + '/active/';
+
+        if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
+        begin
+          GApplicationPath := driveName;
+          result := true;
+        end;
+      end;
+    end
+    else
+    begin
+      dirFirmware := driveName + '/firmware/';
+
+      if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
       begin
         GApplicationPath := driveName;
         result := true;
       end;
-    end
-    else if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
-    begin
-      GApplicationPath := driveName;
-      result := true;
     end;
     {$endif}
   end;
@@ -1788,17 +1801,37 @@ begin
 
   //MacOS
   {$ifdef Darwin}
-  driveName := IncludeTrailingBackslash('/VOLUMES/' + aDevice.VDriveName);
-  if (GApplication = APPL_ADV2) then
-    dirFirmware := driveName + '/active/'
+  if (GApplication in [APPL_ADV2]) then
+  begin
+    for i := 1 to 3 do
+    begin
+      case i of
+       1: kbDrive := ADV2_DRIVE;
+       2: kbDrive := ADV2_DRIVE_2;
+       3: kbDrive := ADV2_DRIVE_3;
+      end;
+      driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
+      dirFirmware := driveName + '/active/';
+
+      if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
+      begin
+        aDevice.Connected := true;
+        result := true;
+      end;
+    end;
+  end
   else
+  begin
+    driveName := IncludeTrailingBackslash('/VOLUMES/' + aDevice.VDriveName);
     dirFirmware := driveName + '/firmware/';
 
-  if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) then
-  begin
-    aDevice.Connected := true;
-    result := true;
+    if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
+    begin
+      aDevice.Connected := true;
+      result := true;
+    end;
   end;
+
   {$endif}
 end;
 
