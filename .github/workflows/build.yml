@@ -66,13 +66,44 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - run: make smartset_fsedge
+      # Building with retries due to intermittent compiler crashes.
+      # Mostly on Mac, looking like this:
+      #
+      # An unhandled exception occurred at $0000000100110B43:
+      # EAccessViolation: Access violation
+      #   $0000000100110B43
+      #   $00000001005C5C95
+      #   $00000001005C9BD4
+      #   $00000001005CADB6
+      #   $000000010001B0E5
 
-      - run: make smartset_rgb
+      - name: make smartset_adv2
+        uses: nick-invision/retry@v1
+        with:
+          max_attempts: 3
+          timeout_minutes: 10
+          command: make smartset_adv2
 
-      - run: make smartset_adv2
+      - name: make smartset_fsedge
+        uses: nick-invision/retry@v1
+        with:
+          max_attempts: 3
+          timeout_minutes: 10
+          command: make smartset_fsedge
 
-      - run: make smartset_savant_elite
+      - name: make smartset_rgb
+        uses: nick-invision/retry@v1
+        with:
+          max_attempts: 3
+          timeout_minutes: 10
+          command: make smartset_rgb
+
+      - name: make smartset_savant_elite
+        uses: nick-invision/retry@v1
+        with:
+          max_attempts: 3
+          timeout_minutes: 10
+          command: make smartset_savant_elite
 
       - uses: actions/upload-artifact@v1
         with:
