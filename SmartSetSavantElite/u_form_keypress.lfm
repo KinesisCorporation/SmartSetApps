@@ -10,6 +10,7 @@ object FormKeyPress: TFormKeyPress
   ClientHeight = 654
   ClientWidth = 1090
   Color = clWhite
+  Font.Color = clBlack
   Font.Height = -16
   Font.Name = 'Segoe UI'
   OnClose = FormClose
@@ -18,7 +19,7 @@ object FormKeyPress: TFormKeyPress
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
   Position = poScreenCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.8.0'
   object pnlRight: TPanel
     Left = 598
     Height = 659
@@ -54,6 +55,7 @@ object FormKeyPress: TFormKeyPress
       Caption = 'Clear'
       Font.Height = -13
       Font.Name = 'Segoe UI'
+      Transparent = False
       OnClick = bClearClick
       ParentFont = False
     end
@@ -82,7 +84,7 @@ object FormKeyPress: TFormKeyPress
       Left = 8
       Height = 21
       Top = 35
-      Width = 113
+      Width = 109
       Alignment = taCenter
       AutoSize = False
       Caption = 'Config Pedal'
@@ -98,8 +100,9 @@ object FormKeyPress: TFormKeyPress
       Left = 7
       Height = 18
       Top = 226
-      Width = 103
+      Width = 100
       Caption = 'Middle Pedal'
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -111,8 +114,9 @@ object FormKeyPress: TFormKeyPress
       Left = 7
       Height = 18
       Top = 294
-      Width = 92
+      Width = 88
       Caption = 'Right Pedal'
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -124,8 +128,9 @@ object FormKeyPress: TFormKeyPress
       Left = 7
       Height = 18
       Top = 160
-      Width = 81
+      Width = 78
       Caption = 'Left Pedal'
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -137,8 +142,9 @@ object FormKeyPress: TFormKeyPress
       Left = 7
       Height = 18
       Top = 378
-      Width = 50
+      Width = 48
       Caption = 'Jack 1'
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -150,8 +156,9 @@ object FormKeyPress: TFormKeyPress
       Left = 7
       Height = 18
       Top = 446
-      Width = 52
+      Width = 51
       Caption = 'Jack 2'
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -163,8 +170,9 @@ object FormKeyPress: TFormKeyPress
       Left = 7
       Height = 18
       Top = 514
-      Width = 53
+      Width = 51
       Caption = 'Jack 3'
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -176,8 +184,9 @@ object FormKeyPress: TFormKeyPress
       Left = 7
       Height = 18
       Top = 582
-      Width = 53
+      Width = 51
       Caption = 'Jack 4'
+      Font.Color = clBlack
       Font.Height = -16
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -186,10 +195,10 @@ object FormKeyPress: TFormKeyPress
       ParentFont = False
     end
     object bSpecialAction: TSpeedButton
-      Left = 371
+      Left = 367
       Height = 25
       Top = 32
-      Width = 114
+      Width = 118
       Caption = 'Special Actions'
       Font.Height = -13
       Font.Name = 'Segoe UI'
@@ -230,24 +239,26 @@ object FormKeyPress: TFormKeyPress
         0000000000000000000000000000000000000000000000000000
       }
       Layout = blGlyphRight
+      Transparent = False
       OnClick = bSpecialActionClick
       ParentFont = False
     end
     object bSingleKey: TSpeedButton
-      Left = 122
+      Left = 118
       Height = 25
       Top = 32
-      Width = 92
+      Width = 93
       Caption = 'Single Action'
       Down = True
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 1
+      Transparent = False
       OnClick = bSingleKeyClick
       ParentFont = False
     end
     object bMultipleKeys: TSpeedButton
-      Left = 217
+      Left = 213
       Height = 25
       Top = 32
       Width = 152
@@ -255,6 +266,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 1
+      Transparent = False
       OnClick = bMultipleKeysClick
       ParentFont = False
     end
@@ -266,36 +278,9 @@ object FormKeyPress: TFormKeyPress
       Caption = 'Backspace'
       Font.Height = -13
       Font.Name = 'Segoe UI'
+      Transparent = False
       OnClick = bBackspaceClick
       ParentFont = False
-    end
-    object bDone: TBitBtn
-      Left = 402
-      Height = 27
-      Top = 128
-      Width = 75
-      Caption = 'Done'
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Kind = bkOK
-      OnClick = bDoneClick
-      ParentFont = False
-      TabOrder = 3
-      TabStop = False
-    end
-    object bCancel: TBitBtn
-      Left = 176
-      Height = 27
-      Top = 128
-      Width = 75
-      DefaultCaption = True
-      Font.Height = -13
-      Font.Name = 'Segoe UI'
-      Kind = bkCancel
-      OnClick = bCancelClick
-      ParentFont = False
-      TabOrder = 2
-      TabStop = False
     end
     object lblJack1Modified: TLabel
       Left = 64
@@ -305,6 +290,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taCenter
       AutoSize = False
       Caption = '*Modified'
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -321,6 +307,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taCenter
       AutoSize = False
       Caption = '*Modified'
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -337,6 +324,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taCenter
       AutoSize = False
       Caption = '*Modified'
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -353,6 +341,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taCenter
       AutoSize = False
       Caption = '*Modified'
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -369,6 +358,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taCenter
       AutoSize = False
       Caption = '*Modified'
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -385,6 +375,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taCenter
       AutoSize = False
       Caption = '*Modified'
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -401,6 +392,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taCenter
       AutoSize = False
       Caption = '*Modified'
+      Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -422,7 +414,7 @@ object FormKeyPress: TFormKeyPress
       ReadOnly = True
       ScrollBars = ssVertical
       ShowHint = True
-      TabOrder = 4
+      TabOrder = 2
       TabStop = False
       ZoomFactor = 1
     end
@@ -439,7 +431,7 @@ object FormKeyPress: TFormKeyPress
       ReadOnly = True
       ScrollBars = ssVertical
       ShowHint = True
-      TabOrder = 5
+      TabOrder = 3
       TabStop = False
       ZoomFactor = 1
     end
@@ -456,7 +448,7 @@ object FormKeyPress: TFormKeyPress
       ReadOnly = True
       ScrollBars = ssVertical
       ShowHint = True
-      TabOrder = 6
+      TabOrder = 4
       TabStop = False
       ZoomFactor = 1
     end
@@ -473,7 +465,7 @@ object FormKeyPress: TFormKeyPress
       ReadOnly = True
       ScrollBars = ssVertical
       ShowHint = True
-      TabOrder = 7
+      TabOrder = 5
       TabStop = False
       ZoomFactor = 1
     end
@@ -490,7 +482,7 @@ object FormKeyPress: TFormKeyPress
       ReadOnly = True
       ScrollBars = ssVertical
       ShowHint = True
-      TabOrder = 9
+      TabOrder = 7
       TabStop = False
       ZoomFactor = 1
     end
@@ -507,7 +499,7 @@ object FormKeyPress: TFormKeyPress
       ReadOnly = True
       ScrollBars = ssVertical
       ShowHint = True
-      TabOrder = 8
+      TabOrder = 6
       TabStop = False
       ZoomFactor = 1
     end
@@ -519,6 +511,7 @@ object FormKeyPress: TFormKeyPress
       Alignment = taRightJustify
       AutoSize = False
       Caption = 'SELECT SINGLE OR MULTIPLE THEN TYPE IN THE BOX OR SELECT SPECIAL ACTION'
+      Font.Color = clBlack
       Font.Height = -10
       Font.Name = 'Segoe UI'
       Layout = tlCenter
@@ -526,7 +519,7 @@ object FormKeyPress: TFormKeyPress
       ParentFont = False
     end
     object shSpecialAction: TShape
-      Left = 464
+      Left = 465
       Height = 23
       Top = 33
       Width = 1
@@ -541,7 +534,7 @@ object FormKeyPress: TFormKeyPress
       OnClick = bMoreLeftClick
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 14
+      TabOrder = 12
       TabStop = False
     end
     object bMoreMiddle: TBitBtn
@@ -554,7 +547,7 @@ object FormKeyPress: TFormKeyPress
       OnClick = bMoreMiddleClick
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 15
+      TabOrder = 13
       TabStop = False
     end
     object bMoreRight: TBitBtn
@@ -567,7 +560,7 @@ object FormKeyPress: TFormKeyPress
       OnClick = bMoreRightClick
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 16
+      TabOrder = 14
       TabStop = False
     end
     object bMoreJack1: TBitBtn
@@ -580,7 +573,7 @@ object FormKeyPress: TFormKeyPress
       OnClick = bMoreJack1Click
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 13
+      TabOrder = 11
       TabStop = False
     end
     object bMoreJack2: TBitBtn
@@ -593,7 +586,7 @@ object FormKeyPress: TFormKeyPress
       OnClick = bMoreJack2Click
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 12
+      TabOrder = 10
       TabStop = False
     end
     object bMoreJack3: TBitBtn
@@ -606,7 +599,7 @@ object FormKeyPress: TFormKeyPress
       OnClick = bMoreJack3Click
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 11
+      TabOrder = 9
       TabStop = False
     end
     object bMoreJack4: TBitBtn
@@ -619,8 +612,104 @@ object FormKeyPress: TFormKeyPress
       OnClick = bMoreJack4Click
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 10
+      TabOrder = 8
       TabStop = False
+    end
+    object bCancel: TSpeedButton
+      Left = 177
+      Height = 25
+      Top = 128
+      Width = 74
+      Caption = 'Cancel'
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000005353D1845252D09E000000000000000000000000000000000000
+        0000000000005252D09E5353D184000000000000000000000000000000000000
+        00005151D2817676E7EE7F7FEDF75252D29E0000000000000000000000000000
+        00005454D2987E7EECF57878E9F05050D0890000000000000000000000000000
+        00005252D09E7E7EECF68F8FF7FF7E7EECF65252D09E00000000000000005252
+        D09E7E7EECF68F8FF7FF7E7EECF65252D09E0000000000000000000000000000
+        0000000000005252D09C7D7DEBF68F8FF7FF7E7EECF75151D1A05151D09D7E7E
+        EBF58F8FF7FF7E7EECF75353D09F000000000000000000000000000000000000
+        000000000000000000005252D09E7E7EECF68F8FF7FF7E7EECF67E7EECF68F8F
+        F7FF7E7EECF65252D09E00000000000000000000000000000000000000000000
+        00000000000000000000000000005151D09D7D7DEBF68F8FF7FF8F8FF7FF7E7E
+        ECF75353D1A00000000000000000000000000000000000000000000000000000
+        00000000000000000000000000005151D09D7E7EEBF58F8FF7FF8F8FF7FF7E7E
+        ECF75151D1A00000000000000000000000000000000000000000000000000000
+        000000000000000000005252D09E7E7EECF68F8FF7FF7E7EECF67E7EECF68F8F
+        F7FF7E7EECF65252D09E00000000000000000000000000000000000000000000
+        0000000000005252D09C7E7EEBF58F8FF7FF7E7EECF75353D1A05151D09D7D7D
+        EBF68F8FF7FF7E7EECF75252D09F000000000000000000000000000000000000
+        00005252D09E7E7EECF68F8FF7FF7E7EECF65252D09E00000000000000005252
+        D09E7E7EECF68F8FF7FF7E7EECF65252D09E0000000000000000000000000000
+        00005151D2817777E7EE7F7FEDF75353D29F0000000000000000000000000000
+        00005454D2987D7DEBF67878E9F05050D0890000000000000000000000000000
+        0000000000005353D1845252D09E000000000000000000000000000000000000
+        0000000000005252D09E5353D184000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000
+      }
+      Transparent = False
+      OnClick = bCancelClick
+      ParentFont = False
+    end
+    object bDone: TSpeedButton
+      Left = 403
+      Height = 25
+      Top = 130
+      Width = 74
+      Caption = 'Done'
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000BB3362F0BB437D90AB437D607B63A230000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000016BD424617BD40F017BD40FF17BD40FF17BD3FDD15BF
+        4018000000000000000000000000000000000000000000000000000000000000
+        00000000000021C4476422C448FA22C448FF22C448FF22C448FF22C448FF22C4
+        48D220BF501000000000000000000000000000000000000000000000000000FF
+        80022DCB4F8E2DCB4FFF2DCB4FFF2DCB4FFE2CCB4F842DCB50CA2DCB4FFF2DCB
+        4FFF2ECB4FBE24DB4907000000000000000000000000000000000000000037D1
+        576F38D257FF38D257FF38D257F939D1575E000000003DCE551537D257D838D2
+        57FF38D257FF38D357AC55AA55030000000000000000000000000000000043D7
+        5E1342D95DDD42D95EF243D8604800000000000000000000000040DB5B1C41D9
+        5EE242D95EFF42D95EFF41D85E98000000000000000000000000000000000000
+        00004BE1622249DB662300000000000000000000000000000000000000004BDC
+        632C4ADE63EE4ADE63FF4ADE63FF49DD63810000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00004EE1633B4DE065F64DE065FF4DE065FF4CDF646100000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000004CE1634D4DE065FB4DE065FA4CE1645400000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000004CE065514CE167430000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000
+      }
+      Transparent = False
+      OnClick = bDoneClick
+      ParentFont = False
     end
   end
   object pnlLeft: TPanel
@@ -644,6 +733,7 @@ object FormKeyPress: TFormKeyPress
       Caption = 'Exit program'
       Font.Height = -13
       Font.Name = 'Segoe UI'
+      Transparent = False
       OnClick = bExitClick
       ParentFont = False
     end
@@ -1518,6 +1608,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 11
+      Transparent = False
       OnClick = bLeftClick
       ParentFont = False
     end
@@ -1531,6 +1622,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 11
+      Transparent = False
       OnClick = bMiddleClick
       ParentFont = False
     end
@@ -1544,6 +1636,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 11
+      Transparent = False
       OnClick = bRightClick
       ParentFont = False
     end
@@ -1557,6 +1650,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 11
+      Transparent = False
       OnClick = bJack3Click
       ParentFont = False
     end
@@ -1570,6 +1664,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 11
+      Transparent = False
       OnClick = bJack4Click
       ParentFont = False
     end
@@ -1583,6 +1678,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 11
+      Transparent = False
       OnClick = bJack1Click
       ParentFont = False
     end
@@ -1596,6 +1692,7 @@ object FormKeyPress: TFormKeyPress
       Font.Height = -13
       Font.Name = 'Segoe UI'
       GroupIndex = 11
+      Transparent = False
       OnClick = bJack2Click
       ParentFont = False
     end
@@ -1606,6 +1703,7 @@ object FormKeyPress: TFormKeyPress
       Width = 569
       AutoSize = False
       Caption = 'TO RE-PROGRAM CLICK ON A "CONFIGURE" BUTTON, THEN SELECT ACTION(S) AT RIGHT'
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Layout = tlCenter
@@ -1634,6 +1732,7 @@ object FormKeyPress: TFormKeyPress
       Caption = 'Save as'
       Font.Height = -13
       Font.Name = 'Segoe UI'
+      Transparent = False
       OnClick = bSaveAsClick
       ParentFont = False
     end
@@ -1646,6 +1745,7 @@ object FormKeyPress: TFormKeyPress
       Enabled = False
       Font.Height = -13
       Font.Name = 'Segoe UI'
+      Transparent = False
       OnClick = bSaveClick
       ParentFont = False
     end
@@ -1655,6 +1755,7 @@ object FormKeyPress: TFormKeyPress
       Top = 55
       Width = 132
       Caption = 'Open another file'
+      Transparent = False
       OnClick = bOpenFileClick
     end
     object Label3: TLabel
@@ -1663,6 +1764,7 @@ object FormKeyPress: TFormKeyPress
       Top = 96
       Width = 62
       Caption = 'File name:'
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Segoe UI'
       ParentColor = False
@@ -1674,6 +1776,7 @@ object FormKeyPress: TFormKeyPress
       Top = 96
       Width = 71
       Caption = 'lblFileName'
+      Font.Color = clBlack
       Font.Height = -13
       Font.Name = 'Segoe UI'
       ParentColor = False
@@ -1687,6 +1790,7 @@ object FormKeyPress: TFormKeyPress
       Caption = 'Help'
       Font.Height = -13
       Font.Name = 'Segoe UI'
+      Transparent = False
       OnClick = bHelpClick
       ParentFont = False
     end
@@ -1740,5 +1844,32 @@ object FormKeyPress: TFormKeyPress
     object MenuItem1: TMenuItem
       Caption = 'New Item1'
     end
+  end
+  object ImageList1: TImageList
+    Height = 12
+    Width = 12
+    left = 407
+    top = 122
+    Bitmap = {
+      4C69010000000C0000000C000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000FFFFFF0000000000000000000000000000000000000000000000
+      0000FFFFFF00000000000000000000000000FFFFFF6AFFFFFF99FFFFFF020000
+      0000000000000000000000000000FFFFFF02FEFEFE99FFFFFF6E00000000FFFF
+      FF66FEFEFEFDFEFEFEFFFEFEFE9DFFFFFF020000000000000000FEFEFE02FEFE
+      FE99FEFEFEFFFFFFFFFFFFFFFF68FFFFFF8FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FF9DFFFFFF02FEFEFE02FFFFFF99FFFFFFFFFFFFFFFFFFFFFFFFFEFEFE91FFFF
+      FF00FEFEFE91FEFEFEFFFEFEFEFFFFFFFFFFFFFFFF9FFEFEFE9BFFFFFFFFFEFE
+      FEFFFEFEFEFFFFFFFF93FFFFFF0000000000FFFFFF00FFFFFF8FFEFEFEFFFEFE
+      FEFFFEFEFEFFFEFEFEFFFFFFFFFFFEFEFEFFFFFFFF93FFFFFF00000000000000
+      000000000000FFFFFF00FFFFFF8FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFE
+      FE91FFFFFF000000000000000000000000000000000000000000FEFEFE00FEFE
+      FE8DFEFEFEFFFEFEFEFFFFFFFF91FFFFFF000000000000000000000000000000
+      0000000000000000000000000000FFFFFF00FFFFFF8BFFFFFF8FFFFFFF000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000FFFFFF00FFFFFF0000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000
+    }
   end
 end

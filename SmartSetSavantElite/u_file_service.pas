@@ -32,7 +32,7 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
-    function LoadFile(sFileName: string): string;
+    function LoadFile(sFileName: string; criticalFile: boolean): string;
     function SaveFile(var error: string): boolean;
     function LoadPedals: boolean;
     function CheckIfFileExists(sFileName: string): boolean;
@@ -122,7 +122,7 @@ begin
 end;
 
 //Receives complete file name and tries to load file
-function TFileService.LoadFile(sFileName: string): string;
+function TFileService.LoadFile(sFileName: string; criticalFile: boolean): string;
 var
   filePedals: TextFile;
   currentLine: string;
@@ -145,7 +145,10 @@ begin
     except
       on E: Exception do
       begin
-        Result := 'Error loading file: ' + sFileName + ', ' + E.Message;
+        if (criticalFile) then
+          Result := 'A file error has occurred. Please disconnect and re-connect the v-Drive and try launching the SmartSet App again.'
+        else
+          Result := 'Error loading file: ' + sFileName + ', ' + E.Message;
         HandleExcept(E, False, Result);
       end;
     end;
