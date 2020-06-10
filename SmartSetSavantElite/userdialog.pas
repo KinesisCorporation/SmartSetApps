@@ -55,6 +55,13 @@ begin
   FormUserDialog.Caption := Caption;
   FormUserDialog.lblMessage.Caption := Message;
 
+  if (IsDarkTheme) then
+  begin;
+    FormUserDialog.Font.Color := clWhite;
+    FormUserDialog.lblMessage.Font.Color := clWhite;
+    FormUserDialog.Color := KINESIS_DARK_GRAY_FS;
+  end;
+
   //Loads the image for dialog type
   if dlgType in [mtConfirmation] then
     FormUserDialog.ilDialog.GetBitmap(CONFIRM_ICON, FormUserDialog.imgDialog.Picture.Bitmap)
@@ -109,7 +116,8 @@ begin
   button.Kind := btnType;
   button.Name := 'btn' + IntToStr(idx);
   button.Width := btnWidth;
-  button.ParentFont := true;
+  button.ParentFont := false;
+  button.Font.Color := clDefault;
 
   SetLength(aButtons, idx);
   aButtons[idx - 1] := button;

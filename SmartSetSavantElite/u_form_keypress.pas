@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   u_key_service, u_keys, lcltype, Menus, ExtCtrls, Buttons, RichMemo,
-  u_const, u_file_service, u_form_about, lclintf, UserDialog
+  ColorSpeedButton, u_const, u_file_service, u_form_about, lclintf, UserDialog
   {$ifdef Win32},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonUtils, CarbonDef, CarbonProc}{$endif};
 
@@ -17,9 +17,9 @@ type
 
   TFormKeyPress = class(TForm)
     bBackspace: TSpeedButton;
-    bCancel: TBitBtn;
+    bDone: TSpeedButton;
     bClear: TSpeedButton;
-    bDone: TBitBtn;
+    bCancel: TSpeedButton;
     bExit: TSpeedButton;
     bHelp: TSpeedButton;
     bMoreLeft: TBitBtn;
@@ -43,6 +43,7 @@ type
     bSingleKey: TSpeedButton;
     bSpecialAction: TSpeedButton;
     Image1: TImage;
+    ImageList1: TImageList;
     Label3: TLabel;
     lblFileName: TLabel;
     lblInfoConfig: TLabel;
@@ -128,6 +129,7 @@ type
     memoConfigDefaultColor: TColor;
     memoOriginalHeight: integer;
     memoOriginalColor: TColor;
+    darkTheme: boolean;
 
     procedure AddSpecialActions;
     procedure SetEditMode(Value: boolean; pedal: TPedal);
@@ -303,6 +305,21 @@ begin
     self.Height := screen.Height - 20;
 
   SetConfigOS; //Sets config according to OS version
+
+  darkTheme := IsDarkTheme;
+  if (darkTheme) then
+  begin
+    ImageList1.GetBitmap(0, bSpecialAction.Glyph);
+    shSpecialAction.Visible := false;
+    memoLeft.Color := clGray;
+    memoMiddle.Color := clGray;
+    memoRight.Color := clGray;
+    memoJack1.Color := clGray;
+    memoJack2.Color := clGray;
+    memoJack3.Color := clGray;
+    memoJack4.Color := clGray;
+  end;
+
   self.Caption := GApplicationTitle;
   keyService := TKeyService.Create;
   fileService := TFileService.Create;
@@ -1150,41 +1167,41 @@ end;
 procedure TFormKeyPress.bDoneClick(Sender: TObject);
 begin
   if keyService.ActivePedalModified then
-  begin
-    case keyService.CurrentPedal of
-      pLeft:
-      begin
-        lblLeftModified.Visible := True;
+    begin
+      case keyService.CurrentPedal of
+        pLeft:
+        begin
+          lblLeftModified.Visible := True;
+        end;
+        pMiddle:
+        begin
+          lblMiddleModified.Visible := True;
+        end;
+        pRight:
+        begin
+          lblRightModified.Visible := True;
+        end;
+        pJack1:
+        begin
+          lblJack1Modified.Visible := True;
+        end;
+        pJack2:
+        begin
+          lblJack2Modified.Visible := True;
+        end;
+        pJack3:
+        begin
+          lblJack3Modified.Visible := True;
+        end;
+        pJack4:
+        begin
+          lblJack4Modified.Visible := True;
+        end;
       end;
-      pMiddle:
-      begin
-        lblMiddleModified.Visible := True;
-      end;
-      pRight:
-      begin
-        lblRightModified.Visible := True;
-      end;
-      pJack1:
-      begin
-        lblJack1Modified.Visible := True;
-      end;
-      pJack2:
-      begin
-        lblJack2Modified.Visible := True;
-      end;
-      pJack3:
-      begin
-        lblJack3Modified.Visible := True;
-      end;
-      pJack4:
-      begin
-        lblJack4Modified.Visible := True;
-      end;
+      SetSaveState(ssModifed);
     end;
-    SetSaveState(ssModifed);
-  end;
-  SetEditMode(False, pNone);
-  LoadPedalText(false);
+    SetEditMode(False, pNone);
+    LoadPedalText(false);
 end;
 
 procedure TFormKeyPress.bCancelClick(Sender: TObject);
@@ -1479,7 +1496,7 @@ begin
    if (memoSender.Height = memoOriginalHeight) then
    begin
       //Resize memo Heigher = # lines * LINE_HEIGHT pixels
-      newHeight := memoSender.Lines.Count * LINE_HEIGHT;
+      newHeight := 200;//memoSender.GetTextLen * LINE_HEIGHT;
       if newHeight > memoOriginalHeight then
       begin
          memoSender.Height := newHeight;
@@ -1550,7 +1567,7 @@ begin
   if canLoadFile then
   begin
     //Tries to load file, if it works open it and load keys
-    loadMessage := fileService.LoadFile(fileName);
+    loadMessage := fileService.LoadFile(fileName, true);
     if loadMessage = '' then
     begin
       Result := True;
@@ -1657,9 +1674,14 @@ end;
 procedure TFormKeyPress.SetMemoTextColor(aMemo: TRichMemo; aPedalsPos: TPedalsPos);
 var
   i: integer;
+  fontColor: TColor;
 begin
   //Version 1.0.6, reset to default color before setting red (MacOS bug)
-  aMemo.SetRangeColor(0, Length(aMemo.Text), clDefault);
+  fontColor := clDefault;
+  if darkTheme and (aMemo <> memoConfig) then
+    fontColor := clWhite;
+
+  aMemo.SetRangeColor(0, Length(aMemo.Text), fontColor);
 
   if (aPedalsPos <> nil) then
   begin
