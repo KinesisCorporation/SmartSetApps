@@ -929,11 +929,11 @@ begin
     createCustomButton(customBtns, 'Scan for v-Drive', 200, @scanVDriveClick);
     title := 'Keyboard Connection Lost';
     if (save) then
-      message := 'To save your changes you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.'
+      message := 'To save your changes you must use the onboard shortcut “Program + F1” to open the v-Drive and re-establish the connection with the SmartSet App.'
     else if (load) then
-      message := 'To load a layout you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.'
+      message := 'To load a layout you must use the onboard shortcut “Program + F1” to open the v-Drive and re-establish the connection with the SmartSet App.'
     else
-      message := 'To create a new layout you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.';
+      message := 'To create a new layout you must use the onboard shortcut “Program + F1” to open the v-Drive and re-establish the connection with the SmartSet App.';
     createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsClick);
 
     if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns, '', 700) = mrCancel) then
@@ -1578,6 +1578,7 @@ begin
         LoadKeyboardLayout(currentLayoutFile);
         SetSaveState(ssNone);
       end;
+      OpenDialog.Close;
     end;
   end;
 end;
