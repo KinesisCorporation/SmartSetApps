@@ -8,10 +8,11 @@ object FormUserDialog: TFormUserDialog
   ClientHeight = 146
   ClientWidth = 481
   Color = clWhite
+  Font.Color = clBlack
   Font.Height = -16
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.4.2.0'
+  LCLVersion = '2.0.8.0'
   object pnlBottom: TPanel
     Left = 0
     Height = 42
@@ -19,6 +20,8 @@ object FormUserDialog: TFormUserDialog
     Width = 481
     Align = alBottom
     BevelOuter = bvNone
+    Font.Height = -16
+    ParentFont = False
     TabOrder = 0
   end
   object pnlClient: TPanel
@@ -58,13 +61,12 @@ object FormUserDialog: TFormUserDialog
       Align = alClient
       AutoSize = False
       Caption = 'lblMessage'
-      Color = clWhite
+      Font.Color = clBlack
       Font.Height = -16
       Font.Style = [fsBold]
       Layout = tlCenter
       ParentColor = False
       ParentFont = False
-      Transparent = False
       WordWrap = True
     end
   end

@@ -3,11 +3,16 @@
 unit u_const;
 
 {$mode objfpc}{$H+}
+{$ifdef Darwin}
+  {$modeswitch objectivec1}
+{$endif}
 
 interface
 
 uses
-  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8{$ifdef Win32}, Windows, jwawinuser{$endif};
+  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics
+  {$ifdef Win32}, Windows, jwawinuser{$endif}
+  {$ifdef Darwin},LCLIntf, CocoaUtils, CocoaAll{$endif};
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -60,6 +65,7 @@ var
   GPedalsFile: string; //Location of Pedals.txt file
   GPedalsFilePath: string; //Location of Pedals.txt file folder
   GVersionFile: string; //Location of the version.txt file
+  KINESIS_DARK_GRAY_FS: TColor; //Kinesis dark gray color for FS app
 
 function MapShiftToVirutalKey(sShift: TShiftStateEnum): word;
 function IsModifier(Key: word): boolean;
@@ -73,6 +79,7 @@ function KeyToUnicode(Key: Word; Shift: boolean = false; AltGr: boolean = false)
 function ConvertToEnUS(Key: Word): integer;
 function ConvertToLayout(Key: Word): integer;
 function GetCurrentKeyoardLayout: string;
+function IsDarkTheme:boolean;
 
 const
   VK_NUMPADENTER = 10000; //User-defined keypad enter
@@ -353,6 +360,24 @@ begin
   result := layout;
 end;
 
+// Retrieve key's string value from user preferences. Result is encoded using NSStrToStr's default encoding.
+function GetPrefString(const KeyName : string) : string;
+begin
+  Result := '';
+  {$ifdef Darwin}
+  Result := NSStringToString(NSUserDefaults.standardUserDefaults.stringForKey(NSStr(@KeyName[1])));
+  {$endif}
+end;
+
+// IsDarkTheme: Detects if the Dark Theme (true) has been enabled or not (false)
+function IsDarkTheme:boolean;
+begin
+  Result := false;
+  {$ifdef Darwin}
+  Result := pos('DARK',UpperCase(GetPrefString('AppleInterfaceStyle')))>0;
+  {$endif}
+end;
+
 //function GetCharFromVKey(vkey: Word): string;
 //{$ifdef Win32}
 //var
@@ -401,6 +426,7 @@ end;
 //end;
 
 initialization
+  KINESIS_DARK_GRAY_FS := RGB(38, 38, 38);
   GApplicationTitle := 'Savant Elite2 SmartSet App';
   //Windows
   {$ifdef Win32}

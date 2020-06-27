@@ -12,7 +12,7 @@ object FormAbout: TFormAbout
   OnClose = FormClose
   OnCreate = FormCreate
   Position = poDesktopCenter
-  LCLVersion = '1.4.2.0'
+  LCLVersion = '2.0.8.0'
   object bOk: TBitBtn
     Left = 333
     Height = 25
@@ -54,9 +54,9 @@ object FormAbout: TFormAbout
   end
   object Label3: TLabel
     Left = 19
-    Height = 21
+    Height = 18
     Top = 96
-    Width = 136
+    Width = 142
     Caption = 'Kinesis Corporation'
     Font.Height = -16
     Font.Name = 'Segoe UI'
@@ -65,34 +65,35 @@ object FormAbout: TFormAbout
   end
   object Label4: TLabel
     Left = 19
-    Height = 17
+    Height = 16
     Top = 134
-    Width = 43
+    Width = 46
     Caption = 'Phone :'
     ParentColor = False
   end
   object lblVersion1: TLabel
     Left = 80
-    Height = 17
+    Height = 16
     Top = 134
-    Width = 148
+    Width = 164
+    AutoSize = False
     Caption = '1-800-454-6374 (US only)'
     ParentColor = False
   end
   object lblVersion2: TLabel
     Left = 80
-    Height = 17
+    Height = 16
     Top = 151
-    Width = 97
+    Width = 107
     Caption = 'or 425-402-8100'
     ParentColor = False
   end
   object lblWebsite: TLabel
     Cursor = crHandPoint
     Left = 19
-    Height = 17
+    Height = 16
     Top = 116
-    Width = 96
+    Width = 104
     Caption = 'www.kinesis.com'
     Font.Color = clHighlight
     Font.Height = -13
