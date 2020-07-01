@@ -15,9 +15,15 @@ jobs:
     steps:
       ## MacOS Setup
 
-      - name: install lazarus (mac)
+      - name: install lazarus (Mac)
+        # FPC held back to 3.0.4 on Mac.
+        # As of this writing, the latest fpc in homebrew is 3.2.0,
+        # which breaks with an error related to LCLtype.
+        # To try using latest again, change the install line back
+        # to `brew install fpc`.
         run: |
           brew update
+          brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/969dfe265e5380b9fb6d194ccde68f7827fd57e8/Formula/fpc.rb
           brew cask install lazarus
         if: matrix.os == 'macos-latest'
 
@@ -63,6 +69,10 @@ jobs:
       ## Build
 
       - run: lazbuild --version
+
+      - name: fpc version
+        run: fpc -iW
+        if: matrix.os != 'windows-latest'
 
       - uses: actions/checkout@v2
 
