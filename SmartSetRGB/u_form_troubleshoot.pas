@@ -39,7 +39,7 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 function ShowTroubleshoot(title: string; init: boolean): integer;
 begin
@@ -66,9 +66,9 @@ begin
     result := 0;
 end;
 
-function MainForm: TFormMain;
+function MainForm: TFormMainRGB;
 begin
-  result := (Application.MainForm as TFormMain);
+  result := (Application.MainForm as TFormMainRGB);
 end;
 
 {$R *.lfm}

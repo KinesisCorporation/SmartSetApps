@@ -35,14 +35,9 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 {$R *.lfm}
-
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
-end;
 
 procedure ShowDiagnostics;
 begin
@@ -74,9 +69,9 @@ begin
   begin
     try
       Cursor := crHourGlass;
-      fileContent := MainForm.fileService.GetDiagnosticInfo;
+      fileContent := fileService.GetDiagnosticInfo;
 
-      diagnosticFileCreated := (MainForm.fileService.SaveFile(GetDesktopDirectory + Trim(eSerial.Text) + '.txt', fileContent, true, errorMsg));
+      diagnosticFileCreated := (fileService.SaveFile(GetDesktopDirectory + Trim(eSerial.Text) + '.txt', fileContent, true, errorMsg));
 
       if (diagnosticFileCreated) then
         ShowDialog('Diagnostics', 'Diagnostics file saved to Desktop!', mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB)

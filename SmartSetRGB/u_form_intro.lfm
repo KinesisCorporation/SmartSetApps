@@ -1,7 +1,7 @@
 inherited FormIntro: TFormIntro
-  Left = 427
+  Left = 428
   Height = 172
-  Top = 128
+  Top = 130
   Width = 871
   Caption = 'FormIntro'
   ClientHeight = 172

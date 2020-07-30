@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
   StdCtrls, lclintf, ExtCtrls, HSSpeedButton, u_const,
-  UserDialog, u_base_form, LCLType;
+  UserDialog, u_base_form, LCLType, versionsupport;
 
 type
 
@@ -44,14 +44,7 @@ var
 
 implementation
 
-uses u_form_main;
-
 {$R *.lfm}
-
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
-end;
 
 { TFormAbout }
 
@@ -63,7 +56,7 @@ end;
 procedure TFormAbout.btnReadManualClick(Sender: TObject);
 begin
   //OpenHelpFile;
-  OpenUrl(FSEDGEV2_HELP);
+  OpenUrl(RGB_HELP);
 end;
 
 procedure TFormAbout.btnRequestSupportClick(Sender: TObject);
@@ -73,7 +66,7 @@ end;
 
 procedure TFormAbout.btnWatchTutorialClick(Sender: TObject);
 begin
-  OpenUrl(FSEDGEV2_TUTORIAL);
+  OpenUrl(RGB_TUTORIAL);
 end;
 
 procedure TFormAbout.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -89,7 +82,7 @@ begin
   lblTitle.Visible := false;
   SetFont(self, 'Tahoma');
   lblAppTitle.Caption := GApplicationName + ' Freestyle Edge RGB';
-  lblVersion.Caption := 'App Version : ' + MainForm.fileService.AppVersion;
+  lblVersion.Caption := 'App Version : ' + GetFileVersion;
   self.Color := KINESIS_DARK_GRAY_FS;
   btnReadManual.Font.Color := clWhite;
   btnWatchTutorial.Font.Color := clWhite;
@@ -104,7 +97,7 @@ end;
 
 procedure TFormAbout.imgKinesisClick(Sender: TObject);
 begin
-  OpenURL('www.KinesisGaming.com');
+  OpenURL(KINESIS_GAMING_URL);
 end;
 
 function TFormAbout.FindFirstNumberPos(value: string): integer;

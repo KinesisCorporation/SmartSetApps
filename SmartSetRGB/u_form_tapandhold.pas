@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, HSSpeedButton, u_base_form, u_const, UserDialog, lcltype,
-  u_keys;
+  u_keys, u_common_ui;
 
 type
 
@@ -55,14 +55,9 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 {$R *.lfm}
-
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
-end;
 
 function ShowTapAndHold(aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer): boolean;
 const
@@ -116,31 +111,31 @@ end;
 procedure TFormTapAndHold.btnCancelClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
-  MainForm.LoadButtonImage(sender, imgListTiming, 0);
+  LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormTapAndHold.btnAcceptMouseExit(Sender: TObject);
 begin
   if (not (sender as THSSpeedButton).Down) then
-    MainForm.LoadButtonImage(sender, imgListTiming, 2);
+    LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormTapAndHold.btnAcceptMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  MainForm.LoadButtonImage(sender, imgListTiming, 3);
+  LoadButtonImage(sender, imgListTiming, 3);
 end;
 
 procedure TFormTapAndHold.btnCancelMouseExit(Sender: TObject);
 begin
   if (not (sender as THSSpeedButton).Down) then
-    MainForm.LoadButtonImage(sender, imgListTiming, 0);
+    LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormTapAndHold.btnCancelMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  MainForm.LoadButtonImage(sender, imgListTiming, 1);
+  LoadButtonImage(sender, imgListTiming, 1);
 end;
 
 function TFormTapAndHold.Validate: boolean;
@@ -160,7 +155,7 @@ procedure TFormTapAndHold.btnAcceptClick(Sender: TObject);
 begin
   if (Validate) then
     ModalResult := mrOK;
-  MainForm.LoadButtonImage(sender, imgListTiming, 2);
+  LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormTapAndHold.eHoldActionKeyDown(Sender: TObject; var Key: Word;
@@ -217,7 +212,7 @@ var
 begin
   if (key <> 0) then
   begin
-    aKey := MainForm.keyService.GetKeyConfig(key);
+    aKey := keyService.GetKeyConfig(key);
     if (aKey <> nil) then
     begin
       if (edit = eTapAction) or (eTapAction.Focused) then

@@ -18,6 +18,9 @@ type
     FProfileName: string;
     FConnected: boolean;
     FVDriveName: string;
+    FFutureDevice: boolean;
+    FTutorialUrl: string;
+    FDriveLetter: string;
   public
     constructor Create;
     destructor Destroy;
@@ -27,6 +30,9 @@ type
     property ProfileName: string read FProfileName write FProfileName;
     property Connected: boolean read FConnected write FConnected;
     property VDriveName: string read FVDriveName write FVDriveName;
+    property FutureDevice: boolean read FFutureDevice write FFutureDevice;
+    property TutorialUrl: string read FTutorialUrl write FTutorialUrl;
+    property DriveLetter: string read FDriveLetter write FDriveLetter;
   end;
 
   { TKeyList }
@@ -98,6 +104,8 @@ begin
   FProfileName := '';
   FConnected := false;
   FVDriveName := '';
+  FFutureDevice := false;
+  FDriveLetter := '';
 end;
 
 destructor TDevice.Destroy;

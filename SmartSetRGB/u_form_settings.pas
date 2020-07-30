@@ -6,8 +6,9 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, uEKnob, ueled, HSSpeedButton, LineObj,
-  u_base_form, u_const, lcltype, ECSlider, ECSwitch, UserDialog;
+  StdCtrls,  HSSpeedButton,
+  u_base_form, u_const, lcltype, ECSlider, ECSwitch, UserDialog, u_file_service,
+  u_common_ui;
 
 type
 
@@ -63,19 +64,25 @@ type
 
 var
   FormSettings: TFormSettings;
+  procedure ShowSettings;
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 {$R *.lfm}
 
-function MainForm: TFormMain;
+procedure ShowSettings;
 begin
-  result := (Application.MainForm as TFormMain);
+  if FormSettings <> nil then
+    FreeAndNil(FormSettings);
+  Application.CreateForm(TFormSettings, FormSettings);
+  FormSettings.ShowModal;
+  FormSettings := nil;
 end;
 
 { TFormSettings }
+
 
 procedure TFormSettings.FormCreate(Sender: TObject);
 begin
@@ -91,37 +98,37 @@ begin
   Result := False;
   loadingSettings := true;
 
-  errorMsg := MainForm.fileService.LoadStateSettings;
+  errorMsg := fileService.LoadStateSettings;
 
   if (errorMsg = '') then
   begin
-    sliderActiveProfile.Position := MainForm.fileService.StateSettings.StartupFileNumber;
+    sliderActiveProfile.Position := fileService.StateSettings.StartupFileNumber;
 
-    if (MainForm.fileService.StateSettings.MacroSpeed = 0) then
+    if (fileService.StateSettings.MacroSpeed = 0) then
     begin
       sliderGlobalSpeed.Position := 1;
       chkDisableSpeed.Checked := true;
     end
     else
     begin
-      sliderGlobalSpeed.Position := MainForm.fileService.StateSettings.MacroSpeed;
+      sliderGlobalSpeed.Position := fileService.StateSettings.MacroSpeed;
       chkDisableSpeed.Checked := false;
     end;
     sliderGlobalSpeedChange(self);
 
-    if (MainForm.fileService.StateSettings.StatusPlaySpeed = 0) then
+    if (fileService.StateSettings.StatusPlaySpeed = 0) then
     begin
       sliderStatusReport.Position := 1;
       chkDisableStatus.Checked := true;
     end
     else
     begin
-      sliderStatusReport.Position := MainForm.fileService.StateSettings.StatusPlaySpeed;
+      sliderStatusReport.Position := fileService.StateSettings.StatusPlaySpeed;
       chkDisableStatus.Checked := false;
     end;
     sliderStatusReportChange(self);
 
-    if (MainForm.fileService.StateSettings.GameMode) then
+    if (fileService.StateSettings.GameMode) then
       swGameMode.Checked := true
     else
       swGameMode.Checked := false;
@@ -256,46 +263,46 @@ begin
   if (settingsChanged) then
   begin
     if (chkDisableSpeed.Checked) then
-      MainForm.fileService.SetMacroSpeed(0)
+      fileService.SetMacroSpeed(0)
     else
-      MainForm.fileService.SetMacroSpeed(Round(sliderGlobalSpeed.Position));
+      fileService.SetMacroSpeed(Round(sliderGlobalSpeed.Position));
 
     if (chkDisableStatus.Checked) then
-      MainForm.fileService.SetStatusPlaySpeed(0)
+      fileService.SetStatusPlaySpeed(0)
     else
-      MainForm.fileService.SetStatusPlaySpeed(Round(sliderStatusReport.Position));
-    MainForm.fileService.SetGameMode(swGameMode.Checked);
-    MainForm.fileService.SetStartupFileNumber(Round(sliderActiveProfile.Position));
-    if (MainForm.fileService.SaveStateSettings = '') then
+      fileService.SetStatusPlaySpeed(Round(sliderStatusReport.Position));
+    fileService.SetGameMode(swGameMode.Checked);
+    fileService.SetStartupFileNumber(Round(sliderActiveProfile.Position));
+    if (fileService.SaveStateSettings = '') then
     begin
       settingsChanged := false;
 
-      if (not MainForm.fileService.AppSettings.SaveMsg) then
+      if (not fileService.AppSettings.SaveMsg) then
       begin
         hideNotif := ShowDialog('Settings Saved', 'Changes will be implemented when v-Drive is closed.',
           mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
         if (hideNotif >= DISABLE_NOTIF) then
         begin
-          MainForm.fileService.SetSaveMsg(true);
-          MainForm.fileService.SaveAppSettings;
+          fileService.SetSaveMsg(true);
+          fileService.SaveAppSettings;
         end;
       end;
       Close;
     end;
   end;
-  MainForm.LoadButtonImage(sender, imgListMiniIcons, 0);
+  LoadButtonImage(sender, imgListMiniIcons, 0);
 end;
 
 procedure TFormSettings.btnSaveMouseExit(Sender: TObject);
 begin
   if (not (sender as THSSpeedButton).Down) then
-    MainForm.LoadButtonImage(sender, imgListMiniIcons, 0);
+    LoadButtonImage(sender, imgListMiniIcons, 0);
 end;
 
 procedure TFormSettings.btnSaveMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
-  MainForm.LoadButtonImage(sender, imgListMiniIcons, 1);
+  LoadButtonImage(sender, imgListMiniIcons, 1);
 end;
 
 procedure TFormSettings.lblDisableSpeedClick(Sender: TObject);

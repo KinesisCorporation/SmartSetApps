@@ -24,6 +24,14 @@ type
     FLedColorReactiveFn: TColor;
     FBaseLedColorReactive: TColor;
     FBaseLedColorReactiveFn: TColor;
+    FLedColorRipple: TColor;
+    FLedColorRippleFn: TColor;
+    FBaseLedColorRipple: TColor;
+    FBaseLedColorRippleFn: TColor;
+    FLedColorFireball: TColor;
+    FLedColorFireballFn: TColor;
+    FBaseLedColorFireball: TColor;
+    FBaseLedColorFireballFn: TColor;
     FLedColorStarlight: TColor;
     FLedColorStarlightFn: TColor;
     FBaseLedColorStarlight: TColor;
@@ -32,8 +40,6 @@ type
     FLedColorReboundFn: TColor;
     FBaseLedColorRebound: TColor;
     FBaseLedColorReboundFn: TColor;
-    FLedColorRipple: TColor;
-    FLedColorRippleFn: TColor;
     FLedColorLoop: TColor;
     FLedColorLoopFn: TColor;
     FBaseLedColorLoop: TColor;
@@ -58,6 +64,8 @@ type
     //Gifs using programming
     FRainGif: TGif;
     FReactiveGif: TGif;
+    FRippleGif: TGif;
+    FFireballGif: TGif;
     FLoopDownGif: TGif;
     FLoopUpGif: TGif;
     FLoopLeftGif: TGif;
@@ -104,6 +112,14 @@ type
     procedure SetLedColorReactive(aColor: TColor);
     function GetBaseLedColorReactive: TColor;
     procedure SetBaseLedColorReactive(aColor: TColor);
+    function GetLedColorRipple: TColor;
+    procedure SetLedColorRipple(aColor: TColor);
+    function GetBaseLedColorRipple: TColor;
+    procedure SetBaseLedColorRipple(aColor: TColor);
+    function GetLedColorFireball: TColor;
+    procedure SetLedColorFireball(aColor: TColor);
+    function GetBaseLedColorFireball: TColor;
+    procedure SetBaseLedColorFireball(aColor: TColor);
     function GetLedColorStarlight: TColor;
     procedure SetLedColorStarlight(aColor: TColor);
     function GetBaseLedColorStarlight: TColor;
@@ -112,8 +128,6 @@ type
     procedure SetLedColorRebound(aColor: TColor);
     function GetBaseLedColorRebound: TColor;
     procedure SetBaseLedColorRebound(aColor: TColor);
-    function GetLedColorRipple: TColor;
-    procedure SetLedColorRipple(aColor: TColor);
     function GetLedColorLoop: TColor;
     procedure SetLedColorLoop(aColor: TColor);
     function GetBaseLedColorLoop: TColor;
@@ -193,11 +207,14 @@ type
     property LedColorMono: TColor read GetLedColorMono write SetLedColorMono;
     property LedColorReactive: Tcolor read GetLedColorReactive write SetLedColorReactive;
     property BaseLedColorReactive: Tcolor read GetBaseLedColorReactive write SetBaseLedColorReactive;
+    property LedColorRipple: Tcolor read GetLedColorRipple write SetLedColorRipple;
+    property BaseLedColorRipple: Tcolor read GetBaseLedColorRipple write SetBaseLedColorRipple;
+    property LedColorFireball: Tcolor read GetLedColorFireball write SetLedColorFireball;
+    property BaseLedColorFireball: Tcolor read GetBaseLedColorFireball write SetBaseLedColorFireball;
     property LedColorStarlight: Tcolor read GetLedColorStarlight write SetLedColorStarlight;
     property BaseLedColorStarlight: Tcolor read GetBaseLedColorStarlight write SetBaseLedColorStarlight;
     property LedColorRebound: Tcolor read GetLedColorRebound write SetLedColorRebound;
     property BaseLedColorRebound: Tcolor read GetBaseLedColorRebound write SetBaseLedColorRebound;
-    property LedColorRipple: Tcolor read GetLedColorRipple write SetLedColorRipple;
     property LedColorLoop: Tcolor read GetLedColorLoop write SetLedColorLoop;
     property BaseLedColorLoop: Tcolor read GetBaseLedColorLoop write SetBaseLedColorLoop;
     property LedColorRain: Tcolor read GetLedColorRain write SetLedColorRain;
@@ -206,6 +223,8 @@ type
     property LedDirection: integer read GetLedDirection write SetLedDirection;
     property RainGif: TGif read FRainGif write FRainGif;
     property ReactiveGif: TGif read FReactiveGif write FReactiveGif;
+    property RippleGif: TGif read FRippleGif write FRippleGif;
+    property FireballGif: TGif read FFireballGif write FFireballGif;
     property ReboundHorGif: TGif read FReboundHorGif write FReboundHorGif;
     property ReboundVerGif: TGif read FReboundVerGif write FReboundVerGif;
     property LoopDownGif: TGif read FLoopDownGif write FLoopDownGif;
@@ -251,6 +270,8 @@ begin
   FreeAndNil(FBackupMacro);
   FreeAndNil(FRainGif);
   FreeAndNil(FReactiveGif);
+  FreeAndNil(FRippleGif);
+  FreeAndNil(FFireballGif);
   FreeAndNil(FLoopDownGif);
   FreeAndNil(FLoopUpGif);
   FreeAndNil(FLoopRightGif);
@@ -1714,7 +1735,8 @@ end;
 
 procedure TBaseKeyService.ClearModifiers;
 begin
-  ActiveModifiers.Clear;
+  if (ActiveModifiers <> nil) then
+    ActiveModifiers.Clear;
 end;
 
 function TBaseKeyService.IsWinKeyDown: boolean;
@@ -2684,6 +2706,32 @@ begin
             layoutContent.Add(layerPrefix + LED_MONO + '>' + RGBColorToString(FBaseLedColorReactiveFn, true));
           end;
         end;
+        lmRipple:
+        begin
+          if aLayer.LayerIndex = TOPLAYER_IDX then
+          begin
+            layoutContent.Add(layerPrefix + LED_RIPPLE + '>' + RGBColorToString(FLedColorRipple, true) + LedSpeedToString(FLedSpeed));
+            layoutContent.Add(layerPrefix + LED_MONO + '>' + RGBColorToString(FBaseLedColorRipple, true));
+          end
+          else
+          begin
+            layoutContent.Add(layerPrefix + LED_RIPPLE + '>' + RGBColorToString(FLedColorRippleFn, true) + LedSpeedToString(FLedSpeedFn));
+            layoutContent.Add(layerPrefix + LED_MONO + '>' + RGBColorToString(FBaseLedColorRippleFn, true));
+          end;
+        end;
+        lmFireball:
+        begin
+          if aLayer.LayerIndex = TOPLAYER_IDX then
+          begin
+            layoutContent.Add(layerPrefix + LED_FIREBALL + '>' + RGBColorToString(FLedColorFireball, true) + LedSpeedToString(FLedSpeed));
+            layoutContent.Add(layerPrefix + LED_MONO + '>' + RGBColorToString(FBaseLedColorFireball, true));
+          end
+          else
+          begin
+            layoutContent.Add(layerPrefix + LED_FIREBALL + '>' + RGBColorToString(FLedColorFireballFn, true) + LedSpeedToString(FLedSpeedFn));
+            layoutContent.Add(layerPrefix + LED_MONO + '>' + RGBColorToString(FBaseLedColorFireballFn, true));
+          end;
+        end;
         lmStarlight:
         begin
           if aLayer.LayerIndex = TOPLAYER_IDX then
@@ -2709,13 +2757,6 @@ begin
             layoutContent.Add(layerPrefix + LED_REBOUND + '>' + RGBColorToString(FLedColorReboundFn, true) + LedSpeedToString(FLedSpeedFn) + LedDirectionToString(FLedDirectionFn));
             layoutContent.Add(layerPrefix + LED_MONO + '>' + RGBColorToString(FBaseLedColorReboundFn, true));
           end;
-        end;
-        lmRipple:
-        begin
-          if aLayer.LayerIndex = TOPLAYER_IDX then
-            layoutContent.Add(layerPrefix + LED_RIPPLE + '>' + RGBColorToString(FLedColorRippleFn, true) + LedSpeedToString(FLedSpeedFn))
-          else
-            layoutContent.Add(layerPrefix + LED_RIPPLE + '>' + RGBColorToString(FLedColorRippleFn, true) + LedSpeedToString(FLedSpeedFn));
         end;
         lmLoop:
         begin
@@ -2750,10 +2791,10 @@ begin
             layoutContent.Add(layerPrefix + LED_MONO + '>' + RGBColorToString(FBaseLedColorRainFn, true));
           end;
         end;
-        lmPitchBlack:
-        begin
-          layoutContent.Add(layerPrefix + LED_PITCH_BLACK);
-        end;
+        //lmPitchBlack:
+        //begin
+        //  layoutContent.Add(layerPrefix + LED_PITCH_BLACK);
+        //end;
       end;
 
       if (perKeyColors) then
@@ -2904,10 +2945,11 @@ begin
         (pos(LED_STARLIGHT, firstLine) <> 0) or
         (pos(LED_REBOUND, firstLine) <> 0) or
         (pos(LED_RIPPLE, firstLine) <> 0) or
+        (pos(LED_FIREBALL, firstLine) <> 0) or
         (pos(LED_LOOP, firstLine) <> 0) or
         (pos(LED_PULSE, firstLine) <> 0) or
         (pos(LED_PULSE, firstLine) <> 0) or
-        (pos(LED_PITCH_BLACK, firstLine) <> 0) or
+        //(pos(LED_PITCH_BLACK, firstLine) <> 0) or
         isColorValue;
     end;
   end;
@@ -2925,6 +2967,14 @@ begin
   FLedColorReactiveFn := DEFAULT_LED_COLOR;
   FBaseLedColorReactive := DEFAULT_LED_COLOR_BASE;
   FBaseLedColorReactiveFn := DEFAULT_LED_COLOR_BASE;
+  FLedColorRipple := DEFAULT_LED_COLOR;
+  FLedColorRippleFn := DEFAULT_LED_COLOR;
+  FBaseLedColorRipple := DEFAULT_LED_COLOR_BASE;
+  FBaseLedColorRippleFn := DEFAULT_LED_COLOR_BASE;
+  FLedColorFireball := DEFAULT_LED_COLOR;
+  FLedColorFireballFn := DEFAULT_LED_COLOR;
+  FBaseLedColorFireball := DEFAULT_LED_COLOR_BASE;
+  FBaseLedColorFireballFn := DEFAULT_LED_COLOR_BASE;
   FLedColorStarlight := DEFAULT_LED_COLOR;
   FLedColorStarlightFn := DEFAULT_LED_COLOR;
   FBaseLedColorStarlight := DEFAULT_LED_COLOR_BASE;
@@ -2933,8 +2983,6 @@ begin
   FLedColorReboundFn := DEFAULT_LED_COLOR;
   FBaseLedColorRebound := DEFAULT_LED_COLOR_BASE;
   FBaseLedColorReboundFn := DEFAULT_LED_COLOR_BASE;
-  FLedColorRipple := DEFAULT_LED_COLOR;
-  FLedColorRippleFn := DEFAULT_LED_COLOR;
   FLedColorLoop := DEFAULT_LED_COLOR;
   FLedColorLoopFn := DEFAULT_LED_COLOR;
   FBaseLedColorLoop := DEFAULT_LED_COLOR_BASE;
@@ -3079,6 +3127,11 @@ begin
           aLedMode := lmReactive;
           lineCount := 2;
         end
+        else if (pos(LED_FIREBALL, currentLine) > 0) THEN
+        begin
+          aLedMode := lmFireball;
+          lineCount := 2;
+        end
         else if (pos(LED_STARLIGHT, currentLine) > 0) THEN
         begin
           aLedMode := lmStarlight;
@@ -3109,11 +3162,11 @@ begin
           aLedMode := lmRain;
           lineCount := 2;
         end
-        else if (pos(LED_PITCH_BLACK, currentLine) > 0) THEN
-        begin
-          aLedMode := lmPitchBlack;
-          lineCount := 1;
-        end
+        //else if (pos(LED_PITCH_BLACK, currentLine) > 0) THEN
+        //begin
+        //  aLedMode := lmPitchBlack;
+        //  lineCount := 1;
+        //end
         else if (currentLine = '') then
           aLedMode := lmDisabled
         else
@@ -3186,7 +3239,7 @@ begin
                   else
                     FLedSpeed := GetLedSpeedFile(valueText);
                 end
-                else if (aLedMode in [lmReactive, lmStarlight, lmRebound, lmLoop, lmRain]) and (i = 1) then //Mono second line
+                else if (aLedMode in [lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]) and (i = 1) then //Mono second line
                 begin
                   if (pos(LED_MONO, currentLine) > 0) then
                   begin
@@ -3198,6 +3251,20 @@ begin
                           FBaseLedColorReactiveFn := aColor
                         else
                           FBaseLedColorReactive := aColor;
+                      end;
+                      lmRipple:
+                      begin
+                        if (layerIdx = BOTLAYER_IDX) then
+                          FBaseLedColorRippleFn := aColor
+                        else
+                          FBaseLedColorRipple := aColor;
+                      end;
+                      lmFireball:
+                      begin
+                        if (layerIdx = BOTLAYER_IDX) then
+                          FBaseLedColorFireballFn := aColor
+                        else
+                          FBaseLedColorFireball := aColor;
                       end;
                       lmStarlight:
                       begin
@@ -3271,6 +3338,32 @@ begin
                     FLedSpeed := GetLedSpeedFile(valueText);
                   end;
                 end
+                else if (aLedMode = lmRipple) then
+                begin
+                  aColor := RGBStringToColor(valueText, DEFAULT_LED_COLOR);
+                  if (layerIdx = BOTLAYER_IDX) then
+                  begin
+                    FLedColorRippleFn := aColor;
+                    FLedSpeedFn := GetLedSpeedFile(valueText);
+                  end;
+                  begin
+                    FLedColorRipple := aColor;
+                    FLedSpeed := GetLedSpeedFile(valueText);
+                  end;
+                end
+                else if (aLedMode = lmFireball) then
+                begin
+                  aColor := RGBStringToColor(valueText, DEFAULT_LED_COLOR);
+                  if (layerIdx = BOTLAYER_IDX) then
+                  begin
+                    FLedColorFireballFn := aColor;
+                    FLedSpeedFn := GetLedSpeedFile(valueText);
+                  end;
+                  begin
+                    FLedColorFireball := aColor;
+                    FLedSpeed := GetLedSpeedFile(valueText);
+                  end;
+                end
                 else if (aLedMode = lmStarlight) then
                 begin
                   aColor := RGBStringToColor(valueText, DEFAULT_LED_COLOR);
@@ -3303,20 +3396,6 @@ begin
                     FLedDirection := GetLedDirectionFile(valueText);
                     if not(FLedDirection in [LED_DIR_LEFT_INT, LED_DIR_UP_INT]) then
                       FLedDirection := DEFAULT_LED_DIR_INT;
-                  end;
-                end
-                else if (aLedMode = lmRipple) then
-                begin
-                  aColor := RGBStringToColor(valueText, DEFAULT_LED_COLOR);
-                  if (layerIdx = BOTLAYER_IDX) then
-                  begin
-                    FLedColorRippleFn := aColor;
-                    FLedSpeedFn := GetLedSpeedFile(valueText);
-                  end
-                  else
-                  begin
-                    FLedColorRipple := aColor;
-                    FLedSpeed := GetLedSpeedFile(valueText);
                   end;
                 end
                 else if (aLedMode = lmLoop) then
@@ -3441,6 +3520,8 @@ var
 begin
   FRainGif := TGif.Create;
   FReactiveGif := TGif.Create;
+  FRippleGif := TGif.Create;
+  FFireballGif := TGif.Create;
   FLoopDownGif := TGif.Create;
   FLoopUpGif := TGif.Create;
   FLoopLeftGif := TGif.Create;
@@ -3523,7 +3604,7 @@ begin
   RainGif.Add(gifFrame);
   //End Rain Gif
 
-  //Ripple Gif
+  //Reactive Gif
   //Frame 1
   gifFrame := TGifFrame.Create;
   ReactiveGif.Add(gifFrame);
@@ -3754,7 +3835,216 @@ begin
   gifFrame := TGifFrame.Create;
   gifFrame.Keys.Add(61);
   ReactiveGif.Add(gifFrame);
+  //End Reactive Gif
+
+  //Ripple Gif
+  //Frame 1
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(55);
+  RippleGif.Add(gifFrame);
+
+  //Frame 2
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(38);
+  gifFrame.Keys.Add(39);
+  gifFrame.Keys.Add(54);
+  gifFrame.Keys.Add(56);
+  gifFrame.Keys.Add(70);
+  gifFrame.Keys.Add(71);
+  RippleGif.Add(gifFrame);
+
+  //Frame 3
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(21);
+  gifFrame.Keys.Add(22);
+  gifFrame.Keys.Add(23);
+  gifFrame.Keys.Add(37);
+  gifFrame.Keys.Add(40);
+  gifFrame.Keys.Add(46);
+  gifFrame.Keys.Add(53);
+  gifFrame.Keys.Add(57);
+  gifFrame.Keys.Add(69);
+  gifFrame.Keys.Add(70);
+  gifFrame.Keys.Add(86);
+  gifFrame.Keys.Add(87);
+  RippleGif.Add(gifFrame);
+
+  //Frame 4
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(2);
+  gifFrame.Keys.Add(3);
+  gifFrame.Keys.Add(4);
+  gifFrame.Keys.Add(5);
+  gifFrame.Keys.Add(6);
+  gifFrame.Keys.Add(20);
+  gifFrame.Keys.Add(24);
+  gifFrame.Keys.Add(29);
+  gifFrame.Keys.Add(30);
+  gifFrame.Keys.Add(36);
+  gifFrame.Keys.Add(41);
+  gifFrame.Keys.Add(45);
+  gifFrame.Keys.Add(47);
+  gifFrame.Keys.Add(52);
+  gifFrame.Keys.Add(58);
+  gifFrame.Keys.Add(62);
+  gifFrame.Keys.Add(63);
+  gifFrame.Keys.Add(64);
+  gifFrame.Keys.Add(68);
+  gifFrame.Keys.Add(73);
+  gifFrame.Keys.Add(84);
+  gifFrame.Keys.Add(85);
+  gifFrame.Keys.Add(88);
+  RippleGif.Add(gifFrame);
+
+  //Frame 5
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(1);
+  gifFrame.Keys.Add(7);
+  gifFrame.Keys.Add(11);
+  gifFrame.Keys.Add(12);
+  gifFrame.Keys.Add(18);
+  gifFrame.Keys.Add(19);
+  gifFrame.Keys.Add(25);
+  gifFrame.Keys.Add(28);
+  gifFrame.Keys.Add(31);
+  gifFrame.Keys.Add(35);
+  gifFrame.Keys.Add(44);
+  gifFrame.Keys.Add(48);
+  gifFrame.Keys.Add(51);
+  gifFrame.Keys.Add(61);
+  gifFrame.Keys.Add(65);
+  gifFrame.Keys.Add(67);
+  gifFrame.Keys.Add(74);
+  gifFrame.Keys.Add(77);
+  gifFrame.Keys.Add(78);
+  gifFrame.Keys.Add(79);
+  gifFrame.Keys.Add(80);
+  gifFrame.Keys.Add(83);
+  RippleGif.Add(gifFrame);
+
+  //Frame 6
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(0);
+  gifFrame.Keys.Add(9);
+  gifFrame.Keys.Add(10);
+  gifFrame.Keys.Add(13);
+  gifFrame.Keys.Add(17);
+  gifFrame.Keys.Add(27);
+  gifFrame.Keys.Add(32);
+  gifFrame.Keys.Add(34);
+  gifFrame.Keys.Add(43);
+  gifFrame.Keys.Add(49);
+  gifFrame.Keys.Add(60);
+  gifFrame.Keys.Add(66);
+  gifFrame.Keys.Add(76);
+  gifFrame.Keys.Add(81);
+  gifFrame.Keys.Add(82);
+  gifFrame.Keys.Add(90);
+  gifFrame.Keys.Add(91);
+  gifFrame.Keys.Add(92);
+  RippleGif.Add(gifFrame);
+
+  //Frame 7
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(8);
+  gifFrame.Keys.Add(13);
+  gifFrame.Keys.Add(14);
+  gifFrame.Keys.Add(15);
+  gifFrame.Keys.Add(16);
+  gifFrame.Keys.Add(26);
+  gifFrame.Keys.Add(33);
+  gifFrame.Keys.Add(42);
+  gifFrame.Keys.Add(50);
+  gifFrame.Keys.Add(59);
+  gifFrame.Keys.Add(75);
+  gifFrame.Keys.Add(89);
+  gifFrame.Keys.Add(93);
+  gifFrame.Keys.Add(94);
+  RippleGif.Add(gifFrame);
+
+  //Frame 8
+  gifFrame := TGifFrame.Create;
+  RippleGif.Add(gifFrame);
   //End Ripple Gif
+
+  //Fireball Gif
+  //Frame 1
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(19);
+  FireballGif.Add(gifFrame);
+
+  //Frame 2
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(20);
+  gifFrame.Keys.Add(89);
+  FireballGif.Add(gifFrame);
+
+  //Frame 3
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(21);
+  gifFrame.Keys.Add(52);
+  gifFrame.Keys.Add(90);
+  FireballGif.Add(gifFrame);
+
+  //Frame 4
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(22);
+  gifFrame.Keys.Add(42);
+  gifFrame.Keys.Add(53);
+  gifFrame.Keys.Add(91);
+  FireballGif.Add(gifFrame);
+
+  //Frame 5
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(23);
+  gifFrame.Keys.Add(43);
+  gifFrame.Keys.Add(54);
+  gifFrame.Keys.Add(92);
+  FireballGif.Add(gifFrame);
+
+  //Frame 6
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(24);
+  gifFrame.Keys.Add(44);
+  gifFrame.Keys.Add(55);
+  gifFrame.Keys.Add(93);
+  FireballGif.Add(gifFrame);
+
+  //Frame 7
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(25);
+  gifFrame.Keys.Add(45);
+  gifFrame.Keys.Add(56);
+  gifFrame.Keys.Add(94);
+  FireballGif.Add(gifFrame);
+
+  //Frame 8
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(46);
+  gifFrame.Keys.Add(57);
+  FireballGif.Add(gifFrame);
+
+  //Frame 9
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(47);
+  gifFrame.Keys.Add(58);
+  FireballGif.Add(gifFrame);
+
+  //Frame 10
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(48);
+  FireballGif.Add(gifFrame);
+
+  //Frame 11
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(49);
+  FireballGif.Add(gifFrame);
+
+  //Frame 12
+  gifFrame := TGifFrame.Create;
+  gifFrame.Keys.Add(50);
+  FireballGif.Add(gifFrame);
+  //End Fireball Gif
 
   //Loop Down Gif
   //Frame 1
@@ -5314,6 +5604,98 @@ begin
     FBaseLedColorReactive := aColor;
 end;
 
+function TBaseKeyService.GetLedColorRipple: TColor;
+begin
+  result := FLedColorRipple;
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+      result := FLedColorRippleFn;
+  end;
+end;
+
+procedure TBaseKeyService.SetLedColorRipple(aColor: TColor);
+begin
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = TOPLAYER_IDX) then
+      FLedColorRipple := aColor
+    else
+      FLedColorRippleFn := aColor;
+  end
+  else
+    FLedColorRipple := aColor;
+end;
+
+function TBaseKeyService.GetBaseLedColorRipple: TColor;
+begin
+  result := FBaseLedColorRipple;
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+      result := FBaseLedColorRippleFn;
+  end;
+end;
+
+procedure TBaseKeyService.SetBaseLedColorRipple(aColor: TColor);
+begin
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = TOPLAYER_IDX) then
+      FBaseLedColorRipple := aColor
+    else
+      FBaseLedColorRippleFn := aColor;
+  end
+  else
+    FBaseLedColorRipple := aColor;
+end;
+
+function TBaseKeyService.GetLedColorFireball: TColor;
+begin
+  result := FLedColorFireball;
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+      result := FLedColorFireballFn;
+  end;
+end;
+
+procedure TBaseKeyService.SetLedColorFireball(aColor: TColor);
+begin
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = TOPLAYER_IDX) then
+      FLedColorFireball := aColor
+    else
+      FLedColorFireballFn := aColor;
+  end
+  else
+    FLedColorFireball := aColor;
+end;
+
+function TBaseKeyService.GetBaseLedColorFireball: TColor;
+begin
+  result := FBaseLedColorFireball;
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+      result := FBaseLedColorFireballFn;
+  end;
+end;
+
+procedure TBaseKeyService.SetBaseLedColorFireball(aColor: TColor);
+begin
+  if (ActiveLayer <> nil) then
+  begin
+    if (ActiveLayer.LayerIndex = TOPLAYER_IDX) then
+      FBaseLedColorFireball := aColor
+    else
+      FBaseLedColorFireballFn := aColor;
+  end
+  else
+    FBaseLedColorFireball := aColor;
+end;
+
 function TBaseKeyService.GetLedColorStarlight: TColor;
 begin
   result := FLedColorStarlight;
@@ -5404,29 +5786,6 @@ begin
   end
   else
     FBaseLedColorRebound := aColor;
-end;
-
-function TBaseKeyService.GetLedColorRipple: TColor;
-begin
-  result := FLedColorRipple;
-  if (ActiveLayer <> nil) then
-  begin
-    if (ActiveLayer.LayerIndex = BOTLAYER_IDX) then
-      result := FLedColorRippleFn;
-  end;
-end;
-
-procedure TBaseKeyService.SetLedColorRipple(aColor: TColor);
-begin
-  if (ActiveLayer <> nil) then
-  begin
-    if (ActiveLayer.LayerIndex = TOPLAYER_IDX) then
-      FLedColorRipple := aColor
-    else
-      FLedColorRippleFn := aColor;
-  end
-  else
-    FLedColorRipple := aColor;
 end;
 
 function TBaseKeyService.GetLedColorLoop: TColor;

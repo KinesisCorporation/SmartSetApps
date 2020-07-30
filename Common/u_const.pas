@@ -33,7 +33,7 @@ type
                     mtCustom, mtFSEdge, mtFSPro);
 
   TLedMode = (lmNone, lmIndividual, lmMonochrome, lmBreathe, lmSpectrum,
-              lmWave, lmReactive, lmStarlight, lmRebound, lmRipple,
+              lmWave, lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound,
               lmLoop, lmPulse, lmRain, lmPitchBlack, lmDisabled);
 
   TZoneType = (ztAll, ztNumber, ztWASD, ztFunction, ztGame, ztArrow, ztLeftModule, ztRightModule);
@@ -486,6 +486,7 @@ const
   LED_STARLIGHT = '[star]';
   LED_REBOUND = '[rebound]';
   LED_RIPPLE = '[ripple]';
+  LED_FIREBALL = '[fireball]';
   LED_LOOP = '[loop]';
   LED_PULSE = '[pulse]';
   LED_RAIN = '[rain]';
@@ -511,9 +512,11 @@ const
   FILE_LED = 'led';
   PITCH_BLACK = 'P';
   BREATHE = 'B';
+  KINESIS_GAMING_URL = 'https://gaming.kinesis-ergo.com/';
   FSEDGE_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOcHFihFhnZhJGb854SRy7Z';
-  FSEDGEV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOjCXMkLf7Ur3Jm9Dsqf_KD';
-  FSEDGEV2_HELP = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
+  RGB_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOjCXMkLf7Ur3Jm9Dsqf_KD';
+  RGB_HELP = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
+  MASTER_HELP = 'https://gaming.kinesis-ergo.com/support/#support-for-my-device';
   FSEDGE_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-support/#manuals';
   FSPRO_MANUAL = 'https://kinesis-ergo.com/support/freestyle-pro/#manuals';
   ADV2_MANUAL = 'https://kinesis-ergo.com/support/advantage2/#manuals';
@@ -526,6 +529,7 @@ const
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   ADV2_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
+  MASTER_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -963,6 +967,7 @@ begin
         end;
       end;
     end;
+    FreeAndNil(driveList);
     {$endif}
 
     //MacOS
@@ -1766,6 +1771,7 @@ var
   dirFirmware: string;
   driveName: string;
   kbDrive: string;
+  driveLetter: string;
 begin
   result := false;
   kbDrive := '';
@@ -1773,6 +1779,9 @@ begin
   driveList := GetAvailableDrives;
   for i := 0 to driveList.Count - 1 do
   begin
+    driveLetter := UpperCase(Copy(driveList[i], 1, 1));
+    driveName := UpperCase(Trim(GetVolumeLabel(driveList[i][1])));
+
     if (aDevice.DeviceNumber = APPL_ADV2) then
     begin
       dirFirmware := driveList[i] + '\active\';
@@ -1780,6 +1789,7 @@ begin
       if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
         ((driveName = ADV2_DRIVE) or (driveName = ADV2_DRIVE_2) or (driveName = ADV2_DRIVE_3)) then
       begin
+        aDevice.DriveLetter := driveLetter;
         aDevice.Connected := true;
         result := true;
       end;
@@ -1792,11 +1802,13 @@ begin
       if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
         (driveName = aDevice.VDriveName) then
       begin
+        aDevice.DriveLetter := driveLetter;
         aDevice.Connected := true;
         result := true;
       end;
     end;
   end;
+  FreeAndNil(driveList);
   {$endif}
 
   //MacOS
@@ -1810,11 +1822,13 @@ begin
        2: kbDrive := ADV2_DRIVE_2;
        3: kbDrive := ADV2_DRIVE_3;
       end;
+      driveLetter := '';
       driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
       dirFirmware := driveName + '/active/';
 
       if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
       begin
+        aDevice.DriveLetter := driveLetter;
         aDevice.Connected := true;
         result := true;
       end;
@@ -1827,6 +1841,7 @@ begin
 
     if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
     begin
+      aDevice.DriveLetter := driveLetter;
       aDevice.Connected := true;
       result := true;
     end;

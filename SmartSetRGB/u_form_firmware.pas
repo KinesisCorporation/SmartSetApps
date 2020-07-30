@@ -46,14 +46,9 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 {$R *.lfm}
-
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
-end;
 
 procedure ShowFirmware;
 begin
@@ -172,7 +167,7 @@ begin
         if (keyboardVer <> '') then
         begin
           GetVersionNumbers(keyboardVer, majorVer, minorVer, revVer);
-          if (MainForm.fileService.VersionSmallerThanKBD(majorVer, minorVer, revVer)) then
+          if (fileService.VersionSmallerThanKBD(majorVer, minorVer, revVer)) then
           begin
             kbMustUpdate := true;
             pnlKBFirware.BevelOuter := bvRaised;
@@ -191,7 +186,7 @@ begin
         if (lightingVer <> '') then
         begin
           GetVersionNumbers(lightingVer, majorVer, minorVer, revVer);
-          if (MainForm.fileService.VersionSmallerThanLED(majorVer, minorVer, revVer)) then
+          if (fileService.VersionSmallerThanLED(majorVer, minorVer, revVer)) then
           begin
             ledMustUpdate := true;
             pnlLightningFirmware.BevelOuter := bvRaised;
@@ -210,7 +205,7 @@ begin
         if (appVer <> '') then
         begin
           GetVersionNumbers(appVer, majorVer, minorVer, revVer);
-          if (MainForm.fileService.VersionSmallerThanApp(majorVer, minorVer, revVer)) then
+          if (fileService.VersionSmallerThanApp(majorVer, minorVer, revVer)) then
           begin
             appMustUpdate := true;
             pnlApp.BevelOuter := bvRaised;

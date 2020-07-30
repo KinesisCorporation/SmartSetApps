@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, LineObj, u_base_form, u_const, UserDialog, lcltype;
+  StdCtrls, HSSpeedButton, LineObj, u_base_form, u_const, UserDialog, lcltype,
+  u_common_ui;
 
 type
 
@@ -45,14 +46,9 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 {$R *.lfm}
-
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
-end;
 
 function ShowTimingDelays: integer;
 begin
@@ -93,31 +89,31 @@ end;
 procedure TFormTimingDelays.btnCancelClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
-  MainForm.LoadButtonImage(sender, imgListTiming, 0);
+  LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormTimingDelays.btnAcceptMouseExit(Sender: TObject);
 begin
   if (not (sender as THSSpeedButton).Down) then
-    MainForm.LoadButtonImage(sender, imgListTiming, 2);
+    LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormTimingDelays.btnAcceptMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  MainForm.LoadButtonImage(sender, imgListTiming, 3);
+  LoadButtonImage(sender, imgListTiming, 3);
 end;
 
 procedure TFormTimingDelays.btnCancelMouseExit(Sender: TObject);
 begin
   if (not (sender as THSSpeedButton).Down) then
-    MainForm.LoadButtonImage(sender, imgListTiming, 0);
+    LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormTimingDelays.btnCancelMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  MainForm.LoadButtonImage(sender, imgListTiming, 1);
+  LoadButtonImage(sender, imgListTiming, 1);
 end;
 
 procedure TFormTimingDelays.btnAcceptClick(Sender: TObject);
@@ -126,7 +122,7 @@ begin
     ModalResult := mrOK
   else
     ShowDialog('Timing Delays', 'Please select a timing delay between 1ms and 999ms. To achieve a longer delay, insert multiple delays back-to-back.', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
-  MainForm.LoadButtonImage(sender, imgListTiming, 2);
+  LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormTimingDelays.eCustomDelayChange(Sender: TObject);

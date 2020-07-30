@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, u_base_form, u_const, UserDialog, lcltype;
+  StdCtrls, HSSpeedButton, u_base_form, u_const, UserDialog, lcltype, u_common_ui;
 
 type
 
@@ -37,26 +37,23 @@ type
     procedure LabelClick(Sender: TObject);
   private
     changing: boolean;
+    currentLayoutFile: string;
+    currentLedFile: string;
   public
 
   end;
 
 var
   FormExport: TFormExport;
-  procedure ShowExport;
+  procedure ShowExport(curLayoutFile: string; curLedFile: string);
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 {$R *.lfm}
 
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
-end;
-
-procedure ShowExport;
+procedure ShowExport(curLayoutFile: string; curLedFile: string);
 begin
   try
     NeedInput := true;
@@ -67,6 +64,8 @@ begin
 
     //Creates the dialog form
     Application.CreateForm(TFormExport, FormExport);
+    FormExport.currentLayoutFile := curLayoutFile;
+    FormExport.currentLedFile := curLedFile;
 
     //Shows dialog
     FormExport.ShowModal;
@@ -112,31 +111,31 @@ end;
 procedure TFormExport.btnCancelClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
-  MainForm.LoadButtonImage(sender, imgListTiming, 0);
+  LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormExport.btnAcceptMouseExit(Sender: TObject);
 begin
   if (not (sender as THSSpeedButton).Down) then
-    MainForm.LoadButtonImage(sender, imgListTiming, 2);
+    LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormExport.btnAcceptMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  MainForm.LoadButtonImage(sender, imgListTiming, 3);
+  LoadButtonImage(sender, imgListTiming, 3);
 end;
 
 procedure TFormExport.btnCancelMouseExit(Sender: TObject);
 begin
   if (not (sender as THSSpeedButton).Down) then
-    MainForm.LoadButtonImage(sender, imgListTiming, 0);
+    LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormExport.btnCancelMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  MainForm.LoadButtonImage(sender, imgListTiming, 1);
+  LoadButtonImage(sender, imgListTiming, 1);
 end;
 
 procedure TFormExport.btnAcceptClick(Sender: TObject);
@@ -153,14 +152,14 @@ begin
     try
       if (chkBoth.Checked) or (chkLayout.Checked) then
       begin
-        layoutContent := MainForm.keyService.ConvertToTextFileFmtRGB;
-        if not(MainForm.fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(MainForm.currentLayoutFile), layoutContent, true, errorMsgLayout)) then
+        layoutContent := keyService.ConvertToTextFileFmtRGB;
+        if not(fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(currentLayoutFile), layoutContent, true, errorMsgLayout)) then
           ShowDialog('Export', 'Error exporting layout file: ' + errorMsgLayout, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
       if (chkBoth.Checked) or (chkLighting.Checked) then
       begin
-        ledContent := MainForm.keyService.ConvertLedToTextFileFmtRGB;
-        if not(MainForm.fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(MainForm.currentLedFile), ledContent, true, errorMsgLed)) then
+        ledContent := keyService.ConvertLedToTextFileFmtRGB;
+        if not(fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(currentLedFile), ledContent, true, errorMsgLed)) then
           ShowDialog('Export', 'Error exporting lighting file: ' + errorMsgLed, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
       if (errorMsgLayout = '') and (errorMsgLed = '') then
@@ -175,7 +174,7 @@ begin
         FreeAndNil(ledContent);
     end;
   end;
-  MainForm.LoadButtonImage(sender, imgListTiming, 2);
+  LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormExport.checkBoxClick(Sender: TObject);

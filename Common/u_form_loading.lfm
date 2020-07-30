@@ -1,0 +1,32 @@
+object FormLoading: TFormLoading
+  Left = 634
+  Height = 100
+  Top = 340
+  Width = 490
+  BorderIcons = []
+  BorderStyle = bsNone
+  Caption = 'Loading...'
+  ClientHeight = 100
+  ClientWidth = 490
+  Color = 1644825
+  Font.Color = clWhite
+  OnClose = FormClose
+  Position = poMainFormCenter
+  LCLVersion = '2.0.10.0'
+  object lblMessage: TLabel
+    Left = 0
+    Height = 100
+    Top = 0
+    Width = 490
+    Align = alClient
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Loading ...'
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Style = [fsBold]
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+  end
+end

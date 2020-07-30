@@ -41,7 +41,7 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_rgb;
 
 procedure ShowIntro;
 begin
@@ -54,11 +54,6 @@ begin
 
   FormIntro.ShowModal;
   NeedInput := false;
-end;
-
-function MainForm: TFormMain;
-begin
-  result := (Application.MainForm as TFormMain);
 end;
 
 {$R *.lfm}
@@ -94,8 +89,8 @@ procedure TFormIntro.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if (chkCheckBox.Checked) then
   begin
-    MainForm.fileService.SetAppIntroMsg(true);
-    MainForm.fileService.SaveAppSettings;
+    fileService.SetAppIntroMsg(true);
+    fileService.SaveAppSettings;
   end;
   NeedInput := false;
 end;
@@ -107,7 +102,7 @@ end;
 
 procedure TFormIntro.btnReadManualClick(Sender: TObject);
 begin
-  OpenUrl(FSEDGEV2_HELP);
+  OpenUrl(RGB_HELP);
 end;
 
 procedure TFormIntro.btnFirmwareClick(Sender: TObject);
@@ -117,7 +112,7 @@ end;
 
 procedure TFormIntro.btnWatchTutorialClick(Sender: TObject);
 begin
-  OpenUrl(FSEDGEV2_TUTORIAL);
+  OpenUrl(RGB_TUTORIAL);
 end;
 
 

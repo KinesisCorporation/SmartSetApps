@@ -46,13 +46,13 @@ var
 
 implementation
   
-uses u_form_main;
+uses u_form_main_rgb;
 
 {$R *.lfm}
 
-function MainForm: TFormMain;
+function MainForm: TFormMainRGB;
 begin
-  result := (Application.MainForm as TFormMain);
+  result := (Application.MainForm as TFormMainRGB);
 end;
 
 //Function to call a dialog box

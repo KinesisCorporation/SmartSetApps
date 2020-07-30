@@ -3108,7 +3108,8 @@ end;
 
 procedure TFormMain.AppDeactivate(Sender: TObject);
 begin
-  keyService.ClearModifiers;
+  if (keyService <> nil) and (not closing) then
+    keyService.ClearModifiers;
 end;
 
 procedure TFormMain.EnableMacroBox(value: boolean);

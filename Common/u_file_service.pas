@@ -219,75 +219,80 @@ var
   currentLine: string;
   sFilePath: string;
 begin
-  result := '';
-  if (GApplication = APPL_ADV2) then
-    sFilePath := GStateFile
-  else
-    sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
-  fileExists := CheckIfFileExists(sFilePath);
-  if (fileExists) then
-  begin
-    fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent, true);
-
-    //Disable Pitch black and Off mode (led_mode)
-    FStateSettings.PitchBlackMode := false;
-    FStateSettings.OffMode := false;
-
-    if result = '' then //no error
+  try
+    result := '';
+    if (GApplication = APPL_ADV2) then
+      sFilePath := GStateFile
+    else
+      sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
+    fileExists := CheckIfFileExists(sFilePath);
+    if (fileExists) then
     begin
-      for i:=0 to fileContent.Count - 1 do
+      fileContent := TStringList.Create;
+      result := LoadFile(sFilePath, fileContent, true);
+
+      //Disable Pitch black and Off mode (led_mode)
+      FStateSettings.PitchBlackMode := false;
+      FStateSettings.OffMode := false;
+
+      if result = '' then //no error
       begin
-        currentLine := AnsiLowerCase(fileContent.Strings[i]);
-
-        if (Copy(currentLine, 1, length(StartupFile)) = StartupFile) then
+        for i:=0 to fileContent.Count - 1 do
         begin
-          FStateSettings.StartupFile := Copy(currentLine, length(StartupFile) + 2, length(currentLine));
-          FStateSettings.StartupFileNumber := GetFileNumber(FStateSettings.StartupFile);
-          FStateSettings.LayoutFile := FILE_LAYOUT + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
-          FStateSettings.LedFile := FILE_LED + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
+          currentLine := AnsiLowerCase(fileContent.Strings[i]);
+
+          if (Copy(currentLine, 1, length(StartupFile)) = StartupFile) then
+          begin
+            FStateSettings.StartupFile := Copy(currentLine, length(StartupFile) + 2, length(currentLine));
+            FStateSettings.StartupFileNumber := GetFileNumber(FStateSettings.StartupFile);
+            FStateSettings.LayoutFile := FILE_LAYOUT + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
+            FStateSettings.LedFile := FILE_LED + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
+          end;
+
+          if (Copy(currentLine, 1, length(ThumbMode)) = ThumbMode) then
+            FStateSettings.ThumbMode := Copy(currentLine, length(ThumbMode) + 2, length(currentLine));
+
+          if (Copy(currentLine, 1, length(KeyClickTone)) = KeyClickTone) then
+            FStateSettings.KeyClickTone := Copy(currentLine, length(KeyClickTone) + 2, length(currentLine)) = 'on';
+
+          if (Copy(currentLine, 1, length(ToggleTone)) = ToggleTone) then
+            FStateSettings.ToggleTone := Copy(currentLine, length(ToggleTone) + 2, length(currentLine)) = 'on';
+
+          if (Copy(currentLine, 1, length(MacroDisable)) = MacroDisable) then
+            FStateSettings.MacroDisable := Copy(currentLine, length(MacroDisable) + 2, length(currentLine)) = 'on';
+
+          if (Copy(currentLine, 1, length(StatusPlaySpeed)) = StatusPlaySpeed) then
+            FStateSettings.StatusPlaySpeed := ConvertToInt(Copy(currentLine, length(StatusPlaySpeed) + 2, length(currentLine)));
+
+          if (Copy(currentLine, 1, length(MacroSpeed)) = MacroSpeed) then
+            FStateSettings.MacroSpeed := ConvertToInt(Copy(currentLine, length(MacroSpeed) + 2, length(currentLine)));
+
+          if (Copy(currentLine, 1, length(VDriveStartup)) = VDriveStartup) then
+            FStateSettings.VDriveStartup := Copy(currentLine, length(VDriveStartup) + 2, length(currentLine)) = 'auto';
+
+          if (Copy(currentLine, 1, length(VDriveStartupAdv2)) = VDriveStartupAdv2) then
+            FStateSettings.VDriveStartup := Copy(currentLine, length(VDriveStartupAdv2) + 2, length(currentLine)) = 'on';
+
+          if (Copy(currentLine, 1, length(GameMode)) = GameMode) then
+            FStateSettings.GameMode := Copy(currentLine, length(GameMode) + 2, length(currentLine)) = 'on';
+
+          if (Copy(currentLine, 1, length(ProgramKeyLock)) = ProgramKeyLock) then
+            FStateSettings.ProgramKeyLock := Copy(currentLine, length(ProgramKeyLock) + 2, length(currentLine)) = 'on';
+
+          if (Copy(currentLine, 1, length(LedMode)) = LedMode) then
+            FStateSettings.LedMode := Copy(currentLine, length(LedMode) + 2, length(currentLine));
+
+          if (Copy(currentLine, 1, length(PowerUser)) = PowerUser) then
+            FStateSettings.PowerUser := Copy(currentLine, length(PowerUser) + 2, length(currentLine)) = 'true';
         end;
-
-        if (Copy(currentLine, 1, length(ThumbMode)) = ThumbMode) then
-          FStateSettings.ThumbMode := Copy(currentLine, length(ThumbMode) + 2, length(currentLine));
-
-        if (Copy(currentLine, 1, length(KeyClickTone)) = KeyClickTone) then
-          FStateSettings.KeyClickTone := Copy(currentLine, length(KeyClickTone) + 2, length(currentLine)) = 'on';
-
-        if (Copy(currentLine, 1, length(ToggleTone)) = ToggleTone) then
-          FStateSettings.ToggleTone := Copy(currentLine, length(ToggleTone) + 2, length(currentLine)) = 'on';
-
-        if (Copy(currentLine, 1, length(MacroDisable)) = MacroDisable) then
-          FStateSettings.MacroDisable := Copy(currentLine, length(MacroDisable) + 2, length(currentLine)) = 'on';
-
-        if (Copy(currentLine, 1, length(StatusPlaySpeed)) = StatusPlaySpeed) then
-          FStateSettings.StatusPlaySpeed := ConvertToInt(Copy(currentLine, length(StatusPlaySpeed) + 2, length(currentLine)));
-
-        if (Copy(currentLine, 1, length(MacroSpeed)) = MacroSpeed) then
-          FStateSettings.MacroSpeed := ConvertToInt(Copy(currentLine, length(MacroSpeed) + 2, length(currentLine)));
-
-        if (Copy(currentLine, 1, length(VDriveStartup)) = VDriveStartup) then
-          FStateSettings.VDriveStartup := Copy(currentLine, length(VDriveStartup) + 2, length(currentLine)) = 'auto';
-
-        if (Copy(currentLine, 1, length(VDriveStartupAdv2)) = VDriveStartupAdv2) then
-          FStateSettings.VDriveStartup := Copy(currentLine, length(VDriveStartupAdv2) + 2, length(currentLine)) = 'on';
-
-        if (Copy(currentLine, 1, length(GameMode)) = GameMode) then
-          FStateSettings.GameMode := Copy(currentLine, length(GameMode) + 2, length(currentLine)) = 'on';
-
-        if (Copy(currentLine, 1, length(ProgramKeyLock)) = ProgramKeyLock) then
-          FStateSettings.ProgramKeyLock := Copy(currentLine, length(ProgramKeyLock) + 2, length(currentLine)) = 'on';
-
-        if (Copy(currentLine, 1, length(LedMode)) = LedMode) then
-          FStateSettings.LedMode := Copy(currentLine, length(LedMode) + 2, length(currentLine));
-
-        if (Copy(currentLine, 1, length(PowerUser)) = PowerUser) then
-          FStateSettings.PowerUser := Copy(currentLine, length(PowerUser) + 2, length(currentLine)) = 'true';
       end;
-    end;
-  end
-  else
-    result := 'State.txt configuration file not found';
+    end
+    else
+      result := 'State.txt configuration file not found';
+  finally
+    if (fileContent <> nil) then
+      FreeAndNil(fileContent);
+  end;
 end;
 
 function TFileService.SaveStateSettings: string;
@@ -298,143 +303,148 @@ var
   valueToSave: string;
   sFilePath: string;
 begin
-  result := '';
-  if (GApplication = APPL_ADV2) then
-    sFilePath := GStateFile
-  else
-    sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
-  fileExists := CheckIfFileExists(sFilePath);
-  if (fileExists) then
-  begin
-    fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent, true);
-
-    if result = '' then //no error
+  try
+    result := '';
+    if (GApplication = APPL_ADV2) then
+      sFilePath := GStateFile
+    else
+      sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
+    fileExists := CheckIfFileExists(sFilePath);
+    if (fileExists) then
     begin
-      if (GApplication = APPL_RGB) then
-      begin
-        //Save layout file
-        valueToSave := FILE_LAYOUT + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
-        idxSetting := GetIndexOfString(StartupFile, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Insert(0, StartupFile + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := StartupFile + '=' + valueToSave;
+      fileContent := TStringList.Create;
+      result := LoadFile(sFilePath, fileContent, true);
 
-        //Save led file
-        valueToSave := FILE_LED + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
-        idxSetting := GetIndexOfString(LedMode, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Insert(0, LedMode + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
-      end
-      else if (GApplication = APPL_RGB) then
+      if result = '' then //no error
       begin
-        //Save Startup file
-        valueToSave := AnsiLowerCase(FStateSettings.StartupFile);
-        idxSetting := GetIndexOfString(StartupFile, fileContent);
+        if (GApplication = APPL_RGB) then
+        begin
+          //Save layout file
+          valueToSave := FILE_LAYOUT + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
+          idxSetting := GetIndexOfString(StartupFile, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, StartupFile + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := StartupFile + '=' + valueToSave;
+
+          //Save led file
+          valueToSave := FILE_LED + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
+          idxSetting := GetIndexOfString(LedMode, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, LedMode + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
+        end
+        else if (GApplication = APPL_RGB) then
+        begin
+          //Save Startup file
+          valueToSave := AnsiLowerCase(FStateSettings.StartupFile);
+          idxSetting := GetIndexOfString(StartupFile, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, StartupFile + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := StartupFile + '=' + valueToSave;
+        end;
+
+        //Save Status Play speed
+        valueToSave := IntToStr(FStateSettings.StatusPlaySpeed);
+        idxSetting := GetIndexOfString(StatusPlaySpeed, fileContent);
         if (idxSetting = -1) then
-          fileContent.Insert(0, StartupFile + '=' + valueToSave)
+          fileContent.Insert(0, StatusPlaySpeed + '=' + valueToSave)
         else
-          fileContent.Strings[idxSetting] := StartupFile + '=' + valueToSave;
+          fileContent.Strings[idxSetting] := StatusPlaySpeed + '=' + valueToSave;
+
+        //Save Macro speed
+        valueToSave := IntToStr(FStateSettings.MacroSpeed);
+        idxSetting := GetIndexOfString(MacroSpeed, fileContent);
+        if (idxSetting = -1) then
+          fileContent.Insert(0, MacroSpeed + '=' + valueToSave)
+        else
+          fileContent.Strings[idxSetting] := MacroSpeed + '=' + valueToSave;
+
+        if (GApplication = APPL_ADV2) then
+        begin
+          //Save V-Drive startup
+          if (FStateSettings.VDriveStartup) then
+            valueToSave := 'ON'
+          else
+            valueToSave := 'off';
+          idxSetting := GetIndexOfString(VDriveStartupAdv2, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(VDriveStartupAdv2 + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := VDriveStartupAdv2 + '=' + valueToSave;
+
+          //KeyClickTone
+          if (FStateSettings.KeyClickTone) then
+            valueToSave := 'ON'
+          else
+            valueToSave := 'OFF';
+          idxSetting := GetIndexOfString(KeyClickTone, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(KeyClickTone + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := KeyClickTone + '=' + valueToSave;
+
+          //ToggleTone
+          if (FStateSettings.ToggleTone) then
+            valueToSave := 'ON'
+          else
+            valueToSave := 'OFF';
+          idxSetting := GetIndexOfString(ToggleTone, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(ToggleTone + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := ToggleTone + '=' + valueToSave;
+        end
+        else
+        begin
+          //Save V-Drive startup
+          if (FStateSettings.VDriveStartup) then
+            valueToSave := 'auto'
+          else
+            valueToSave := 'manual';
+          idxSetting := GetIndexOfString(VDriveStartup, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(VDriveStartup + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := VDriveStartup + '=' + valueToSave;
+        end;
+
+        if (GApplication in [APPL_FSEDGE, APPL_FSPRO, APPL_RGB]) then
+        begin
+          //Save Game Mode
+          if (FStateSettings.GameMode) then
+            valueToSave := 'ON'
+          else
+            valueToSave := 'OFF';
+          idxSetting := GetIndexOfString(GameMode, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(GameMode + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := GameMode + '=' + valueToSave;
+        end;
+
+        if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
+        begin
+          //Led Mode
+          valueToSave := FStateSettings.LedMode;
+          idxSetting := GetIndexOfString(LedMode, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(LedMode + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
+        end;
+
+        SaveFile(sFilePath, fileContent, false, result);
       end;
-
-      //Save Status Play speed
-      valueToSave := IntToStr(FStateSettings.StatusPlaySpeed);
-      idxSetting := GetIndexOfString(StatusPlaySpeed, fileContent);
-      if (idxSetting = -1) then
-        fileContent.Insert(0, StatusPlaySpeed + '=' + valueToSave)
-      else
-        fileContent.Strings[idxSetting] := StatusPlaySpeed + '=' + valueToSave;
-
-      //Save Macro speed
-      valueToSave := IntToStr(FStateSettings.MacroSpeed);
-      idxSetting := GetIndexOfString(MacroSpeed, fileContent);
-      if (idxSetting = -1) then
-        fileContent.Insert(0, MacroSpeed + '=' + valueToSave)
-      else
-        fileContent.Strings[idxSetting] := MacroSpeed + '=' + valueToSave;
-
-      if (GApplication = APPL_ADV2) then
-      begin
-        //Save V-Drive startup
-        if (FStateSettings.VDriveStartup) then
-          valueToSave := 'ON'
-        else
-          valueToSave := 'off';
-        idxSetting := GetIndexOfString(VDriveStartupAdv2, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Append(VDriveStartupAdv2 + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := VDriveStartupAdv2 + '=' + valueToSave;
-
-        //KeyClickTone
-        if (FStateSettings.KeyClickTone) then
-          valueToSave := 'ON'
-        else
-          valueToSave := 'OFF';
-        idxSetting := GetIndexOfString(KeyClickTone, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Append(KeyClickTone + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := KeyClickTone + '=' + valueToSave;
-
-        //ToggleTone
-        if (FStateSettings.ToggleTone) then
-          valueToSave := 'ON'
-        else
-          valueToSave := 'OFF';
-        idxSetting := GetIndexOfString(ToggleTone, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Append(ToggleTone + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := ToggleTone + '=' + valueToSave;
-      end
-      else
-      begin
-        //Save V-Drive startup
-        if (FStateSettings.VDriveStartup) then
-          valueToSave := 'auto'
-        else
-          valueToSave := 'manual';
-        idxSetting := GetIndexOfString(VDriveStartup, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Append(VDriveStartup + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := VDriveStartup + '=' + valueToSave;
-      end;
-
-      if (GApplication in [APPL_FSEDGE, APPL_FSPRO, APPL_RGB]) then
-      begin
-        //Save Game Mode
-        if (FStateSettings.GameMode) then
-          valueToSave := 'ON'
-        else
-          valueToSave := 'OFF';
-        idxSetting := GetIndexOfString(GameMode, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Append(GameMode + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := GameMode + '=' + valueToSave;
-      end;
-
-      if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
-      begin
-        //Led Mode
-        valueToSave := FStateSettings.LedMode;
-        idxSetting := GetIndexOfString(LedMode, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Append(LedMode + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
-      end;
-
-      SaveFile(sFilePath, fileContent, false, result);
-    end;
-  end
-  else
-    result := 'State.txt configuration file not found';
+    end
+    else
+      result := 'State.txt configuration file not found';
+  finally
+    if (fileContent <> nil) then
+      FreeAndNil(fileContent);
+  end;
 end;
 
 function TFileService.LoadVersionInfo: string;
@@ -451,57 +461,62 @@ var
 const
   ModelNameText = 'model name';
 begin
-  result := '';
-  if (GApplication = APPL_RGB) then
-  begin
-    FirmwareTextKBD := 'kbd firmware';
-    FirmwareTextLED := 'led firmware';
-  end
-  else
-  begin
-    FirmwareTextKBD := 'firmware version';
-    FirmwareTextLED := '';
-  end;
-  if (GApplication = APPL_ADV2) then
-    sFilePath := GVersionFile
-  else
-    sFilePath := GFirmwareFilePath + VERSION_FILE;
-  fileExists := CheckIfFileExists(sFilePath);
-  if (fileExists) then
-  begin
-    fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent, true);
-
-    if result = '' then //no error
+  try
+    result := '';
+    if (GApplication = APPL_RGB) then
     begin
-      for i:=0 to fileContent.Count - 1 do
+      FirmwareTextKBD := 'kbd firmware';
+      FirmwareTextLED := 'led firmware';
+    end
+    else
+    begin
+      FirmwareTextKBD := 'firmware version';
+      FirmwareTextLED := '';
+    end;
+    if (GApplication = APPL_ADV2) then
+      sFilePath := GVersionFile
+    else
+      sFilePath := GFirmwareFilePath + VERSION_FILE;
+    fileExists := CheckIfFileExists(sFilePath);
+    if (fileExists) then
+    begin
+      fileContent := TStringList.Create;
+      result := LoadFile(sFilePath, fileContent, true);
+
+      if result = '' then //no error
       begin
-        currentLine := AnsiLowerCase(fileContent.Strings[i]);
+        for i:=0 to fileContent.Count - 1 do
+        begin
+          currentLine := AnsiLowerCase(fileContent.Strings[i]);
 
-        if (GApplication = APPL_ADV2) then
-        begin
-          //4MB version can edit settings
-          if Pos(AnsiLowerCase(ADV2_4MB), currentLine) <> 0 then
-            FAllowEditSettings := true;
-        end;
+          if (GApplication = APPL_ADV2) then
+          begin
+            //4MB version can edit settings
+            if Pos(AnsiLowerCase(ADV2_4MB), currentLine) <> 0 then
+              FAllowEditSettings := true;
+          end;
 
-        if (Copy(currentLine, 1, length(ModelNameText)) = ModelNameText) then
-          FModelName := Trim(Copy(currentLine, length(ModelNameText) + 2, length(currentLine)))
-        else if (Copy(currentLine, 1, length(FirmwareTextKBD)) = FirmwareTextKBD) then
-        begin
-          FFirmwareVersionKBD := Trim(Copy(currentLine, length(FirmwareTextKBD) + 2, length(currentLine)));
-          GetVersionNumbers(FFirmwareVersionKBD, FFirmwareMajorKBD, FFirmwareMinorKBD, FFirmwareRevisionKBD);
-        end
-        else if (Copy(currentLine, 1, length(FirmwareTextLED)) = FirmwareTextLED) then
-        begin
-          FFirmwareVersionLED := Trim(Copy(currentLine, length(FirmwareTextLED) + 2, length(currentLine)));
-          GetVersionNumbers(FFirmwareVersionLED, FFirmwareMajorLED, FFirmwareMinorLED, FFirmwareRevisionLED);
+          if (Copy(currentLine, 1, length(ModelNameText)) = ModelNameText) then
+            FModelName := Trim(Copy(currentLine, length(ModelNameText) + 2, length(currentLine)))
+          else if (Copy(currentLine, 1, length(FirmwareTextKBD)) = FirmwareTextKBD) then
+          begin
+            FFirmwareVersionKBD := Trim(Copy(currentLine, length(FirmwareTextKBD) + 2, length(currentLine)));
+            GetVersionNumbers(FFirmwareVersionKBD, FFirmwareMajorKBD, FFirmwareMinorKBD, FFirmwareRevisionKBD);
+          end
+          else if (Copy(currentLine, 1, length(FirmwareTextLED)) = FirmwareTextLED) then
+          begin
+            FFirmwareVersionLED := Trim(Copy(currentLine, length(FirmwareTextLED) + 2, length(currentLine)));
+            GetVersionNumbers(FFirmwareVersionLED, FFirmwareMajorLED, FFirmwareMinorLED, FFirmwareRevisionLED);
+          end;
         end;
       end;
-    end;
-  end
-  else
-    result := 'Version.txt file not found';
+    end
+    else
+      result := 'Version.txt file not found';
+  finally
+    if (fileContent <> nil) then
+      FreeAndNil(fileContent);
+  end;
 end;
 
 function TFileService.LoadLayoutFile(aFileName: string): string;
@@ -560,43 +575,48 @@ var
   end;
 
 begin
-  result := '';
+  try
+    result := '';
 
-  fileContent := TStringList.Create;
-  sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
-  if CheckIfFileExists(sFilePath) then
-    result := LoadFile(sFilePath, fileContent, true);
+    fileContent := TStringList.Create;
+    sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
+    if CheckIfFileExists(sFilePath) then
+      result := LoadFile(sFilePath, fileContent, true);
 
-  if result = '' then //no error
-  begin
-    SaveValueBoolean(FAppSettings.AppIntroMsg, AppIntroMsg);
-    SaveValueBoolean(FAppSettings.SaveAsMsg, SaveAsMsg);
-    SaveValueBoolean(FAppSettings.SaveMsg, SaveMsg);
-    SaveValueBoolean(FAppSettings.MultiplayMsg, MultiplayMsg);
-    SaveValueBoolean(FAppSettings.SpeedMsg, SpeedMsg);
-    SaveValueBoolean(FAppSettings.CopyMacroMsg, CopyMacroMsg);
-    SaveValueBoolean(FAppSettings.ResetKeyMsg, ResetKeyMsg);
-
-    if (GApplication = APPL_RGB) then
+    if result = '' then //no error
     begin
-      SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
-      SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
-      SaveValueBoolean(FAppSettings.WindowsComboMsg, WindowsComboMsg);
-      SaveValueRGB(FAppSettings.CustColor1, CustColor1);
-      SaveValueRGB(FAppSettings.CustColor2, CustColor2);
-      SaveValueRGB(FAppSettings.CustColor3, CustColor3);
-      SaveValueRGB(FAppSettings.CustColor4, CustColor4);
-      SaveValueRGB(FAppSettings.CustColor5, CustColor5);
-      SaveValueRGB(FAppSettings.CustColor6, CustColor6);
-      SaveValueRGB(FAppSettings.CustColor7, CustColor7);
-      SaveValueRGB(FAppSettings.CustColor8, CustColor8);
-      SaveValueRGB(FAppSettings.CustColor9, CustColor9);
-      SaveValueRGB(FAppSettings.CustColor10, CustColor10);
-      SaveValueRGB(FAppSettings.CustColor11, CustColor11);
-      SaveValueRGB(FAppSettings.CustColor12, CustColor12);
-    end;
+      SaveValueBoolean(FAppSettings.AppIntroMsg, AppIntroMsg);
+      SaveValueBoolean(FAppSettings.SaveAsMsg, SaveAsMsg);
+      SaveValueBoolean(FAppSettings.SaveMsg, SaveMsg);
+      SaveValueBoolean(FAppSettings.MultiplayMsg, MultiplayMsg);
+      SaveValueBoolean(FAppSettings.SpeedMsg, SpeedMsg);
+      SaveValueBoolean(FAppSettings.CopyMacroMsg, CopyMacroMsg);
+      SaveValueBoolean(FAppSettings.ResetKeyMsg, ResetKeyMsg);
 
-    SaveFile(sFilePath, fileContent, true, result);
+      if (GApplication = APPL_RGB) then
+      begin
+        SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
+        SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
+        SaveValueBoolean(FAppSettings.WindowsComboMsg, WindowsComboMsg);
+        SaveValueRGB(FAppSettings.CustColor1, CustColor1);
+        SaveValueRGB(FAppSettings.CustColor2, CustColor2);
+        SaveValueRGB(FAppSettings.CustColor3, CustColor3);
+        SaveValueRGB(FAppSettings.CustColor4, CustColor4);
+        SaveValueRGB(FAppSettings.CustColor5, CustColor5);
+        SaveValueRGB(FAppSettings.CustColor6, CustColor6);
+        SaveValueRGB(FAppSettings.CustColor7, CustColor7);
+        SaveValueRGB(FAppSettings.CustColor8, CustColor8);
+        SaveValueRGB(FAppSettings.CustColor9, CustColor9);
+        SaveValueRGB(FAppSettings.CustColor10, CustColor10);
+        SaveValueRGB(FAppSettings.CustColor11, CustColor11);
+        SaveValueRGB(FAppSettings.CustColor12, CustColor12);
+      end;
+
+      SaveFile(sFilePath, fileContent, true, result);
+    end;
+  finally
+    if (fileContent <> nil) then
+      FreeAndNil(fileContent);
   end;
 end;
 
@@ -609,98 +629,104 @@ var
   sFilePath: string;
   textValue: string;
 begin
-  result := '';
-  sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
-  fileExists := CheckIfFileExists(sFilePath);
-  if (fileExists) then
-  begin
-    fileContent := TStringList.Create;
-    result := LoadFile(sFilePath, fileContent, true);
+  try
+    result := '';
 
-    if result = '' then //no error
+    sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
+    fileExists := CheckIfFileExists(sFilePath);
+    if (fileExists) then
     begin
-      for i:=0 to fileContent.Count - 1 do
-      begin
-        currentLine := AnsiLowerCase(fileContent.Strings[i]);
+      fileContent := TStringList.Create;
+      result := LoadFile(sFilePath, fileContent, true);
 
-        if (Copy(currentLine, 1, length(AppIntroMsg)) = AppIntroMsg) then
-          FAppSettings.AppIntroMsg := Copy(currentLine, length(AppIntroMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(SaveAsMsg)) = SaveAsMsg) then
-          FAppSettings.SaveAsMsg := Copy(currentLine, length(SaveAsMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(SaveMsg)) = SaveMsg) then
-          FAppSettings.SaveMsg := Copy(currentLine, length(SaveMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(MultiplayMsg)) = MultiplayMsg) then
-          FAppSettings.MultiplayMsg := Copy(currentLine, length(MultiplayMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(SpeedMsg)) = SpeedMsg) then
-          FAppSettings.SpeedMsg := Copy(currentLine, length(SpeedMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(CopyMacroMsg)) = CopyMacroMsg) then
-          FAppSettings.CopyMacroMsg := Copy(currentLine, length(CopyMacroMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(ResetKeyMsg)) = ResetKeyMsg) then
-          FAppSettings.ResetKeyMsg := Copy(currentLine, length(ResetKeyMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(WindowsComboMsg)) = WindowsComboMsg) then
-          FAppSettings.WindowsComboMsg := Copy(currentLine, length(WindowsComboMsg) + 2, length(currentLine)) = 'on'
-        else if (Copy(currentLine, 1, length(CustColor1)) = CustColor1) then
+      if result = '' then //no error
+      begin
+        for i:=0 to fileContent.Count - 1 do
         begin
-          textValue := Copy(currentLine, length(CustColor1) + 2, length(currentLine));
-          FAppSettings.CustColor1 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
-        end
-        else if (Copy(currentLine, 1, length(CustColor2)) = CustColor2) then
-        begin
-          textValue := Copy(currentLine, length(CustColor2) + 2, length(currentLine));
-          FAppSettings.CustColor2 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
-        end
-        else if (Copy(currentLine, 1, length(CustColor3)) = CustColor3) then
-        begin
-          textValue := Copy(currentLine, length(CustColor3) + 2, length(currentLine));
-          FAppSettings.CustColor3 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
-        end
-        else if (Copy(currentLine, 1, length(CustColor4)) = CustColor4) then
-        begin
-          textValue := Copy(currentLine, length(CustColor4) + 2, length(currentLine));
-          FAppSettings.CustColor4 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
-        end
-        else if (Copy(currentLine, 1, length(CustColor5)) = CustColor5) then
-        begin
-          textValue := Copy(currentLine, length(CustColor4) + 2, length(currentLine));
-          FAppSettings.CustColor5 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
-        end
-        else if (Copy(currentLine, 1, length(CustColor6)) = CustColor6) then
-        begin
-          textValue := Copy(currentLine, length(CustColor6) + 2, length(currentLine));
-          FAppSettings.CustColor6 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
-        end
-        else if (Copy(currentLine, 1, length(CustColor7)) = CustColor7) then
-        begin
-          textValue := Copy(currentLine, length(CustColor7) + 2, length(currentLine));
-          FAppSettings.CustColor7 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
-        end
-        else if (Copy(currentLine, 1, length(CustColor8)) = CustColor8) then
-        begin
-          textValue := Copy(currentLine, length(CustColor8) + 2, length(currentLine));
-          FAppSettings.CustColor8 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
-        end
-        else if (Copy(currentLine, 1, length(CustColor9)) = CustColor9) then
-        begin
-          textValue := Copy(currentLine, length(CustColor9) + 2, length(currentLine));
-          FAppSettings.CustColor9 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
-        end
-        else if (Copy(currentLine, 1, length(CustColor10)) = CustColor10) then
-        begin
-          textValue := Copy(currentLine, length(CustColor10) + 2, length(currentLine));
-          FAppSettings.CustColor10 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
-        end
-        else if (Copy(currentLine, 1, length(CustColor11)) = CustColor11) then
-        begin
-          textValue := Copy(currentLine, length(CustColor11) + 2, length(currentLine));
-          FAppSettings.CustColor11 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
-        end
-        else if (Copy(currentLine, 1, length(CustColor12)) = CustColor12) then
-        begin
-          textValue := Copy(currentLine, length(CustColor12) + 2, length(currentLine));
-          FAppSettings.CustColor12 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          currentLine := AnsiLowerCase(fileContent.Strings[i]);
+
+          if (Copy(currentLine, 1, length(AppIntroMsg)) = AppIntroMsg) then
+            FAppSettings.AppIntroMsg := Copy(currentLine, length(AppIntroMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(SaveAsMsg)) = SaveAsMsg) then
+            FAppSettings.SaveAsMsg := Copy(currentLine, length(SaveAsMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(SaveMsg)) = SaveMsg) then
+            FAppSettings.SaveMsg := Copy(currentLine, length(SaveMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(MultiplayMsg)) = MultiplayMsg) then
+            FAppSettings.MultiplayMsg := Copy(currentLine, length(MultiplayMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(SpeedMsg)) = SpeedMsg) then
+            FAppSettings.SpeedMsg := Copy(currentLine, length(SpeedMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(CopyMacroMsg)) = CopyMacroMsg) then
+            FAppSettings.CopyMacroMsg := Copy(currentLine, length(CopyMacroMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(ResetKeyMsg)) = ResetKeyMsg) then
+            FAppSettings.ResetKeyMsg := Copy(currentLine, length(ResetKeyMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(WindowsComboMsg)) = WindowsComboMsg) then
+            FAppSettings.WindowsComboMsg := Copy(currentLine, length(WindowsComboMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(CustColor1)) = CustColor1) then
+          begin
+            textValue := Copy(currentLine, length(CustColor1) + 2, length(currentLine));
+            FAppSettings.CustColor1 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
+          end
+          else if (Copy(currentLine, 1, length(CustColor2)) = CustColor2) then
+          begin
+            textValue := Copy(currentLine, length(CustColor2) + 2, length(currentLine));
+            FAppSettings.CustColor2 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
+          end
+          else if (Copy(currentLine, 1, length(CustColor3)) = CustColor3) then
+          begin
+            textValue := Copy(currentLine, length(CustColor3) + 2, length(currentLine));
+            FAppSettings.CustColor3 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
+          end
+          else if (Copy(currentLine, 1, length(CustColor4)) = CustColor4) then
+          begin
+            textValue := Copy(currentLine, length(CustColor4) + 2, length(currentLine));
+            FAppSettings.CustColor4 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
+          end
+          else if (Copy(currentLine, 1, length(CustColor5)) = CustColor5) then
+          begin
+            textValue := Copy(currentLine, length(CustColor4) + 2, length(currentLine));
+            FAppSettings.CustColor5 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
+          end
+          else if (Copy(currentLine, 1, length(CustColor6)) = CustColor6) then
+          begin
+            textValue := Copy(currentLine, length(CustColor6) + 2, length(currentLine));
+            FAppSettings.CustColor6 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          end
+          else if (Copy(currentLine, 1, length(CustColor7)) = CustColor7) then
+          begin
+            textValue := Copy(currentLine, length(CustColor7) + 2, length(currentLine));
+            FAppSettings.CustColor7 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          end
+          else if (Copy(currentLine, 1, length(CustColor8)) = CustColor8) then
+          begin
+            textValue := Copy(currentLine, length(CustColor8) + 2, length(currentLine));
+            FAppSettings.CustColor8 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          end
+          else if (Copy(currentLine, 1, length(CustColor9)) = CustColor9) then
+          begin
+            textValue := Copy(currentLine, length(CustColor9) + 2, length(currentLine));
+            FAppSettings.CustColor9 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          end
+          else if (Copy(currentLine, 1, length(CustColor10)) = CustColor10) then
+          begin
+            textValue := Copy(currentLine, length(CustColor10) + 2, length(currentLine));
+            FAppSettings.CustColor10 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          end
+          else if (Copy(currentLine, 1, length(CustColor11)) = CustColor11) then
+          begin
+            textValue := Copy(currentLine, length(CustColor11) + 2, length(currentLine));
+            FAppSettings.CustColor11 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          end
+          else if (Copy(currentLine, 1, length(CustColor12)) = CustColor12) then
+          begin
+            textValue := Copy(currentLine, length(CustColor12) + 2, length(currentLine));
+            FAppSettings.CustColor12 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
+          end;
         end;
       end;
     end;
+  finally
+    if (fileContent <> nil) then
+      FreeAndNil(fileContent);
   end;
 end;
 
