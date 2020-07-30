@@ -219,6 +219,7 @@ var
   currentLine: string;
   sFilePath: string;
 begin
+  fileContent := nil;
   try
     result := '';
     if (GApplication = APPL_ADV2) then
@@ -303,6 +304,8 @@ var
   valueToSave: string;
   sFilePath: string;
 begin
+  fileContent := nil;
+
   try
     result := '';
     if (GApplication = APPL_ADV2) then
@@ -461,6 +464,7 @@ var
 const
   ModelNameText = 'model name';
 begin
+  fileContent := nil;
   try
     result := '';
     if (GApplication = APPL_RGB) then
@@ -575,6 +579,8 @@ var
   end;
 
 begin
+  fileContent := nil;
+
   try
     result := '';
 
@@ -629,6 +635,8 @@ var
   sFilePath: string;
   textValue: string;
 begin
+  fileContent := nil;
+
   try
     result := '';
 
