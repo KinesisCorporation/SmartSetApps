@@ -22,9 +22,6 @@
       <CharSet Value="03B6"/>
       <StringTable ProductVersion="Kinesis Corporation"/>
     </VersionInfo>
-    <MacroValues Count="1">
-      <Macro1 Name="LCLWidgetType" Value="cocoa"/>
-    </MacroValues>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
       <SharedMatrixOptions Count="1">
@@ -72,7 +69,7 @@
         <PackageName Value="LCL"/>
       </Item10>
     </RequiredPackages>
-    <Units Count="26">
+    <Units Count="25">
       <Unit0>
         <Filename Value="SmartSetFSEdge.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -129,110 +126,103 @@
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="u_form_main.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormMain"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
         <Filename Value="u_form_macro.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMacro"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
-        <Filename Value="u_base_form.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="BaseForm"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit13>
-      <Unit14>
+      </Unit11>
+      <Unit12>
         <Filename Value="u_form_settings.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit14>
-      <Unit15>
+      </Unit12>
+      <Unit13>
         <Filename Value="..\Components\animatedgif\animatedgif.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AnimatedGif"/>
-      </Unit15>
-      <Unit16>
+      </Unit13>
+      <Unit14>
         <Filename Value="..\Components\animatedgif\membitmap.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit16>
-      <Unit17>
+      </Unit14>
+      <Unit15>
         <Filename Value="u_form_timingdelays.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTimingDelays"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
+      </Unit15>
+      <Unit16>
         <Filename Value="u_form_intro.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormIntro"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit18>
-      <Unit19>
+      </Unit16>
+      <Unit17>
         <Filename Value="u_form_tapandhold.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTapAndHold"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit19>
-      <Unit20>
+      </Unit17>
+      <Unit18>
         <Filename Value="u_form_export.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormExport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit20>
-      <Unit21>
+      </Unit18>
+      <Unit19>
         <Filename Value="u_form_diagnostics.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormDiagnostics"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit21>
-      <Unit22>
+      </Unit19>
+      <Unit20>
         <Filename Value="u_form_firmware.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormFirmware"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit22>
-      <Unit23>
+      </Unit20>
+      <Unit21>
         <Filename Value="u_form_troubleshoot.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormTroubleshoot"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit23>
-      <Unit24>
+      </Unit21>
+      <Unit22>
         <Filename Value="..\Common\u_file_service.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit24>
-      <Unit25>
+      </Unit22>
+      <Unit23>
         <Filename Value="userdialog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormUserDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UserDialog"/>
-      </Unit25>
+      </Unit23>
+      <Unit24>
+        <Filename Value="u_form_main_rgb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMainRGB"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit24>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SmartSet App-Freestyle (Mac)"/>
+      <Filename Value="SmartSet App-Freestyle (PC)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
