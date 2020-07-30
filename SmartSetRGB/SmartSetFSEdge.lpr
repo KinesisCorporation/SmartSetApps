@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces,  // this includes the LCL widgetset
   dialogs, Forms, u_const,
-  u_form_main, u_form_intro, UserDialog;
+  u_form_main_rgb, u_form_intro, UserDialog;
 
 {$R *.res}
 begin
@@ -26,7 +26,7 @@ begin
   GApplicationName := 'SmartSet App';
   RequireDerivedFormResource:=True;
   Application.Initialize;
-  Application.CreateForm(TFormMain, FormMain);
+  Application.CreateForm(TFormMainRGB, FormMainRGB);
   Application.Run;
 end.
 
