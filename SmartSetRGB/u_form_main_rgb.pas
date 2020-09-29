@@ -14,7 +14,7 @@ uses
     LResources, BGRABitmap, BGRABitmapTypes, u_form_timingdelays, u_form_intro,
     LazUtils, {smtpsend, mimepart, mimemess,} u_form_export,
     u_form_diagnostics, u_form_firmware, u_form_troubleshoot, LazFileUtils,
-    u_gif, u_common_ui
+    u_gif, u_common_ui, u_form_expansion
     {$ifdef Win32},Windows{$endif}, Types;
 
 type
@@ -887,7 +887,7 @@ type
     procedure SetMenuItems(aMenuAction: TMenuAction);
     procedure SetSingleKey(aMenuAction: TMenuAction; wasDown: boolean);
     procedure ShowHideParameters(param: integer; ledMode:TLedMode; state: boolean);
-    procedure ShowIntroduction;
+    procedure ShowIntroDialogs;
     function ShowTroubleshootingDialog(init: boolean): boolean;
     procedure UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox;
       unselectKey: boolean=false; fullLoad: boolean=false);
@@ -930,6 +930,7 @@ type
     procedure openFirwareWebsite(Sender: TObject);
     function RippleFireballEnable: boolean;
     procedure SetMenuEnabledFirmware;
+    procedure CheckFirmware;
   public
     { public declarations }
     currentLayoutFile: string;
@@ -952,6 +953,7 @@ type
     function AcceptMacro: boolean;
     procedure CancelMacro;
     procedure SetMousePosition(x, y: integer);
+    procedure Maximize;
   end;
 
 var
@@ -1610,7 +1612,7 @@ end;
 
 procedure TFormMainRGB.FormActivate(Sender: TObject);
 begin
-  ShowIntroduction;
+  ShowIntroDialogs;
 end;
 
 procedure TFormMainRGB.RepaintForm(fullRepaint: boolean);
@@ -1633,11 +1635,15 @@ begin
   end;
 end;
 
-procedure TFormMainRGB.ShowIntroduction;
+procedure TFormMainRGB.ShowIntroDialogs;
 begin
   if (not closing) and (not infoMessageShown) and (not fileService.AppSettings.AppIntroMsg) and (AppSettingsLoaded) then
   begin
     ShowIntro;
+  end;
+  if (not closing) and (not infoMessageShown) and (not fileService.AppSettings.AppCheckFirmMsg) and (AppSettingsLoaded) then
+  begin
+    CheckFirmware;
   end;
   infoMessageShown := true;
 end;
@@ -3498,6 +3504,21 @@ begin
   end;
 end;
 
+procedure TFormMainRGB.CheckFirmware;
+begin
+  if (fileService.VersionIsEqualLED(1, 0, 44)) or (fileService.VersionIsEqualLED(1, 0, 58)) then
+  begin
+    if (not fileService.CheckIfLedFilesHasValue(KEYPAD_KEY_EDGE)) then
+    begin
+      if fileService.VersionIsEqualLED(1, 0, 44) then
+        ShowExpansionDialog(1)
+      else if fileService.VersionIsEqualLED(1, 0, 58) then
+        ShowExpansionDialog(2);
+      LoadLedFile(currentLedFile, nil);
+    end;
+  end;
+end;
+
 procedure TFormMainRGB.LoadGifTimerTimer(Sender: TObject);
 begin
   LoadGifTimer.Enabled := false;
@@ -5094,6 +5115,11 @@ begin
 end;
 
 procedure TFormMainRGB.btnMaximizeClick(Sender: TObject);
+begin
+  Maximize;
+end;
+
+procedure TFormMainRGB.Maximize;
 var
   aRect: TRect;
 begin

@@ -102,6 +102,7 @@ type
     CopyMacroMsg: boolean;
     ResetKeyMsg: boolean;
     WindowsComboMsg: boolean;
+    AppCheckFirmMsg: boolean;
     CustColor1: TColor;
     CustColor2: TColor;
     CustColor3: TColor;
@@ -207,6 +208,7 @@ function GetKeyModifierText(iKey: integer): string;
 function ReadURLGet(url:string):string;
 function GetDesktopDirectory: string;
 procedure GetVersionNumbers(versionNumber: string; var major: integer; var minor: integer; var revision: integer);
+function IsVersionEqual(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;
 function IsVersionBiggerOrEqual(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;
 function IsVersionSmaller(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;
 function GetPrefString(const KeyName : string) : string;
@@ -475,7 +477,7 @@ const
   APPL_FSPRO = 3;
   APPL_RGB = 4;
   APPL_CROSSKP = 5;
-  APPL_CROSSTKO = 6;
+  APPL_TKO = 6;
 
   //Led modes
   LED_MONO = '[mono]';
@@ -546,7 +548,7 @@ const
   ADV2_DRIVE_2 = 'KINESIS KB';
   ADV2_DRIVE_3 = 'ADV2';
   CROSSKP_DRIVE = 'CROSSFIRE KEYPAD';
-  CROSSTKO_DRIVE = 'CROSSFIRE TKO';
+  TKO_DRIVE = 'TKO';
   TAP_AND_HOLD = 't&h';
   DEFAULT_SPEED_TAP_HOLD = 250;
   MAX_TAP_HOLD = 10;
@@ -1695,6 +1697,12 @@ begin
       3: revision := ConvertToInt(sVersion, 0);
     end;
   end;
+end;
+
+function IsVersionEqual(sourceMajor, sourceMinor, sourceRevision: integer;
+  destMajor, destMinor, destRevision: integer): boolean;
+begin
+  result := (sourceMajor = destMajor) and (sourceMinor = destMinor) and (sourceRevision = destRevision);
 end;
 
 function IsVersionBiggerOrEqual(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;

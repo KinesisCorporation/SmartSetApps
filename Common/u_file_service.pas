@@ -39,6 +39,7 @@ type
     function GetCompleteFileName: string;
     function CheckFileValid: boolean;
     function GetPedalText(aPedal: TPedalText; aPedalType: TPedal): string;
+    function GetExpansion2Pack(fileNo: integer): TStringList;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -59,6 +60,7 @@ type
     procedure SetGameMode(value: boolean);
     procedure SetLedMode(value: string); //diff
     procedure SetAppIntroMsg(value: boolean);
+    procedure SetAppCheckFirmMsg(value: boolean);
     procedure SetSaveAsMsg(value: boolean);
     procedure SetSaveMsg(value: boolean);
     procedure SetMultiplayMsg(value: boolean);
@@ -76,12 +78,18 @@ type
     procedure SetCustomColor(value: TColor; index: integer);
     procedure SetWindowsComboMsg(value: boolean);
     procedure SetPitchBlack(value: boolean);
+    function VersionIsEqualKBD(major, minor, revision: integer): boolean;
+    function VersionIsEqualLED(major, minor, revision: integer): boolean;
     function VersionBiggerEqualKBD(major, minor, revision: integer): boolean;
     function VersionBiggerEqualLED(major, minor, revision: integer): boolean;
     function VersionSmallerThanApp(major, minor, revision: integer): boolean;
     function VersionSmallerThanKBD(major, minor, revision: integer): boolean;
     function VersionSmallerThanLED(major, minor, revision: integer): boolean;
     function GetDiagnosticInfo: TStringList;
+    function CheckIfLedFilesHasValue(value: string): boolean;
+    function FileContainsValue(sFileName: string; textValue: string): boolean;
+    procedure AssignExpansion2Pack;
+    procedure MirrorLightingToFnLayer;
 
     property FileIsValid: boolean read CheckFileValid;
     property FilePath: string read FFilePath write FFilePath;
@@ -121,6 +129,7 @@ type
     SpeedMsg = 'speed_msg';
     CopyMacroMsg = 'copy_macro_msg';
     ResetKeyMsg = 'reset_key_msg';
+    AppCheckFirmMsg = 'app_checkfirm_msg';
 
     //RGB Settings
     SaveMsgLighting = 'savelighting_msg';
@@ -598,6 +607,7 @@ begin
       SaveValueBoolean(FAppSettings.SpeedMsg, SpeedMsg);
       SaveValueBoolean(FAppSettings.CopyMacroMsg, CopyMacroMsg);
       SaveValueBoolean(FAppSettings.ResetKeyMsg, ResetKeyMsg);
+      SaveValueBoolean(FAppSettings.AppCheckFirmMsg, AppCheckFirmMsg);
 
       if (GApplication = APPL_RGB) then
       begin
@@ -669,6 +679,8 @@ begin
             FAppSettings.ResetKeyMsg := Copy(currentLine, length(ResetKeyMsg) + 2, length(currentLine)) = 'on'
           else if (Copy(currentLine, 1, length(WindowsComboMsg)) = WindowsComboMsg) then
             FAppSettings.WindowsComboMsg := Copy(currentLine, length(WindowsComboMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(AppCheckFirmMsg)) = AppCheckFirmMsg) then
+            FAppSettings.AppCheckFirmMsg := Copy(currentLine, length(AppCheckFirmMsg) + 2, length(currentLine)) = 'on'
           else if (Copy(currentLine, 1, length(CustColor1)) = CustColor1) then
           begin
             textValue := Copy(currentLine, length(CustColor1) + 2, length(currentLine));
@@ -768,6 +780,11 @@ begin
   FAppSettings.AppIntroMsg := value;
 end;
 
+procedure TFileService.SetAppCheckFirmMsg(value: boolean);
+begin
+  FAppSettings.AppCheckFirmMsg := value;
+end;
+
 procedure TFileService.SetSaveAsMsg(value: boolean);
 begin
   FAppSettings.SaveAsMsg := value;
@@ -854,6 +871,18 @@ end;
 procedure TFileService.SetPitchBlack(value: boolean);
 begin
   FStateSettings.PitchBlackMode := value;
+end;
+
+function TFileService.VersionIsEqualKBD(major, minor, revision: integer
+  ): boolean;
+begin
+  result := IsVersionEqual(FFirmwareMajorKBD, FFirmwareMinorKBD, FFirmwareRevisionKBD, major, minor, revision);
+end;
+
+function TFileService.VersionIsEqualLED(major, minor, revision: integer
+  ): boolean;
+begin
+  result := IsVersionEqual(FFirmwareMajorLED, FFirmwareMinorLED, FFirmwareRevisionLED, major, minor, revision);
 end;
 
 //function TFileService.VersionBiggerEqual(major, minor, revision: integer
@@ -983,6 +1012,26 @@ begin
   end;
 end;
 
+function TFileService.CheckIfLedFilesHasValue(value: string): boolean;
+var
+  i: integer;
+  ledFile: string;
+begin
+  result := false;
+  for i := 1 to 9 do
+  begin
+    ledFile := GLedFilePath + FILE_LED + IntToStr(i) + '.txt';
+    if (FileExists(ledFile)) then
+    begin
+      if (FileContainsValue(ledFile, value)) then
+      begin
+        result := true;
+        break;
+      end;
+    end;
+  end;
+end;
+
 //Receives complete file name and tries to load file
 function TFileService.LoadFile(sFileName: string; fileContent: TStringList; criticalFile: boolean): string;
 var
@@ -1021,6 +1070,135 @@ begin
     if (fileOpen) then
       CloseFile(filePedals);
   end;
+end;
+
+//Checks if file contains text value
+function TFileService.FileContainsValue(sFileName: string; textValue: string): boolean;
+var
+  filePedals: TextFile;
+  currentLine: string;
+  fileOpen: boolean;
+begin
+  Result := false;
+  fileOpen := false;
+  FFilePath := IncludeTrailingBackslash(ExtractFileDir(sFileName));
+  FFileName := ExtractFileName(sFileName);
+
+  //Tries to load file content in string list
+  try
+    AssignFile(filePedals, FFilePath + FFileName);
+    Reset(filePedals);
+    fileOpen := true;
+    repeat
+      Readln(filePedals, currentLine); // Reads the whole line from the file
+      if Pos(UpperCase(textValue), UpperCase(currentLine)) <> 0 then
+         result := true;
+    until(EOF(filePedals)); // EOF(End Of File) The the program will keep reading new lines until there is none.
+  finally
+    if (fileOpen) then
+      CloseFile(filePedals);
+  end;
+end;
+
+procedure TFileService.MirrorLightingToFnLayer;
+var
+  i: integer;
+  row: integer;
+  ledFile: string;
+  fileContent: TStringList;
+  error: string;
+begin
+  fileContent := TStringList.Create;
+
+  try
+    for i := 1 to 9 do
+    begin
+      ledFile := GLedFilePath + FILE_LED + IntToStr(i) + '.txt';
+      LoadFile(ledFile, fileContent, false);
+      for row := 0 to fileContent.Count - 1 do
+      begin
+        if (fileContent.Strings[row] <> '') then
+           fileContent.Add(KEYPAD_KEY_EDGE + fileContent.Strings[row]);
+      end;
+      SaveFile(ledFile, fileContent, false, error);
+    end;
+  finally
+    FreeAndNil(fileContent);
+  end;
+end;
+
+procedure TFileService.AssignExpansion2Pack;
+var
+  i: integer;
+  fileContent: TStringList;
+  ledFile: string;
+  error: string;
+begin
+  for i := 1 to 9 do
+  begin
+    try
+      ledFile := GLedFilePath + FILE_LED + IntToStr(i) + '.txt';
+      fileContent := GetExpansion2Pack(i);
+      SaveFile(ledFile, fileContent, false, error);
+    finally
+      if (fileContent <> nil) then
+        FreeAndNil(fileContent);
+    end;
+  end;
+end;
+
+function TFileService.GetExpansion2Pack(fileNo: integer): TStringList;
+var
+  fileContent: TStringList;
+begin
+  fileContent := TStringList.Create;
+
+  case fileNo of
+    1: begin
+      fileContent.Add('[wave]>[spd5][dirright]');
+      fileContent.Add('fn [wave]>[spd5][dirdown]');
+    end;
+    2: begin
+      fileContent.Add('[rain]>[0][255][0][spd5]');
+      fileContent.Add('[mono]>[0][0][0]');
+      fileContent.Add('fn [rain]>[0][255][0][spd5]');
+      fileContent.Add('fn [mono]>[255][255][255]');
+    end;
+    3: begin
+      fileContent.Add('[spectrum]>[spd5]');
+      fileContent.Add('fn [mono]>[255][255][255]');
+    end;
+    4: begin
+      fileContent.Add('[reactive]>[0][255][255][spd5]');
+      fileContent.Add('fn [mono]>[0][255][255]');
+    end;
+    5: begin
+      fileContent.Add('[rebound]>[255][0][255][spd5][dirleft]');
+      fileContent.Add('fn [rebound]>[255][0][255][spd5][dirup]');
+    end;
+    6: begin
+      fileContent.Add('[mono]>[0][0][255]');
+      fileContent.Add('fn [breathe]>[spd5]');
+      fileContent.Add('fn [mono]>[0][0][255]');
+    end;
+    7: begin
+      fileContent.Add('[mono]>[255][0][0]');
+      fileContent.Add('fn [breathe]>[spd5]');
+      fileContent.Add('fn [mono]>[255][0][0]');
+    end;
+    8: begin
+      fileContent.Add('[mono]>[0][255][0]');
+      fileContent.Add('fn [breathe]>[spd5]');
+      fileContent.Add('fn [mono]>[0][255][0]');
+    end;
+    9: begin
+      fileContent.Add('[mono]>[255][255][255]');
+      fileContent.Add('fn [breathe]>[spd5]');
+      fileContent.Add('fn [mono]>[255][255][255]');
+    end;
+  end;
+
+  result := fileContent;
 end;
 
 //Gets pedal text to save to file

@@ -1,0 +1,228 @@
+inherited FormExpansion: TFormExpansion
+  Left = 428
+  Height = 238
+  Top = 130
+  Width = 948
+  Caption = 'FormExpansion'
+  ClientHeight = 238
+  ClientWidth = 948
+  Font.Height = -19
+  KeyPreview = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  inherited btnClose: THSSpeedButton
+    Left = 916
+  end
+  inherited lineBorderTop: TLineObj
+    Width = 948
+  end
+  inherited lineBorderBottom: TLineObj
+    Top = 236
+    Width = 948
+  end
+  inherited lineBorderLeft: TLineObj
+    Height = 234
+  end
+  inherited lineBorderRight: TLineObj
+    Left = 946
+    Height = 234
+  end
+  inherited lblTitle: TLabel
+    Height = 32
+    Width = 893
+    Caption = 'Lighting Expansion Pack'
+    Font.Height = -19
+  end
+  object Label1: TLabel[6]
+    Left = 18
+    Height = 39
+    Top = 44
+    Width = 915
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'Some of your Profiles do not have an Fn Layer lighting effect assigned, would you like to update them now?'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+    WordWrap = True
+  end
+  object btnImplement: THSSpeedButton[7]
+    Left = 185
+    Height = 32
+    Top = 189
+    Width = 190
+    Alignment = taCenter
+    Anchors = [akRight, akBottom]
+    Border = 1
+    Caption = 'Implement Selection'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ShadowColor = 4012079
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnImplementClick
+  end
+  object btnLearnMore: THSSpeedButton[8]
+    Left = 393
+    Height = 32
+    Top = 189
+    Width = 190
+    Alignment = taCenter
+    Anchors = [akRight, akBottom]
+    Border = 1
+    Caption = 'Learn More'
+    Color = 4012079
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    HotTrackColor = 6117455
+    HotTrackFont.CharSet = ANSI_CHARSET
+    HotTrackFont.Color = clWhite
+    HotTrackFont.Height = -12
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Pitch = fpVariable
+    HotTrackFont.Quality = fqDraft
+    LightColor = 4012079
+    ParentFont = False
+    ShadowColor = 4012079
+    SlowDecease = sdEnterLeave
+    Smooth = 8
+    Style = bsModern
+    Index = -1
+    TransparentColor = clBlack
+    OnClick = btnLearnMoreClick
+  end
+  object chkCheckBox: TCheckBox[9]
+    Left = 21
+    Height = 19
+    Top = 193
+    Width = 20
+    Anchors = [akLeft, akBottom]
+    Color = clWhite
+    ParentColor = False
+    TabOrder = 3
+    TabStop = False
+  end
+  object lblCheckBox: TLabel[10]
+    Left = 37
+    Height = 16
+    Top = 195
+    Width = 128
+    Alignment = taRightJustify
+    Anchors = [akLeft, akBottom]
+    AutoSize = False
+    Caption = 'Hide this notification?'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    OnClick = lblCheckBoxClick
+  end
+  object chkMirror: TCheckBox[11]
+    Left = 224
+    Height = 19
+    Top = 87
+    Width = 156
+    Anchors = [akLeft, akBottom]
+    AutoSize = False
+    Color = clWhite
+    OnClick = chkMirrorClick
+    ParentColor = False
+    TabOrder = 2
+    TabStop = False
+  end
+  object lblMiror: TLabel[12]
+    Left = 242
+    Height = 19
+    Top = 86
+    Width = 455
+    Anchors = [akLeft, akBottom]
+    Caption = 'Yes, mirror current Top Layer effects to Fn Layer in all 9 profiles'
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    OnClick = lblMirorClick
+  end
+  object lblLoad: TLabel[13]
+    Left = 242
+    Height = 19
+    Top = 114
+    Width = 607
+    Anchors = [akLeft, akBottom]
+    Caption = 'Yes, load Expansion Pack 2 effects to all 9 Profiles (current effects will be overwritten)'
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    OnClick = lblLoadClick
+  end
+  object chkLoadExpansion: TCheckBox[14]
+    Left = 224
+    Height = 19
+    Top = 115
+    Width = 156
+    Anchors = [akLeft, akBottom]
+    AutoSize = False
+    Color = clWhite
+    ParentColor = False
+    TabOrder = 1
+    TabStop = False
+  end
+  object lblDoNothing: TLabel[15]
+    Left = 242
+    Height = 19
+    Top = 141
+    Width = 180
+    Anchors = [akLeft, akBottom]
+    Caption = 'No, leave my effects as-is'
+    Font.Color = clWhite
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    OnClick = lblDoNothingClick
+  end
+  object chkDoNothing: TCheckBox[16]
+    Left = 224
+    Height = 19
+    Top = 142
+    Width = 156
+    Anchors = [akLeft, akBottom]
+    AutoSize = False
+    Color = clWhite
+    OnClick = chkDoNothingClick
+    ParentColor = False
+    TabOrder = 0
+    TabStop = False
+  end
+end
