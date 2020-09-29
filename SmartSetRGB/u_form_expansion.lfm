@@ -194,6 +194,7 @@ inherited FormExpansion: TFormExpansion
     Anchors = [akLeft, akBottom]
     AutoSize = False
     Color = clWhite
+    OnClick = chkLoadExpansionClick
     ParentColor = False
     TabOrder = 1
     TabStop = False
