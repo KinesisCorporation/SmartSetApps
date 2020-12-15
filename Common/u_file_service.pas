@@ -5,7 +5,8 @@ unit u_file_service;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, u_const, u_debug, graphics, VersionSupport;
+  Classes, SysUtils, FileUtil, u_const, u_debug, graphics, VersionSupport,
+  u_kinesis_device, dialogs;
 
 type
   //FileService contains all logic for file management
@@ -43,7 +44,7 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
-    function LoadFile(sFileName: string; fileContent: TStringList; criticalFile: boolean): string;
+    function LoadFile(sFile: string; fileContent: TStringList; criticalFile: boolean): string;
     function SaveFile(sFileName: string; fileContent: TStringList; allowNew: boolean; var error: string): boolean;
     function CheckIfFileExists(sFileName: string): boolean;
     function SetNewFileName(sFileName: string): boolean;
@@ -90,6 +91,8 @@ type
     function FileContainsValue(sFileName: string; textValue: string): boolean;
     procedure AssignExpansion2Pack;
     procedure MirrorLightingToFnLayer;
+    function GetStartupFileNo(aDevice: TDevice): string;
+    function GetFirmwareVersionInfo(aDevice: TDevice): TFirmwareInfo;
 
     property FileIsValid: boolean read CheckFileValid;
     property FilePath: string read FFilePath write FFilePath;
@@ -329,7 +332,7 @@ begin
 
       if result = '' then //no error
       begin
-        if (GApplication = APPL_RGB) then
+        if (GApplication in [APPL_RGB, APPL_TKO]) then
         begin
           //Save layout file
           valueToSave := FILE_LAYOUT + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
@@ -346,16 +349,6 @@ begin
             fileContent.Insert(0, LedMode + '=' + valueToSave)
           else
             fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
-        end
-        else if (GApplication = APPL_RGB) then
-        begin
-          //Save Startup file
-          valueToSave := AnsiLowerCase(FStateSettings.StartupFile);
-          idxSetting := GetIndexOfString(StartupFile, fileContent);
-          if (idxSetting = -1) then
-            fileContent.Insert(0, StartupFile + '=' + valueToSave)
-          else
-            fileContent.Strings[idxSetting] := StartupFile + '=' + valueToSave;
         end;
 
         //Save Status Play speed
@@ -423,7 +416,7 @@ begin
             fileContent.Strings[idxSetting] := VDriveStartup + '=' + valueToSave;
         end;
 
-        if (GApplication in [APPL_FSEDGE, APPL_FSPRO, APPL_RGB]) then
+        if (GApplication in [APPL_FSEDGE, APPL_FSPRO, APPL_RGB, APPL_TKO]) then
         begin
           //Save Game Mode
           if (FStateSettings.GameMode) then
@@ -459,6 +452,81 @@ begin
   end;
 end;
 
+function TFileService.GetFirmwareVersionInfo(aDevice: TDevice): TFirmwareInfo;
+var
+  fileExists: boolean;
+  fileContent: TStringList;
+  i, j: integer;
+  currentLine: string;
+  sFilePath: string;
+  sTemp: string;
+  sVersion: string;
+  FirmwareTextKBD: string;
+  FirmwareTextLED: string;
+  firmwareInfo: TFirmwareInfo;
+const
+  ModelNameText = 'model name';
+begin
+  fileContent := nil;
+  firmwareInfo.ModelName := '';
+  firmwareInfo.VersionKBD := '';
+  firmwareInfo.MajorKBD := -1;
+  firmwareInfo.MinorKBD := -1;
+  firmwareInfo.RevisionKBD := -1;
+  firmwareInfo.VersionLED := '';
+  firmwareInfo.MajorLED := -1;
+  firmwareInfo.MinorLED := -1;
+  firmwareInfo.RevisionLED := -1;
+
+  try
+    if (aDevice.DeviceNumber in [APPL_RGB, APPL_TKO]) then
+    begin
+      FirmwareTextKBD := 'kbd firmware';
+      FirmwareTextLED := 'led firmware';
+    end
+    else
+    begin
+      FirmwareTextKBD := 'firmware version';
+      FirmwareTextLED := '';
+    end;
+    if (aDevice.DeviceNumber = APPL_ADV2) then
+      sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'active') + VERSION_FILE
+    else
+      sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'firmware') + VERSION_FILE;
+    fileExists := CheckIfFileExists(sFilePath);
+    if (fileExists) then
+    begin
+      fileContent := TStringList.Create;
+
+      if LoadFile(sFilePath, fileContent, true) = '' then //no error
+      begin
+        for i:=0 to fileContent.Count - 1 do
+        begin
+          currentLine := AnsiLowerCase(fileContent.Strings[i]);
+
+          if (Copy(currentLine, 1, length(ModelNameText)) = ModelNameText) then
+            firmwareInfo.ModelName := Trim(Copy(currentLine, length(ModelNameText) + 2, length(currentLine)))
+          else if (Copy(currentLine, 1, length(FirmwareTextKBD)) = FirmwareTextKBD) then
+          begin
+            firmwareInfo.VersionKBD := Trim(Copy(currentLine, length(FirmwareTextKBD) + 2, length(currentLine)));
+            GetVersionNumbers(firmwareInfo.VersionKBD, firmwareInfo.MajorKBD, firmwareInfo.MinorKBD, firmwareInfo.RevisionKBD);
+          end
+          else if (Copy(currentLine, 1, length(FirmwareTextLED)) = FirmwareTextLED) then
+          begin
+            firmwareInfo.VersionLED := Trim(Copy(currentLine, length(FirmwareTextLED) + 2, length(currentLine)));
+            GetVersionNumbers(firmwareInfo.VersionLED, firmwareInfo.MajorLED, firmwareInfo.MinorLED, firmwareInfo.RevisionLED);
+          end;
+        end;
+      end;
+    end;
+  finally
+    if (fileContent <> nil) then
+      FreeAndNil(fileContent);
+  end;
+
+  result := firmwareInfo;
+end;
+
 function TFileService.LoadVersionInfo: string;
 var
   fileExists: boolean;
@@ -476,7 +544,7 @@ begin
   fileContent := nil;
   try
     result := '';
-    if (GApplication = APPL_RGB) then
+    if (GApplication in [APPL_RGB, APPL_TKO]) then
     begin
       FirmwareTextKBD := 'kbd firmware';
       FirmwareTextLED := 'led firmware';
@@ -609,7 +677,7 @@ begin
       SaveValueBoolean(FAppSettings.ResetKeyMsg, ResetKeyMsg);
       SaveValueBoolean(FAppSettings.AppCheckFirmMsg, AppCheckFirmMsg);
 
-      if (GApplication = APPL_RGB) then
+      if (GApplication in [APPL_RGB, APPL_TKO]) then
       begin
         SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
         SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
@@ -681,17 +749,17 @@ begin
             FAppSettings.WindowsComboMsg := Copy(currentLine, length(WindowsComboMsg) + 2, length(currentLine)) = 'on'
           else if (Copy(currentLine, 1, length(AppCheckFirmMsg)) = AppCheckFirmMsg) then
             FAppSettings.AppCheckFirmMsg := Copy(currentLine, length(AppCheckFirmMsg) + 2, length(currentLine)) = 'on'
-          else if (Copy(currentLine, 1, length(CustColor1)) = CustColor1) then
+          else if (Copy(currentLine, 1, length(CustColor1) + 1) = CustColor1 + '=') then //Add = so that it doesn't take cust_color_10, 11, etc.
           begin
             textValue := Copy(currentLine, length(CustColor1) + 2, length(currentLine));
-            FAppSettings.CustColor1 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
+            FAppSettings.CustColor1 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR);
           end
-          else if (Copy(currentLine, 1, length(CustColor2)) = CustColor2) then
+          else if (Copy(currentLine, 1, length(CustColor2) + 1) = CustColor2 + '=') then
           begin
             textValue := Copy(currentLine, length(CustColor2) + 2, length(currentLine));
             FAppSettings.CustColor2 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
           end
-          else if (Copy(currentLine, 1, length(CustColor3)) = CustColor3) then
+          else if (Copy(currentLine, 1, length(CustColor3) + 1) = CustColor3 + '=') then
           begin
             textValue := Copy(currentLine, length(CustColor3) + 2, length(currentLine));
             FAppSettings.CustColor3 := RGBStringToColor(textValue, DEFAULT_CUST_COLOR)
@@ -1033,23 +1101,25 @@ begin
 end;
 
 //Receives complete file name and tries to load file
-function TFileService.LoadFile(sFileName: string; fileContent: TStringList; criticalFile: boolean): string;
+function TFileService.LoadFile(sFile: string; fileContent: TStringList; criticalFile: boolean): string;
 var
   filePedals: TextFile;
   currentLine: string;
   fileOpen: boolean;
+  sFilePath: string;
+  sFileName: string;
 begin
   Result := '';
   fileOpen := false;
-  FFilePath := IncludeTrailingBackslash(ExtractFileDir(sFileName));
-  FFileName := ExtractFileName(sFileName);
+  sFilePath := IncludeTrailingBackslash(ExtractFileDir(sFile));
+  sFileName := ExtractFileName(sFile);
 
   fileContent.Clear;
 
   //Tries to load file content in string list
   try
     try
-      AssignFile(filePedals, FFilePath + FFileName);
+      AssignFile(filePedals, sFilePath + sFileName);
       Reset(filePedals);
       fileOpen := true;
       repeat
@@ -1062,7 +1132,7 @@ begin
         if (criticalFile) then
           Result := 'A file error has occurred. Please disconnect and re-connect the v-Drive and try launching the SmartSet App again.'
         else
-          Result := 'Error loading file: ' + sFileName + ', ' + E.Message;
+          Result := 'Error loading file: ' + sFile + ', ' + E.Message;
         HandleExcept(E, False, Result);
       end;
     end;
@@ -1124,6 +1194,50 @@ begin
     end;
   finally
     FreeAndNil(fileContent);
+  end;
+end;
+
+function TFileService.GetStartupFileNo(aDevice: TDevice): string;
+var
+  fileExists: boolean;
+  fileContent: TStringList;
+  i: integer;
+  currentLine: string;
+  sFilePath: string;
+  error: string;
+begin
+  result := '';
+  if (aDevice.Connected and (aDevice.RootFoler <> '')) then
+  begin
+    fileContent := nil;
+    try
+      if (aDevice.DeviceNumber = APPL_ADV2) then
+        sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'active') + ADV2_STATE_FILE
+      else
+        sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'settings') + KB_SETTINGS_FILE;
+      fileExists := CheckIfFileExists(sFilePath);
+      if (fileExists) then
+      begin
+        fileContent := TStringList.Create;
+        error := LoadFile(sFilePath, fileContent, false);
+
+        if error = '' then //no error
+        begin
+          for i:=0 to fileContent.Count - 1 do
+          begin
+            currentLine := AnsiLowerCase(fileContent.Strings[i]);
+
+            if (Copy(currentLine, 1, length(StartupFile)) = StartupFile) then
+            begin
+              result := IntToStr(GetFileNumber(Copy(currentLine, length(StartupFile) + 2, length(currentLine))));
+            end;
+          end;
+        end;
+      end;
+    finally
+      if (fileContent <> nil) then
+        FreeAndNil(fileContent);
+    end;
   end;
 end;
 

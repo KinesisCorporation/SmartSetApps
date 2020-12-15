@@ -8,7 +8,7 @@ unit creosource;
 interface
 
 uses
-  LineObj, LabelBox, PanelBtn, LazarusPackageIntf;
+  LineObj, LabelBox, PanelBtn, ColorSpeedButtonCS, LazarusPackageIntf;
 
 implementation
 
@@ -17,6 +17,7 @@ begin
   RegisterUnit('LineObj', @LineObj.Register);
   RegisterUnit('LabelBox', @LabelBox.Register);
   RegisterUnit('PanelBtn', @PanelBtn.Register);
+  RegisterUnit('ColorSpeedButtonCS', @ColorSpeedButtonCS.Register);
 end;
 
 initialization

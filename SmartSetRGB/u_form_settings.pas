@@ -287,6 +287,7 @@ begin
           fileService.SaveAppSettings;
         end;
       end;
+      EjectDevice(GActiveDevice);
       Close;
     end;
   end;

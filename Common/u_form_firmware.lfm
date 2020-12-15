@@ -1,0 +1,126 @@
+inherited FormFirmware: TFormFirmware
+  Left = 430
+  Height = 216
+  Top = 130
+  Width = 511
+  ClientHeight = 216
+  ClientWidth = 511
+  Font.Height = -13
+  KeyPreview = True
+  OnActivate = FormActivate
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnShow = FormShow
+  inherited btnClose: THSSpeedButton
+    Left = 479
+  end
+  inherited lineBorderTop: TLineObj
+    Width = 511
+  end
+  inherited lineBorderBottom: TLineObj
+    Top = 214
+    Width = 511
+  end
+  inherited lineBorderLeft: TLineObj
+    Height = 212
+  end
+  inherited lineBorderRight: TLineObj
+    Left = 509
+    Height = 212
+  end
+  inherited lblTitle: TLabel
+    Width = 456
+  end
+  object Label3: TLabel[6]
+    Left = 24
+    Height = 23
+    Top = 56
+    Width = 176
+    Caption = 'Keyboard Firmware :'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    WordWrap = True
+  end
+  object Label4: TLabel[7]
+    Left = 24
+    Height = 23
+    Top = 104
+    Width = 164
+    Caption = 'Lighting Firmware :'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    WordWrap = True
+  end
+  object Label5: TLabel[8]
+    Left = 24
+    Height = 23
+    Top = 152
+    Width = 129
+    Caption = 'SmartSet App :'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    WordWrap = True
+  end
+  object pnlKBFirware: TPanel[9]
+    Left = 208
+    Height = 42
+    Top = 48
+    Width = 280
+    BevelOuter = bvNone
+    Caption = 'Checking for update...'
+    Color = 1644825
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 0
+    OnClick = pnlKBFirwareClick
+  end
+  object pnlLightningFirmware: TPanel[10]
+    Left = 208
+    Height = 42
+    Top = 96
+    Width = 280
+    BevelOuter = bvNone
+    Caption = 'Checking for update...'
+    Color = 1644825
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    TabOrder = 1
+    OnClick = pnlLightningFirmwareClick
+  end
+  object pnlApp: TPanel[11]
+    Left = 208
+    Height = 42
+    Top = 144
+    Width = 280
+    BevelOuter = bvNone
+    Caption = 'Checking for update...'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    ParentFont = False
+    TabOrder = 2
+    OnClick = pnlAppClick
+  end
+  object tmrCheck: TTimer[12]
+    Enabled = False
+    Interval = 200
+    OnTimer = tmrCheckTimer
+    left = 203
+    top = 159
+  end
+end

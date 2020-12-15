@@ -18,71 +18,11 @@ uses
     {$ifdef Win32},Windows{$endif}, Types;
 
 type
-
-  { TMenuAction }
-
-  TMenuAction = class
-  private
-    FName: string;
-    FActionButton: THSSpeedButton;
-    FActionImage: TImage;
-    FActionLabel: TLabel;
-    FMenuConfig: integer;
-    FPopupMenu: boolean;
-    FStayDown: boolean;
-    FMustSelectKey: boolean;
-    FIsEnabled: boolean;
-  protected
-  public
-    constructor Create(actionButton: THSSpeedButton; actionLabel: TLabel; actionImage: TImage;
-      menuConfig: integer; popupMenu: boolean; bStayDown: boolean; bMustSelectKey: boolean; bIsEnabled: boolean = true);
-    property Name: string read FName write FName;
-    property ActionButton: THSSpeedButton read FActionButton write FActionButton;
-    property ActionImage: TImage read FActionImage write FActionImage;
-    property ActionLabel: TLabel read FActionLabel write FActionLabel;
-    property MenuConfig: integer read FMenuConfig write FMenuConfig;
-    property PopupMenu: boolean read FPopupMenu write FPopupMenu;
-    property StayDown: boolean read FStayDown write FStayDown;
-    property MustSelectKey: boolean read FMustSelectKey write FMustSelectKey;
-    property IsEnabled: boolean read FIsEnabled write FIsEnabled;
-  end;
-
-  { THoveredList }
-
-  { THoveredObj }
-
-  THoveredObj = class
-  private
-    FObj: TObject;
-    FImgList: TImageList;
-    FNormalIdx: integer;
-    FHoveredIdx: integer;
-  protected
-  public
-    constructor Create(obj: TObject; imgList: TImageList;
-      normalIdx: integer; hoveredIdx: integer);
-    property Obj: TObject read FObj write FObj;
-    property ImgList: TImageList read FImgList write FImgList;
-    property NormalIdx: integer read FNormalIdx write FNormalIdx;
-    property HoveredIdx: integer read FHoveredIdx write FHoveredIdx;
-  end;
-
-  //TActionList = class(TObjectList)
-  //private
-  //  FName: string;
-  //  FActionButton: THSSpeedButton;
-  //  FActionLabel: TLabel;
-  //protected
-  //public
-  //  property Name: string read FName write FName;
-  //  property ActionButton: THSSpeedButton read FActionButton write FActionButton;
-  //  property ActionLabel: TLabel read FActionLabel write FActionLabel;
-  //end;
-
   { TFormMainRGB }
   TFormMainRGB = class(TForm)
     btnDisableLed: THSSpeedButton;
     btnDisableLedOld: THSSpeedButton;
+    btnEject: THSSpeedButton;
     btnFireball: THSSpeedButton;
     imgDisableLed: TImage;
     imgFireball: TImage;
@@ -317,6 +257,7 @@ type
     lineBorderLeftTop: TLineObj;
     lbProfile: TListBox;
     memoMacro: TRichMemo;
+    pnlMain: TPanel;
     pnlAssignMacro: TPanel;
     pnlBaseColor: TPanel;
     pnlLayout: TPanel;
@@ -378,6 +319,7 @@ type
     sliderMultiplay: TECSlider;
     swLayerSwitch: TECSwitch;
     textMacroInput: TStaticText;
+    tmrAfterFormShown: TTimer;
     WaveTimer: TIdleTimer;
     imageKnob: TImage;
     imageListKB: TImageList;
@@ -569,6 +511,7 @@ type
     procedure btnDirectionClick(Sender: TObject);
     procedure btnDoneClick(Sender: TObject);
     procedure btnDoneMacroClick(Sender: TObject);
+    procedure btnEjectClick(Sender: TObject);
     procedure btnFirmwareClick(Sender: TObject);
     procedure btnFunctionZoneClick(Sender: TObject);
     procedure btnGameZoneClick(Sender: TObject);
@@ -661,6 +604,7 @@ type
       Y: Integer);
     procedure MonochromeTimerTimer(Sender: TObject);
     procedure NewGifTimerTimer(Sender: TObject);
+    procedure pnlMacroClick(Sender: TObject);
     procedure pnlProfileOptionsClick(Sender: TObject);
     procedure rgbExit(Sender: TObject);
     procedure gifViewerClick(Sender: TObject);
@@ -709,6 +653,7 @@ type
     procedure sliderMacroSpeedMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure swLayerSwitchClick(Sender: TObject);
+    procedure tmrAfterFormShownTimer(Sender: TObject);
     procedure TopMenuClick(Sender: TObject);
     procedure TopMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -779,6 +724,11 @@ type
     closing: boolean;
     profileMode: TProfileMode;
     cusWindowState: TCusWinState;
+    NORMAL_HEIGHT: integer;
+    NORMAL_WIDTH: integer;
+    fromMasterApp: boolean;
+    parentForm: TForm;
+    showingVDriveErrorDlg: boolean;
 
     procedure ActivateCoTrigger(keyButton: TLabelBox);
     Procedure ActivateCoTrigger(coTriggerBtn: THSSpeedButton);
@@ -894,13 +844,13 @@ type
     procedure UpdateMenu;
     procedure FillMenuActionList;
     procedure FillHoveredList;
-    function GetMenuActionByButton(buttonName: string): TMenuAction;
+    function GetMenuActionByType(actionType: TMenuActionType): TMenuAction;
     function GetMenuActionByLabel(labelName: string): TMenuAction;
     function GetMenuActionByImage(imageName: string): TMenuAction;
     procedure ResetAllMenuAction;
-    procedure SetCurrentMenuAction(aButton: THSSpeedButton; aLsbel: TLabel; aImage: TImage = nil);
+    procedure SetCurrentMenuAction(aType: TMenuActionType; aLabel: TLabel; aImage: TImage = nil);
     procedure SetModifiedKey(key: word; Modifiers: string; isMacro: boolean;
-      bothLayers: boolean = false; force: boolean = false);
+      bothLayers: boolean = false; force: boolean = false; overwriteTapHold: boolean = false);
     procedure SetConfigOS;
     procedure SetKeyboardHook;
     procedure RemoveKeyboardHook;
@@ -910,9 +860,6 @@ type
     procedure RefreshRemapInfo;
     function LoadKeyboardLayout(layoutFile: string; fileContent: TStringList
       ): boolean;
-    procedure createCustomButton(var customBtns: TCustomButtons;
-      btnCaption: string; btnWidth: integer; btnOnClick: TNotifyEvent;
-      btnKind: TBitBtnKind = bkCustom);
     procedure UpdateStateSettings;
     function ValidateBeforeSave: boolean;
     procedure watchTutorialClick(Sender: TObject);
@@ -954,48 +901,27 @@ type
     procedure CancelMacro;
     procedure SetMousePosition(x, y: integer);
     procedure Maximize;
+    procedure InitForm(mdiParent: TForm);
   end;
 
 var
   FormMainRGB: TFormMainRGB;
   //FormMacro: TFormMacro;
-  NeedInput: boolean;
   KBHook: HHook;
   MPos:TPoint; {Position of the Form before drag}
-  keyService: TKeyService;
-  fileService: TFileService;
+  //keyService: TKeyService;
+  //fileService: TFileService;
 
   procedure SetKeyPress(Key: word; Modifiers: string);
   {$ifdef Win32}
   function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;  {this intercepts keyboard input}
   {$endif}
 
-const
-  PARAM_COLOR = 1;
-  PARAM_DIRECTION = 2;
-  PARAM_SPEED = 3;
-  PARAM_RANGE = 4;
-  PARAM_ZONE = 5;
-  PARAM_BASECOLOR = 6;
-  NORMAL_HEIGHT = 850;
-  NORMAL_WIDTH = 1550;
-  MAX_HEIGHT = 1000;
-  MAX_WIDTH = 1875;
-
 implementation
 
+uses u_form_dashboard;
+
 {$R *.lfm}
-
-{ THoveredObj }
-
-constructor THoveredObj.Create(obj: TObject; imgList: TImageList;
-  normalIdx: integer; hoveredIdx: integer);
-begin
-  FObj := obj;
-  FImgList := imgList;
-  FNormalIdx := normalIdx;
-  FHoveredIdx := hoveredIdx;
-end;
 
 { Key Hook }
 
@@ -1026,7 +952,7 @@ begin
   end;
 
   //If entering speed, do nothing
-  if (not FormMainRGB.Active) and
+  if (not FormMainRGB.Active) and not(FormMainRGB.fromMasterApp and FormMainRGB.Visible) and
     not((FormTapAndHold <> nil) and FormTapAndHold.Active and
     (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
     exit;
@@ -1260,34 +1186,43 @@ begin
   if (FormTapAndHold <> nil) and (FormTapAndHold.Visible) then
     FormTapAndHold.SetKeyPress(Key)
   else
-    FormMainRGB.SetModifiedKey(Key, Modifiers, FormMainRGB.EditingMacro);
-end;
-
-{ TMenuAction }
-
-constructor TMenuAction.Create(actionButton: THSSpeedButton;
-  actionLabel: TLabel; actionImage: TImage; menuConfig: integer;
-  popupMenu: boolean; bStayDown: boolean; bMustSelectKey: boolean;
-  bIsEnabled: boolean);
-begin
-  FActionButton := actionButton;
-  FActionImage := actionImage;
-  FActionLabel := actionLabel;
-  FMenuConfig := menuConfig;
-  FPopupMenu := popupMenu;
-  FStayDown := bStayDown;
-  FMustSelectKey := bMustSelectKey;
-  FIsEnabled := bIsEnabled;
+    FormMainRGB.SetModifiedKey(Key, Modifiers, FormMainRGB.EditingMacro, false);
 end;
 
 { TFormMainRGB }
 
 procedure TFormMainRGB.FormCreate(Sender: TObject);
 begin
+
+end;
+
+procedure TFormMainRGB.InitForm(mdiParent: TForm);
+begin
+  fromMasterApp := mdiParent <> nil;
+  parentForm := mdiParent;
+
   if (GDebugMode) then
   begin
     lblDebugMode.Visible := true;
     ShowMessage('Main form loading');
+  end;
+
+  NORMAL_HEIGHT := 850;
+  NORMAL_WIDTH := 1550;
+
+  //From master app
+  if (fromMasterApp) then
+  begin
+    FormStyle := TFormStyle.fsMDIChild;
+    WindowState:= TWindowState.wsMaximized;
+    //FormMainRGB.Maximize;
+    pnlTop.Visible := false;
+    lineBorderBottom.Visible := false;
+    lineBorderLeft.Visible := false;
+    lineBorderRight.Visible := false;
+    lineBorderTop.Visible := false;
+    NORMAL_HEIGHT := Parent.Height;
+    NORMAL_WIDTH := Parent.Width;
   end;
 
   //Sets Height and Width of form
@@ -1309,6 +1244,7 @@ begin
 
   //Set default variables
   closing := false;
+  showingVDriveErrorDlg := false;
   AppSettingsLoaded := false;
   infoMessageShown := false;
   loadingSettings := false;
@@ -1335,7 +1271,7 @@ begin
   activeMacroMenu := '';
   oldWindowState := wsNormal;
   ringPicker.SquarePickerHintFormat:='Adjust the brightness of your color using the color square';
-  InitKeyButtons(self);
+  InitKeyButtons(pnlMain);
   //jm temp not used LoadKeyButtonRows;
   //jm temp SetOtherPanelClick(self);
   Application.OnRestore := @OnRestore;
@@ -1432,7 +1368,7 @@ begin
 
     swLayerSwitch.Checked := true;
 
-    keyService.LoadLayerList(LAYER_QWERTY);
+    keyService.LoadLayerList;
 
     if (GDemoMode) then
     begin
@@ -1440,6 +1376,7 @@ begin
       btnSave.Enabled := false;
       btnSaveAs.Enabled := false;
       btnSettings.Enabled := false;
+      btnEject.Enabled := false;
       btnImport.Enabled := false;
       btnExport.Enabled := false;
       btnFirmware.Enabled := false;
@@ -1514,18 +1451,31 @@ procedure TFormMainRGB.FormShow(Sender: TObject);
 begin
   //App error don't show main form
   if (appError) then
-    self.Hide;
+    self.Hide
+  else
+  begin
+    tmrAfterFormShown.Interval := 200;
+    tmrAfterFormShown.Enabled := true;
+  end;
+end;
+
+procedure TFormMainRGB.tmrAfterFormShownTimer(Sender: TObject);
+begin
+  tmrAfterFormShown.Enabled := false;
+  // After show code
+  ShowIntroDialogs;
 end;
 
 procedure TFormMainRGB.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  closing := true;
   if (not CheckToSave(false)) then
   begin
     CloseAction := caNone;
+    closing := false;
   end
   else
   begin
-    closing := true;
     if (gifViewer.Playing) then
       gifViewer.Stop;
     GifIdleTimer.Enabled := false;
@@ -1612,7 +1562,7 @@ end;
 
 procedure TFormMainRGB.FormActivate(Sender: TObject);
 begin
-  ShowIntroDialogs;
+  //ShowIntroDialogs;
 end;
 
 procedure TFormMainRGB.RepaintForm(fullRepaint: boolean);
@@ -1624,11 +1574,13 @@ begin
     EnablePaintImages(false);
 
     if (fullRepaint) then
-      Repaint  //Invalidate;
+      self.Repaint  //Invalidate;
     else
     begin
       region := TRect.Create(imgKeyboardBack.Left, imgKeyboardBack.Top, imgKeyboardBack.Left + imgKeyboardBack.Width, imgKeyboardBack.Top + imgKeyboardBack.Height);
-      InvalidateRect(Handle, @region, false);
+      InvalidateRect(pnlMain.Handle, @region, false);
+      //pnlMain.Repaint;
+      //pnlMain.Invalidate;
     end;
   finally
     EnablePaintImages(true);
@@ -1658,6 +1610,7 @@ var
 begin
   result := true;
 
+  showingVDriveErrorDlg := true;
   if init then
   begin
     title := 'Keyboard not detected';
@@ -1681,6 +1634,7 @@ begin
       result := false;
   end;
 
+  showingVDriveErrorDlg := false;
   //if init then
   //begin
   //  openPosition := poScreenCenter;
@@ -1706,36 +1660,36 @@ procedure TFormMainRGB.FillMenuActionList;
 begin
   menuActionList := TObjectList.Create(true);
   //menuActionList.Add(TMenuAction.Create(btnRemap, lblRemap, nil, CONFIG_LAYOUT, false));
-  menuActionList.Add(TMenuAction.Create(btnMacro, lblMacro, imgMacro, CONFIG_LAYOUT, false, false, false));
-  menuActionList.Add(TMenuAction.Create(btnMedia, lblMedia, imgMedia, CONFIG_LAYOUT, true, false, true));
-  menuActionList.Add(TMenuAction.Create(btnMouseClicks, lblMouseClicks, imgMouseClicks, CONFIG_LAYOUT, true, false, true));
-  menuActionList.Add(TMenuAction.Create(btnFunctionKeys, lblFunctionKeys, imgFuncKeys, CONFIG_LAYOUT, true, false, true));
-  menuActionList.Add(TMenuAction.Create(btnFunctionAccess, lblFunctionAccess, imgFnAccess, CONFIG_LAYOUT, true, false, true));
-  menuActionList.Add(TMenuAction.Create(btnNumericKeypad, lblFullKeypad, imgFullKeypad, CONFIG_LAYOUT, true, false, false));
-  menuActionList.Add(TMenuAction.Create(btnNumericKeypad, lblKeypadActions, imgKeypadActions, CONFIG_LAYOUT, true, false, true));
-  menuActionList.Add(TMenuAction.Create(btnAltLayouts, lblAltLayouts, imgAltLayouts, CONFIG_LAYOUT, true, false, false));
-  menuActionList.Add(TMenuAction.Create(btnNumericKeypad, lblPreHotkeys, imgPreHotkeys, CONFIG_LAYOUT, true, false, false));
-  menuActionList.Add(TMenuAction.Create(btnLEDControl, lblTapHold, imgTapHold, CONFIG_LAYOUT, false, false, true));
-  menuActionList.Add(TMenuAction.Create(btnLEDControl, lblLedControl, imgBacklight, CONFIG_LAYOUT, false, false, true));
-  menuActionList.Add(TMenuAction.Create(btnMouseClicks, lblMultimodifiers, imgMultimodifiers, CONFIG_LAYOUT, true, false, true));
-  menuActionList.Add(TMenuAction.Create(btnMouseClicks, lblSpecialActions, imgSpecialActions, CONFIG_LAYOUT, true, false, true));
-  menuActionList.Add(TMenuAction.Create(btnDisableKey, lblDisableKey, imgDisableKey, CONFIG_LAYOUT, false, false, true));
+  menuActionList.Add(TMenuAction.Create(maMacro, nil, lblMacro, imgMacro, CONFIG_LAYOUT, lmNone, false, false, false));
+  menuActionList.Add(TMenuAction.Create(maMultimedia, nil, lblMedia, imgMedia, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maMouseClicks, nil, lblMouseClicks, imgMouseClicks, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFuncKeys, nil, lblFunctionKeys, imgFuncKeys, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFnAccess, nil, lblFunctionAccess, imgFnAccess, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFullKeypad, nil, lblFullKeypad, imgFullKeypad, CONFIG_LAYOUT, lmNone, true, false, false));
+  menuActionList.Add(TMenuAction.Create(maKeypadActions, nil, lblKeypadActions, imgKeypadActions, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maAltLayouts, nil, lblAltLayouts, imgAltLayouts, CONFIG_LAYOUT, lmNone, true, false, false));
+  menuActionList.Add(TMenuAction.Create(maPreHotkeys, nil, lblPreHotkeys, imgPreHotkeys, CONFIG_LAYOUT, lmNone, true, false, false));
+  menuActionList.Add(TMenuAction.Create(maTapHold, nil, lblTapHold, imgTapHold, CONFIG_LAYOUT, lmNone, false, false, true));
+  menuActionList.Add(TMenuAction.Create(maBacklight, nil, lblLedControl, imgBacklight, CONFIG_LAYOUT, lmNone, false, false, true));
+  menuActionList.Add(TMenuAction.Create(maMultimodifiers, nil, lblMultimodifiers, imgMultimodifiers, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maSpecialActions, nil, lblSpecialActions, imgSpecialActions, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maDisable, nil, lblDisableKey, imgDisableKey, CONFIG_LAYOUT, lmNone, false, false, true));
 
-  menuActionList.Add(TMenuAction.Create(btnIndividual,  lblFreestyle, imgFreestyle, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnMonochrome, lblMonochrome, imgMonochrome, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnBreathe, lblBreathe, imgBreathe, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnRGBWave, lblRGBWave, imgWave, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnRGBSpectrum, lblRGBSpectrum, imgSpectrum, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnReactive, lblReactive, imgReactive, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnRipple, lblRipple, imgRipple, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnFireball, lblFireball, imgFireball, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnStarlight, lblStarlight, imgStarlight, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnRebound, lblRebound, imgRebound, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnLoop, lblLoop, imgLoop, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnPulse, lblPulse, imgPulse, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnRain, lblRain, imgRain, CONFIG_LIGHTING, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maFreestyle, nil,  lblFreestyle, imgFreestyle, CONFIG_LIGHTING, lmFreestyle, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maMonochrome, nil, lblMonochrome, imgMonochrome, CONFIG_LIGHTING, lmMonochrome, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maBreathe, nil, lblBreathe, imgBreathe, CONFIG_LIGHTING, lmBreathe, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maWave, nil, lblRGBWave, imgWave, CONFIG_LIGHTING, lmWave, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maSpectrum, nil, lblRGBSpectrum, imgSpectrum, CONFIG_LIGHTING, lmSpectrum, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maReactive, nil, lblReactive, imgReactive, CONFIG_LIGHTING, lmReactive, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maRipple, nil, lblRipple, imgRipple, CONFIG_LIGHTING, lmRipple, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maFireball, nil, lblFireball, imgFireball, CONFIG_LIGHTING, lmFireball, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maStarlight, nil, lblStarlight, imgStarlight, CONFIG_LIGHTING, lmStarlight, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maRebound, nil, lblRebound, imgRebound, CONFIG_LIGHTING, lmRebound, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maLoop, nil, lblLoop, imgLoop, CONFIG_LIGHTING,  lmLoop, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maPulse, nil, lblPulse, imgPulse, CONFIG_LIGHTING, lmPulse, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maRain, nil, lblRain, imgRain, CONFIG_LIGHTING, lmRain, false, true, false));
   //menuActionList.Add(TMenuAction.Create(btnPitchBlack, lblPitchBlack, imgPitchBlack, CONFIG_LIGHTING, false, true, false));
-  menuActionList.Add(TMenuAction.Create(btnDisableLedOld, lblDisableLed, imgDisableLed, CONFIG_LIGHTING, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maDisableLed, nil, lblDisableLed, imgDisableLed, CONFIG_LIGHTING, lmDisabled, false, true, false));
 end;
 
 procedure TFormMainRGB.PositionMenuItems;
@@ -1789,6 +1743,7 @@ begin
   hoveredList.Add(THoveredObj.Create(btnExport, imgListSettings, 6, 7));
   hoveredList.Add(THoveredObj.Create(btnDiagnostic, imgListSettings, 8, 9));
   hoveredList.Add(THoveredObj.Create(btnHelp, imgListSettings, 10, 11));
+  hoveredList.Add(THoveredObj.Create(btnEject, imgListSettings, 12, 13));
 
   //Save profile section
   hoveredList.Add(THoveredObj.Create(btnSave, imgListSave, 0, 1));
@@ -2075,9 +2030,12 @@ end;
 function TFormMainRGB.CheckVDrive: boolean;
 begin
   result := LoadVersionInfo;
-  lblVDriveOk.Visible := Result and not(GDemoMode);
-  lblVDriveError.Visible := not(Result) and not(GDemoMode);
-  lblDemoMode.Visible := GDemoMode;
+  if (result and showingVDriveErrorDlg) then
+    CloseDialog(mrOK);
+  SetVDriveState(Result);
+  //lblVDriveOk.Visible := Result and not(GDemoMode);
+  //lblVDriveError.Visible := not(Result) and not(GDemoMode);
+  //lblDemoMode.Visible := GDemoMode;
 end;
 
 function TFormMainRGB.LoadStateSettings: boolean;
@@ -2237,7 +2195,7 @@ begin
   pnlSelectProfile.Left := btnSaveAs.Left;
   pnlSelectProfile.Top := btnSaveAs.Top + btnSaveAs.Height;
   pnlSelectProfile.Visible := true;
-  SetMousePosition(pnlSelectProfile.Left + 50, pnlSelectProfile.Top + 10);
+  //SetMousePosition(pnlSelectProfile.Left + 50, pnlSelectProfile.Top + 10);
   SetHovered(sender, true);
 end;
 
@@ -2328,6 +2286,9 @@ begin
         currentProfileNumber := profileNumber;
         SetSaveState(ssNone, ssNone);
         result := true;
+
+        if not closing then
+          EjectDevice(GActiveDevice);
 
         if (not fileService.AppSettings.SaveMsg) and (showSaveDialog) then
         begin
@@ -2546,12 +2507,13 @@ begin
     if reset then
     begin
       keyButton.BackColor := clNone;
+      aKbKey.KeyColor := clNone;
     end
     else
     begin
       keyButton.Opaque := (keyService.LedMode <> lmBreathe) and (keyService.LedMode <> lmPulse);
       keyButton.Transparency := breatheTransparency;
-      if (keyService.LedMode in [lmIndividual, lmBreathe]) then
+      if (keyService.LedMode in [lmFreestyle, lmBreathe]) then
       begin
           keyButton.BackColor := aKbKey.KeyColor;
       end
@@ -2696,7 +2658,7 @@ begin
 
   //Do a form repaint
   if (repainForm) then
-    RepaintForm(false);
+     RepaintForm(false);
 end;
 
 
@@ -2917,21 +2879,6 @@ begin
   //btnResetAll.Enabled := (remapCount > 0) or (macroCount > 0);
 end;
 
-procedure TFormMainRGB.createCustomButton(var customBtns: TCustomButtons;
-  btnCaption: string; btnWidth: integer; btnOnClick: TNotifyEvent;
-  btnKind: TBitBtnKind = bkCustom);
-var
-  customBtn: TCustomButton;
-begin
-  customBtn.Caption := btnCaption;
-  customBtn.Width := btnwidth;
-  customBtn.OnClick := btnOnClick;
-  customBtn.Kind := btnKind;
-
-  SetLength(customBtns, Length(customBtns) + 1);
-  customBtns[Length(customBtns) - 1] := customBtn;
-end;
-
 procedure TFormMainRGB.watchTutorialClick(Sender: TObject);
 begin
   OpenUrl(RGB_TUTORIAL);
@@ -3024,7 +2971,7 @@ begin
 
   if (canContinue) then
   begin
-    SetCurrentMenuAction(nil, nil);
+    SetCurrentMenuAction(maNone, nil);
     ConfigMode := mode;
     if (ConfigMode = CONFIG_LAYOUT) then
     begin
@@ -3053,7 +3000,7 @@ begin
       //imgListSave.GetBitmap(5, btnSaveAsLighting.Glyph);
       KeyButtonsBringToFront;
       ShowHideKeyButtons(true);
-      SetCurrentMenuAction(btnRemap, nil);
+      SetCurrentMenuAction(maNone, nil);
     end
     else
     begin
@@ -3131,36 +3078,6 @@ begin
     PARAM_COLOR:
     begin
       pnlEffectColor.Visible := state;
-      //imgColorPanel.Visible := state;
-      //imgColor.Visible := state;
-      //ringPicker.Visible := state;
-      //colorPreview.Visible := state;
-      //eRed.Visible := state;
-      //eGreen.Visible := state;
-      //eBlue.Visible := state;
-      //lblRColor.Visible := state;
-      //lblGColor.Visible := state;
-      //lblBColor.Visible := state;
-      //lblColor.Visible := state;
-      //eHTML.Visible := state;
-      //lblPreMixedColors.Visible := state;
-      //lblCustomColors.Visible := state;
-      //preMixedColor1.Visible := state;
-      //preMixedColor2.Visible := state;
-      //preMixedColor3.Visible := state;
-      //preMixedColor4.Visible := state;
-      //preMixedColor5.Visible := state;
-      //preMixedColor6.Visible := state;
-      //preMixedColor7.Visible := state;
-      //preMixedColor8.Visible := state;
-      //preMixedColor9.Visible := state;
-      //preMixedColor10.Visible := state;
-      //custColor1.Visible := state;
-      //custColor2.Visible := state;
-      //custColor3.Visible := state;
-      //custColor4.Visible := state;
-      //custColor5.Visible := state;
-      //custColor6.Visible := state;
     end;
     PARAM_BASECOLOR:
       pnlBaseColor.Visible := state and ((fileService.VersionBiggerEqualLED(1, 0, 44)) or (GDemoMode));
@@ -3173,44 +3090,17 @@ begin
       btnDirRight.Visible := not(ledMode in [lmRebound]);
       btnDirHorizontal.Visible := ledMode in [lmRebound];
       btnDirVertical.Visible := ledMode in [lmRebound];
-      //imgDirectionPanel.Visible := state;
-      //imgDirection.Visible := state;
-      //lblDirection.Visible := state;
-      //lblDirectionText.Visible := state;
-      //knobDirection.Visible := state;
-      //ledDirection.Visible := state;
     end;
     PARAM_SPEED:
     begin
       pnlSpeed.Visible := state;
-      //imgSpeedPanel.Visible := state;
-      //imgSpeed.Visible := state;
-      //lblSpeed.Visible := state;
-      //lblSpeedText.Visible := state;
-      //knobSpeed.Visible := state;
-      //ledSpeed.Visible := state;
     end;
     PARAM_RANGE:
     begin
-      //imgRangePanel.Visible := false; //state;
-      //imgRange.Visible := false; //state;
-      //lblRange.Visible := false; //state;
-      //lblRangeText.Visible := false; //state;
-      //knobRange.Visible := false; //state;
-      //ledRange.Visible := false; //state;
     end;
     PARAM_ZONE:
     begin
       pnlZone.Visible := state;
-      //imgZonePanel.Visible := state;
-      //imgZone.Visible := state;
-      //lblZone.Visible := state;
-      //btnAllZone.Visible := state;
-      //btnNumberZone.Visible := state;
-      //btnWASDZone.Visible := state;
-      //btnFunctionZone.Visible := state;
-      //btnGameZone.Visible := state;
-      //btnArrowZone.Visible := state;
     end;
   end;
 end;
@@ -3251,39 +3141,49 @@ begin
 end;
 
 function TFormMainRGB.GetLedMode: TLedMode;
+var
+  i: integer;
 begin
   result := lmNone;
-
-  if (btnIndividual.Down) then
-    result := lmIndividual
-  else if (btnMonochrome.Down) then
-    result := lmMonochrome
-  else if (btnBreathe.Down) then
-    result := lmBreathe
-  else if (btnRGBSpectrum.Down) then
-    result := lmSpectrum
-  else if (btnRGBWave.Down) then
-    result := lmWave
-  else if (btnReactive.Down) then
-    result := lmReactive
-  else if (btnRipple.Down) then
-    result := lmRipple
-  else if (btnFireball.Down) then
-    result := lmFireball
-  else if (btnStarlight.Down) then
-    result := lmStarlight
-  else if (btnRebound.Down) then
-    result := lmRebound
-  else if (btnLoop.Down) then
-    result := lmLoop
-  else if (btnPulse.Down) then
-    result := lmPulse
-  else if (btnRain.Down) then
-    result := lmRain
-  //else if (btnPitchBlack.Down) then
-  //  result := lmPitchBlack
-  else if (btnDisableLedOld.Down) then
-    result := lmDisabled;
+  for i := 0 to menuActionList.Count - 1 do
+  begin
+    if (menuActionList.Items[i] as TMenuAction).IsDown then
+    begin
+      result := (menuActionList.Items[i] as TMenuAction).LedMode;
+    end;
+  end;
+  //result := lmNone;
+  //
+  //if (btnIndividual.Down) then
+  //  result := lmFreestyle
+  //else if (btnMonochrome.Down) then
+  //  result := lmMonochrome
+  //else if (btnBreathe.Down) then
+  //  result := lmBreathe
+  //else if (btnRGBSpectrum.Down) then
+  //  result := lmSpectrum
+  //else if (btnRGBWave.Down) then
+  //  result := lmWave
+  //else if (btnReactive.Down) then
+  //  result := lmReactive
+  //else if (btnRipple.Down) then
+  //  result := lmRipple
+  //else if (btnFireball.Down) then
+  //  result := lmFireball
+  //else if (btnStarlight.Down) then
+  //  result := lmStarlight
+  //else if (btnRebound.Down) then
+  //  result := lmRebound
+  //else if (btnLoop.Down) then
+  //  result := lmLoop
+  //else if (btnPulse.Down) then
+  //  result := lmPulse
+  //else if (btnRain.Down) then
+  //  result := lmRain
+  ////else if (btnPitchBlack.Down) then
+  ////  result := lmPitchBlack
+  //else if (btnDisableLedOld.Down) then
+  //  result := lmDisabled;
 end;
 
 procedure TFormMainRGB.ResetBreathe;
@@ -3318,18 +3218,18 @@ begin
     ResetBreathe;
     ResetNewGif;
 
-    ShowHideParameters(PARAM_COLOR, ledMode, ledMode in [lmIndividual, lmMonochrome, lmBreathe, lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]);
+    ShowHideParameters(PARAM_COLOR, ledMode, ledMode in [lmFreestyle, lmMonochrome, lmBreathe, lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]);
     ShowHideParameters(PARAM_BASECOLOR, ledMode, ledMode in [lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]);
     ShowHideParameters(PARAM_DIRECTION, ledMode, ledMode in [lmWave, lmRebound, lmLoop]);
     ShowHideParameters(PARAM_SPEED, ledMode, ledMode in [lmBreathe, lmSpectrum, lmWave, lmReactive, lmStarlight, lmRebound, lmRipple, lmFireball, lmLoop, lmRain, lmPulse]);
     ShowHideParameters(PARAM_RANGE, ledMode, false);
-    ShowHideParameters(PARAM_ZONE, ledMode, ledMode in [lmIndividual, lmBreathe]);
-    btnResetAll.Visible := ledMode in [lmIndividual, lmBreathe];
+    ShowHideParameters(PARAM_ZONE, ledMode, ledMode in [lmFreestyle, lmBreathe]);
+    btnResetAll.Visible := ledMode in [lmFreestyle, lmBreathe];
 
     imgKeyboardLighting.Cursor := crDefault;
-    if (ledMode = lmIndividual) then
+    if (ledMode = lmFreestyle) then
     begin
-      SetCurrentMenuAction(btnIndividual, nil);
+      SetCurrentMenuAction(maFreestyle, nil);
       imgKeyboardLighting.SendToBack;
       KeyButtonsSendToBack;
       gifViewer.SendToBack;
@@ -3341,7 +3241,7 @@ begin
     end
     else if (ledMode = lmMonochrome) then
     begin
-      SetCurrentMenuAction(btnMonochrome, nil);
+      SetCurrentMenuAction(maMonochrome, nil);
       imgKeyboardLighting.SendToBack;
       KeyButtonsSendToBack;
       gifViewer.SendToBack;
@@ -3353,9 +3253,9 @@ begin
     else if (ledMode in [lmBreathe, lmPulse]) then
     begin
       if (ledMode = lmBreathe) then
-        SetCurrentMenuAction(btnBreathe, nil)
+        SetCurrentMenuAction(maBreathe, nil)
       else if (ledMode = lmPulse) then
-        SetCurrentMenuAction(btnPulse, nil);
+        SetCurrentMenuAction(maPulse, nil);
       imgKeyboardLighting.SendToBack;
       KeyButtonsSendToBack;
       gifViewer.SendToBack;
@@ -3368,7 +3268,7 @@ begin
     end
     else if (ledMode in [lmSpectrum]) then
     begin
-      SetCurrentMenuAction(btnRGBSpectrum, nil);
+      SetCurrentMenuAction(maSpectrum, nil);
       imgKeyboardLighting.SendToBack;
       gifViewer.SendToBack;
       KeyButtonsSendToBack;
@@ -3378,7 +3278,7 @@ begin
     end
     else if (ledMode in [lmWave]) then
     begin
-      SetCurrentMenuAction(btnRGBWave, nil);
+      SetCurrentMenuAction(maWave, nil);
       imgKeyboardLighting.SendToBack;
       gifViewer.SendToBack;
       KeyButtonsSendToBack;
@@ -3390,19 +3290,19 @@ begin
     else if (ledMode  in [lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]) then
     begin
       if (ledMode = lmReactive) then
-        SetCurrentMenuAction(btnReactive, nil)
+        SetCurrentMenuAction(maReactive, nil)
       else if (ledMode = lmRipple) then
-        SetCurrentMenuAction(btnRipple, nil)
+        SetCurrentMenuAction(maRipple, nil)
       else if (ledMode = lmFireball) then
-        SetCurrentMenuAction(btnFireball, nil)
+        SetCurrentMenuAction(maFireball, nil)
       else if (ledMode = lmStarlight) then
-        SetCurrentMenuAction(btnStarlight, nil)
+        SetCurrentMenuAction(maStarlight, nil)
       else if (ledMode = lmRebound) then
-        SetCurrentMenuAction(btnRebound, nil)
+        SetCurrentMenuAction(maRebound, nil)
       else if (ledMode = lmLoop) then
-        SetCurrentMenuAction(btnLoop, nil)
+        SetCurrentMenuAction(maLoop, nil)
       else if (ledMode = lmRain) then
-        SetCurrentMenuAction(btnRain, nil);
+        SetCurrentMenuAction(maRain, nil);
       imgKeyboardLighting.SendToBack;
       KeyButtonsSendToBack;
       gifViewer.SendToBack;
@@ -3459,7 +3359,7 @@ begin
     else if (ledMode = lmDisabled) then
     begin
       //LoadButtonImage(btnDisableLed, imgListMiniIcons, 3);
-      SetCurrentMenuAction(btnDisableLedOld, nil);
+      SetCurrentMenuAction(maDisableLed, nil);
     end;
 
     ////Reset disabled image
@@ -3534,7 +3434,7 @@ begin
   begin
     menuAction := (menuActionList.Items[i] as TMenuAction);
     if (menuAction.MenuConfig = CONFIG_LAYOUT) and
-      (menuAction.ActionButton.Down = false) and
+      (menuAction.IsDown = false) and
       not((menuAction.ActionImage = imgMacro) and EditingMacro) and
       (IsKeyLoaded or not(menuAction.MustSelectKey)) then
       menuAction.ActionLabel.Font.Color := KINESIS_FONT_COLOR_RGB;
@@ -3593,7 +3493,7 @@ begin
   if (aImage <> nil) then
   begin
     aMenuAction := GetMenuActionByImage(aImage.Name);
-    if (not aMenuAction.ActionButton.Down) and (IsKeyLoaded or not(aMenuAction.MustSelectKey)) and
+    if (not aMenuAction.IsDown) and (IsKeyLoaded or not(aMenuAction.MustSelectKey)) and
       not((aMenuAction.ActionImage = imgMacro) and EditingMacro) then
       aMenuAction.ActionLabel.Font.Color := KINESIS_FONT_COLOR_RGB;
   end;
@@ -3638,7 +3538,7 @@ begin
   if (aLabel <> nil) then
   begin
     aMenuAction := GetMenuActionByLabel(aLabel.Name);
-    if (not aMenuAction.ActionButton.Down) and (IsKeyLoaded or not(aMenuAction.MustSelectKey)) and
+    if (not aMenuAction.IsDown) and (IsKeyLoaded or not(aMenuAction.MustSelectKey)) and
       not((aMenuAction.ActionImage = imgMacro) and EditingMacro) then
       aLabel.Font.Color := KINESIS_FONT_COLOR_RGB;
   end;
@@ -3738,7 +3638,7 @@ begin
   else if (keyService.LedMode = lmFireball) then
     keyService.ActiveGif := keyService.FireballGif
   else if (keyService.LedMode = lmStarlight) then
-    keyService.ActiveGif := keyService.StartlightGif
+    keyService.ActiveGif := keyService.StarlightGif
   else if (keyService.LedMode = lmLoop) then
   begin
     case keyService.LedDirection of
@@ -3782,6 +3682,11 @@ begin
 
     NewGifTimer.Enabled := true;
   end;
+end;
+
+procedure TFormMainRGB.pnlMacroClick(Sender: TObject);
+begin
+
 end;
 
 procedure TFormMainRGB.pnlProfileOptionsClick(Sender: TObject);
@@ -3843,7 +3748,7 @@ begin
     pnlSelectProfile.Width := imgProfile.Width;
     pnlSelectProfile.Top := imgProfile.Top + imgProfile.Height;
     pnlSelectProfile.Visible := true;
-    SetMousePosition(pnlSelectProfile.Left + 50, pnlSelectProfile.Top + 10);
+    //SetMousePosition(pnlSelectProfile.Left + 50, pnlSelectProfile.Top + 10);
     LoadButtonImage(sender, imgListProfileHover, currentProfileNumber);
   end;
 end;
@@ -4051,7 +3956,7 @@ var
   aKbKey: TKBKey;
   keyColor: TColor;
 begin
-  if (keyService.LedMode in [lmIndividual, lmBreathe]) then
+  if (keyService.LedMode in [lmFreestyle, lmBreathe]) then
   begin
     keyColor := ringPicker.SelectedColor;
     case zoneType of
@@ -4715,7 +4620,7 @@ begin
     //else if (ConfigMode = CONFIG_LIGHTING) then
     //begin
     //  keyButton.Caption := ''; //kbKey.OriginalKey.DisplayText;
-    //  if (keyService.LedMode in [lmIndividual, lmBreathe]) then
+    //  if (keyService.LedMode in [lmFreestyle, lmBreathe]) then
     //    keyButton.BackColor := kbKey.KeyColor
     //  else if (keyService.LedMode in [lmMonochrome]) then
     //    keyButton.BackColor := keyService.LedColorMono
@@ -4829,10 +4734,13 @@ end;
 procedure TFormMainRGB.TopMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
-  if ssLeft in Shift then
+  if (not fromMasterApp) then
   begin
-    self.Left := self.Left - (MPos.X-X);
-    self.Top := self.Top - (MPos.Y-Y);
+    if ssLeft in Shift then
+    begin
+      self.Left := self.Left - (MPos.X-X);
+      self.Top := self.Top - (MPos.Y-Y);
+    end;
   end;
 end;
 
@@ -4936,9 +4844,15 @@ begin
   AcceptMacro;
 end;
 
+procedure TFormMainRGB.btnEjectClick(Sender: TObject);
+begin
+  EjectDevice(GActiveDevice);
+  SetHovered(sender, false, true);
+end;
+
 procedure TFormMainRGB.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware;
+  ShowFirmware(GActiveDevice);
   SetHovered(sender, false, true);
 end;
 
@@ -4979,10 +4893,10 @@ begin
       SetSaveState(ssModified, SaveStateLighting);
     end;
   end
-  else if (ConfigMode = CONFIG_LIGHTING) and (keyService.LedMode in [lmIndividual, lmBreathe]) then
+  else if (ConfigMode = CONFIG_LIGHTING) and (keyService.LedMode in [lmFreestyle, lmBreathe]) then
   begin
     sMessage := 'Do you want to reset the current Lighting profile?' + #10 + 'All assigned colors will be lost.';
-    if (keyService.LedMode = lmIndividual) then
+    if (keyService.LedMode = lmFreestyle) then
       sMessage := 'Do you want to erase color assignments for each key';
     if ShowDialog('Reset Lighting', sMessage,
           mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
@@ -5123,7 +5037,10 @@ procedure TFormMainRGB.Maximize;
 var
   aRect: TRect;
 begin
-  aRect := Screen.PrimaryMonitor.WorkareaRect;
+  if (parent <> nil) then
+    aRect := Parent.ClientRect
+  else
+    aRect := Screen.PrimaryMonitor.WorkareaRect;
 
   if (cusWindowState = cwMaximized) then
   begin
@@ -5510,7 +5427,7 @@ var
   keyButton: TLabelBox;
 //  temp: TCursorImage;
 begin
-  if (keyService.LedMode in [lmIndividual, lmBreathe]) then
+  if (keyService.LedMode in [lmFreestyle, lmBreathe]) then
   begin
     keyButton := GetKeyButtonUnderMouse(X + imgKeyboardLighting.Left, Y + imgKeyboardLighting.Top);
     SetSingleKeyColor(keybutton, ringPicker.SelectedColor);
@@ -5528,7 +5445,7 @@ begin
   //  SetCurrentMenuAction(nil, nil)
   //else
   //begin
-    SetCurrentMenuAction(nil, nil, aImage);
+    SetCurrentMenuAction(maNone, nil, aImage);
     if (ConfigMode = CONFIG_LIGHTING) then
     begin
       SetLedMode(GetLedMode);
@@ -5610,7 +5527,7 @@ begin
       end
       else
       begin
-        if (ShowTapAndHold(activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
+        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
         begin
           KeyModified := true;
           SetSaveState(ssModified, SaveStateLighting);
@@ -5949,7 +5866,7 @@ begin
 
     if (not loadingSettings) and (not loadingLedSettings) then
     begin
-      if (keyService.LedMode in [lmIndividual, lmBreathe]) and (IsKeyLoaded) then
+      if (keyService.LedMode in [lmFreestyle, lmBreathe]) and (IsKeyLoaded) then
       begin
         //activeKbKey.KeyColor := newColor;
         //UpdateKeyButtonKey(activeKbKey, activeKeyBtn, false);
@@ -6113,7 +6030,7 @@ begin
   end;
 end;
 
-function TFormMainRGB.GetMenuActionByButton(buttonName: string): TMenuAction;
+function TFormMainRGB.GetMenuActionByType(actionType: TMenuActionType): TMenuAction;
 var
   i:integer;
   menuAction: TMenuAction;
@@ -6122,7 +6039,7 @@ begin
 
   for i:=0 to menuActionList.Count - 1 do
   begin
-    if ((menuActionList.Items[i] as TMenuAction).ActionButton.Name = buttonName) then
+    if ((menuActionList.Items[i] as TMenuAction).ActionType = actionType) then
     begin
       menuAction := (menuActionList.Items[i] as TMenuAction);
       Break;
@@ -6182,7 +6099,7 @@ begin
   begin
     chkDisable.Checked := false;
     menuAction := (menuActionList.Items[i] as TMenuAction);
-    menuAction.ActionButton.Down := false;
+    menuAction.IsDown := false;
     if (menuAction.ActionImage <> nil) then
       menuAction.ActionImage.Picture.Clear;
     if (menuAction.IsEnabled) then
@@ -6192,16 +6109,16 @@ begin
   end;
 end;
 
-procedure TFormMainRGB.SetCurrentMenuAction(aButton: THSSpeedButton;
-  aLsbel: TLabel; aImage: TImage);
+procedure TFormMainRGB.SetCurrentMenuAction(aType: TMenuActionType;
+  aLabel: TLabel; aImage: TImage);
 var
   aMenuAction: TMenuAction;
   customBtns: TCustomButtons;
 begin
-  if (aButton <> nil) then
-    aMenuAction := GetMenuActionByButton(aButton.Name)
-  else if (aLsbel <> nil) then
-    aMenuAction := GetMenuActionByLabel(aLsbel.Name)
+  if (aType <> maNone) then
+    aMenuAction := GetMenuActionByType(aType)
+  else if (aLabel <> nil) then
+    aMenuAction := GetMenuActionByLabel(aLabel.Name)
   else if (aImage <> nil) then
     aMenuAction := GetMenuActionByImage(aImage.Name)
   else
@@ -6225,7 +6142,7 @@ begin
       currentMenuAction := aMenuAction;
       if (currentMenuAction <> nil) and (currentMenuAction.StayDown) then
       begin
-        currentMenuAction.ActionButton.Down := true;
+        currentMenuAction.IsDown := true;
         currentMenuAction.ActionLabel.Font.Color := KINESIS_BLUE_EDGE;
         if (currentMenuAction.ActionImage <> nil) then
           LoadButtonImage(currentMenuAction.ActionImage, imgListProfileMenu, 0);
@@ -6546,7 +6463,7 @@ begin
         if (IsKeyLoaded) then
         begin
           bothLayers := (mnuAction = VK_FN_SHIFT) or (mnuAction = VK_FN_TOGGLE);
-          SetModifiedKey(mnuAction, '', false, bothLayers, true);
+          SetModifiedKey(mnuAction, '', false, bothLayers, true, true);
           ResetPopupMenu;
           ResetSingleKey;
         end;
@@ -7385,7 +7302,7 @@ begin
 end;
 
 procedure TFormMainRGB.SetModifiedKey(key: word; Modifiers: string;
-  isMacro: boolean; bothLayers: boolean; force: boolean);
+  isMacro: boolean; bothLayers: boolean; force: boolean; overwriteTapHold: boolean);
 var
   aKbKeyOtherLayer: TKBKey;
   cursorPos: integer;
@@ -7483,12 +7400,12 @@ begin
       begin
         KeyModified := true;
         SetSaveState(ssModified, SaveStateLighting);
-        keyService.SetKBKey(activeKbKey, key);
+        keyService.SetKBKey(activeKbKey, key, overwriteTapHold);
         if (bothLayers) then
         begin
           aKbKeyOtherLayer := GetKeyOtherLayer(activeKeyBtn.Index);
           if aKbKeyOtherLayer <> nil then
-            keyService.SetKBKey(aKbKeyOtherLayer, key);
+            keyService.SetKBKey(aKbKeyOtherLayer, key, overwriteTapHold);
         end;
         UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
       end;
@@ -7497,22 +7414,23 @@ begin
 end;
 
 procedure TFormMainRGB.MenuButtonClick(Sender: TObject);
-var
-  aButton: THSSpeedButton;
+//var
+//  aButton: THSSpeedButton;
 begin
-  aButton := (sender as THSSpeedButton);
-  if (currentMenuAction <> nil) and (currentMenuAction.ActionButton = aButton) then
-    SetCurrentMenuAction(nil, nil)
-  else
-  begin
-    SetCurrentMenuAction(aButton, nil);
-    if (ConfigMode = CONFIG_LIGHTING) then
-    begin
-      SetLedMode(GetLedMode);
-      SetSaveState(SaveStateLayout, ssModified);
-    end;
-  end;
-
+  //aButton := (sender as THSSpeedButton);
+  //menuActionList;
+  //if (currentMenuAction <> nil) and (currentMenuAction.ActionButton = aButton) then
+  //  SetCurrentMenuAction(nil, nil)
+  //else
+  //begin
+  //  SetCurrentMenuAction(aButton, nil);
+  //  if (ConfigMode = CONFIG_LIGHTING) then
+  //  begin
+  //    SetLedMode(GetLedMode);
+  //    SetSaveState(SaveStateLayout, ssModified);
+  //  end;
+  //end;
+  //
   //UpdateMenu;
 end;
 
@@ -7526,7 +7444,7 @@ begin
   //  SetCurrentMenuAction(nil, nil)
   //else
   //begin
-    SetCurrentMenuAction(nil, aLabel);
+    SetCurrentMenuAction(maNone, aLabel);
     if (ConfigMode = CONFIG_LIGHTING) then
     begin
       SetLedMode(GetLedMode);
@@ -7581,10 +7499,10 @@ procedure TFormMainRGB.SetSingleKey(aMenuAction: TMenuAction; wasDown: boolean);
 begin
   if (IsKeyLoaded) then
   begin
-    if (aMenuAction.FActionButton = btnDisableKey) then
-      SetModifiedKey(VK_NULL, '', false, false, true)
-    else if (aMenuAction.FActionButton = btnLEDControl) then
-      SetModifiedKey(VK_LED, '', false, false, true);
+    if (aMenuAction.ActionType = maDisable) then
+      SetModifiedKey(VK_NULL, '', false, false, true, true)
+    else if (aMenuAction.ActionType = maDisableLed) then
+      SetModifiedKey(VK_LED, '', false, false, true, true);
     ResetSingleKey;
   end
   else
@@ -8263,7 +8181,7 @@ end;
 
 procedure TFormMainRGB.openFirwareWebsite(Sender: TObject);
 begin
-  OpenUrl('https://gaming.kinesis-ergo.com/fs-edge-support');
+  OpenUrl(RGB_FIRMWARE);
 end;
 
 procedure TFormMainRGB.SetHovered(obj: TObject; hovered: boolean;
@@ -8298,8 +8216,8 @@ procedure TFormMainRGB.SetMousePosition(x, y: integer);
 var
   MousePos: TPoint;
 begin
-  MousePos.X := self.Left + x;
-  MousePos.Y := self.Top + y;
+  MousePos.X := Mouse.CursorPos.x; //self.Left + x;
+  MousePos.Y := Mouse.CursorPos.y + 20; //self.Top + y;
   Mouse.CursorPos := MousePos;
 end;
 

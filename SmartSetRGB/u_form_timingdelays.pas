@@ -123,6 +123,7 @@ begin
   else
     ShowDialog('Timing Delays', 'Please select a timing delay between 1ms and 999ms. To achieve a longer delay, insert multiple delays back-to-back.', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
   LoadButtonImage(sender, imgListTiming, 2);
+  NeedInput := true;
 end;
 
 procedure TFormTimingDelays.eCustomDelayChange(Sender: TObject);

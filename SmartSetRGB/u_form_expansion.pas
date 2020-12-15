@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, HSSpeedButton, LineObj, u_base_form, LCLIntf, u_const, LCLType,
-  u_form_firmware;
+  u_form_firmware, u_common_ui;
 
 type
 
@@ -48,8 +48,6 @@ var
   procedure ShowExpansionDialog(version: integer);
 
 implementation
-
-uses u_form_main_rgb;
 
 procedure ShowExpansionDialog(version: integer);
 begin

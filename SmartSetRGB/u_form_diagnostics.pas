@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, HSSpeedButton, u_base_form, u_const, UserDialog, lcltype,
-  lclintf;
+  lclintf, u_common_ui;
 
 type
 
@@ -34,8 +34,6 @@ var
   procedure ShowDiagnostics;
 
 implementation
-
-uses u_form_main_rgb;
 
 {$R *.lfm}
 

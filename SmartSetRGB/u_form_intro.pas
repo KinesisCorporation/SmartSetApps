@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, HSSpeedButton, LineObj, u_base_form, LCLIntf, u_const, LCLType,
-  u_form_firmware;
+  u_form_firmware, u_common_ui;
 
 type
 
@@ -40,8 +40,6 @@ var
   procedure ShowIntro;
 
 implementation
-
-uses u_form_main_rgb;
 
 procedure ShowIntro;
 begin
@@ -107,7 +105,7 @@ end;
 
 procedure TFormIntro.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware;
+  ShowFirmware(GActiveDevice);
 end;
 
 procedure TFormIntro.btnWatchTutorialClick(Sender: TObject);

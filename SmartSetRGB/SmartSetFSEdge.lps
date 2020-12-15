@@ -8,7 +8,7 @@
         <Item1 ID="272924515420" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SessionMatrixOptions>
     </BuildModes>
-    <Units Count="42">
+    <Units Count="43">
       <Unit0>
         <Filename Value="SmartSetFSEdge.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -22,7 +22,7 @@
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="54"/>
         <CursorPos X="34" Y="80"/>
         <UsageCount Value="200"/>
@@ -103,7 +103,7 @@
       <Unit10>
         <Filename Value="..\Common\u_base_key_service.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="5447"/>
         <CursorPos X="29" Y="5475"/>
         <UsageCount Value="203"/>
@@ -168,7 +168,7 @@
         <ComponentName Value="FormIntro"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="68"/>
         <CursorPos Y="90"/>
         <UsageCount Value="221"/>
@@ -232,7 +232,7 @@
       <Unit22>
         <Filename Value="..\Common\u_file_service.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="765"/>
         <CursorPos X="74" Y="774"/>
         <UsageCount Value="166"/>
@@ -264,8 +264,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="3505"/>
-        <CursorPos X="48" Y="3513"/>
+        <TopLine Value="901"/>
+        <CursorPos X="6" Y="918"/>
         <UsageCount Value="160"/>
         <Bookmarks Count="1">
           <Item0 X="32" Y="7518" ID="5"/>
@@ -279,10 +279,9 @@
         <ComponentName Value="FormExpansion"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="50"/>
-        <CursorPos X="8" Y="67"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="138"/>
+        <CursorPos X="3" Y="162"/>
         <UsageCount Value="155"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -406,7 +405,7 @@
       <Unit40>
         <Filename Value="C:\lazarus\lcl\lclclasses.pp"/>
         <UnitName Value="LCLClasses"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="9"/>
         <CursorPos X="10" Y="26"/>
         <UsageCount Value="80"/>
@@ -415,21 +414,29 @@
       <Unit41>
         <Filename Value="C:\lazarus\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="21"/>
         <CursorPos X="36" Y="38"/>
         <UsageCount Value="80"/>
         <Loaded Value="True"/>
       </Unit41>
+      <Unit42>
+        <Filename Value="..\SmartSetMaster\u_form_dashboard.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="41" Y="18"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit42>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="u_form_expansion.pas"/>
-        <Caret Line="126" Column="8" TopLine="111"/>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <Caret Line="1108" TopLine="1091"/>
       </Position1>
       <Position2>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1110" Column="66" TopLine="1091"/>
+        <Caret Line="1110" Column="67" TopLine="1091"/>
       </Position2>
       <Position3>
         <Filename Value="..\Common\u_file_service.pas"/>
@@ -437,27 +444,27 @@
       </Position3>
       <Position4>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1110" Column="67" TopLine="1091"/>
+        <Caret Line="1112" TopLine="1091"/>
       </Position4>
       <Position5>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1108" TopLine="1091"/>
+        <Caret Line="1104" TopLine="1091"/>
       </Position5>
       <Position6>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1112" TopLine="1091"/>
+        <Caret Line="1106" TopLine="1091"/>
       </Position6>
       <Position7>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1104" TopLine="1091"/>
+        <Caret Line="1107" TopLine="1091"/>
       </Position7>
       <Position8>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1106" TopLine="1091"/>
+        <Caret Line="1108" TopLine="1091"/>
       </Position8>
       <Position9>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1107" TopLine="1091"/>
+        <Caret Line="1110" TopLine="1091"/>
       </Position9>
       <Position10>
         <Filename Value="..\Common\u_file_service.pas"/>
@@ -472,75 +479,75 @@
         <Caret Line="1108" TopLine="1091"/>
       </Position12>
       <Position13>
-        <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1110" TopLine="1091"/>
+        <Filename Value="u_form_expansion.pas"/>
+        <Caret Line="111" Column="25" TopLine="99"/>
       </Position13>
       <Position14>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="1108" TopLine="1091"/>
+        <Caret Line="63" Column="33" TopLine="47"/>
       </Position14>
       <Position15>
-        <Filename Value="u_form_expansion.pas"/>
-        <Caret Line="111" Column="25" TopLine="99"/>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <Caret Line="781" Column="24" TopLine="771"/>
       </Position15>
       <Position16>
-        <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="63" Column="33" TopLine="47"/>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="105" Column="20" TopLine="78"/>
       </Position16>
       <Position17>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="781" Column="24" TopLine="771"/>
+        <Caret Line="776" Column="27" TopLine="769"/>
       </Position17>
       <Position18>
-        <Filename Value="..\Common\u_const.pas"/>
-        <Caret Line="105" Column="20" TopLine="78"/>
+        <Filename Value="..\Common\u_file_service.pas"/>
       </Position18>
       <Position19>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="776" Column="27" TopLine="769"/>
+        <Caret Line="62" Column="29" TopLine="40"/>
       </Position19>
       <Position20>
         <Filename Value="..\Common\u_file_service.pas"/>
+        <Caret Line="132" Column="20" TopLine="106"/>
       </Position20>
       <Position21>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="62" Column="29" TopLine="40"/>
+        <Caret Line="606" Column="70" TopLine="584"/>
       </Position21>
       <Position22>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="132" Column="20" TopLine="106"/>
+        <Caret Line="685" Column="90" TopLine="654"/>
       </Position22>
       <Position23>
         <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="606" Column="70" TopLine="584"/>
+        <Caret Line="778" Column="38" TopLine="765"/>
       </Position23>
       <Position24>
-        <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="685" Column="90" TopLine="654"/>
-      </Position24>
-      <Position25>
-        <Filename Value="..\Common\u_file_service.pas"/>
-        <Caret Line="778" Column="38" TopLine="765"/>
-      </Position25>
-      <Position26>
         <Filename Value="u_form_main_rgb.pas"/>
         <Caret Line="3507" Column="37" TopLine="3490"/>
+      </Position24>
+      <Position25>
+        <Filename Value="u_form_main_rgb.pas"/>
+        <Caret Line="933" Column="28" TopLine="918"/>
+      </Position25>
+      <Position26>
+        <Filename Value="u_form_expansion.pas"/>
+        <Caret Line="67" Column="18" TopLine="45"/>
       </Position26>
       <Position27>
         <Filename Value="u_form_main_rgb.pas"/>
-        <Caret Line="933" Column="28" TopLine="918"/>
+        <Caret Line="1647" Column="13" TopLine="1624"/>
       </Position27>
       <Position28>
-        <Filename Value="u_form_expansion.pas"/>
-        <Caret Line="67" Column="18" TopLine="45"/>
+        <Filename Value="u_form_main_rgb.pas"/>
+        <Caret Line="933" Column="15" TopLine="918"/>
       </Position28>
       <Position29>
-        <Filename Value="u_form_main_rgb.pas"/>
-        <Caret Line="1647" Column="13" TopLine="1624"/>
+        <Filename Value="u_form_expansion.pas"/>
+        <Caret Line="162" Column="3" TopLine="138"/>
       </Position29>
       <Position30>
         <Filename Value="u_form_main_rgb.pas"/>
-        <Caret Line="933" Column="15" TopLine="918"/>
+        <Caret Line="918" Column="6" TopLine="901"/>
       </Position30>
     </JumpHistory>
     <RunParams>

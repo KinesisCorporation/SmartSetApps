@@ -85,6 +85,7 @@ type
   TKBLayer = class
   private
     FKBKeyList: TKBKeyList;
+    FEdgeKeyList: TKBKeyList;
     FLayerIndex: integer;
     FLayerName: string;
     FLayerType: integer;
@@ -92,6 +93,7 @@ type
     constructor Create;
     destructor Destroy; override;
     property KBKeyList: TKBKeyList read FKBKeyList write FKBKeyList;
+    property EdgeKeyList: TKBKeyList read FEdgeKeyList write FEdgeKeyList;
     property LayerIndex: integer read FLayerIndex write FLayerIndex;
     property LayerName: string read FLayerName write FLayerName;
     property LayerType: integer read FLayerType write FLayerType;
@@ -381,11 +383,13 @@ begin
   FLayerIndex := 0;
   FLayerType := -1;
   FKBKeyList := TKBKeyList.Create;
+  FEdgeKeyList := TKBKeyList.Create;
 end;
 
 destructor TKBLayer.Destroy;
 begin
   FreeAndNil(FKBKeyList);
+  FreeAndNil(FEdgeKeyList);
   inherited Destroy;
 end;
 

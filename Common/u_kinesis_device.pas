@@ -21,6 +21,8 @@ type
     FFutureDevice: boolean;
     FTutorialUrl: string;
     FDriveLetter: string;
+    FRootFoler: string;
+    FScanVDriveHint: string;
   public
     constructor Create;
     destructor Destroy;
@@ -33,6 +35,8 @@ type
     property FutureDevice: boolean read FFutureDevice write FFutureDevice;
     property TutorialUrl: string read FTutorialUrl write FTutorialUrl;
     property DriveLetter: string read FDriveLetter write FDriveLetter;
+    property RootFoler: string read FRootFoler write FRootFoler;
+    property ScanVDriveHint: string read FScanVDriveHint write FScanVDriveHint;
   end;
 
   { TKeyList }
@@ -106,6 +110,8 @@ begin
   FVDriveName := '';
   FFutureDevice := false;
   FDriveLetter := '';
+  FRootFoler := '';
+  FScanVDriveHint := '';
 end;
 
 destructor TDevice.Destroy;

@@ -14,7 +14,7 @@ uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
   {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
-  HSSpeedButton, internetaccess, LazFileUtils, u_kinesis_device;
+  HSSpeedButton, internetaccess, LazFileUtils, u_kinesis_device, registry, HTTPSend, ssl_openssl;
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -32,15 +32,29 @@ type
   TMsgDlgTypeApp  = (mtWarning, mtError, mtInformation, mtConfirmation,
                     mtCustom, mtFSEdge, mtFSPro);
 
-  TLedMode = (lmNone, lmIndividual, lmMonochrome, lmBreathe, lmSpectrum,
-              lmWave, lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound,
+  TLedMode = (lmNone, lmFreestyle, lmMonochrome, lmBreathe, lmSpectrum,
+              lmWave, lmFrozenWave, lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound,
               lmLoop, lmPulse, lmRain, lmPitchBlack, lmDisabled);
 
-  TZoneType = (ztAll, ztNumber, ztWASD, ztFunction, ztGame, ztArrow, ztLeftModule, ztRightModule);
+  TZoneType = (ztAll, ztNumber, ztWASD, ztFunction, ztGame, ztArrow, ztLeftModule, ztRightModule,
+               ztHyperspace, ztHome, ztModifiers, ztMedia, ztNavigation);
 
   TProfileMode = (pmNone, pmSelect, pmSaveAs);
 
   TCusWinState = (cwNormal, cwMaximized);
+
+  TFormPosition = (fpMiddle, fpTopLeft, fpTopRight, fpBotLeft, fpBotRight);
+
+  TMenuActionType = (maNone, maMacro, maHyperspace, maMultimedia, maMouseClicks,
+                    maFuncKeys, maFnAccess, maFullKeypad, maKeypadActions,
+                    maAltLayouts, maMacModifiers, maPreHotkeys,
+                    maTapHold, maBacklight, maMultimodifiers, maSpecialActions,
+                    maDisable, maFreestyle, maMonochrome, maBreathe,
+                    maWave, maSpectrum, maReactive, maRipple, maFireball,
+                    maStarlight, maRebound, maLoop, maPulse, maRain,
+                    maDisableLed, maFreestyleEdge, maMonochromeEdge, maBreatheEdge,
+                    maWaveEdge, maFrozenWaveEdge, maSpectrumEdge, maLoopEdge, maReboundEdge,
+                    maPulseEdge, maDisableEdge);
 
   TTransitionState = (tsPressed, tsReleased); //KeySate Down or Up
   TExtendedState = (esNormal, esExtended);
@@ -124,6 +138,18 @@ type
     Kind: TBitBtnKind;
   end;
 
+  TFirmwareInfo = record
+    ModelName: string;
+    VersionKBD: string;
+    MajorKBD: integer;
+    MinorKBD: integer;
+    RevisionKBD: integer;
+    VersionLED: string;
+    MajorLED: integer;
+    MinorLED: integer;
+    RevisionLED: integer;
+  end;
+
   TCustomButtons = array of TCustomButton;
 
   TKeysPos = array of TKeyPos;
@@ -138,6 +164,7 @@ function RemoveFontMemResourceEx(fh: LongWord): LongBool; stdcall;
 {$endif}
 
 var
+  GActiveDevice: TDevice; //Active Device
   GApplication: integer; //Id of application
   GApplicationName: string; //Name of application
   GApplicationTitle: string; //Title of application
@@ -213,8 +240,11 @@ function IsVersionBiggerOrEqual(sourceMajor, sourceMinor, sourceRevision: intege
 function IsVersionSmaller(sourceMajor, sourceMinor, sourceRevision: integer; destMajor, destMinor, destRevision: integer): boolean;
 function GetPrefString(const KeyName : string) : string;
 function IsDarkTheme:boolean;
-function IsDeviceConnected(aDevice: TDevice): boolean;
+function GetDeviceInformation(aDevice: TDevice): boolean;
 function LoadFontFromRes(FontName: string):THandle;
+function SaveToRegistry(keyName: string; value: string): boolean;
+function ReadFromRegistry(keyName: string): string;
+procedure DownloadFile(url: string; destFolder: string);
 
 const
   //START OF VIRTUAL KEY OPTIONS
@@ -313,6 +343,61 @@ const
   VK_HYPER = 11090; //Hyper Hotkey
   VK_MEH = 11091; //Hyper Hotkey
   VK_MAC_MODIFIERS = 11092; //Mac Modifiers Hotkeys
+  VK_MSPACE = 11093; //User-defined Middle Space (TKO)
+  VK_TYPING_1 = 11094; //User-defined Hyperspace Configs
+  VK_TYPING_2 = 11095; //User-defined Hyperspace Configs
+  VK_TYPING_3 = 11096; //User-defined Hyperspace Configs
+  VK_CODING_1 = 11097; //User-defined Hyperspace Configs
+  VK_CODING_2 = 11098; //User-defined Hyperspace Configs
+  VK_CODING_3 = 11099; //User-defined Hyperspace Configs
+  VK_CODING_4 = 11100; //User-defined Hyperspace Configs
+  VK_CODING_5 = 11101; //User-defined Hyperspace Configs
+  VK_OVERWATCH1 = 11102; //User-defined Hyperspace Configs
+  VK_FORTNITE = 11103; //User-defined Hyperspace Configs
+  VK_CSGO1 = 11104; //User-defined Hyperspace Configs
+  VK_WARCRAFT = 11105; //User-defined Hyperspace Configs
+  VK_MINECRAFT = 11106; //User-defined Hyperspace Configs
+  VK_VALORANT = 11107; //User-defined Hyperspace Configs
+  VK_LEAGUE = 11108; //User-defined Hyperspace Configs
+  VK_APEX = 11109; //User-defined Hyperspace Configs
+  VK_DESTINY2 = 11110; //User-defined Hyperspace Configs
+  VK_OVERWATCH2 = 11111; //User-defined Hyperspace Configs
+  VK_CSGO2 = 11112; //User-defined Hyperspace Configs
+  //TKO Edge lighting
+  VK_EDGE_L1 = 11113;
+  VK_EDGE_L2 = 11114;
+  VK_EDGE_L3 = 11115;
+  VK_EDGE_L4 = 11116;
+  VK_EDGE_L5 = 11117;
+  VK_EDGE_L6 = 11118;
+  VK_EDGE_L7 = 11119;
+  VK_EDGE_L8 = 11120;
+  VK_EDGE_L9 = 11121;
+  VK_EDGE_B1 = 11122;
+  VK_EDGE_B2 = 11123;
+  VK_EDGE_B3 = 11124;
+  VK_EDGE_B4 = 11125;
+  VK_EDGE_B5 = 11126;
+  VK_EDGE_B6 = 11127;
+  VK_EDGE_B7 = 11128;
+  VK_EDGE_B8 = 11129;
+  VK_EDGE_B9 = 11130;
+  VK_EDGE_B10 = 11131;
+  VK_EDGE_B11 = 11132;
+  VK_EDGE_B12 = 11133;
+  VK_EDGE_B13 = 11134;
+  VK_EDGE_B14 = 11135;
+  VK_EDGE_B15 = 11136;
+  VK_EDGE_R1 = 11137;
+  VK_EDGE_R2 = 11138;
+  VK_EDGE_R3 = 11139;
+  VK_EDGE_R4 = 11140;
+  VK_EDGE_R5 = 11141;
+  VK_EDGE_R6 = 11142;
+  VK_EDGE_R7 = 11143;
+  VK_EDGE_R8 = 11144;
+  VK_EDGE_R9 = 11145;
+  //TKO Edge lighting
 
   //END OF VIRTUAL KEY OPTIONS
 
@@ -469,6 +554,7 @@ const
   //Config modes
   CONFIG_LAYOUT = 0;
   CONFIG_LIGHTING = 1;
+  CONFIG_EDGE_LIGHTING = 2;
 
   //Application IDs
   APPL_PEDAL = 0;
@@ -495,11 +581,23 @@ const
   LED_PITCH_BLACK = '[black]';
   LED_OFF = '0';
 
+  //Edge modes
+  EDGE_MONO = '[mono_edge]';
+  EDGE_BREATHE = '[breathe_edge]';
+  EDGE_SPECTRUM = '[spectrum_edge]';
+  EDGE_WAVE = '[wave_edge]';
+  EDGE_REBOUND = '[rebound_edge]';
+  EDGE_LOOP = '[loop_edge]';
+  EDGE_PULSE = '[pulse_edge]';
+  EDGE_FROZENWAVE = '[frozenwave_edge]';
+
   //Misc constants
+  HELP_TITLE = 'Kinesis Gaming SmartSet App';
   USER_MANUAL_FSEDGE = 'User Manual-SmartSet App.pdf';
   USER_MANUAL_ADV2 = 'SmartSet App Help.pdf';
   KB_SETTINGS_FILE = 'kbd_settings.txt';
   APP_SETTINGS_FILE = 'app_settings.txt';
+  ADV2_STATE_FILE = 'state.txt';
   VERSION_FILE = 'version.txt';
   MACRO_COUNT_FS = 3;
   MAX_MACRO_FS = 24;
@@ -517,21 +615,28 @@ const
   KINESIS_GAMING_URL = 'https://gaming.kinesis-ergo.com/';
   FSEDGE_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOcHFihFhnZhJGb854SRy7Z';
   RGB_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOjCXMkLf7Ur3Jm9Dsqf_KD';
+  TKO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uNVIBnNgfaWtxnbzMFkAF8C';
   RGB_HELP = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
+  TKO_HELP = 'https://gaming.kinesis-ergo.com/tko-support/';
   MASTER_HELP = 'https://gaming.kinesis-ergo.com/support/#support-for-my-device';
   FSEDGE_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-support/#manuals';
   FSPRO_MANUAL = 'https://kinesis-ergo.com/support/freestyle-pro/#manuals';
   ADV2_MANUAL = 'https://kinesis-ergo.com/support/advantage2/#manuals';
+  RGB_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#manuals';
+  TKO_MANUAL = 'https://gaming.kinesis-ergo.com/tko-support/#manuals';
   FSPRO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0Z7Gx0T5N7TTzceorPHXJr5';
   ADV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0aNmELoR6kakcNf7AInoEfW';
   FSPRO_TROUBLESHOOT = 'https://kinesis-ergo.com/support/freestyle-pro/';
   FSEDGE_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-support/';
   RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
+  TKO_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/tko-support/';
   ADV2_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage2/';
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   ADV2_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   MASTER_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
+  RGB_FIRMWARE = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#firmware';
+  TKO_FIRMWARE = 'https://gaming.kinesis-ergo.com/tko-support/#firmware';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -555,6 +660,7 @@ const
   MAX_IMPORT_SIZE = 50;
   MIN_TIMING_DELAY = 1;
   MAX_TIMING_DELAY = 999;
+  REGISTRY_KINESIS = 'SOFTWARE\KINESIS';
 
 implementation
 
@@ -927,7 +1033,9 @@ begin
   else if (GApplication = APPL_ADV2) then
      kbDrive := ADV2_DRIVE
   else if (GApplication = APPL_RGB) then
-     kbDrive := RGB_DRIVE;
+     kbDrive := RGB_DRIVE
+  else if (GApplication = APPl_TKO) then
+     kbDrive := TKO_DRIVE;
   GApplicationPath := GExecutablePath;
   if not DirectoryExists(GApplicationPath + '\firmware\') then
   begin
@@ -1030,7 +1138,7 @@ begin
   GFirmwareFilePath := IncludeTrailingBackslash(GApplicationPath + 'firmware');
   GPedalsFile := GPedalsFilePath + 'pedals.txt';
   GVersionFile := GPedalsFilePath + 'version.txt';
-  GStateFile := GPedalsFilePath + 'state.txt';
+  GStateFile := GPedalsFilePath + ADV2_STATE_FILE;
   GDebugMode := FileExists(GApplicationPath + 'debug.on');
   GDebugFirmware := FileExists(GApplicationPath + 'debug_firm.on');
   GDevMode := FileExists(GApplicationPath + 'devmode.on');
@@ -1078,63 +1186,64 @@ begin
 
   ConfigKeys.Clear;
   //Control keys
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'esc', 'Esc'))
   else
     ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'escape', 'Esc'));
   ConfigKeys.Add(TKey.Create(VK_PAUSE, 'pause', 'Pause' + #10 + 'Break', '', '', '', false, false, '', true, false, smallFontSize, '', 'Pause Break'));
   ConfigKeys.Add(TKey.Create(VK_PRINT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Scrn')); //Old print key...
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prnt', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize ,'', 'Print Scrn')) //Print screen key
   else
     ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Scrn')); //Print screen key
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_SCROLL, 'scrlk', 'Scroll' + #10 + 'Lock', '', '', '', false, false, '', true, false, smallFontSize, '', 'Scroll Lock'))
   else
     ConfigKeys.Add(TKey.Create(VK_SCROLL, 'scroll', 'Scroll' + #10 + 'Lock', '', '', '', false, false, '', true, false, smallFontSize, '', 'Scroll Lock'));
   ConfigKeys.Add(TKey.Create(VK_TAB, 'tab', 'Tab'));
   ConfigKeys.Add(TKey.Create(VK_CAPITAL, 'caps', 'Caps' + #10 + 'Lock', '', '', '', false, false, '', true, false, smallFontSize, '', 'Caps Lock'));
   //When multi-key and no modifiers, show empty space
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_SPACE, 'spc', 'Space', 'spc', ' '))
   else
     ConfigKeys.Add(TKey.Create(VK_SPACE, 'space', 'Space', 'space', ' '));///UTFString(#$e2#$90#$a3)));
   ConfigKeys.Add(TKey.Create(VK_LSPACE, 'lspc', 'Space', 'lspc', ' ', '', false, false, '', true, false, 0, '', 'Left Space')); //User-Defined key for FSEdge
   ConfigKeys.Add(TKey.Create(VK_RSPACE, 'rspc', 'Space', 'rspc', ' ', '', false, false, '', true, false, 0, '', 'Right Space')); //User-Defined key for FSEdge
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  ConfigKeys.Add(TKey.Create(VK_MSPACE, 'mspc', 'Space', 'mspc', ' ', '', false, false, '', true, false, 0, '', 'Middle Space')); //User-Defined key for FSEdge
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_INSERT, 'insert', 'Insert', 'ins'))
   else
     ConfigKeys.Add(TKey.Create(VK_INSERT, 'insert', 'Insert'));
   ConfigKeys.Add(TKey.Create(VK_HOME, 'home', 'Home'));
   ConfigKeys.Add(TKey.Create(VK_END, 'end', 'End'));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_NEXT, 'pdn', 'Page' + #10 + 'Down', '', '', '', false, false, '', true, false, 0, '', 'Page Down'))
   else
     ConfigKeys.Add(TKey.Create(VK_NEXT, 'pdown', 'Page' + #10 + 'Down', '', '', '', false, false, '', true, false, 0, '', 'Page Down'));
   ConfigKeys.Add(TKey.Create(VK_PRIOR, 'pup', 'Page' + #10 + 'Up', '', '', '', false, false, '', true, false, 0, '', 'Page Up'));
 
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_RIGHT, 'rght', UnicodeToUTF8(8594), '', '', '', false, false, '', true, false, 10, UNICODE_FONT))
   else
     ConfigKeys.Add(TKey.Create(VK_RIGHT, 'right', UnicodeToUTF8(8594), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
 
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_LEFT, 'lft', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 10, UNICODE_FONT))
   else
     ConfigKeys.Add(TKey.Create(VK_LEFT, 'left', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
 
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_UP, 'up', UnicodeToUTF8(8593), '', '', '', false, false, '', true, false, 10, UNICODE_FONT))
   else
     ConfigKeys.Add(TKey.Create(VK_UP, 'up', UnicodeToUTF8(8593), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
 
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_DOWN, 'dwn', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 10, UNICODE_FONT))
   else
     ConfigKeys.Add(TKey.Create(VK_DOWN, 'down', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
 
   ConfigKeys.Add(TKey.Create(VK_SHIFT, 'Shift', 'Shift', 'shift'));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshift', 'Left' + #10 + 'Shift', 'lshft', '', '', false, false, '', true, false, 0, '', 'Left Shift'));
     ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift', 'Right' + #10 + 'Shift', 'rshft', '', '', false, false, '', true, false, 0, '', 'Right Shift'));
@@ -1145,7 +1254,7 @@ begin
     ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift', 'Right' + #10 + 'Shift'));
   end;
   ConfigKeys.Add(TKey.Create(VK_CONTROL, 'Ctrl', 'Ctrl', 'ctrl'));
-  //if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  //if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   //begin
   //  ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctrl', 'Ctrl'));
   //  ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctrl', 'Ctrl'));
@@ -1162,20 +1271,20 @@ begin
   //Windows
   {$ifdef Win32}
 
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_RETURN, 'ent', ' Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'))
   else
     ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter', ' Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_BACK, 'bspc',  'Back' + #10 + 'Space', '', '', '', false, false, '', true, false, 0, '', 'Backspace'))
   else
     ConfigKeys.Add(TKey.Create(VK_BACK, 'bspace',  'Back' + #10 + 'Space', '', '', '', false, false, '', true, false, 0, '', 'Backspace'));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_DELETE, 'del', 'Delete'))
   else
     ConfigKeys.Add(TKey.Create(VK_DELETE, 'delete', 'Delete'));
   ConfigKeys.Add(TKey.Create(VK_MENU, 'alt', 'Alt'));
-  //if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  //if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   //begin
   //  ConfigKeys.Add(TKey.Create(VK_LMENU, 'lalt', 'Alt'));
   //  ConfigKeys.Add(TKey.Create(VK_RMENU, 'ralt', 'Alt'));
@@ -1190,7 +1299,7 @@ begin
     ConfigKeys.Add(TKey.Create(VK_LWIN, 'win', 'Left' + #10 + 'Win'));
     ConfigKeys.Add(TKey.Create(VK_RWIN, 'win', 'Right' + #10 + 'Win'));
   end
-  //else if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  //else if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   //begin
   //  ConfigKeys.Add(TKey.Create(VK_LWIN, 'lwin', 'Win'));
   //  ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Win'));
@@ -1204,15 +1313,15 @@ begin
 
   //MacOS
   {$ifdef Darwin}
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_RETURN, 'ent', 'Return'))
   else
     ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter', 'Return'));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_BACK, 'bspc',  'Delete'))
   else
     ConfigKeys.Add(TKey.Create(VK_BACK, 'bspace',  'Delete'));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_DELETE, 'del', 'Fwd ' + #10 + 'Delete', '', '', '', false, false, '', true, false, 0, '', 'Fwd Delete'))
   else
     ConfigKeys.Add(TKey.Create(VK_DELETE, 'delete', 'Fwd ' + #10 + 'Delete', '', '', '', false, false, '', true, false, 0, '', 'Fwd Delete'));
@@ -1259,7 +1368,7 @@ begin
   ConfigKeys.Add(TKey.Create(VK_F24, 'F24'));
 
   //Character keys
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '= +', '=', '=', '+', true, true));
     ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '- _', 'hyph', '-', '_', true, true));
@@ -1291,7 +1400,7 @@ begin
   end;
 
   //Numpad keys
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0', '0'));
     ConfigKeys.Add(TKey.Create(VK_NUMPAD1, 'kp1', '1'));
@@ -1349,7 +1458,7 @@ begin
   end;
 
   //0 to 9
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_0, '0', '0 )', '0', '0', ')', true, true));
     ConfigKeys.Add(TKey.Create(VK_1, '1', '1 !', '1', '1', '!', true, true));
@@ -1382,7 +1491,7 @@ begin
       true, true));
 
   //Custom for special events
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmous', 'Left' + #10 + 'Mouse'));
     ConfigKeys.Add(TKey.Create(VK_MOUSE_MIDDLE, 'mmous', 'Middle' + #10 + 'Mouse'));
@@ -1405,7 +1514,7 @@ begin
   ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', 'speed1', '', '', false, false, '', False));
   ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', 'speed3', '', '', false, false, '', False));
   ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', 'speed5', '', '', false, false, '', False));
-  if not(GApplication in [APPL_RGB]) then
+  if not(GApplication in [APPL_RGB, APPL_TKO]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False));
     ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', 'd500', '', '', false, false, '', False));
@@ -1420,7 +1529,7 @@ begin
   mediaFontSize := 4;
   if (CanUseUnicode) then
   begin
-    if (GApplication in [APPL_RGB]) then
+    if (GApplication in [APPL_RGB, APPL_TKO]) then
     begin
       ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute', UnicodeToUTF8(128264), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
       ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-', UnicodeToUTF8(128265), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
@@ -1459,7 +1568,7 @@ begin
   end;
   ConfigKeys.Add(TKey.Create(VK_CALC, 'calc', 'Calc'));
   ConfigKeys.Add(TKey.Create(VK_KP_CALC, 'calc', 'Calc'));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'shutdn', 'Shut' + #10 + 'down', 'shtdn'))
   else
     ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'shutdn', 'Shut' + #10 + 'down'));
@@ -1468,7 +1577,7 @@ begin
   ConfigKeys.Add(TKey.Create(VK_PROGRAM, '', 'Pro-' + #10 + 'gram', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_SHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
   begin
 
     ConfigKeys.Add(TKey.Create(VK_HK0, 'hk0', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 0'));
@@ -1480,11 +1589,11 @@ begin
     ConfigKeys.Add(TKey.Create(VK_HK6, 'hk6', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 6'));
     ConfigKeys.Add(TKey.Create(VK_HK7, 'hk7', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 7'));
     ConfigKeys.Add(TKey.Create(VK_HK8, 'hk8', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 8'));
-    if (GApplication in [APPL_RGB]) then
+    if (GApplication in [APPL_RGB, APPL_TKO]) then
       ConfigKeys.Add(TKey.Create(VK_HK9, 'hk9', 'Fn' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'hotkey 9'))
     else
       ConfigKeys.Add(TKey.Create(VK_HK9, 'hk9', 'Fn' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'hotkey 9'));
-    if (GApplication in [APPL_FSEDGE, APPL_RGB]) then
+    if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO]) then
     begin
       if (CanUseUnicode) then
         ConfigKeys.Add(TKey.Create(VK_HK10, 'hk10', UnicodeToUTF8(9728), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, 'hotkey 10'))
@@ -1496,11 +1605,11 @@ begin
   end;
   ConfigKeys.Add(TKey.Create(VK_FUNCTION, 'Fn', 'Fn'));
   ConfigKeys.Add(TKey.Create(VK_NULL, 'null', ' '));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_FN_TOGGLE, 'fntog', 'Fn' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize))
   else
     ConfigKeys.Add(TKey.Create(VK_FN_TOGGLE, 'fntoggle', 'Fn' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
-  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_FSPRO]) then
+  if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_FN_SHIFT, 'fnshf', 'Fn' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize))
   else
     ConfigKeys.Add(TKey.Create(VK_FN_SHIFT, 'fnshift', 'Fn' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
@@ -1514,6 +1623,41 @@ begin
   ConfigKeys.Add(TKey.Create(VK_RPEDAL, 'rp-kpent', 'Kp' + #10 + 'Enter'));
   ConfigKeys.Add(TKey.Create(VK_HYPER, 'hyper', 'Hyper'));
   ConfigKeys.Add(TKey.Create(VK_MEH, 'meh', 'Meh'));
+  //TKO Edge Lighting
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L1, 'L1'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L2, 'L2'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L3, 'L3'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L4, 'L4'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L5, 'L5'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L6, 'L6'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L7, 'L7'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L8, 'L8'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L9, 'L9'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B1, 'B1'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B2, 'B2'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B3, 'B3'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B4, 'B4'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B5, 'B5'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B6, 'B6'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B7, 'B7'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B8, 'B8'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B9, 'B9'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B10, 'B10'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B11, 'B11'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B12, 'B12'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B13, 'B13'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B14, 'B14'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B15, 'B15'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R1, 'R1'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R2, 'R2'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R3, 'R3'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R4, 'R4'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R5, 'R5'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R6, 'R6'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R7, 'R7'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R8, 'R8'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R9, 'R9'));
+  //TKO Edge Lighting
 
   //FOR ADVANTAGE 2 KEYBOARD
   ConfigKeys.Add(TKey.Create(VK_KP_KPSHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
@@ -1772,7 +1916,7 @@ begin
   {$endif}
 end;
 
-function IsDeviceConnected(aDevice: TDevice): boolean;
+function GetDeviceInformation(aDevice: TDevice): boolean;
 var
   driveList: TStringList;
   i: integer;
@@ -1780,37 +1924,48 @@ var
   driveName: string;
   kbDrive: string;
   driveLetter: string;
+  rootFolder: string;
 begin
   result := false;
   kbDrive := '';
+  rootFolder := '';
+
+  //Reset device values
+  aDevice.DriveLetter := '';
+  aDevice.RootFoler := '';
+  aDevice.Connected := false;
+
   {$ifdef Win32}
   driveList := GetAvailableDrives;
   for i := 0 to driveList.Count - 1 do
   begin
-    driveLetter := UpperCase(Copy(driveList[i], 1, 1));
-    driveName := UpperCase(Trim(GetVolumeLabel(driveList[i][1])));
+    rootFolder := driveList[i];
+    driveLetter := UpperCase(Copy(rootFolder, 1, 1));
+    driveName := UpperCase(Trim(GetVolumeLabel(rootFolder[1])));
 
     if (aDevice.DeviceNumber = APPL_ADV2) then
     begin
-      dirFirmware := driveList[i] + '\active\';
+      dirFirmware := rootFolder + '\active\';
 
       if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
         ((driveName = ADV2_DRIVE) or (driveName = ADV2_DRIVE_2) or (driveName = ADV2_DRIVE_3)) then
       begin
         aDevice.DriveLetter := driveLetter;
+        aDevice.RootFoler := IncludeTrailingBackslash(rootFolder);
         aDevice.Connected := true;
         result := true;
       end;
     end
     else
     begin
-      dirFirmware := driveList[i] + '\firmware\';
-      driveName := UpperCase(Trim(GetVolumeLabel(driveList[i][1])));
+      dirFirmware := rootFolder + '\firmware\';
+      driveName := UpperCase(Trim(GetVolumeLabel(rootFolder[1])));
 
       if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
         (driveName = aDevice.VDriveName) then
       begin
         aDevice.DriveLetter := driveLetter;
+        aDevice.RootFoler := IncludeTrailingBackslash(rootFolder);
         aDevice.Connected := true;
         result := true;
       end;
@@ -1837,6 +1992,7 @@ begin
       if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
       begin
         aDevice.DriveLetter := driveLetter;
+        aDevice.RootFolder := IncludeTrailingBackslash(driveName);
         aDevice.Connected := true;
         result := true;
       end;
@@ -1850,6 +2006,7 @@ begin
     if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
     begin
       aDevice.DriveLetter := driveLetter;
+      aDevice.RootFoler := IncludeTrailingBackslash(driveName);
       aDevice.Connected := true;
       result := true;
     end;
@@ -1884,6 +2041,76 @@ begin
 {$endif}
 end;
 
+function SaveToRegistry(keyName: string; value: string): boolean;
+var
+  RegNGFS: TRegistry;
+begin
+  RegNGFS := TRegistry.Create;
+  try
+     RegNGFS.RootKey := HKEY_CURRENT_USER;
+     if RegNGFS.OpenKey(REGISTRY_KINESIS, TRUE) then
+     begin
+       RegNGFS.WriteString(keyName, value);
+     end;
+     result := true;
+  finally
+    RegNGFS.Free;
+  end;
+end;
+
+function ReadFromRegistry(keyName: string): string;
+var
+  RegNGFS: TRegistry;
+begin
+  result := '';
+  RegNGFS := TRegistry.Create;
+  try
+     RegNGFS.RootKey := HKEY_CURRENT_USER;
+     if RegNGFS.OpenKey(REGISTRY_KINESIS, TRUE) then
+     begin
+        result := RegNGFS.ReadString(keyName);
+     end;
+  finally
+    RegNGFS.Free;
+  end;
+end;
+
+procedure DownloadFile(url: string; destFolder: string);
+var
+  HTTP: THTTPSend;
+  Redirected: boolean;
+  Filename: String;
+  i: integer;
+begin
+  HTTP := THTTPSend.Create;
+  try
+    repeat
+      Redirected := False;
+      HTTP.HTTPMethod('GET', Url);
+      case HTTP.Resultcode of
+        301, 302, 307:
+        begin
+          for i := 0 to HTTP.Headers.Count - 1 do
+            if (Pos('location: ', lowercase(HTTP.Headers.Strings[i])) = 1) then
+            begin
+              Url := StringReplace(HTTP.Headers.Strings[i], 'location: ', '', []);
+              HTTP.Clear;
+              Redirected := True;
+              break;
+            end;
+        end;
+      end;
+    until not Redirected;
+
+    Filename := ExtractFileName(url);
+
+    HTTP.Document.SaveToFile(IncludeTrailingBackslash(destFolder) + Filename);
+
+  finally
+    HTTP.Free;
+  end;
+end;
+
 initialization
   KINESIS_BLUE := RGB(0, 114, 206);
   KINESIS_BLUE_EDGE := RGB(30, 154, 214);
@@ -1897,6 +2124,7 @@ initialization
   GApplicationTitle := 'SmartSet App';
   GDesktopMode := false;
   GDemoMode := false;
+  GActiveDevice := nil;
   //Windows
   {$ifdef Win32}
   GApplicationName := 'SmartSet App (Win)';

@@ -7,6 +7,7 @@ uses
   SysUtils;
 
 function EjectUSB(const DriveLetter: string): boolean;
+function EjectVolume(ADrive: char): boolean;
 
 implementation
 
@@ -21,6 +22,18 @@ type
 
 const
   PNP_VetoTypeUnknown = 0;   // Name is unspecified
+  PNP_VetoLegacyDevice = 1;
+  PNP_VetoPendingClose = 2;
+  PNP_VetoWindowsApp = 3;
+  PNP_VetoWindowsService = 4;
+  PNP_VetoOutstandingOpen = 5;
+  PNP_VetoDevice = 6;
+  PNP_VetoDriver = 7;
+  PNP_VetoIllegalDeviceRequest = 8;
+  PNP_VetoInsufficientPower = 9;
+  PNP_VetoNonDisableable = 10;
+  PNP_VetoLegacyDriver = 11;
+  PNP_VetoInsufficientRights = 12;
 
 type
   PSPDeviceInterfaceDetailDataA = ^TSPDeviceInterfaceDetailDataA;
@@ -80,6 +93,8 @@ const
 type
   TCM_Get_Parent = function(var dnDevInstParent: _DEVINST; dnDevInst: _DEVINST;
     ulFlags: ULONG): CONFIGRET; stdcall;
+  TCM_Get_Child = function(var dnDevInstChild: _DEVINST; dnDevInst: _DEVINST;
+    ulFlags: ULONG): CONFIGRET; stdcall;
   TCM_Request_Device_Eject = function(dnDevInst: _DEVINST;
     pVetoType: PPNP_VETO_TYPE;     // OPTIONAL
     pszVetoName: PTSTR;            // OPTIONAL
@@ -104,6 +119,7 @@ type
     SetupApiModuleName = 'SetupApi.dll';
   var
     CM_Get_Parent: TCM_Get_Parent;
+    CM_Get_Child: TCM_Get_Child;
     CM_Request_Device_Eject: TCM_Request_Device_Eject;
     SetupDiGetClassDevs: TSetupDiGetClassDevs;
     SetupDiEnumDeviceInterfaces: TSetupDiEnumDeviceInterfaces;
@@ -217,6 +233,7 @@ type
       VetoType: PNP_VETO_TYPE;
       VetoName: array [0..MAX_PATH - 1] of WCHAR;
       DevInstParent: _DEVINST;
+      OldDevInstParent: _DEVINST;
       tries: integer;
     begin
       Result := False;
@@ -254,7 +271,7 @@ type
 
       // get drives's parent, e.g. the USB bridge, the SATA port, an IDE channel with two drives!
       DevInstParent := 0;
-      resCM := CM_Get_Parent(DevInstParent, DevInst, 0);
+      resCM := CM_Get_Child(DevInstParent, DevInst, 0);
 
       for tries := 0 to 3 do // sometimes we need some tries...
       begin
@@ -265,13 +282,17 @@ type
         //resCM = CM_Query_And_Remove_SubTree(DevInstParent, NULL, NULL, 0, CM_REMOVE_NO_RESTART);  // with messagebox (W2K, Vista) or balloon (XP)
 
         resCM := CM_Request_Device_Eject(DevInstParent, @VetoType, @VetoName[0], Length(VetoName), 0);
-        resCM := CM_Request_Device_Eject(DevInstParent, nil, nil, 0, 0);
+        //temp resCM := CM_Request_Device_Eject(DevInstParent, nil, nil, 0, 0);
         // optional -> shows messagebox (W2K, Vista) or balloon (XP)
 
         Result := (resCM = CR_SUCCESS) and (VetoType = PNP_VetoTypeUnknown);
         if Result then break;
 
         Sleep(500); // required to give the next tries a chance!
+
+        //Tries with other parent if doesn't work
+        OldDevInstParent := DevInstParent;
+        CM_Get_Parent(DevInstParent, OldDevInstParent, 0);
       end;
 
     end;
@@ -284,6 +305,7 @@ type
       if (CfgMgrApiLib <> 0) and (SetupApiLib <> 0) then
       begin
         pointer(CM_Get_Parent) := GetProcAddress(CfgMgrApiLib, 'CM_Get_Parent');
+        pointer(CM_Get_Child) := GetProcAddress(CfgMgrApiLib, 'CM_Get_Child');
         pointer(CM_Request_Device_Eject) := GetProcAddress(SetupApiLib, 'CM_Request_Device_EjectA');
         pointer(SetupDiGetClassDevs) := GetProcAddress(SetupApiLib, 'SetupDiGetClassDevsA');
         pointer(SetupDiEnumDeviceInterfaces) := GetProcAddress(SetupApiLib, 'SetupDiEnumDeviceInterfaces');
@@ -297,16 +319,141 @@ type
     end;
   end;
 
+  function OpenVolume(ADrive: char): THandle;
+  var
+    RootName, VolumeName: string;
+    AccessFlags: DWORD;
+  begin
+    RootName := ADrive + ':\'; (* '\'' // keep SO syntax highlighting working *)
+    case GetDriveType(PChar(RootName)) of
+      DRIVE_REMOVABLE: AccessFlags := GENERIC_READ or GENERIC_WRITE;
+      DRIVE_FIXED: AccessFlags := GENERIC_READ or GENERIC_WRITE;
+      DRIVE_CDROM: AccessFlags := GENERIC_READ;
+    else
+      Result := INVALID_HANDLE_VALUE;
+      exit;
+    end;
+    VolumeName := Format('\\.\%s:', [ADrive]);
+    Result := CreateFile(PChar(VolumeName), AccessFlags,
+      FILE_SHARE_READ or FILE_SHARE_WRITE, nil, OPEN_EXISTING, 0, 0);
+    if Result = INVALID_HANDLE_VALUE then
+      RaiseLastWin32Error;
+  end;
+
+  function LockVolume(AVolumeHandle: THandle): boolean;
+  const
+    LOCK_TIMEOUT = 10 * 1000; // 10 Seconds
+    LOCK_RETRIES = 3;
+    LOCK_SLEEP = 500;
+
+  // #define FSCTL_LOCK_VOLUME CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 6, METHOD_BUFFERED, FILE_ANY_ACCESS)
+    FSCTL_LOCK_VOLUME = (9 shl 16) or (0 shl 14) or (6 shl 2) or 0;
+  var
+    Retries: integer;
+    BytesReturned: Cardinal;
+  begin
+    for Retries := 1 to LOCK_RETRIES do begin
+      Result := DeviceIoControl(AVolumeHandle, FSCTL_LOCK_VOLUME, nil, 0,
+        nil, 0, BytesReturned, nil);
+      if Result then
+        break;
+      Sleep(LOCK_SLEEP);
+    end;
+  end;
+
+  function UnlockVolume(AVolumeHandle: THandle): boolean;
+  const
+    LOCK_TIMEOUT = 10 * 1000; // 10 Seconds
+    LOCK_RETRIES = 20;
+    LOCK_SLEEP = LOCK_TIMEOUT div LOCK_RETRIES;
+
+  // #define FSCTL_LOCK_VOLUME CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 6, METHOD_BUFFERED, FILE_ANY_ACCESS)
+    //FSCTL_UNLOCK_VOLUME = (9 shl 16) or (0 shl 14) or (6 shl 2) or 0;
+    FSCTL_UNLOCK_VOLUME = $0009001C;
+  var
+    Retries: integer;
+    BytesReturned: Cardinal;
+  begin
+    for Retries := 1 to LOCK_RETRIES do begin
+      Result := DeviceIoControl(AVolumeHandle, FSCTL_UNLOCK_VOLUME, nil, 0,
+        nil, 0, BytesReturned, nil);
+      if Result then
+        break;
+      Sleep(LOCK_SLEEP);
+    end;
+  end;
+
+  function DismountVolume(AVolumeHandle: THandle): boolean;
+  const
+  // #define FSCTL_DISMOUNT_VOLUME CTL_CODE(FILE_DEVICE_FILE_SYSTEM, 8, METHOD_BUFFERED, FILE_ANY_ACCESS)
+    FSCTL_DISMOUNT_VOLUME = (9 shl 16) or (0 shl 14) or (8 shl 2) or 0;
+  var
+    BytesReturned: Cardinal;
+  begin
+    Result := DeviceIoControl(AVolumeHandle, FSCTL_DISMOUNT_VOLUME, nil, 0,
+      nil, 0, BytesReturned, nil);
+    if not Result then
+      RaiseLastWin32Error;
+  end;
+
+  function PreventRemovalOfVolume(AVolumeHandle: THandle;
+    APreventRemoval: boolean): boolean;
+  const
+  // #define IOCTL_STORAGE_MEDIA_REMOVAL CTL_CODE(IOCTL_STORAGE_BASE, 0x0201, METHOD_BUFFERED, FILE_READ_ACCESS)
+    IOCTL_STORAGE_MEDIA_REMOVAL = ($2d shl 16) or (1 shl 14) or ($201 shl 2) or 0;
+  type
+    TPreventMediaRemoval = record
+      PreventMediaRemoval: BOOL;
+    end;
+  var
+    BytesReturned: Cardinal;
+    PMRBuffer: TPreventMediaRemoval;
+  begin
+    PMRBuffer.PreventMediaRemoval := APreventRemoval;
+    Result := DeviceIoControl(AVolumeHandle, IOCTL_STORAGE_MEDIA_REMOVAL,
+      @PMRBuffer, SizeOf(TPreventMediaRemoval), nil, 0, BytesReturned, nil);
+    if not Result then
+      RaiseLastWin32Error;
+  end;
+
+  function AutoEjectVolume(AVolumeHandle: THandle): boolean;
+  const
+  // #define IOCTL_STORAGE_EJECT_MEDIA CTL_CODE(IOCTL_STORAGE_BASE, 0x0202, METHOD_BUFFERED, FILE_READ_ACCESS)
+    IOCTL_STORAGE_EJECT_MEDIA = ($2d shl 16) or (1 shl 14) or ($202 shl 2) or 0;
+  var
+    BytesReturned: Cardinal;
+  begin
+    Result := DeviceIoControl(AVolumeHandle, IOCTL_STORAGE_EJECT_MEDIA, nil, 0,
+      nil, 0, BytesReturned, nil);
+    if not Result then
+      RaiseLastWin32Error;
+  end;
+
+  function EjectVolume(ADrive: char): boolean;
+  var
+    VolumeHandle: THandle;
+  begin
+    Result := FALSE;
+    // Open the volume
+    VolumeHandle := OpenVolume(ADrive);
+    if VolumeHandle = INVALID_HANDLE_VALUE then
+      exit;
+    try
+      // Lock and dismount the volume
+      if LockVolume(VolumeHandle) and DismountVolume(VolumeHandle) then
+      begin
+        //Set prevent removal to false and eject the volume
+        if PreventRemovalOfVolume(VolumeHandle, FALSE) then
+          if (AutoEjectVolume(VolumeHandle)) then
+            result := true;
+      end;
+
+    finally
+      // Close the volume so other processes can use the drive
+      CloseHandle(VolumeHandle);
+    end;
+  end;
 
 begin
-  //try
-  //  if EjectUSB('F') then
-  //    Writeln('Success')
-  //  else
-  //    Writeln('Failed');
-  //except
-  //  on E: Exception do
-  //    Writeln(E.ClassName, ': ', E.Message);
-  //end;
-  //Readln;
+
 end.

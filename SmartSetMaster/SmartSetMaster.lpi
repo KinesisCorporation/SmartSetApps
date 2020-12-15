@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <General>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="SmartSetMaster"/>
+      <Scaled Value="True"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <XPManifest>
+        <DpiAware Value="True"/>
+      </XPManifest>
+      <Icon Value="0"/>
+    </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <MinorVersionNr Value="8"/>
+      <RevisionNr Value="3"/>
+      <StringTable CompanyName="Kinesis Corporation"/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0"/>
+    </RunParams>
+    <RequiredPackages Count="9">
+      <Item1>
+        <PackageName Value="eccontrols"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="mbColorLibLaz"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="uEControls"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="gifviewer_pkg"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="richmemopackage"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="bgracontrols"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="creosource"/>
+      </Item7>
+      <Item8>
+        <PackageName Value="installpkg"/>
+      </Item8>
+      <Item9>
+        <PackageName Value="LCL"/>
+      </Item9>
+    </RequiredPackages>
+    <Units Count="22">
+      <Unit0>
+        <Filename Value="SmartSetMaster.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="u_form_dashboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormDashboard"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\Common\u_const.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\Common\u_kinesis_device.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\Common\u_debug.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\Common\u_gif.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\Common\u_key_layer.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\Common\u_keys.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="U_Keys"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\Common\versionsupport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="VersionSupport"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMainRGB"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\Common\u_form_loading.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormLoading"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="u_form_about_master.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormAboutMaster"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\Common\u_common_ui.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\Common\u_base_form.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="BaseForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\Common\eject_usb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Eject_USB"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="u_form_settings_master.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSettingsMaster"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\Common\usbdriveflush.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="USBDriveFlush"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\Common\infodialog.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormInfoDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="InfoDialog"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMainTKO"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="..\Components\CreoSource\colorspeedbuttoncs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ColorSpeedButtonCS"/>
+      </Unit21>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="SmartSetMaster (PC)"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src;..\SmartSetRGB;..\SmartSetTKO;..\Components\synapse40\source\lib"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <CodeGeneration>
+      <Optimizations>
+        <OptimizationLevel Value="0"/>
+      </Optimizations>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <UseHeaptrc Value="True"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

@@ -10,6 +10,8 @@ uses
 
 type
 
+  TLabelShape = (lsRectangle, lsQuad);
+
   { TLabelBox }
 
   TLabelBox = class(TLabel)
@@ -17,12 +19,23 @@ type
     { Private declarations }
     FBorderColor: TColor;
     FBackColor: TColor;
+    FNextColor: TColor;
     FIndex: integer;
     FCornerSize: integer;
     FBorderStyle: TBorderStyle;
     FBorderWidth: integer;
     FOpaque: boolean;
     FTransparency: integer;
+    FLabelShape: TLabelShape;
+    FGradientFill: boolean;
+    FShapeX1: integer;
+    FShapeY1: integer;
+    FShapeX2: integer;
+    FShapeY2: integer;
+    FShapeX3: integer;
+    FShapeY3: integer;
+    FShapeX4: integer;
+    FShapeY4: integer;
     procedure DrawOpacityBrush(ACanvas: TCanvas; X, Y: Integer; AColor: TColor;
       ASize: Integer; Opacity: Byte);
   protected
@@ -36,11 +49,22 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write FBorderStyle default bsNone;
     property BorderColor: TColor read FBorderColor write FBorderColor;
     property BackColor: TColor read FBackColor write FBackColor default clNone;
+    property NextColor: TColor read FNextColor write FNextColor default clNone;
     property Index: integer read FIndex write FIndex default -1;
     property CornerSize: integer read FCornerSize write FCornerSize default 0;
     property BorderWidth: integer read FBorderWidth write FBorderWidth default 1;
     property Opaque: boolean read FOpaque write FOpaque default true;
     property Transparency: integer read FTransparency write FTransparency default 0;
+    property GradientFill: boolean read FGradientFill write FGradientFill default false;
+    property LabelShape: TLabelShape read FLabelShape write FLabelShape default lsRectangle;
+    property ShapeX1: integer read FShapeX1 write FShapeX1 default 0;
+    property ShapeY1: integer read FShapeY1 write FShapeY1 default 0;
+    property ShapeX2: integer read FShapeX2 write FShapeX2 default 0;
+    property ShapeY2: integer read FShapeY2 write FShapeY2 default 0;
+    property ShapeX3: integer read FShapeX3 write FShapeX3 default 0;
+    property ShapeY3: integer read FShapeY3 write FShapeY3 default 0;
+    property ShapeX4: integer read FShapeX4 write FShapeX4 default 0;
+    property ShapeY4: integer read FShapeY4 write FShapeY4 default 0;
   end;
 
 procedure Register;
@@ -63,29 +87,61 @@ procedure TLabelBox.Paint;
 var
   ww, hh: Integer;
     var image: TBGRABitmap;
-    c: TBGRAPixel;
-const
-  corners = 10;
+    imgBackColor: TBGRAPixel;
+    imgNextColor: TBGRAPixel;
+    pt1, pt2, pt3, pt4 : TPointF;
 begin
   inherited Paint;
-
-  //Transparent:= true;
-
-  //if (BorderStyle = bsSingle) then
   if (FBackColor <> clNone) then
   begin
     image := TBGRABitmap.Create(Width,Height,BGRAPixelTransparent);
+    pt1.x := FShapeX1;
+    pt1.y := FShapeY1;
+    pt2.x := FShapeX2;
+    pt2.y := FShapeY2;
+    pt3.x := FShapeX3;
+    pt3.y := FShapeY3;
+    pt4.x := FShapeX4;
+    pt4.y := FShapeY4;
+
     if (FOpaque) then
     begin
-      //image.FillRoundRectAntialias(0,0,Width,Height,corners,corners,ColorToBGRA(ColorToRGB(FBackColor), 200));
-      //image.Draw(Canvas,0,0, false);
-      image.FillRoundRectAntialias(0,0,Width,Height,corners,corners,ColorToBGRA(ColorToRGB(FBackColor)));
-      image.Draw(Canvas,0,0);
+      imgBackColor := ColorToBGRA(ColorToRGB(FBackColor));
+      if (GradientFill) then
+        imgNextColor := ColorToBGRA(ColorToRGB(FNextColor));
+
+      if (FLabelShape = lsRectangle) then
+      begin
+        if (GradientFill) then
+          image.GradientFill(0,0,image.Width,image.Height,
+                     imgBackColor,imgNextColor,
+                     gtLinear,PointF(0,0),PointF(image.Width,image.Height),
+                     dmLinearBlend)
+        else
+          image.FillRoundRectAntialias(0,0,Width,Height,FCornerSize,FCornerSize, imgBackColor);
+      end
+      else
+      begin
+        if (GradientFill) then
+          image.FillQuadLinearColorAntialias(pt1, pt2, pt3, pt4, imgBackColor, imgBackColor, imgNextColor, imgNextColor)
+        else
+          image.FillQuadLinearColorAntialias(pt1, pt2, pt3, pt4, imgBackColor, imgBackColor, imgBackColor, imgBackColor);
+      end;
+
+      image.Draw(Canvas,0,0, false);
       image.Free;
     end
     else
     begin
-      image.FillRoundRectAntialias(0,0,Width,Height,corners,corners,ColorToBGRA(ColorToRGB(FBackColor), FTransparency));
+      imgBackColor := ColorToBGRA(ColorToRGB(FBackColor), FTransparency);
+      if (FLabelShape = lsRectangle) then
+      begin
+        image.FillRoundRectAntialias(0,0,Width,Height,FCornerSize,FCornerSize, imgBackColor, [rrTopLeftBevel,rrTopRightBevel,rrBottomRightBevel,rrBottomLeftBevel]);
+      end
+      else
+      begin
+        image.FillQuadLinearColorAntialias(pt1, pt2, pt3, pt4, imgBackColor, imgBackColor, imgBackColor, imgBackColor);
+      end;
       image.Draw(Canvas,0,0, false);
       image.Free;
     end;
@@ -103,7 +159,7 @@ begin
   if (BorderStyle = bsSingle) then
   begin
     image := TBGRABitmap.Create(Width,Height,BGRAPixelTransparent);
-    image.RoundRectAntialias(0,0,Width - FBorderWidth,Height - FBorderWidth,corners,corners,FBorderColor, FBorderWidth);
+    image.RoundRectAntialias(0,0,Width - FBorderWidth,Height - FBorderWidth,FCornerSize,FCornerSize,FBorderColor, FBorderWidth);
     image.Draw(Canvas,0,0, false);
     image.Free;
     //Canvas.Pen.Color := FBorderColor;
