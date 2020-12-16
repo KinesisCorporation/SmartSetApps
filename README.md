@@ -12,25 +12,42 @@ SmartSet Apps are designed as a lightweight GUI to read and write to the simple 
 Windows and/or Mac Apps are pre-loaded on to most devices and were originally intended to be run directly from the v-Drive for maximum convenience and portability. New versions of the SmartSet App are designed to run from the "desktop" with the v-Drive simply "connected" to your PC. 
 
 ## Getting started
-Install the latest version of Lazarus IDE for your computer.  Windows 32-bit version and Mac 64-bit for Catalina. Go to the lazarus-ide website: https://www.lazarus-ide.org/
+Install the latest version of Lazarus IDE for your computer.  Windows 32-bit version and Mac 64-bit for Catalina/Big Sur. Go to the lazarus-ide website: https://www.lazarus-ide.org/
 ### Windows
 You must download the 32-bit version of the IDE for Windows, download and run the setup.
 NOTE: keep default settings for all installation steps.
 
 ### Mac
-To install on Catalina:
-https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/
+You might have to disable System Integrity Protection (SIP) by following these steps (do at your own risk):
+* Reboot your Mac into Recovery Mode by restarting your computer and holding down Command+R until the Apple logo appears on your screen.
+For ARM based Macs:
+  * Click the Apple menu and choose “Shut Down”.
+  * Now press and hold the power button until you see “Loading startup options”.
+  * Click “Options”.
+  * Lastly, click “Continue” and enter the password for an administrator account, if requested.
+* Click Utilities > Terminal.
+* In the Terminal window, type in csrutil disable and press Enter.
+* Restart your Mac.
 
 Do all these steps on your Mac computer.
 * You must install Xcode first (found in App store).
+* Install Command Line Tools from here: https://developer.apple.com/download/more/
+* Install HomeBrew on your system.
+* For brew installation on ARM processors run this command:
+	arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+* For brew installation on x86 processors run this command:
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+* To install a package on ARM processors run this command:
+	arch -x86_64 brew install <package>
+* To install a package on x86 processors run this command:
+	brew install wget
 * Go to the lazarus-ide website: https://www.lazarus-ide.org/
-  To install on Catalina: https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/
 * Click on the download link to download the latest version of Lazarus.
 * Download all files (fpc-src-..., lazarus-..., fpc-...)
 * Install all 3 packages in order: fpc, fpc-src, lazarus), you will need to go to security in settings to allow installation. 
   NOTE: keep default settings for all installation steps.
 * Install additional software suggested by the OS.
-* Install UPX compression utility (https://brewinstall.org/install-upx-on-mac-with-brew/):
+* **NOT REQUIRED**: Install UPX compression utility (https://brewinstall.org/install-upx-on-mac-with-brew/):
   * Run this command in Terminal: 
   * **ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2> /dev/null**
   * Then run this command when it’s done: **brew install upx**
@@ -38,13 +55,14 @@ Do all these steps on your Mac computer.
 *If you have any issues please look at this documentation: https://wiki.freepascal.org/Installing_Lazarus_on_macOS*
 
 ### Configuration for Mac
-* Click on Tools -> Options -> Debugger, select LLDB debugger (with fpdebug) (Beta).  Path should be: /Library/Developer/CommandLineTools/usr/bin/lldb
+* (Catalina Only) Click on Tools -> Options -> Debugger, select LLDB debugger (with fpdebug) (Beta).  
+	Path should be: /Library/Developer/CommandLineTools/usr/bin/lldb
 * If you receive a "Can't find unit Interfaces used by Project1" error on trying to compile a blank form, check the following settings in Lazarus (should be set by default):
-* Tools -> Options -> Environment Options
+* (Catalina Only) Tools -> Options -> Environment Options
   * Lazarus directory: /Developer/lazarus
   * Compiler path: /usr/local/bin/fpc
   * FPC Source: /usr/local/share/fpcsrc (note: don’t change on Catalina)
-* Tool -> Configure Lazarus:
+* (Catalina Only) Tool -> Configure Lazarus:
   * LCL widget type: cocoa
   * Target CPU: x86_64
   * Save Settings / Build
@@ -59,12 +77,14 @@ Here is a description of what each folder contains.
 * Components: third-party and custom components used in apps, some third party components have been modified / fixed.
 * SmartSetAdv2: Advantage2 keyboard app.
 * SmartSetFSEdgePro: Freestyle Pro and Freestyle Edge app (same app customized depending on keyboard version).
-* SmartSetRGB: Freestyle Edge RGB app.
+* SmartSetRGB: (Deprecated) Freestyle Edge RGB app.
+* SmartSetTKO: (Deprecated) TKO RGB app.
+* SmartSetMaster: All-in-one app for Kinesis Gaming apps
 * SmartSetSavantElite: Savant Elite foot pedal app.
 * Utilities: some utilities used for the apps.
 
 ### Install third party packages
-Install all the following 3rd party controls:
+Install all the following 3rd party controls (no need to rebuild after each install, only after the last one):
 * \Components\bgrabitmap-master\bgrabitmap\bgrabitmappack.lpk (just compile it).
 * \Components\bgracontrols-master\bgracontrols.lpk
 * \Components\ecc_0-9-6-10_16-06-15\EC_Controls\eccontrols.lpk
@@ -77,6 +97,16 @@ Install all the following 3rd party controls:
 * \Components\CreoSource\creosource.lpk
 
 ### Configure project
+Note for MacOS: If third party components are not shown when you start Lazarus, see this thread: https://forum.lazarus.freepascal.org/index.php?topic=47711.0
+You might have to give Read/Write priviledges in /Library/Lazarus
+* Open Terminal
+* Go to root, then run cd Library
+* Run this: sudo chown -R $(whoami
+* Then run this: chmod -R +rw Lazarus 
+* Start lazarus app
+If that doesn't work try starting Lazarus from /Library/Lazarus, startlazarus shortcut.
+
+
 Configure the following settings for each project depending on what OS you are working on. Windows and Mac OSX are supported, Linux might work with some tweaks to source code.
 * Open project options (Project | Project Options…).
 * Under Compiler Options, select Paths.
