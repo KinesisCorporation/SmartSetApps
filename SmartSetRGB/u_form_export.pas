@@ -152,13 +152,13 @@ begin
     try
       if (chkBoth.Checked) or (chkLayout.Checked) then
       begin
-        layoutContent := keyService.ConvertToTextFileFmtRGB;
+        layoutContent := keyService.ConvertToTextFileFmt;
         if not(fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(currentLayoutFile), layoutContent, true, errorMsgLayout)) then
           ShowDialog('Export', 'Error exporting layout file: ' + errorMsgLayout, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
       if (chkBoth.Checked) or (chkLighting.Checked) then
       begin
-        ledContent := keyService.ConvertLedToTextFileFmtRGB;
+        ledContent := keyService.ConvertLedToTextFileFmt;
         if not(fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(currentLedFile), ledContent, true, errorMsgLed)) then
           ShowDialog('Export', 'Error exporting lighting file: ' + errorMsgLed, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;

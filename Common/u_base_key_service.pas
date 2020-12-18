@@ -130,7 +130,6 @@ type
     function GetLedMode: TLedMode;
     procedure ResetLedOptions;
     procedure ResetEdgeOptions;
-    procedure SetAllKeyColorEdge(keyColor: TColor; layerIdx: integer);
     procedure SetLedMode(aLedMode: TLedMode);
     function GetLedSpeed: integer;
     procedure SetLedSpeed(aLedSpeed: integer);
@@ -187,13 +186,13 @@ type
     function GetKeyAtPosition(aKeyList: TKeyList; cursorPos: integer): integer;
     procedure ConvertFromTextFileFmtFS(aLayoutContent: TStringList);
     function ConvertToTextFileFmtFS: TStringList;
-    procedure ConvertFromTextFileFmtRGB(aLayoutContent: TStringList);
-    function ConvertLedToTextFileFmtRGB: TStringList;
-    function ConvertEdgeToTextFileFmtTKO: TStringList;
-    procedure ConvertLedFromTextFileFmtRGB(aLedContent: TStringList);
-    procedure ConvertEdgeFromTextFileFmtTKO(aEdgeContent: TStringList);
+    procedure ConvertFromTextFileFmt(aLayoutContent: TStringList);
+    function ConvertLedToTextFileFmt: TStringList;
+    function ConvertEdgeToTextFileFmt: TStringList;
+    procedure ConvertLedFromTextFileFmt(aLedContent: TStringList);
+    procedure ConvertEdgeFromTextFileFmt(aEdgeContent: TStringList);
     function ExtractEdgeFromTextFile(var aLedContent: TStringList): TStringList;
-    function ConvertToTextFileFmtRGB: TStringList;
+    function ConvertToTextFileFmt: TStringList;
     procedure ConvertFromTextFileFmtAdv2(aLayoutContent: TStringList);
     function ConvertToTextFileFmtAdv2: TStringList;
     function IsLedFile(aContent: TStringList): boolean;
@@ -226,6 +225,7 @@ type
     procedure LoadConfigKeys;
     function GetModifierValues(aKey: TKey): string;
     procedure SetAllKeyColor(keyColor: TColor; layerIdx: integer);
+    procedure SetAllKeyColorEdge(keyColor: TColor; layerIdx: integer);
     function GetKeyWithModifier(iKey: word; modifiers: string): TKey;
     function CountAllKeystrokes: integer;
 
@@ -917,7 +917,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSPACE), 58));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RMENU), 59, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN_SHIFT), 60, true, true));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 61, false, false)); //SmartSet Key
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 61, false, false)); //SmartSet Key
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 62, true, false));
 
   //EDGE Key List Put Keys in order needed...
@@ -1035,7 +1035,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSPACE), 58));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RMENU), 59, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN_SHIFT), 60, true, true));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 61, false, false)); //SmartSet Key
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 61, false, false)); //SmartSet Key
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 62, true, false));
 
   //EDGE Key List Put Keys in order needed...
@@ -2641,7 +2641,7 @@ begin
 end;
 
 //Converts text file content to layer/key values
-procedure TBaseKeyService.ConvertFromTextFileFmtRGB(aLayoutContent: TStringList);
+procedure TBaseKeyService.ConvertFromTextFileFmt(aLayoutContent: TStringList);
 var
   aKey, newKey: TKey;
   sKey: string;
@@ -2921,13 +2921,14 @@ begin
     FreeAndNil(aCoTriggers);
 end;
 
-function TBaseKeyService.ConvertLedToTextFileFmtRGB: TStringList;
+function TBaseKeyService.ConvertLedToTextFileFmt: TStringList;
 var
   kIdx: integer;
   lineText: string;
   layoutContent: TStringList;
   aLayer: TKBLayer;
   aKbKey: TKBKey;
+  aKbKeyTopLayer: TKBKey;
   perKeyColors: boolean;
   sColor: string;
   keysSaved: boolean;
@@ -3101,6 +3102,8 @@ begin
         begin
           lineText := '';
           aKbKey := aLayer.KBKeyList[kIdx];
+          //Get key from top layer to save
+          aKbKeyTopLayer := FKBLayers[TOPLAYER_IDX].KBKeyList[kIdx];
 
           if (aKbKey.KeyColor <> clNone) then
           begin
@@ -3108,11 +3111,11 @@ begin
             if (sColor <> '') then
             begin
               keysSaved := true;
-              keyExcept := GetKeySaveException(aKbKey.OriginalKey.Key, aLayer.LayerIndex);
+              keyExcept := GetKeySaveException(aKbKeyTopLayer.OriginalKey.Key, aLayer.LayerIndex);
               if (keyExcept <> nil) then
                 lineText := '[' + keyExcept.SaveValue + ']>' + sColor
               else
-                lineText := '[' + aKbKey.OriginalKey.SaveValue + ']>' + sColor;
+                lineText := '[' + aKbKeyTopLayer.OriginalKey.SaveValue + ']>' + sColor;
 
               //Add line to text file
               layoutContent.Add(layerPrefix + lineText);
@@ -3131,7 +3134,7 @@ begin
   Result := layoutContent;
 end;
 
-function TBaseKeyService.ConvertEdgeToTextFileFmtTKO: TStringList;
+function TBaseKeyService.ConvertEdgeToTextFileFmt: TStringList;
 var
   kIdx: integer;
   lineText: string;
@@ -3465,8 +3468,8 @@ end;
 
 procedure TBaseKeyService.ResetEdgeOptions;
 begin
-  SetAllKeyColor(clNone, TOPLAYER_IDX);
-  SetAllKeyColor(clNone, BOTLAYER_IDX);
+  SetAllKeyColorEdge(clNone, TOPLAYER_IDX);
+  SetAllKeyColorEdge(clNone, BOTLAYER_IDX);
   FEdgeMode := lmDisabled;
   FEdgeModeFn := lmDisabled;
   FEdgeColorMono := DEFAULT_LED_COLOR;
@@ -3536,7 +3539,7 @@ begin
   end;
 end;
 
-procedure TBaseKeyService.ConvertLedFromTextFileFmtRGB(aLedContent: TStringList);
+procedure TBaseKeyService.ConvertLedFromTextFileFmt(aLedContent: TStringList);
 var
   aKey: TKey;
   sKey: string;
@@ -3549,6 +3552,7 @@ var
   configText: string;
   valueText: string;
   aKBKey: TKBKey;
+  aKBKeyBotLayer: TKBKey;
   lineCount: integer;
   isKeypadLayer: boolean;
   aLedMode: TLedMode;
@@ -3712,18 +3716,26 @@ begin
                     //Gets key from top layer
                     if aKey <> nil then
                     begin
-                      keyExcept := GetKeyLoadException(aKey.Key, layerIdx);
+                      keyExcept := GetKeyLoadException(aKey.Key, TOPLAYER_IDX);
                       if (keyExcept <> nil) then
-                        aKBKey := GetKBKey(keyExcept.Key, layerIdx)
+                        aKBKey := GetKBKey(keyExcept.Key, TOPLAYER_IDX)
                       else
-                        aKBKey := GetKBKey(aKey.Key, layerIdx);
+                        aKBKey := GetKBKey(aKey.Key, TOPLAYER_IDX);
                     end;
                   end;
                 end;
 
                 if (aKBKey <> nil) and (aLedMode in [lmFreestyle, lmBreathe]) then
                 begin
-                  aKBKey.KeyColor := RGBStringToColor(valueText, DEFAULT_LED_COLOR);
+                  //Bot layer get key index from top layer to set color
+                  if (layerIdx = BOTLAYER_IDX) then
+                  begin
+                    aKBKeyBotLayer := FKBLayers[BOTLAYER_IDX].KBKeyList[aKBKey.Index];
+                    if (aKBKeyBotLayer <> nil) then
+                      aKBKeyBotLayer.KeyColor := RGBStringToColor(valueText, DEFAULT_LED_COLOR);
+                  end
+                  else
+                    aKBKey.KeyColor := RGBStringToColor(valueText, DEFAULT_LED_COLOR);
                 end
                 else if (aLedMode = lmBreathe) and (i = 0) then
                 begin
@@ -3948,7 +3960,7 @@ begin
   end;
 end;
 
-procedure TBaseKeyService.ConvertEdgeFromTextFileFmtTKO(
+procedure TBaseKeyService.ConvertEdgeFromTextFileFmt(
   aEdgeContent: TStringList);
 var
   aKey: TKey;
@@ -8541,7 +8553,7 @@ begin
   ClearModifiers;
 end;
 
-function TBaseKeyService.ConvertToTextFileFmtRGB: TStringList;
+function TBaseKeyService.ConvertToTextFileFmt: TStringList;
 var
   i, j: integer;
   lIdx, kIdx, mIdx: integer;

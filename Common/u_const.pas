@@ -397,6 +397,7 @@ const
   VK_EDGE_R7 = 11143;
   VK_EDGE_R8 = 11144;
   VK_EDGE_R9 = 11145;
+  VK_SMARTSET = 11146;
   //TKO Edge lighting
 
   //END OF VIRTUAL KEY OPTIONS
@@ -1605,6 +1606,7 @@ begin
   end;
   ConfigKeys.Add(TKey.Create(VK_FUNCTION, 'Fn', 'Fn'));
   ConfigKeys.Add(TKey.Create(VK_NULL, 'null', ' '));
+  ConfigKeys.Add(TKey.Create(VK_SMARTSET, 'ss', ' '));
   if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_FN_TOGGLE, 'fntog', 'Fn' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize))
   else
