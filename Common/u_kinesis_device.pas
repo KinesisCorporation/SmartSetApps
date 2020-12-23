@@ -21,7 +21,7 @@ type
     FFutureDevice: boolean;
     FTutorialUrl: string;
     FDriveLetter: string;
-    FRootFoler: string;
+    FRootFolder: string;
     FScanVDriveHint: string;
   public
     constructor Create;
@@ -35,7 +35,7 @@ type
     property FutureDevice: boolean read FFutureDevice write FFutureDevice;
     property TutorialUrl: string read FTutorialUrl write FTutorialUrl;
     property DriveLetter: string read FDriveLetter write FDriveLetter;
-    property RootFoler: string read FRootFoler write FRootFoler;
+    property RootFolder: string read FRootFolder write FRootFolder;
     property ScanVDriveHint: string read FScanVDriveHint write FScanVDriveHint;
   end;
 
@@ -110,7 +110,7 @@ begin
   FVDriveName := '';
   FFutureDevice := false;
   FDriveLetter := '';
-  FRootFoler := '';
+  FRootFolder := '';
   FScanVDriveHint := '';
 end;
 

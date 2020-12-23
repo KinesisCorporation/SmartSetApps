@@ -1223,6 +1223,8 @@ begin
     lineBorderTop.Visible := false;
     NORMAL_HEIGHT := Parent.Height;
     NORMAL_WIDTH := Parent.Width;
+    Maximize;
+    ShowInTaskBar := stNever;
   end;
 
   //Sets Height and Width of form
@@ -1254,7 +1256,7 @@ begin
   freqKeyDown := false;
   speedKeyDown := false;
   resetLayer := false;
-  keyBtnList := TObjectList.Create;
+  keyBtnList := TObjectList.Create(false);
   activeKeyBtn := nil;
   activeKbKey := nil;
   SetConfigOS;
@@ -1285,7 +1287,8 @@ begin
       ' total macro characters and up to ' + IntToStr(maxMacros) + ' macros';
 
   //App shows in Taskbar only when minimized
-  Application.MainFormOnTaskBar:= true;
+  if (not fromMasterApp) then
+    Application.MainFormOnTaskBar:= true;
 
   {$ifdef Darwin}
   //btnClose.Visible := false;
@@ -1482,8 +1485,6 @@ begin
     WaveTimer.Enabled := false;
     BreatheTimer.Enabled := false;
     NewGifTimer.Enabled := false;
-    FreeAndNil(keyService);
-    FreeAndNil(fileService);
     CloseAction := caFree;
   end;
 end;
@@ -1491,11 +1492,11 @@ end;
 procedure TFormMainRGB.FormDestroy(Sender: TObject);
 begin
   RemoveKeyboardHook;
-  FreeAndNil(keyBtnList);
+  keyBtnList := nil;
   FreeAndNil(keyService);
   FreeAndNil(fileService);
-  FreeAndNil(menuActionList);
-  FreeAndNil(hoveredList);
+  menuActionList := nil;
+  hoveredList := nil;
   //RemoveFontResource('fonts/Exo2-Regular.ttf');
   //RemoveFontResource('fonts/Quantify Bold v2.6.ttf');
   //SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
@@ -1658,7 +1659,7 @@ end;
 
 procedure TFormMainRGB.FillMenuActionList;
 begin
-  menuActionList := TObjectList.Create(true);
+  menuActionList := TObjectList.Create(false);
   //menuActionList.Add(TMenuAction.Create(btnRemap, lblRemap, nil, CONFIG_LAYOUT, false));
   menuActionList.Add(TMenuAction.Create(maMacro, nil, lblMacro, imgMacro, CONFIG_LAYOUT, lmNone, false, false, false));
   menuActionList.Add(TMenuAction.Create(maMultimedia, nil, lblMedia, imgMedia, CONFIG_LAYOUT, lmNone, true, false, true));
@@ -1734,7 +1735,7 @@ var
   i: integer;
   obj: TObject;
 begin
-  hoveredList := TObjectList.Create(true);
+  hoveredList := TObjectList.Create(false);
 
   //Settings top right
   hoveredList.Add(THoveredObj.Create(btnSettings, imgListSettings, 0, 1));
@@ -5038,25 +5039,34 @@ var
   aRect: TRect;
 begin
   if (parent <> nil) then
-    aRect := Parent.ClientRect
-  else
-    aRect := Screen.PrimaryMonitor.WorkareaRect;
+  begin
+    aRect := Parent.ClientRect;
 
-  if (cusWindowState = cwMaximized) then
-  begin
-    self.Height := NORMAL_HEIGHT;
-    self.Width := NORMAL_WIDTH;
-    self.Left := (aRect.Width - NORMAL_WIDTH) div 2;
-    self.Top := (aRect.Height - NORMAL_HEIGHT) div 2;
-    cusWindowState := cwNormal;
-  end
-  else
-  begin
     self.Left := aRect.Left;
     self.Top := aRect.Top;
     self.Width := aRect.Width;
     self.Height := aRect.Height;
-    cusWindowState := cwMaximized;
+  end
+  else
+  begin
+    aRect := Screen.PrimaryMonitor.WorkareaRect;
+
+    if (cusWindowState = cwMaximized) then
+    begin
+      self.Height := NORMAL_HEIGHT;
+      self.Width := NORMAL_WIDTH;
+      self.Left := (aRect.Width - NORMAL_WIDTH) div 2;
+      self.Top := (aRect.Height - NORMAL_HEIGHT) div 2;
+      cusWindowState := cwNormal;
+    end
+    else
+    begin
+      self.Left := aRect.Left;
+      self.Top := aRect.Top;
+      self.Width := aRect.Width;
+      self.Height := aRect.Height;
+      cusWindowState := cwMaximized;
+    end;
   end;
 
   UpdateStateSettings;

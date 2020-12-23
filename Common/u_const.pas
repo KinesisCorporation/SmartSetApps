@@ -14,7 +14,7 @@ uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
   {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
-  HSSpeedButton, internetaccess, LazFileUtils, u_kinesis_device, registry, HTTPSend, ssl_openssl;
+  HSSpeedButton, internetaccess, LazFileUtils, u_kinesis_device, registry;//, HTTPSend, ssl_openssl;
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -1934,7 +1934,7 @@ begin
 
   //Reset device values
   aDevice.DriveLetter := '';
-  aDevice.RootFoler := '';
+  aDevice.RootFolder := '';
   aDevice.Connected := false;
 
   {$ifdef Win32}
@@ -2008,7 +2008,7 @@ begin
     if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
     begin
       aDevice.DriveLetter := driveLetter;
-      aDevice.RootFoler := IncludeTrailingBackslash(driveName);
+      aDevice.RootFolder := IncludeTrailingBackslash(driveName);
       aDevice.Connected := true;
       result := true;
     end;
@@ -2078,38 +2078,38 @@ begin
 end;
 
 procedure DownloadFile(url: string; destFolder: string);
-var
-  HTTP: THTTPSend;
-  Redirected: boolean;
-  Filename: String;
-  i: integer;
+//var
+  //HTTP: THTTPSend;
+  //Redirected: boolean;
+  //Filename: String;
+  //i: integer;
 begin
-  HTTP := THTTPSend.Create;
+  //HTTP := THTTPSend.Create;
   try
-    repeat
-      Redirected := False;
-      HTTP.HTTPMethod('GET', Url);
-      case HTTP.Resultcode of
-        301, 302, 307:
-        begin
-          for i := 0 to HTTP.Headers.Count - 1 do
-            if (Pos('location: ', lowercase(HTTP.Headers.Strings[i])) = 1) then
-            begin
-              Url := StringReplace(HTTP.Headers.Strings[i], 'location: ', '', []);
-              HTTP.Clear;
-              Redirected := True;
-              break;
-            end;
-        end;
-      end;
-    until not Redirected;
+    //repeat
+    //  Redirected := False;
+    //  HTTP.HTTPMethod('GET', Url);
+    //  case HTTP.Resultcode of
+    //    301, 302, 307:
+    //    begin
+    //      for i := 0 to HTTP.Headers.Count - 1 do
+    //        if (Pos('location: ', lowercase(HTTP.Headers.Strings[i])) = 1) then
+    //        begin
+    //          Url := StringReplace(HTTP.Headers.Strings[i], 'location: ', '', []);
+    //          HTTP.Clear;
+    //          Redirected := True;
+    //          break;
+    //        end;
+    //    end;
+    //  end;
+    //until not Redirected;
 
-    Filename := ExtractFileName(url);
+    //Filename := ExtractFileName(url);
 
-    HTTP.Document.SaveToFile(IncludeTrailingBackslash(destFolder) + Filename);
+    //HTTP.Document.SaveToFile(IncludeTrailingBackslash(destFolder) + Filename);
 
   finally
-    HTTP.Free;
+    //HTTP.Free;
   end;
 end;
 
