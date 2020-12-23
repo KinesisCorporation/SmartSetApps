@@ -1,9 +1,10 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 type
   PWeightedPixel = ^TWeightedPixel;
   TWeightedPixel = packed record
     Coord: TPoint;
-    Weight: NativeInt;
-    PtrOfs: NativeInt;
+    Weight: Int32or64;
+    PtrOfs: Int32or64;
   end;
 
 var
@@ -15,13 +16,15 @@ var
   DiffPixel: array of TWeightedPixel;
   DiffPixelArrayLineStart: array of integer;
 
-  bmpWidth,bmpHeight,lineDelta: NativeInt;
+  bmpWidth,bmpHeight: Int32or64;
 
   procedure LoadMask(out ABlurOfs: TPoint);
-  var x,y,n,i: NativeInt;
-      tempWeight: NativeInt;
-      diffMask: array of packed array of NativeInt;
-      p: PBGRAPixel;
+  var x,y,n: Int32or64;
+      tempWeight: Int32or64;
+      diffMask: array of packed array of Int32or64;
+      p: PByteMask;
+      qty,pStride: integer;
+      srcLineDelta, srcPixSize, srcLineOfs: PtrInt;
   begin
     ABlurOfs := point(blurMask.Width shr 1, blurMask.Height shr 1);
 
@@ -29,41 +32,67 @@ var
     maskWidth := blurMask.Width;
     maskHeight := blurMask.Height;
     n := 0;
-    p := blurMask.Data;
-    for i := blurMask.NbPixels-1 downto 0 do
+    for y:= 0 to maskHeight-1 do
     begin
-      if p^.red <> 0 then inc(n);
-      inc(p);
+      blurMask.ScanMoveTo(0,Y);
+      x := maskWidth;
+      while x > 0 do
+      begin
+        qty := x;
+        blurMask.ScanNextMaskChunk(qty, p, pStride);
+        dec(x, qty);
+        while qty > 0 do
+        begin
+          if p^.gray <> 0 then inc(n);
+          inc(p, pStride);
+          dec(qty);
+        end;
+      end;
     end;
 
     //initialize arrays
     setlength(diffMask, maskHeight, maskWidth+1);
     for y := 0 to maskHeight - 1 do
-      fillchar(diffMask[y,0], (maskWidth+1)*sizeof(NativeInt), 0);
+      fillchar(diffMask[y,0], (maskWidth+1)*sizeof(Int32or64), 0);
+
+    if bmp.LineOrder = riloTopToBottom then
+      srcLineDelta := bmp.RowSize else
+      srcLineDelta := -bmp.RowSize;
+    srcPixSize := bmp.Colorspace.GetSize;
 
     setlength(Pixel, n);
     setlength(PixelArrayLineStart, maskHeight+1);  //stores the first pixel of each line
     n := 0;
     //compute mask variations and initial mask pixel list
+    srcLineOfs := (0-ABlurOfs.Y)*srcLineDelta;
     for y := 0 to maskHeight - 1 do
     begin
       PixelArrayLineStart[y] := n;
-      p := blurMask.ScanLine[y];
-      for x := 0 to maskWidth - 1 do
+      blurMask.ScanMoveTo(0,Y);
+      x := 0;
+      while x < maskWidth do
       begin
-        tempWeight := p^.red;
-        inc(p);
-        diffMask[y,x] -= tempWeight;
-        diffMask[y,x+1] += tempWeight;
-
-        if tempWeight <> 0 then
+        qty := maskWidth - x;
+        blurMask.ScanNextMaskChunk(qty, p, pStride);
+        while qty > 0 do
         begin
-          Pixel[n].Weight := tempWeight;
-          Pixel[n].Coord := Point(x,y);
-          Pixel[n].PtrOfs := (y-ABlurOfs.Y)*lineDelta + (x-ABlurOfs.X)*sizeof(TBGRAPixel);
-          Inc(n);
+          tempWeight := p^.gray;
+          dec(diffMask[y,x], tempWeight);
+          inc(diffMask[y,x+1], tempWeight);
+
+          if tempWeight <> 0 then
+          begin
+            Pixel[n].Weight := tempWeight;
+            Pixel[n].Coord := Point(x,y);
+            Pixel[n].PtrOfs := srcLineOfs + (x-ABlurOfs.X)*srcPixSize;
+            Inc(n);
+          end;
+          inc(x);
+          inc(p, pStride);
+          dec(qty);
         end;
       end;
+      inc(srcLineOfs, srcLineDelta);
     end;
     PixelArrayLineStart[maskHeight] := n;
 
@@ -78,6 +107,7 @@ var
     setlength(DiffPixelArrayLineStart, maskHeight+1);  //stores the first pixel of each diff line
     n := 0;
     //compute diff pixel list
+    srcLineOfs := (0-ABlurOfs.Y)*srcLineDelta;
     for y := 0 to maskHeight - 1 do
     begin
       DiffPixelArrayLineStart[y] := n;
@@ -88,10 +118,11 @@ var
         begin
           DiffPixel[n].Weight := tempWeight;
           DiffPixel[n].Coord := Point(x-1,y);
-          DiffPixel[n].PtrOfs := (y-ABlurOfs.Y)*lineDelta + (x-ABlurOfs.X-1)*sizeof(TBGRAPixel);
+          DiffPixel[n].PtrOfs := srcLineOfs + (x-ABlurOfs.X-1)*srcPixSize;
           Inc(n);
         end;
       end;
+      inc(srcLineOfs, srcLineDelta);
     end;
     DiffPixelArrayLineStart[maskHeight] := n;
   end;
@@ -100,7 +131,7 @@ var
   begin
     //evaluate required bounds taking blur radius into acount
     AClippedBounds := bmp.GetImageBounds;
-    if IsRectEmpty(AClippedBounds) then
+    if AClippedBounds.IsEmpty then
     begin
       result := false;
       exit;
@@ -109,7 +140,9 @@ var
     AClippedBounds.Top    := max(0, AClippedBounds.Top - blurOfs.Y);
     AClippedBounds.Right  := min(bmpWidth, AClippedBounds.Right + maskWidth - 1 - blurOfs.X);
     AClippedBounds.Bottom := min(bmpHeight, AClippedBounds.Bottom + maskHeight - 1 - blurOfs.Y);
-    if not IntersectRect(AClippedBounds, AClippedBounds, AWantedBounds) then
+    AClippedBounds.Intersect(AWantedBounds);
+
+    if AClippedBounds.IsEmpty then
     begin
       result := false;
       exit;
@@ -120,20 +153,17 @@ var
 
 var
   bounds: TRect;
-  yb, xb: NativeInt;
-  mindy, maxdy, n, nStart, nCount, nDiffStart, nDiffCount: NativeInt;
-  bmpX,bmpXBase,bmpYBase: NativeInt;
-  pixMaskAlpha, maskAlpha: NativeInt;
-  tempPixel: TBGRAPixel;
-  pdest : PBGRAPixel;
+  yb, xb: Int32or64;
+  mindy, maxdy, n, nStart, nCount, nDiffStart, nDiffCount: Int32or64;
+  bmpX,bmpXBase,bmpYBase: Int32or64;
+  pdest : PByte;
   psrc : PByte;
+  srcPixSize,destPixSize: integer;
 
 begin
   bmpWidth := bmp.Width;
   bmpHeight:= bmp.Height;
-  if bmp.LineOrder = riloTopToBottom then
-    lineDelta := bmpWidth*sizeof(TBGRAPixel) else
-    lineDelta := -bmpWidth*sizeof(TBGRAPixel);
+  bmp.LoadFromBitmapIfNeeded;
 
   if (ADestination.Width <> bmpWidth) or (ADestination.Height <> bmpHeight) then
     raise exception.Create('Dimension mismatch');
@@ -142,25 +172,20 @@ begin
   if not PrepareScan(ABounds, bounds) then exit; //nothing to do
 
   bmpYBase := bounds.Top - blurOfs.Y;
+  srcPixSize := bmp.Colorspace.GetSize;
+  destPixSize := ADestination.Colorspace.GetSize;
 
   //loop through destination
   for yb := bounds.Top to bounds.Bottom - 1 do
   begin
     if (ACheckShouldStop <> nil) and ACheckShouldStop(yb) then break;
-    psrc := PByte(bmp.ScanLine[yb]+bounds.Left);
-    pdest := ADestination.ScanLine[yb] + bounds.Left;
+    psrc := bmp.GetPixelAddress(bounds.Left, yb);
+    pdest := ADestination.GetPixelAddress(bounds.Left, yb);
     //compute vertical range
     mindy := max(-blurOfs.Y, -yb);
     maxdy := min(blurMask.Height - 1 - blurOfs.Y, bmpHeight - 1 - yb);
 
-    sumR   := 0;
-    sumG   := 0;
-    sumB   := 0;
-    sumA   := 0;
-    Adiv   := 0;
-    {$ifdef PARAM_MASKSHIFT}
-    RGBdiv := 0;
-    {$endif}
+    AClearSum(AData);
 
     bmpXBase := bounds.Left-blurOfs.X;
     nStart := PixelArrayLineStart[mindy+blurOfs.Y];
@@ -172,30 +197,10 @@ begin
       bmpX := bmpXBase+ppixel^.Coord.x;
       //check horizontal range
       if (bmpX >= 0) and (bmpX < bmpWidth) then
-      begin
-        tempPixel := PBGRAPixel(psrc + ppixel^.PtrOfs)^;
-        maskAlpha := ppixel^.Weight;
-        pixMaskAlpha := maskAlpha * tempPixel.alpha;
-        sumA    += pixMaskAlpha;
-        Adiv    += maskAlpha;
-        {$ifdef PARAM_MASKSHIFT}
-        pixMaskAlpha := pixMaskAlpha shr maskShift;
-        RGBdiv  += pixMaskAlpha;
-        {$endif}
-        {$hints off}
-        sumR    += tempPixel.red * pixMaskAlpha;
-        sumG    += tempPixel.green * pixMaskAlpha;
-        sumB    += tempPixel.blue * pixMaskAlpha;
-        {$hints on}
-      end;
+        AAccumulate(AData, psrc + ppixel^.PtrOfs, ppixel^.Weight);
       inc(ppixel);
     end;
-
-    //compute average
-    if (Adiv <= 0) {$ifdef PARAM_MASKSHIFT} or (RGBdiv <= 0) {$endif} then
-      pdest^ := BGRAPixelTransparent
-    else
-      pdest^ := computeAverage;
+    AComputeAverage(AData, pdest);
 
     nDiffStart := DiffPixelArrayLineStart[mindy+blurOfs.Y];
     nDiffCount := DiffPixelArrayLineStart[maxdy+blurOfs.Y+1]-nDiffStart;
@@ -204,56 +209,29 @@ begin
     begin
       for xb := bounds.Left+1 to Bounds.Right - 1 do
       begin
-        Inc(pdest);
+        Inc(pdest, destPixSize);
         inc(bmpXBase);
-        inc(psrc,sizeof(TBGRAPixel));
+        inc(psrc, srcPixSize);
 
         ppixel:= @DiffPixel[nDiffStart];
         for n := nDiffCount-1 downto 0 do
         begin
           bmpX := bmpXBase+ppixel^.Coord.x;
           if (bmpX >= 0) and (bmpX < bmpWidth) then
-          begin
-            tempPixel := PBGRAPixel(psrc + ppixel^.PtrOfs)^;
-            maskAlpha := ppixel^.Weight;
-            pixMaskAlpha := maskAlpha * tempPixel.alpha;
-            sumA    += pixMaskAlpha;
-            Adiv    += maskAlpha;
-            {$ifdef PARAM_MASKSHIFT}
-            pixMaskAlpha := (cardinal(pixMaskAlpha)+$80000000) shr maskShift - ($80000000 shr maskShift);
-            RGBdiv  += pixMaskAlpha;
-            {$endif}
-            {$hints off}
-            sumR    += tempPixel.red * pixMaskAlpha;
-            sumG    += tempPixel.green * pixMaskAlpha;
-            sumB    += tempPixel.blue * pixMaskAlpha;
-            {$hints on}
-          end;
+            AAccumulate(AData, psrc + ppixel^.PtrOfs, ppixel^.Weight);
           inc(ppixel);
         end;
-
-        //compute average
-        if (Adiv <= 0) {$ifdef PARAM_MASKSHIFT} or (RGBdiv <= 0) {$endif} then
-          pdest^ := BGRAPixelTransparent
-        else
-          pdest^ := ComputeAverage;
+        AComputeAverage(AData, pDest);
       end;
     end else
     begin
       for xb := bounds.Left+1 to Bounds.Right - 1 do
       begin
-        Inc(pdest);
+        Inc(pdest, destPixSize);
         inc(bmpXBase);
-        inc(psrc,sizeof(TBGRAPixel));
+        inc(psrc, srcPixSize);
 
-        sumR   := 0;
-        sumG   := 0;
-        sumB   := 0;
-        sumA   := 0;
-        Adiv   := 0;
-        {$ifdef PARAM_MASKSHIFT}
-        RGBdiv := 0;
-        {$endif}
+        AClearSum(AData);
 
         ppixel:= @Pixel[nStart];
         for n := nCount-1 downto 0 do
@@ -261,30 +239,10 @@ begin
           bmpX := bmpXBase+ppixel^.Coord.x;
           //check horizontal range
           if (bmpX >= 0) and (bmpX < bmpWidth) then
-          begin
-            tempPixel := PBGRAPixel(psrc + ppixel^.PtrOfs)^;
-            maskAlpha := ppixel^.Weight;
-            pixMaskAlpha := maskAlpha * tempPixel.alpha;
-            sumA    += pixMaskAlpha;
-            Adiv    += maskAlpha;
-            {$ifdef PARAM_MASKSHIFT}
-            pixMaskAlpha := pixMaskAlpha shr maskShift;
-            RGBdiv  += pixMaskAlpha;
-            {$endif}
-            {$hints off}
-            sumR    += tempPixel.red * pixMaskAlpha;
-            sumG    += tempPixel.green * pixMaskAlpha;
-            sumB    += tempPixel.blue * pixMaskAlpha;
-            {$hints on}
-          end;
+            AAccumulate(AData, psrc + ppixel^.PtrOfs, ppixel^.Weight);
           inc(ppixel);
         end;
-
-        //compute average
-        if (Adiv <= 0) {$ifdef PARAM_MASKSHIFT} or (RGBdiv <= 0) {$endif} then
-          pdest^ := BGRAPixelTransparent
-        else
-          pdest^ := computeAverage;
+        AComputeAverage(AData, pdest);
       end;
     end;
 
@@ -292,5 +250,4 @@ begin
   end;
   ADestination.InvalidateBitmap;
 end;
-{$undef PARAM_MASKSHIFT}
 

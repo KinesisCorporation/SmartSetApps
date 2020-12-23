@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -732,7 +733,7 @@ begin
   inherited Create(AOwner);
   // START / MDBUTTONFOCUS ONLY
   TabStop := True;
-  ControlStyle := ControlStyle + [csAcceptsControls];
+  ControlStyle := ControlStyle + [csAcceptsControls, csParentBackground];
   DoubleBuffered := True;
   // END / MDBUTTONFOCUS ONLY
   {$IFDEF INDEBUG}

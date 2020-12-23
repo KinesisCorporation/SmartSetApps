@@ -105,7 +105,7 @@ begin
   else if Radio_Linear.Checked then
   begin
     bmp.FillQuadLinearMapping(pts[0],pts[1],pts[2],pts[3], image,
-        texPos[0],texPos[1],texPos[2],texPos[3]);
+        texPos[0],texPos[1],texPos[2],texPos[3], true, fcNone, false);
   end
   else if Radio_Affine.Checked then
   begin
@@ -190,10 +190,10 @@ begin
   begin
     mousePos := PointF(X,Y);
     if MovingPointIndex <> -1 then
-      pts[MovingPointIndex] += mousePos-MovingOrigin else
+      pts[MovingPointIndex].Offset(mousePos-MovingOrigin) else
     begin
       for i := 0 to high(pts) do
-        pts[i] += mousePos-MovingOrigin;
+        pts[i].Offset(mousePos-MovingOrigin);
     end;
     Invalidate;
     MovingOrigin := mousePos;

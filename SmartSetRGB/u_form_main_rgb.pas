@@ -2103,7 +2103,7 @@ begin
         keyService.ActiveLayer := nil;
         ChangeActiveLayer(TOPLAYER_IDX);
         layoutFile := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
-        keyService.ConvertFromTextFileFmtRGB(layoutContent);
+        keyService.ConvertFromTextFileFmt(layoutContent);
         LoadButtonImage(imgProfile, imgListProfileDefault, currentProfileNumber);
         Result := true;
       end
@@ -2154,7 +2154,7 @@ begin
         try
           loadingSettings := true;
           ledFile := ExtractFileNameWithoutExt(ExtractFileName(ledFile));
-          keyService.ConvertLedFromTextFileFmtRGB(ledContent);
+          keyService.ConvertLedFromTextFileFmt(ledContent);
           Result := true;
         finally
           loadingSettings := false;
@@ -2276,10 +2276,10 @@ begin
 
   if (continue) then
   begin
-    layoutContent := keyService.ConvertToTextFileFmtRGB;
+    layoutContent := keyService.ConvertToTextFileFmt;
     if fileService.SaveFile(currentLayoutFile, layoutContent, true, errorMsg) then
     begin
-      ledContent := keyService.ConvertLedToTextFileFmtRGB;
+      ledContent := keyService.ConvertLedToTextFileFmt;
       if fileService.SaveFile(currentLedFile, ledContent, true, errorMsg) then
       begin
         fileName := ExtractFileNameWithoutExt(ExtractFileName(currentLayoutFile));

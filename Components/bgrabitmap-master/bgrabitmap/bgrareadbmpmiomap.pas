@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAReadBmpMioMap;
 
 {$mode objfpc}{$H+}
@@ -5,7 +6,7 @@ unit BGRAReadBmpMioMap;
 interface
 
 uses
-  Classes, SysUtils, FPimage, BGRABitmapTypes;
+  BGRAClasses, SysUtils, FPimage, BGRABitmapTypes;
 
 const
   MioMapMagicValue = 'RL';
@@ -177,7 +178,7 @@ begin
       if stream.read(b,1)=0 then b := 0;
       chunkSizes[i] := b shl 8;
       if stream.read(b,1)=0 then b := 0;
-      chunkSizes[i] += b;
+      inc(chunkSizes[i], b);
     end;
     if chunkSizes[i]>maxChunkSize then
       maxChunkSize := chunkSizes[i];

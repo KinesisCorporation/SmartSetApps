@@ -35,12 +35,12 @@ begin
   inherited Create;
   randomize;
   setlength(pacImg,4);
-  pacImg[0] := AddTranspRectTo('..'+pathdelim+'img'+pathdelim+'pac_d1.bmp');
-  pacImg[1] := AddTranspRectTo('..'+pathdelim+'img'+pathdelim+'pac_d2.bmp');
-  pacImg[2] := AddTranspRectTo('..'+pathdelim+'img'+pathdelim+'pac_d3.bmp');
-  pacImg[3] := AddTranspRectTo('..'+pathdelim+'img'+pathdelim+'pac_d2.bmp');
+  pacImg[0] := AddTranspRectTo(ResourceDir+'pac_d1.bmp');
+  pacImg[1] := AddTranspRectTo(ResourceDir+'pac_d2.bmp');
+  pacImg[2] := AddTranspRectTo(ResourceDir+'pac_d3.bmp');
+  pacImg[3] := AddTranspRectTo(ResourceDir+'pac_d2.bmp');
 
-  backgroundTile := TBGRABitmap.Create('..'+pathdelim+'img'+pathdelim+'diamondback.png');
+  backgroundTile := TBGRABitmap.Create(ResourceDir+'diamondback.png');
   backgroundImg := nil;
 
   numPacImg := 0;
@@ -86,7 +86,7 @@ begin
     FreeAndNil(backgroundImg);
 
   if backgroundImg = nil then
-    backgroundImg := backgroundTile.GetPart(rect(0,0,Width,Height)) as TBGRABitmap;
+    backgroundImg := backgroundTile.GetPart(rect(0,0,Width,Height));
 end;
 
 function TTestPacRect.AddTranspRectTo(filename: string): TBGRABitmap;

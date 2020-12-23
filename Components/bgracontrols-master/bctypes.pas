@@ -1,31 +1,7 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 { Common types for BGRA Controls package
 
-  Copyright (C) 2011 Krzysztof Dibowski dibowski at interia.pl
-
-  This library is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Library General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or (at your
-  option) any later version with the following modification:
-
-  As a special exception, the copyright holders of this library give you
-  permission to link this library with independent modules to produce an
-  executable, regardless of the license terms of these independent modules,and
-  to copy and distribute the resulting executable under terms of your choice,
-  provided that you also meet, for each linked independent module, the terms
-  and conditions of the license of that module. An independent module is a
-  module which is not derived from or based on this library. If you modify
-  this library, you may extend this exception to your version of the library,
-  but you are not obligated to do so. If you do not wish to do so, delete this
-  exception statement from your version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library General Public License
-  for more details.
-
-  You should have received a copy of the GNU Library General Public License
-  along with this library; if not, write to the Free Software Foundation,
-  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+  originally written in 2011 by Krzysztof Dibowski dibowski at interia.pl
 }
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
@@ -131,7 +107,8 @@ type
   TBCBackgroundStyle = (bbsClear, bbsColor, bbsGradient);
   TBCBorderStyle = (bboNone, bboSolid);
   TBCArrowDirection = (badLeft, badRight, badUp, badDown);
-  TBCStretchMode = (smNone, smShrink, smStretch);
+  TBCStretchMode = (smNone, smShrink, smStretch, smCover);
+  TBCCanvasScaleMode = (csmAuto, csmScaleBitmap, csmFullResolution);
   TBGRATextAlign = (btaLeft, btaCenter, btaRight); // deprecated
   TBGRATextVAlign = (btvaTop, btvaCenter, btvaBottom); // deprecated
   TBGRARedrawEvent = procedure(Sender: TObject; Bitmap: TBGRABitmap) of object;
@@ -169,19 +146,20 @@ type
     constructor Create(AControl: TControl); override;
 
     procedure Assign(Source: TPersistent); override;
+    procedure Scale(AScale: single);
   published
     property StartColor: TColor read FStartColor write SetStartColor;
-    property StartColorOpacity: byte read FStartColorOpacity write SetStartColorOpacity;
-    property DrawMode: TDrawMode read FDrawMode write SetDrawMode;
+    property StartColorOpacity: byte read FStartColorOpacity write SetStartColorOpacity default 255;
+    property DrawMode: TDrawMode read FDrawMode write SetDrawMode default dmSet;
     property EndColor: TColor read FEndColor write SetEndColor;
-    property EndColorOpacity: byte read FEndColorOpacity write SetEndColorOpacity;
-    property ColorCorrection: boolean read FColorCorrection write SetColorCorrection;
+    property EndColorOpacity: byte read FEndColorOpacity write SetEndColorOpacity default 255;
+    property ColorCorrection: boolean read FColorCorrection write SetColorCorrection default true;
     property GradientType: TGradientType read FGradientType write SetGradientType;
-    property Point1XPercent: single read FPoint1XPercent write SetPoint1XPercent;
-    property Point1YPercent: single read FPoint1YPercent write SetPoint1YPercent;
-    property Point2XPercent: single read FPoint2XPercent write SetPoint2XPercent;
-    property Point2YPercent: single read FPoint2YPercent write SetPoint2YPercent;
-    property Sinus: boolean read FSinus write SetSinus;
+    property Point1XPercent: single read FPoint1XPercent write SetPoint1XPercent default EmptySingle;
+    property Point1YPercent: single read FPoint1YPercent write SetPoint1YPercent default EmptySingle;
+    property Point2XPercent: single read FPoint2XPercent write SetPoint2XPercent default EmptySingle;
+    property Point2YPercent: single read FPoint2YPercent write SetPoint2YPercent default EmptySingle;
+    property Sinus: boolean read FSinus write SetSinus default false;
   end;
 
   { TBCFont }
@@ -193,6 +171,10 @@ type
     FFontQuality: TBGRAFontQuality;
     FHeight: integer;
     FName: string;
+    FPaddingBottom: integer;
+    FPaddingLeft: integer;
+    FPaddingRight: integer;
+    FPaddingTop: integer;
     FShadow: boolean;
     FShadowColor: TColor;
     FShadowColorOpacity: byte;
@@ -209,6 +191,10 @@ type
     procedure SetFontQuality(AValue: TBGRAFontQuality);
     procedure SetHeight(AValue: integer);
     procedure SetName(AValue: string);
+    procedure SetPaddingBottom(AValue: integer);
+    procedure SetPaddingLeft(AValue: integer);
+    procedure SetPaddingRight(AValue: integer);
+    procedure SetPaddingTop(AValue: integer);
     procedure SetShadow(AValue: boolean);
     procedure SetShadowColor(AValue: TColor);
     procedure SetShadowColorOpacity(AValue: byte);
@@ -222,23 +208,28 @@ type
   public
     constructor Create(AControl: TControl); override;
     procedure Assign(Source: TPersistent); override;
+    procedure Scale(AScale: single; APreserveDefaultHeight: boolean = true);
   published
     property Color: TColor read FColor write SetColor;
-    property EndEllipsis: boolean read FEndEllipsis write SetEndEllipsis;
+    property EndEllipsis: boolean read FEndEllipsis write SetEndEllipsis default false;
     property FontQuality: TBGRAFontQuality read FFontQuality write SetFontQuality;
-    property Height: integer read FHeight write SetHeight;
+    property Height: integer read FHeight write SetHeight default 0;
     property Name: string read FName write SetName stored IsNamStored;
-    property SingleLine: boolean read FSingleLine write SetSingleLine;
+    property SingleLine: boolean read FSingleLine write SetSingleLine default true;
     property Shadow: boolean read FShadow write SetShadow;
-    property ShadowColor: TColor read FShadowColor write SetShadowColor;
+    property ShadowColor: TColor read FShadowColor write SetShadowColor default clBlack;
     property ShadowColorOpacity: byte read FShadowColorOpacity
-      write SetShadowColorOpacity;
+      write SetShadowColorOpacity default 255;
     property ShadowRadius: byte read FShadowRadius write SetShadowRadius;
     property ShadowOffsetX: shortint read FShadowOffsetX write SetShadowOffsetX;
     property ShadowOffsetY: shortint read FShadowOffsetY write SetShadowOffsetY;
     property Style: TFontStyles read FStyle write SetStyle;
-    property TextAlignment: TBCAlignment read FTextAlignment write SetTextAlignment;
-    property WordBreak: boolean read FWordBreak write SetWordBreak;
+    property TextAlignment: TBCAlignment read FTextAlignment write SetTextAlignment default bcaCenter;
+    property WordBreak: boolean read FWordBreak write SetWordBreak default false;
+    property PaddingLeft: integer read FPaddingLeft write SetPaddingLeft default 0;
+    property PaddingRight: integer read FPaddingRight write SetPaddingRight default 0;
+    property PaddingTop: integer read FPaddingTop write SetPaddingTop default 0;
+    property PaddingBottom: integer read FPaddingBottom write SetPaddingBottom default 0;
   end;
 
   { TBCBackground }
@@ -263,13 +254,13 @@ type
     destructor Destroy; override;
 
     procedure Assign(Source: TPersistent); override;
+    procedure Scale(AScale: single);
   published
-    property Color: TColor read FColor write SetColor;
-    property ColorOpacity: byte read FColorOpacity write SetColorOpacity;
+    property Color: TColor read FColor write SetColor default clBlack;
+    property ColorOpacity: byte read FColorOpacity write SetColorOpacity default 255;
     property Gradient1: TBCGradient read FGradient1 write SetGradient1;
     property Gradient2: TBCGradient read FGradient2 write SetGradient2;
-    property Gradient1EndPercent: single read FGradient1EndPercent
-      write SetGradient1EndPercent;
+    property Gradient1EndPercent: single read FGradient1EndPercent write SetGradient1EndPercent;
     property Style: TBCBackgroundStyle read FStyle write SetStyle;
   end;
 
@@ -294,14 +285,15 @@ type
   public
     constructor Create(AControl: TControl); override;
     procedure Assign(Source: TPersistent); override;
+    procedure Scale(AScale: single);
   published
-    property Color: TColor read FColor write SetColor;
-    property ColorOpacity: byte read FColorOpacity write SetColorOpacity;
-    property LightColor: TColor read FLightColor write SetLightColor;
-    property LightOpacity: byte read FLightOpacity write SetLightOpacity;
-    property LightWidth: integer read FLightWidth write SetLightWidth;
+    property Color: TColor read FColor write SetColor default clBlack;
+    property ColorOpacity: byte read FColorOpacity write SetColorOpacity default 255;
+    property LightColor: TColor read FLightColor write SetLightColor default clWhite;
+    property LightOpacity: byte read FLightOpacity write SetLightOpacity default 255;
+    property LightWidth: integer read FLightWidth write SetLightWidth default 0;
     property Style: TBCBorderStyle read FStyle write SetStyle;
-    property Width: integer read FWidth write SetWidth;
+    property Width: integer read FWidth write SetWidth default 1;
   end;
 
   { TBCRounding }
@@ -317,11 +309,12 @@ type
   public
     constructor Create(AControl: TControl); override;
     procedure Assign(Source: TPersistent); override;
+    procedure Scale(AScale: single);
   published
     property RoundX: byte read FRoundX write SetRoundX;
     property RoundY: byte read FRoundY write SetRoundY;
     property RoundOptions: TRoundRectangleOptions
-      read FRoundOptions write SetRoundOptions;
+      read FRoundOptions write SetRoundOptions default [];
   end;
 
   { TBCPixel }
@@ -363,6 +356,8 @@ type
   DEF_FONT_COLOR     = $0072412A; }
 
 implementation
+
+uses math;
 
 { TBCPixel }
 
@@ -479,6 +474,12 @@ begin
   end
   else
     inherited Assign(Source);
+end;
+
+procedure TBCRounding.Scale(AScale: single);
+begin
+  RoundX := min(high(RoundX), round(RoundX * AScale));
+  RoundY := min(high(RoundY), round(RoundY * AScale));
 end;
 
 { TBCGradient }
@@ -633,6 +634,11 @@ begin
     inherited Assign(Source);
 end;
 
+procedure TBCGradient.Scale(AScale: single);
+begin
+  //nothing
+end;
+
 { TBCFont }
 
 function TBCFont.IsNamStored: boolean;
@@ -683,6 +689,38 @@ begin
   FName := AValue;
   if FName = '' then
     FName := 'default';
+  Change;
+end;
+
+procedure TBCFont.SetPaddingBottom(AValue: integer);
+begin
+  if FPaddingBottom=AValue then Exit;
+  FPaddingBottom:=AValue;
+
+  Change;
+end;
+
+procedure TBCFont.SetPaddingLeft(AValue: integer);
+begin
+  if FPaddingLeft=AValue then Exit;
+  FPaddingLeft:=AValue;
+
+  Change;
+end;
+
+procedure TBCFont.SetPaddingRight(AValue: integer);
+begin
+  if FPaddingRight=AValue then Exit;
+  FPaddingRight:=AValue;
+
+  Change;
+end;
+
+procedure TBCFont.SetPaddingTop(AValue: integer);
+begin
+  if FPaddingTop=AValue then Exit;
+  FPaddingTop:=AValue;
+
   Change;
 end;
 
@@ -828,11 +866,47 @@ begin
     FStyle := TBCFont(Source).FStyle;
     FTextAlignment := TBCFont(Source).FTextAlignment;
     FWordBreak := TBCFont(Source).FWordBreak;
+    FPaddingLeft:= TBCFont(Source).PaddingLeft;
+    FPaddingTop:= TBCFont(Source).PaddingTop;
+    FPaddingRight:= TBCFont(Source).PaddingRight;
+    FPaddingBottom:= TBCFont(Source).PaddingBottom;
 
     Change;
-  end
-  else
+  end else
+  if Source is TFont then
+  begin
+    FColor := TFont(Source).Color;
+    FHeight := -TFont(Source).Height;
+    FName := TFont(Source).Name;
+    FStyle:= TFont(Source).Style;
+
+    Change;
+  end else
     inherited Assign(Source);
+end;
+
+procedure TBCFont.Scale(AScale: single; APreserveDefaultHeight: boolean);
+var
+  bmp: TBitmap;
+begin
+  // we need to have an actual height and not the default value
+  if (Height = 0) and not APreserveDefaultHeight then
+  begin
+    bmp := TBitmap.Create;
+    bmp.Canvas.Font.Name:= Name;
+    bmp.Canvas.Font.Height:= 0;
+    bmp.Canvas.Font.Style:= Style;
+    Height := -bmp.Canvas.TextHeight('Bgra');
+    bmp.Free;
+  end;
+  Height := round(Height * AScale);
+  ShadowRadius:= min(high(ShadowRadius), round(ShadowRadius * AScale));
+  ShadowOffsetX:= max(low(ShadowOffsetX), min(high(ShadowOffsetX), round(ShadowOffsetX*AScale)));
+  ShadowOffsetY:= max(low(ShadowOffsetY), min(high(ShadowOffsetY), round(ShadowOffsetY*AScale)));
+  PaddingLeft:= round(PaddingLeft * AScale);
+  PaddingTop:= round(PaddingTop * AScale);
+  PaddingRight:= round(PaddingRight * AScale);
+  PaddingBottom:= round(PaddingBottom * AScale);
 end;
 
 { TBCBackground }
@@ -879,6 +953,12 @@ begin
   end
   else
     inherited Assign(Source);
+end;
+
+procedure TBCBackground.Scale(AScale: single);
+begin
+  FGradient1.Scale(AScale);
+  FGradient2.Scale(AScale);
 end;
 
 procedure TBCBackground.SetGradient1(AValue: TBCGradient);
@@ -1022,6 +1102,12 @@ begin
   end
   else
     inherited Assign(Source);
+end;
+
+procedure TBCBorder.Scale(AScale: single);
+begin
+  LightWidth:= round(LightWidth * AScale);
+  Width := round(Width * AScale);
 end;
 
 end.

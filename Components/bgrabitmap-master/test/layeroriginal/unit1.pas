@@ -15,6 +15,7 @@ type
 
   TForm1 = class(TForm)
     BCFlipX: TBCButton;
+    BCRotUD: TBCButton;
     BCSave: TBCButton;
     BCFlipY: TBCButton;
     BCRotCW: TBCButton;
@@ -27,6 +28,7 @@ type
     cbRepeat: TComboBox;
     cbGradientType: TComboBox;
     SaveDialog1: TSaveDialog;
+    procedure BCRotUDClick(Sender: TObject);
     procedure BCSaveClick(Sender: TObject);
     procedure BCFlipXClick(Sender: TObject);
     procedure BCFlipYClick(Sender: TObject);
@@ -47,7 +49,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    procedure OriginalChange(Sender: TObject; {%H-}AOriginal: TBGRALayerCustomOriginal);
+    procedure OriginalChange(Sender: TObject; {%H-}AOriginal: TBGRALayerCustomOriginal;
+                var {%H-}ADiff: TBGRAOriginalDiff);
     procedure SetVSCursor(ACursor: TOriginalEditorCursor);
   public
     FLayers: TBGRALayeredBitmap;
@@ -82,6 +85,12 @@ begin
         ShowMessage(ex.Message);
     end;
   end;
+end;
+
+procedure TForm1.BCRotUDClick(Sender: TObject);
+begin
+  FLayers.RotateUD;
+  BGRAVirtualScreen1.DiscardBitmap;
 end;
 
 procedure TForm1.BCFlipYClick(Sender: TObject);
@@ -231,7 +240,8 @@ begin
 end;
 
 procedure TForm1.OriginalChange(Sender: TObject;
-  AOriginal: TBGRALayerCustomOriginal);
+  AOriginal: TBGRALayerCustomOriginal;
+  var ADiff: TBGRAOriginalDiff);
 begin
   BGRAVirtualScreen1.DiscardBitmap;
 end;

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
  /**************************************************************************\
                              bgrawinbitmap.pas
@@ -5,20 +6,6 @@
                  This unit should NOT be added to the 'uses' clause.
                  It contains accelerations for Windows. Notably, it
                  provides direct access to bitmap data.
-
- ****************************************************************************
- *                                                                          *
- *  This file is part of BGRABitmap library which is distributed under the  *
- *  modified LGPL.                                                          *
- *                                                                          *
- *  See the file COPYING.modifiedLGPL.txt, included in this distribution,   *
- *  for details about the copyright.                                        *
- *                                                                          *
- *  This program is distributed in the hope that it will be useful,         *
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                    *
- *                                                                          *
- ****************************************************************************
 }
 
 unit BGRAWinBitmap;
@@ -28,7 +15,7 @@ unit BGRAWinBitmap;
 interface
 
 uses
-  Classes, SysUtils, BGRALCLBitmap, Windows, Graphics, GraphType;
+  BGRAClasses, SysUtils, BGRALCLBitmap, Windows, Graphics, GraphType;
 
 type
   { TBGRAWinBitmap }
@@ -72,6 +59,7 @@ type
     procedure Changed(Sender: TObject); override;
   public
     constructor Create(AUser: TBGRAWinBitmap); overload;
+    property User: TBGRAWinBitmap read FUser write FUser;
   end;
 
 procedure TWinBitmapTracker.Changed(Sender: TObject);
@@ -93,8 +81,9 @@ procedure TBGRAWinBitmap.FreeData;
 begin
   if DIB_SectionHandle <> 0 then
   begin
+    FreeBitmap;
     DeleteObject(DIB_SectionHandle);
-    FData := nil;
+    FDataByte := nil;
     DIB_SectionHandle := 0;
   end;
 end;
@@ -103,8 +92,9 @@ procedure TBGRAWinBitmap.RebuildBitmap;
 begin
   if FBitmap = nil then
   begin
-    FBitmap := TWinBitmapTracker.Create(self);
+    FBitmap := TWinBitmapTracker.Create(nil);
     FBitmap.Handle := DIB_SectionHandle;
+    TWinBitmapTracker(FBitmap).User := self;
   end;
 end;
 
@@ -112,7 +102,8 @@ procedure TBGRAWinBitmap.FreeBitmap;
 begin
   if FBitmap <> nil then
   begin
-    FBitmap.Handle := 0;
+    TWinBitmapTracker(FBitmap).User := nil;
+    FBitmap.ReleaseHandle;
     FBitmap.Free;
     FBitmap := nil;
   end;
@@ -150,7 +141,7 @@ end;
 procedure TBGRAWinBitmap.Draw(ACanvas: TCanvas; x, y: integer; Opaque: boolean);
 begin
   if self = nil then exit;
-  Draw(ACanvas, Classes.Rect(x,y,x+Width,y+Height), Opaque);
+  Draw(ACanvas, BGRAClasses.Rect(x,y,x+Width,y+Height), Opaque);
 end;
 
 procedure TBGRAWinBitmap.Draw(ACanvas: TCanvas; Rect: TRect; Opaque: boolean);
@@ -218,7 +209,7 @@ begin
   end;
 end;
 
-procedure TBGRAWinBitmap.AlphaCorrectionNeeded; inline;
+procedure TBGRAWinBitmap.AlphaCorrectionNeeded;
 begin
   FAlphaCorrectionNeeded := True;
 end;
@@ -251,9 +242,9 @@ begin
   begin
     ScreenDC := GetDC(0);
     info     := DIBitmapInfo(Width, Height);
-    DIB_SectionHandle := CreateDIBSection(ScreenDC, info, DIB_RGB_COLORS, FData, 0, 0);
+    DIB_SectionHandle := CreateDIBSection(ScreenDC, info, DIB_RGB_COLORS, FDataByte, 0, 0);
 
-    if (NbPixels > 0) and (FData = nil) then
+    if (NbPixels > 0) and (FDataByte = nil) then
       raise EOutOfMemory.Create('TBGRAWinBitmap.ReallocBitmap: Windows error ' +
         IntToStr(GetLastError));
 
@@ -264,8 +255,8 @@ end;
 
 procedure TBGRAWinBitmap.GetImageFromCanvas(CanvasSource: TCanvas; x, y: integer);
 begin
-  self.Canvas.CopyRect(Classes.rect(0, 0, Width, Height), CanvasSource,
-    Classes.rect(X, Y, X + Width, Y + Height));
+  self.Canvas.CopyRect(BGRAClasses.rect(0, 0, Width, Height), CanvasSource,
+    BGRAClasses.rect(X, Y, X + Width, Y + Height));
 end;
 
 end.

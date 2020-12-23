@@ -17,8 +17,7 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="8"/>
-      <RevisionNr Value="3"/>
+      <MajorVersionNr Value="3"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
     <MacroValues Count="1">

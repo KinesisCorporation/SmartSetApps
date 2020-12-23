@@ -2078,7 +2078,7 @@ begin
         keyService.ActiveLayer := nil;
         ChangeActiveLayer(TOPLAYER_IDX);
         layoutFile := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
-        keyService.ConvertFromTextFileFmtRGB(layoutContent);
+        keyService.ConvertFromTextFileFmt(layoutContent);
         LoadButtonImage(imgProfile, imgListProfileDefault, currentProfileNumber);
         Result := true;
       end
@@ -2087,7 +2087,6 @@ begin
         LoadButtonImage(imgProfile, imgListProfileDefault, 0);
         ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
-
       SetActiveLayer(TOPLAYER_IDX);
       SetActiveKeyButton(nil);
       RefreshRemapInfo;
@@ -2131,8 +2130,8 @@ begin
           loadingSettings := true;
           ledFile := ExtractFileNameWithoutExt(ExtractFileName(ledFile));
           edgeContent := keyService.ExtractEdgeFromTextFile(ledContent);
-          keyService.ConvertLedFromTextFileFmtRGB(ledContent);
-          keyService.ConvertEdgeFromTextFileFmtTKO(edgeContent);
+          keyService.ConvertLedFromTextFileFmt(ledContent);
+          keyService.ConvertEdgeFromTextFileFmt(edgeContent);
           Result := true;
         finally
           loadingSettings := false;
@@ -3145,11 +3144,11 @@ begin
 
   if (continue) then
   begin
-    layoutContent := keyService.ConvertToTextFileFmtRGB;
+    layoutContent := keyService.ConvertToTextFileFmt;
     if fileService.SaveFile(currentLayoutFile, layoutContent, true, errorMsg) then
     begin
-      ledContent := keyService.ConvertLedToTextFileFmtRGB;
-      edgeContent := keyService.ConvertEdgeToTextFileFmtTKO;
+      ledContent := keyService.ConvertLedToTextFileFmt;
+      edgeContent := keyService.ConvertEdgeToTextFileFmt;
       for i := 0 to edgeContent.Count - 1 do
         ledContent.Add(edgeContent[i]);
       if fileService.SaveFile(currentLedFile, ledContent, true, errorMsg) then
@@ -3290,7 +3289,6 @@ begin
   if reset then
   begin
     keyButton.BackColor := clNone;
-    aKbKey.KeyColor := clNone;
   end
   else
   begin
@@ -5368,6 +5366,7 @@ end;
 procedure TFormMainTKO.btnResetAllClick(Sender: TObject);
 var
   sMessage: string;
+  i: integer;
 begin
   if (keyService.ConfigMode = CONFIG_LAYOUT) then
   begin
@@ -5391,6 +5390,10 @@ begin
     if ShowDialog('Reset Lighting', sMessage,
           mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
+      keyService.SetAllKeyColor(clNone, TOPLAYER_IDX);
+      keyService.SetAllKeyColor(clNone, BOTLAYER_IDX);
+      keyService.SetAllKeyColorEdge(clNone, TOPLAYER_IDX);
+      keyService.SetAllKeyColorEdge(clNone, BOTLAYER_IDX);
       ReloadKeyButtonsColor(true);
       SetSaveState(ssModified);
     end;

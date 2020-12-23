@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -16,7 +17,8 @@ interface
 uses
   Classes, SysUtils, Types, {$IFDEF FPC}LCLType, LCLProc, LResources,{$ENDIF}
   {$IFNDEF FPC}BGRAGraphics, GraphType, FPImage, {$ENDIF}
-  Forms, Controls, Graphics, Dialogs, Buttons, BGRASpeedButton, Themes, Math;
+  Forms, Controls, Graphics, Dialogs, Buttons, BGRASpeedButton, Themes
+  {$ifdef overridepaint}, Math{$ENDIF};
 
 type
 
@@ -424,9 +426,9 @@ begin
         end
         else
         begin
-          // ignore text size width
+          // ignore text size width and height
           PreferredWidth := 2 * M + S + GlyphWidth;
-          PreferredHeight := 2 * M + Max(GlyphHeight, TextSize.cy);
+          PreferredHeight := 2 * M + {Max(}GlyphHeight{, TextSize.cy)};
         end;
       end;
       blGlyphTop, blGlyphBottom:
@@ -438,9 +440,9 @@ begin
         end
         else
         begin
-          // ignore text size width
+          // ignore text size width and height
           PreferredWidth := 2 * M + S + GlyphWidth;
-          PreferredHeight := 2 * M + S + GlyphHeight + TextSize.cy;
+          PreferredHeight := 2 * M + S + GlyphHeight{ + TextSize.cy};
         end;
       end;
     end;
@@ -482,6 +484,10 @@ begin
   TempState := FState;
   if Toggle and Pressed then
     TempState := bsDown;
+
+  Canvas.Pen.JoinStyle := pjsMiter; // remove rounded borders
+  Canvas.Pen.Style := psInsideframe; // draws border width inside equally
+
   case TempState of
     bsUp:
     begin

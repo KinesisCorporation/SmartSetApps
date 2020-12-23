@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAMemDirectory;
 
 {$mode objfpc}{$H+}
@@ -5,7 +6,7 @@ unit BGRAMemDirectory;
 interface
 
 uses
-  Classes, SysUtils, BGRAMultiFileType, fgl;
+  BGRAClasses, SysUtils, BGRAMultiFileType, fgl;
 
 const
   MemDirectoryFileHeader = 'TMemDirectory'#26#0#0;
@@ -44,6 +45,7 @@ type
     function InternalCopyTo({%H-}ADestination: TStream): int64;
   public
     function CopyTo({%H-}ADestination: TStream): int64; override;
+    function GetStream: TStream; override;
     constructor Create(AContainer: TMultiFileContainer; AFilename: TEntryFilename; AUncompressedStream: TStream; AOwnStream: boolean); overload;
     constructor CreateDirectory(AContainer: TMultiFileContainer; AFilename: TEntryFilename);
     constructor CreateFromData(AContainer: TMultiFileContainer; AFilename: TEntryFilename; AStream: TStream; AOwnStream: boolean; AUncompressedSize: int64; AFlags: Word);
@@ -68,12 +70,14 @@ type
     function SplitPath(APath: utf8string): TMemDirectoryPath;
   public
     constructor Create(AParentDirectory: TMemDirectory = nil);
+    function Equals(Obj: TObject): boolean; override;
     procedure LoadFromStream(AStream: TStream); override;
-    class function CheckHeader(AStream: TStream): boolean;
+    class function CheckHeader(AStream: TStream): boolean; static;
     procedure LoadFromEmbeddedStream(ARootStream, ADataStream: TStream; AStartPos: int64);
     procedure SaveToStream(ADestination: TStream); override;
     procedure SaveToEmbeddedStream(ARootDest, ADataDest: TStream; AStartPos: int64);
     function AddDirectory(AName: utf8string; AExtension: utf8string= ''; ACaseSensitive: boolean= true): integer;
+    function Rename(AName: utf8string; AExtension: utf8string; ANewName: utf8string; ACaseSensitive: boolean= true): boolean;
     function FindPath(APath: utf8String; ACaseSensitive: boolean = true): TMemDirectory;
     function FindEntry(APath: utf8String; ACaseSensitive: boolean = true): TMemDirectoryEntry;
     procedure CopyTo(ADest: TMemDirectory; ARecursive: boolean);
@@ -137,7 +141,7 @@ begin
   if rootPos = 0 then
     raise exception.Create('Invalid root offset');
   rootSize := LEReadInt64(AStream);
-  if rootSize <= 4 then
+  if rootSize < 4 then
     raise exception.Create('Invalid root size');
   AStream.Position:= rootPos + startPos;
   rootStream:= TMemoryStream.Create;
@@ -318,6 +322,23 @@ begin
   result := AddEntry(newEntry);
 end;
 
+function TMemDirectory.Rename(AName: utf8string; AExtension: utf8string;
+  ANewName: utf8string; ACaseSensitive: boolean): boolean;
+var
+  idx, i: Integer;
+begin
+  idx := IndexOf(AName, AExtension, ACaseSensitive);
+  if idx = -1 then exit(false);
+  for i := 0 to Count-1 do
+  if i <> idx then
+  begin
+    if Entry[i].CompareNameAndExtension(ANewName,AExtension,ACaseSensitive) = 0 then
+      raise exception.Create('Name with extension already in use');
+  end;
+  Entry[idx].Name := ANewName;
+  exit(true);
+end;
+
 function TMemDirectory.FindPath(APath: utf8String; ACaseSensitive: boolean): TMemDirectory;
 var
   path: TMemDirectoryPath;
@@ -435,6 +456,42 @@ begin
   FParentDirectory := AParentDirectory;
 end;
 
+function TMemDirectory.Equals(Obj: TObject): boolean;
+var
+  other: TMemDirectory;
+  i, j: Integer;
+  data,otherData: TMemoryStream;
+  different: Boolean;
+begin
+  if Obj = self then exit(true);
+  if not (Obj is TMemDirectory) then exit(false);
+  other := TMemDirectory(Obj);
+  if other.Count <> Count then exit(false);
+  for i := 0 to Count-1 do
+  begin
+    j := other.IndexOf(Entry[i].Name,Entry[i].Extension,true);
+    if j = -1 then exit(false);
+    if IsDirectory[i] then
+    begin
+      if not other.IsDirectory[j] then exit(false);
+      if not other.Directory[j].Equals(Directory[i]) then exit(false);
+    end else
+    if Entry[i].FileSize <> other.Entry[j].FileSize then exit(false)
+    else
+    begin
+      data := TMemoryStream.Create;
+      otherData := TMemoryStream.Create;
+      Entry[i].CopyTo(data);
+      other.Entry[j].CopyTo(otherData);
+      different := not CompareMem(data.Memory, otherData.Memory, data.Size);
+      data.Free;
+      otherData.Free;
+      if different then exit(false);
+    end;
+  end;
+  result := true;
+end;
+
 { TMemDirectoryEntry }
 
 function TMemDirectoryEntry.GetIsCompressed: boolean;
@@ -545,6 +602,14 @@ function TMemDirectoryEntry.CopyTo(ADestination: TStream): int64;
 begin
   if IsDirectory then exit(0);
   result := InternalCopyTo(ADestination);
+end;
+
+function TMemDirectoryEntry.GetStream: TStream;
+begin
+  if IsCompressed then
+    raise exception.Create('Stream cannot be accessed directly because it is compressed')
+  else
+    result := FStream;
 end;
 
 constructor TMemDirectoryEntry.Create(AContainer: TMultiFileContainer; AFilename: TEntryFilename;

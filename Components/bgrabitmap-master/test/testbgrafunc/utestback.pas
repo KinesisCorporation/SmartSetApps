@@ -27,7 +27,7 @@ constructor TTestBack.Create;
 begin
   inherited Create;
 
-  backgroundTile := TBGRABitmap.Create('..'+pathdelim+'img'+pathdelim+'diamondback.png');
+  backgroundTile := TBGRABitmap.Create(ResourceDir+'diamondback.png');
   backgroundImg := nil;
 end;
 
@@ -44,7 +44,7 @@ begin
   FreeAndNil(backgroundImg);
 
 if backgroundImg = nil then
-  backgroundImg := backgroundTile.GetPart(rect(0,0,Width,Height)) as TBGRABitmap;
+  backgroundImg := backgroundTile.GetPart(rect(0,0,Width,Height));
 end;
 
 end.

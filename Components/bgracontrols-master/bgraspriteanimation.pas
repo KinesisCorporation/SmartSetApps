@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -6,33 +7,7 @@
   Site: https://sourceforge.net/p/bgra-controls/
   Wiki: http://wiki.lazarus.freepascal.org/BGRAControls
   Forum: http://forum.lazarus.freepascal.org/index.php/board,46.0.html
-
-  This library is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Library General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or (at your
-  option) any later version with the following modification:
-
-  As a special exception, the copyright holders of this library give you
-  permission to link this library with independent modules to produce an
-  executable, regardless of the license terms of these independent modules,and
-  to copy and distribute the resulting executable under terms of your choice,
-  provided that you also meet, for each linked independent module, the terms
-  and conditions of the license of that module. An independent module is a
-  module which is not derived from or based on this library. If you modify
-  this library, you may extend this exception to your version of the library,
-  but you are not obligated to do so. If you do not wish to do so, delete this
-  exception statement from your version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library General Public License
-  for more details.
-
-  You should have received a copy of the GNU Library General Public License
-  along with this library; if not, write to the Free Software Foundation,
-  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 }
-
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -121,6 +96,8 @@ type
     procedure GifImageToSprite(Gif: TBGRAAnimatedGif);//FreeMan35 added
     procedure LoadFromResourceName(Instance: THandle; const ResName: string); overload;
     procedure LoadFromBitmapResource(const Resource: string); overload;
+    procedure LoadFromBGRABitmap(const BGRA: TBGRABitmap);
+    procedure SpriteToAnimatedGif(Filename: string);
     //FreeMan35 added
     procedure AnimatedGifToSprite(Filename: string);
     constructor Create(AOwner: TComponent); override;
@@ -570,8 +547,49 @@ begin
 end;
 
 procedure TBGRASpriteAnimation.LoadFromBitmapResource(const Resource: string);
+var
+  tempGif: TBGRAAnimatedGif;
 begin
-  LoadFromResourceName(HInstance, Resource);
+  tempGif := TBGRAAnimatedGif.Create;
+  try
+    tempGif.LoadFromResource(Resource);
+    GifImageToSprite(tempGif);
+  finally
+    tempGif.Free;
+  end;
+end;
+
+procedure TBGRASpriteAnimation.LoadFromBGRABitmap(const BGRA: TBGRABitmap);
+begin
+  FSprite.Width := BGRA.Width;
+  FSprite.Height := BGRA.Height;
+  BGRA.Draw(FSprite.Canvas, 0, 0, False);
+end;
+
+procedure TBGRASpriteAnimation.SpriteToAnimatedGif(Filename: string);
+var
+  i: integer;
+  gif : TBGRAAnimatedGif;
+  TempSpriteWidth: Integer;
+  TempSpritePosition: Integer;
+  TempSpriteBGRA, TempSprite: TBGRABitmap;
+begin
+  gif := TBGRAAnimatedGif.Create;
+  gif.LoopCount := High(Word);
+  TempSpriteBGRA := TBGRABitmap.Create(FSprite);
+  TempSpriteWidth := TempSpriteBGRA.Width div FSpriteCount;
+  gif.SetSize(TempSpriteWidth, TempSpriteBGRA.Height);
+  for i:=0 to FSpriteCount-1 do
+  begin
+    TempSpritePosition := -TempSpriteWidth * i;
+    TempSprite := TBGRABitmap.Create(TempSpriteWidth, TempSpriteBGRA.Height);
+    TempSprite.BlendImage(TempSpritePosition, 0, TempSpriteBGRA, boLinearBlend);
+    gif.AddFullFrame(TempSprite, FAnimSpeed);
+    TempSprite.Free;
+  end;
+  TempSpriteBGRA.Free;
+  gif.SaveToFile(Filename);
+  gif.Free;
 end;
 
 procedure TBGRASpriteAnimation.AnimatedGifToSprite(Filename: string);

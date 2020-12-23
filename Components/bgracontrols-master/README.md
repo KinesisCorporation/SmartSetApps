@@ -2,6 +2,8 @@
 
 BGRA Controls is a set of graphical UI elements that you can use with Lazarus LCL applications.
 
+![BGRA Controls](https://raw.githubusercontent.com/bgrabitmap/bgracontrols/dev-bgracontrols/docs/img/logo.png)
+
 ### Support Us
 
 If you like BGRAControls please [support @lainz on Patreon](https://www.patreon.com/lainz) and [support @circular17 with PayPal](https://sourceforge.net/p/lazpaint/donate/?source=navbar).
@@ -67,6 +69,12 @@ Author: Dibo.
 A button control that has an animation effect according to Google Material Design guidelines. It supports custom color for background and for the circle animation, also you can customize the shadow.
 
 Author: Lainz.
+
+### TBCMDButton
+
+A button control like TBCMaterialDesignButton, without shadow, but with more capabilities.
+
+Author: Lainz. Contributions by Fritz.
 
 ### TBCPanel
 

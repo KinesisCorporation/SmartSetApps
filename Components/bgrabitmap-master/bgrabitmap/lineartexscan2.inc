@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
       {$IFDEF PARAM_USESSE} {$asmmode intel}
       asm
          xorps xmm4,xmm4
@@ -43,7 +44,7 @@
            {$ENDIF}
         end;
         {$ELSE}
-          texPos += texStep;
+          texPos.Offset(texStep);
         {$ENDIF}
 
         {$IFDEF PARAM_USELIGHTING}

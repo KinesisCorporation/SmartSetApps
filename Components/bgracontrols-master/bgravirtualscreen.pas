@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -6,33 +7,7 @@
   Site: https://sourceforge.net/p/bgra-controls/
   Wiki: http://wiki.lazarus.freepascal.org/BGRAControls
   Forum: http://forum.lazarus.freepascal.org/index.php/board,46.0.html
-
-  This library is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Library General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or (at your
-  option) any later version with the following modification:
-
-  As a special exception, the copyright holders of this library give you
-  permission to link this library with independent modules to produce an
-  executable, regardless of the license terms of these independent modules,and
-  to copy and distribute the resulting executable under terms of your choice,
-  provided that you also meet, for each linked independent module, the terms
-  and conditions of the license of that module. An independent module is a
-  module which is not derived from or based on this library. If you modify
-  this library, you may extend this exception to your version of the library,
-  but you are not obligated to do so. If you do not wish to do so, delete this
-  exception statement from your version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library General Public License
-  for more details.
-
-  You should have received a copy of the GNU Library General Public License
-  along with this library; if not, write to the Free Software Foundation,
-  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 }
-
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -57,15 +32,21 @@ type
     { Private declarations }
     FBGRA:        TBGRABitmap;
     FOnRedraw:    TBGRARedrawEvent;
+    FDiscardedRect: TRect;
     FBevelInner, FBevelOuter: TPanelBevel;
     FBevelWidth:  TBevelWidth;
     FBorderWidth: TBorderWidth;
     FAlignment:   TAlignment;
+    FBitmapAutoScale: boolean;
+    function GetBitmapHeight: integer;
+    function GetBitmapScale: double;
+    function GetBitmapWidth: integer;
     function GetVSCaption: string;
     procedure SetAlignment(const Value: TAlignment);
     procedure SetBevelInner(const AValue: TPanelBevel);
     procedure SetBevelOuter(const AValue: TPanelBevel);
     procedure SetBevelWidth(const AValue: TBevelWidth);
+    procedure SetBitmapAutoScale(AValue: boolean);
     procedure SetBorderWidth(const AValue: TBorderWidth);
     procedure SetVSCaption(AValue: string);
   protected
@@ -83,11 +64,16 @@ type
     procedure RedrawBitmap; overload;
     procedure RedrawBitmap(ARect: TRect); overload;
     procedure RedrawBitmap(ARectArray: array of TRect); overload;
-    procedure DiscardBitmap;
+    procedure DiscardBitmap; overload;
+    procedure DiscardBitmap(ARect: TRect); overload;
     destructor Destroy; override;
   public
     property OnRedraw: TBGRARedrawEvent Read FOnRedraw Write FOnRedraw;
     property Bitmap: TBGRABitmap Read FBGRA;
+    property BitmapAutoScale: boolean read FBitmapAutoScale write SetBitmapAutoScale default true;
+    property BitmapScale: double read GetBitmapScale;
+    property BitmapWidth: integer read GetBitmapWidth;
+    property BitmapHeight: integer read GetBitmapHeight;
     property BorderWidth: TBorderWidth Read FBorderWidth Write SetBorderWidth default 0;
     property BevelInner: TPanelBevel Read FBevelInner Write SetBevelInner default bvNone;
     property BevelOuter: TPanelBevel Read FBevelOuter Write SetBevelOuter default bvNone;
@@ -100,6 +86,7 @@ type
   published
     property OnRedraw;
     property Bitmap;
+    property BitmapAutoScale;
     // TPanel
     property Align;
     property Alignment;
@@ -168,7 +155,7 @@ type
 
 implementation
 
-uses BGRABitmapTypes, math;
+uses BGRABitmapTypes, math, LazVersion;
 
 {$IFDEF FPC}
 procedure Register;
@@ -190,6 +177,28 @@ end;
 function TCustomBGRAVirtualScreen.GetVSCaption: string;
 begin
   result := inherited Caption;
+end;
+
+function TCustomBGRAVirtualScreen.GetBitmapScale: double;
+begin
+  {$if laz_fullversion >= 2000000}
+  if not FBitmapAutoScale then
+    result := GetCanvasScaleFactor
+  else
+    result := 1;
+  {$else}
+  result := 1;
+  {$endif}
+end;
+
+function TCustomBGRAVirtualScreen.GetBitmapHeight: integer;
+begin
+  result := round(ClientHeight * BitmapScale);
+end;
+
+function TCustomBGRAVirtualScreen.GetBitmapWidth: integer;
+begin
+  result := round(ClientWidth * BitmapScale);
 end;
 
 procedure TCustomBGRAVirtualScreen.SetBevelInner(const AValue: TPanelBevel);
@@ -216,6 +225,13 @@ begin
   DiscardBitmap;
 end;
 
+procedure TCustomBGRAVirtualScreen.SetBitmapAutoScale(AValue: boolean);
+begin
+  if FBitmapAutoScale=AValue then Exit;
+  DiscardBitmap; //before to get correct invalidate bounds
+  FBitmapAutoScale:=AValue;
+end;
+
 procedure TCustomBGRAVirtualScreen.SetBorderWidth(const AValue: TBorderWidth);
 begin
   if FBorderWidth = AValue then
@@ -236,8 +252,18 @@ begin
   // to avoid flickering in Windows running without themes (classic style)
   DoubleBuffered := ControlCount <> 0;
   {$ENDIF}
-  BGRASetSize(ClientWidth, ClientHeight);
-  FBGRA.Draw(Canvas, 0, 0);
+  BGRASetSize(BitmapWidth, BitmapHeight);
+  if FBGRA <> nil then
+  begin
+    if not FDiscardedRect.IsEmpty then
+    begin
+      FBGRA.ClipRect := FDiscardedRect;
+      FDiscardedRect := EmptyRect;
+      RedrawBitmapContent;
+      FBGRA.NoClip;
+    end;
+    FBGRA.Draw(Canvas, rect(0, 0, ClientWidth, ClientHeight));
+  end;
 end;
 
 procedure TCustomBGRAVirtualScreen.Resize;
@@ -253,6 +279,7 @@ begin
   begin
     FBGRA.SetSize(AWidth, AHeight);
     RedrawBitmapContent;
+    FDiscardedRect := EmptyRect;
   end;
 end;
 
@@ -260,28 +287,35 @@ procedure TCustomBGRAVirtualScreen.RedrawBitmapContent;
 var
   ARect: TRect;
   TS: TTextStyle;
+  scale: Double;
 begin
   if (FBGRA <> nil) and (FBGRA.NbPixels <> 0) then
   begin
     FBGRA.FillRect(FBGRA.ClipRect, ColorToRGB(Color));
 
+    scale := BitmapScale;
     ARect := GetClientRect;
+    ARect.Left := round(ARect.Left*scale);
+    ARect.Top := round(ARect.Top*scale);
+    ARect.Right := round(ARect.Right*scale);
+    ARect.Bottom := round(ARect.Bottom*scale);
 
     // if BevelOuter is set then draw a frame with BevelWidth
     if BevelOuter <> bvNone then
-      FBGRA.CanvasBGRA.Frame3d(ARect, BevelWidth, BevelOuter,
+      FBGRA.CanvasBGRA.Frame3d(ARect, round(BevelWidth*scale), BevelOuter,
         BGRA(255, 255, 255, 200), BGRA(0, 0, 0, 160)); // Note: Frame3D inflates ARect
 
-    InflateRect(ARect, -BorderWidth, -BorderWidth);
+    InflateRect(ARect, -round(BorderWidth*scale), -round(BorderWidth*scale));
 
     // if BevelInner is set then skip the BorderWidth and draw a frame with BevelWidth
     if BevelInner <> bvNone then
-      FBGRA.CanvasBGRA.Frame3d(ARect, BevelWidth, BevelInner,
+      FBGRA.CanvasBGRA.Frame3d(ARect, round(BevelWidth*scale), BevelInner,
         BGRA(255, 255, 255, 160), BGRA(0, 0, 0, 160)); // Note: Frame3D inflates ARect
 
     if Caption <> '' then
     begin
       FBGRA.CanvasBGRA.Font.Assign(Canvas.Font);
+      FBGRA.CanvasBGRA.Font.Height:= round(FBGRA.CanvasBGRA.Font.Height*scale);
       {$IFDEF FPC}//#
       TS := Canvas.TextStyle;
       {$ENDIF}
@@ -338,25 +372,37 @@ begin
   inherited Create(TheOwner);
   inherited BevelOuter := bvNone;
   FBGRA := TBGRABitmap.Create;
+  FBitmapAutoScale := true;
   FBevelWidth := 1;
   FAlignment := taLeftJustify;
+  FDiscardedRect := EmptyRect;
   Color := clWhite;
 end;
 
 procedure TCustomBGRAVirtualScreen.RedrawBitmap;
 begin
   RedrawBitmapContent;
+  FDiscardedRect := EmptyRect;
   Repaint;
 end;
 
 procedure TCustomBGRAVirtualScreen.RedrawBitmap(ARect: TRect);
 var
-  All: TRect;
+  All, displayRect: TRect;
+  scale: Double;
 begin
   if Assigned(FBGRA) then
   begin
     All := Rect(0,0,FBGRA.Width,FBGRA.Height);
     ARect.Intersect(All);
+    if not FDiscardedRect.IsEmpty then
+    begin
+      if ARect.IsEmpty then
+        ARect := FDiscardedRect
+      else
+        ARect.Union(FDiscardedRect);
+      FDiscardedRect := EmptyRect;
+    end;
     if ARect.IsEmpty then exit;
     if ARect.Contains(All) then
     begin
@@ -367,10 +413,13 @@ begin
       FBGRA.ClipRect := ARect;
       RedrawBitmapContent;
       FBGRA.NoClip;
+      scale := BitmapScale;
+      displayRect := rect(round(ARect.Left/scale), round(ARect.Top/scale),
+        round(ARect.Right/scale), round(ARect.Bottom/scale));
       {$IFDEF LINUX}
-      FBGRA.DrawPart(ARect, Canvas, ARect.Left,ARect.Top, True);
+      FBGRA.DrawPart(ARect, Canvas, displayRect, True);
       {$ELSE}
-      InvalidateRect(Handle, @ARect, False);
+      InvalidateRect(Handle, @displayRect, False);
       Update;
       {$ENDIF}
     end;
@@ -382,31 +431,46 @@ const cellShift = 6;
       cellSize = 1 shl cellShift;
 var
   grid: array of array of boolean;
+  gAll: TRect;
+
+  procedure IncludeRect(ARect: TRect);
+  var
+    gR: TRect;
+    y,x: LongInt;
+  begin
+    with ARect do
+      gR := rect(max(Left,0) shr cellShift, max(Top,0) shr cellShift,
+                 (max(Right,0)+cellSize-1) shr cellShift,
+                 (max(Bottom,0)+cellSize-1) shr cellShift);
+    gR.Intersect(gAll);
+    if gR.IsEmpty then exit;
+
+    for y := gR.Top to gR.Bottom-1 do
+      for x := gR.Left to gR.Right-1 do
+        grid[y,x] := true;
+  end;
+
+var
   gW,gH, i,gCount: integer;
   gR: TRect;
-  gAll: TRect;
   y,x: LongInt;
   expand: boolean;
+
+
 begin
   if not Assigned(FBGRA) then exit;
-  gW := (Width+cellSize-1) shr cellShift;
-  gH := (Height+cellSize-1) shr cellShift;
+  gW := (Bitmap.Width+cellSize-1) shr cellShift;
+  gH := (Bitmap.Height+cellSize-1) shr cellShift;
   gAll := rect(0,0,gW,gH);
 
   //determine which cells of the grid to redraw
   setlength(grid,gH,gW);
   for i := 0 to high(ARectArray) do
+    IncludeRect(ARectArray[i]);
+  if not FDiscardedRect.IsEmpty then
   begin
-    with ARectArray[i] do
-      gR := rect(max(Left,0) shr cellShift, max(Top,0) shr cellShift,
-                 (max(Right,0)+cellSize-1) shr cellShift,
-                 (max(Bottom,0)+cellSize-1) shr cellShift);
-    gR.Intersect(gAll);
-    if gR.IsEmpty then Continue;
-
-    for y := gR.Top to gR.Bottom-1 do
-      for x := gR.Left to gR.Right-1 do
-        grid[y,x] := true;
+    IncludeRect(FDiscardedRect);
+    FDiscardedRect := EmptyRect;
   end;
 
   gCount := 0;
@@ -463,10 +527,27 @@ end;
 
 procedure TCustomBGRAVirtualScreen.DiscardBitmap;
 begin
-  if (FBGRA <> nil) and (FBGRA.NbPixels <> 0) then
+  if FBGRA <> nil then
+    DiscardBitmap(rect(0,0,FBGRA.Width,FBGRA.Height));
+end;
+
+procedure TCustomBGRAVirtualScreen.DiscardBitmap(ARect: TRect);
+var
+  scale: Double;
+  displayRect: TRect;
+begin
+  ARect.Intersect(rect(0,0,FBGRA.Width,FBGRA.Height));
+  if ARect.IsEmpty then exit;
+  if FBGRA <> nil then
   begin
-    FBGRA.SetSize(0, 0);
-    Invalidate;
+    if FDiscardedRect.IsEmpty then
+      FDiscardedRect := ARect
+    else
+      FDiscardedRect.Union(ARect);
+    scale := BitmapScale;
+    displayRect := rect(round(ARect.Left/scale), round(ARect.Top/scale),
+      round(ARect.Right/scale), round(ARect.Bottom/scale));
+    InvalidateRect(self.Handle, @displayRect, false);
   end;
 end;
 

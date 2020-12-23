@@ -1,23 +1,10 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
  /**************************************************************************\
                              bgragtkbitmap.pas
                              -----------------
                  This unit should NOT be added to the 'uses' clause.
                  It contains patches for Gtk.
-
- ****************************************************************************
- *                                                                          *
- *  This file is part of BGRABitmap library which is distributed under the  *
- *  modified LGPL.                                                          *
- *                                                                          *
- *  See the file COPYING.modifiedLGPL.txt, included in this distribution,   *
- *  for details about the copyright.                                        *
- *                                                                          *
- *  This program is distributed in the hope that it will be useful,         *
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of          *
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                    *
- *                                                                          *
- ****************************************************************************
 }
 
 unit BGRAGtkBitmap;
@@ -27,7 +14,7 @@ unit BGRAGtkBitmap;
 interface
 
 uses
-  Classes, SysUtils, BGRALCLBitmap, Graphics,
+  BGRAClasses, SysUtils, BGRALCLBitmap, Graphics,
   GraphType;
 
 type
@@ -37,7 +24,6 @@ type
   private
     FPixBuf: Pointer;
     procedure DrawTransparent(ACanvas: TCanvas; Rect: TRect);
-    procedure DrawOpaque(ACanvas: TCanvas; ARect: TRect; ASourceRect: TRect);
     procedure DrawOpaque(ACanvas: TCanvas; ARect: TRect);
   protected
     procedure ReallocData; override;
@@ -79,7 +65,7 @@ begin
   inherited ReallocData;
   if (FWidth <> 0) and (FHeight <> 0) then
   begin  
-    FPixbuf := gdk_pixbuf_new_from_data(pguchar(FData),
+    FPixbuf := gdk_pixbuf_new_from_data(pguchar(FDataByte),
       GDK_COLORSPACE_RGB, True, 8, Width, Height, Width*Sizeof(TBGRAPixel), nil, nil);
     if FPixbuf = nil then
       raise Exception.Create('Error initializing Pixbuf');
@@ -117,7 +103,7 @@ begin
 
   LoadFromBitmapIfNeeded;
 
-  If not TBGRAPixel_RGBAOrder then SwapRedBlue;
+  {$PUSH}{$WARNINGS OFF}If not TBGRAPixel_RGBAOrder then SwapRedBlue;{$POP}
   
   P := Rect.TopLeft;
   LPToDP(ACanvas.Handle, P, 1);
@@ -128,18 +114,12 @@ begin
     Width,Height,
     GDK_RGB_DITHER_NORMAL,0,0);   
 
-  If not TBGRAPixel_RGBAOrder then SwapRedBlue;
-end;
-
-procedure TBGRAGtkBitmap.DrawOpaque(ACanvas: TCanvas; ARect: TRect;
-  ASourceRect: TRect);
-begin
-  DataDrawOpaque(ACanvas,ARect,Data,LineOrder,Width,Height);
+  {$PUSH}{$WARNINGS OFF}If not TBGRAPixel_RGBAOrder then SwapRedBlue;{$POP}
 end;
 
 procedure TBGRAGtkBitmap.DrawOpaque(ACanvas: TCanvas; ARect: TRect);
 begin
-  DrawOpaque(ACanvas, ARect, rect(0,0,Width,Height));
+  DataDrawOpaque(ACanvas,ARect,Data,LineOrder,Width,Height);
 end;
 
 procedure TBGRAGtkBitmap.DataDrawTransparent(ACanvas: TCanvas; Rect: TRect;
@@ -303,12 +283,12 @@ begin
     dest := ACanvas.Handle;
     pos := ARect.TopLeft;
     LPtoDP(dest, pos, 1);
-    if not TBGRAPixel_RGBAOrder then DataSwapRedBlue;
+    {$PUSH}{$WARNINGS OFF}if not TBGRAPixel_RGBAOrder then DataSwapRedBlue;{$POP}
     gdk_draw_rgb_32_image(TGtkDeviceContext(dest).Drawable,
       TGtkDeviceContext(Dest).GC, pos.x,pos.y,
       AWidth,AHeight, GDK_RGB_DITHER_NORMAL,
       ADataFirstRow, ARowStride);
-    if not TBGRAPixel_RGBAOrder then DataSwapRedBlue;
+    {$PUSH}{$WARNINGS OFF}if not TBGRAPixel_RGBAOrder then DataSwapRedBlue;{$POP}
     ACanvas.Changed;
   end;
 end;
@@ -349,7 +329,7 @@ begin
   gdk_pixbuf_get_from_drawable(FPixBuf,
     TGtkDeviceContext(CanvasSource.Handle).Drawable,
     nil, P.X,P.Y,0,0,Width,Height);
-  If not TBGRAPixel_RGBAOrder then SwapRedBlue;
+  {$PUSH}{$WARNINGS OFF}If not TBGRAPixel_RGBAOrder then SwapRedBlue;{$POP}
   InvalidateBitmap;
 end;
 

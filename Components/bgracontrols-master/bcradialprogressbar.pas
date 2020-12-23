@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -48,6 +49,7 @@ type
       {%H-}WithThemeSpace: boolean); override;
     procedure DrawControl; override;
     procedure RenderControl; override;
+    procedure SetColor(Value: TColor); override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -261,6 +263,13 @@ begin
     FontShadowOffsetY, FontSHadowRadius, Font.Style, Font.Name) as TBGRABitmap;
   FBitmap.PutImage(0, 0, textBmp, dmDrawWithTransparency);
   textBmp.Free;
+end;
+
+procedure TBCRadialProgressBar.SetColor(Value: TColor);
+begin
+  inherited SetColor(Value);
+  RenderControl;
+  Invalidate;
 end;
 
 constructor TBCRadialProgressBar.Create(AOwner: TComponent);

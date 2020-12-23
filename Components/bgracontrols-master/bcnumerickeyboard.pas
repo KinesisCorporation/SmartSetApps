@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -10,7 +11,7 @@ unit BCNumericKeyboard;
 interface
 
 uses
-  Classes, SysUtils, {$IFDEF FPC}, LCLType, LResources, LMessages,{$ENDIF}
+  Classes, SysUtils, {$IFDEF FPC}LCLType, LResources, LMessages,{$ENDIF}
   Forms, Controls, Graphics, Dialogs, MouseAndKeyInput,
   {$IFNDEF FPC}Types, Windows, BGRAGraphics, GraphType, FPImage, BCBaseCtrls, {$ENDIF}
   BCPanel, BCButton, BCThemeManager;
