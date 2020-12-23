@@ -490,9 +490,9 @@ begin
       FirmwareTextLED := '';
     end;
     if (aDevice.DeviceNumber = APPL_ADV2) then
-      sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'active') + VERSION_FILE
+      sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'active') + VERSION_FILE
     else
-      sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'firmware') + VERSION_FILE;
+      sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'firmware') + VERSION_FILE;
     fileExists := CheckIfFileExists(sFilePath);
     if (fileExists) then
     begin
@@ -1207,14 +1207,14 @@ var
   error: string;
 begin
   result := '';
-  if (aDevice.Connected and (aDevice.RootFoler <> '')) then
+  if (aDevice.Connected and (aDevice.RootFolder <> '')) then
   begin
     fileContent := nil;
     try
       if (aDevice.DeviceNumber = APPL_ADV2) then
-        sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'active') + ADV2_STATE_FILE
+        sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'active') + ADV2_STATE_FILE
       else
-        sFilePath := IncludeTrailingBackslash(aDevice.RootFoler + 'settings') + KB_SETTINGS_FILE;
+        sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'settings') + KB_SETTINGS_FILE;
       fileExists := CheckIfFileExists(sFilePath);
       if (fileExists) then
       begin

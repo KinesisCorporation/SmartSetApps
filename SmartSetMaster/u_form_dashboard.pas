@@ -9,7 +9,7 @@ uses
   HSSpeedButton, LineObj, ColorSpeedButton, BGRASpriteAnimation, u_const,
   LResources, FileUtil, u_kinesis_device, u_form_main_rgb, LCLIntf,
   u_form_loading, u_form_about_master, eject_usb, u_form_settings_master,
-  u_form_firmware, usbdriveflush, userdialog, u_common_ui, u_form_main_tko
+  u_form_firmware, userdialog, u_common_ui, u_form_main_tko
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -183,6 +183,9 @@ begin
   lblAppName2.Font.Name := 'Quantify';
   lblAppName3.Font.Name := 'Quantify';
   lblAppName4.Font.Name := 'Quantify';
+
+  //App shows in Taskbar only when minimized
+  Application.MainFormOnTaskBar:= true;
 
   AddDevices;
 
@@ -850,7 +853,7 @@ begin
 end;
 
 initialization
-  {$R FONTS.res}
+  {$R FONTS.RES}
 
 end.
 

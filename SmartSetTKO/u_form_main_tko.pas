@@ -901,6 +901,8 @@ begin
   FormMainTKO.lastKeyDown := currentKey;
 end;
 
+{$endif}
+
 procedure SetKeyPress(Key: word; Modifiers: string);
 begin
   if (FormTapAndHold <> nil) and (FormTapAndHold.Visible) then
@@ -908,8 +910,6 @@ begin
   else
     FormMainTKO.SetModifiedKey(Key, Modifiers, FormMainTKO.EditingMacro);
 end;
-
-{$endif}
 
 { TFormMainTKO }
 
@@ -946,6 +946,8 @@ begin
     WindowState:= TWindowState.wsMaximized;
     NORMAL_HEIGHT := Parent.Height;
     NORMAL_WIDTH := Parent.Width;
+    Maximize;
+    ShowInTaskBar := stNever;
   end;
 
   cusWindowState := cwNormal;
@@ -966,8 +968,8 @@ begin
   freqKeyDown := false;
   speedKeyDown := false;
   resetLayer := false;
-  keyBtnList := TObjectList.Create;
-  edgeBtnList := TObjectList.Create;
+  keyBtnList := TObjectList.Create(false);
+  edgeBtnList := TObjectList.Create(false);
   activeKeyBtn := nil;
   activeKbKey := nil;
   SetConfigOS;
@@ -1184,10 +1186,10 @@ begin
   LoadButtonImage(btnRightAlt, imgListTriggers, 16);
 
   //Hide special actions for Mac
-  miRightWin.Visible := false;
-  miMenu.Visible := false;
-  miIntlKey.Visible := false;
-  miCalculator.Visible := false;
+  //miRightWin.Visible := false;
+  //miMenu.Visible := false;
+  //miIntlKey.Visible := false;
+  //miCalculator.Visible := false;
   {$endif}
 end;
 
@@ -1208,8 +1210,6 @@ begin
     WaveTimer.Enabled := false;
     BreatheTimer.Enabled := false;
     NewGifTimer.Enabled := false;
-    FreeAndNil(keyService);
-    FreeAndNil(fileService);
     CloseAction := caFree;
   end;
 end;
@@ -1223,12 +1223,12 @@ end;
 procedure TFormMainTKO.FormDestroy(Sender: TObject);
 begin
   RemoveKeyboardHook;
-  FreeAndNil(keyBtnList);
-  FreeAndNil(edgeBtnList);
+  keyBtnList := nil;
+  edgeBtnList := nil;
   FreeAndNil(keyService);
   FreeAndNil(fileService);
-  FreeAndNil(menuActionList);
-  FreeAndNil(hoveredList);
+  menuActionList := nil;
+  hoveredList := nil;
 end;
 
 procedure TFormMainTKO.Maximize;
@@ -1236,25 +1236,34 @@ var
   aRect: TRect;
 begin
   if (parent <> nil) then
-    aRect := Parent.ClientRect
-  else
-    aRect := Screen.PrimaryMonitor.WorkareaRect;
+  begin
+    aRect := Parent.ClientRect;
 
-  if (cusWindowState = cwMaximized) then
-  begin
-    self.Height := NORMAL_HEIGHT;
-    self.Width := NORMAL_WIDTH;
-    self.Left := (aRect.Width - NORMAL_WIDTH) div 2;
-    self.Top := (aRect.Height - NORMAL_HEIGHT) div 2;
-    cusWindowState := cwNormal;
-  end
-  else
-  begin
     self.Left := aRect.Left;
     self.Top := aRect.Top;
     self.Width := aRect.Width;
     self.Height := aRect.Height;
-    cusWindowState := cwMaximized;
+  end
+  else
+  begin
+    aRect := Screen.PrimaryMonitor.WorkareaRect;
+
+    if (cusWindowState = cwMaximized) then
+    begin
+      self.Height := NORMAL_HEIGHT;
+      self.Width := NORMAL_WIDTH;
+      self.Left := (aRect.Width - NORMAL_WIDTH) div 2;
+      self.Top := (aRect.Height - NORMAL_HEIGHT) div 2;
+      cusWindowState := cwNormal;
+    end
+    else
+    begin
+      self.Left := aRect.Left;
+      self.Top := aRect.Top;
+      self.Width := aRect.Width;
+      self.Height := aRect.Height;
+      cusWindowState := cwMaximized;
+    end;
   end;
 
   UpdateStateSettings;
@@ -1351,7 +1360,7 @@ end;
 
 procedure TFormMainTKO.FillMenuActionList;
 begin
-  menuActionList := TObjectList.Create(true);
+  menuActionList := TObjectList.Create(false);
 
   menuActionList.Add(TMenuAction.Create(maMacro, btnMacro, nil, nil, CONFIG_LAYOUT, lmNone, false, false, false));
   menuActionList.Add(TMenuAction.Create(maHyperspace, btnHyperspaceConfigs, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
@@ -1401,7 +1410,7 @@ var
   i: integer;
   obj: TObject;
 begin
-  hoveredList := TObjectList.Create(true);
+  hoveredList := TObjectList.Create(false);
 
   //Settings top right
   hoveredList.Add(THoveredObj.Create(btnSettings, imgListSettings, 0, 1));

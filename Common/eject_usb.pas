@@ -3,7 +3,7 @@ unit Eject_USB;
 interface
 
 uses
-  Windows,
+  {$ifdef Win32},Windows{$endif}
   SysUtils;
 
 function EjectUSB(const DriveLetter: string): boolean;
@@ -11,6 +11,7 @@ function EjectVolume(ADrive: char): boolean;
 
 implementation
 
+{$ifdef Win32}
 type
   DEVICE_TYPE = DWORD;
   _DEVINST = DWORD;
@@ -70,6 +71,7 @@ type
   end;
   STORAGE_DEVICE_NUMBER = _STORAGE_DEVICE_NUMBER;
 
+
 const
   CR_SUCCESS = $00000000;
   DIGCF_PRESENT = $00000002;
@@ -89,7 +91,6 @@ const
     D1: $53f56308; D2: $b6bf; D3: $11d0; D4: ($94, $f2, $00, $a0, $c9, $1e, $fb, $8b));
   GUID_DEVINTERFACE_FLOPPY: TGUID = (
     D1: $53f56311; D2: $b6bf; D3: $11d0; D4: ($94, $f2, $00, $a0, $c9, $1e, $fb, $8b));
-
 type
   TCM_Get_Parent = function(var dnDevInstParent: _DEVINST; dnDevInst: _DEVINST;
     ulFlags: ULONG): CONFIGRET; stdcall;
@@ -110,9 +111,22 @@ type
     DeviceInterfaceDetailDataSize: DWORD; var RequiredSize: DWORD;
     Device: PSPDevInfoData): BOOL; stdcall;
   TSetupDiDestroyDeviceInfoList = function(DeviceInfoSet: HDEVINFO): BOOL; stdcall;
+  {$endif}
 
+  {$ifdef Darwin}
+  function EjectUSB(const DriveLetter: string): boolean;
+  begin
+    result := false;
+  end;
 
+  function EjectVolume(ADrive: char): boolean;
+  begin
+    result := false;
+  end;
 
+  {$endif}
+
+  {$ifdef Win32}
   function EjectUSB(const DriveLetter: string): boolean;
   const
     CfgMgrDllName = 'cfgmgr32.dll';
@@ -453,7 +467,7 @@ type
       CloseHandle(VolumeHandle);
     end;
   end;
-
+  {$endif}
 begin
 
 end.
