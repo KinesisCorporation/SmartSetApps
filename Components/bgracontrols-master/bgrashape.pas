@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -6,31 +7,6 @@
   Site: https://sourceforge.net/p/bgra-controls/
   Wiki: http://wiki.lazarus.freepascal.org/BGRAControls
   Forum: http://forum.lazarus.freepascal.org/index.php/board,46.0.html
-
-  This library is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Library General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or (at your
-  option) any later version with the following modification:
-
-  As a special exception, the copyright holders of this library give you
-  permission to link this library with independent modules to produce an
-  executable, regardless of the license terms of these independent modules,and
-  to copy and distribute the resulting executable under terms of your choice,
-  provided that you also meet, for each linked independent module, the terms
-  and conditions of the license of that module. An independent module is a
-  module which is not derived from or based on this library. If you modify
-  this library, you may extend this exception to your version of the library,
-  but you are not obligated to do so. If you do not wish to do so, delete this
-  exception statement from your version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library General Public License
-  for more details.
-
-  You should have received a copy of the GNU Library General Public License
-  along with this library; if not, write to the Free Software Foundation,
-  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 }
 
 {******************************* CONTRIBUTOR(S) ******************************
@@ -93,7 +69,6 @@ type
   protected
     { Protected declarations }
     procedure Paint; override;
-    procedure Resize; override;
   public
     { Public declarations }
     constructor Create(AOwner: TComponent); override;
@@ -302,11 +277,11 @@ var
   minCoord, maxCoord: TPointF;
   i: integer;
   borderGrad, fillGrad: TBGRACustomScanner;
+  scaling: Double;
 begin
-  {$IFNDEF FPC}//# //@
-  if FBGRA <> nil then
-    FBGRA.SetSize(Width, Height);
-  {$ENDIF}
+  if FBGRA = nil then FBGRA := TBGRABitmap.Create;
+  scaling := GetCanvasScaleFactor;
+  FBGRA.SetSize(round(Width*scaling), round(Height*scaling));
 
   FBGRA.FillTransparent;
   FBGRA.PenStyle := FBorderStyle;
@@ -315,7 +290,7 @@ begin
     lineJoin := 'round';
     if FUseBorderGradient then
     begin
-      borderGrad := CreateGradient(FBorderGradient, Classes.rect(0, 0, Width, Height));
+      borderGrad := CreateGradient(FBorderGradient, Classes.rect(0, 0, FBGRA.Width, FBGRA.Height));
       strokeStyle(borderGrad);
     end
     else
@@ -324,10 +299,10 @@ begin
       strokeStyle(ColorToBGRA(ColorToRGB(FBorderColor), FBorderOpacity));
     end;
     lineStyle(FBGRA.CustomPenStyle);
-    lineWidth := FBorderWidth;
+    lineWidth := FBorderWidth*scaling;
     if FUseFillGradient then
     begin
-      fillGrad := CreateGradient(FFillGradient, Classes.rect(0, 0, Width, Height));
+      fillGrad := CreateGradient(FFillGradient, Classes.rect(0, 0, FBGRA.Width, FBGRA.Height));
       fillStyle(fillGrad);
     end
     else
@@ -335,10 +310,10 @@ begin
       fillGrad := nil;
       fillStyle(ColorToBGRA(ColorToRGB(FFillColor), FFillOpacity));
     end;
-    cx := Width / 2;
-    cy := Height / 2;
-    rx := (Width - FBorderWidth) / 2;
-    ry := (Height - FBorderWidth) / 2;
+    cx := FBGRA.Width / 2;
+    cy := FBGRA.Height / 2;
+    rx := (FBGRA.Width - FBorderWidth*scaling) / 2;
+    ry := (FBGRA.Height - FBorderWidth*scaling) / 2;
     if FUseRatioXY and (ry <> 0) and (FRatioXY <> 0) then
     begin
       curRatio := rx / ry;
@@ -403,14 +378,7 @@ begin
     fillGrad.Free;
     borderGrad.Free;
   end;
-  FBGRA.Draw(Self.Canvas, 0, 0, False);
-end;
-
-procedure TBGRAShape.Resize;
-begin
-  if FBGRA <> nil then
-    FBGRA.SetSize(Width, Height);
-  inherited Resize;
+  FBGRA.Draw(Self.Canvas, rect(0,0,Width,Height), False);
 end;
 
 constructor TBGRAShape.Create(AOwner: TComponent);
@@ -420,7 +388,7 @@ begin
   with GetControlClassDefaultSize do
     SetInitialBounds(0, 0, CX, CY);
 
-  FBGRA := TBGRABitmap.Create(Width, Height, BGRAPixelTransparent);
+  FBGRA := nil;
 
   FBorderColor := clWindowText;
   FBorderOpacity := 255;

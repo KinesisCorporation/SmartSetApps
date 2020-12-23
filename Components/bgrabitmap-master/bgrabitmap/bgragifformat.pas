@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAGifFormat;
 
 {$mode objfpc}{$H+}
@@ -5,7 +6,7 @@ unit BGRAGifFormat;
 interface
 
 uses
-  Classes, SysUtils, BGRAGraphics, BGRABitmap, BGRABitmapTypes,
+  BGRAClasses, SysUtils, BGRAGraphics, BGRABitmap, BGRABitmapTypes,
   BGRAPalette;
 
 type
@@ -188,7 +189,7 @@ var
     clearcode := 1 shl codesize;
     endcode   := clearcode + 1;
     stridx    := endcode + 1;
-    codelen   := codesize + 1;
+    codelen   := CeilLn2(stridx+1);
     codemask  := (1 shl codelen) - 1;
     for i := 0 to clearcode - 1 do
     begin
@@ -209,7 +210,7 @@ var
     clearcode := 1 shl codesize;
     endcode   := clearcode + 1;
     stridx    := endcode + 1;
-    codelen   := codesize + 1;
+    codelen   := CeilLn2(stridx+1);
     codemask  := (1 shl codelen) - 1;
     for i := clearcode to GIFCodeTableSize-1 do
     begin
@@ -258,20 +259,9 @@ var
     strtab^[stridx].prefix := prefix;
     strtab^[stridx].suffix := suffix;
     Inc(stridx);
-    case stridx of
-      0..1: codelen      := 1;
-      2..3: codelen      := 2;
-      4..7: codelen      := 3;
-      8..15: codelen     := 4;
-      16..31: codelen    := 5;
-      32..63: codelen    := 6;
-      64..127: codelen   := 7;
-      128..255: codelen  := 8;
-      256..511: codelen  := 9;
-      512..1023: codelen := 10;
-      1024..2047: codelen := 11;
-      2048..4096: codelen := 12;
-    end;
+    if (stridx = 1 shl codelen)
+      and (stridx < GIFCodeTableSize) then
+        inc(codelen);
     codemask := (1 shl codelen) - 1;
   end;
 
@@ -285,7 +275,11 @@ var
     colorIndex: integer;
   begin
     if (s^.prefix <> nil) then
+    begin
+      if s^.prefix = s then
+        raise exception.Create('Circular reference in prefix');
       WriteStr(s^.prefix);
+    end;
     if (ycnt >= yd) then
     begin
       if interlaced then
@@ -359,44 +353,47 @@ begin
   codesize  := 0;
   AStream.Read(codesize, 1);
   InitStringTable;
-  curcode := getnextcode;
-  //Write('Reading ');
-  while (curcode <> endcode) and (pass < 5) and not endofsrc do
-  begin
-    if (curcode = clearcode) then
+  try
+    curcode := getnextcode;
+    //Write('Reading ');
+    while (curcode <> endcode) and (pass < 5) and not endofsrc do
     begin
-      ClearStringTable;
-      repeat
-        curcode := getnextcode;
-      until (curcode <> clearcode);
-      if (curcode = endcode) then
-        break;
-      WriteStr(code2str(curcode));
-      oldcode := curcode;
-    end
-    else
-    begin
-      if (curcode < stridx) then
+      if (curcode = clearcode) then
       begin
-        WriteStr(Code2Str(curcode));
-        AddStr2Tab(Code2Str(oldcode), firstchar(Code2Str(curcode)));
+        ClearStringTable;
+        repeat
+          curcode := getnextcode;
+        until (curcode <> clearcode);
+        if (curcode = endcode) then
+          break;
+        WriteStr(code2str(curcode));
         oldcode := curcode;
       end
       else
       begin
-        if (curcode > stridx) then
+        if (curcode < stridx) then
         begin
-          //write('!Invalid! ');
-          break;
+          WriteStr(Code2Str(curcode));
+          AddStr2Tab(Code2Str(oldcode), firstchar(Code2Str(curcode)));
+          oldcode := curcode;
+        end
+        else
+        begin
+          if (curcode > stridx) then
+          begin
+            //write('!Invalid! ');
+            break;
+          end;
+          AddStr2Tab(Code2Str(oldcode), firstchar(Code2Str(oldcode)));
+          WriteStr(Code2Str(stridx - 1));
+          oldcode := curcode;
         end;
-        AddStr2Tab(Code2Str(oldcode), firstchar(Code2Str(oldcode)));
-        WriteStr(Code2Str(stridx - 1));
-        oldcode := curcode;
       end;
+      curcode := getnextcode;
     end;
-    curcode := getnextcode;
+  finally
+    DoneStringTable;
   end;
-  DoneStringTable;
   //Writeln;
   if not endofsrc then
   begin
@@ -423,7 +420,7 @@ var  //input position
   end;
 
 var // GIF buffer can be up to 255 bytes long
-  OutputBufferSize: NativeInt;
+  OutputBufferSize: Int32or64;
   OutputBuffer: packed array[0..255] of byte;
 
   procedure FlushByteOutput;
@@ -446,7 +443,7 @@ var // GIF buffer can be up to 255 bytes long
 type TCode = Word;
 
 var
-  BitBuffer       : DWord; // steady stream of bit output
+  BitBuffer       : LongWord; // steady stream of bit output
   BitBufferLen    : Byte;  // number of bits in buffer
   CurCodeSize     : byte;  // current code size
 
@@ -463,7 +460,7 @@ var
     begin
       OutputByte(BitBuffer and $ff);
       BitBuffer := BitBuffer shr 8;
-      BitBufferLen -= 8;
+      dec(BitBufferLen, 8);
     end;
   end;
 
@@ -476,7 +473,7 @@ var
       OutputByte(BitBuffer and $ff);
       BitBuffer := BitBuffer shr 8;
       if BitBufferLen >= 8 then
-        BitBufferLen -= 8
+        dec(BitBufferLen, 8)
       else
         BitBufferLen := 0;
     end;
@@ -513,7 +510,7 @@ var
     end;
 
     WriteCode(ClearCode);
-    CurCodeSize := ABitDepth + 1;
+    CurCodeSize := CeilLn2(FirstCodeSlot+1);
     NextCodeSlot := FirstCodeSlot;
   end;
 
@@ -525,12 +522,15 @@ begin
    if ABitDepth > 8 then
      raise exception.Create('Maximum bit depth is 8');
 
+   //most readers won't handle less than 2 bits
+   if ABitDepth < 2 then ABitDepth := 2;
+
    //output
    AStream.WriteByte(ABitDepth);
    ClearCode := 1 shl ABitDepth;
    EndStreamCode := ClearCode + 1;
    FirstCodeSlot := ClearCode + 2;
-   CurCodeSize := ABitDepth + 1;
+   CurCodeSize := CeilLn2(FirstCodeSlot+1);
 
    OutputBufferSize := 0;
    BitBuffer := 0;
@@ -791,6 +791,15 @@ var
     end;
   end;
 
+  procedure DiscardImages;
+  var
+    i: Integer;
+  begin
+    for i := 0 to NbImages-1 do
+      FreeAndNil(result.Images[i].Image);
+    NbImages:= 0;
+  end;
+
 begin
   result.Width := 0;
   result.Height := 0;
@@ -805,46 +814,54 @@ begin
   DelayMs     := 100;
   disposeMode := dmErase;
 
-  FillChar({%H-}GIFSignature,sizeof(GIFSignature),0);
-  stream.Read(GIFSignature, sizeof(GIFSignature));
-  if (GIFSignature[1] = 'G') and (GIFSignature[2] = 'I') and (GIFSignature[3] = 'F') then
-  begin
-    stream.ReadBuffer({%H-}GIFScreenDescriptor, sizeof(GIFScreenDescriptor));
-    GIFScreenDescriptor.Width := LEtoN(GIFScreenDescriptor.Width);
-    GIFScreenDescriptor.Height := LEtoN(GIFScreenDescriptor.Height);
-    result.Width  := GIFScreenDescriptor.Width;
-    result.Height := GIFScreenDescriptor.Height;
-    if GIFScreenDescriptor.AspectRatio64 = 0 then
-      result.AspectRatio:= 1
-    else
-      result.AspectRatio:= (GIFScreenDescriptor.AspectRatio64+15)/64;
-    if (GIFScreenDescriptor.flags and GIFScreenDescriptor_GlobalColorTableFlag =
-      GIFScreenDescriptor_GlobalColorTableFlag) then
+  try
+    FillChar({%H-}GIFSignature,sizeof(GIFSignature),0);
+    stream.Read(GIFSignature, sizeof(GIFSignature));
+    if (GIFSignature[1] = 'G') and (GIFSignature[2] = 'I') and (GIFSignature[3] = 'F') then
     begin
-      LoadGlobalPalette;
-      if GIFScreenDescriptor.BackgroundColorIndex < length(globalPalette) then
-        result.BackgroundColor :=
-          BGRAToColor(globalPalette[GIFScreenDescriptor.BackgroundColorIndex]);
-    end;
-    repeat
-      stream.ReadBuffer({%H-}GIFBlockID, sizeof(GIFBlockID));
-      case GIFBlockID of
-        ';': ;
-        ',': begin
-               if NbImages >= MaxImageCount then break;
-               LoadImage;
-             end;
-        '!': ReadExtension;
-        else
-        begin
-          raise Exception.Create('TBGRAAnimatedGif: unexpected block type');
-          break;
-        end;
+      stream.ReadBuffer({%H-}GIFScreenDescriptor, sizeof(GIFScreenDescriptor));
+      GIFScreenDescriptor.Width := LEtoN(GIFScreenDescriptor.Width);
+      GIFScreenDescriptor.Height := LEtoN(GIFScreenDescriptor.Height);
+      result.Width  := GIFScreenDescriptor.Width;
+      result.Height := GIFScreenDescriptor.Height;
+      if GIFScreenDescriptor.AspectRatio64 = 0 then
+        result.AspectRatio:= 1
+      else
+        result.AspectRatio:= (GIFScreenDescriptor.AspectRatio64+15)/64;
+      if (GIFScreenDescriptor.flags and GIFScreenDescriptor_GlobalColorTableFlag =
+        GIFScreenDescriptor_GlobalColorTableFlag) then
+      begin
+        LoadGlobalPalette;
+        if GIFScreenDescriptor.BackgroundColorIndex < length(globalPalette) then
+          result.BackgroundColor :=
+            BGRAToColor(globalPalette[GIFScreenDescriptor.BackgroundColorIndex]);
       end;
-    until (GIFBlockID = ';') or (stream.Position >= stream.size);
-  end
-  else
-    raise Exception.Create('TBGRAAnimatedGif: invalid header');
+      repeat
+        stream.ReadBuffer({%H-}GIFBlockID, sizeof(GIFBlockID));
+        case GIFBlockID of
+          ';': ;
+          ',': begin
+                 if NbImages >= MaxImageCount then break;
+                 LoadImage;
+               end;
+          '!': ReadExtension;
+          else
+          begin
+            raise Exception.Create('GIF format: unexpected block type');
+            break;
+          end;
+        end;
+      until (GIFBlockID = ';') or (stream.Position >= stream.size);
+    end
+    else
+      raise Exception.Create('GIF format: invalid header');
+  except
+    on ex: Exception do
+    begin
+      DiscardImages;
+      raise Exception.Create('GIF format: '+ ex.Message);
+    end;
+  end;
   setlength(result.Images, NbImages);
 end;
 
@@ -911,7 +928,7 @@ var
       if not AData.Images[i].HasLocalPalette then
         AddColorsToPalette(AData.Images[i].Image, globalPalette);
     if AData.BackgroundColor <> clNone then
-      globalPalette.AddColor(ColorToBGRA(ColorToRGB(AData.BackgroundColor)));
+      globalPalette.AddColor(ColorToBGRA(AData.BackgroundColor));
 
     if globalPalette.Count > 256 then
     begin
@@ -935,7 +952,7 @@ var
 
     globalTranspIndex:= globalPalette.IndexOfColor(BGRAPixelTransparent);
     if AData.BackgroundColor <> clNone then
-      screenDescriptor.BackgroundColorIndex:= IndexOfGlobalColor(ColorToBGRA(ColorToRGB(AData.BackgroundColor))) and 255;
+      screenDescriptor.BackgroundColorIndex:= IndexOfGlobalColor(ColorToBGRA(AData.BackgroundColor)) and 255;
 
     bitDepth := CeilLn2(globalPalette.Count);
     if bitDepth > 8 then bitDepth:= 8;
@@ -958,7 +975,7 @@ var
     try
       for i := 0 to numberFromPal-1 do
         rgbs[i] := BGRAToPackedRgbTriple(pal.Color[i]);
-      black := BGRAToPackedRgbTriple(ColorToBGRA(clBlack));
+      black := BGRAToPackedRgbTriple(BGRABlack);
       for i := numberFromPal to numberToWrite-1 do
         rgbs[i] := black;
       Stream.WriteBuffer(rgbs^,sizeof(TPackedRGBTriple)*numberToWrite);
@@ -1036,7 +1053,7 @@ var
     procedure DitherAndCompressImage(AFrame: integer; APalette: TBGRAPalette; AQuantizer: TBGRACustomColorQuantizer);
     var ImageData: Pointer;
       Image: TBGRABitmap;
-      y,x: NativeInt;
+      y,x: Int32or64;
       psource: PBGRAPixel;
       pdest: PByte;
     begin

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -6,33 +7,7 @@
   Site: https://sourceforge.net/p/bgra-controls/
   Wiki: http://wiki.lazarus.freepascal.org/BGRAControls
   Forum: http://forum.lazarus.freepascal.org/index.php/board,46.0.html
-
-  This library is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Library General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or (at your
-  option) any later version with the following modification:
-
-  As a special exception, the copyright holders of this library give you
-  permission to link this library with independent modules to produce an
-  executable, regardless of the license terms of these independent modules,and
-  to copy and distribute the resulting executable under terms of your choice,
-  provided that you also meet, for each linked independent module, the terms
-  and conditions of the license of that module. An independent module is a
-  module which is not derived from or based on this library. If you modify
-  this library, you may extend this exception to your version of the library,
-  but you are not obligated to do so. If you do not wish to do so, delete this
-  exception statement from your version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library General Public License
-  for more details.
-
-  You should have received a copy of the GNU Library General Public License
-  along with this library; if not, write to the Free Software Foundation,
-  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 }
-
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -62,15 +37,20 @@ type
     FBorderWidth:  TBorderWidth;
     FAlignment:    TAlignment;
     FColorOpacity: byte;
+    function GetBitmapHeight: integer;
+    function GetBitmapScale: double;
+    function GetBitmapWidth: integer;
     procedure SetAlignment(const Value: TAlignment);
     procedure SetBevelInner(const AValue: TPanelBevel);
     procedure SetBevelOuter(const AValue: TPanelBevel);
     procedure SetBevelWidth(const AValue: TBevelWidth);
+    procedure SetBitmapAutoScale(AValue: boolean);
     procedure SetBorderWidth(const AValue: TBorderWidth);
     procedure SetColorOpacity(const AValue: byte);
   protected
     { Protected declarations }
-    FBGRA:         TBGRABitmap;
+    FBGRA: TBGRABitmap;
+    FBitmapAutoScale: boolean;
     procedure Paint; override;
     procedure Resize; override;
     procedure BGRASetSize(AWidth, AHeight: integer); virtual;
@@ -78,6 +58,10 @@ type
     procedure SetColor(Value: TColor); override;
     procedure SetEnabled(Value: boolean); override;
     procedure TextChanged; override;
+    property BitmapAutoScale: boolean read FBitmapAutoScale write SetBitmapAutoScale default true;
+    property BitmapScale: double read GetBitmapScale;
+    property BitmapWidth: integer read GetBitmapWidth;
+    property BitmapHeight: integer read GetBitmapHeight;
   public
     { Public declarations }
     constructor Create(TheOwner: TComponent); override;
@@ -102,6 +86,8 @@ type
     property Anchors;
     property OnRedraw;
     property Bitmap;
+    property BitmapAutoscale;
+    property BitmapScale;
     property BorderWidth;
     property BevelInner;
     property BevelOuter;
@@ -126,7 +112,7 @@ type
 
 implementation
 
-uses BGRABitmapTypes;
+uses BGRABitmapTypes, LazVersion;
 
 {$IFDEF FPC}
 procedure Register;
@@ -142,6 +128,28 @@ begin
     exit;
   FAlignment := Value;
   DiscardBitmap;
+end;
+
+function TCustomBGRAGraphicControl.GetBitmapHeight: integer;
+begin
+  result := round(ClientHeight * BitmapScale);
+end;
+
+function TCustomBGRAGraphicControl.GetBitmapScale: double;
+begin
+  {$if laz_fullversion >= 2000000}
+  if not FBitmapAutoScale then
+    result := GetCanvasScaleFactor
+  else
+    result := 1;
+  {$else}
+  result := 1;
+  {$endif}
+end;
+
+function TCustomBGRAGraphicControl.GetBitmapWidth: integer;
+begin
+  result := round(ClientWidth * BitmapScale);
 end;
 
 procedure TCustomBGRAGraphicControl.SetBevelInner(const AValue: TPanelBevel);
@@ -168,6 +176,13 @@ begin
   DiscardBitmap;
 end;
 
+procedure TCustomBGRAGraphicControl.SetBitmapAutoScale(AValue: boolean);
+begin
+  if FBitmapAutoScale=AValue then Exit;
+  FBitmapAutoScale:=AValue;
+  DiscardBitmap;
+end;
+
 procedure TCustomBGRAGraphicControl.SetBorderWidth(const AValue: TBorderWidth);
 begin
   if FBorderWidth = AValue then
@@ -186,9 +201,9 @@ end;
 
 procedure TCustomBGRAGraphicControl.Paint;
 begin
-  BGRASetSize(Width, Height);
+  BGRASetSize(BitmapWidth, BitmapHeight);
   inherited Paint;
-  FBGRA.Draw(Canvas, 0, 0, False);
+  FBGRA.Draw(Canvas, rect(0, 0, ClientWidth, ClientHeight), False);
 end;
 
 procedure TCustomBGRAGraphicControl.Resize;
@@ -210,28 +225,35 @@ procedure TCustomBGRAGraphicControl.RedrawBitmapContent;
 var
   ARect: TRect;
   TS: TTextStyle;
+  scale: Double;
 begin
   if (FBGRA <> nil) and (FBGRA.NbPixels <> 0) then
   begin
     FBGRA.Fill(ColorToBGRA(ColorToRGB(Color), FColorOpacity));
 
+    scale := BitmapScale;
     ARect := GetClientRect;
+    ARect.Left := round(ARect.Left*scale);
+    ARect.Top := round(ARect.Top*scale);
+    ARect.Right := round(ARect.Right*scale);
+    ARect.Bottom := round(ARect.Bottom*scale);
 
     // if BevelOuter is set then draw a frame with BevelWidth
     if (BevelOuter <> bvNone) and (BevelWidth > 0) then
-      FBGRA.CanvasBGRA.Frame3d(ARect, BevelWidth, BevelOuter,
+      FBGRA.CanvasBGRA.Frame3d(ARect, round(BevelWidth*scale), BevelOuter,
         BGRA(255, 255, 255, 200), BGRA(0, 0, 0, 160)); // Note: Frame3D inflates ARect
 
-    InflateRect(ARect, -BorderWidth, -BorderWidth);
+    InflateRect(ARect, -round(BorderWidth*scale), -round(BorderWidth*scale));
 
     // if BevelInner is set then skip the BorderWidth and draw a frame with BevelWidth
     if (BevelInner <> bvNone) and (BevelWidth > 0) then
-      FBGRA.CanvasBGRA.Frame3d(ARect, BevelWidth, BevelInner,
+      FBGRA.CanvasBGRA.Frame3d(ARect, round(BevelWidth*scale), BevelInner,
         BGRA(255, 255, 255, 160), BGRA(0, 0, 0, 160)); // Note: Frame3D inflates ARect
 
     if Caption <> '' then
     begin
       FBGRA.CanvasBGRA.Font.Assign(Canvas.Font);
+      FBGRA.CanvasBGRA.Font.Height:= round(FBGRA.CanvasBGRA.Font.Height*scale);
       {$IFDEF FPC}//#
       TS := Canvas.TextStyle;
       {$ENDIF}
@@ -287,6 +309,7 @@ begin
     SetInitialBounds(0, 0, CX, CY);
 
   FBGRA := TBGRABitmap.Create;
+  FBitmapAutoScale:= true;
   FBevelWidth := 1;
   FAlignment := taCenter;
   Color := clWhite;

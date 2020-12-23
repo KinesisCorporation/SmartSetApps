@@ -1,13 +1,13 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAGraphics;
 {=== Types imported from Graphics ===}
 {$mode objfpc}{$H+}
+{$I bgrabitmap.inc}
 
 interface
 
-{$I bgrabitmap.inc}
-
 {$IFDEF BGRABITMAP_USE_LCL}
-uses Graphics, GraphType, FPImage;
+uses Graphics, GraphType, FPImage, FPCanvas;
 
 type
   PColor = Graphics.PColor;
@@ -17,6 +17,7 @@ type
   TPenEndCap = Graphics.TPenEndCap;
   TPenJoinStyle = Graphics.TPenJoinStyle;
   TPenStyle = Graphics.TPenStyle;
+  TPenMode = Graphics.TPenMode;
 
 const
   amDontCare = Graphics.amDontCare;
@@ -42,6 +43,23 @@ const
   psClear = Graphics.psClear;
   psInsideframe = Graphics.psInsideframe;
   psPattern = Graphics.psPattern;
+
+  pmBlack = Graphics.pmBlack;
+  pmWhite = Graphics.pmWhite;
+  pmNop = Graphics.pmNop;
+  pmNot = Graphics.pmNot;
+  pmCopy = Graphics.pmCopy;
+  pmNotCopy = Graphics.pmNotCopy;
+  pmMergePenNot = Graphics.pmMergePenNot;
+  pmMaskPenNot = Graphics.pmMaskPenNot;
+  pmMergeNotPen = Graphics.pmMergeNotPen;
+  pmMaskNotPen = Graphics.pmMaskNotPen;
+  pmMerge = Graphics.pmMerge;
+  pmNotMerge = Graphics.pmNotMerge;
+  pmMask = Graphics.pmMask;
+  pmNotMask = Graphics.pmNotMask;
+  pmXor = Graphics.pmXor;
+  pmNotXor = Graphics.pmNotXor;
 
   tmAuto = Graphics.tmAuto;
   tmFixed = Graphics.tmFixed;
@@ -74,6 +92,7 @@ const
   bsBDiagonal = Graphics.bsBDiagonal;
   bsCross = Graphics.bsCross;
   bsDiagCross = Graphics.bsDiagCross;
+  bsImage = FPCanvas.bsImage;
 
 type
   TBrush = Graphics.TBrush;
@@ -173,21 +192,29 @@ end;
 
 {$ELSE}
 
-uses
-  Classes, FPCanvas, FPImage
-  {$DEFINE INCLUDE_USES}
+{$IFDEF BGRABITMAP_USE_MSEGUI}
+  {$i bgramsegui_uses.inc}
+{$ELSE}
+  {$IFDEF BGRABITMAP_USE_FPGUI}
+    {$i bgrafpgui_uses.inc}
+  {$ELSE}
+    {$i bgranogui_uses.inc}
+  {$ENDIF}
+{$ENDIF}
+
+type
+  TTransparentMode = (tmAuto, tmFixed);
+  TGraphic = class;
+
+{$DEFINE INCLUDE_INTERFACE}
+{$IFDEF BGRABITMAP_USE_MSEGUI}
+  {$i bgramsegui.inc}
+{$ELSE}
   {$IFDEF BGRABITMAP_USE_FPGUI}
     {$i bgrafpgui.inc}
   {$ELSE}
     {$i bgranogui.inc}
   {$ENDIF}
-;
-
-{$DEFINE INCLUDE_INTERFACE}
-{$IFDEF BGRABITMAP_USE_FPGUI}
-  {$i bgrafpgui.inc}
-{$ELSE}
-  {$i bgranogui.inc}
 {$ENDIF}
 
 type
@@ -205,6 +232,9 @@ type
   {** Converts a ''TColor'' into a ''TFPColor'' value }
   function TColorToFPColor(const c: TColor): TFPColor;
 
+  function RGBToColor(R, G, B: Byte): TColor; inline;
+  procedure RedGreenBlue(rgb: TColor; out Red, Green, Blue: Byte); // does not work on system color
+
 type
   {* Direction of change in a gradient }
   TGradientDirection = (
@@ -221,86 +251,6 @@ type
     amOn,
     {** Antialiasing is disabled }
     amOff);
-
-  {* How to draw the end of line }
-  TPenEndCap = TFPPenEndCap;
-
-const
-    {** Draw a half-disk at the end of the line. The diameter of the disk is
-        equal to the pen width. }
-    pecRound = FPCanvas.pecRound;
-    {** Draw a half-square. The size of the square is equal to the pen width.
-        This is visually equivalent to extend the line of half the pen width }
-    pecSquare = FPCanvas.pecSquare;
-    {** The line ends exactly at the end point }
-    pecFlat = FPCanvas.pecFlat;
-
-type
-  {* How to join segments. This makes sense only for geometric pens (that
-     have a certain width) }
-  TPenJoinStyle = TFPPenJoinStyle;
-
-const
-    {** Segments are joined by filling the gap with an arc }
-    pjsRound = FPCanvas.pjsRound;
-    {** Segments are joind by filling the gap with an intermediary segment }
-    pjsBevel = FPCanvas.pjsBevel;
-    {** Segments are joined by extending them up to their intersection.
-        There is a miter limit so that if the intersection is too far,
-        an intermediary segment is used }
-    pjsMiter = FPCanvas.pjsMiter;
-
-type
-  {* Style to use for the pen. The unit for the pattern is the width of the
-     line }
-  TPenStyle = TFPPenStyle;
-
-const
-  {** Pen is continuous }
-  psSolid = FPCanvas.psSolid;
-  {** Pen is dashed. The dash have a length of 3 unit and the gaps of 1 unit }
-  psDash = FPCanvas.psDash;
-  {** Pen is dotted. The dots have a length of 1 unit and the gaps of 1 unit }
-  psDot = FPCanvas.psDot;
-  {** Pattern is a dash of length 3 followed by a dot of length 1, separated by a gap of length 1 }
-  psDashDot = FPCanvas.psDashDot;
-  {** Dash of length 3, and two dots of length 1 }
-  psDashDotDot = FPCanvas.psDashDotDot;
-  {** Pen is not drawn }
-  psClear = FPCanvas.psClear;
-  {** Not used. Provided for compatibility }
-  psInsideframe = FPCanvas.psInsideframe;
-  {** Custom pattern used }
-  psPattern = FPCanvas.psPattern;
-
-type
-  TTransparentMode = (
-    tmAuto,
-    tmFixed
-    );
-
-  { TPen }
-  {* A class containing a pen }
-  TPen = class(TFPCustomPen)
-  private
-    FEndCap: TPenEndCap;
-    FJoinStyle: TPenJoinStyle;
-    function GetColor: TColor;
-    procedure SetColor(AValue: TColor);
-  public
-    constructor Create; override;
-    {** Color of the pen }
-    property Color: TColor read GetColor write SetColor;
-    {** End cap of the pen: how to draw the ends of the lines }
-    property EndCap;
-    {** Join style: how to join the segments of a polyline }
-    property JoinStyle;
-    {** Pen style: solid, dash, dot... }{inherited
-    property Style : TPenStyle read write;
-   }{** Pen width in pixels }{inherited
-    property Width : Integer read write;
-   }
-  end;
 
 type
   {* Vertical position of a text }
@@ -364,48 +314,27 @@ type
         of the hole in the opposite order }
     fmWinding);
 
-  {* Pattern when filling with a brush. It is used in BGRACanvas but can
-     also be created with TBGRABitmap.CreateBrushTexture function }
-  TBrushStyle = TFPBrushStyle;
-
-const
-  {** Fill with the current color }
-  bsSolid = FPCanvas.bsSolid;
-  {** Does not fill at all }
-  bsClear = FPCanvas.bsClear;
-  {** Draw horizontal lines }
-  bsHorizontal = FPCanvas.bsHorizontal;
-  {** Draw vertical lines }
-  bsVertical = FPCanvas.bsVertical;
-  {** Draw diagonal lines from top-left to bottom-right }
-  bsFDiagonal = FPCanvas.bsFDiagonal;
-  {** Draw diagonal lines from bottom-left to top-right }
-  bsBDiagonal = FPCanvas.bsBDiagonal;
-  {** Draw both horizontal and vertical lines }
-  bsCross = FPCanvas.bsCross;
-  {** Draw both diagonal lines }
-  bsDiagCross = FPCanvas.bsDiagCross;
-
 type
+  {$IFNDEF TFontStyle}
+  {* Available font styles }
+  TFontStyle = (
+    {** Font is bold }
+    fsBold,
+    {** Font is italic }
+    fsItalic,
+    {** An horizontal line is drawn in the middle of the text }
+    fsStrikeOut,
+    {** Text is underlined }
+    fsUnderline);
+  {** A combination of font styles }
+  TFontStyles = set of TFontStyle;
+  {$ENDIF}
+  {$IFNDEF TFontQuality}
+  {* Quality to use when font is rendered by the system }
+  TFontQuality = (fqDefault, fqDraft, fqProof, fqNonAntialiased, fqAntialiased, fqCleartype, fqCleartypeNatural);
+  {$ENDIF}
 
-  { TBrush }
-  {* A class describing a brush }
-  TBrush = class(TFPCustomBrush)
-  private
-    function GetColor: TColor;
-    procedure SetColor(AValue: TColor);
-    public
-      constructor Create; override;
-      {** Color of the brush }
-      property Color: TColor read GetColor write SetColor;
-      {** Style of the brush: solid, diagonal lines, horizontal lines... }{inherited
-      property Style : TBrushStyle read write;
-      }
-  end;
-
-type
-  TGraphic = class;
-
+  {$IFNDEF TCanvas}
   { TCanvas }
   {* A surface on which to draw }
   TCanvas = class
@@ -419,6 +348,7 @@ type
     procedure StretchDraw(ARect: TRect; AImage: TGraphic);
     property GUICanvas: TGUICanvas read FCanvas;
   end;
+  {$ENDIF}
 
   { TGraphic }
   {* A class containing any element that can be drawn within rectangular bounds }
@@ -458,6 +388,7 @@ type
     property Transparent: Boolean read GetTransparent write SetTransparent;
   end;
 
+  {$IFNDEF TBitmap}
   { TBitmap }
   {* Contains a bitmap }
   TBitmap = class(TGraphic)
@@ -500,71 +431,31 @@ type
     property TransparentMode: TTransparentMode read FTransparentMode
              write SetTransparentMode default tmAuto;
   end;
-
-  TRasterImage = TBitmap;
-
-  {* Available font styles }
-  TFontStyle = (
-    {** Font is bold }
-    fsBold,
-    {** Font is italic }
-    fsItalic,
-    {** An horizontal line is drawn in the middle of the text }
-    fsStrikeOut,
-    {** Text is underlined }
-    fsUnderline);
-  {** A combination of font styles }
-  TFontStyles = set of TFontStyle;
-  {* Quality to use when font is rendered by the system }
-  TFontQuality = (fqDefault, fqDraft, fqProof, fqNonAntialiased, fqAntialiased, fqCleartype, fqCleartypeNatural);
-
-  { TFont }
-  {* Contains the description of a font }
-  TFont = class(TFPCustomFont)
-  private
-    FPixelsPerInch, FHeight: Integer;
-    FQuality: TFontQuality;
-    FStyle: TFontStyles;
-    function GetColor: TColor;
-    function GetHeight: Integer;
-    function GetSize: Integer;
-    function GetStyle: TFontStyles;
-    procedure SetColor(AValue: TColor);
-    procedure SetHeight(AValue: Integer);
-    procedure SetQuality(AValue: TFontQuality);
-    procedure SetStyle(AValue: TFontStyles);
-  protected
-    procedure SetSize(AValue: Integer); override;
-  public
-    constructor Create; override;
-    {** Pixels per inches }
-    property PixelsPerInch: Integer read FPixelsPerInch write FPixelsPerInch;
-    {** Color of the font }
-    property Color: TColor read GetColor write SetColor;
-    {** Height of the font in pixels. When the number is negative, it indicates a size in pixels }
-    property Height: Integer read GetHeight write SetHeight;
-    {** Size of the font in inches. When the number is negative, it indicates a height in inches }
-    property Size: Integer read GetSize write SetSize;
-    {** Quality of the font rendering }
-    property Quality: TFontQuality read FQuality write SetQuality;
-    {** Style to apply to the text }
-    property Style: TFontStyles read GetStyle write SetStyle;
-  end;
+  {$ENDIF}
 
 {* Multiply and divide the number allowing big intermediate number and rounding the result }
 function MulDiv(nNumber, nNumerator, nDenominator: Integer): Integer;
 {* Round the number using math convention }
 function MathRound(AValue: ValReal): Int64; inline;
 
+{$IFDEF BGRABITMAP_USE_FPCANVAS}
+{$DEFINE INCLUDE_INTERFACE}
+{$i bgrafpcanvas.inc}
+{$ENDIF}
+
 implementation
 
 uses sysutils, BGRAUTF8;
 
 {$DEFINE INCLUDE_IMPLEMENTATION}
-{$IFDEF BGRABITMAP_USE_FPGUI}
-  {$i bgrafpgui.inc}
+{$IFDEF BGRABITMAP_USE_MSEGUI}
+  {$i bgramsegui.inc}
 {$ELSE}
-  {$i bgranogui.inc}
+  {$IFDEF BGRABITMAP_USE_FPGUI}
+    {$i bgrafpgui.inc}
+  {$ELSE}
+    {$i bgranogui.inc}
+  {$ENDIF}
 {$ENDIF}
 
 function MathRound(AValue: ValReal): Int64; inline;
@@ -585,7 +476,7 @@ end;
 
 function FPColorToTColor(const FPColor: TFPColor): TColor;
 begin
-  {$IFDEF BGRABITMAP_USE_FPGUI}
+  {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}
   Result:=((FPColor.Blue shr 8) and $ff)
        or (FPColor.Green and $ff00)
        or ((FPColor.Red shl 8) and $ff0000);
@@ -598,7 +489,7 @@ end;
 
 function TColorToFPColor(const c: TColor): TFPColor;
 begin
-  {$IFDEF BGRABITMAP_USE_FPGUI}
+  {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}
   Result.Blue:=(c and $ff);
   Result.Blue:=Result.Blue+(Result.Blue shl 8);
   Result.Green:=(c and $ff00);
@@ -614,6 +505,28 @@ begin
   Result.Blue:=Result.Blue+(Result.Blue shr 8);
   {$ENDIF}
   Result.Alpha:=FPImage.alphaOpaque;
+end;
+
+procedure RedGreenBlue(rgb: TColor; out Red, Green, Blue: Byte);
+begin
+  {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}
+  Blue := rgb and $000000ff;
+  Green := (rgb shr 8) and $000000ff;
+  Red := (rgb shr 16) and $000000ff;
+  {$ELSE}
+  Red := rgb and $000000ff;
+  Green := (rgb shr 8) and $000000ff;
+  Blue := (rgb shr 16) and $000000ff;
+  {$ENDIF}
+end;
+
+function RGBToColor(R, G, B: Byte): TColor;
+begin
+  {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}
+  Result := (R shl 16) or (G shl 8) or B;
+  {$ELSE}
+  Result := (B shl 16) or (G shl 8) or R;
+  {$ENDIF}
 end;
 
 { TGraphic }
@@ -662,6 +575,7 @@ begin
   //nothing
 end;
 
+{$IFNDEF TCanvas}
 { TCanvas }
 
 constructor TCanvas.Create(ACanvas: TGUICanvas);
@@ -684,118 +598,9 @@ begin
   else
     AImage.Draw(self, ARect);
 end;
+{$ENDIF}
 
-{ TPen }
-
-procedure TPen.SetColor(AValue: TColor);
-begin
-  FPColor := TColorToFPColor(AValue);
-end;
-
-function TPen.GetColor: TColor;
-begin
-  result := FPColorToTColor(FPColor);
-end;
-
-constructor TPen.Create;
-begin
-  inherited Create;
-  Mode := pmCopy;
-  Style := psSolid;
-  Width := 1;
-  FPColor := colBlack;
-  FEndCap:= pecRound;
-  FJoinStyle:= pjsRound;
-end;
-
-{ TBrush }
-
-function TBrush.GetColor: TColor;
-begin
-  result := FPColorToTColor(FPColor);
-end;
-
-procedure TBrush.SetColor(AValue: TColor);
-begin
-  FPColor := TColorToFPColor(AValue);
-end;
-
-constructor TBrush.Create;
-begin
-  inherited Create;
-  FPColor := colWhite;
-end;
-
-{ TFont }
-
-function TFont.GetColor: TColor;
-begin
-  result := FPColorToTColor(FPColor);
-end;
-
-function TFont.GetHeight: Integer;
-begin
-  result := FHeight;
-end;
-
-function TFont.GetSize: Integer;
-begin
-  Result := inherited Size;
-end;
-
-function TFont.GetStyle: TFontStyles;
-begin
-  result := FStyle;
-end;
-
-procedure TFont.SetColor(AValue: TColor);
-begin
-  FPColor := TColorToFPColor(AValue);
-end;
-
-procedure TFont.SetHeight(AValue: Integer);
-begin
-  if Height <> AValue then
-  begin
-    FHeight := AValue;
-    inherited SetSize(-MulDiv(AValue, 72, FPixelsPerInch));
-  end;
-end;
-
-procedure TFont.SetQuality(AValue: TFontQuality);
-begin
-  if FQuality=AValue then Exit;
-  FQuality:=AValue;
-end;
-
-procedure TFont.SetSize(AValue: Integer);
-begin
-  if Size <> AValue then
-  begin
-    inherited SetSize(AValue);
-    FHeight := -MulDiv(AValue, FPixelsPerInch, 72);
-  end;
-end;
-
-procedure TFont.SetStyle(AValue: TFontStyles);
-begin
-  if FStyle <> AValue then
-  begin
-    FStyle := AValue;
-    inherited SetFlags(5, fsBold in FStyle);
-    inherited SetFlags(6, fsItalic in FStyle);
-    inherited SetFlags(7, fsUnderline in FStyle);
-    inherited SetFlags(8, fsStrikeOut in FStyle);
-  end;
-end;
-
-constructor TFont.Create;
-begin
-  FPixelsPerInch := GetScreenDPIY;
-  FQuality := fqDefault;
-  FPColor := colBlack;
-end;
-
+{$IFNDEF TBitmap}
 { TBitmap }
 
 procedure TBitmap.SetWidth(Value: Integer);
@@ -906,6 +711,12 @@ begin
   FRawImage.Free;
   inherited Destroy;
 end;
+{$ENDIF}
+
+{$IFDEF BGRABITMAP_USE_FPCANVAS}
+{$DEFINE INCLUDE_IMPLEMENTATION}
+{$i bgrafpcanvas.inc}
+{$ENDIF}
 
 {$ENDIF}
 

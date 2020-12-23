@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit Unit1;
 
 {$mode objfpc}{$H+}

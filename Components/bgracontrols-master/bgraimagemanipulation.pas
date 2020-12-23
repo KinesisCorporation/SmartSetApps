@@ -1,23 +1,10 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 unit BGRAImageManipulation;
 
 { ============================================================================
   BGRAImageManipulation Unit
 
-  Copyright (C) 2011 - Emerson Cavalcanti <emersoncavalcanti at googlesites>
-
-  This library is free software; you can redistribute it and/or modify it
-  under the terms of the GNU Library General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or (at your
-  option) any later version.
-
-  This program is distributed in the hope that it will be useful, but WITHOUT
-  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Library General Public License
-  for more details.
-
-  You should have received a copy of the GNU Library General Public License
-  along with this library; if not, write to the Free Software Foundation,
-  Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+  originally written in 2011 by - Emerson Cavalcanti <emersoncavalcanti at googlesites>
 
   ============================================================================
   Description:
@@ -2595,6 +2582,7 @@ begin
       fEndPoint := Point(X - WorkRect.Left, Y - WorkRect.Top);
 
       // Verifies that is positioned on an anchor
+      ACursor := crDefault;
       overCropArea :=Self.isOverAnchor(fEndPoint, fAnchorSelected, ACursor);
       Cursor :=ACursor;
     end;
@@ -2646,25 +2634,25 @@ begin
       begin
         rSelectedCropArea :=rNewCropArea;
         rNewCropArea :=Nil;
-      end;
 
-      if (rSelectedCropArea.Area.Left > rSelectedCropArea.Area.Right) then
-      begin
-        // Swap left and right coordinates
-        temp := rSelectedCropArea.Area.Left;
-        rSelectedCropArea.Area.Left := rSelectedCropArea.Area.Right;
-        rSelectedCropArea.Area.Right := temp;
-      end;
+        if (rSelectedCropArea.Area.Left > rSelectedCropArea.Area.Right) then
+        begin
+          // Swap left and right coordinates
+          temp := rSelectedCropArea.Area.Left;
+          rSelectedCropArea.Area.Left := rSelectedCropArea.Area.Right;
+          rSelectedCropArea.Area.Right := temp;
+        end;
 
-      if (rSelectedCropArea.Area.Top > rSelectedCropArea.Area.Bottom) then
-      begin
-        // Swap left and right coordinates
-        temp := rSelectedCropArea.Area.Top;
-        rSelectedCropArea.Area.Top := rSelectedCropArea.Area.Bottom;
-        rSelectedCropArea.Area.Bottom := temp;
-      end;
+        if (rSelectedCropArea.Area.Top > rSelectedCropArea.Area.Bottom) then
+        begin
+          // Swap left and right coordinates
+          temp := rSelectedCropArea.Area.Top;
+          rSelectedCropArea.Area.Top := rSelectedCropArea.Area.Bottom;
+          rSelectedCropArea.Area.Bottom := temp;
+        end;
 
-      needRepaint := True;
+        needRepaint := True;
+      end;
     end;
 
     fAnchorSelected := [];

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAAnimatedGif;
 
 {$mode objfpc}{$H+}
@@ -6,7 +7,7 @@ unit BGRAAnimatedGif;
 interface
 
 uses
-  Classes, SysUtils, BGRAGraphics, FPImage, BGRABitmap, BGRABitmapTypes,
+  BGRAClasses, SysUtils, BGRAGraphics, FPImage, BGRABitmap, BGRABitmapTypes,
   BGRAPalette, BGRAGifFormat;
 
 type
@@ -243,12 +244,12 @@ begin
   else
   begin
     if not FPaused then
-      FTimeAccumulator += (curDate - FPrevDate) * 24 * 60 * 60 * 1000;
+      IncF(FTimeAccumulator, (curDate - FPrevDate) * 24 * 60 * 60 * 1000);
     if FTotalAnimationTime > 0 then FTimeAccumulator:= frac(FTimeAccumulator/FTotalAnimationTime)*FTotalAnimationTime;
     nextImage := FCurrentImage;
     while FTimeAccumulator > FImages[nextImage].DelayMs do
     begin
-      FTimeAccumulator -= FImages[nextImage].DelayMs;
+      DecF(FTimeAccumulator, FImages[nextImage].DelayMs);
       Inc(nextImage);
       if nextImage >= Count then
       begin
@@ -364,7 +365,7 @@ procedure TBGRAAnimatedGif.SetFrameImage(AIndex: integer; AValue: TBGRABitmap);
 var ACopy: TBGRABitmap;
 begin
   CheckFrameIndex(AIndex);
-  ACopy := AValue.Duplicate as TBGRABitmap;
+  ACopy := AValue.Duplicate;
   FImages[AIndex].Image.FreeReference;
   FImages[AIndex].Image := ACopy;
 end;
@@ -461,7 +462,7 @@ begin
   else
   begin
     acc := FTimeAccumulator;
-    if not FPaused then acc += (Now- FPrevDate) * 24 * 60 * 60 * 1000;
+    if not FPaused then IncF(acc, (Now- FPrevDate) * 24 * 60 * 60 * 1000);
     if acc >= FImages[FCurrentImage].DelayMs then
       result := 0
     else
@@ -579,7 +580,7 @@ begin
     if (AIndex > 0) and (FrameDisposeMode[AIndex-1] <> dmErase) then
     begin
       CurrentImage := AIndex;
-      nextImage := MemBitmap.Duplicate as TBGRABitmap;
+      nextImage := MemBitmap.Duplicate;
       FrameImagePos[AIndex] := Point(0,0);
       FrameImage[AIndex] := nextImage;
       FrameHasLocalPalette[AIndex] := true;
@@ -614,7 +615,7 @@ begin
     ((AIndex < Count-1) and (FrameDisposeMode[AIndex] <> dmErase)) then
   begin
     CurrentImage := AIndex+1;
-    nextImage := MemBitmap.Duplicate as TBGRABitmap;
+    nextImage := MemBitmap.Duplicate;
     FrameImagePos[AIndex+1] := Point(0,0);
     FrameImage[AIndex+1] := nextImage;
     FrameHasLocalPalette[AIndex+1] := true;
@@ -658,7 +659,7 @@ begin
   for i := 0 to high(FImages) do
   begin
     FImages[i] := data.Images[i];
-    FTotalAnimationTime += FImages[i].DelayMs;
+    inc(FTotalAnimationTime, FImages[i].DelayMs);
   end;
 end;
 
@@ -847,7 +848,7 @@ procedure TBGRAAnimatedGif.Update(Canvas: TCanvas; ARect: TRect);
 var
   n: integer;
   PChangePix, PNewPix, PBackground, PNewBackground: PLongWord;
-  oldpix, newpix, newbackpix: longword;
+  oldpix, newpix, newbackpix: LongWord;
   NewBackgroundImage: TBGRABitmap;
 begin
   if (BackgroundMode = gbmUpdateBackgroundContinuously) and
@@ -1048,8 +1049,8 @@ procedure TBGRAAnimatedGif.UpdateEraseBackground(Canvas: TCanvas;
 var
   n:      integer;
   PChangePix, PNewPix: PLongWord;
-  newpix: longword;
-  MemPixEraseColor: longword;
+  newpix: LongWord;
+  MemPixEraseColor: LongWord;
 begin
   if EraseColor = clNone then
   begin

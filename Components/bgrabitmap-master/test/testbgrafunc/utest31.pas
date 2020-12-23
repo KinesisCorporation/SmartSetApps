@@ -135,8 +135,7 @@ begin
 
   virtualScreen.GradientFill(0,0,Width,Height,HSLAToBGRA(hsla1),HSLAToBGRA(hsla2),gtLinear,pts[0],pts[1],dmSet);
 
-  phong.LightPosition.X := round(lightPos1.x * Width);
-  phong.LightPosition.Y := round(lightPos1.y * Height);
+  phong.LightPositionF := PointF(lightPos1.x * Width, lightPos1.y * Height);
   h := round(textfx.Height *0.07);
   phong.LightPositionZ := h*4;
   textfx.DrawShaded(virtualScreen,Width div 2,Height div 2-textfx.Height div 2, phong, h,wood, taCenter, True);
@@ -198,8 +197,8 @@ begin
       dirs[i].y := -abs(dirs[i].y);
     end;
   end;
-  hsla1.hue += round(moveFactor*40);
-  hsla2.hue += round(moveFactor*40);
+  inc(hsla1.hue, round(moveFactor*40) );
+  inc(hsla2.hue, round(moveFactor*40) );
 
   time := time+ElapsedSec;
   lightPos1 := pointF((sin(time*0.7+1)+1)/4+0.4,(cos(time*0.5+2)+1)/4+0.3);

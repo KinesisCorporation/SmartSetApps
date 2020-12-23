@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAReadXPM;
 
 {$mode objfpc}{$H+}
@@ -5,7 +6,7 @@ unit BGRAReadXPM;
 interface
 
 uses
-  Classes, SysUtils, FPReadXPM, FPimage;
+  BGRAClasses, SysUtils, FPReadXPM, FPimage;
 
 type
 
@@ -16,7 +17,7 @@ type
       procedure InternalRead(Str: TStream; Img: TFPCustomImage); override;
       function InternalCheck(Str: TStream): boolean; override;
     public
-      class procedure ConvertToXPM3(ASource: TStream; ADestination: TStream);
+      class procedure ConvertToXPM3(ASource: TStream; ADestination: TStream); static;
   end;
 
 implementation

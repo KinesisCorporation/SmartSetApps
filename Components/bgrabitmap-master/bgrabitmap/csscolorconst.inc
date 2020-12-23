@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {=== Color definitions ===}
 
 {$IFDEF INCLUDE_INTERFACE}
@@ -7,6 +8,7 @@ var
      color with alpha = 0 is transparent, however it is recommended to
      use all other channels to zero as well. }
   BGRAPixelTransparent: TBGRAPixel;
+  ExpandedPixelTransparent: TExpandedPixel;
 
   {* [#FFFFFF] White opaque }
   BGRAWhite: TBGRAPixel;
@@ -125,7 +127,7 @@ var
    * [#000080] Navy,   [#0000FF] Blue, [#008080] Teal,   [#00FFFF] Aqua.
    * Shortcut constants are provided: [#000000] ''VGABlack'', [#808080] ''VGAGray''... }
   VGAColors: TBGRAColorList;
-  {* List of [http://www.w3schools.com/cssref/css_colornames.asp web colors].
+  {* List of [https://www.w3schools.com/cssref/css_colors.asp web colors].
   Shortcut constants are provided: [#000000] ''CSSBlack'', [#FF0000] ''CSSRed''... }
   CSSColors: TBGRAColorList;
 
@@ -133,7 +135,8 @@ var
 
 {* Converts a ''TBGRAPixel'' value into a string, using color names provided in ''AColorList'', and
    considering that a color matches in the color list if its difference is within ''AMaxDiff'' }
-function BGRAToStr(c: TBGRAPixel; AColorList: TBGRAColorList = nil; AMaxDiff: Word= 0): string;
+function BGRAToStr(c: TBGRAPixel; AColorList: TBGRAColorList = nil;
+  AMaxDiff: Word= 0; AOptionalAlpha: boolean = false; AHashTagPrefix: boolean = false): string;
 {* Converts a fully defined string into a ''TBGRAPixel'' value. Color names from ''VGAColors'' and ''CSSColors''
    are used if there is an exact match }
 function StrToBGRA(str: string): TBGRAPixel; overload;
@@ -258,7 +261,8 @@ end;
 {------------------- string conversion ---------------------------------}
 
 { Write a color in hexadecimal format RRGGBBAA or using the name in a color list }
-function BGRAToStr(c: TBGRAPixel; AColorList: TBGRAColorList = nil; AMaxDiff: Word= 0): string;
+function BGRAToStr(c: TBGRAPixel; AColorList: TBGRAColorList;
+  AMaxDiff: Word; AOptionalAlpha: boolean; AHashTagPrefix: boolean): string;
 var idx: integer;
 begin
   if Assigned(AColorList) then
@@ -270,7 +274,11 @@ begin
       exit;
     end;
   end;
-  result := IntToHex(c.red,2)+IntToHex(c.green,2)+IntToHex(c.Blue,2)+IntToHex(c.Alpha,2);
+  if AOptionalAlpha and (c.alpha = 255) then
+    result := IntToHex(c.red,2)+IntToHex(c.green,2)+IntToHex(c.Blue,2)
+  else
+    result := IntToHex(c.red,2)+IntToHex(c.green,2)+IntToHex(c.Blue,2)+IntToHex(c.Alpha,2);
+  if AHashTagPrefix then result := '#' + result;
 end;
 
 type
@@ -449,8 +457,8 @@ begin
     if str[1]='#' then delete(str,1,1);
 
     //add alpha if missing (if you want an undefined alpha use '??' or '?')
-    if length(str)=6 then str += 'FF';
-    if length(str)=3 then str += 'F';
+    if length(str)=6 then AppendStr(str, 'FF')
+    else if length(str)=3 then AppendStr(str, 'F');
 
     //hex notation
     if length(str)=8 then
@@ -486,19 +494,19 @@ begin
       begin
         val('$'+str[1],parsedValue.red,errPos);
         if errPos <> 0 then error := true;
-        parsedValue.red *= $11;
+        parsedValue.red := parsedValue.red * $11;
       end else missingValues := true;
       if str[2] <> '?' then
       begin
         val('$'+str[2],parsedValue.green,errPos);
         if errPos <> 0 then error := true;
-        parsedValue.green *= $11;
+        parsedValue.green := parsedValue.green * $11;
       end else missingValues := true;
       if str[3] <> '?' then
       begin
         val('$'+str[3],parsedValue.blue,errPos);
         if errPos <> 0 then error := true;
-        parsedValue.blue *= $11;
+        parsedValue.blue := parsedValue.blue * $11;
       end else missingValues := true;
       if str[4] <> '?' then
       begin
@@ -508,7 +516,7 @@ begin
           error := true;
           parsedValue.alpha := 255;
         end else
-          parsedValue.alpha *= $11;
+          parsedValue.alpha := parsedValue.alpha * $11;
       end else missingValues := true;
     end else
       error := true; //string format not recognised
@@ -546,6 +554,7 @@ end;
 {$IFDEF INCLUDE_INIT}
 {$UNDEF INCLUDE_INIT}
   BGRAPixelTransparent := BGRA(0,0,0,0);
+  ExpandedPixelTransparent := BGRAPixelTransparent.ToExpanded;
   BGRAWhite := BGRA(255,255,255);
   BGRABlack := BGRA(0,0,0);
 

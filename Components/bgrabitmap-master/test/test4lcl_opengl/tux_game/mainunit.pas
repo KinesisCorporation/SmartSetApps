@@ -75,6 +75,8 @@ begin
   ClientHeight := 600;
   Constraints.MaxWidth := Width;
 
+  ResourceDir := {$IFDEF DARWIN}ExtractFilePath(Application.ExeName)+'../../../../'{$ELSE}
+                 '..'+PathDelim{$ENDIF};
   GameContext1 := TGameContext.Create(False);
   GameContext2 := nil;
   { Textures are loaded in the LoadTextures event }
@@ -237,9 +239,9 @@ begin
   end else
   begin
     //draw a handle to indicate it is reduced
-    BGLContext.Canvas.Fill(ColorToBGRA(ColorToRGB(clBtnFace)));
-    BGLContext.Canvas.Line(1,3,BGLContext.Width-2,3, ColorToBGRA(ColorToRGB(clBtnHighlight)));
-    BGLContext.Canvas.Line(1,4,BGLContext.Width-2,4, ColorToBGRA(ColorToRGB(clBtnShadow)));
+    BGLContext.Canvas.Fill(ColorToBGRA(clBtnFace));
+    BGLContext.Canvas.Line(1,3,BGLContext.Width-2,3, ColorToBGRA(clBtnHighlight));
+    BGLContext.Canvas.Line(1,4,BGLContext.Width-2,4, ColorToBGRA(clBtnShadow));
   end;
 end;
 

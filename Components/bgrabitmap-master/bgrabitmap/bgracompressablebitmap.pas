@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRACompressableBitmap;
 
 {$mode objfpc}{$H+}
@@ -26,7 +27,7 @@ interface
   at a time. }
 
 uses
-  Classes, SysUtils, BGRABitmapTypes, BGRABitmap, zstream;
+  BGRAClasses, SysUtils, BGRABitmapTypes, BGRABitmap, zstream;
 
 type
 
@@ -119,6 +120,7 @@ begin
   end else
   begin
     FUncompressedData.Read(result.Data^,result.NbPixels*Sizeof(TBGRAPixel));
+    if result.LineOrder <> FLineOrder then result.VerticalFlip;
     If TBGRAPixel_RGBAOrder then result.SwapRedBlue;
   end;
 end;
@@ -129,8 +131,8 @@ var i: integer;
 begin
   result := 0;
   for i := 0 to high(FCompressedDataArray) do
-    result += FCompressedDataArray[i].Size;
-  if FUncompressedData <> nil then result += FUncompressedData.Size;
+    inc(result, FCompressedDataArray[i].Size);
+  if FUncompressedData <> nil then inc(result, FUncompressedData.Size);
 end;
 
 { Do one compress step or return false }
@@ -291,7 +293,7 @@ begin
   if (FBounds.Left <> 0) or (FBounds.Top <> 0)
     or (FBounds.Right <> Source.Width) or (FBounds.Bottom <> Source.Height) then
   begin
-    UsedPart := Source.GetPart(FBounds) as TBGRABitmap;
+    UsedPart := Source.GetPart(FBounds);
     If TBGRAPixel_RGBAOrder then UsedPart.SwapRedBlue;
     FUncompressedData.Write(UsedPart.Data^,NbUsedPixels*Sizeof(TBGRAPixel));
     FLineOrder := UsedPart.LineOrder;

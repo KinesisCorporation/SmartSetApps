@@ -15,3 +15,6 @@ debug
 *Thumbs.db
 *.app/*
 *.dSYM
+test/test_bccombobox/test_bccombobox
+
+.DS_Store

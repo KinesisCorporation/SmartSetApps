@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRARenderer3D;
 
 {$mode objfpc}{$H+}
@@ -7,7 +8,7 @@ interface
 uses BGRABitmapTypes,
   BGRASceneTypes, BGRASSE,
   BGRAPolygon, BGRAColorInt,
-  Classes, BGRAMatrix3D,
+  BGRAClasses, BGRAMatrix3D,
   BGRAPolygonAliased;
 
 type
@@ -213,7 +214,7 @@ end;
 
 procedure TBGRAShader3D.ComputeDiffuseLightness(
   Context: PSceneLightingContext);
-var i: NativeInt;
+var i: Int32or64;
 begin
   Context^.lightness := FAmbiantLightness;
 
@@ -226,7 +227,7 @@ begin
 end;
 
 procedure TBGRAShader3D.ComputeDiffuseLight(Context: PSceneLightingContext);
-var i: NativeInt;
+var i: Int32or64;
   m: TBGRAMaterial3D;
 begin
   m := TBGRAMaterial3D(Context^.material);
@@ -248,7 +249,7 @@ end;
 
 procedure TBGRAShader3D.ComputeDiffuseAndSpecularLight(
   Context: PSceneLightingContext);
-var i: NativeInt;
+var i: Int32or64;
   m: TBGRAMaterial3D;
 begin
   m := TBGRAMaterial3D(Context^.material);
@@ -376,7 +377,7 @@ function TBGRAShader3D.Int65536ApplyLightingWithLightness(
 var
   MaterialColor: TColorInt65536;
   m: TBGRAMaterial3D;
-  Extra: NativeInt;
+  Extra: Int32or64;
 begin
   ComputeDiffuseLightness(Context);
 
@@ -399,9 +400,9 @@ begin
       begin
         result := MaterialColor * ColorInt65536(Lightness shl 1,Lightness shl 1,Lightness shl 1,65536);
         Extra := (Lightness - SaturationLow)*65536 div (SaturationHigh-SaturationLow);
-        result.r += Extra;
-        result.g += Extra;
-        result.b += Extra;
+        inc(result.r, Extra);
+        inc(result.g, Extra);
+        inc(result.b, Extra);
       end;
     end;
 end;
@@ -480,7 +481,7 @@ begin
   if FOptions.PerspectiveMode = pmZBuffer then
   begin
     Getmem(FZBuffer, FRenderSurface.NbPixels*sizeof(single));
-    FillDWord(FZBuffer^, FRenderSurface.NbPixels, dword(single(0)));
+    FillDWord(FZBuffer^, FRenderSurface.NbPixels, LongWord(single(0)));
   end
   else
     FZBuffer := nil;
@@ -501,7 +502,7 @@ function TBGRARenderer3D.RenderFace(var ADescription: TFaceRenderingDescription;
   AComputeCoordinate: TComputeProjectionFunc): boolean;
 
   procedure ComputeCenter;
-  var j: NativeInt;
+  var j: Int32or64;
   begin
     with ADescription do
     begin
@@ -513,12 +514,12 @@ function TBGRARenderer3D.RenderFace(var ADescription: TFaceRenderingDescription;
       end;
       for j := 0 to NbVertices-1 do
       begin
-        FCenter.pos3D += Positions3D[j];
-        FCenter.normal3D += Normals3D[j];
+        FCenter.pos3D.Offset(Positions3D[j]);
+        FCenter.normal3D.Offset(Normals3D[j]);
       end;
       with FCenter do
       begin
-        pos3D *= (1/NbVertices);
+        pos3D.Scale(1/NbVertices);
         Normalize3D_128(normal3D);
       end;
     end;
@@ -527,7 +528,7 @@ function TBGRARenderer3D.RenderFace(var ADescription: TFaceRenderingDescription;
 
   procedure DrawFaceWithShader;
   var
-    j,k: NativeInt;
+    j,k: Int32or64;
     SameColor: boolean;
   begin
     with ADescription do
@@ -593,7 +594,7 @@ function TBGRARenderer3D.RenderFace(var ADescription: TFaceRenderingDescription;
 
   procedure ComputeShadedColors;
   var
-    j: NativeInt;
+    j: Int32or64;
   begin
     with ADescription do
     begin
@@ -616,7 +617,7 @@ function TBGRARenderer3D.RenderFace(var ADescription: TFaceRenderingDescription;
 
   procedure DrawWithMultishape;
   var shadedCenter: TBGRAPixel;
-    j,k: NativeInt;
+    j,k: Int32or64;
   begin
     with ADescription do
     begin
@@ -718,7 +719,7 @@ function TBGRARenderer3D.RenderFace(var ADescription: TFaceRenderingDescription;
   procedure DrawWithoutShader;
   var
     noLighting: Boolean;
-    j: NativeInt;
+    j: Int32or64;
   begin
     with ADescription do
     begin

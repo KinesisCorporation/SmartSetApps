@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAMacBitmap;
 
 {$mode objfpc}{$H+}
@@ -5,7 +6,7 @@ unit BGRAMacBitmap;
 interface
 
 uses
-  Classes, SysUtils, BGRALCLBitmap, BGRAGraphics, BGRABitmapTypes;
+  BGRAClasses, SysUtils, BGRALCLBitmap, BGRAGraphics, BGRABitmapTypes;
 
 type
 

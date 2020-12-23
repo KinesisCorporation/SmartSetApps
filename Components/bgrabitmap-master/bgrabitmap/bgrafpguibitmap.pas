@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRAfpGUIBitmap;
 
 {$mode objfpc}{$H+}
@@ -5,7 +6,7 @@ unit BGRAfpGUIBitmap;
 interface
 
 uses
-  SysUtils, Classes, BGRAGraphics, BGRABitmapTypes, BGRADefaultBitmap,
+  SysUtils, BGRAClasses, BGRAGraphics, BGRABitmapTypes, BGRADefaultBitmap,
   BGRAFreeType, EasyLazFreeType, LazFreeTypeFontCollection,
   BGRACanvas;
 
@@ -32,8 +33,8 @@ type
     procedure NotAvailable;
   public
     destructor Destroy; override;
-    class procedure AddFreeTypeFontFolder(ADirectory: string; AUTF8: boolean = false);
-    class procedure AddFreeTypeFontFile(AFilename: string; AUTF8: boolean = false);
+    class procedure AddFreeTypeFontFolder(ADirectory: string; AUTF8: boolean = false); static;
+    class procedure AddFreeTypeFontFile(AFilename: string; AUTF8: boolean = false); static;
     procedure Draw(ACanvas: TCanvas; x, y: integer; {%H-}Opaque: boolean=True); override;
     procedure Draw(ACanvas: TCanvas; Rect: TRect; {%H-}Opaque: boolean=True); override;
     procedure Draw(ACanvas: TGUICanvas; x, y: integer; {%H-}Opaque: boolean=True); overload;
@@ -83,7 +84,7 @@ procedure TBGRAfpGUIBitmap.RebuildBitmap;
 var pmask, pmaskline: PByte;
   pdata: PBGRAPixel;
   raw: TRawImage;
-  x,y,bit,masklinesize,curmaskbyte: NativeUInt;
+  x,y,bit,masklinesize,curmaskbyte: UInt32or64;
 begin
   if FBitmap.Transparent then
   begin
@@ -132,7 +133,7 @@ var
 begin
   if (ARawImage.Width <> Width) or
     (ARawImage.Height <> Height) then
-    raise Exception.Create('Bitmap size is inconsistant');
+    raise Exception.Create('Bitmap size is inconsistent');
 
   lineSize := Width*sizeof(TBGRAPixel);
   for y := 0 to Height-1 do
@@ -152,7 +153,7 @@ procedure TBGRAfpGUIBitmap.ReallocData;
 begin
   FBitmap.Width := Width;
   FBitmap.Height:= Height;
-  FData := FBitmap.RawImage.ImageData;
+  FDataByte := PByte(FBitmap.RawImage.ImageData);
   InvalidateBitmap;
   FScanPtr := nil;
 end;

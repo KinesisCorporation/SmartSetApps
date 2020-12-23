@@ -91,8 +91,8 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  img := TBGRABitmap.Create('pteRaz.jpg');
-  abelias := TBGRABitmap.Create('abelias.png');
+  img := TBGRABitmap.Create(ExtractFilePath(Application.ExeName)+'pteRaz.jpg');
+  abelias := TBGRABitmap.Create(ExtractFilePath(Application.ExeName)+'abelias.png');
   mx := -1000;
   my := -1000;
   lastTime := Now;
@@ -228,23 +228,50 @@ begin
 end;
 
 procedure TForm1.Test1(ctx: TBGRACanvas2D);
+
+  procedure DrawShape(colors: TBGRACustomGradient);
+  begin
+    ctx.fillStyle('rgb(1000,1000,1000)');  //out of bounds so it is saturated to 255,255,255
+    ctx.fillRect (0, 0, ctx.Width, ctx.Height);
+    ctx.fillStyle(ctx.createLinearGradient(0,0,20,0,colors));
+    ctx.shadowOffset := PointF(10,10);
+    ctx.shadowColor('rgba(0,0,0,0.5)');
+    ctx.shadowBlur := 4;
+    ctx.fillRect (mx-100, my-100, 200, 200);
+  end;
+
 var
   colors: TBGRACustomGradient;
+
+
 begin
   if (mx < 0) or (my < 0) then
   begin
     mx := ctx.Width div 2;
     my := ctx.height div 2;
   end;
-  ctx.fillStyle('rgb(1000,1000,1000)');  //out of bounds so it is saturated to 255,255,255
-  ctx.fillRect (0, 0, ctx.Width, ctx.Height);
+
+  ctx.save;
+  ctx.beginPath;
+  ctx.moveTo(0,0);
+  ctx.lineTo(ctx.Width,0);
+  ctx.lineTo(0,ctx.Height);
+  ctx.clip;
   colors := TBGRAMultiGradient.Create([BGRA(0,255,0),BGRA(0,192,128),BGRA(0,255,0)],[0,0.5,1],True,True);
-  ctx.fillStyle(ctx.createLinearGradient(0,0,20,0,colors));
-  ctx.shadowOffset := PointF(5,5);
-  ctx.shadowColor('rgba(0,0,0,0.5)');
-  ctx.shadowBlur := 4;
-  ctx.fillRect (mx-100, my-100, 200, 200);
+  DrawShape(colors);
   colors.Free;
+  ctx.restore;
+
+  ctx.save;
+  ctx.beginPath;
+  ctx.moveTo(ctx.Width,ctx.Height);
+  ctx.lineTo(0,ctx.Height);
+  ctx.lineTo(ctx.Width,0);
+  ctx.clip;
+  colors := TBGRAMultiGradient.Create([BGRA(0,255,255),BGRA(0,192,128),BGRA(0,255,255)],[0,0.5,1],True,True);
+  DrawShape(colors);
+  colors.Free;
+  ctx.restore;
 end;
 
 procedure TForm1.Test2(ctx: TBGRACanvas2D);
@@ -385,17 +412,17 @@ begin
   inc(test5pos, grainElapse);
 
   svg := TBGRASVG.Create;
-  svg.LoadFromFile('Amsterdammertje-icoon.svg');
+  svg.LoadFromFile(ExtractFilePath(Application.ExeName)+'Amsterdammertje-icoon.svg');
   svg.StretchDraw(ctx, taCenter,tlCenter, 0,0,ctx.Width/3,ctx.Height);
 
-  svg.LoadFromFile('BespectacledMaleUser.svg');
+  svg.LoadFromFile(ExtractFilePath(Application.ExeName)+'BespectacledMaleUser.svg');
   svg.StretchDraw(ctx, ctx.Width/3,0,ctx.Width*2/3,ctx.Height/2);
 
   ctx.save;
   ctx.beginPath;
   ctx.rect(ctx.Width/3,ctx.Height/2,ctx.Width*2/3,ctx.Height/2);
   ctx.clip;
-  svg.LoadFromFile('Blue_gyroelongated_pentagonal_pyramid.svg');
+  svg.LoadFromFile(ExtractFilePath(Application.ExeName)+'Blue_gyroelongated_pentagonal_pyramid.svg');
   svg.Draw(ctx, taCenter,tlCenter, ctx.Width*2/3,ctx.Height*3/4);
   ctx.restore;
 
@@ -628,7 +655,7 @@ begin
   ctx.setTransform(-0.55, 0.85, -1, 0.10, 100, 50+img.width*0.5);
   ctx.rotate(PI*2*(Test13pos/360)*vitesse );
   ctx.drawImage(img, img.width*(-0.5)-200, img.height*(-0.8));
-  Test13pos+=1;
+  inc(Test13pos);
   if (Test13pos=360) then Test13pos := 0;
   UpdateIn(10);
 end;
@@ -865,9 +892,9 @@ begin
   pat.GradientFill(0,0,8,8,BGRABlack,BGRAWhite,gtLinear,PointF(0,0),PointF(8,8),dmSet);
 //  ctx.surface.CreateBrushTexture(bsDiagCross,BGRA(255,255,0),BGRA(255,0,0)) as TBGRABitmap;
   ctx.fillStyle(ctx.createPattern(pat,'repeat-x'));
-  ctx.fillRect(0,0,ctx.width,pat.height-1);
+  ctx.fillRect(pat.width,0,ctx.width,pat.height);
   ctx.fillStyle(ctx.createPattern(pat,'repeat-y'));
-  ctx.fillRect(0,0,pat.width-1,ctx.height);
+  ctx.fillRect(0,0,pat.width,ctx.height);
 
   ctx.rotate(Pi);
   ctx.globalAlpha:= 0.25;
@@ -927,15 +954,22 @@ begin
   ctx.fontEmHeight:= ctx.height/10;
   ctx.textBaseline:= 'alphabetic';
 
+  ctx.shadowBlur:= 5;
+  ctx.shadowOffset := PointF(5,5);
+  ctx.shadowColor(BGRABlack);
+
   ctx.beginPath;
   if AVectorizedFont then
     ctx.text('Vectorized font',ctx.fontEmHeight*0.2,ctx.fontEmHeight)
   else
     ctx.text('Raster font',ctx.fontEmHeight*0.2,ctx.fontEmHeight);
-  ctx.lineWidth := 2;
-  ctx.strokeStyle(clLime);
+  ctx.lineWidth := 5;
+  ctx.lineJoin:= 'round';
+  ctx.strokeStyle(BGRA(0,192,0));
   ctx.fillStyle(clBlack);
   ctx.fillOverStroke;
+
+  ctx.shadowNone;
 
   grad := ctx.createLinearGradient(0,0,ctx.width,ctx.height);
   grad.addColorStop(0.3, '#000080');
@@ -966,6 +1000,7 @@ procedure TForm1.Test22(ctx: TBGRACanvas2D);
 var layer: TBGRABitmap;
 begin
   layer := TBGRABitmap.Create(ctx.width,ctx.height, CSSRed);
+  UseVectorizedFont(layer.Canvas2D,true);
   with layer.Canvas2D do
   begin
     pixelCenteredCoordinates:= ctx.pixelCenteredCoordinates;

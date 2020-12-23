@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -144,8 +145,6 @@ function DrawTextShadow(AWidth, AHeight: integer; AText: string;
   AFontQuality: TBGRAFontQuality = fqFineAntialiasing): TBGRACustomBitmap;
 var
   bmpOut, bmpSdw: TBGRABitmap;
-  OutTxtSize: TSize;
-  OutX, OutY: integer;
 begin
   bmpOut := TBGRABitmap.Create(AWidth, AHeight);
   bmpOut.FontAntialias := True;
@@ -154,28 +153,23 @@ begin
   bmpOut.FontName := AFontName;
   bmpOut.FontQuality := AFontQuality;
 
-  OutTxtSize := bmpOut.TextSize(AText);
-  OutX := Round(AWidth / 2) - Round(OutTxtSize.cx / 2);
-  OutY := Round(AHeight / 2) - Round(OutTxtSize.cy / 2);
-
   if AShowShadow then
   begin
-    bmpSdw := TBGRABitmap.Create(OutTxtSize.cx + 2 * ARadius,
-      OutTxtSize.cy + 2 * ARadius);
+    bmpSdw := TBGRABitmap.Create(AWidth, AHeight);
     bmpSdw.FontAntialias := True;
     bmpSdw.FontHeight := AFontHeight;
     bmpSdw.FontStyle := AFontStyle;
     bmpSdw.FontName := AFontName;
     bmpSdw.FontQuality := AFontQuality;
 
-    bmpSdw.TextOut(ARadius, ARadius, AText, AShadowColor);
+    bmpSdw.TextRect(Rect(0, 0, bmpSdw.Width, bmpSdw.Height), AText, taCenter, tlCenter, AShadowColor);
     BGRAReplace(bmpSdw, bmpSdw.FilterBlurRadial(ARadius, rbFast));
-    bmpOut.PutImage(OutX + AOffSetX - ARadius, OutY + AOffSetY - ARadius, bmpSdw,
+    bmpOut.PutImage(0 + AOffSetX, 0 + AOffSetY, bmpSdw,
       dmDrawWithTransparency);
     bmpSdw.Free;
   end;
 
-  bmpOut.TextOut(OutX, OutY, AText, ATextColor);
+  bmpOut.TextRect(Rect(0, 0, bmpOut.Width, bmpOut.Height), AText, taCenter, tlCenter, ATextColor);
 
   Result := bmpOut;
 end;

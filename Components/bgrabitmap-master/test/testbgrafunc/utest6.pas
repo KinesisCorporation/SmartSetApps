@@ -25,6 +25,8 @@ type
 
 implementation
 
+uses utest;
+
 { TTest6 }
 
 procedure TTest6.DrawImage(x, y: integer; pzoomfactor: single; mode : TResampleMode);
@@ -36,7 +38,7 @@ begin
    if width <= 0 then width := 1;
    height := (round(image.height*pzoomfactor)+1) and not 1; //even size for centering
    if height <= 0 then height := 1;
-   temp := image.Resample(width,height,mode) as TBGRABitmap;
+   temp := image.Resample(width,height,mode);
    virtualScreen.PutImage(x-width div 2,y-height div 2,temp,dmDrawWithTransparency);
    temp.Free;
 end;
@@ -46,7 +48,7 @@ begin
   inherited Create;
   Name := 'Simple stretch vs fine resample';
   virtualScreen := nil;
-  image := TBGRABitmap.Create('..'+pathdelim+'img'+pathdelim+'resampletest.png');
+  image := TBGRABitmap.Create(ResourceDir+'resampletest.png');
   time := Pi/4;
 end;
 
