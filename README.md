@@ -18,20 +18,9 @@ You must download the 32-bit version of the IDE for Windows, download and run th
 NOTE: keep default settings for all installation steps.
 
 ### Mac
-You might have to disable System Integrity Protection (SIP) by following these steps (do at your own risk):
-* Reboot your Mac into Recovery Mode by restarting your computer and holding down Command+R until the Apple logo appears on your screen.
-For ARM based Macs:
-  * Click the Apple menu and choose “Shut Down”.
-  * Now press and hold the power button until you see “Loading startup options”.
-  * Click “Options”.
-  * Lastly, click “Continue” and enter the password for an administrator account, if requested.
-* Click Utilities > Terminal.
-* In the Terminal window, type in csrutil disable and press Enter.
-* Restart your Mac.
-
 Do all these steps on your Mac computer.
 * You must install Xcode first (found in App store).
-* Install Command Line Tools from here: https://developer.apple.com/download/more/
+* Install Command Line Tools from terminal with this command: xcode-select --install
 * Install HomeBrew on your system.
 * For brew installation on ARM processors run this command:
 	arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -100,8 +89,9 @@ Install all the following 3rd party controls (no need to rebuild after each inst
 Note for MacOS: If third party components are not shown when you start Lazarus, see this thread: https://forum.lazarus.freepascal.org/index.php?topic=47711.0
 You might have to give Read/Write priviledges in /Library/Lazarus
 * Open Terminal
-* Go to root, then run cd Library
-* Run this: sudo chown -R $(whoami
+* Go to root, then run cd Library THEN cd Lazarus
+* Run this: sudo chown -R $(whoami)
+* Go back one folde: cd ..
 * Then run this: chmod -R +rw Lazarus 
 * Start lazarus app
 If that doesn't work try starting Lazarus from /Library/Lazarus, startlazarus shortcut.
