@@ -7,26 +7,20 @@
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
       <Title Value="SmartSetMaster"/>
-      <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
-      <XPManifest>
-        <DpiAware Value="True"/>
-      </XPManifest>
       <Icon Value="0"/>
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="3"/>
+      <RevisionNr Value="1"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
-    <MacroValues Count="1">
-      <Macro1 Name="LCLWidgetType" Value="cocoa"/>
-    </MacroValues>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="045853531783" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item1 ID="045853531783" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -66,7 +60,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="22">
+    <Units Count="21">
       <Unit0>
         <Filename Value="SmartSetMaster.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -161,37 +155,32 @@
         <ResourceBaseClass Value="Form"/>
       </Unit17>
       <Unit18>
-        <Filename Value="..\Common\usbdriveflush.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="USBDriveFlush"/>
-      </Unit18>
-      <Unit19>
         <Filename Value="..\Common\infodialog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormInfoDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="InfoDialog"/>
-      </Unit19>
-      <Unit20>
+      </Unit18>
+      <Unit19>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMainTKO"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit20>
-      <Unit21>
+      </Unit19>
+      <Unit20>
         <Filename Value="..\Components\CreoSource\colorspeedbuttoncs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ColorSpeedButtonCS"/>
-      </Unit21>
+      </Unit20>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SmartSetMaster (Mac)"/>
+      <Filename Value="SmartSetMaster (PC)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
@@ -205,6 +194,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="False"/>
         <DebugInfoType Value="dsDwarf2"/>
         <UseHeaptrc Value="True"/>
         <StripSymbols Value="True"/>

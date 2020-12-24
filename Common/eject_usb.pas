@@ -3,7 +3,7 @@ unit Eject_USB;
 interface
 
 uses
-  {$ifdef Win32},Windows{$endif}
+  {$ifdef Win32}Windows,{$endif}
   SysUtils;
 
 function EjectUSB(const DriveLetter: string): boolean;

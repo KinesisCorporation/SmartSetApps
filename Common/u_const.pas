@@ -1953,7 +1953,7 @@ begin
         ((driveName = ADV2_DRIVE) or (driveName = ADV2_DRIVE_2) or (driveName = ADV2_DRIVE_3)) then
       begin
         aDevice.DriveLetter := driveLetter;
-        aDevice.RootFoler := IncludeTrailingBackslash(rootFolder);
+        aDevice.RootFolder := IncludeTrailingBackslash(rootFolder);
         aDevice.Connected := true;
         result := true;
       end;
@@ -1967,7 +1967,7 @@ begin
         (driveName = aDevice.VDriveName) then
       begin
         aDevice.DriveLetter := driveLetter;
-        aDevice.RootFoler := IncludeTrailingBackslash(rootFolder);
+        aDevice.RootFolder := IncludeTrailingBackslash(rootFolder);
         aDevice.Connected := true;
         result := true;
       end;
