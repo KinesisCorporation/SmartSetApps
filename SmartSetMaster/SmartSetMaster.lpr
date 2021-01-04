@@ -23,7 +23,6 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TFormDashboard, FormDashboard);
-  Application.CreateForm(TFormInfoDialog, FormInfoDialog);
   Application.Run;
 end.
 

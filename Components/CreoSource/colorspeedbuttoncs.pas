@@ -10,6 +10,10 @@ unit ColorSpeedButtonCS;
 {$define overridepaint}
 {$endif}
 
+{$ifdef darwin}
+{$define overridepaint}
+{$endif}
+
 interface
 
 uses
