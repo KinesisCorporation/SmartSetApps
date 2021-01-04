@@ -6,10 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  HSSpeedButton, LineObj, ColorSpeedButton, BGRASpriteAnimation, u_const,
-  LResources, FileUtil, u_kinesis_device, u_form_main_rgb, LCLIntf,
-  u_form_loading, u_form_about_master, eject_usb, u_form_settings_master,
-  u_form_firmware, userdialog, u_common_ui, u_form_main_tko
+  LineObj, ColorSpeedButtonCS, ColorSpeedButton,
+  u_const, LResources, FileUtil, u_kinesis_device,
+  u_form_main_rgb, LCLIntf, u_form_loading, u_form_about_master,
+  u_form_settings_master, u_form_firmware, u_common_ui,
+  u_form_main_tko
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -42,9 +43,9 @@ type
     lblHelp: TLabel;
     btnEject1: TColorSpeedButton;
     btnWatchTutorial1: TColorSpeedButton;
-    btnClose: THSSpeedButton;
-    btnMaximize: THSSpeedButton;
-    btnMinimize: THSSpeedButton;
+    btnClose: TColorSpeedButtonCS;
+    btnMaximize: TColorSpeedButtonCS;
+    btnMinimize: TColorSpeedButtonCS;
     btnCheckUpdatesConnected1: TColorSpeedButton;
     imgApp1: TImage;
     imgApp2: TImage;
@@ -242,21 +243,21 @@ begin
     backColor := clWhite;
 
     pnlTop.Color := backColor;
-    btnMinimize.Color := backColor;
-    btnMinimize.HotTrackColor := backColor;
-    btnMinimize.LightColor := backColor;
-    btnMinimize.ShadowColor := backColor;
-    btnMinimize.TransparentColor := backColor;
-    btnMaximize.Color := backColor;
-    btnMaximize.HotTrackColor := backColor;
-    btnMaximize.LightColor := backColor;
-    btnMaximize.ShadowColor := backColor;
-    btnMaximize.TransparentColor := backColor;
-    btnClose.Color := backColor;
-    btnClose.HotTrackColor := backColor;
-    btnClose.LightColor := backColor;
-    btnClose.ShadowColor := backColor;
-    btnClose.TransparentColor := backColor;
+    //btnMinimize.Color := backColor;
+    //btnMinimize.HotTrackColor := backColor;
+    //btnMinimize.LightColor := backColor;
+    //btnMinimize.ShadowColor := backColor;
+    //btnMinimize.TransparentColor := backColor;
+    //btnMaximize.Color := backColor;
+    //btnMaximize.HotTrackColor := backColor;
+    //btnMaximize.LightColor := backColor;
+    //btnMaximize.ShadowColor := backColor;
+    //btnMaximize.TransparentColor := backColor;
+    //btnClose.Color := backColor;
+    //btnClose.HotTrackColor := backColor;
+    //btnClose.LightColor := backColor;
+    //btnClose.ShadowColor := backColor;
+    //btnClose.TransparentColor := backColor;
 
     imgListMenu.GetBitmap(0, btnMinimize.Glyph);
     imgListMenu.GetBitmap(4, btnClose.Glyph);

@@ -1,13 +1,14 @@
 object FormDashboard: TFormDashboard
-  Left = 178
+  Left = 795
   Height = 826
-  Top = 119
+  Top = 539
   Width = 1595
   Caption = 'Dashboard'
   ClientHeight = 826
   ClientWidth = 1595
+  DesignTimePPI = 144
   Font.Color = clWhite
-  Font.Height = -16
+  Font.Height = -24
   Font.Name = 'Tahoma'
   FormStyle = fsMDIForm
   OnClose = FormClose
@@ -17,6 +18,7 @@ object FormDashboard: TFormDashboard
   OnWindowStateChange = FormWindowStateChange
   Position = poScreenCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object pnlTop: TPanel
     Left = 0
     Height = 47
@@ -428,23 +430,14 @@ object FormDashboard: TFormDashboard
         079D5042FFCFF41F726C4C0898E4988B0000000049454E44AE426082
       }
     end
-    object btnMinimize: THSSpeedButton
+    object btnMinimize: TColorSpeedButtonCS
       Left = 1509
       Height = 32
       Hint = 'Minimize'
       Top = 6
       Width = 32
-      Alignment = taCenter
       Anchors = [akTop, akRight]
-      Border = 1
-      Color = 2500134
-      Font.CharSet = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
+      Font.Color = clBlack
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000064000000640000000000000000000000000000000000
@@ -481,43 +474,41 @@ object FormDashboard: TFormDashboard
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000
       }
-      HotTrackColor = 2500134
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      HotTrackFont.Style = [fsBold]
-      LightColor = 2500134
-      NumGlyphs = 1
+      OnClick = btnMinimizeClick
+      ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      ShowHint = True
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Transparent = True
-      Index = -1
-      TransparentColor = clBlack
-      OnClick = btnMinimizeClick
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 1644825
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 0
+      StateNormal.FontColor = clBlack
+      StateHover.Color = 1644825
+      StateHover.BorderColor = 1644825
+      StateHover.BorderWidth = 0
+      StateHover.FontColor = clBlack
+      StateActive.Color = 1644825
+      StateActive.BorderColor = 1644825
+      StateActive.BorderWidth = 0
+      StateActive.FontColor = clBlack
+      StateDisabled.Color = 1644825
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 0
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
-    object btnClose: THSSpeedButton
+    object btnClose: TColorSpeedButtonCS
       Left = 1563
       Height = 32
       Hint = 'Close'
       Top = 6
       Width = 32
-      Alignment = taCenter
       Anchors = [akTop, akRight]
-      Border = 1
-      Color = 2500134
-      Font.CharSet = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
+      Font.Color = clBlack
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         200000000000000400006400000064000000000000000000000000000000FFFF
@@ -554,43 +545,41 @@ object FormDashboard: TFormDashboard
         FF04FFFFFF9FFFFFFF5200000000000000000000000000000000000000000000
         00000000000000000000FFFFFF54FFFFFFA1FFFFFF0400000000
       }
-      HotTrackColor = 2500134
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      HotTrackFont.Style = [fsBold]
-      LightColor = 2500134
-      NumGlyphs = 1
+      OnClick = btnCloseClick
+      ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      ShowHint = True
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Transparent = True
-      Index = -1
-      TransparentColor = clBlack
-      OnClick = btnCloseClick
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 1644825
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 0
+      StateNormal.FontColor = clBlack
+      StateHover.Color = 1644825
+      StateHover.BorderColor = 1644825
+      StateHover.BorderWidth = 0
+      StateHover.FontColor = clBlack
+      StateActive.Color = 1644825
+      StateActive.BorderColor = 1644825
+      StateActive.BorderWidth = 0
+      StateActive.FontColor = clBlack
+      StateDisabled.Color = 1644825
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 0
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
-    object btnMaximize: THSSpeedButton
+    object btnMaximize: TColorSpeedButtonCS
       Left = 1538
       Height = 32
       Hint = 'Maximize'
       Top = 6
       Width = 32
-      Alignment = taCenter
       Anchors = [akTop, akRight]
-      Border = 1
-      Color = 2500134
-      Font.CharSet = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
+      Font.Color = clBlack
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         2000000000000004000064000000640000000000000000000000000000000000
@@ -627,25 +616,32 @@ object FormDashboard: TFormDashboard
         0000000000000000000000000000000000000000000000000000000000000000
         0000000000000000000000000000000000000000000000000000
       }
-      HotTrackColor = 2500134
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      HotTrackFont.Style = [fsBold]
-      LightColor = 2500134
-      NumGlyphs = 1
+      OnClick = btnMaximizeClick
+      ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      ShowHint = True
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Transparent = True
-      Index = -1
-      TransparentColor = clBlack
-      OnClick = btnMaximizeClick
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 1644825
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 0
+      StateNormal.FontColor = clBlack
+      StateHover.Color = 1644825
+      StateHover.BorderColor = 1644825
+      StateHover.BorderWidth = 0
+      StateHover.FontColor = clBlack
+      StateActive.Color = 1644825
+      StateActive.BorderColor = 1644825
+      StateActive.BorderWidth = 0
+      StateActive.FontColor = clBlack
+      StateDisabled.Color = 1644825
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 0
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
     object lineBorderLeftTop: TLineObj
       Left = 0
