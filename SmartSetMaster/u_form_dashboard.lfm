@@ -17,6 +17,7 @@ object FormDashboard: TFormDashboard
   OnWindowStateChange = FormWindowStateChange
   Position = poScreenCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object pnlTop: TPanel
     Left = 0
     Height = 47
