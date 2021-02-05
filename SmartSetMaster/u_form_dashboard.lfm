@@ -1,7 +1,7 @@
 object FormDashboard: TFormDashboard
-  Left = 795
+  Left = 796
   Height = 826
-  Top = 539
+  Top = 540
   Width = 1595
   Caption = 'Dashboard'
   ClientHeight = 826
@@ -431,11 +431,12 @@ object FormDashboard: TFormDashboard
       }
     end
     object btnMinimize: TColorSpeedButtonCS
-      Left = 1509
+      Left = 1498
       Height = 32
       Hint = 'Minimize'
       Top = 6
       Width = 32
+      AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clBlack
       Glyph.Data = {
@@ -487,13 +488,13 @@ object FormDashboard: TFormDashboard
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 0
       StateNormal.FontColor = clBlack
-      StateHover.Color = 1644825
-      StateHover.BorderColor = 1644825
-      StateHover.BorderWidth = 0
+      StateHover.Color = 3355443
+      StateHover.BorderColor = 3355443
+      StateHover.BorderWidth = 1
       StateHover.FontColor = clBlack
-      StateActive.Color = 1644825
-      StateActive.BorderColor = 1644825
-      StateActive.BorderWidth = 0
+      StateActive.Color = 4934475
+      StateActive.BorderColor = 3355443
+      StateActive.BorderWidth = 1
       StateActive.FontColor = clBlack
       StateDisabled.Color = 1644825
       StateDisabled.BorderColor = 1644825
@@ -502,11 +503,12 @@ object FormDashboard: TFormDashboard
       TextPadding = 0
     end
     object btnClose: TColorSpeedButtonCS
-      Left = 1563
+      Left = 1559
       Height = 32
       Hint = 'Close'
       Top = 6
       Width = 32
+      AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clBlack
       Glyph.Data = {
@@ -558,13 +560,13 @@ object FormDashboard: TFormDashboard
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 0
       StateNormal.FontColor = clBlack
-      StateHover.Color = 1644825
-      StateHover.BorderColor = 1644825
-      StateHover.BorderWidth = 0
+      StateHover.Color = 3355443
+      StateHover.BorderColor = 3355443
+      StateHover.BorderWidth = 1
       StateHover.FontColor = clBlack
-      StateActive.Color = 1644825
-      StateActive.BorderColor = 1644825
-      StateActive.BorderWidth = 0
+      StateActive.Color = 4934475
+      StateActive.BorderColor = 3355443
+      StateActive.BorderWidth = 1
       StateActive.FontColor = clBlack
       StateDisabled.Color = 1644825
       StateDisabled.BorderColor = 1644825
@@ -573,11 +575,12 @@ object FormDashboard: TFormDashboard
       TextPadding = 0
     end
     object btnMaximize: TColorSpeedButtonCS
-      Left = 1538
+      Left = 1527
       Height = 32
       Hint = 'Maximize'
       Top = 6
       Width = 32
+      AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clBlack
       Glyph.Data = {
@@ -629,13 +632,13 @@ object FormDashboard: TFormDashboard
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 0
       StateNormal.FontColor = clBlack
-      StateHover.Color = 1644825
-      StateHover.BorderColor = 1644825
-      StateHover.BorderWidth = 0
+      StateHover.Color = 3355443
+      StateHover.BorderColor = 3355443
+      StateHover.BorderWidth = 1
       StateHover.FontColor = clBlack
-      StateActive.Color = 1644825
-      StateActive.BorderColor = 1644825
-      StateActive.BorderWidth = 0
+      StateActive.Color = 4934475
+      StateActive.BorderColor = 3355443
+      StateActive.BorderWidth = 1
       StateActive.FontColor = clBlack
       StateDisabled.Color = 1644825
       StateDisabled.BorderColor = 1644825
@@ -21351,6 +21354,7 @@ object FormDashboard: TFormDashboard
         FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
         FF00
       }
+      OnClick = btnEjectClick
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
@@ -21570,6 +21574,7 @@ object FormDashboard: TFormDashboard
         FF00
       }
       Visible = False
+      OnClick = btnEjectClick
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
@@ -21790,6 +21795,7 @@ object FormDashboard: TFormDashboard
         FF00
       }
       Visible = False
+      OnClick = btnEjectClick
       ShowHint = True
       ParentFont = False
       ParentShowHint = False

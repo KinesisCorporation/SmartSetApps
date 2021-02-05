@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, u_base_form, u_const, UserDialog, lcltype,
+  StdCtrls, u_base_form, u_const, UserDialog, lcltype,
   lclintf, LineObj, jsonparser, fpjson, u_kinesis_device, versionSupport,
   u_common_ui;
 

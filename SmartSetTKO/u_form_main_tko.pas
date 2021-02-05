@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Menus, uGifViewer, ECSwitch, ECSlider, HSSpeedButton, u_const,
-  ColorSpeedButtonCS, LineObj, LabelBox, RichMemo, ColorSpeedButton, BCPanel,
+  Menus, uGifViewer, ECSwitch, ECSlider, u_const,
+  ColorSpeedButtonCS, LineObj, LabelBox, RichMemo, BCPanel,
   BGRAShape, HSLRingPicker, mbColorPreview, ueled, uEKnob, u_form_tapandhold,
   contnrs, u_key_layer, u_key_service, u_file_service, u_common_ui, U_Keys,
   UserDialog, FileUtil, u_form_intro, u_form_troubleshoot, u_form_settings,
@@ -35,7 +35,7 @@ type
     btnZoneHyperspace: TColorSpeedButtonCS;
     btnPulseEdge: TColorSpeedButtonCS;
     btnPulse: TColorSpeedButtonCS;
-    btnEject: THSSpeedButton;
+    btnEject: TColorSpeedButtonCS;
     btnSpectrumEdge: TColorSpeedButtonCS;
     btnWaveEdge: TColorSpeedButtonCS;
     btnFreestyleEdge: TColorSpeedButtonCS;
@@ -104,49 +104,49 @@ type
     lbEdgeL9: TLabelBox;
     pnlEdgeLighting: TPanel;
     SpectrumTimer: TIdleTimer;
-    btnBackspaceMacro: THSSpeedButton;
-    btnCancel: THSSpeedButton;
-    btnCancelMacro: THSSpeedButton;
-    btnClearMacro: THSSpeedButton;
-    btnCloseMacro: THSSpeedButton;
-    btnCommonShortcuts: THSSpeedButton;
-    btnCopy: THSSpeedButton;
-    btnDiagnostic: THSSpeedButton;
-    btnDirDown: THSSpeedButton;
-    btnDirHorizontal: THSSpeedButton;
-    btnDirLeft: THSSpeedButton;
-    btnDirRight: THSSpeedButton;
-    btnDirUp: THSSpeedButton;
-    btnDirVertical: THSSpeedButton;
-    btnDisableLed: THSSpeedButton;
-    btnDone: THSSpeedButton;
-    btnDoneMacro: THSSpeedButton;
-    btnExport: THSSpeedButton;
-    btnFirmware: THSSpeedButton;
+    btnBackspaceMacro: TColorSpeedButtonCS;
+    btnCancel: TColorSpeedButtonCS;
+    btnCancelMacro: TColorSpeedButtonCS;
+    btnClearMacro: TColorSpeedButtonCS;
+    btnCloseMacro: TColorSpeedButtonCS;
+    btnCommonShortcuts: TColorSpeedButtonCS;
+    btnCopy: TColorSpeedButtonCS;
+    btnDiagnostic: TColorSpeedButtonCS;
+    btnDirDown: TColorSpeedButtonCS;
+    btnDirHorizontal: TColorSpeedButtonCS;
+    btnDirLeft: TColorSpeedButtonCS;
+    btnDirRight: TColorSpeedButtonCS;
+    btnDirUp: TColorSpeedButtonCS;
+    btnDirVertical: TColorSpeedButtonCS;
+    btnDisableLed: TColorSpeedButtonCS;
+    btnDone: TColorSpeedButtonCS;
+    btnDoneMacro: TColorSpeedButtonCS;
+    btnExport: TColorSpeedButtonCS;
+    btnFirmware: TColorSpeedButtonCS;
     btnFnAccess: TColorSpeedButtonCS;
     btnFullKeypad: TColorSpeedButtonCS;
     btnKeypadActions: TColorSpeedButtonCS;
-    btnHelp: THSSpeedButton;
-    btnImport: THSSpeedButton;
-    btnLeftAlt: THSSpeedButton;
-    btnLeftCtrl: THSSpeedButton;
-    btnLeftShift: THSSpeedButton;
+    btnHelp: TColorSpeedButtonCS;
+    btnImport: TColorSpeedButtonCS;
+    btnLeftAlt: TColorSpeedButtonCS;
+    btnLeftCtrl: TColorSpeedButtonCS;
+    btnLeftShift: TColorSpeedButtonCS;
     btnMouseClicks: TColorSpeedButtonCS;
     btnFunctionKeys: TColorSpeedButtonCS;
-    btnMouseClicksMacro: THSSpeedButton;
-    btnPaste: THSSpeedButton;
-    btnResetAll: THSSpeedButton;
-    btnResetKey: THSSpeedButton;
+    btnMouseClicksMacro: TColorSpeedButtonCS;
+    btnPaste: TColorSpeedButtonCS;
+    btnResetAll: TColorSpeedButtonCS;
+    btnResetKey: TColorSpeedButtonCS;
     btnMacro: TColorSpeedButtonCS;
     btnMultimedia: TColorSpeedButtonCS;
-    btnRightAlt: THSSpeedButton;
-    btnRightCtrl: THSSpeedButton;
-    btnRightShift: THSSpeedButton;
-    btnSave: THSSpeedButton;
-    btnSaveAs: THSSpeedButton;
-    btnSettings: THSSpeedButton;
-    btnTimingDelays: THSSpeedButton;
-    btnWindowsCombos: THSSpeedButton;
+    btnRightAlt: TColorSpeedButtonCS;
+    btnRightCtrl: TColorSpeedButtonCS;
+    btnRightShift: TColorSpeedButtonCS;
+    btnSave: TColorSpeedButtonCS;
+    btnSaveAs: TColorSpeedButtonCS;
+    btnSettings: TColorSpeedButtonCS;
+    btnTimingDelays: TColorSpeedButtonCS;
+    btnWindowsCombos: TColorSpeedButtonCS;
     CheckVDriveTmr: TIdleTimer;
     chkGlobalSpeed: TCheckBox;
     chkRepeatMultiplay: TCheckBox;
@@ -602,7 +602,7 @@ type
     showingVDriveErrorDlg: boolean;
     function AcceptMacro: boolean;
     procedure ActivateCoTrigger(keyButton: TLabelBox);
-    procedure ActivateCoTrigger(coTriggerBtn: THSSpeedButton);
+    procedure ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
     procedure AddMacroMenuItem(var popMenu: TPopupMenu; itemName: string;
       keyCode: integer);
     procedure AddProfileMenuItem(var popMenu: TPopupMenu; itemName: string; idx: integer);
@@ -678,7 +678,7 @@ type
     procedure ResetBreathe;
     procedure ResetSpectrum;
     procedure ResetCoTrigger(keyButton: TLabelBox);
-    procedure ResetCoTrigger(coTriggerBtn: THSSpeedButton);
+    procedure ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
     procedure ResetDirection;
     procedure ResetMacroCoTriggers;
     procedure ResetNewGif;
@@ -717,7 +717,7 @@ type
     procedure SetLedMode(ledMode: TLedMode);
     procedure SetMacModifiersHotkeys;
     procedure SetMacroAssignTo;
-    procedure SetMacroMenuItems(button: THSSpeedButton);
+    procedure SetMacroMenuItems(button: TColorSpeedButtonCS);
     procedure SetMacroMode(value: boolean);
     procedure SetMacroText(pushCursorToEnd: boolean; cursorPos: integer=-1);
     procedure SetMemoTextColor(aMemo: TRichMemo; aKeysPos: TKeysPos);
@@ -1000,7 +1000,7 @@ begin
 
   blueColor := KINESIS_BLUE_EDGE;
   fontColor := clWhite;
-  backColor := KINESIS_DARK_GRAY_FS;
+  backColor := KINESIS_DARK_GRAY_RGB;
 
   knobSpeed.Image := imageKnobBig.Picture.Bitmap;
 
@@ -1485,15 +1485,13 @@ begin
   for i := 0 to hoveredList.Count - 1 do
   begin
     obj := (hoveredList.Items[i] as THoveredObj).Obj;
-    if (obj is THSSpeedButton) then
+    if (obj is TColorSpeedButtonCS) then
     begin
-      //(obj as THSSpeedButton).OnMouseMove := @ObjectMouseMove;
-      (obj as THSSpeedButton).OnMouseEnter := @ObjectMouseEnter;
-      (obj as THSSpeedButton).OnMouseExit := @ObjectMouseExit;
+      (obj as TColorSpeedButtonCS).OnMouseEnter := @ObjectMouseEnter;
+      (obj as TColorSpeedButtonCS).OnMouseLeave := @ObjectMouseExit;
     end
     else if (obj is TImage) then
     begin
-      //(obj as TImage).OnMouseMove := @ObjectMouseMove;
       (obj as TImage).OnMouseEnter := @ObjectMouseEnter;
       (obj as TImage).OnMouseLeave := @ObjectMouseExit;
     end;
@@ -3026,7 +3024,7 @@ begin
 
     pt.x := Mouse.CursorPos.x;
     pt.y := Mouse.CursorPos.y;
-    popProfileMenu.PopUp(pt.x - x, pt.y + ((Sender as THSSpeedButton).Height - y));
+    popProfileMenu.PopUp(pt.x - x, pt.y + ((Sender as TColorSpeedButtonCS).Height - y));
 
     btnSaveAs.Down := false;
     SetHovered(sender, false);
@@ -4642,12 +4640,12 @@ end;
 
 procedure TFormMainTKO.bCoTriggerClick(Sender: TObject);
 var
-  button: THSSpeedButton;
+  button: TColorSpeedButtonCS;
   aKey: TKey;
 begin
   if IsKeyLoaded then
   begin
-    button := Sender as THSSpeedButton;
+    button := Sender as TColorSpeedButtonCS;
     //if (button.Down) then
     if (button.HelpKeyword <> 'DOWN') then
     begin
@@ -6551,7 +6549,7 @@ begin
   end;
 end;
 
-procedure TFormMainTKO.SetMacroMenuItems(button: THSSpeedButton);
+procedure TFormMainTKO.SetMacroMenuItems(button: TColorSpeedButtonCS);
 begin
   ResetPopupMenuMacro;
 
@@ -7580,9 +7578,9 @@ end;
 
 procedure TFormMainTKO.menuButtonUpdate(Sender: TObject);
 var
-  aButton: THSSpeedButton;
+  aButton: TColorSpeedButtonCS;
 begin
-  aButton := (Sender as THSSpeedButton);
+  aButton := (Sender as TColorSpeedButtonCS);
   if (aButton.Down) then
     aButton.Font.Color := KINESIS_BLUE_EDGE;
 end;
@@ -7742,7 +7740,7 @@ begin
   keyButton.Repaint;
 end;
 
-procedure TFormMainTKO.ActivateCoTrigger(coTriggerBtn: THSSpeedButton);
+procedure TFormMainTKO.ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.HelpKeyword := 'DOWN';
   SetHovered(coTriggerBtn, true);
@@ -7788,7 +7786,7 @@ begin
   keyButton.Repaint;
 end;
 
-procedure TFormMainTKO.ResetCoTrigger(coTriggerBtn: THSSpeedButton);
+procedure TFormMainTKO.ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.HelpKeyword := '';
   SetHovered(coTriggerBtn, false, true);
@@ -8074,8 +8072,8 @@ begin
       stayHovered := false;
 
       //Check if button is down if setting back to normal
-      if (obj is THSSpeedButton) and not(forceNormal) then
-        stayHovered := ((obj as THSSpeedButton).Down) or ((obj as THSSpeedButton).HelpKeyword = 'DOWN');
+      if (obj is TColorSpeedButtonCS) and not(forceNormal) then
+        stayHovered := ((obj as TColorSpeedButtonCS).Down) or ((obj as TColorSpeedButtonCS).HelpKeyword = 'DOWN');
 
       if (hovered or stayHovered) then
         LoadButtonImage(hoveredObj.Obj, hoveredObj.ImgList, hoveredObj.HoveredIdx)

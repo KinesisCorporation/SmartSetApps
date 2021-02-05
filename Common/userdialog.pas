@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Buttons, HSSpeedButton, LineObj, u_const, u_base_form, LCLType,
-  u_common_ui;
+  StdCtrls, Buttons, LineObj, u_const, u_base_form, LCLType,
+  u_common_ui, ColorSpeedButtonCS;
 
 type
 
@@ -27,7 +27,7 @@ type
     procedure lblCheckBoxClick(Sender: TObject);
   private
     { private declarations }
-    aButtons: array of THSSpeedButton;
+    aButtons: array of TColorSpeedButtonCS;
     procedure AddButton(btnCaption: String; btnType: TBitBtnKind; buttonTop: integer; btnWidth: integer = 90; onBtnClick: TNotifyEvent = nil);
   public
     { public declarations }
@@ -138,7 +138,7 @@ begin
   begin
     formDialog.lblCheckBox.Caption := checkBoxCaption;
     formDialog.lblCheckBox.Visible := true;
-    formDialog.lblCheckBox.Top := otherElementsTop;
+    formDialog.lblCheckBox.Top := otherElementsTop + (formDialog.chkCheckBox.Height - formDialog.lblCheckBox.Height);
     formDialog.chkCheckBox.Caption := '';
     formDialog.chkCheckBox.Visible := true;
     formDialog.chkCheckBox.Top := otherElementsTop;
@@ -269,23 +269,27 @@ procedure TFormUserDialog.AddButton(btnCaption: String; btnType: TBitBtnKind;
   buttonTop: integer; btnWidth: integer; onBtnClick: TNotifyEvent);
 var
   i, idx:integer;
-  button: THSSpeedButton;
+  button: TColorSpeedButtonCS;
 begin
   idx := Length(aButtons) + 1;
-  button := THSSpeedButton.Create(self);
+  button := TColorSpeedButtonCS.Create(self);
   button.Parent := self;
-  button.Border := 1;
   button.Alignment := taCenter;
-  button.Color := $003D382F;
-  button.HotTrackColor := $005D584F;
-  button.LightColor := button.Color;
-  button.ShadowColor := button.Color;
+  button.StateNormal.Color := $00333333;
+  button.StateNormal.BorderColor := $00191919;
+  button.StateNormal.FontColor := clWhite;
+  button.StateHover.Color := $004B4B4B;
+  button.StateHover.BorderColor := $00262626;
+  button.StateHover.FontColor := clWhite;
+  button.StateDisabled.Color := $00333333;
+  button.StateDisabled.BorderColor := $00191919;
+  button.StateDisabled.FontColor := clWhite;
+  button.StateActive.Color := $004B4B4B;
+  button.StateActive.BorderColor := $00333333;
+  button.StateActive.FontColor := clWhite;
   button.Font.Color := clWhite;
   button.Font.Style := [fsBold];
-  //button.SlowDecease := sdEnterLeave;
-  button.Smooth := 9;
-  //button.Style := bsModern;
-  button.TransparentColor := clBlack;
+  button.Font.Size := 10;
   button.Caption := btnCaption;
 
   //button.Kind := btnType;

@@ -235,7 +235,7 @@ begin
   if (gamingMode or IsDarkTheme) then
   begin
     fontColor := clWhite;
-    backColor := KINESIS_DARK_GRAY_FS;
+    backColor := KINESIS_DARK_GRAY_RGB;
   end
   else
   begin

@@ -502,15 +502,7 @@ object FormMaster: TFormMaster
       Width = 32
       Alignment = taCenter
       Anchors = [akTop, akRight]
-      Border = 1
-      Color = 2500134
-      Font.CharSet = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
+      Font.Color = clBlack
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         200000000000000400006400000064000000000000000000000000000000FFFF
@@ -547,24 +539,31 @@ object FormMaster: TFormMaster
         FF04FFFFFF9FFFFFFF5200000000000000000000000000000000000000000000
         00000000000000000000FFFFFF54FFFFFFA1FFFFFF0400000000
       }
-      HotTrackColor = 2500134
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      HotTrackFont.Style = [fsBold]
-      LightColor = 2500134
-      NumGlyphs = 1
+      ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      ShowHint = True
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Transparent = True
-      Index = -1
-      TransparentColor = clBlack
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 1644825
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 0
+      StateNormal.FontColor = clBlack
+      StateHover.Color = 1644825
+      StateHover.BorderColor = 1644825
+      StateHover.BorderWidth = 0
+      StateHover.FontColor = clBlack
+      StateActive.Color = 1644825
+      StateActive.BorderColor = 1644825
+      StateActive.BorderWidth = 0
+      StateActive.FontColor = clBlack
+      StateDisabled.Color = 1644825
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 0
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
       OnClick = btnCloseClick
     end
     object btnMaximize: THSSpeedButton

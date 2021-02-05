@@ -6,16 +6,16 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, u_base_form, u_const, UserDialog, lcltype,
-  u_keys, u_common_ui, u_base_key_service;
+  StdCtrls, u_base_form, u_const, UserDialog, lcltype,
+  u_keys, u_common_ui, u_base_key_service, ColorSpeedButtonCS;
 
 type
 
   { TFormTapAndHold }
 
   TFormTapAndHold = class(TBaseForm)
-    btnCancel: THSSpeedButton;
-    btnAccept: THSSpeedButton;
+    btnCancel: TColorSpeedButtonCS;
+    btnAccept: TColorSpeedButtonCS;
     eHoldAction: TEdit;
     eTimingDelay: TEdit;
     eTapAction: TEdit;
@@ -117,7 +117,7 @@ end;
 
 procedure TFormTapAndHold.btnAcceptMouseExit(Sender: TObject);
 begin
-  if (not (sender as THSSpeedButton).Down) then
+  if (not (sender as TColorSpeedButtonCS).Down) then
     LoadButtonImage(sender, imgListTiming, 2);
 end;
 
@@ -129,7 +129,7 @@ end;
 
 procedure TFormTapAndHold.btnCancelMouseExit(Sender: TObject);
 begin
-  if (not (sender as THSSpeedButton).Down) then
+  if (not (sender as TColorSpeedButtonCS).Down) then
     LoadButtonImage(sender, imgListTiming, 0);
 end;
 

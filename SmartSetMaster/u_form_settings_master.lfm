@@ -1,35 +1,56 @@
 object FormSettingsMaster: TFormSettingsMaster
-  Left = 634
-  Height = 133
-  Top = 107
-  Width = 295
+  Left = 1482
+  Height = 159
+  Top = 596
+  Width = 347
   BorderStyle = bsNone
-  ClientHeight = 133
-  ClientWidth = 295
-  Color = 2500134
+  ClientHeight = 159
+  ClientWidth = 347
+  Color = 1644825
+  DesignTimePPI = 144
   Font.Color = clWhite
-  Font.Height = -13
+  Font.Height = -20
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   Position = poMainFormCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object pnlMain: TPanel
     Left = 0
-    Height = 133
+    Height = 159
     Top = 0
-    Width = 295
+    Width = 347
     Align = alClient
     BevelOuter = bvNone
     BorderStyle = bsSingle
-    ClientHeight = 129
-    ClientWidth = 291
+    ClientHeight = 155
+    ClientWidth = 343
     TabOrder = 0
+    object chkHideAllNotifs: TCheckBox
+      Left = 35
+      Height = 29
+      Top = 61
+      Width = 22
+      AutoSize = False
+      OnClick = chkHideAllNotifsClick
+      TabOrder = 0
+    end
+    object lblHideAllNotifs: TLabel
+      Cursor = crHandPoint
+      Left = 64
+      Height = 28
+      Top = 62
+      Width = 245
+      Caption = 'Hide all in-App notifications'
+      ParentColor = False
+      OnClick = lblHideAllNotifsClick
+    end
     object lblTitle: TLabel
       Left = 0
       Height = 41
       Top = 0
-      Width = 291
+      Width = 343
       Align = alTop
       Alignment = taCenter
       AutoSize = False
@@ -42,23 +63,33 @@ object FormSettingsMaster: TFormSettingsMaster
       ParentColor = False
       ParentFont = False
     end
-    object btnClose: THSSpeedButton
-      Left = 263
+    object chkShowNotifs: TCheckBox
+      Left = 35
+      Height = 29
+      Top = 88
+      Width = 30
+      AutoSize = False
+      OnClick = chkShowNotifsClick
+      TabOrder = 1
+    end
+    object lblShowNotifs: TLabel
+      Cursor = crHandPoint
+      Left = 66
+      Height = 28
+      Top = 89
+      Width = 252
+      Caption = 'Show all in-App notifications'
+      ParentColor = False
+      OnClick = lblShowNotifsClick
+    end
+    object btnClose: TColorSpeedButtonCS
+      Left = 311
       Height = 32
       Hint = 'Close'
       Top = 0
       Width = 32
-      Alignment = taCenter
       Anchors = [akTop, akRight]
-      Border = 1
-      Color = 1644825
-      Font.CharSet = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
+      Font.Color = clBlack
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         200000000000000400006400000064000000000000000000000000000000FFFF
@@ -95,64 +126,32 @@ object FormSettingsMaster: TFormSettingsMaster
         FF04FFFFFF9FFFFFFF5200000000000000000000000000000000000000000000
         00000000000000000000FFFFFF54FFFFFFA1FFFFFF0400000000
       }
-      HotTrackColor = 1644825
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      HotTrackFont.Style = [fsBold]
-      LightColor = 1644825
-      NumGlyphs = 1
+      OnClick = btnCloseClick
+      ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      ShadowColor = 1644825
-      ShowHint = True
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Transparent = True
-      Index = -1
-      TransparentColor = 1644825
-      OnClick = btnCloseClick
-    end
-    object chkHideAllNotifs: TCheckBox
-      Left = 35
-      Height = 19
-      Top = 61
-      Width = 20
-      OnClick = chkHideAllNotifsClick
-      TabOrder = 0
-    end
-    object lblHideAllNotifs: TLabel
-      Cursor = crHandPoint
-      Left = 56
-      Height = 17
-      Top = 62
-      Width = 186
-      AutoSize = False
-      Caption = 'Hide all in-App notifications'
-      ParentColor = False
-      OnClick = lblHideAllNotifsClick
-    end
-    object chkShowNotifs: TCheckBox
-      Left = 35
-      Height = 19
-      Top = 88
-      Width = 20
-      OnClick = chkShowNotifsClick
-      TabOrder = 1
-    end
-    object lblShowNotifs: TLabel
-      Cursor = crHandPoint
-      Left = 56
-      Height = 17
-      Top = 89
-      Width = 194
-      AutoSize = False
-      Caption = 'Show all in-App notifications'
-      ParentColor = False
-      OnClick = lblShowNotifsClick
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 1644825
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 0
+      StateNormal.FontColor = clBlack
+      StateHover.Color = 3355443
+      StateHover.BorderColor = 3355443
+      StateHover.BorderWidth = 1
+      StateHover.FontColor = clBlack
+      StateActive.Color = 4934475
+      StateActive.BorderColor = 3355443
+      StateActive.BorderWidth = 1
+      StateActive.FontColor = clBlack
+      StateDisabled.Color = 2500134
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 0
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
   end
 end

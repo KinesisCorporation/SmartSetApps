@@ -6,16 +6,16 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, LineObj, u_base_form, u_const, UserDialog, lcltype,
-  u_common_ui;
+  StdCtrls, LineObj, u_base_form, u_const, UserDialog, lcltype,
+  u_common_ui, ColorSpeedButtonCS;
 
 type
 
   { TFormTimingDelays }
 
   TFormTimingDelays = class(TBaseForm)
-    btnCancel: THSSpeedButton;
-    btnAccept: THSSpeedButton;
+    btnCancel: TColorSpeedButtonCS;
+    btnAccept: TColorSpeedButtonCS;
     eCustomDelay: TEdit;
     imgListTiming: TImageList;
     Label1: TLabel;
@@ -94,7 +94,7 @@ end;
 
 procedure TFormTimingDelays.btnAcceptMouseExit(Sender: TObject);
 begin
-  if (not (sender as THSSpeedButton).Down) then
+  if (not (sender as TColorSpeedButtonCS).Down) then
     LoadButtonImage(sender, imgListTiming, 2);
 end;
 
@@ -106,7 +106,7 @@ end;
 
 procedure TFormTimingDelays.btnCancelMouseExit(Sender: TObject);
 begin
-  if (not (sender as THSSpeedButton).Down) then
+  if (not (sender as TColorSpeedButtonCS).Down) then
     LoadButtonImage(sender, imgListTiming, 0);
 end;
 

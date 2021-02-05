@@ -6,15 +6,15 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-  StdCtrls, lclintf, ExtCtrls, HSSpeedButton, u_const,
-  UserDialog, LCLType, LineObj, VersionSupport;
+  StdCtrls, lclintf, ExtCtrls, u_const,
+  LCLType, ColorSpeedButtonCS, VersionSupport;
 
 type
 
   { TFormSettingsMaster }
 
   TFormSettingsMaster = class(TForm)
-    btnClose: THSSpeedButton;
+    btnClose: TColorSpeedButtonCS;
     chkHideAllNotifs: TCheckBox;
     chkShowNotifs: TCheckBox;
     lblHideAllNotifs: TLabel;
@@ -52,7 +52,6 @@ implementation
 procedure TFormSettingsMaster.FormCreate(Sender: TObject);
 begin
   SetFont(self, 'Tahoma');
-  self.Color := KINESIS_DARK_GRAY_FS;
 
   //Read values from registry
   if ReadFromRegistry(HideAllNotifs) = '1' then

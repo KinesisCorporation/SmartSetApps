@@ -7,29 +7,22 @@ object BaseForm: TBaseForm
   ClientHeight = 375
   ClientWidth = 607
   Color = 1644825
+  DesignTimePPI = 144
   Font.Color = clWhite
   Font.Name = 'Tahoma'
   OnCreate = FormCreate
   OnResize = FormResize
   Position = poMainFormCenter
-  LCLVersion = '2.0.0.4'
-  object btnClose: THSSpeedButton
-    Left = 575
+  LCLVersion = '2.0.8.0'
+  Scaled = False
+  object btnClose: TColorSpeedButtonCS
+    Left = 572
     Height = 32
     Hint = 'Close'
-    Top = 0
+    Top = 2
     Width = 32
-    Alignment = taCenter
     Anchors = [akTop, akRight]
-    Border = 1
-    Color = 1644825
-    Font.CharSet = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
     Glyph.Data = {
       36040000424D3604000000000000360000002800000010000000100000000100
       200000000000000400006400000064000000000000000000000000000000FFFF
@@ -66,26 +59,32 @@ object BaseForm: TBaseForm
       FF04FFFFFF9FFFFFFF5200000000000000000000000000000000000000000000
       00000000000000000000FFFFFF54FFFFFFA1FFFFFF0400000000
     }
-    HotTrackColor = 1644825
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    HotTrackFont.Style = [fsBold]
-    LightColor = 1644825
-    NumGlyphs = 1
+    OnClick = btnCloseClick
+    ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    ShadowColor = 1644825
-    ShowHint = True
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Transparent = True
-    Index = -1
-    TransparentColor = 1644825
-    OnClick = btnCloseClick
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 1644825
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clBlack
+    StateHover.Color = 3355443
+    StateHover.BorderColor = 3355443
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clBlack
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clBlack
+    StateDisabled.Color = 2500134
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clBlack
+    TextPadding = 0
   end
   object lineBorderTop: TLineObj
     Left = 0

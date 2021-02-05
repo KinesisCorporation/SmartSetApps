@@ -7,19 +7,22 @@ object FormAboutMaster: TFormAboutMaster
   Caption = 'Help'
   ClientHeight = 321
   ClientWidth = 427
-  Color = 2500134
+  Color = 1644825
+  DesignTimePPI = 144
   Font.Height = -13
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   Position = poMainFormCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object pnlMain: TPanel
     Left = 2
     Height = 317
     Top = 2
     Width = 423
     Align = alClient
+    Anchors = [akTop, akRight]
     BevelOuter = bvNone
     BorderStyle = bsSingle
     ClientHeight = 313
@@ -281,23 +284,14 @@ object FormAboutMaster: TFormAboutMaster
         0000000049454E44AE426082
       }
     end
-    object btnClose: THSSpeedButton
-      Left = 391
+    object btnClose: TColorSpeedButtonCS
+      Left = 388
       Height = 32
       Hint = 'Close'
       Top = 0
       Width = 32
-      Alignment = taCenter
       Anchors = [akTop, akRight]
-      Border = 1
-      Color = 1644825
-      Font.CharSet = ANSI_CHARSET
-      Font.Color = clWhite
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
+      Font.Color = clBlack
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
         200000000000000400006400000064000000000000000000000000000000FFFF
@@ -334,36 +328,39 @@ object FormAboutMaster: TFormAboutMaster
         FF04FFFFFF9FFFFFFF5200000000000000000000000000000000000000000000
         00000000000000000000FFFFFF54FFFFFFA1FFFFFF0400000000
       }
-      HotTrackColor = 1644825
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      HotTrackFont.Style = [fsBold]
-      LightColor = 1644825
-      NumGlyphs = 1
+      OnClick = btnCloseClick
+      ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      ShadowColor = 1644825
-      ShowHint = True
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Transparent = True
-      Index = -1
-      TransparentColor = 1644825
-      OnClick = btnCloseClick
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 1644825
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 0
+      StateNormal.FontColor = clBlack
+      StateHover.Color = 3355443
+      StateHover.BorderColor = 3355443
+      StateHover.BorderWidth = 1
+      StateHover.FontColor = clBlack
+      StateActive.Color = 4934475
+      StateActive.BorderColor = 3355443
+      StateActive.BorderWidth = 1
+      StateActive.FontColor = clBlack
+      StateDisabled.Color = 2500134
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 0
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
-    object btnRequestSupport: THSSpeedButton
+    object btnRequestSupport: TColorSpeedButtonCS
       Left = 276
       Height = 32
       Top = 277
       Width = 134
-      Alignment = taCenter
-      Border = 1
       Caption = 'Request Support'
-      Color = 4012079
       Font.CharSet = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
@@ -371,32 +368,39 @@ object FormAboutMaster: TFormAboutMaster
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       Font.Style = [fsBold]
-      HotTrackColor = 6117455
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      LightColor = 4012079
-      ParentFont = False
-      ShadowColor = 4012079
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Style = bsModern
-      Index = -1
-      TransparentColor = clBlack
       OnClick = btnRequestSupportClick
+      ShowHint = True
+      ParentFont = False
+      ParentShowHint = False
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 3355443
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
+      StateHover.Color = 4934475
+      StateHover.BorderColor = 1644825
+      StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
+      StateActive.Color = 4934475
+      StateActive.BorderColor = 3355443
+      StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
+      StateDisabled.Color = 3355443
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnReadManual: THSSpeedButton
+    object btnReadManual: TColorSpeedButtonCS
       Left = 10
       Height = 32
       Top = 277
       Width = 134
-      Alignment = taCenter
-      Border = 1
       Caption = 'Read Manual'
-      Color = 4012079
       Font.CharSet = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -13
@@ -404,22 +408,32 @@ object FormAboutMaster: TFormAboutMaster
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       Font.Style = [fsBold]
-      HotTrackColor = 6117455
-      HotTrackFont.CharSet = ANSI_CHARSET
-      HotTrackFont.Color = clWhite
-      HotTrackFont.Height = -12
-      HotTrackFont.Name = 'Tahoma'
-      HotTrackFont.Pitch = fpVariable
-      HotTrackFont.Quality = fqDraft
-      LightColor = 4012079
-      ParentFont = False
-      ShadowColor = 4012079
-      SlowDecease = sdEnterLeave
-      Smooth = 8
-      Style = bsModern
-      Index = -1
-      TransparentColor = clBlack
       OnClick = btnReadManualClick
+      ShowHint = True
+      ParentFont = False
+      ParentShowHint = False
+      Alignment = taCenter
+      TextAutoSize = True
+      Toggle = False
+      Pressed = False
+      PopupMode = False
+      StateNormal.Color = 3355443
+      StateNormal.BorderColor = 1644825
+      StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
+      StateHover.Color = 4934475
+      StateHover.BorderColor = 1644825
+      StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
+      StateActive.Color = 4934475
+      StateActive.BorderColor = 3355443
+      StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
+      StateDisabled.Color = 3355443
+      StateDisabled.BorderColor = 1644825
+      StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
   end
   object lineBorderTop: TLineObj

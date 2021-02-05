@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls,  HSSpeedButton,
+  StdCtrls,  ColorSpeedButtonCS,
   u_base_form, u_const, lcltype, ECSlider, ECSwitch, UserDialog, u_file_service,
   u_common_ui;
 
@@ -15,7 +15,7 @@ type
   { TFormSettings }
 
   TFormSettings = class(TBaseForm)
-    btnSave: THSSpeedButton;
+    btnSave: TColorSpeedButtonCS;
     chkDisableSpeed: TCheckBox;
     chkDisableStatus: TCheckBox;
     imgListMiniIcons: TImageList;
@@ -64,7 +64,7 @@ type
 
 var
   FormSettings: TFormSettings;
-  procedure ShowSettings;
+  function ShowSettings: boolean;
 
 implementation
 
@@ -72,13 +72,14 @@ uses u_form_main_rgb;
 
 {$R *.lfm}
 
-procedure ShowSettings;
+function ShowSettings: boolean;
 begin
   if FormSettings <> nil then
     FreeAndNil(FormSettings);
   Application.CreateForm(TFormSettings, FormSettings);
   FormSettings.ShowModal;
   FormSettings := nil;
+  result := true;
 end;
 
 { TFormSettings }
@@ -296,7 +297,7 @@ end;
 
 procedure TFormSettings.btnSaveMouseExit(Sender: TObject);
 begin
-  if (not (sender as THSSpeedButton).Down) then
+  if (not (sender as TColorSpeedButtonCS).Down) then
     LoadButtonImage(sender, imgListMiniIcons, 0);
 end;
 

@@ -7,7 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, uecontrols, u_form_dashboard, u_const, u_form_loading, InfoDialog;
+  Forms, uecontrols, u_form_dashboard, u_const, u_form_loading, InfoDialog,
+  UserDialog;
 
 {$R *.res}
 

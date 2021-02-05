@@ -6,22 +6,23 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-  StdCtrls, lclintf, ExtCtrls, HSSpeedButton, u_const,
-  UserDialog, u_base_form, LCLType, versionsupport;
+  StdCtrls, lclintf, ExtCtrls, u_const, UserDialog, u_base_form,
+  LCLType, Menus, versionsupport, ColorSpeedButtonCS;
 
 type
 
   { TFormAbout }
 
   TFormAbout = class(TBaseForm)
-    btnReadManual: THSSpeedButton;
-    btnRequestSupport: THSSpeedButton;
-    btnWatchTutorial: THSSpeedButton;
+    btnReadManual: TColorSpeedButtonCS;
+    btnRequestSupport: TColorSpeedButtonCS;
+    btnWatchTutorial: TColorSpeedButtonCS;
     imgKinesis: TImage;
     lblTitlet: TLabel;
     lblAppTitle: TLabel;
     lblFirmware: TLabel;
     lblVersion: TLabel;
+    MainMenu1: TMainMenu;
     procedure bOkClick(Sender: TObject);
     procedure btnReadManualClick(Sender: TObject);
     procedure btnRequestSupportClick(Sender: TObject);
@@ -88,7 +89,6 @@ begin
   SetFont(self, 'Tahoma');
   lblAppTitle.Caption := HELP_TITLE;
   lblVersion.Caption := 'App Version : ' + GetFileVersion;
-  self.Color := KINESIS_DARK_GRAY_FS;
   btnReadManual.Font.Color := clWhite;
   btnWatchTutorial.Font.Color := clWhite;
 end;

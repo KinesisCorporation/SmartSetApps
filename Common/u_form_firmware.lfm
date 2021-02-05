@@ -11,6 +11,7 @@ inherited FormFirmware: TFormFirmware
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
+  Scaled = False
   inherited btnClose: THSSpeedButton
     Left = 479
   end

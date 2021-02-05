@@ -9,7 +9,7 @@ inherited FormSettings: TFormSettings
   OnClose = FormClose
   OnCreate = FormCreate
   OnResize = nil
-  inherited btnClose: THSSpeedButton
+  inherited btnClose: TColorSpeedButtonCS
     Left = 1073
   end
   inherited lineBorderTop: TLineObj
@@ -105,22 +105,13 @@ inherited FormSettings: TFormSettings
     ParentColor = False
     ParentFont = False
   end
-  object btnSave: THSSpeedButton[11]
+  object btnSave: TColorSpeedButtonCS[11]
     Left = 339
     Height = 46
     Hint = 'Save Global Keyboard Settings'
     Top = 6
     Width = 46
-    Alignment = taCenter
-    Border = 1
-    Color = 2500134
-    Font.CharSet = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
     Glyph.Data = {
       46210000424D462100000000000036000000280000002E0000002E0000000100
       2000000000001021000064000000640000000000000000000000201F2380201F
@@ -390,27 +381,34 @@ inherited FormSettings: TFormSettings
       80C0808080C0808080C0808080C0808080C0808080C0808080C0808080C08080
       80C0808080C080808030
     }
-    HotTrackColor = 2500134
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    HotTrackFont.Style = [fsBold]
-    LightColor = 2500134
-    NumGlyphs = 1
+    OnClick = btnSaveClick
+    OnMouseLeave = btnSaveMouseExit
+    OnMouseMove = btnSaveMouseMove
+    ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    ShowHint = True
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Transparent = True
-    Index = -1
-    TransparentColor = clBlack
-    OnClick = btnSaveClick
-    OnMouseExit = btnSaveMouseExit
-    OnMouseMove = btnSaveMouseMove
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 1644825
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 1644825
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
   object sliderActiveProfile: TECSlider[12]
     Left = 16
@@ -475,9 +473,9 @@ inherited FormSettings: TFormSettings
   end
   object chkDisableSpeed: TCheckBox[14]
     Left = 552
-    Height = 19
+    Height = 29
     Top = 64
-    Width = 20
+    Width = 30
     OnClick = chkDisableSpeedClick
     TabOrder = 4
   end
@@ -605,9 +603,9 @@ inherited FormSettings: TFormSettings
   end
   object chkDisableStatus: TCheckBox[19]
     Left = 872
-    Height = 19
+    Height = 29
     Top = 64
-    Width = 20
+    Width = 30
     OnClick = chkDisableStatusClick
     TabOrder = 5
   end

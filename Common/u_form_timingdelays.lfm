@@ -71,22 +71,14 @@ inherited FormTimingDelays: TFormTimingDelays
     ParentFont = False
     TabOrder = 1
   end
-  object btnAccept: THSSpeedButton[10]
+  object btnAccept: TColorSpeedButtonCS[10]
     Left = 296
     Height = 46
     Top = 121
     Width = 46
     Alignment = taCenter
     AllowAllUp = True
-    Border = 1
-    Color = 2500134
-    Font.CharSet = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
     Glyph.Data = {
       46210000424D462100000000000036000000280000002E0000002E0000000100
       2000000000001021000064000000640000000000000000000000323232403232
@@ -356,44 +348,43 @@ inherited FormTimingDelays: TFormTimingDelays
       3240323232403232324032323240323232403232324032323240323232403232
       32403232324032323240
     }
-    HotTrackColor = 2500134
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    HotTrackFont.Style = [fsBold]
-    LightColor = 2500134
-    NumGlyphs = 1
-    ParentFont = False
-    ParentShowHint = False
     ShowHint = True
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Transparent = True
-    Index = -1
-    TransparentColor = clBlack
+  ParentFont = False
+  ParentShowHint = False
+  Alignment = taCenter
+  TextAutoSize = True
+  Toggle = False
+  Pressed = False
+  PopupMode = False
+  StateNormal.Color = 3355443
+  StateNormal.BorderColor = 1644825
+  StateNormal.BorderWidth = 1
+  StateNormal.FontColor = clWhite
+  StateHover.Color = 1644825
+  StateHover.BorderColor = 1644825
+  StateHover.BorderWidth = 1
+  StateHover.FontColor = clWhite
+  StateActive.Color = 1644825
+  StateActive.BorderColor = 3355443
+  StateActive.BorderWidth = 1
+  StateActive.FontColor = clWhite
+  StateDisabled.Color = 3355443
+  StateDisabled.BorderColor = 1644825
+  StateDisabled.BorderWidth = 1
+  StateDisabled.FontColor = clWhite
+  TextPadding = 0
     OnClick = btnAcceptClick
-    OnMouseExit = btnAcceptMouseExit
+    OnMouseLeave = btnAcceptMouseExit
     OnMouseMove = btnAcceptMouseMove
   end
-  object btnCancel: THSSpeedButton[11]
+  object btnCancel: TColorSpeedButtonCS[11]
     Left = 240
     Height = 46
     Top = 120
     Width = 46
     Alignment = taCenter
     AllowAllUp = True
-    Border = 1
-    Color = 2500134
-    Font.CharSet = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
     Glyph.Data = {
       46210000424D462100000000000036000000280000002E0000002E0000000100
       2000000000001021000064000000640000000000000000000000323232403232
@@ -663,26 +654,33 @@ inherited FormTimingDelays: TFormTimingDelays
       3240323232403232324032323240323232403232324032323240323232403232
       32403232324032323240
     }
-    HotTrackColor = 2500134
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    HotTrackFont.Style = [fsBold]
-    LightColor = 2500134
-    NumGlyphs = 1
-    ParentFont = False
-    ParentShowHint = False
     ShowHint = True
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Transparent = True
-    Index = -1
-    TransparentColor = clBlack
+  ParentFont = False
+  ParentShowHint = False
+  Alignment = taCenter
+  TextAutoSize = True
+  Toggle = False
+  Pressed = False
+  PopupMode = False
+  StateNormal.Color = 3355443
+  StateNormal.BorderColor = 1644825
+  StateNormal.BorderWidth = 1
+  StateNormal.FontColor = clWhite
+  StateHover.Color = 1644825
+  StateHover.BorderColor = 1644825
+  StateHover.BorderWidth = 1
+  StateHover.FontColor = clWhite
+  StateActive.Color = 1644825
+  StateActive.BorderColor = 3355443
+  StateActive.BorderWidth = 1
+  StateActive.FontColor = clWhite
+  StateDisabled.Color = 3355443
+  StateDisabled.BorderColor = 1644825
+  StateDisabled.BorderWidth = 1
+  StateDisabled.FontColor = clWhite
+  TextPadding = 0
     OnClick = btnCancelClick
-    OnMouseExit = btnCancelMouseExit
+    OnMouseLeave = btnCancelMouseExit
     OnMouseMove = btnCancelMouseMove
   end
   object imgListTiming: TImageList[12]

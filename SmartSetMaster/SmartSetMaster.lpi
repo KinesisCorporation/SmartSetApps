@@ -14,7 +14,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="3"/>
-      <RevisionNr Value="1"/>
+      <RevisionNr Value="2"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -170,9 +170,12 @@
         <ResourceBaseClass Value="Form"/>
       </Unit19>
       <Unit20>
-        <Filename Value="..\Components\CreoSource\colorspeedbuttoncs.pas"/>
+        <Filename Value="..\Common\userdialog.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ColorSpeedButtonCS"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
       </Unit20>
     </Units>
   </ProjectOptions>

@@ -6,14 +6,14 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, LineObj, BGRABitmap, BGRABitmapTypes;
+  StdCtrls, LineObj, BGRABitmap, BGRABitmapTypes, ColorSpeedButtonCS;
 
 type
 
   { TBaseForm }
 
   TBaseForm = class(TForm)
-    btnClose: THSSpeedButton;
+    btnClose: TColorSpeedButtonCS;
     lblTitle: TLabel;
     lineBorderBottom: TLineObj;
     lineBorderLeft: TLineObj;

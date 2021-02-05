@@ -6,14 +6,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  HSSpeedButton, u_const, u_common_ui;
+  u_const, u_common_ui, ColorSpeedButtonCS;
 
 type
 
   { TFormInfoDialog }
 
   TFormInfoDialog = class(TForm)
-    btnClose: THSSpeedButton;
+    btnClose: TColorSpeedButtonCS;
     lblMessage: TLabel;
     lblTitle: TLabel;
     tmrClose: TTimer;

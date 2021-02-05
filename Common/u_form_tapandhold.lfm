@@ -7,7 +7,7 @@ inherited FormTapAndHold: TFormTapAndHold
   ClientWidth = 389
   OnCreate = FormCreate
   OnShow = FormShow
-  inherited btnClose: THSSpeedButton
+  inherited btnClose: TColorSpeedButtonCS
     Left = 357
   end
   inherited lineBorderTop: TLineObj
@@ -29,10 +29,10 @@ inherited FormTapAndHold: TFormTapAndHold
   end
   object Label2: TLabel[6]
     Left = 30
-    Height = 16
+    Height = 24
     Hint = 'Designate the action sent when the key is held longer than the delay'
     Top = 89
-    Width = 65
+    Width = 102
     Caption = 'Hold Action'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -43,7 +43,7 @@ inherited FormTapAndHold: TFormTapAndHold
   end
   object eHoldAction: TEdit[7]
     Left = 238
-    Height = 22
+    Height = 32
     Top = 86
     Width = 136
     Alignment = taCenter
@@ -54,22 +54,14 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentFont = False
     TabOrder = 1
   end
-  object btnAccept: THSSpeedButton[8]
+  object btnAccept: TColorSpeedButtonCS[8]
     Left = 328
     Height = 46
     Top = 169
     Width = 46
     Alignment = taCenter
     AllowAllUp = True
-    Border = 1
-    Color = 2500134
-    Font.CharSet = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
     Glyph.Data = {
       46210000424D462100000000000036000000280000002E0000002E0000000100
       2000000000001021000064000000640000000000000000000000323232403232
@@ -339,44 +331,43 @@ inherited FormTapAndHold: TFormTapAndHold
       3240323232403232324032323240323232403232324032323240323232403232
       32403232324032323240
     }
-    HotTrackColor = 2500134
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    HotTrackFont.Style = [fsBold]
-    LightColor = 2500134
-    NumGlyphs = 1
-    ParentFont = False
-    ParentShowHint = False
     ShowHint = True
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Transparent = True
-    Index = -1
-    TransparentColor = clBlack
+  ParentFont = False
+  ParentShowHint = False
+  Alignment = taCenter
+  TextAutoSize = True
+  Toggle = False
+  Pressed = False
+  PopupMode = False
+  StateNormal.Color = 3355443
+  StateNormal.BorderColor = 1644825
+  StateNormal.BorderWidth = 1
+  StateNormal.FontColor = clWhite
+  StateHover.Color = 1644825
+  StateHover.BorderColor = 1644825
+  StateHover.BorderWidth = 1
+  StateHover.FontColor = clWhite
+  StateActive.Color = 1644825
+  StateActive.BorderColor = 3355443
+  StateActive.BorderWidth = 1
+  StateActive.FontColor = clWhite
+  StateDisabled.Color = 3355443
+  StateDisabled.BorderColor = 1644825
+  StateDisabled.BorderWidth = 1
+  StateDisabled.FontColor = clWhite
+  TextPadding = 0
     OnClick = btnAcceptClick
-    OnMouseExit = btnAcceptMouseExit
+    OnMouseLeave = btnAcceptMouseExit
     OnMouseMove = btnAcceptMouseMove
   end
-  object btnCancel: THSSpeedButton[9]
+  object btnCancel: TColorSpeedButtonCS[9]
     Left = 272
     Height = 46
     Top = 168
     Width = 46
     Alignment = taCenter
     AllowAllUp = True
-    Border = 1
-    Color = 2500134
-    Font.CharSet = ANSI_CHARSET
     Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
     Glyph.Data = {
       46210000424D462100000000000036000000280000002E0000002E0000000100
       2000000000001021000064000000640000000000000000000000323232403232
@@ -646,34 +637,41 @@ inherited FormTapAndHold: TFormTapAndHold
       3240323232403232324032323240323232403232324032323240323232403232
       32403232324032323240
     }
-    HotTrackColor = 2500134
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    HotTrackFont.Style = [fsBold]
-    LightColor = 2500134
-    NumGlyphs = 1
-    ParentFont = False
-    ParentShowHint = False
     ShowHint = True
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Transparent = True
-    Index = -1
-    TransparentColor = clBlack
+  ParentFont = False
+  ParentShowHint = False
+  Alignment = taCenter
+  TextAutoSize = True
+  Toggle = False
+  Pressed = False
+  PopupMode = False
+  StateNormal.Color = 3355443
+  StateNormal.BorderColor = 1644825
+  StateNormal.BorderWidth = 1
+  StateNormal.FontColor = clWhite
+  StateHover.Color = 1644825
+  StateHover.BorderColor = 1644825
+  StateHover.BorderWidth = 1
+  StateHover.FontColor = clWhite
+  StateActive.Color = 1644825
+  StateActive.BorderColor = 3355443
+  StateActive.BorderWidth = 1
+  StateActive.FontColor = clWhite
+  StateDisabled.Color = 3355443
+  StateDisabled.BorderColor = 1644825
+  StateDisabled.BorderWidth = 1
+  StateDisabled.FontColor = clWhite
+  TextPadding = 0
     OnClick = btnCancelClick
-    OnMouseExit = btnCancelMouseExit
+    OnMouseLeave = btnCancelMouseExit
     OnMouseMove = btnCancelMouseMove
   end
   object Label1: TLabel[10]
     Left = 30
-    Height = 16
+    Height = 24
     Hint = 'Designate the action sent when the key is tapped and released faster than the delay'
     Top = 55
-    Width = 60
+    Width = 95
     Caption = 'Tap Action'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -684,10 +682,10 @@ inherited FormTapAndHold: TFormTapAndHold
   end
   object Label3: TLabel[11]
     Left = 30
-    Height = 16
+    Height = 24
     Hint = 'Designate the time interval used to differentiate between the Tap and Hold actions'
     Top = 122
-    Width = 96
+    Width = 150
     Caption = 'Delay (1-999ms)'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -698,7 +696,7 @@ inherited FormTapAndHold: TFormTapAndHold
   end
   object eTimingDelay: TEdit[12]
     Left = 238
-    Height = 22
+    Height = 32
     Top = 119
     Width = 136
     Alignment = taCenter
@@ -714,7 +712,7 @@ inherited FormTapAndHold: TFormTapAndHold
   end
   object eTapAction: TEdit[13]
     Left = 238
-    Height = 22
+    Height = 32
     Top = 52
     Width = 136
     Alignment = taCenter

@@ -6,7 +6,7 @@ interface
 
 uses
   Forms, Classes, SysUtils, StdCtrls, graphics, controls, buttons, extctrls, dialogs,
-  u_kinesis_device, eject_USB, u_const, u_key_service, HSSpeedButton,
+  u_kinesis_device, eject_USB, u_const, u_key_service, HSSpeedButton, ColorSpeedButtonCS,
   LabelBox, U_Keys, u_key_layer, contnrs, u_file_service, u_base_key_service;
 
 type
@@ -150,6 +150,13 @@ begin
     else
       imgList.GetBitmap(idx, (obj as THSSpeedButton).Glyph)
   end
+  else if (obj is TColorSpeedButtonCS) then
+  begin
+    if (idx = -1) then
+      (obj as TColorSpeedButtonCS).Glyph.Clear
+    else
+      imgList.GetBitmap(idx, (obj as TColorSpeedButtonCS).Glyph)
+  end
   else if (obj is TImage) then
   begin
     if (idx = -1) then
@@ -189,7 +196,7 @@ begin
       end;
     end;
   finally
-    CloseInfoDialog(mrOK);
+    //CloseInfoDialog(mrOK);
   end;
 end;
 
