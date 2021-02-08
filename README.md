@@ -120,3 +120,5 @@ List of known issues, settings that work with Mac Lazarus.
 * Mac when compiling you get error Error: Internal error 200609171.
   * Solution: disable this option Project->Project Options->Generate info for the debugger.
 * In Tools->Options that "Compiler Executable" is set to "/usr/local/bin/fpc" to get 64 bit apps.
+* Lazarus 2.0.8 on Mac OSX error: cocoascrollers.pas(53,15) Error: There is no method in an ancestor class to be overridden: "setDocumentView(id);"
+  * See solution here: https://wiki.freepascal.org/Installing_Lazarus_on_macOS, scroll down to Installing Lazarus 2.0.8 with FPC 3.2.0 for macOS 10.11+
