@@ -621,6 +621,13 @@ begin
   FStateHover.Free;
   FStateActive.Free;
   FStateDisabled.Free;
+  //Fix issue under Mac OS causing error exc_bad_access code=1
+  if (Glyph <> nil) then
+  begin
+    Glyph.FreeImage;
+    Glyph := nil;
+  end;
+
   inherited Destroy;
 end;
 

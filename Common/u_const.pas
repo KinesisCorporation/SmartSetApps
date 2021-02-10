@@ -1955,6 +1955,7 @@ begin
         aDevice.DriveLetter := driveLetter;
         aDevice.RootFolder := IncludeTrailingBackslash(rootFolder);
         aDevice.Connected := true;
+        aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
         result := true;
       end;
     end
@@ -1969,6 +1970,7 @@ begin
         aDevice.DriveLetter := driveLetter;
         aDevice.RootFolder := IncludeTrailingBackslash(rootFolder);
         aDevice.Connected := true;
+        aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
         result := true;
       end;
     end;
@@ -1996,6 +1998,7 @@ begin
         aDevice.DriveLetter := driveLetter;
         aDevice.RootFolder := IncludeTrailingBackslash(driveName);
         aDevice.Connected := true;
+        aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
         result := true;
       end;
     end;
@@ -2010,6 +2013,7 @@ begin
       aDevice.DriveLetter := driveLetter;
       aDevice.RootFolder := IncludeTrailingBackslash(driveName);
       aDevice.Connected := true;
+      aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
       result := true;
     end;
   end;

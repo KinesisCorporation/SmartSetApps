@@ -4,13 +4,14 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="46">
+    <Units Count="67">
       <Unit0>
         <Filename Value="SmartSetMaster.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos Y="28"/>
+        <EditorIndex Value="4"/>
+        <CursorPos Y="18"/>
         <UsageCount Value="231"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="u_form_dashboard.pas"/>
@@ -18,32 +19,30 @@
         <ComponentName Value="FormDashboard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="731"/>
-        <CursorPos X="28" Y="737"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="625"/>
+        <CursorPos X="68" Y="631"/>
         <UsageCount Value="231"/>
-        <Bookmarks Count="2">
-          <Item0 X="3" Y="737" ID="1"/>
-          <Item1 Y="198" ID="2"/>
-        </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\Common\u_const.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="2134"/>
-        <CursorPos X="31" Y="2143"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="1927"/>
+        <CursorPos X="26" Y="1958"/>
         <UsageCount Value="214"/>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="..\Common\u_kinesis_device.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="21"/>
-        <CursorPos X="57" Y="38"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="13"/>
+        <CursorPos X="6" Y="20"/>
         <UsageCount Value="214"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\Common\u_debug.pas"/>
@@ -57,16 +56,26 @@
       <Unit5>
         <Filename Value="..\Common\u_base_key_service.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="7768"/>
+        <CursorPos X="47" Y="7786"/>
         <UsageCount Value="214"/>
+        <Bookmarks Count="1">
+          <Item0 X="12" Y="322" ID="3"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="..\Common\u_file_service.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1193"/>
-        <CursorPos X="63" Y="1217"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="520"/>
+        <CursorPos X="37" Y="531"/>
         <UsageCount Value="214"/>
+        <Bookmarks Count="1">
+          <Item0 X="13" Y="550" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="..\Common\u_gif.pas"/>
@@ -107,10 +116,11 @@
         <ComponentName Value="FormMainRGB"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1269"/>
-        <CursorPos X="24" Y="1275"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="1701"/>
+        <CursorPos X="39" Y="1733"/>
         <UsageCount Value="201"/>
+        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="..\Common\u_form_loading.pas"/>
@@ -137,10 +147,11 @@
       <Unit14>
         <Filename Value="..\Common\u_common_ui.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="66"/>
-        <CursorPos X="3" Y="83"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="133"/>
+        <CursorPos X="36" Y="138"/>
         <UsageCount Value="205"/>
+        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="..\Common\u_base_form.pas"/>
@@ -191,8 +202,9 @@
         <ComponentName Value="FormMainTKO"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="32" Y="11"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1384"/>
+        <CursorPos X="42" Y="1210"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="7">
           <Item0 X="34" Y="3866" ID="4"/>
@@ -201,26 +213,38 @@
           <Item3 X="16" Y="5062" ID="6"/>
           <Item4 X="21" Y="3570" ID="9"/>
           <Item5 X="9" Y="2675" ID="8"/>
-          <Item6 X="7" Y="1225" ID="3"/>
+          <Item6 X="3" Y="1064" ID="2"/>
         </Bookmarks>
+        <Loaded Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="..\Components\CreoSource\colorspeedbuttoncs.pas"/>
+        <Filename Value="..\Common\userdialog.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ColorSpeedButtonCS"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="284"/>
-        <CursorPos X="47" Y="446"/>
-        <UsageCount Value="202"/>
+        <TopLine Value="147"/>
+        <CursorPos X="51" Y="158"/>
+        <UsageCount Value="195"/>
       </Unit20>
       <Unit21>
+        <Filename Value="..\Components\CreoSource\colorspeedbuttoncs.pas"/>
+        <UnitName Value="ColorSpeedButtonCS"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="619"/>
+        <CursorPos X="25" Y="647"/>
+        <UsageCount Value="194"/>
+      </Unit21>
+      <Unit22>
         <Filename Value="..\Common\usbdriveflush.pas"/>
         <UnitName Value="USBDriveFlush"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="201"/>
-      </Unit21>
-      <Unit22>
+        <UsageCount Value="192"/>
+      </Unit22>
+      <Unit23>
         <Filename Value="..\SmartSetRGB\u_form_intro.pas"/>
         <ComponentName Value="FormIntro"/>
         <HasResources Value="True"/>
@@ -228,17 +252,17 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="15" Y="42"/>
-        <UsageCount Value="48"/>
-      </Unit22>
-      <Unit23>
+        <UsageCount Value="39"/>
+      </Unit23>
+      <Unit24>
         <Filename Value="C:\lazarus\lcl\lclintf.pas"/>
         <UnitName Value="LCLIntf"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="13" Y="38"/>
-        <UsageCount Value="23"/>
-      </Unit23>
-      <Unit24>
+        <UsageCount Value="14"/>
+      </Unit24>
+      <Unit25>
         <Filename Value="..\SmartSetRGB\u_form_settings.pas"/>
         <ComponentName Value="FormSettings"/>
         <HasResources Value="True"/>
@@ -246,9 +270,9 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="267"/>
         <CursorPos X="27" Y="287"/>
-        <UsageCount Value="64"/>
-      </Unit24>
-      <Unit25>
+        <UsageCount Value="55"/>
+      </Unit25>
+      <Unit26>
         <Filename Value="..\SmartSetRGB\u_form_firmware.pas"/>
         <ComponentName Value="FormFirmware"/>
         <HasResources Value="True"/>
@@ -256,9 +280,9 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="138"/>
         <CursorPos X="91" Y="156"/>
-        <UsageCount Value="5"/>
-      </Unit25>
-      <Unit26>
+        <UsageCount Value="6"/>
+      </Unit26>
+      <Unit27>
         <Filename Value="..\Common\u_form_firmware.pas"/>
         <ComponentName Value="FormFirmware"/>
         <HasResources Value="True"/>
@@ -266,36 +290,28 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="178"/>
         <CursorPos X="5" Y="184"/>
-        <UsageCount Value="72"/>
-      </Unit26>
-      <Unit27>
+        <UsageCount Value="63"/>
+      </Unit27>
+      <Unit28>
         <Filename Value="..\Components\HSButton0.9\HSButton\HSSpeedButton.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="560"/>
         <CursorPos Y="567"/>
-        <UsageCount Value="53"/>
-      </Unit27>
-      <Unit28>
+        <UsageCount Value="44"/>
+      </Unit28>
+      <Unit29>
         <Filename Value="..\Common\u_form_tapandhold.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="57"/>
         <CursorPos X="24" Y="61"/>
-        <UsageCount Value="65"/>
-      </Unit28>
-      <Unit29>
+        <UsageCount Value="56"/>
+      </Unit29>
+      <Unit30>
         <Filename Value="..\SmartSetRGB\u_form_timingdelays.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="126"/>
         <CursorPos X="20" Y="126"/>
-        <UsageCount Value="65"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="..\Common\userdialog.pas"/>
-        <UnitName Value="UserDialog"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="147"/>
-        <CursorPos X="51" Y="158"/>
-        <UsageCount Value="100"/>
+        <UsageCount Value="56"/>
       </Unit30>
       <Unit31>
         <Filename Value="..\Common\u_form_about.pas"/>
@@ -305,7 +321,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="56"/>
         <CursorPos X="46" Y="73"/>
-        <UsageCount Value="115"/>
+        <UsageCount Value="106"/>
       </Unit31>
       <Unit32>
         <Filename Value="..\Components\CreoSource\labelbox.pas"/>
@@ -313,114 +329,387 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="109"/>
         <CursorPos X="32" Y="116"/>
-        <UsageCount Value="114"/>
+        <UsageCount Value="105"/>
       </Unit32>
       <Unit33>
-        <Filename Value="..\Components\bgrabitmap-master\bgrabitmap\csscolorconst.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="33"/>
-        <CursorPos X="53" Y="42"/>
-        <UsageCount Value="8"/>
-      </Unit33>
-      <Unit34>
-        <Filename Value="..\Components\bgrabitmap-master\bgrabitmap\geometrytypes.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="576"/>
-        <CursorPos X="14" Y="591"/>
-        <UsageCount Value="6"/>
-      </Unit34>
-      <Unit35>
         <Filename Value="C:\lazarus\lcl\stdctrls.pp"/>
         <UnitName Value="StdCtrls"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1560"/>
         <CursorPos X="3" Y="1577"/>
-        <UsageCount Value="32"/>
-      </Unit35>
-      <Unit36>
+        <UsageCount Value="23"/>
+      </Unit33>
+      <Unit34>
         <Filename Value="..\Components\bgrabitmap-master\bgrabitmap\bgragradientscanner.pas"/>
         <UnitName Value="BGRAGradientScanner"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="431"/>
         <CursorPos X="56" Y="441"/>
-        <UsageCount Value="12"/>
-      </Unit36>
-      <Unit37>
-        <Filename Value="..\Components\bgrabitmap-master\bgrabitmap\bgrapixel.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="164"/>
-        <CursorPos X="10" Y="171"/>
-        <UsageCount Value="7"/>
-      </Unit37>
-      <Unit38>
+        <UsageCount Value="3"/>
+      </Unit34>
+      <Unit35>
         <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="7418"/>
         <CursorPos Y="7435"/>
-        <UsageCount Value="5"/>
-      </Unit38>
-      <Unit39>
+        <UsageCount Value="6"/>
+      </Unit35>
+      <Unit36>
         <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2157"/>
         <CursorPos Y="2174"/>
-        <UsageCount Value="5"/>
-      </Unit39>
-      <Unit40>
+        <UsageCount Value="6"/>
+      </Unit36>
+      <Unit37>
         <Filename Value="..\Components\nsunits-src\NSHelpers.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="128"/>
+        <TopLine Value="126"/>
         <CursorPos Y="145"/>
-        <UsageCount Value="32"/>
-      </Unit40>
-      <Unit41>
+        <UsageCount Value="25"/>
+      </Unit37>
+      <Unit38>
         <Filename Value="C:\Library\Lazarus\lcl\include\control.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2766"/>
         <CursorPos X="32" Y="2777"/>
-        <UsageCount Value="31"/>
-      </Unit41>
-      <Unit42>
+        <UsageCount Value="22"/>
+      </Unit38>
+      <Unit39>
         <Filename Value="C:\Library\Lazarus\lcl\include\customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="964"/>
         <CursorPos Y="981"/>
-        <UsageCount Value="36"/>
-      </Unit42>
-      <Unit43>
+        <UsageCount Value="27"/>
+      </Unit39>
+      <Unit40>
         <Filename Value="..\Components\bgracontrols-master\colorspeedbutton.pas"/>
         <UnitName Value="ColorSpeedButton"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="564"/>
-        <CursorPos X="5" Y="610"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="140"/>
+        <CursorPos Y="168"/>
+        <UsageCount Value="55"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit43>
-      <Unit44>
+      </Unit40>
+      <Unit41>
         <Filename Value="C:\lazarus\lcl\interfaces\cocoa\cocoa_extra.pas"/>
         <UnitName Value="Cocoa_Extra"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="2" Y="18"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="1"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="C:\Users\menar\AppData\Local\Temp\SmartSetMaster_u_form_dashboard_Before_c57242ec7333e5bf17a294a790a6c80c695cf8d8.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="1"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="..\Components\nsunits-src\ns_url_request.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="1"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\custombitmap.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="8"/>
+        <CursorPos Y="57"/>
+        <UsageCount Value="1"/>
       </Unit44>
       <Unit45>
-        <Filename Value="C:\Users\menar\AppData\Local\Temp\SmartSetMaster_u_form_dashboard_Before_c57242ec7333e5bf17a294a790a6c80c695cf8d8.lfm"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\application.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2391"/>
+        <CursorPos Y="2420"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit45>
+      <Unit46>
+        <Filename Value="..\..\..\..\usr\local\share\fpcsrc\3.2.0\rtl\unix\cthreads.pp"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="1"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="..\..\..\..\usr\local\share\fpcsrc\3.2.0\packages\fcl-base\src\contnrs.pp"/>
+        <UnitName Value="Contnrs"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="64"/>
+        <CursorPos X="17" Y="83"/>
+        <UsageCount Value="2"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="..\..\..\..\usr\local\share\fpcsrc\3.2.0\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="409"/>
+        <CursorPos X="21" Y="438"/>
+        <UsageCount Value="21"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="..\..\..\..\usr\local\share\fpcsrc\3.2.0\rtl\objpas\classes\lists.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="654"/>
+        <CursorPos Y="657"/>
+        <UsageCount Value="2"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\canvas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1550"/>
+        <CursorPos Y="1581"/>
+        <UsageCount Value="1"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="..\..\..\..\usr\local\share\fpcsrc\3.2.0\packages\fcl-image\src\fpcanvas.pp"/>
+        <UnitName Value="FPCanvas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="226"/>
+        <CursorPos X="16" Y="321"/>
+        <UsageCount Value="1"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="..\..\..\..\usr\local\share\fpcsrc\3.2.0\rtl\objpas\classes\persist.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="52"/>
+        <CursorPos X="3" Y="54"/>
+        <UsageCount Value="20"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\bitmapcanvas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="64"/>
+        <CursorPos Y="83"/>
+        <UsageCount Value="1"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\extctrls.pp"/>
+        <UnitName Value="ExtCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1027"/>
+        <CursorPos X="3" Y="1046"/>
+        <UsageCount Value="1"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2331"/>
+        <CursorPos X="3" Y="2350"/>
+        <UsageCount Value="20"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\buttonglyph.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="61"/>
+        <CursorPos Y="80"/>
+        <UsageCount Value="1"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\buttons.pp"/>
+        <UnitName Value="Buttons"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="101"/>
+        <CursorPos X="43" Y="132"/>
+        <UsageCount Value="1"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\rasterimage.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="288"/>
+        <UsageCount Value="1"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\speedbutton.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="51"/>
+        <CursorPos Y="70"/>
+        <UsageCount Value="1"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\control.inc"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="5028"/>
+        <CursorPos Y="5047"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="..\Components\bgracontrols-master\bcbutton.pas"/>
+        <UnitName Value="BCButton"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="973"/>
+        <CursorPos Y="973"/>
+        <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2159"/>
+        <CursorPos Y="2178"/>
+        <UsageCount Value="20"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="..\Components\bgracontrols-master\bcbasectrls.pas"/>
+        <UnitName Value="BCBaseCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="200"/>
+        <CursorPos X="3" Y="217"/>
+        <UsageCount Value="14"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="..\..\..\..\Library\Lazarus\lcl\customtimer.pas"/>
+        <UnitName Value="CustomTimer"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="168"/>
+        <CursorPos Y="192"/>
+        <UsageCount Value="10"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="..\..\..\..\Library\Lazarus\components\lazutils\lazmethodlist.pas"/>
+        <UnitName Value="LazMethodList"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="276"/>
+        <CursorPos Y="203"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="..\..\..\..\Library\Lazarus\components\lazutils\lazfileutils.pas"/>
+        <UnitName Value="LazFileUtils"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="22"/>
+        <CursorPos X="10" Y="41"/>
+        <UsageCount Value="10"/>
+      </Unit66>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="378" Column="33" TopLine="353"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\Common\u_kinesis_device.pas"/>
+        <Caret Line="28" Column="18" TopLine="23"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <Caret TopLine="16"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <Caret Line="96" Column="28" TopLine="66"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1983" Column="66" TopLine="1970"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1929" Column="45" TopLine="1915"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1958" Column="129" TopLine="1927"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1973" Column="129" TopLine="1942"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="2001" Column="28" TopLine="1970"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="359" Column="61" TopLine="353"/>
+      </Position10>
+      <Position11>
+        <Filename Value="u_form_dashboard.pas"/>
+      </Position11>
+      <Position12>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="373" Column="41" TopLine="342"/>
+      </Position12>
+      <Position13>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="507" Column="55" TopLine="475"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1933" Column="45" TopLine="1921"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="1958" Column="26" TopLine="1927"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\Common\u_const.pas"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\Common\u_kinesis_device.pas"/>
+        <Caret Line="102" Column="28" TopLine="88"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <Caret Line="552" Column="56" TopLine="544"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <Caret Line="96" Column="28" TopLine="79"/>
+      </Position19>
+      <Position20>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="606" Column="72" TopLine="598"/>
+      </Position20>
+      <Position21>
+        <Filename Value="u_form_dashboard.pas"/>
+      </Position21>
+      <Position22>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="373" Column="36" TopLine="354"/>
+      </Position22>
+      <Position23>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="507" Column="50" TopLine="488"/>
+      </Position23>
+      <Position24>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="536" Column="12" TopLine="525"/>
+      </Position24>
+      <Position25>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="799" Column="3" TopLine="776"/>
+      </Position25>
+      <Position26>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="125" Column="15" TopLine="108"/>
+      </Position26>
+      <Position27>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="537" Column="33" TopLine="538"/>
+      </Position27>
+      <Position28>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="592" Column="33" TopLine="584"/>
+      </Position28>
+      <Position29>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="22" Column="33" TopLine="232"/>
+      </Position29>
+      <Position30>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="581" TopLine="562"/>
+      </Position30>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="0" ActiveMode=""/>
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="3">
+    <BreakPoints Count="4">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -442,6 +731,21 @@
         <Source Value="C:\lazarus\lcl\stdctrls.pp"/>
         <Line Value="1672"/>
       </Item3>
+      <Item4>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\..\..\usr\local\share\fpcsrc\3.2.0\rtl\objpas\classes\lists.inc"/>
+        <Line Value="656"/>
+      </Item4>
     </BreakPoints>
+    <Watches Count="2">
+      <Item1>
+        <Expression Value="self.name"/>
+      </Item1>
+      <Item2>
+        <Expression Value="IsMainForm"/>
+      </Item2>
+    </Watches>
   </Debugging>
 </CONFIG>

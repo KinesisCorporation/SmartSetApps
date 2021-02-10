@@ -1,12 +1,11 @@
 object FormDashboard: TFormDashboard
-  Left = 796
+  Left = 192
   Height = 826
-  Top = 540
+  Top = 88
   Width = 1595
   Caption = 'Dashboard'
   ClientHeight = 826
   ClientWidth = 1595
-  DesignTimePPI = 144
   Font.Color = clWhite
   Font.Height = -24
   Font.Name = 'Tahoma'
@@ -673,7 +672,7 @@ object FormDashboard: TFormDashboard
       Left = 280
       Height = 19
       Top = 16
-      Width = 48
+      Width = 49
       Caption = 'HOME'
       Font.Color = clWhite
       Font.Height = -16
@@ -688,7 +687,7 @@ object FormDashboard: TFormDashboard
       Left = 400
       Height = 19
       Top = 16
-      Width = 83
+      Width = 82
       Caption = 'SETTINGS'
       Font.Color = clWhite
       Font.Height = -16
@@ -847,10 +846,10 @@ object FormDashboard: TFormDashboard
       Proportional = True
     end
     object lblVDriveError: TLabel
-      Left = 1350
+      Left = 1349
       Height = 16
       Top = 16
-      Width = 127
+      Width = 129
       Anchors = []
       Caption = 'v-Drive Not Connected'
       Font.Color = clRed
@@ -864,7 +863,7 @@ object FormDashboard: TFormDashboard
       Left = 1350
       Height = 16
       Top = 16
-      Width = 104
+      Width = 105
       Anchors = []
       Caption = 'v-Drive Connected'
       Font.Color = clLime
@@ -878,7 +877,7 @@ object FormDashboard: TFormDashboard
       Left = 1350
       Height = 16
       Top = 16
-      Width = 68
+      Width = 69
       Anchors = []
       Caption = 'Demo Mode'
       Font.Color = clLime
@@ -12259,7 +12258,7 @@ object FormDashboard: TFormDashboard
         ParentColor = False
         ParentFont = False
       end
-      object btnOpenApp1: TColorSpeedButton
+      object btnOpenApp1: TColorSpeedButtonCS
         Left = 134
         Height = 40
         Hint = 'Begin customizing the keyboard’s Layout, Lighting, and Settings'
@@ -12274,6 +12273,7 @@ object FormDashboard: TFormDashboard
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
+        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -12281,15 +12281,20 @@ object FormDashboard: TFormDashboard
         StateNormal.Color = 3355443
         StateNormal.BorderColor = 1644825
         StateNormal.BorderWidth = 1
+        StateNormal.FontColor = clWhite
         StateHover.Color = 1644825
         StateHover.BorderColor = 1644825
         StateHover.BorderWidth = 1
+        StateHover.FontColor = clWhite
         StateActive.Color = 1644825
         StateActive.BorderColor = 3355443
         StateActive.BorderWidth = 1
+        StateActive.FontColor = clWhite
         StateDisabled.Color = 3355443
         StateDisabled.BorderColor = 1644825
         StateDisabled.BorderWidth = 1
+        StateDisabled.FontColor = clWhite
+        TextPadding = 0
       end
     end
     object pnlApp2: TPanel
@@ -16090,7 +16095,7 @@ object FormDashboard: TFormDashboard
         ParentColor = False
         ParentFont = False
       end
-      object btnOpenApp2: TColorSpeedButton
+      object btnOpenApp2: TColorSpeedButtonCS
         Left = 134
         Height = 40
         Hint = 'Begin customizing the keyboard’s Layout, Lighting, and Settings'
@@ -16105,6 +16110,7 @@ object FormDashboard: TFormDashboard
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
+        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -16112,15 +16118,20 @@ object FormDashboard: TFormDashboard
         StateNormal.Color = 3355443
         StateNormal.BorderColor = 1644825
         StateNormal.BorderWidth = 1
+        StateNormal.FontColor = clWhite
         StateHover.Color = 1644825
         StateHover.BorderColor = 1644825
         StateHover.BorderWidth = 1
+        StateHover.FontColor = clWhite
         StateActive.Color = 1644825
         StateActive.BorderColor = 3355443
         StateActive.BorderWidth = 1
+        StateActive.FontColor = clWhite
         StateDisabled.Color = 3355443
         StateDisabled.BorderColor = 1644825
         StateDisabled.BorderWidth = 1
+        StateDisabled.FontColor = clWhite
+        TextPadding = 0
       end
     end
     object pnlApp3: TPanel
@@ -16934,7 +16945,7 @@ object FormDashboard: TFormDashboard
         ParentFont = False
         Visible = False
       end
-      object btnOpenApp3: TColorSpeedButton
+      object btnOpenApp3: TColorSpeedButtonCS
         Left = 134
         Height = 40
         Hint = 'Begin customizing the keyboard’s Layout, Lighting, and Settings'
@@ -16950,6 +16961,7 @@ object FormDashboard: TFormDashboard
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
+        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -16957,15 +16969,20 @@ object FormDashboard: TFormDashboard
         StateNormal.Color = 3355443
         StateNormal.BorderColor = 1644825
         StateNormal.BorderWidth = 1
+        StateNormal.FontColor = clWhite
         StateHover.Color = 1644825
         StateHover.BorderColor = 1644825
         StateHover.BorderWidth = 1
+        StateHover.FontColor = clWhite
         StateActive.Color = 1644825
         StateActive.BorderColor = 3355443
         StateActive.BorderWidth = 1
+        StateActive.FontColor = clWhite
         StateDisabled.Color = 3355443
         StateDisabled.BorderColor = 1644825
         StateDisabled.BorderWidth = 1
+        StateDisabled.FontColor = clWhite
+        TextPadding = 0
       end
     end
     object pnlApp4: TPanel
@@ -20937,7 +20954,7 @@ object FormDashboard: TFormDashboard
         ParentColor = False
         ParentFont = False
       end
-      object btnOpenApp4: TColorSpeedButton
+      object btnOpenApp4: TColorSpeedButtonCS
         Left = 134
         Height = 40
         Hint = 'Begin customizing the keyboard’s Layout, Lighting, and Settings'
@@ -20952,6 +20969,7 @@ object FormDashboard: TFormDashboard
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
+        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -20959,18 +20977,23 @@ object FormDashboard: TFormDashboard
         StateNormal.Color = 3355443
         StateNormal.BorderColor = 1644825
         StateNormal.BorderWidth = 1
+        StateNormal.FontColor = clWhite
         StateHover.Color = 1644825
         StateHover.BorderColor = 1644825
         StateHover.BorderWidth = 1
+        StateHover.FontColor = clWhite
         StateActive.Color = 1644825
         StateActive.BorderColor = 3355443
         StateActive.BorderWidth = 1
+        StateActive.FontColor = clWhite
         StateDisabled.Color = 3355443
         StateDisabled.BorderColor = 1644825
         StateDisabled.BorderWidth = 1
+        StateDisabled.FontColor = clWhite
+        TextPadding = 0
       end
     end
-    object btnCheckUpdatesConnected1: TColorSpeedButton
+    object btnCheckUpdatesConnected1: TColorSpeedButtonCS
       Left = 59
       Height = 40
       Top = 346
@@ -20984,6 +21007,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -20991,17 +21015,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnWatchTutorial1: TColorSpeedButton
+    object btnWatchTutorial1: TColorSpeedButtonCS
       Left = 329
       Height = 40
       Hint = 'Watch a short video to learn how to use the SmartSet App'
@@ -21016,6 +21045,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -21023,17 +21053,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnEject1: TColorSpeedButton
+    object btnEject1: TColorSpeedButtonCS
       Left = 264
       Height = 40
       Top = 346
@@ -21178,17 +21213,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clBlack
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clBlack
       StateActive.Color = 3355443
       StateActive.BorderColor = 1644825
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clBlack
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
-    object btnWatchTutorial2: TColorSpeedButton
+    object btnWatchTutorial2: TColorSpeedButtonCS
       Left = 847
       Height = 40
       Hint = 'Watch a short video to learn how to use the SmartSet App'
@@ -21203,6 +21243,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -21210,17 +21251,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnEject2: TColorSpeedButton
+    object btnEject2: TColorSpeedButtonCS
       Left = 782
       Height = 40
       Top = 346
@@ -21365,17 +21411,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clBlack
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clBlack
       StateActive.Color = 3355443
       StateActive.BorderColor = 1644825
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clBlack
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
-    object btnCheckUpdatesConnected2: TColorSpeedButton
+    object btnCheckUpdatesConnected2: TColorSpeedButtonCS
       Left = 578
       Height = 40
       Top = 346
@@ -21389,6 +21440,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -21396,17 +21448,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnWatchTutorial3: TColorSpeedButton
+    object btnWatchTutorial3: TColorSpeedButtonCS
       Left = 1366
       Height = 40
       Hint = 'Watch a short video to learn how to use the SmartSet App'
@@ -21422,6 +21479,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -21429,17 +21487,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnEject3: TColorSpeedButton
+    object btnEject3: TColorSpeedButtonCS
       Left = 1301
       Height = 40
       Top = 346
@@ -21585,17 +21648,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clBlack
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clBlack
       StateActive.Color = 3355443
       StateActive.BorderColor = 1644825
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clBlack
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
-    object btnCheckUpdatesConnected3: TColorSpeedButton
+    object btnCheckUpdatesConnected3: TColorSpeedButtonCS
       Left = 1096
       Height = 40
       Top = 346
@@ -21610,6 +21678,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -21617,17 +21686,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnWatchTutorial4: TColorSpeedButton
+    object btnWatchTutorial4: TColorSpeedButtonCS
       Left = 329
       Height = 40
       Hint = 'Watch a short video to learn how to use the SmartSet App'
@@ -21643,6 +21717,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -21650,17 +21725,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
-    object btnEject4: TColorSpeedButton
+    object btnEject4: TColorSpeedButtonCS
       Left = 264
       Height = 40
       Top = 719
@@ -21806,17 +21886,22 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clBlack
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clBlack
       StateActive.Color = 3355443
       StateActive.BorderColor = 1644825
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clBlack
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clBlack
+      TextPadding = 0
     end
-    object btnCheckUpdatesConnected4: TColorSpeedButton
+    object btnCheckUpdatesConnected4: TColorSpeedButtonCS
       Left = 59
       Height = 40
       Top = 719
@@ -21831,6 +21916,7 @@ object FormDashboard: TFormDashboard
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
+      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -21838,21 +21924,26 @@ object FormDashboard: TFormDashboard
       StateNormal.Color = 3355443
       StateNormal.BorderColor = 1644825
       StateNormal.BorderWidth = 1
+      StateNormal.FontColor = clWhite
       StateHover.Color = 1644825
       StateHover.BorderColor = 1644825
       StateHover.BorderWidth = 1
+      StateHover.FontColor = clWhite
       StateActive.Color = 1644825
       StateActive.BorderColor = 3355443
       StateActive.BorderWidth = 1
+      StateActive.FontColor = clWhite
       StateDisabled.Color = 3355443
       StateDisabled.BorderColor = 1644825
       StateDisabled.BorderWidth = 1
+      StateDisabled.FontColor = clWhite
+      TextPadding = 0
     end
   end
   object imgListMenu: TImageList
     DrawingStyle = dsTransparent
-    left = 1192
-    top = 72
+    Left = 1192
+    Top = 72
     Bitmap = {
       4C690A0000001000000010000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -22181,14 +22272,14 @@ object FormDashboard: TFormDashboard
     Enabled = False
     Interval = 30000
     OnTimer = tmrCheckConnectedTimer
-    left = 584
-    top = 462
+    Left = 584
+    Top = 462
   end
   object tmrLoadForms: TTimer
     Enabled = False
     Interval = 50
     OnTimer = tmrLoadFormsTimer
-    left = 612
-    top = 490
+    Left = 612
+    Top = 490
   end
 end

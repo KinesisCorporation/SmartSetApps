@@ -17,6 +17,7 @@ type
     FProfileNumber: string;
     FProfileName: string;
     FConnected: boolean;
+    FReadWriteAccess: boolean;
     FVDriveName: string;
     FFutureDevice: boolean;
     FTutorialUrl: string;
@@ -31,6 +32,7 @@ type
     property ProfileNumber: string read FProfileNumber write FProfileNumber;
     property ProfileName: string read FProfileName write FProfileName;
     property Connected: boolean read FConnected write FConnected;
+    property ReadWriteAccess: boolean read FReadWriteAccess write FReadWriteAccess;
     property VDriveName: string read FVDriveName write FVDriveName;
     property FutureDevice: boolean read FFutureDevice write FFutureDevice;
     property TutorialUrl: string read FTutorialUrl write FTutorialUrl;
@@ -107,6 +109,7 @@ begin
   FProfileNumber := '';
   FProfileName := '';
   FConnected := false;
+  FReadWriteAccess := true;
   FVDriveName := '';
   FFutureDevice := false;
   FDriveLetter := '';

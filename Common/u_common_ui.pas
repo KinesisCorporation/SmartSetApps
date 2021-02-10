@@ -7,7 +7,7 @@ interface
 uses
   Forms, Classes, SysUtils, StdCtrls, graphics, controls, buttons, extctrls, dialogs,
   u_kinesis_device, eject_USB, u_const, u_key_service, HSSpeedButton, ColorSpeedButtonCS,
-  LabelBox, U_Keys, u_key_layer, contnrs, u_file_service, u_base_key_service;
+  LabelBox, U_Keys, u_key_layer, contnrs, u_file_service, u_base_key_service, BCButton;
 
 type
 { TMenuAction }
@@ -17,6 +17,7 @@ private
   FActionType: TMenuActionType;
   FName: string;
   FActionButton: TSpeedButton;
+  FActionButton2: TColorSpeedButtonCS;
   FActionImage: TImage;
   FActionLabel: TLabel;
   FMenuConfig: integer;
@@ -31,9 +32,12 @@ protected
 public
   constructor Create(aType: TMenuActionType; actionButton: TSpeedButton; actionLabel: TLabel; actionImage: TImage;
     menuConfig: integer; ledMode: TLedMode; popupMenu: boolean; bStayDown: boolean; bMustSelectKey: boolean; bIsEnabled: boolean = true);
+  constructor Create2(aType: TMenuActionType; actionButton: TColorSpeedButtonCS; actionLabel: TLabel; actionImage: TImage;
+    menuConfig: integer; ledMode: TLedMode; popupMenu: boolean; bStayDown: boolean; bMustSelectKey: boolean; bIsEnabled: boolean = true);
   property ActionType: TMenuActionType read FActionType write FActionType;
   property Name: string read FName write FName;
   property ActionButton: TSpeedButton read FActionButton write FActionButton;
+  property ActionButton2: TColorSpeedButtonCS read FActionButton2 write FActionButton2;
   property ActionImage: TImage read FActionImage write FActionImage;
   property ActionLabel: TLabel read FActionLabel write FActionLabel;
   property MenuConfig: integer read FMenuConfig write FMenuConfig;
@@ -89,6 +93,7 @@ var
     btnKind: TBitBtnKind = bkCustom);
   function GetKeyOtherLayer(keyService: TKeyService; keyIdx: integer): TKBKey;
   function GetKeyButtonByIndex(keyBtnList: TObjectList; index: integer): TLabelBox;
+  procedure ClearBitmaps(container: TWinControl);
 
 const
   PARAM_COLOR = 1;
@@ -129,6 +134,24 @@ begin
   FLedMode := ledMode;
 end;
 
+constructor TMenuAction.Create2(aType: TMenuActionType;
+  actionButton: TColorSpeedButtonCS; actionLabel: TLabel; actionImage: TImage;
+  menuConfig: integer; ledMode: TLedMode; popupMenu: boolean;
+  bStayDown: boolean; bMustSelectKey: boolean; bIsEnabled: boolean);
+begin
+  FActionType := aType;
+  FActionButton2 := actionButton;
+  FActionImage := actionImage;
+  FActionLabel := actionLabel;
+  FMenuConfig := menuConfig;
+  FPopupMenu := popupMenu;
+  FStayDown := bStayDown;
+  FMustSelectKey := bMustSelectKey;
+  FIsEnabled := bIsEnabled;
+  FIsDown := false;
+  FLedMode := ledMode;
+end;
+
 { THoveredObj }
 
 constructor THoveredObj.Create(obj: TObject; imgList: TImageList;
@@ -156,6 +179,13 @@ begin
       (obj as TColorSpeedButtonCS).Glyph.Clear
     else
       imgList.GetBitmap(idx, (obj as TColorSpeedButtonCS).Glyph)
+  end
+  else if (obj is TBCButton) then
+  begin
+    if (idx = -1) then
+      (obj as TBCButton).Glyph.Clear
+    else
+      imgList.GetBitmap(idx, (obj as TBCButton).Glyph)
   end
   else if (obj is TImage) then
   begin
@@ -255,6 +285,26 @@ begin
     end;
     inc(i);
   end;
+end;
+
+procedure ClearBitmaps(container: TWinControl);
+//var
+  //i: integer;
+begin
+  //for i := 0 to container.ControlCount - 1 do
+  //begin
+    //if (container.Controls[i] is TColorSpeedButtonCS) then
+    //begin
+    //  if (TColorSpeedButtonCS(container.Controls[i]).Glyph <> nil) then
+   //   begin
+        //TColorSpeedButtonCS(container.Controls[i]).Glyph.Clear;
+        //TColorSpeedButtonCS(container.Controls[i]).Glyph.Free;
+        //TColorSpeedButtonCS(container.Controls[i]).Glyph := nil;
+   //   end;
+   // end
+   // else if (container.Controls[i].InheritsFrom(TWinControl)) then
+   //   ClearBitmaps(container.Controls[i] as TWinControl);
+  //end;
 end;
 
 end.

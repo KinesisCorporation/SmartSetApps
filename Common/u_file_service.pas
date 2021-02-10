@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, u_const, u_debug, graphics, VersionSupport,
-  u_kinesis_device, dialogs;
+  u_kinesis_device, dialogs, LazFileUtils;
 
 type
   //FileService contains all logic for file management
@@ -93,6 +93,7 @@ type
     procedure MirrorLightingToFnLayer;
     function GetStartupFileNo(aDevice: TDevice): string;
     function GetFirmwareVersionInfo(aDevice: TDevice): TFirmwareInfo;
+    function CheckReadWriteAccess(aDevice: TDevice): boolean;
 
     property FileIsValid: boolean read CheckFileValid;
     property FilePath: string read FFilePath write FFilePath;
@@ -525,6 +526,28 @@ begin
   end;
 
   result := firmwareInfo;
+end;
+
+function TFileService.CheckReadWriteAccess(aDevice: TDevice): boolean;
+var
+  sFilePath: string;
+  sRootPath: string;
+begin
+  result := false;
+  if (aDevice.Connected and (aDevice.RootFolder <> '')) then
+  begin
+    if (aDevice.DeviceNumber = APPL_ADV2) then
+    begin
+      sRootPath := IncludeTrailingBackslash(aDevice.RootFolder + 'active');
+      sFilePath := sRootPath + ADV2_STATE_FILE
+    end
+    else
+    begin
+      sRootPath := IncludeTrailingBackslash(aDevice.RootFolder + 'settings');
+      sFilePath := sRootPath + KB_SETTINGS_FILE;
+    end;
+    result := CheckIfFileExists(sFilePath) and (not(DirectoryIsWritable(sRootPath)) or not(FileIsWritable(sFilePath)));
+  end;
 end;
 
 function TFileService.LoadVersionInfo: string;

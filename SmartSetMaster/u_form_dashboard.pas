@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LineObj, ColorSpeedButtonCS, ColorSpeedButton,
+  LineObj, ColorSpeedButtonCS, BCButton,
   u_const, LResources, FileUtil, u_kinesis_device,
   u_form_main_rgb, LCLIntf, u_form_loading, u_form_about_master,
   u_form_settings_master, u_form_firmware, u_common_ui,
@@ -18,19 +18,19 @@ type
   { TFormDashboard }
 
   TFormDashboard = class(TForm)
-    btnCheckUpdatesConnected2: TColorSpeedButton;
-    btnCheckUpdatesConnected3: TColorSpeedButton;
-    btnCheckUpdatesConnected4: TColorSpeedButton;
-    btnEject2: TColorSpeedButton;
-    btnEject3: TColorSpeedButton;
-    btnEject4: TColorSpeedButton;
-    btnOpenApp1: TColorSpeedButton;
-    btnOpenApp2: TColorSpeedButton;
-    btnOpenApp3: TColorSpeedButton;
-    btnOpenApp4: TColorSpeedButton;
-    btnWatchTutorial2: TColorSpeedButton;
-    btnWatchTutorial3: TColorSpeedButton;
-    btnWatchTutorial4: TColorSpeedButton;
+    btnCheckUpdatesConnected2: TColorSpeedButtonCS;
+    btnCheckUpdatesConnected3: TColorSpeedButtonCS;
+    btnCheckUpdatesConnected4: TColorSpeedButtonCS;
+    btnEject2: TColorSpeedButtonCS;
+    btnEject3: TColorSpeedButtonCS;
+    btnEject4: TColorSpeedButtonCS;
+    btnOpenApp1: TColorSpeedButtonCS;
+    btnOpenApp2: TColorSpeedButtonCS;
+    btnOpenApp3: TColorSpeedButtonCS;
+    btnOpenApp4: TColorSpeedButtonCS;
+    btnWatchTutorial2: TColorSpeedButtonCS;
+    btnWatchTutorial3: TColorSpeedButtonCS;
+    btnWatchTutorial4: TColorSpeedButtonCS;
     imgAppLogo1: TImage;
     imgAppLogo2: TImage;
     lblAppName2: TLabel;
@@ -41,12 +41,12 @@ type
     lblConnApp4: TLabel;
     lblDemoMode: TLabel;
     lblHelp: TLabel;
-    btnEject1: TColorSpeedButton;
-    btnWatchTutorial1: TColorSpeedButton;
+    btnEject1: TColorSpeedButtonCS;
+    btnWatchTutorial1: TColorSpeedButtonCS;
     btnClose: TColorSpeedButtonCS;
     btnMaximize: TColorSpeedButtonCS;
     btnMinimize: TColorSpeedButtonCS;
-    btnCheckUpdatesConnected1: TColorSpeedButton;
+    btnCheckUpdatesConnected1: TColorSpeedButtonCS;
     imgApp1: TImage;
     imgApp2: TImage;
     imgApp3: TImage;
@@ -112,12 +112,12 @@ type
     procedure AddDevices;
     procedure EnablePaintImages(value: boolean);
     procedure GetAppObjects(idx: integer; var appNameLabel: TLabel;
-      var appConnLabel: TLabel; var appProfileLabel: TLabel;  var appCheckUpdBtn: TColorSpeedButton;
-      var appEjectBtn: TColorSpeedButton; var appWatchTutoBtn: TColorSpeedButton; var appOpenBtn: TColorSpeedButton);
+      var appConnLabel: TLabel; var appProfileLabel: TLabel;  var appCheckUpdBtn: TColorSpeedButtonCS;
+      var appEjectBtn: TColorSpeedButtonCS; var appWatchTutoBtn: TColorSpeedButtonCS; var appOpenBtn: TColorSpeedButtonCS);
     procedure Init;
     procedure RepaintForm(fullRepaint: boolean);
-    procedure RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButton;
-      btnEject: TColorSpeedButton; btnWatchTutorial: TColorSpeedButton);
+    procedure RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButtonCS;
+      btnEject: TColorSpeedButtonCS; btnWatchTutorial: TColorSpeedButtonCS);
     procedure SetFormBorder(formBorder: TFormBorderStyle);
     procedure UpdateDevices;
     procedure UpdateStateSettings;
@@ -131,6 +131,8 @@ type
 
 var
   FormDashboard: TFormDashboard;
+  FormRGB: TFormMainRGB;
+  FormTKO: TFormMainTKO;
   MPos:TPoint; {Position of the Form before drag}
   procedure SetVDriveState(state: boolean);
 
@@ -143,6 +145,7 @@ const
   MAX_WIDTH = 1875;
   CONN_TEXT = 'Connected';
   NOT_DETECT_TEXT = 'Not Detected';
+  NO_ACCESS_TEXT = 'Cannot Access';
   CONN_COLOR = clLime;
   NOT_DETECT_COLOR = clRed;
 
@@ -217,8 +220,8 @@ begin
   RepositionItems(pnlApp4, btnCheckUpdatesConnected4, btnEject4, btnWatchTutorial4);
 end;
 
-procedure TFormDashboard.RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButton; btnEject: TColorSpeedButton;
-  btnWatchTutorial: TColorSpeedButton);
+procedure TFormDashboard.RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButtonCS; btnEject: TColorSpeedButtonCS;
+  btnWatchTutorial: TColorSpeedButtonCS);
 begin
   btnCheckUpdates.Left := pnlApp.Left;
   btnCheckUpdates.Top := pnlApp.Top + pnlApp.Height + 10;
@@ -320,10 +323,10 @@ var
   appNameLabel: TLabel;
   appConnLabel: TLabel;
   appProfileLabel: TLabel;
-  appCheckUpdBtn: TColorSpeedButton;
-  appEjectBtn: TColorSpeedButton;
-  appOpenBtn: TColorSpeedButton;
-  appWatchTutoBtn: TColorSpeedButton;
+  appCheckUpdBtn: TColorSpeedButtonCS;
+  appEjectBtn: TColorSpeedButtonCS;
+  appOpenBtn: TColorSpeedButtonCS;
+  appWatchTutoBtn: TColorSpeedButtonCS;
   idx: integer;
 begin
   for idx := 1 to MAX_DEVICES do
@@ -367,6 +370,11 @@ begin
         appEjectBtn.Visible := false;
         appWatchTutoBtn.Visible := false;
       end
+      else if not(aDevice.ReadWriteAccess) then
+      begin
+        appConnLabel.Caption := NO_ACCESS_TEXT;
+        appConnLabel.Font.Color := NOT_DETECT_COLOR;
+      end
       else if (aDevice.Connected) then
       begin
         appConnLabel.Caption := CONN_TEXT;
@@ -387,8 +395,8 @@ begin
 end;
 
 procedure TFormDashboard.GetAppObjects(idx: integer; var appNameLabel: TLabel;
-  var appConnLabel: TLabel; var appProfileLabel: TLabel; var appCheckUpdBtn: TColorSpeedButton;
-  var appEjectBtn: TColorSpeedButton; var appWatchTutoBtn: TColorSpeedButton; var appOpenBtn: TColorSpeedButton);
+  var appConnLabel: TLabel; var appProfileLabel: TLabel; var appCheckUpdBtn: TColorSpeedButtonCS;
+  var appEjectBtn: TColorSpeedButtonCS; var appWatchTutoBtn: TColorSpeedButtonCS; var appOpenBtn: TColorSpeedButtonCS);
 begin
   if (idx = 1) then
   begin
@@ -441,10 +449,10 @@ procedure TFormDashboard.btnEjectClick(Sender: TObject);
 var
   idx: integer;
   device: TDevice;
-  button: TColorSpeedButton;
+  button: TColorSpeedButtonCS;
 begin
   idx := 0;
-  button := (sender as TColorSpeedButton);
+  button := (sender as TColorSpeedButtonCS);
 
   try
     Screen.Cursor := crHourGlass;
@@ -475,10 +483,10 @@ procedure TFormDashboard.btnCheckUpdatesConnectedClick(Sender: TObject);
 var
   idx: integer;
   device: TDevice;
-  button: TColorSpeedButton;
+  button: TColorSpeedButtonCS;
 begin
   idx := 0;
-  button := (sender as TColorSpeedButton);
+  button := (sender as TColorSpeedButtonCS);
 
   try
     Screen.Cursor := crHourGlass;
@@ -496,7 +504,7 @@ begin
     if (idx > 0) and (deviceList.Count >= 1) then
     begin
       device := deviceList.Items[idx - 1];
-      if (device.Connected) then
+      if (device.Connected) and (device.ReadWriteAccess) then
       begin
         ShowFirmware(device);
       end
@@ -513,22 +521,26 @@ end;
 
 procedure TFormDashboard.LoadAppForms;
 begin
-  Application.CreateForm(TFormMainRGB, FormMainRGB);
-  FormMainRGB.Parent := pnlMain;
+  Application.CreateForm(TFormMainRGB, FormRGB);
+  FormRGB.Parent := pnlMain;
 
-  Application.CreateForm(TFormMainTKO, FormMainTKO);
-  FormMainTKO.Parent := pnlMain;
+  Application.CreateForm(TFormMainTKO, FormTKO);
+  FormTKO.Parent := pnlMain;
 end;
 
 procedure TFormDashboard.CloseActiveForms;
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible = true) then
+  if (FormRGB <> nil) and (FormRGB.Visible = true) then
   begin
-    FormMainRGB.Close;
+    FormRGB.Close;
+    FormRGB := nil;
+    //FreeAndNil(FormRGB);
   end;
-    if (FormMainTKO <> nil) and (FormMainTKO.Visible = true) then
+  if (FormTKO <> nil) and (FormTKO.Visible = true) then
   begin
-    FormMainTKO.Close;
+    FormTKO.Close;
+    FormTKO := nil;
+    //FreeAndNil(FormTKO);
   end;
 end;
 
@@ -536,10 +548,10 @@ procedure TFormDashboard.btnWatchTutorialClick(Sender: TObject);
 var
   idx: integer;
   device: TDevice;
-  button: TColorSpeedButton;
+  button: TColorSpeedButtonCS;
 begin
   idx := 0;
-  button := (sender as TColorSpeedButton);
+  button := (sender as TColorSpeedButtonCS);
 
   try
     Screen.Cursor := crHourGlass;
@@ -570,10 +582,10 @@ procedure TFormDashboard.btnOpenAppClick(Sender: TObject);
 var
   idx: integer;
   device: TDevice;
-  button: TColorSpeedButton;
+  button: TColorSpeedButtonCS;
 begin
   idx := 0;
-  button := (sender as TColorSpeedButton);
+  button := (sender as TColorSpeedButtonCS);
 
   try
     Screen.Cursor := crHourGlass;
@@ -609,7 +621,7 @@ procedure TFormDashboard.OpenDeviceForm(device: TDevice);
 begin
   if (device <> nil) then
   begin
-    GDemoMode := not(device.Connected);
+    GDemoMode := not(device.Connected) or not(device.ReadWriteAccess);
     GApplication := device.DeviceNumber;
 
     if (device.DeviceNumber = APPL_RGB) then
@@ -617,8 +629,12 @@ begin
       try
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading FREESTYLE EDGE RGB...');
-        FormMainRGB.InitForm(self);
-        FormMainRGB.Show;
+        {$ifdef darwin}
+        Application.CreateForm(TFormMainRGB, FormRGB);
+        {$endif};
+        FormRGB.Parent := pnlMain;
+        FormRGB.InitForm(self);
+        FormRGB.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo1.Visible := true;
       finally
@@ -630,8 +646,12 @@ begin
       try
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading TKO...');
-        FormMainTKO.InitForm(self);
-        FormMainTKO.Show;
+        {$ifdef darwin}
+        Application.CreateForm(TFormMainTKO, FormTKO);
+        {$endif};
+        FormTKO.Parent := pnlMain;
+        FormTKO.InitForm(self);
+        FormTKO.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo2.Visible := true;
       finally
@@ -664,10 +684,10 @@ begin
     cusWindowState := cwMaximized;
   end;
 
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
-     FormMainRGB.Maximize;
-  if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-     FormMainTKO.Maximize;
+  if (FormRGB <> nil) and (FormRGB.Visible) then
+     FormRGB.Maximize;
+  if (FormTKO <> nil) and (FormTKO.Visible) then
+     FormTKO.Maximize;
 
   UpdateStateSettings;
 end;
@@ -780,7 +800,9 @@ procedure TFormDashboard.tmrLoadFormsTimer(Sender: TObject);
 begin
   //Do only once, load application forms
   tmrLoadForms.Enabled := false;
+  {$ifdef Win32}
   LoadAppForms;
+  {$endif};
 end;
 
 procedure TFormDashboard.TopMouseDown(Sender: TObject; Button: TMouseButton;
@@ -839,18 +861,18 @@ end;
 
 procedure TFormDashboard.ButtonMouseEnter(Sender: TObject);
 begin
- (Sender as TColorSpeedButton).Font.Color := blueColor;
+// (Sender as TColorSpeedButtonCS).Font.Color := blueColor;
 end;
 
 procedure TFormDashboard.ButtonMouseLeave(Sender: TObject);
 begin
-     (Sender as TColorSpeedButton).Font.Color := fontColor;
+//     (Sender as TColorSpeedButtonCS).Font.Color := fontColor;
 end;
 
 procedure TFormDashboard.ButtonMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
-     (Sender as TColorSpeedButton).Font.Color := blueColor;
+//     (Sender as TColorSpeedButtonCS).Font.Color := blueColor;
 end;
 
 initialization
