@@ -7,8 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
   Menus, uGifViewer, ECSwitch, ECSlider, u_const, ColorSpeedButtonCS, LineObj,
-  LabelBox, RichMemo, BCPanel, BGRAShape, BCImageButton, BCButton,
-  HSLRingPicker, mbColorPreview, ueled, uEKnob, u_form_tapandhold, contnrs,
+  LabelBox, RichMemo, HSLRingPicker, mbColorPreview, ueled, uEKnob, u_form_tapandhold, contnrs,
   u_key_layer, u_key_service, u_file_service, u_common_ui, U_Keys, UserDialog,
   FileUtil, u_form_intro, u_form_troubleshoot, u_form_settings, u_gif, LCLIntf,
   u_form_export, Types, u_form_about, buttons, u_form_diagnostics,
@@ -84,15 +83,15 @@ type
     lbEdgeB12: TLabelBox;
     lbEdgeB13: TLabelBox;
     lbEdgeB14: TLabelBox;
-    lbEdgeR1: TLabelBox;
-    lbEdgeR2: TLabelBox;
-    lbEdgeR3: TLabelBox;
-    lbEdgeR4: TLabelBox;
-    lbEdgeR5: TLabelBox;
-    lbEdgeR6: TLabelBox;
-    lbEdgeR7: TLabelBox;
-    lbEdgeR8: TLabelBox;
     lbEdgeR9: TLabelBox;
+    lbEdgeR8: TLabelBox;
+    lbEdgeR7: TLabelBox;
+    lbEdgeR6: TLabelBox;
+    lbEdgeR5: TLabelBox;
+    lbEdgeR4: TLabelBox;
+    lbEdgeR3: TLabelBox;
+    lbEdgeR2: TLabelBox;
+    lbEdgeR1: TLabelBox;
     lbEdgeL3: TLabelBox;
     lbEdgeL4: TLabelBox;
     lbEdgeL5: TLabelBox;
@@ -376,6 +375,8 @@ type
     procedure CheckVDriveTmrTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
@@ -600,6 +601,7 @@ type
     popMouseClicks: TPopupMenu;
     popCommonShortcuts: TPopupMenu;
     showingVDriveErrorDlg: boolean;
+    function GetControlUnderMouse: string;
     function AcceptMacro: boolean;
     procedure ActivateCoTrigger(keyButton: TLabelBox);
     procedure ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
@@ -903,6 +905,87 @@ end;
 
 {$endif}
 
+//Only used for Mac version to trap key presses
+procedure TFormMainTKO.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+{$ifdef Darwin}var currentKey: longint;{$endif}
+begin
+  {$ifdef Darwin}
+  //If we need keyboard input (ex: file prompt) allow key presses
+  if (NeedInput) or
+    (FormMainTKO.eRed.Focused) or
+    (FormMainTKO.eRedBase.Focused) or
+    (FormMainTKO.eGreen.Focused) or
+    (FormMainTKO.eGreenBase.Focused) or
+    (FormMainTKO.eBlue.Focused) or
+    (FormMainTKO.eBlueBase.Focused) or
+    (FormMainTKO.eHTML.Focused) or
+    (FormMainTKO.eHTMLBase.Focused) or
+    ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused) then
+  begin
+    exit;
+  end;
+
+  //If entering speed, do nothing
+  if (not FormMainTKO.Visible) and
+    not((FormTapAndHold <> nil) and FormTapAndHold.Active and
+    (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
+    exit;
+
+  currentKey := key;
+
+  //If not a modifier
+  if not (IsModifier(currentKey)) then
+  begin
+    //If key is different then last pressed key (hasn't been released yet)
+    if currentKey <> lastKeyPressed then
+      SetKeyPress(currentKey, keyService.GetModifierText);
+
+    //Sets last key pressed
+    lastKeyPressed := currentKey;
+
+    //To prevent Windows from passing the keystrokes  to the target window, the Result value must  be a nonzero value.
+    Key := 0;
+  end
+  else
+  begin
+    //Adds modifier to list of active modifiers
+    keyService.AddModifier(currentKey);
+  end;
+
+  lastKeyDown := currentKey;
+  {$endif}
+end;
+
+//Only used for Mac OS to trap key presses
+procedure TFormMainTKO.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
+  );
+{$ifdef Darwin}var currentKey: longint;{$endif}
+begin
+  {$ifdef Darwin}
+  currentKey := key;
+
+  //When last key pressed is released we reset it
+  if currentKey = lastKeyPressed then
+     lastKeyPressed := 0;
+
+  if ((currentKey = lastKeyDown) and IsModifier(currentKey)) then //or
+    //(currentKey in [VK_PRINT, VK_SNAPSHOT]) then
+  begin
+    SetKeyPress(currentKey, keyService.GetModifierText);
+
+    //To prevent application from passing the keystrokes  to the target window, the Result value must  be a nonzero value.
+    Key := 0;
+  end;
+
+  if IsModifier(currentKey) then
+  begin
+    //Removes modifier from list of active modifiers
+    keyService.RemoveModifier(currentKey);
+  end;
+  {$endif}
+end;
+
 procedure SetKeyPress(Key: word; Modifiers: string);
 begin
   if (FormTapAndHold <> nil) and (FormTapAndHold.Visible) then
@@ -1088,13 +1171,17 @@ begin
 
     LoadKeyButtonRows;
 
+    {$ifdef Darwin}
+    btnEject.Visible := false;
+    {$endif};
+
     if (GDemoMode) then
     begin
       imgProfile.Enabled := false;
       btnSave.Enabled := false;
       btnSaveAs.Enabled := false;
       btnSettings.Enabled := false;
-      btnEject.Enabled := false;;
+      btnEject.Enabled := false;
       btnImport.Enabled := false;
       btnExport.Enabled := false;
       btnFirmware.Enabled := false;
@@ -1160,8 +1247,8 @@ end;
 
 procedure TFormMainTKO.SetConfigOS;
 begin
-  defaultKeyFontName := 'Arial Narrow';
-  defaultKeyFontSize := 10;
+  //defaultKeyFontName := 'Arial Narrow';
+  //defaultKeyFontSize := 10;
   //Windows
   {$ifdef Win32}
   {$endif}
@@ -2527,7 +2614,6 @@ begin
       pnlLayout.Visible := true;
       pnlEdgeLighting.Align := alNone;
       pnlEdgeLighting.Visible := false;
-      pnlProfile.Repaint;
       PositionMenuItems;
       imgKeyboardLayout.Visible := true;
       imgKeyboardLighting.Visible := false;
@@ -2545,11 +2631,10 @@ begin
       pnlEdgeLightingBtn.Color := KINESIS_MED_GRAY_RGB;
       pnlLayout.Align := alNone;
       pnlLayout.Visible := false;
-      pnlLighting.Align := alClient;
-      pnlLighting.Visible := true;
       pnlEdgeLighting.Align := alNone;
       pnlEdgeLighting.Visible := false;
-      pnlProfile.Repaint;
+      pnlLighting.Align := alClient;
+      pnlLighting.Visible := true;
       PositionMenuItems;
       imgKeyboardLayout.Visible := false;
       imgKeyboardLighting.Visible := true;
@@ -2568,7 +2653,6 @@ begin
       pnlLighting.Visible := false;
       pnlEdgeLighting.Align := alClient;
       pnlEdgeLighting.Visible := true;
-      pnlProfile.Repaint;
       PositionMenuItems;
       imgKeyboardBack.SendToBack;
       imgKeyboardLayout.Visible := false;
@@ -2604,6 +2688,7 @@ begin
     end;
 
     //Process messages to speed up processing
+    pnlProfile.Repaint;
     Application.ProcessMessages;
 
     if (keyService.ConfigMode = CONFIG_LIGHTING) or (keyService.ConfigMode = CONFIG_EDGE_LIGHTING) then
@@ -2968,31 +3053,31 @@ begin
 
   //Edge Right
   SetLength(kbArrayEdgeR1, 1);
-  kbArrayEdgeR1[0] := lbEdgeR1;
+  kbArrayEdgeR1[0] := lbEdgeR9;
 
   SetLength(kbArrayEdgeR2, 1);
-  kbArrayEdgeR2[0] := lbEdgeR2;
+  kbArrayEdgeR2[0] := lbEdgeR8;
 
   SetLength(kbArrayEdgeR3, 1);
-  kbArrayEdgeR3[0] := lbEdgeR3;
+  kbArrayEdgeR3[0] := lbEdgeR7;
 
   SetLength(kbArrayEdgeR4, 1);
-  kbArrayEdgeR4[0] := lbEdgeR4;
+  kbArrayEdgeR4[0] := lbEdgeR6;
 
   SetLength(kbArrayEdgeR5, 1);
   kbArrayEdgeR5[0] := lbEdgeR5;
 
   SetLength(kbArrayEdgeR6, 1);
-  kbArrayEdgeR6[0] := lbEdgeR6;
+  kbArrayEdgeR6[0] := lbEdgeR4;
 
   SetLength(kbArrayEdgeR7, 1);
-  kbArrayEdgeR7[0] := lbEdgeR7;
+  kbArrayEdgeR7[0] := lbEdgeR3;
 
   SetLength(kbArrayEdgeR8, 1);
-  kbArrayEdgeR8[0] := lbEdgeR8;
+  kbArrayEdgeR8[0] := lbEdgeR2;
 
   SetLength(kbArrayEdgeR9, 1);
-  kbArrayEdgeR9[0] := lbEdgeR9;
+  kbArrayEdgeR9[0] := lbEdgeR1;
 end;
 
 procedure TFormMainTKO.btnSaveClick(Sender: TObject);
@@ -3037,9 +3122,24 @@ begin
   //btnSaveAs.Down := false;
 end;
 
+function TFormMainTKO.GetControlUnderMouse: string;
+var
+  ctrl: TControl;
+  pt: TPoint;
+begin
+  result := '';
+  pt := ScreenToClient(Mouse.CursorPos);
+  ctrl := ControlAtPos(pt, [capfRecursive, capfAllowWinControls]);
+  if Assigned(ctrl) then
+    result := ctrl.Name
+  else
+    result := Format('%d, %d', [pt.x, pt.y]);
+end;
+
 procedure TFormMainTKO.btnSettingsClick(Sender: TObject);
 begin
   ShowSettings;
+  (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
 
@@ -3495,8 +3595,8 @@ begin
   //Bring buttons over rounded corners
   lbEdgeL2.BringToFront;
   lbEdgeL8.BringToFront;
-  lbEdgeR2.BringToFront;
   lbEdgeR8.BringToFront;
+  lbEdgeR2.BringToFront;
 end;
 
 procedure TFormMainTKO.KeyButtonsSendToBack;
@@ -3651,9 +3751,13 @@ begin
     PARAM_COLOR:
     begin
       pnlEffectColor.Visible := state;
+      pnlEffectColor.Repaint;
     end;
     PARAM_BASECOLOR:
+    begin
       pnlBaseColor.Visible := state;
+      pnlBaseColor.Repaint;
+    end;
     PARAM_DIRECTION:
     begin
       pnlDirection.Visible := state;
@@ -3663,10 +3767,12 @@ begin
       btnDirRight.Visible := not(ledMode in [lmRebound]);
       btnDirHorizontal.Visible := (ledMode in [lmRebound]) and (keyService.ConfigMode = CONFIG_LIGHTING);
       btnDirVertical.Visible := (ledMode in [lmRebound]) and (keyService.ConfigMode = CONFIG_LIGHTING);
+      pnlDirection.Repaint;
     end;
     PARAM_SPEED:
     begin
       pnlSpeed.Visible := state;
+      pnlSpeed.Repaint;
     end;
     PARAM_RANGE:
     begin
@@ -3683,6 +3789,7 @@ begin
       btnZoneNavKeys.Visible := keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX;
       btnZoneFunctionKeys.Visible := keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX;
       btnZoneArrowKeys.Visible := keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX;
+      pnlZone.Repaint;
     end;
   end;
 end;
@@ -4772,6 +4879,7 @@ end;
 procedure TFormMainTKO.btnExportClick(Sender: TObject);
 begin
   ShowExport(currentLayoutFile, currentLedFile);
+  (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
 
@@ -4781,6 +4889,7 @@ begin
   Application.CreateForm(TFormAbout, FormAbout);
   FormAbout.SetFirmwareVersion(fileService.FirmwareVersionKBD, fileService.FirmwareVersionLED);
   FormAbout.ShowModal;
+  (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
   NeedInput := false;
 end;
@@ -4831,6 +4940,7 @@ begin
         FreeAndNil(fileContent);
     end;
   end;
+  (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
 
@@ -5288,6 +5398,7 @@ end;
 procedure TFormMainTKO.btnDiagnosticClick(Sender: TObject);
 begin
   ShowDiagnostics;
+  (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 //var
 //  fileContent: TStringList;
@@ -5341,6 +5452,7 @@ end;
 procedure TFormMainTKO.btnFirmwareClick(Sender: TObject);
 begin
   ShowFirmware(GActiveDevice);
+  (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
 
@@ -5856,15 +5968,15 @@ begin
   SetSingleKeyColor(lbEdgeL8, RGB(0, 255, 255));
   SetSingleKeyColor(lbEdgeL9, RGB(0, 255, 128));
 
-  SetSingleKeyColor(lbEdgeR1, RGB(255, 128, 0));
-  SetSingleKeyColor(lbEdgeR2, RGB(255, 0, 0));
-  SetSingleKeyColor(lbEdgeR3, RGB(255, 0, 128));
-  SetSingleKeyColor(lbEdgeR4, RGB(255, 0, 255));
+  SetSingleKeyColor(lbEdgeR9, RGB(255, 128, 0));
+  SetSingleKeyColor(lbEdgeR8, RGB(255, 0, 0));
+  SetSingleKeyColor(lbEdgeR7, RGB(255, 0, 128));
+  SetSingleKeyColor(lbEdgeR6, RGB(255, 0, 255));
   SetSingleKeyColor(lbEdgeR5, RGB(128, 0, 255));
-  SetSingleKeyColor(lbEdgeR6, RGB(0, 0, 255));
-  SetSingleKeyColor(lbEdgeR7, RGB(0, 128, 255));
-  SetSingleKeyColor(lbEdgeR8, RGB(0, 255, 255));
-  SetSingleKeyColor(lbEdgeR9, RGB(0, 255, 128));
+  SetSingleKeyColor(lbEdgeR4, RGB(0, 0, 255));
+  SetSingleKeyColor(lbEdgeR3, RGB(0, 128, 255));
+  SetSingleKeyColor(lbEdgeR2, RGB(0, 255, 255));
+  SetSingleKeyColor(lbEdgeR1, RGB(0, 255, 128));
 
   SetSingleKeyColor(lbEdgeB1, RGB(0, 255, 0));
   SetSingleKeyColor(lbEdgeB2, RGB(128, 255, 0));
@@ -5897,6 +6009,7 @@ end;
 procedure TFormMainTKO.btnEjectClick(Sender: TObject);
 begin
   EjectDevice(GActiveDevice);
+  (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
 
@@ -6456,16 +6569,16 @@ var
 begin
   menuAction := nil;
 
-    for i:=0 to menuActionList.Count - 1 do
+  for i:=0 to menuActionList.Count - 1 do
+  begin
+    if ((menuActionList.Items[i] as TMenuAction).ActionType = actionType) then
     begin
-      if ((menuActionList.Items[i] as TMenuAction).ActionType = actionType) then
-      begin
-        menuAction := (menuActionList.Items[i] as TMenuAction);
-        Break;
-      end;
+      menuAction := (menuActionList.Items[i] as TMenuAction);
+      Break;
     end;
+  end;
 
-    result := menuAction;
+  result := menuAction;
 end;
 
 function TFormMainTKO.GetMenuActionByButton(buttonName: string): TMenuAction;

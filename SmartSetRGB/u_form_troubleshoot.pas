@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, LineObj, u_base_form, LCLIntf, u_const, LCLType,
+  StdCtrls, ColorSpeedButtonCS, LineObj, u_base_form, LCLIntf, u_const, LCLType,
   u_form_firmware;
 
 type
@@ -14,9 +14,9 @@ type
   { TFormTroubleshoot }
 
   TFormTroubleshoot = class(TBaseForm)
-    btnTroubleshootingTips: THSSpeedButton;
-    btnDemoMode: THSSpeedButton;
-    btnScan: THSSpeedButton;
+    btnTroubleshootingTips: TColorSpeedButtonCS;
+    btnDemoMode: TColorSpeedButtonCS;
+    btnScan: TColorSpeedButtonCS;
     imgSmartInit: TImage;
     imgSmartSave: TImage;
     lblInitMessage: TLabel;

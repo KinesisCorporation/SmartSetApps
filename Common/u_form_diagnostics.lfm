@@ -1,0 +1,129 @@
+inherited FormDiagnostics: TFormDiagnostics
+  Left = 430
+  Height = 241
+  Top = 130
+  Width = 823
+  ClientHeight = 241
+  ClientWidth = 823
+  Font.Height = -13
+  KeyPreview = True
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  inherited btnClose: TColorSpeedButtonCS
+    Left = 791
+  end
+  inherited lineBorderTop: TLineObj
+    Width = 823
+  end
+  inherited lineBorderBottom: TLineObj
+    Top = 239
+    Width = 823
+  end
+  inherited lineBorderLeft: TLineObj
+    Height = 237
+  end
+  inherited lineBorderRight: TLineObj
+    Left = 821
+    Height = 237
+  end
+  inherited lblTitle: TLabel
+    Width = 768
+  end
+  object Label1: TLabel[6]
+    Left = 30
+    Height = 16
+    Top = 48
+    Width = 733
+    Caption = 'Step 1: Please enter the keyboard’s serial number which found on the underside of the right key module (eg 97BRNUSAA0000).'
+    ParentColor = False
+  end
+  object btnCreateDiagnosticFile: TColorSpeedButtonCS[7]
+    Left = 30
+    Height = 34
+    Top = 112
+    Width = 198
+    Caption = 'Create Diagnostics File'
+    Font.Color = clBlack
+    OnClick = btnCreateDiagnosticFileClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object eSerial: TEdit[8]
+    Left = 32
+    Height = 25
+    Top = 80
+    Width = 162
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    ParentFont = False
+    TabOrder = 0
+  end
+  object Label3: TLabel[9]
+    Left = 30
+    Height = 50
+    Top = 160
+    Width = 720
+    AutoSize = False
+    Caption = 'Step 2: Contact Kinesis Tech Support and upload the diagnostic file just created to the Ticket Submission page.'
+    ParentColor = False
+    WordWrap = True
+  end
+  object btnContactTechSupport: TColorSpeedButtonCS[10]
+    Left = 30
+    Height = 34
+    Top = 192
+    Width = 264
+    Caption = 'Contact Kinesis Tech Support'
+    Font.Color = clBlack
+    OnClick = btnContactTechSupportClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+end

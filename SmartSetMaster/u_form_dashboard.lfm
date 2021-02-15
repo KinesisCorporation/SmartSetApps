@@ -10,9 +10,13 @@ object FormDashboard: TFormDashboard
   Font.Height = -24
   Font.Name = 'Tahoma'
   FormStyle = fsMDIForm
+  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyDown = FormKeyDown
+  OnKeyPress = FormKeyPress
+  OnKeyUp = FormKeyUp
   OnResize = FormResize
   OnWindowStateChange = FormWindowStateChange
   Position = poScreenCenter
@@ -21942,8 +21946,8 @@ object FormDashboard: TFormDashboard
   end
   object imgListMenu: TImageList
     DrawingStyle = dsTransparent
-    Left = 1192
-    Top = 72
+    left = 1192
+    top = 72
     Bitmap = {
       4C690A0000001000000010000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -22272,14 +22276,14 @@ object FormDashboard: TFormDashboard
     Enabled = False
     Interval = 30000
     OnTimer = tmrCheckConnectedTimer
-    Left = 584
-    Top = 462
+    left = 584
+    top = 462
   end
   object tmrLoadForms: TTimer
     Enabled = False
     Interval = 50
     OnTimer = tmrLoadFormsTimer
-    Left = 612
-    Top = 490
+    left = 612
+    top = 490
   end
 end

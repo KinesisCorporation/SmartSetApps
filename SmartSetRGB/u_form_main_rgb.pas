@@ -1088,7 +1088,7 @@ begin
   end;
 
   //If entering speed, do nothing
-  if (not FormMainRGB.Active) and
+  if (not FormMainRGB.Visible) and
     not((FormTapAndHold <> nil) and FormTapAndHold.Active and
     (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
     exit;
@@ -1373,6 +1373,10 @@ begin
 
     keyService.LoadLayerList;
 
+    {$ifdef Darwin}
+      btnEject.Visible := false;
+    {$endif};
+
     if (GDemoMode) then
     begin
       imgProfile.Enabled := false;
@@ -1506,8 +1510,8 @@ end;
 begin
   //Windows
   {$ifdef Win32}
-  defaultKeyFontName := 'Arial Narrow';
-  defaultKeyFontSize := 10;
+  //defaultKeyFontName := 'Arial Narrow';
+  //defaultKeyFontSize := 10;
   //SetFont(self, 'Tahoma Bold');
   {$endif}
 
@@ -1515,8 +1519,8 @@ begin
   {$ifdef Darwin}
   self.AutoScroll := false; //No scroll bars OSX, does not work well
   self.KeyPreview := true; //traps key presses at form level
-  defaultKeyFontName := 'Arial Narrow';
-  defaultKeyFontSize := 10;
+  //defaultKeyFontName := 'Arial Narrow';
+  defaultKeyFontSize := 8;
   //SetFont(self, 'Helvetica');
   //lblMonochrome.Left := rgMacro1.Left - lblMonochrome.Width - 5;
   //lblMacro2.Left := rgMacro2.Left - lblMacro2.Width - 5;
@@ -3079,9 +3083,13 @@ begin
     PARAM_COLOR:
     begin
       pnlEffectColor.Visible := state;
+      pnlEffectColor.Repaint;
     end;
     PARAM_BASECOLOR:
+    begin
       pnlBaseColor.Visible := state and ((fileService.VersionBiggerEqualLED(1, 0, 44)) or (GDemoMode));
+      pnlBaseColor.Repaint;
+    end;
     PARAM_DIRECTION:
     begin
       pnlDirection.Visible := state;
@@ -3091,10 +3099,12 @@ begin
       btnDirRight.Visible := not(ledMode in [lmRebound]);
       btnDirHorizontal.Visible := ledMode in [lmRebound];
       btnDirVertical.Visible := ledMode in [lmRebound];
+      pnlDirection.Repaint;
     end;
     PARAM_SPEED:
     begin
       pnlSpeed.Visible := state;
+      pnlSpeed.Repaint;
     end;
     PARAM_RANGE:
     begin
@@ -3102,6 +3112,7 @@ begin
     PARAM_ZONE:
     begin
       pnlZone.Visible := state;
+      pnlZone.Repaint;
     end;
   end;
 end;

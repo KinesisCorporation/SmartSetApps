@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, u_base_form, u_const, UserDialog, lcltype,
+  StdCtrls, ColorSpeedButtonCS, u_base_form, u_const, UserDialog, lcltype,
   lclintf, u_common_ui;
 
 type
@@ -15,8 +15,8 @@ type
 
   TFormDiagnostics = class(TBaseForm)
     eSerial: TEdit;
-    btnCreateDiagnosticFile: THSSpeedButton;
-    btnContactTechSupport: THSSpeedButton;
+    btnCreateDiagnosticFile: TColorSpeedButtonCS;
+    btnContactTechSupport: TColorSpeedButtonCS;
     Label1: TLabel;
     Label3: TLabel;
     procedure btnContactTechSupportClick(Sender: TObject);
