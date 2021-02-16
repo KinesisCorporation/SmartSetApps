@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, LineObj, u_base_form, LCLIntf, u_const, LCLType,
+  StdCtrls, ColorSpeedButtonCS, LineObj, u_base_form, LCLIntf, u_const, LCLType,
   u_form_firmware, u_common_ui;
 
 type
@@ -14,8 +14,8 @@ type
   { TFormExpansion }
 
   TFormExpansion = class(TBaseForm)
-    btnImplement: THSSpeedButton;
-    btnLearnMore: THSSpeedButton;
+    btnImplement: TColorSpeedButtonCS;
+    btnLearnMore: TColorSpeedButtonCS;
     chkCheckBox: TCheckBox;
     chkDoNothing: TCheckBox;
     chkMirror: TCheckBox;

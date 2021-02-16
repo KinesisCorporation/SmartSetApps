@@ -6,6 +6,7 @@ object FormDashboard: TFormDashboard
   Caption = 'Dashboard'
   ClientHeight = 826
   ClientWidth = 1595
+  DesignTimePPI = 168
   Font.Color = clWhite
   Font.Height = -24
   Font.Name = 'Tahoma'
@@ -676,7 +677,7 @@ object FormDashboard: TFormDashboard
       Left = 280
       Height = 19
       Top = 16
-      Width = 49
+      Width = 48
       Caption = 'HOME'
       Font.Color = clWhite
       Font.Height = -16
@@ -691,7 +692,7 @@ object FormDashboard: TFormDashboard
       Left = 400
       Height = 19
       Top = 16
-      Width = 82
+      Width = 83
       Caption = 'SETTINGS'
       Font.Color = clWhite
       Font.Height = -16
@@ -850,10 +851,10 @@ object FormDashboard: TFormDashboard
       Proportional = True
     end
     object lblVDriveError: TLabel
-      Left = 1349
+      Left = 1350
       Height = 16
       Top = 16
-      Width = 129
+      Width = 127
       Anchors = []
       Caption = 'v-Drive Not Connected'
       Font.Color = clRed
@@ -867,7 +868,7 @@ object FormDashboard: TFormDashboard
       Left = 1350
       Height = 16
       Top = 16
-      Width = 105
+      Width = 104
       Anchors = []
       Caption = 'v-Drive Connected'
       Font.Color = clLime
@@ -881,7 +882,7 @@ object FormDashboard: TFormDashboard
       Left = 1350
       Height = 16
       Top = 16
-      Width = 69
+      Width = 68
       Anchors = []
       Caption = 'Demo Mode'
       Font.Color = clLime

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, HSSpeedButton, LineObj, uEKnob, ueled, u_const, userdialog,
+  ExtCtrls, ColorSpeedButtonCS, LineObj, uEKnob, ueled, u_const, userdialog,
   u_base_form;
 
 type
@@ -14,8 +14,8 @@ type
   { TFormLoad }
 
   TFormLoad = class(TBaseForm)
-    btnCancel: THSSpeedButton;
-    btnLoad: THSSpeedButton;
+    btnCancel: TColorSpeedButtonCS;
+    btnLoad: TColorSpeedButtonCS;
     cboBackup: TComboBox;
     knobPosition: TuEKnob;
     Label11: TLabel;

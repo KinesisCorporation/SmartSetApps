@@ -53,12 +53,8 @@ procedure TFormSettingsMaster.FormCreate(Sender: TObject);
 begin
   SetFont(self, 'Tahoma');
 
-  //Read values from registry
-  if ReadFromRegistry(HideAllNotifs) = '1' then
-     chkHideAllNotifs.Checked := true;
-
-  if ReadFromRegistry(ShowAllNotifs) = '1' then
-     chkShowNotifs.Checked := true;
+  chkHideAllNotifs.Checked := GHideAllNotifs;
+  chkShowNotifs.Checked := GShowAllNotifs;
 end;
 
 procedure TFormSettingsMaster.FormKeyDown(Sender: TObject; var Key: Word;
@@ -108,11 +104,13 @@ begin
      SaveToRegistry(HideAllNotifs, '1')
   else
      SaveToRegistry(HideAllNotifs, '0');
+  GHideAllNotifs := chkHideAllNotifs.Checked;
 
   if (chkShowNotifs.Checked) then
      SaveToRegistry(ShowAllNotifs, '1')
   else
      SaveToRegistry(ShowAllNotifs, '0');
+  GShowAllNotifs := chkShowNotifs.Checked;
 
   if CloseAction = caFree then
   begin

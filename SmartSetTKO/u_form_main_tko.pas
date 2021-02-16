@@ -927,7 +927,7 @@ begin
   end;
 
   //If entering speed, do nothing
-  if (not FormMainTKO.Visible) and
+  if (not FormMainTKO.Active) and not(FormMainTKO.fromMasterApp and FormMainTKO.Visible) and
     not((FormTapAndHold <> nil) and FormTapAndHold.Active and
     (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
     exit;
@@ -2712,11 +2712,11 @@ end;
 procedure TFormMainTKO.ShowIntroDialogs;
 begin
   //todo?
-  //if (not closing) and (not infoMessageShown) and (not fileService.AppSettings.AppIntroMsg) and (AppSettingsLoaded) then
+  //if (not closing) and (not infoMessageShown) and (ShowNotification(fileService.AppSettings.AppIntroMsg)) and (AppSettingsLoaded or GDemoMode) then
   //begin
   //  ShowIntro;
   //end;
-  if (not closing) and (not infoMessageShown) and (not fileService.AppSettings.AppCheckFirmMsg) and (AppSettingsLoaded) then
+  if (not closing) and (not infoMessageShown) and (ShowNotification(fileService.AppSettings.AppCheckFirmMsg)) and (AppSettingsLoaded) then
   begin
     CheckFirmware;
   end;
@@ -3260,7 +3260,7 @@ begin
 
         if not closing then
           EjectDevice(GActiveDevice);
-        if (not fileService.AppSettings.SaveMsg) and (showSaveDialog) then
+        if (ShowNotification(fileService.AppSettings.SaveMsg)) and (showSaveDialog) then
         begin
           if (profileNumber = fileService.StateSettings.StartupFileNumber) then
           begin
@@ -5591,7 +5591,7 @@ var
 begin
   if IsKeyLoaded then
   begin
-    if (not fileService.AppSettings.ResetKeyMsg) then
+    if (ShowNotification(fileService.AppSettings.ResetKeyMsg)) then
     begin
       response := ShowDialog('Reset current key',
         'Do you want to reset the current Key?' + #10 + 'The remapped key action and any stored macros will be lost.',
@@ -7945,7 +7945,7 @@ begin
     if (activeKbKey.ActiveMacro <> nil) then
     begin
       copiedMacro := keyService.CopyMacro(activeKbKey.ActiveMacro);
-      if (not fileService.AppSettings.CopyMacroMsg) then
+      if (ShowNotification(fileService.AppSettings.CopyMacroMsg)) then
       begin
         hideNotif := ShowDialog('Copy', 'Macro copied. Now select a new trigger key or load a new layout, then hit Paste.',
           mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
@@ -8124,7 +8124,7 @@ begin
     btnWindowsCombos.Down := true;
     SetHovered(btnWindowsCombos, true, true);
     keyService.AddModifier(VK_LWIN);
-    if (not fileService.AppSettings.WindowsComboMsg) then
+    if (ShowNotification(fileService.AppSettings.WindowsComboMsg)) then
     begin
       hideNotif := ShowDialog('Windows Combination Active', 'Now press the key(s) you wish to combine with the Windows key in your macro. Then deselect Windows Combination from the Special Actions menu if you wish to continue programming or click Accept.',
         mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');

@@ -4,7 +4,8 @@ interface
 
 uses
   {$ifdef Win32}Windows,{$endif}
-  SysUtils, Unix;
+  {$ifdef darwin}Unix,{$endif}
+  SysUtils;
 
 function EjectUSB(const DriveLetter: string): boolean;
 function EjectVolume(drivePath: string): boolean;

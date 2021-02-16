@@ -7,7 +7,7 @@ inherited FormLoad: TFormLoad
   Color = 2500134
   OnCreate = FormCreate
   OnShow = FormShow
-  inherited btnClose: THSSpeedButton
+  inherited btnClose: TColorSpeedButtonCS
     Left = 578
   end
   inherited lineBorderTop: TLineObj
@@ -63,72 +63,72 @@ inherited FormLoad: TFormLoad
     ParentShowHint = False
     ShowHint = True
   end
-  object btnLoad: THSSpeedButton[9]
+  object btnLoad: TColorSpeedButtonCS[9]
     Left = 376
     Height = 32
     Top = 208
     Width = 107
-    Alignment = taCenter
     Anchors = [akTop, akRight]
-    Border = 1
     Caption = 'Load'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
+    ShowHint = True
+	ParentFont = False
+	ParentShowHint = False
+	Alignment = taCenter
+	TextAutoSize = True
+	Toggle = False
+	Pressed = False
+	PopupMode = False
+	StateNormal.Color = 2500134
+	StateNormal.BorderColor = 1644825
+	StateNormal.BorderWidth = 0
+	StateNormal.FontColor = clBlack
+	StateHover.Color = 3355443
+	StateHover.BorderColor = 3355443
+	StateHover.BorderWidth = 1
+	StateHover.FontColor = clBlack
+	StateActive.Color = 4934475
+	StateActive.BorderColor = 3355443
+	StateActive.BorderWidth = 1
+	StateActive.FontColor = clBlack
+	StateDisabled.Color = 2500134
+	StateDisabled.BorderColor = 1644825
+	StateDisabled.BorderWidth = 0
+	StateDisabled.FontColor = clBlack
+	TextPadding = 0
     OnClick = btnLoadClick
   end
-  object btnCancel: THSSpeedButton[10]
+  object btnCancel: TColorSpeedButtonCS[10]
     Left = 490
     Height = 32
     Top = 208
     Width = 107
-    Alignment = taCenter
     Anchors = [akTop, akRight]
-    Border = 1
     Caption = 'Cancel'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
+    ShowHint = True
+	ParentFont = False
+	ParentShowHint = False
+	Alignment = taCenter
+	TextAutoSize = True
+	Toggle = False
+	Pressed = False
+	PopupMode = False
+	StateNormal.Color = 2500134
+	StateNormal.BorderColor = 1644825
+	StateNormal.BorderWidth = 0
+	StateNormal.FontColor = clBlack
+	StateHover.Color = 3355443
+	StateHover.BorderColor = 3355443
+	StateHover.BorderWidth = 1
+	StateHover.FontColor = clBlack
+	StateActive.Color = 4934475
+	StateActive.BorderColor = 3355443
+	StateActive.BorderWidth = 1
+	StateActive.FontColor = clBlack
+	StateDisabled.Color = 2500134
+	StateDisabled.BorderColor = 1644825
+	StateDisabled.BorderWidth = 0
+	StateDisabled.FontColor = clBlack
+	TextPadding = 0
     OnClick = btnCancelClick
   end
   object cboBackup: TComboBox[11]

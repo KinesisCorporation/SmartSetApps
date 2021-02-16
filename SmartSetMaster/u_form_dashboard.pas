@@ -191,6 +191,10 @@ begin
   lblAppName3.Font.Name := 'Quantify';
   lblAppName4.Font.Name := 'Quantify';
 
+  //Load app settings
+  GShowAllNotifs := ReadFromRegistry(ShowAllNotifs) = '1';
+  GHideAllNotifs := ReadFromRegistry(HideAllNotifs) = '1';
+
   //App shows in Taskbar only when minimized
   Application.MainFormOnTaskBar:= true;
 

@@ -278,7 +278,7 @@ begin
     begin
       settingsChanged := false;
 
-      if (not fileService.AppSettings.SaveMsg) then
+      if (ShowNotification(fileService.AppSettings.SaveMsg)) then
       begin
         hideNotif := ShowDialog('Settings Saved', 'Changes will be implemented when v-Drive is closed.',
           mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
