@@ -4,10 +4,11 @@ interface
 
 uses
   {$ifdef Win32}Windows,{$endif}
+  {$ifdef darwin}Unix,{$endif}
   SysUtils;
 
 function EjectUSB(const DriveLetter: string): boolean;
-function EjectVolume(ADrive: char): boolean;
+function EjectVolume(drivePath: string): boolean;
 
 implementation
 
@@ -119,9 +120,10 @@ type
     result := false;
   end;
 
-  function EjectVolume(ADrive: char): boolean;
+  function EjectVolume(drivePath: string): boolean;
   begin
-    result := false;
+    //fpSystem('diskutil umount ' + drivePath);
+    result := true;
   end;
 
   {$endif}
@@ -443,13 +445,13 @@ type
       RaiseLastWin32Error;
   end;
 
-  function EjectVolume(ADrive: char): boolean;
+  function EjectVolume(drivePath: string): boolean;
   var
     VolumeHandle: THandle;
   begin
     Result := FALSE;
     // Open the volume
-    VolumeHandle := OpenVolume(ADrive);
+    VolumeHandle := OpenVolume(drivePath[1]);
     if VolumeHandle = INVALID_HANDLE_VALUE then
       exit;
     try

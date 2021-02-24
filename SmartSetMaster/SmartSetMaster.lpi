@@ -14,16 +14,13 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="3"/>
-      <RevisionNr Value="2"/>
+      <RevisionNr Value="4"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
-    <MacroValues Count="1">
-      <Macro1 Name="LCLWidgetType" Value="cocoa"/>
-    </MacroValues>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
       <SharedMatrixOptions Count="1">
-        <Item1 ID="045853531783" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item1 ID="045853531783" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -63,7 +60,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="21">
+    <Units Count="22">
       <Unit0>
         <Filename Value="SmartSetMaster.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -180,13 +177,20 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UserDialog"/>
       </Unit20>
+      <Unit21>
+        <Filename Value="u_form_scanvdrive.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormScanVDrive"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit21>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SmartSetMaster (Mac)"/>
+      <Filename Value="SmartSetMaster (PC)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

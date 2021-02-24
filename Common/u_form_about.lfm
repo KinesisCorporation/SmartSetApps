@@ -1,7 +1,7 @@
 inherited FormAbout: TFormAbout
-  Left = 633
+  Left = 1334
   Height = 321
-  Top = 106
+  Top = 125
   Width = 419
   Caption = 'Help'
   ClientHeight = 321
@@ -68,7 +68,7 @@ inherited FormAbout: TFormAbout
     ParentColor = False
   end
   object btnReadManual: TColorSpeedButtonCS[9]
-    Left = 15
+    Left = 16
     Height = 32
     Top = 280
     Width = 112

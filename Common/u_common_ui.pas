@@ -114,6 +114,8 @@ begin
   FIsDown := value;
   if (FActionButton <> nil) then
      FActionButton.Down := value;
+  if (FActionButton2 <> nil) then
+     FActionButton2.Down := value;
 end;
 
 constructor TMenuAction.Create(aType: TMenuActionType; actionButton: TSpeedButton;
@@ -198,22 +200,33 @@ begin
 end;
 
 function EjectDevice(device: TDevice): boolean;
+var
+  drive: string;
 begin
   result := false;
 
+  {$ifdef Win32}
+  if (device <> nil) then
+     drive := device.DriveLetter;
+  {$endif}
+  {$ifdef Darwin}
+  if (device <> nil) then
+     drive := device.RootFolder;
+  {$endif}
+  {$ifdef Win32}
   try
-    if (device <> nil) and (device.DriveLetter <> '') then
+    if (drive <> '') then
     begin
       ShowInfoDialog('Disconnecting v-Drive', 'Disconnecting ' + device.VDriveName + ' v-Drive', fpBotRight, 60);
       Application.ProcessMessages;
       //EjectUSB(device.DriveLetter);
       //FlushUSBDrive(device.DriveLetter[1]);
-      if (EjectVolume(device.DriveLetter[1])) then
+      if (EjectVolume(drive)) then
       begin
          result := true;
          CloseInfoDialog(mrOK);
          Application.ProcessMessages;
-         ShowInfoDialog('Safe To Remove Hardware', 'The device ''' + device.VDriveName + ' (' + device.DriveLetter + ':)'' can now be safely removed from the computer', fpBotRight);
+         ShowInfoDialog('Safe To Remove Hardware', 'The device ''' + device.VDriveName + ' (' + drive + ')'' can now be safely removed from the computer', fpBotRight);
          //ShowDialog('Safe To Remove Hardware', 'The device ''' + device.VDriveName + ' (' + device.DriveLetter + ':)'' can now be safely removed from the computer',
          //     mtConfirmation, [mbOK]);
       end
@@ -228,6 +241,9 @@ begin
   finally
     //CloseInfoDialog(mrOK);
   end;
+  {$else}
+  result := true;
+  {$endif}
 end;
 
 procedure CreateCustomButton(var customBtns: TCustomButtons;

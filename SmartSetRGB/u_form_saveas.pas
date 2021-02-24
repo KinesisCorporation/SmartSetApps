@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  Menus, ExtCtrls, HSSpeedButton, ueled, uEKnob, LineObj, ECSlider, u_const,
+  Menus, ExtCtrls, ColorSpeedButtonCS, ueled, uEKnob, LineObj, ECSlider, u_const,
   u_base_form;
 
 type
@@ -14,8 +14,8 @@ type
   { TFormSaveAs }
 
   TFormSaveAs = class(TBaseForm)
-    btnSave: THSSpeedButton;
-    btnCancel: THSSpeedButton;
+    btnSave: TColorSpeedButtonCS;
+    btnCancel: TColorSpeedButtonCS;
     chkCheckBox: TCheckBox;
     eCustFile: TEdit;
     knobPosition: TuEKnob;

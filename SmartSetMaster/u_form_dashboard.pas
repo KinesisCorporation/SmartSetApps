@@ -6,11 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LineObj, ColorSpeedButtonCS, BCButton,
+  LineObj, ColorSpeedButtonCS,
   u_const, LResources, FileUtil, u_kinesis_device,
   u_form_main_rgb, LCLIntf, u_form_loading, u_form_about_master,
   u_form_settings_master, u_form_firmware, u_common_ui,
-  u_form_main_tko
+  u_form_main_tko, u_form_scanvdrive
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -87,9 +87,13 @@ type
     procedure ButtonMouseLeave(Sender: TObject);
     procedure ButtonMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
       );
+    procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyPress(Sender: TObject; var Key: char);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure imgLogoClick(Sender: TObject);
@@ -120,6 +124,7 @@ type
       btnEject: TColorSpeedButtonCS; btnWatchTutorial: TColorSpeedButtonCS);
     procedure SetFormBorder(formBorder: TFormBorderStyle);
     procedure UpdateDevices;
+    procedure UpdateDevice(aDevice: TDevice);
     procedure UpdateStateSettings;
     procedure OpenDeviceForm(device: TDevice);
     procedure LoadAppForms;
@@ -131,8 +136,6 @@ type
 
 var
   FormDashboard: TFormDashboard;
-  FormRGB: TFormMainRGB;
-  FormTKO: TFormMainTKO;
   MPos:TPoint; {Position of the Form before drag}
   procedure SetVDriveState(state: boolean);
 
@@ -188,6 +191,10 @@ begin
   lblAppName3.Font.Name := 'Quantify';
   lblAppName4.Font.Name := 'Quantify';
 
+  //Load app settings
+  GShowAllNotifs := ReadFromRegistry(ShowAllNotifs) = '1';
+  GHideAllNotifs := ReadFromRegistry(HideAllNotifs) = '1';
+
   //App shows in Taskbar only when minimized
   Application.MainFormOnTaskBar:= true;
 
@@ -210,6 +217,37 @@ end;
 procedure TFormDashboard.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(deviceList);
+end;
+
+procedure TFormDashboard.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  //if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  //begin
+  //  FormMainRGB.FormKeyDown(sender, key, shift);
+  //end
+  //else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+  //begin
+  //  FormMainTKO.FormKeyDown(sender, key, shift);
+  //end;
+end;
+
+procedure TFormDashboard.FormKeyPress(Sender: TObject; var Key: char);
+begin
+
+end;
+
+procedure TFormDashboard.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  //if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  //begin
+  //  FormMainRGB.FormKeyUp(sender, key, shift);
+  //end
+  //else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+  //begin
+  //  FormMainTKO.FormKeyUp(sender, key, shift);
+  //end;
 end;
 
 procedure TFormDashboard.FormResize(Sender: TObject);
@@ -320,13 +358,7 @@ end;
 procedure TFormDashboard.UpdateDevices;
 var
   aDevice: TDevice;
-  appNameLabel: TLabel;
-  appConnLabel: TLabel;
-  appProfileLabel: TLabel;
-  appCheckUpdBtn: TColorSpeedButtonCS;
-  appEjectBtn: TColorSpeedButtonCS;
-  appOpenBtn: TColorSpeedButtonCS;
-  appWatchTutoBtn: TColorSpeedButtonCS;
+
   idx: integer;
 begin
   for idx := 1 to MAX_DEVICES do
@@ -335,60 +367,91 @@ begin
     if (deviceList.Count >= idx) then
       aDevice := deviceList.Items[idx - 1];
 
-    //Init objects
-    appNameLabel := nil;
-    appConnLabel := nil;
-    appProfileLabel := nil;
-    appCheckUpdBtn := nil;
-    appEjectBtn := nil;
-    appWatchTutoBtn := nil;
-    appOpenBtn := nil;
+    UpdateDevice(aDevice);
+  end;
+end;
 
-    //Get objets by app index
-    GetAppObjects(idx, appNameLabel, appConnLabel, appProfileLabel, appCheckUpdBtn, appEjectBtn, appWatchTutoBtn, appOpenBtn);
-
-    appNameLabel.Caption := '';
-    appConnLabel.Caption := '';
-    appProfileLabel.Caption := '';
-    appOpenBtn.Caption := 'Demo Mode';
-    appEjectBtn.Visible := false;
-    appCheckUpdBtn.Caption := 'Scan for v-Drive';
-    appCheckUpdBtn.Hint := aDevice.ScanVDriveHint;
-
-    if (aDevice <> nil) then
+procedure TFormDashboard.UpdateDevice(aDevice: TDevice);
+var
+  appNameLabel: TLabel;
+  appConnLabel: TLabel;
+  appProfileLabel: TLabel;
+  appCheckUpdBtn: TColorSpeedButtonCS;
+  appEjectBtn: TColorSpeedButtonCS;
+  appOpenBtn: TColorSpeedButtonCS;
+  appWatchTutoBtn: TColorSpeedButtonCS;
+  idx: integer;
+  i: integer;
+begin
+  if (aDevice <> nil) then
+  begin
+    idx := -1;
+    for i := 1 to MAX_DEVICES do
     begin
-      //Gets device info
-      GetDeviceInformation(aDevice);
+      if (deviceList.Items[i - 1] = aDevice) then
+        idx := i;
+    end;
 
-      appNameLabel.Caption := aDevice.DeviceName;
-      if (aDevice.FutureDevice) then
+    if (idx >= 1) then
+    begin
+      //Init objects
+      appNameLabel := nil;
+      appConnLabel := nil;
+      appProfileLabel := nil;
+      appCheckUpdBtn := nil;
+      appEjectBtn := nil;
+      appWatchTutoBtn := nil;
+      appOpenBtn := nil;
+
+      //Get objets by app index
+      GetAppObjects(idx, appNameLabel, appConnLabel, appProfileLabel, appCheckUpdBtn, appEjectBtn, appWatchTutoBtn, appOpenBtn);
+
+      appNameLabel.Caption := '';
+      appConnLabel.Caption := '';
+      appProfileLabel.Caption := '';
+      appOpenBtn.Caption := 'Demo Mode';
+      appEjectBtn.Visible := false;
+      appCheckUpdBtn.Caption := 'Scan for v-Drive';
+      appCheckUpdBtn.Hint := aDevice.ScanVDriveHint;
+
+      if (aDevice <> nil) then
       begin
-        appOpenBtn.Caption := 'Learn More';
-        appConnLabel.Caption := 'Coming Soon';
-        appConnLabel.Font.Color := clRed;
-        appCheckUpdBtn.Visible := false;
-        appEjectBtn.Visible := false;
-        appWatchTutoBtn.Visible := false;
-      end
-      else if not(aDevice.ReadWriteAccess) then
-      begin
-        appConnLabel.Caption := NO_ACCESS_TEXT;
-        appConnLabel.Font.Color := NOT_DETECT_COLOR;
-      end
-      else if (aDevice.Connected) then
-      begin
-        appConnLabel.Caption := CONN_TEXT;
-        appConnLabel.Font.Color := CONN_COLOR;
-        appOpenBtn.Caption := 'Configure';
-        appProfileLabel.Caption := 'Profile ' + fileService.GetStartupFileNo(aDevice);
-        appEjectBtn.Visible := true;
-        appCheckUpdBtn.Caption := 'Check for Updates';
-        appCheckUpdBtn.Hint := '';
-      end
-      else
-      begin
-        appConnLabel.Caption := NOT_DETECT_TEXT;
-        appConnLabel.Font.Color := NOT_DETECT_COLOR;
+        //Gets device info
+        GetDeviceInformation(aDevice);
+
+        appNameLabel.Caption := aDevice.DeviceName;
+        if (aDevice.FutureDevice) then
+        begin
+          appOpenBtn.Caption := 'Learn More';
+          appConnLabel.Caption := 'Coming Soon';
+          appConnLabel.Font.Color := clRed;
+          appCheckUpdBtn.Visible := false;
+          appEjectBtn.Visible := false;
+          appWatchTutoBtn.Visible := false;
+        end
+        else if not(aDevice.ReadWriteAccess) then
+        begin
+          appConnLabel.Caption := NO_ACCESS_TEXT;
+          appConnLabel.Font.Color := NOT_DETECT_COLOR;
+        end
+        else if (aDevice.Connected) then
+        begin
+          appConnLabel.Caption := CONN_TEXT;
+          appConnLabel.Font.Color := CONN_COLOR;
+          appOpenBtn.Caption := 'Configure';
+          appProfileLabel.Caption := 'Profile ' + fileService.GetStartupFileNo(aDevice);
+          {$ifdef Win32}
+          appEjectBtn.Visible := true;
+          {$endif};
+          appCheckUpdBtn.Caption := 'Check for Updates';
+          appCheckUpdBtn.Hint := '';
+        end
+        else
+        begin
+          appConnLabel.Caption := NOT_DETECT_TEXT;
+          appConnLabel.Font.Color := NOT_DETECT_COLOR;
+        end;
+
       end;
     end;
   end;
@@ -510,7 +573,12 @@ begin
       end
       else
       begin
-        UpdateDevices;
+        UpdateDevice(device);
+
+        while not(device.Connected) and (ShowScanVDrive(device) = 1) do
+        begin
+          UpdateDevice(device);
+        end;
       end;
     end;
   finally
@@ -521,25 +589,25 @@ end;
 
 procedure TFormDashboard.LoadAppForms;
 begin
-  Application.CreateForm(TFormMainRGB, FormRGB);
-  FormRGB.Parent := pnlMain;
+  Application.CreateForm(TFormMainRGB, FormMainRGB);
+  FormMainRGB.Parent := pnlMain;
 
-  Application.CreateForm(TFormMainTKO, FormTKO);
-  FormTKO.Parent := pnlMain;
+  Application.CreateForm(TFormMainTKO, FormMainTKO);
+  FormMainTKO.Parent := pnlMain;
 end;
 
 procedure TFormDashboard.CloseActiveForms;
 begin
-  if (FormRGB <> nil) and (FormRGB.Visible = true) then
+  if (FormMainRGB <> nil) and (FormMainRGB.Visible = true) then
   begin
-    FormRGB.Close;
-    FormRGB := nil;
+    FormMainRGB.Close;
+    FormMainRGB := nil;
     //FreeAndNil(FormRGB);
   end;
-  if (FormTKO <> nil) and (FormTKO.Visible = true) then
+  if (FormMainTKO <> nil) and (FormMainTKO.Visible = true) then
   begin
-    FormTKO.Close;
-    FormTKO := nil;
+    FormMainTKO.Close;
+    FormMainTKO := nil;
     //FreeAndNil(FormTKO);
   end;
 end;
@@ -630,11 +698,11 @@ begin
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading FREESTYLE EDGE RGB...');
         {$ifdef darwin}
-        Application.CreateForm(TFormMainRGB, FormRGB);
+        Application.CreateForm(TFormMainRGB, FormMainRGB);
         {$endif};
-        FormRGB.Parent := pnlMain;
-        FormRGB.InitForm(self);
-        FormRGB.Show;
+        FormMainRGB.Parent := pnlMain;
+        FormMainRGB.InitForm(self);
+        FormMainRGB.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo1.Visible := true;
       finally
@@ -647,11 +715,11 @@ begin
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading TKO...');
         {$ifdef darwin}
-        Application.CreateForm(TFormMainTKO, FormTKO);
+        Application.CreateForm(TFormMainTKO, FormMainTKO);
         {$endif};
-        FormTKO.Parent := pnlMain;
-        FormTKO.InitForm(self);
-        FormTKO.Show;
+        FormMainTKO.Parent := pnlMain;
+        FormMainTKO.InitForm(self);
+        FormMainTKO.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo2.Visible := true;
       finally
@@ -684,10 +752,10 @@ begin
     cusWindowState := cwMaximized;
   end;
 
-  if (FormRGB <> nil) and (FormRGB.Visible) then
-     FormRGB.Maximize;
-  if (FormTKO <> nil) and (FormTKO.Visible) then
-     FormTKO.Maximize;
+  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+     FormMainRGB.Maximize;
+  if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+     FormMainTKO.Maximize;
 
   UpdateStateSettings;
 end;
@@ -873,6 +941,14 @@ procedure TFormDashboard.ButtonMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
 //     (Sender as TColorSpeedButtonCS).Font.Color := blueColor;
+end;
+
+procedure TFormDashboard.FormActivate(Sender: TObject);
+begin
+  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+    FormMainRGB.SetFocus
+  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+    FormMainTKO.SetFocus;
 end;
 
 initialization

@@ -184,6 +184,8 @@ var
   GDevMode: boolean; //Dev Mode On or Off
   GDesktopMode: boolean; //Desktop Mode
   GDemoMode: boolean; //Demo Mode
+  GShowAllNotifs: boolean; //Show all notifications
+  GHideAllNotifs: boolean; //Hide all notifications
   KINESIS_BLUE: TColor; //Kinesis blue color
   KINESIS_BLUE_EDGE: TColor; //Kinesis blue color for FS app
   KINESIS_ORANGE: TColor; //Kinesis orange color
@@ -245,6 +247,7 @@ function LoadFontFromRes(FontName: string):THandle;
 function SaveToRegistry(keyName: string; value: string): boolean;
 function ReadFromRegistry(keyName: string): string;
 procedure DownloadFile(url: string; destFolder: string);
+function ShowNotification(hideNotif: boolean): boolean;
 
 const
   //START OF VIRTUAL KEY OPTIONS
@@ -2117,6 +2120,11 @@ begin
   end;
 end;
 
+function ShowNotification(hideNotif: boolean): boolean;
+begin
+  result := (not(hideNotif) and not(GHideAllNotifs)) or (GShowAllNotifs);
+end;
+
 initialization
   KINESIS_BLUE := RGB(0, 114, 206);
   KINESIS_BLUE_EDGE := RGB(30, 154, 214);
@@ -2130,6 +2138,8 @@ initialization
   GApplicationTitle := 'SmartSet App';
   GDesktopMode := false;
   GDemoMode := false;
+  GShowAllNotifs := false;
+  GHideAllNotifs := false;
   GActiveDevice := nil;
   //Windows
   {$ifdef Win32}

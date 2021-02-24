@@ -11,7 +11,7 @@ inherited FormExpansion: TFormExpansion
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  inherited btnClose: THSSpeedButton
+  inherited btnClose: TColorSpeedButtonCS
     Left = 916
   end
   inherited lineBorderTop: TLineObj
@@ -50,79 +50,85 @@ inherited FormExpansion: TFormExpansion
     ParentFont = False
     WordWrap = True
   end
-  object btnImplement: THSSpeedButton[7]
+  object btnImplement: TColorSpeedButtonCS[7]
     Left = 185
     Height = 32
     Top = 189
     Width = 190
-    Alignment = taCenter
     Anchors = [akRight, akBottom]
-    Border = 1
     Caption = 'Implement Selection'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -16
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
+    Font.Color = clBlack
+    Font.Height = -19
     Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
     OnClick = btnImplementClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
-  object btnLearnMore: THSSpeedButton[8]
+  object btnLearnMore: TColorSpeedButtonCS[8]
     Left = 393
     Height = 32
     Top = 189
     Width = 190
-    Alignment = taCenter
     Anchors = [akRight, akBottom]
-    Border = 1
     Caption = 'Learn More'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -16
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
+    Font.Color = clBlack
+    Font.Height = -19
     Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
     OnClick = btnLearnMoreClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
   object chkCheckBox: TCheckBox[9]
     Left = 21
-    Height = 19
-    Top = 193
-    Width = 20
+    Height = 33
+    Top = 179
+    Width = 34
     Anchors = [akLeft, akBottom]
     Color = clWhite
     ParentColor = False
