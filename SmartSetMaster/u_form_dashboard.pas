@@ -222,14 +222,14 @@ end;
 procedure TFormDashboard.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  //if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
-  //begin
-  //  FormMainRGB.FormKeyDown(sender, key, shift);
-  //end
-  //else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-  //begin
-  //  FormMainTKO.FormKeyDown(sender, key, shift);
-  //end;
+  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  begin
+    FormMainRGB.FormKeyDown(sender, key, shift);
+  end
+  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+  begin
+    FormMainTKO.FormKeyDown(sender, key, shift);
+  end;
 end;
 
 procedure TFormDashboard.FormKeyPress(Sender: TObject; var Key: char);
@@ -240,14 +240,14 @@ end;
 procedure TFormDashboard.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  //if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
-  //begin
-  //  FormMainRGB.FormKeyUp(sender, key, shift);
-  //end
-  //else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-  //begin
-  //  FormMainTKO.FormKeyUp(sender, key, shift);
-  //end;
+  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  begin
+    FormMainRGB.FormKeyUp(sender, key, shift);
+  end
+  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+  begin
+    FormMainTKO.FormKeyUp(sender, key, shift);
+  end;
 end;
 
 procedure TFormDashboard.FormResize(Sender: TObject);

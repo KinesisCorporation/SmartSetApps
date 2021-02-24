@@ -1276,12 +1276,6 @@ begin
   knobMultiplay.Image := imageKnob.Picture.Bitmap;
   knobMacroSpeed.Image := imageKnob.Picture.Bitmap;
 
-  {$ifdef Darwin}
-  btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
-  btnMaximize.TransparentColor := KINESIS_DARK_GRAY_FS;
-  btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
-  {$endif}
-
   //Set fonts
   //AddFontResource('fonts/Exo2-Regular.ttf');
   //AddFontResource('fonts/Quantify Bold v2.6.ttf');
