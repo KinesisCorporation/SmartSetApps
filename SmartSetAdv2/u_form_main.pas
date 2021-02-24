@@ -409,7 +409,8 @@ type
     //procedure SetPnlButtonKey(kbKey: TKBKey);
     procedure UpdatePnlButtonKey(kbKey: TKBKey; pnlButton: TPanelBtn; unselectKey: boolean = false);
     function GetPnlButtonByIndex(index: integer): TPanelBtn;
-    procedure SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false);
+    procedure SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false;
+      overwriteTapHold: boolean = false);
     procedure SetActiveLayer(layerIdx: integer);
     procedure SetOtherPanelClick(container: TWinControl);
     procedure OtherPanelClick(Sender: TObject);
@@ -2026,69 +2027,69 @@ begin
   menuItem := sender as TMenuItem;
 
   if menuItem = miKeypadShift then
-    SetModifiedKey(VK_KEYPAD_SHIFT, '', false, true)
+    SetModifiedKey(VK_KEYPAD_SHIFT, '', false, true, true)
   else if menuItem = miKeypadToggle then
-    SetModifiedKey(VK_KEYPAD_TOGGLE, '', false, true)
+    SetModifiedKey(VK_KEYPAD_TOGGLE, '', false, true, true)
   else if menuItem = miMenu then
-    SetModifiedKey(VK_APPS, '', false)
+    SetModifiedKey(VK_APPS, '', false, false, true)
   else if menuItem = miNull then
-    SetModifiedKey(VK_NULL, '', false)
+    SetModifiedKey(VK_NULL, '', false, false, true)
   else if menuItem = miCalculator then
-    SetModifiedKey(VK_CALC, '', false)
+    SetModifiedKey(VK_CALC, '', false, false, true)
   else if menuItem = miInternationalKey then
-    SetModifiedKey(VK_OEM_102, '', false)
+    SetModifiedKey(VK_OEM_102, '', false, false, true)
   else if menuItem = miShutdown then
-    SetModifiedKey(VK_SHUTDOWN, '', false)
+    SetModifiedKey(VK_SHUTDOWN, '', false, false, true)
   else if menuItem = miPlayPause then
-    SetModifiedKey(VK_MEDIA_PLAY_PAUSE, '', false)
+    SetModifiedKey(VK_MEDIA_PLAY_PAUSE, '', false, false, true)
   else if menuItem = miNextTrack then
-    SetModifiedKey(VK_MEDIA_NEXT_TRACK, '', false)
+    SetModifiedKey(VK_MEDIA_NEXT_TRACK, '', false, false, true)
   else if menuItem = miPreviousTrack then
-    SetModifiedKey(VK_MEDIA_PREV_TRACK, '', false)
+    SetModifiedKey(VK_MEDIA_PREV_TRACK, '', false, false, true)
   else if menuItem = miMute then
-    SetModifiedKey(VK_VOLUME_MUTE, '', false)
+    SetModifiedKey(VK_VOLUME_MUTE, '', false, false, true)
   else if menuItem = miVolumeDown then
-    SetModifiedKey(VK_VOLUME_DOWN, '', false)
+    SetModifiedKey(VK_VOLUME_DOWN, '', false, false, true)
   else if menuItem = miVolumeUp then
-    SetModifiedKey(VK_VOLUME_UP, '', false)
+    SetModifiedKey(VK_VOLUME_UP, '', false, false, true)
   else if menuItem = miF13 then
-    SetModifiedKey(VK_F13, '', false)
+    SetModifiedKey(VK_F13, '', false, false, true)
   else if menuItem = miF14 then
-    SetModifiedKey(VK_F14, '', false)
+    SetModifiedKey(VK_F14, '', false, false, true)
   else if menuItem = miF15 then
-    SetModifiedKey(VK_F15, '', false)
+    SetModifiedKey(VK_F15, '', false, false, true)
   else if menuItem = miF16 then
-    SetModifiedKey(VK_F16, '', false)
+    SetModifiedKey(VK_F16, '', false, false, true)
   else if menuItem = miF17 then
-    SetModifiedKey(VK_F17, '', false)
+    SetModifiedKey(VK_F17, '', false, false, true)
   else if menuItem = miF18 then
-    SetModifiedKey(VK_F18, '', false)
+    SetModifiedKey(VK_F18, '', false, false, true)
   else if menuItem = miF19 then
-    SetModifiedKey(VK_F19, '', false)
+    SetModifiedKey(VK_F19, '', false, false, true)
   else if menuItem = miF20 then
-    SetModifiedKey(VK_F20, '', false)
+    SetModifiedKey(VK_F20, '', false, false, true)
   else if menuItem = miF21 then
-    SetModifiedKey(VK_F21, '', false)
+    SetModifiedKey(VK_F21, '', false, false, true)
   else if menuItem = miF22 then
-    SetModifiedKey(VK_F22, '', false)
+    SetModifiedKey(VK_F22, '', false, false, true)
   else if menuItem = miF23 then
-    SetModifiedKey(VK_F23, '', false)
+    SetModifiedKey(VK_F23, '', false, false, true)
   else if menuItem = miF24 then
-    SetModifiedKey(VK_F24, '', false)
+    SetModifiedKey(VK_F24, '', false, false, true)
   else if menuItem = miLeftMouse then
-    SetModifiedKey(VK_MOUSE_LEFT, '', false)
+    SetModifiedKey(VK_MOUSE_LEFT, '', false, false, true)
   else if menuItem = miMiddleMouse then
-    SetModifiedKey(VK_MOUSE_MIDDLE, '', false)
+    SetModifiedKey(VK_MOUSE_MIDDLE, '', false, false, true)
   else if menuItem = miRightMouse then
-    SetModifiedKey(VK_MOUSE_RIGHT, '', false)
+    SetModifiedKey(VK_MOUSE_RIGHT, '', false, false, true)
   else if (menuItem = miHyper) or (menuItem = miMeh) then
   begin
     if (fileService.VersionBiggerEqualKBD(1, 0, 516) or GDemoMode) then
     begin
       if (menuItem = miHyper) then
-        SetModifiedKey(VK_HYPER, '', false)
+        SetModifiedKey(VK_HYPER, '', false, false, true)
       else if (menuItem = miMeh) then
-        SetModifiedKey(VK_MEH, '', false);
+        SetModifiedKey(VK_MEH, '', false, false, true);
     end
     else
     begin
@@ -2786,7 +2787,8 @@ begin
   end;
 end;
 
-procedure TFormMain.SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false);
+procedure TFormMain.SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false;
+  overwriteTapHold: boolean = false);
 var
   aKbKeyOtherLayer: TKBKey;
   cursorPos: integer;
@@ -2879,12 +2881,12 @@ begin
       begin
         KeyModified := true;
         SetSaveState(ssModified);
-        keyService.SetKBKey(activeKbKey, key);
+        keyService.SetKBKey(activeKbKey, key, overwriteTapHold);
         if (bothLayers) then
         begin
           aKbKeyOtherLayer := GetKeyOtherLayer(activePnlBtn.Index);
           if aKbKeyOtherLayer <> nil then
-            keyService.SetKBKey(aKbKeyOtherLayer, key);
+            keyService.SetKBKey(aKbKeyOtherLayer, key, overwriteTapHold);
         end;
         UpdatePnlButtonKey(activeKbKey, activePnlBtn);
       end;
