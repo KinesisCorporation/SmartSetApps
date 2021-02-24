@@ -6,16 +6,17 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-  StdCtrls, VersionSupport, lclintf, HSSpeedButton, u_const, UserDialog;
+  StdCtrls, VersionSupport, lclintf, u_const, UserDialog,
+  ColorSpeedButtonCS;
 
 type
 
   { TFormAbout }
 
   TFormAbout = class(TForm)
-    btnReadManual: THSSpeedButton;
-    btnWatchTutorial: THSSpeedButton;
-    btnRequestSupport: THSSpeedButton;
+    btnReadManual1: TColorSpeedButtonCS;
+    btnRequestSupport1: TColorSpeedButtonCS;
+    btnWatchTutorial1: TColorSpeedButtonCS;
     lblTitle: TLabel;
     Label3: TLabel;
     lblFirmware: TLabel;

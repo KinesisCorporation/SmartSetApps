@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   lcltype, Menus, ExtCtrls, Buttons, lclintf, ComCtrls, u_const, u_key_service,
-  u_key_layer, u_file_service, PanelBtn, LabelBox, LineObj, ueled, uEKnob,
-  ECSwitch, ECSlider, HSSpeedButton, RichMemo, u_keys, userdialog, contnrs,
+  u_key_layer, u_file_service, PanelBtn, LabelBox, LineObj, ColorSpeedButtonCS,
+  ECSwitch, ECSlider, RichMemo, HSSpeedButton, u_keys, userdialog, contnrs,
   u_form_about, u_form_new, u_form_tapandhold, u_form_troubleshoot
   {$ifdef Win32},Windows, JwaWinUser{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonUtils, CarbonDef, CarbonProc}{$endif};
@@ -18,29 +18,32 @@ type
   { TFormMain }
 
   TFormMain = class(TForm)
-    bLAltMacro: THSSpeedButton;
-    bLCtrlMacro: THSSpeedButton;
-    bLShiftMacro: THSSpeedButton;
-    bRAltMacro: THSSpeedButton;
-    bRCtrlMacro: THSSpeedButton;
-    bRShiftMacro: THSSpeedButton;
-    btnBackspace: THSSpeedButton;
-    btnCancelKey: THSSpeedButton;
-    btnCancelMacro: THSSpeedButton;
-    btnClear: THSSpeedButton;
-    btnClose: THSSpeedButton;
-    btnCopy: THSSpeedButton;
-    btnDoneKey: THSSpeedButton;
-    btnDoneMacro: THSSpeedButton;
-    btnHelpIcon: THSSpeedButton;
-    btnMaximize: THSSpeedButton;
-    btnMinimize: THSSpeedButton;
-    btnPaste: THSSpeedButton;
-    btnResetKey: THSSpeedButton;
-    btnResetLayer: THSSpeedButton;
-    btnResetLayout: THSSpeedButton;
-    btnSpecialActionsMacro: THSSpeedButton;
-    btnSpecialActionsRemap: THSSpeedButton;
+    bLCtrlMacro: TColorSpeedButtonCS;
+    bLAltMacro: TColorSpeedButtonCS;
+    bRAltMacro: TColorSpeedButtonCS;
+    bRCtrlMacro: TColorSpeedButtonCS;
+    bRShiftMacro: TColorSpeedButtonCS;
+    bLShiftMacro: TColorSpeedButtonCS;
+    btnCancelKey: TColorSpeedButtonCS;
+    btnClose: TColorSpeedButtonCS;
+    btnLoad: TColorSpeedButtonCS;
+    btnDoneKey: TColorSpeedButtonCS;
+    btnClear: TColorSpeedButtonCS;
+    btnCopy: TColorSpeedButtonCS;
+    btnMaximize: TColorSpeedButtonCS;
+    btnMinimize: TColorSpeedButtonCS;
+    btnHelpIcon: TColorSpeedButtonCS;
+    btnNew: TColorSpeedButtonCS;
+    btnSave: TColorSpeedButtonCS;
+    btnResetKey: TColorSpeedButtonCS;
+    btnResetLayer: TColorSpeedButtonCS;
+    btnResetLayout: TColorSpeedButtonCS;
+    btnSpecialActionsRemap: TColorSpeedButtonCS;
+    btnPaste: TColorSpeedButtonCS;
+    btnSpecialActionsMacro: TColorSpeedButtonCS;
+    btnCancelMacro: TColorSpeedButtonCS;
+    btnDoneMacro: TColorSpeedButtonCS;
+    btnBackspace: TColorSpeedButtonCS;
     btnEsc1: TPanelBtn;
     btnF1: TPanelBtn;
     btnF10: TPanelBtn;
@@ -105,8 +108,6 @@ type
     btnF64: TPanelBtn;
     btnLCtrl: TPanelBtn;
     btnLAlt: TPanelBtn;
-    btnLoad: THSSpeedButton;
-    btnNew: THSSpeedButton;
     btnRWin: TPanelBtn;
     btnRCtrl: TPanelBtn;
     btnF69: TPanelBtn;
@@ -131,7 +132,6 @@ type
     btnLeftPedal: TPanelBtn;
     btnMiddlePedal: TPanelBtn;
     btnRightPedal: TPanelBtn;
-    btnSave: THSSpeedButton;
     CheckVDriveTmr: TIdleTimer;
     gbPedals: TGroupBox;
     gbThumbKeys: TGroupBox;
@@ -301,6 +301,7 @@ type
     swAutoVDrive: TECSwitch;
     swLayerSwitch: TECSwitch;
     textMacroInput: TStaticText;
+    tmrAfterFormShown: TTimer;
     procedure bCoTriggerClick(Sender: TObject);
     procedure btnActivateMacroClick(Sender: TObject);
     procedure btnSpecialActionsMacroClick(Sender: TObject);
@@ -322,12 +323,17 @@ type
     procedure btnResetLayerClick(Sender: TObject);
     procedure btnResetLayoutClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure btnSpecialActionsMacroMouseUp(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure btnSpecialActionsRemapClick(Sender: TObject);
+    procedure btnSpecialActionsRemapMouseUp(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure CheckVDriveTmrTimer(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure imgKinesisClick(Sender: TObject);
     procedure memoMacroMouseUp(Sender: TObject; Button: TMouseButton;
@@ -357,6 +363,7 @@ type
     procedure PnlButtonMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure textMacroInputClick(Sender: TObject);
+    procedure tmrAfterFormShownTimer(Sender: TObject);
   private
     { private declarations }
     activePnlBtn: TPanelBtn;
@@ -420,11 +427,11 @@ type
     procedure LoadMacro;
     procedure SetMemoTextColor(aMemo: TRichMemo; aKeysPos: TKeysPos);
     procedure ResetMacroCoTriggers;
-    Procedure ResetCoTrigger(coTriggerBtn: THSSpeedButton);
-    Procedure ActivateCoTrigger(coTriggerBtn: THSSpeedButton);
+    Procedure ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
+    Procedure ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
     procedure SetCoTrigger(aKey: TKey);
     function IsKeyLoaded: boolean;
-    function GetCoTriggerKey(button: THSSpeedButton): TKey;
+    function GetCoTriggerKey(button: TObject): TKey;
     procedure RemoveCoTrigger(key: word);
     //function CheckSaveMacro(canSave: boolean): boolean;
     procedure SaveStateSettings;
@@ -751,28 +758,22 @@ begin
   begin
     fontColor := clWhite;
     backColor := KINESIS_DARK_GRAY_FS;
-    btnHelpIcon.Color := KINESIS_DARK_GRAY_FS;
-    btnHelpIcon.HotTrackColor := KINESIS_DARK_GRAY_FS;
-    btnHelpIcon.LightColor := KINESIS_DARK_GRAY_FS;
-    btnHelpIcon.ShadowColor := KINESIS_DARK_GRAY_FS;
-    btnMinimize.Color := KINESIS_DARK_GRAY_FS;
-    btnMinimize.HotTrackColor := KINESIS_DARK_GRAY_FS;
-    btnMinimize.LightColor := KINESIS_DARK_GRAY_FS;
-    btnMinimize.ShadowColor := KINESIS_DARK_GRAY_FS;
-    btnMaximize.Color := KINESIS_DARK_GRAY_FS;
-    btnMaximize.HotTrackColor := KINESIS_DARK_GRAY_FS;
-    btnMaximize.LightColor := KINESIS_DARK_GRAY_FS;
-    btnMaximize.ShadowColor := KINESIS_DARK_GRAY_FS;
-    btnClose.Color := KINESIS_DARK_GRAY_FS;
-    btnClose.HotTrackColor := KINESIS_DARK_GRAY_FS;
-    btnClose.LightColor := KINESIS_DARK_GRAY_FS;
-    btnClose.ShadowColor := KINESIS_DARK_GRAY_FS;
-    {$ifdef Darwin}
-    btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
-    btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
-    btnMaximize.TransparentColor := KINESIS_DARK_GRAY_FS;
-    btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
-    {$endif}
+    btnHelpIcon.StateNormal.Color := KINESIS_DARK_GRAY_FS;
+    btnHelpIcon.StateActive.Color := KINESIS_DARK_GRAY_FS;
+    btnHelpIcon.StateDisabled.Color := KINESIS_DARK_GRAY_FS;
+    btnHelpIcon.StateHover.Color := KINESIS_DARK_GRAY_FS;
+    btnMinimize.StateNormal.Color := KINESIS_DARK_GRAY_FS;
+    btnMinimize.StateActive.Color := KINESIS_DARK_GRAY_FS;
+    btnMinimize.StateDisabled.Color := KINESIS_DARK_GRAY_FS;
+    btnMinimize.StateHover.Color := KINESIS_DARK_GRAY_FS;
+    btnMaximize.StateNormal.Color := KINESIS_DARK_GRAY_FS;
+    btnMaximize.StateActive.Color := KINESIS_DARK_GRAY_FS;
+    btnMaximize.StateDisabled.Color := KINESIS_DARK_GRAY_FS;
+    btnMaximize.StateHover.Color := KINESIS_DARK_GRAY_FS;
+    btnClose.StateNormal.Color := KINESIS_DARK_GRAY_FS;
+    btnClose.StateActive.Color := KINESIS_DARK_GRAY_FS;
+    btnClose.StateDisabled.Color := KINESIS_DARK_GRAY_FS;
+    btnClose.StateHover.Color := KINESIS_DARK_GRAY_FS;
     imageList.GetBitmap(7, btnHelpIcon.Glyph);
     imageList.GetBitmap(8, btnMinimize.Glyph);
     imageList.GetBitmap(9, btnClose.Glyph);
@@ -962,6 +963,18 @@ begin
   RemoveKeyboardHook;
 end;
 
+procedure TFormMain.FormShow(Sender: TObject);
+begin
+  //App error don't show main form
+  if (appError) then
+    self.Hide
+  else
+  begin
+    tmrAfterFormShown.Interval := 200;
+    tmrAfterFormShown.Enabled := true;
+  end;
+end;
+
 procedure TFormMain.imgKinesisClick(Sender: TObject);
 begin
   OpenUrl('http://www.kinesis.com');
@@ -972,7 +985,7 @@ begin
   //Bug Catalina screen turns black
   //if (not closing) then
   //   self.Show;
-  ShowIntroduction;
+  //ShowIntroduction;
 //var
 //  customBtns: TCustomButtons;
 //  hideNotif: integer;
@@ -995,6 +1008,13 @@ begin
 //    infoMessageShown := true;
 //    Activate;
 //  end;
+end;
+
+procedure TFormMain.tmrAfterFormShownTimer(Sender: TObject);
+begin
+  tmrAfterFormShown.Enabled := false;
+  // After show code
+  ShowIntroduction;
 end;
 
 procedure TFormMain.ShowIntroduction;
@@ -1223,17 +1243,18 @@ begin
 end;
 
 procedure TFormMain.btnSpecialActionsRemapClick(Sender: TObject);
-var
-  lPoint: TPoint;
 begin
-  //if IsKeyLoaded then
-  //begin
-    //Popup menu over special button
-    lPoint.x := 0;
-    lPoint.y := 0;
-    lPoint := btnSpecialActionsRemap.ClientToScreen(lPoint);
-    pmTokensKeys.Popup(lPoint.x, lPoint.y);
-  //end;
+
+end;
+
+procedure TFormMain.btnSpecialActionsRemapMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  pt: TPoint;
+begin
+  pt.x := Mouse.CursorPos.x;
+  pt.y := Mouse.CursorPos.y;
+  pmTokensKeys.PopUp(pt.x - x, pt.y + ((Sender as TColorSpeedButtonCS).Height - y));
 end;
 
 procedure TFormMain.CheckVDriveTmrTimer(Sender: TObject);
@@ -1389,19 +1410,29 @@ begin
 end;
 
 procedure TFormMain.btnSpecialActionsMacroClick(Sender: TObject);
-var
-  lPoint: TPoint;
+//var
+  //lPoint: TPoint;
 begin
   if IsKeyLoaded then
   begin
     miWinM.Checked := keyService.IsWinKeyDown;
 
     //Popup menu over special button
-    lPoint.x := 0;
-    lPoint.y := 0;
-    lPoint := btnSpecialActionsMacro.ClientToScreen(lPoint);
-    pmTokensMacros.Popup(lPoint.x, lPoint.y);
+    //lPoint.x := 0;
+    //lPoint.y := 0;
+    //lPoint := btnSpecialActionsMacro.ClientToScreen(lPoint);
+    //pmTokensMacros.Popup(lPoint.x, lPoint.y);
   end;
+end;
+
+procedure TFormMain.btnSpecialActionsMacroMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  pt: TPoint;
+begin
+  pt.x := Mouse.CursorPos.x;
+  pt.y := Mouse.CursorPos.y;
+  pmTokensMacros.PopUp(pt.x - x, pt.y + ((Sender as TColorSpeedButtonCS).Height - y));
 end;
 
 procedure TFormMain.btnBackspaceClick(Sender: TObject);
@@ -2160,12 +2191,12 @@ end;
 
 procedure TFormMain.bCoTriggerClick(Sender: TObject);
 var
-  button: THSSpeedButton;
+  button: TColorSpeedButtonCS;
   aKey: TKey;
 begin
   if IsKeyLoaded then
   begin
-    button := Sender as THSSpeedButton;
+    button := Sender as TColorSpeedButtonCS;
     if (button.Down) then
     begin
       ActivateCoTrigger(button);
@@ -2219,7 +2250,7 @@ begin
   FormAbout.ShowModal;
 end;
 
-function TFormMain.GetCoTriggerKey(button: THSSpeedButton): TKey;
+function TFormMain.GetCoTriggerKey(button: TObject): TKey;
 begin
   if (button = bLShiftMacro) then
     result := keyService.FindKeyConfig(VK_LSHIFT)
@@ -3026,18 +3057,18 @@ begin
   ResetCoTrigger(bRAltMacro);
 end;
 
-procedure TFormMain.ActivateCoTrigger(coTriggerBtn: THSSpeedButton);
+procedure TFormMain.ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.Down := true;
-  coTriggerBtn.Font.Bold := true;
-  coTriggerBtn.Font.Color := KINESIS_BLUE;
+  //(coTriggerBtn as TColorSpeedButtonCS).Font.Bold := true;
+  //(coTriggerBtn as TColorSpeedButtonCS).Font.Color := KINESIS_BLUE;
 end;
 
-procedure TFormMain.ResetCoTrigger(coTriggerBtn: THSSpeedButton);
+procedure TFormMain.ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.Down := false;
-  coTriggerBtn.Font.Bold := true;
-  coTriggerBtn.Font.Color := clBlack;
+  //(coTriggerBtn as TColorSpeedButtonCS).Font.Bold := true;
+  //(coTriggerBtn as TColorSpeedButtonCS).Font.Color := clBlack;
 end;
 
 procedure TFormMain.SetMemoTextColor(aMemo: TRichMemo; aKeysPos: TKeysPos);

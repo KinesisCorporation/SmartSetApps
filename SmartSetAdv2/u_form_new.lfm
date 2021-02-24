@@ -11,12 +11,12 @@ object FormNew: TFormNew
   Font.Name = 'Segoe UI'
   OnCreate = FormCreate
   Position = poMainFormCenter
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '2.0.8.0'
   object rgQwerty: TRadioButton
     Left = 32
-    Height = 19
+    Height = 18
     Top = 36
-    Width = 20
+    Width = 22
     OnChange = radioChange
     OnClick = radioClick
     ParentFont = False
@@ -24,9 +24,9 @@ object FormNew: TFormNew
   end
   object rgDvorak: TRadioButton
     Left = 168
-    Height = 19
+    Height = 18
     Top = 36
-    Width = 20
+    Width = 22
     OnChange = radioChange
     OnClick = radioClick
     ParentFont = False
@@ -36,7 +36,7 @@ object FormNew: TFormNew
     Left = 56
     Height = 19
     Top = 36
-    Width = 65
+    Width = 62
     Caption = 'QWERTY'
     Font.Height = -16
     Font.Name = 'Tahoma'
@@ -50,7 +50,7 @@ object FormNew: TFormNew
     Left = 192
     Height = 19
     Top = 36
-    Width = 50
+    Width = 49
     Caption = 'Dvorak'
     Font.Height = -16
     Font.Name = 'Tahoma'
@@ -62,13 +62,13 @@ object FormNew: TFormNew
   end
   object cboLayout: TComboBox
     Left = 32
-    Height = 27
+    Height = 20
     Hint = 'Assign to position a-z or 0-9'
     Top = 88
     Width = 56
     Font.Height = -16
     Font.Name = 'Tahoma'
-    ItemHeight = 19
+    ItemHeight = 26
     Items.Strings = (
       'a'
       'b'
@@ -113,96 +113,102 @@ object FormNew: TFormNew
     ShowHint = True
     TabOrder = 2
   end
-  object btnCreate: THSSpeedButton
-    Left = 248
-    Height = 32
-    Top = 152
-    Width = 107
-    Alignment = taCenter
-    Anchors = [akTop, akRight]
-    Border = 1
-    Caption = 'Create'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
-    OnClick = btnCreateClick
-  end
-  object btnCancel: THSSpeedButton
-    Left = 360
-    Height = 32
-    Top = 152
-    Width = 107
-    Alignment = taCenter
-    Anchors = [akTop, akRight]
-    Border = 1
-    Caption = 'Cancel'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
-    OnClick = btnCancelClick
-  end
   object Label1: TLabel
     Left = 16
-    Height = 21
+    Height = 16
     Top = 8
-    Width = 306
+    Width = 269
     Caption = '1) Choose a QWERTY or Dvorak base layout.'
     ParentColor = False
   end
   object Label2: TLabel
     Left = 16
-    Height = 21
+    Height = 16
     Top = 64
-    Width = 366
+    Width = 322
     Caption = '2) Choose which hotkey to assign this custom layout.'
     ParentColor = False
   end
   object chkLoadAfterClose: TCheckBox
     Left = 32
-    Height = 25
+    Height = 18
     Top = 120
-    Width = 354
+    Width = 316
     Caption = 'Load this hotkey layout after closing the v-Drive.'
     TabOrder = 3
+  end
+  object btnCreate: TColorSpeedButtonCS
+    Left = 248
+    Height = 32
+    Top = 152
+    Width = 107
+    Caption = 'Create'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    OnClick = btnCreateClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object btnCancel: TColorSpeedButtonCS
+    Left = 360
+    Height = 32
+    Top = 152
+    Width = 107
+    Caption = 'Cancel'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    OnClick = btnCancelClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
 end
