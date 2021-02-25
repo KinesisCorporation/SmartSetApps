@@ -6,15 +6,15 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  HSSpeedButton, u_const, userdialog;
+  u_const, userdialog, ColorSpeedButtonCS;
 
 type
 
   { TFormLoad }
 
   TFormLoad = class(TForm)
-    btnCancel: THSSpeedButton;
-    btnLoad: THSSpeedButton;
+    btnCancel: TColorSpeedButtonCS;
+    btnLoad: TColorSpeedButtonCS;
     cboLayout: TComboBox;
     cboBackup: TComboBox;
     lblCustomLayout: TLabel;

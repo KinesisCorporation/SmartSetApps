@@ -6,19 +6,20 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, LineObj, u_const, UserDialog, lcltype;
+  StdCtrls, LineObj, ColorSpeedButtonCS, u_const, UserDialog,
+  lcltype;
 
 type
 
   { TFormTimingDelays }
 
   TFormTimingDelays = class(TForm)
-    btnCancel: THSSpeedButton;
-    btnDone: THSSpeedButton;
+    btnCancel: TColorSpeedButtonCS;
+    btnOk: TColorSpeedButtonCS;
     eCustomDelay: TEdit;
     lblCustomDelay: TLabel;
     procedure btnCancelClick(Sender: TObject);
-    procedure btnDoneClick(Sender: TObject);
+    procedure btnOkClick(Sender: TObject);
     procedure eCustomDelayChange(Sender: TObject);
     procedure eCustomDelayKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -75,7 +76,7 @@ begin
   ModalResult := mrCancel;
 end;
 
-procedure TFormTimingDelays.btnDoneClick(Sender: TObject);
+procedure TFormTimingDelays.btnOkClick(Sender: TObject);
 begin
   if ((timingDelay >= MIN_TIMING_DELAY) and (timingDelay <= MAX_TIMING_DELAY)) then
     ModalResult := mrOK

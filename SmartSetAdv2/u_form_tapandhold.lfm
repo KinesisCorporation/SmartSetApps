@@ -7,16 +7,18 @@ object FormTapAndHold: TFormTapAndHold
   ClientHeight = 181
   ClientWidth = 409
   Color = clWhite
+  DesignTimePPI = 168
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object lblDelay: TLabel
     Left = 30
-    Height = 16
+    Height = 24
     Hint = 'Designate the time interval used to differentiate between the Tap and Hold actions'
     Top = 88
-    Width = 96
+    Width = 150
     Caption = 'Delay (1-999ms)'
     Font.Color = clBlack
     Font.Name = 'Tahoma'
@@ -27,10 +29,10 @@ object FormTapAndHold: TFormTapAndHold
   end
   object lblHoldAction: TLabel
     Left = 30
-    Height = 16
+    Height = 24
     Hint = 'Designate the action sent when the key is held longer than the delay'
     Top = 55
-    Width = 65
+    Width = 102
     Caption = 'Hold Action'
     Font.Color = clBlack
     Font.Name = 'Tahoma'
@@ -41,10 +43,10 @@ object FormTapAndHold: TFormTapAndHold
   end
   object lblTapAction: TLabel
     Left = 30
-    Height = 16
+    Height = 24
     Hint = 'Designate the action sent when the key is tapped and released faster than the delay'
     Top = 21
-    Width = 60
+    Width = 95
     Caption = 'Tap Action'
     Font.Color = clBlack
     Font.Name = 'Tahoma'
@@ -55,7 +57,7 @@ object FormTapAndHold: TFormTapAndHold
   end
   object eTapAction: TEdit
     Left = 238
-    Height = 25
+    Height = 32
     Top = 18
     Width = 136
     Alignment = taCenter
@@ -68,7 +70,7 @@ object FormTapAndHold: TFormTapAndHold
   end
   object eHoldAction: TEdit
     Left = 238
-    Height = 25
+    Height = 32
     Top = 52
     Width = 136
     Alignment = taCenter
@@ -81,7 +83,7 @@ object FormTapAndHold: TFormTapAndHold
   end
   object eTimingDelay: TEdit
     Left = 238
-    Height = 25
+    Height = 32
     Top = 85
     Width = 136
     Alignment = taCenter

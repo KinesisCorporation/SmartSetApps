@@ -10,81 +10,13 @@ object FormTapAndHold: TFormTapAndHold
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '2.0.6.0'
-  object btnDone: THSSpeedButton
-    Left = 233
-    Height = 32
-    Top = 137
-    Width = 80
-    Alignment = taCenter
-    Anchors = [akRight, akBottom]
-    Border = 1
-    Caption = 'Ok'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
-    OnClick = btnDoneClick
-  end
-  object btnCancel: THSSpeedButton
-    Left = 321
-    Height = 32
-    Top = 137
-    Width = 80
-    Alignment = taCenter
-    Anchors = [akRight, akBottom]
-    Border = 1
-    Caption = 'Cancel'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
-    OnClick = btnCancelClick
-  end
+  LCLVersion = '2.0.8.0'
   object lblDelay: TLabel
     Left = 30
-    Height = 19
+    Height = 24
     Hint = 'Designate the time interval used to differentiate between the Tap and Hold actions'
     Top = 88
-    Width = 119
+    Width = 150
     Caption = 'Delay (1-999ms)'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -95,10 +27,10 @@ object FormTapAndHold: TFormTapAndHold
   end
   object lblHoldAction: TLabel
     Left = 30
-    Height = 19
+    Height = 24
     Hint = 'Designate the action sent when the key is held longer than the delay'
     Top = 55
-    Width = 83
+    Width = 102
     Caption = 'Hold Action'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -109,10 +41,10 @@ object FormTapAndHold: TFormTapAndHold
   end
   object lblTapAction: TLabel
     Left = 30
-    Height = 19
+    Height = 24
     Hint = 'Designate the action sent when the key is tapped and released faster than the delay'
     Top = 21
-    Width = 77
+    Width = 95
     Caption = 'Tap Action'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -123,7 +55,7 @@ object FormTapAndHold: TFormTapAndHold
   end
   object eTapAction: TEdit
     Left = 238
-    Height = 27
+    Height = 32
     Top = 18
     Width = 136
     Alignment = taCenter
@@ -136,7 +68,7 @@ object FormTapAndHold: TFormTapAndHold
   end
   object eHoldAction: TEdit
     Left = 238
-    Height = 27
+    Height = 32
     Top = 52
     Width = 136
     Alignment = taCenter
@@ -149,7 +81,7 @@ object FormTapAndHold: TFormTapAndHold
   end
   object eTimingDelay: TEdit
     Left = 238
-    Height = 27
+    Height = 32
     Top = 85
     Width = 136
     Alignment = taCenter
@@ -162,5 +94,79 @@ object FormTapAndHold: TFormTapAndHold
     OnKeyDown = eTimingDelayKeyDown
     ParentFont = False
     TabOrder = 2
+  end
+  object btnOk: TColorSpeedButtonCS
+    Left = 232
+    Height = 32
+    Top = 137
+    Width = 80
+    Caption = 'Ok'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    OnClick = btnDoneClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 4012079
+    StateNormal.BorderColor = 4012079
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 6511179
+    StateHover.BorderColor = 6511179
+    StateHover.BorderWidth = 0
+    StateHover.FontColor = clWhite
+    StateActive.Color = 6511179
+    StateActive.BorderColor = 6511179
+    StateActive.BorderWidth = 0
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 13816530
+    StateDisabled.BorderColor = clNone
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object btnCancel: TColorSpeedButtonCS
+    Left = 320
+    Height = 32
+    Top = 137
+    Width = 80
+    Caption = 'Cancel'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    OnClick = btnCancelClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 4012079
+    StateNormal.BorderColor = 4012079
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 6511179
+    StateHover.BorderColor = 6511179
+    StateHover.BorderWidth = 0
+    StateHover.FontColor = clWhite
+    StateActive.Color = 6511179
+    StateActive.BorderColor = 6511179
+    StateActive.BorderWidth = 0
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 13816530
+    StateDisabled.BorderColor = clNone
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
 end

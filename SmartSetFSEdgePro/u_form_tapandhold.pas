@@ -6,16 +6,16 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, HSSpeedButton, LineObj, u_const, UserDialog, lcltype,
-  u_keys;
+  StdCtrls, LineObj, ColorSpeedButtonCS, u_const, UserDialog,
+  lcltype, u_keys;
 
 type
 
   { TFormTapAndHold }
 
   TFormTapAndHold = class(TForm)
-    btnCancel: THSSpeedButton;
-    btnDone: THSSpeedButton;
+    btnCancel: TColorSpeedButtonCS;
+    btnOk: TColorSpeedButtonCS;
     eHoldAction: TEdit;
     eTapAction: TEdit;
     eTimingDelay: TEdit;

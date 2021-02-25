@@ -1449,47 +1449,47 @@ procedure TFormMainTKO.FillMenuActionList;
 begin
   menuActionList := TObjectList.Create(true);
 
-  menuActionList.Add(TMenuAction.Create2(maMacro, btnMacro, nil, nil, CONFIG_LAYOUT, lmNone, false, false, false));
-  menuActionList.Add(TMenuAction.Create2(maHyperspace, btnHyperspaceConfigs, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maMultimedia, btnMultimedia, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maMouseClicks, btnMouseClicks, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maFuncKeys, btnFunctionKeys, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maFnAccess, btnFnAccess, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maFullKeypad, btnFullKeypad, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
-  menuActionList.Add(TMenuAction.Create2(maKeypadActions, btnKeypadActions, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maAltLayouts, btnAltLayouts, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
-  menuActionList.Add(TMenuAction.Create2(maMultimodifiers, btnMultimodifiers, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
-  menuActionList.Add(TMenuAction.Create2(maTapHold, btnTapAndHold, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
-  menuActionList.Add(TMenuAction.Create2(maBacklight, btnBacklight, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
-  menuActionList.Add(TMenuAction.Create2(maMacModifiers, btnMacModifiers, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maSpecialActions, btnSpecialActions, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create2(maDisable, btnDisableKey, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
+  menuActionList.Add(TMenuAction.Create(maMacro, btnMacro, nil, nil, CONFIG_LAYOUT, lmNone, false, false, false));
+  menuActionList.Add(TMenuAction.Create(maHyperspace, btnHyperspaceConfigs, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maMultimedia, btnMultimedia, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maMouseClicks, btnMouseClicks, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFuncKeys, btnFunctionKeys, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFnAccess, btnFnAccess, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFullKeypad, btnFullKeypad, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
+  menuActionList.Add(TMenuAction.Create(maKeypadActions, btnKeypadActions, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maAltLayouts, btnAltLayouts, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
+  menuActionList.Add(TMenuAction.Create(maMultimodifiers, btnMultimodifiers, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
+  menuActionList.Add(TMenuAction.Create(maTapHold, btnTapAndHold, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
+  menuActionList.Add(TMenuAction.Create(maBacklight, btnBacklight, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
+  menuActionList.Add(TMenuAction.Create(maMacModifiers, btnMacModifiers, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maSpecialActions, btnSpecialActions, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maDisable, btnDisableKey, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
   //
-  menuActionList.Add(TMenuAction.Create2(maFreestyle, btnFreestyle, nil, nil, CONFIG_LIGHTING, lmFreestyle, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maMonochrome, btnMonochrome, nil, nil, CONFIG_LIGHTING, lmMonochrome, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maBreathe, btnBreathe, nil, nil, CONFIG_LIGHTING, lmBreathe, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maWave, btnWave, nil, nil, CONFIG_LIGHTING, lmWave, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maSpectrum, btnSpectrum, nil, nil, CONFIG_LIGHTING, lmSpectrum, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maReactive, btnReactive, nil, nil, CONFIG_LIGHTING, lmReactive, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maRipple, btnRipple, nil, nil, CONFIG_LIGHTING, lmRipple, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maFireball, btnFireball, nil, nil, CONFIG_LIGHTING, lmFireball, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maStarlight, btnStarlight, nil, nil, CONFIG_LIGHTING,lmStarlight, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maRebound, btnRebound, nil, nil, CONFIG_LIGHTING, lmRebound, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maLoop, btnLoop, nil, nil, CONFIG_LIGHTING, lmLoop, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maPulse, btnPulse, nil, nil, CONFIG_LIGHTING, lmPulse, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maRain, btnRain, nil, nil, CONFIG_LIGHTING, lmRain, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maDisableLed, btnDisable, nil, nil, CONFIG_LIGHTING, lmDisabled, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maFreestyle, btnFreestyle, nil, nil, CONFIG_LIGHTING, lmFreestyle, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maMonochrome, btnMonochrome, nil, nil, CONFIG_LIGHTING, lmMonochrome, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maBreathe, btnBreathe, nil, nil, CONFIG_LIGHTING, lmBreathe, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maWave, btnWave, nil, nil, CONFIG_LIGHTING, lmWave, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maSpectrum, btnSpectrum, nil, nil, CONFIG_LIGHTING, lmSpectrum, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maReactive, btnReactive, nil, nil, CONFIG_LIGHTING, lmReactive, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maRipple, btnRipple, nil, nil, CONFIG_LIGHTING, lmRipple, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maFireball, btnFireball, nil, nil, CONFIG_LIGHTING, lmFireball, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maStarlight, btnStarlight, nil, nil, CONFIG_LIGHTING,lmStarlight, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maRebound, btnRebound, nil, nil, CONFIG_LIGHTING, lmRebound, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maLoop, btnLoop, nil, nil, CONFIG_LIGHTING, lmLoop, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maPulse, btnPulse, nil, nil, CONFIG_LIGHTING, lmPulse, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maRain, btnRain, nil, nil, CONFIG_LIGHTING, lmRain, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maDisableLed, btnDisable, nil, nil, CONFIG_LIGHTING, lmDisabled, false, true, false));
   //
-  menuActionList.Add(TMenuAction.Create2(maFreestyleEdge, btnFreestyleEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmFreestyle, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maMonochromeEdge, btnMonochromeEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmMonochrome, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maBreatheEdge, btnBreatheEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmBreathe, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maWaveEdge, btnWaveEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmWave, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maFrozenWaveEdge, btnFrozenWave, nil, nil, CONFIG_EDGE_LIGHTING, lmFrozenWave, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maSpectrumEdge, btnSpectrumEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmSpectrum, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maReboundEdge, btnReboundEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmRebound, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maLoopEdge, btnLoopEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmLoop, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maPulseEdge, btnPulseEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmPulse, false, true, false));
-  menuActionList.Add(TMenuAction.Create2(maDisableEdge, btnDisableEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmDisabled, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maFreestyleEdge, btnFreestyleEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmFreestyle, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maMonochromeEdge, btnMonochromeEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmMonochrome, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maBreatheEdge, btnBreatheEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmBreathe, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maWaveEdge, btnWaveEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmWave, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maFrozenWaveEdge, btnFrozenWave, nil, nil, CONFIG_EDGE_LIGHTING, lmFrozenWave, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maSpectrumEdge, btnSpectrumEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmSpectrum, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maReboundEdge, btnReboundEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmRebound, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maLoopEdge, btnLoopEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmLoop, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maPulseEdge, btnPulseEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmPulse, false, true, false));
+  menuActionList.Add(TMenuAction.Create(maDisableEdge, btnDisableEdge, nil, nil, CONFIG_EDGE_LIGHTING, lmDisabled, false, true, false));
 end;
 
 procedure TFormMainTKO.FillHoveredList;
@@ -6590,7 +6590,7 @@ begin
 
   for i:=0 to menuActionList.Count - 1 do
   begin
-    if ((menuActionList.Items[i] as TMenuAction).ActionButton2.Name = buttonName) then
+    if ((menuActionList.Items[i] as TMenuAction).ActionButton.Name = buttonName) then
     begin
       menuAction := (menuActionList.Items[i] as TMenuAction);
       Break;
@@ -6638,7 +6638,7 @@ begin
     if (aMenuAction <> nil) and (not aMenuAction.IsEnabled) then
     begin
       createCustomButton(customBtns, 'OK', 100, nil, bkOK);
-      ShowDialog(aMenuAction.ActionButton2.Caption, 'To utilize ' + aMenuAction.ActionLabel.Caption + ', please download and install the latest firmware.',
+      ShowDialog(aMenuAction.ActionButton.Caption, 'To utilize ' + aMenuAction.ActionLabel.Caption + ', please download and install the latest firmware.',
           mtWarning, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
     end
     else

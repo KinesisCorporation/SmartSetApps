@@ -10,12 +10,12 @@ object FormLoad: TFormLoad
   Color = 2500134
   OnCreate = FormCreate
   Position = poMainFormCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.8.0'
   object rgLayout: TRadioButton
     Left = 31
-    Height = 18
+    Height = 19
     Top = 36
-    Width = 22
+    Width = 20
     OnChange = rgLayoutChange
     OnClick = rgLayoutClick
     ParentFont = False
@@ -41,13 +41,13 @@ object FormLoad: TFormLoad
   end
   object cboLayout: TComboBox
     Left = 256
-    Height = 20
+    Height = 24
     Hint = 'Assign to position 1-9 for easy access'
     Top = 32
     Width = 56
     Font.Height = -13
     Font.Name = 'Tahoma'
-    ItemHeight = 26
+    ItemHeight = 16
     ItemIndex = 0
     Items.Strings = (
       '1'
@@ -70,9 +70,9 @@ object FormLoad: TFormLoad
   end
   object rgCustom: TRadioButton
     Left = 31
-    Height = 18
+    Height = 19
     Top = 68
-    Width = 22
+    Width = 20
     OnChange = rgCustomChange
     OnClick = rgCustomClick
     ParentFont = False
@@ -83,7 +83,7 @@ object FormLoad: TFormLoad
     Height = 19
     Hint = 'Saved to the keyboard but not directly accessible'
     Top = 68
-    Width = 103
+    Width = 102
     Caption = 'Backup Layout'
     Color = 2500134
     Font.Color = clWhite
@@ -96,86 +96,92 @@ object FormLoad: TFormLoad
     Transparent = False
     OnClick = lblCustomLayoutClick
   end
-  object btnLoad: THSSpeedButton
-    Left = 160
-    Height = 32
-    Top = 104
-    Width = 107
-    Alignment = taCenter
-    Anchors = [akTop, akRight]
-    Border = 1
-    Caption = 'Load'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
-    OnClick = btnLoadClick
-  end
-  object btnCancel: THSSpeedButton
-    Left = 274
-    Height = 32
-    Top = 104
-    Width = 107
-    Alignment = taCenter
-    Anchors = [akTop, akRight]
-    Border = 1
-    Caption = 'Cancel'
-    Color = 4012079
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clWhite
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    HotTrackColor = 6117455
-    HotTrackFont.CharSet = ANSI_CHARSET
-    HotTrackFont.Color = clWhite
-    HotTrackFont.Height = -12
-    HotTrackFont.Name = 'Tahoma'
-    HotTrackFont.Pitch = fpVariable
-    HotTrackFont.Quality = fqDraft
-    LightColor = 4012079
-    ParentFont = False
-    ShadowColor = 4012079
-    SlowDecease = sdEnterLeave
-    Smooth = 8
-    Style = bsModern
-    Index = -1
-    TransparentColor = clBlack
-    OnClick = btnCancelClick
-  end
   object cboBackup: TComboBox
     Left = 256
-    Height = 20
+    Height = 24
     Top = 64
     Width = 125
     Font.Height = -13
     Font.Name = 'Tahoma'
-    ItemHeight = 22
+    ItemHeight = 16
     OnSelect = cboBackupSelect
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 3
+  end
+  object btnLoad: TColorSpeedButtonCS
+    Left = 160
+    Height = 32
+    Top = 104
+    Width = 107
+    Caption = 'Load'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    OnClick = btnLoadClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 4012079
+    StateNormal.BorderColor = 4012079
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 6511179
+    StateHover.BorderColor = 6511179
+    StateHover.BorderWidth = 0
+    StateHover.FontColor = clWhite
+    StateActive.Color = 6511179
+    StateActive.BorderColor = 6511179
+    StateActive.BorderWidth = 0
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 13816530
+    StateDisabled.BorderColor = clNone
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object btnCancel: TColorSpeedButtonCS
+    Left = 272
+    Height = 32
+    Top = 104
+    Width = 107
+    Caption = 'Cancel'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    OnClick = btnCancelClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 4012079
+    StateNormal.BorderColor = 4012079
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 6511179
+    StateHover.BorderColor = 6511179
+    StateHover.BorderWidth = 0
+    StateHover.FontColor = clWhite
+    StateActive.Color = 6511179
+    StateActive.BorderColor = 6511179
+    StateActive.BorderWidth = 0
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 13816530
+    StateDisabled.BorderColor = clNone
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
 end

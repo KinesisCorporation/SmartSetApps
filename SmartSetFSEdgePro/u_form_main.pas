@@ -7,10 +7,10 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   lcltype, Menus, ExtCtrls, Buttons, lclintf, ComCtrls, u_const, u_key_service,
-  u_key_layer, u_file_service, LabelBox, LineObj, uEKnob, ueled, ECSwitch,
-  ECSlider, HSSpeedButton, RichMemo, u_keys, userdialog, contnrs, u_form_about,
-  LazUTF8, u_form_saveas, u_form_load, u_form_timingdelays, u_form_tapandhold,
-  u_form_troubleshoot
+  u_key_layer, u_file_service, LabelBox, LineObj, ColorSpeedButtonCS, uEKnob,
+  ueled, ECSwitch, ECSlider, RichMemo, u_keys, userdialog,
+  contnrs, u_form_about, LazUTF8, u_form_saveas, u_form_load,
+  u_form_timingdelays, u_form_tapandhold, u_form_troubleshoot
   {$ifdef Win32},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonDef, CarbonProc}{$endif};
 
@@ -19,31 +19,32 @@ type
   { TFormMain }
 
   TFormMain = class(TForm)
-    bLCtrlMacro: THSSpeedButton;
-    bLAltMacro: THSSpeedButton;
-    bRAltMacro: THSSpeedButton;
-    bRCtrlMacro: THSSpeedButton;
-    bRShiftMacro: THSSpeedButton;
-    btnHelpIcon: THSSpeedButton;
-    btnSpecialActionsRemap: THSSpeedButton;
-    btnResetKey: THSSpeedButton;
-    btnResetLayer: THSSpeedButton;
-    btnResetLayout: THSSpeedButton;
-    btnMaximize: THSSpeedButton;
-    btnMinimize: THSSpeedButton;
-    btnDoneKey: THSSpeedButton;
-    btnCancelKey: THSSpeedButton;
-    btnBackspace: THSSpeedButton;
-    btnClose: THSSpeedButton;
-    btnClear: THSSpeedButton;
-    btnCopy: THSSpeedButton;
-    btnPaste: THSSpeedButton;
-    btnDoneMacro: THSSpeedButton;
-    btnCancelMacro: THSSpeedButton;
-    btnSpecialActionsMacro: THSSpeedButton;
-    btnSave: THSSpeedButton;
-    btnSaveAs: THSSpeedButton;
-    btnNew: THSSpeedButton;
+    bLAltMacro: TColorSpeedButtonCS;
+    bLCtrlMacro: TColorSpeedButtonCS;
+    bLShiftMacro: TColorSpeedButtonCS;
+    bRAltMacro: TColorSpeedButtonCS;
+    bRCtrlMacro: TColorSpeedButtonCS;
+    bRShiftMacro: TColorSpeedButtonCS;
+    btnClose: TColorSpeedButtonCS;
+    btnDoneMacro: TColorSpeedButtonCS;
+    btnClear: TColorSpeedButtonCS;
+    btnCancelKey: TColorSpeedButtonCS;
+    btnBackspace: TColorSpeedButtonCS;
+    btnCopy: TColorSpeedButtonCS;
+    btnHelpIcon: TColorSpeedButtonCS;
+    btnLoad: TColorSpeedButtonCS;
+    btnMaximize: TColorSpeedButtonCS;
+    btnMinimize: TColorSpeedButtonCS;
+    btnSaveAs: TColorSpeedButtonCS;
+    btnPaste: TColorSpeedButtonCS;
+    btnDoneKey: TColorSpeedButtonCS;
+    btnSave: TColorSpeedButtonCS;
+    btnSpecialActionsMacro: TColorSpeedButtonCS;
+    btnResetKey: TColorSpeedButtonCS;
+    btnResetLayer: TColorSpeedButtonCS;
+    btnResetLayout: TColorSpeedButtonCS;
+    btnCancelMacro: TColorSpeedButtonCS;
+    btnSpecialActionsRemap: TColorSpeedButtonCS;
     CheckVDriveTmr: TIdleTimer;
     lblDemoMode: TLabel;
     lblKnobOff: TLabel;
@@ -85,8 +86,6 @@ type
     imageList: TImageList;
     imgKinesisFSPro: TImage;
     imgLighting: TImage;
-    btnLoad: THSSpeedButton;
-    bLShiftMacro: THSSpeedButton;
     imgBackdrop: TImage;
     imgLogoEdge: TImage;
     imgKinesisFsEdge: TImage;
@@ -359,6 +358,8 @@ type
     procedure btnResetKeyClick(Sender: TObject);
     procedure btnResetLayerClick(Sender: TObject);
     procedure btnResetLayoutClick(Sender: TObject);
+    procedure btnSpecialActionsMacroMouseUp(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure btnSpecialActionsRemapClick(Sender: TObject);
     procedure btnActivateMacroClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
@@ -376,6 +377,8 @@ type
     procedure btnPasteClick(Sender: TObject);
     procedure btnSaveAsClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure btnSpecialActionsRemapMouseUp(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure CheckVDriveTmrTimer(Sender: TObject);
     procedure eMacroFreqChange(Sender: TObject);
     procedure eMacroFreqEnter(Sender: TObject);
@@ -505,7 +508,8 @@ type
     function ShowTroubleshootingDialog(init: boolean; saveMsg: boolean; loadMsg: boolean): boolean;
     procedure UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox; unselectKey: boolean = false);
     function GetKeyButtonByIndex(index: integer): TLabelBox;
-    procedure SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false);
+    procedure SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false;
+      overwriteTapHold: boolean = false);
     procedure SetActiveLayer(layerIdx: integer);
     procedure SetOtherPanelClick(container: TWinControl);
     procedure OtherPanelClick(Sender: TObject);
@@ -516,8 +520,8 @@ type
     procedure LoadMacro;
     procedure SetMemoTextColor(aMemo: TRichMemo; aKeysPos: TKeysPos);
     procedure ResetMacroCoTriggers;
-    Procedure ResetCoTrigger(coTriggerBtn: THSSpeedButton);
-    Procedure ActivateCoTrigger(coTriggerBtn: THSSpeedButton);
+    Procedure ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
+    Procedure ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
     procedure SetCoTrigger(aKey: TKey);
     function IsKeyLoaded: boolean;
     function GetCoTriggerKey(Sender: TObject): TKey;
@@ -766,7 +770,7 @@ begin
   if screen.Width < self.Width then
     self.Width := screen.Width - 20;
 
-  self.Height := 720;
+  self.Height := 725;
   if screen.Height < self.Height then
     self.Height := screen.Height - 20;
 
@@ -917,12 +921,6 @@ begin
     begin
       imgLogoPro.Visible := false;
       imgLogoEdge.Visible := true;
-      {$ifdef Darwin}
-      btnHelpIcon.TransparentColor := KINESIS_DARK_GRAY_FS;
-      btnMinimize.TransparentColor := KINESIS_DARK_GRAY_FS;
-      btnMaximize.TransparentColor := KINESIS_DARK_GRAY_FS;
-      btnClose.TransparentColor := KINESIS_DARK_GRAY_FS;
-      {$endif}
     end
     else
     begin
@@ -932,26 +930,22 @@ begin
       imageList.GetBitmap(4, btnMaximize.Glyph);
       imageList.GetBitmap(6, btnClose.Glyph);
 
-      btnHelpIcon.Color := clWhite;
-      btnHelpIcon.HotTrackColor := clWhite;
-      btnHelpIcon.LightColor := clWhite;
-      btnHelpIcon.ShadowColor := clWhite;
-      btnHelpIcon.TransparentColor := clNone;
-      btnMinimize.Color := clWhite;
-      btnMinimize.HotTrackColor := clWhite;
-      btnMinimize.LightColor := clWhite;
-      btnMinimize.ShadowColor := clWhite;
-      btnMinimize.TransparentColor := clNone;
-      btnMaximize.Color := clWhite;
-      btnMaximize.HotTrackColor := clWhite;
-      btnMaximize.LightColor := clWhite;
-      btnMaximize.ShadowColor := clWhite;
-      btnMaximize.TransparentColor := clNone;
-      btnClose.Color := clWhite;
-      btnClose.HotTrackColor := clWhite;
-      btnClose.LightColor := clWhite;
-      btnClose.ShadowColor := clWhite;
-      btnClose.TransparentColor := clNone;
+      btnHelpIcon.StateNormal.Color := clWhite;
+      btnHelpIcon.StateActive.Color := clSilver;
+      btnHelpIcon.StateDisabled.Color := clWhite;
+      btnHelpIcon.StateHover.Color := clSilver;
+      btnMinimize.StateNormal.Color := clWhite;
+      btnMinimize.StateActive.Color := clSilver;
+      btnMinimize.StateDisabled.Color := clWhite;
+      btnMinimize.StateHover.Color := clSilver;
+      btnMaximize.StateNormal.Color := clWhite;
+      btnMaximize.StateActive.Color := clSilver;
+      btnMaximize.StateDisabled.Color := clWhite;
+      btnMaximize.StateHover.Color := clSilver;
+      btnClose.StateNormal.Color := clWhite;
+      btnClose.StateActive.Color := clSilver;
+      btnClose.StateDisabled.Color := clWhite;
+      btnClose.StateHover.Color := clSilver;
 
       //Layer switch
       swLayerSwitch.Font.Color := clWhite;
@@ -1359,17 +1353,18 @@ begin
 end;
 
 procedure TFormMain.btnSpecialActionsRemapClick(Sender: TObject);
-var
-  lPoint: TPoint;
 begin
-  //if IsKeyLoaded then
-  //begin
-    //Popup menu over special button
-    lPoint.x := 0;
-    lPoint.y := 0;
-    lPoint := btnSpecialActionsRemap.ClientToScreen(lPoint);
-    pmTokensKeys.Popup(lPoint.x, lPoint.y);
-  //end;
+
+end;
+
+procedure TFormMain.btnSpecialActionsRemapMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  pt: TPoint;
+begin
+  pt.x := Mouse.CursorPos.x;
+  pt.y := Mouse.CursorPos.y;
+  pmTokensKeys.PopUp(pt.x - x, pt.y + ((Sender as TColorSpeedButtonCS).Height - y));
 end;
 
 procedure TFormMain.btnActivateMacroClick(Sender: TObject);
@@ -1534,17 +1529,18 @@ begin
 end;
 
 procedure TFormMain.btnSpecialActionsMacroClick(Sender: TObject);
-var
-  lPoint: TPoint;
 begin
-  if IsKeyLoaded then
-  begin
-    //Popup menu over special button
-    lPoint.x := 0;
-    lPoint.y := 0;
-    lPoint := btnSpecialActionsMacro.ClientToScreen(lPoint);
-    pmTokensMacros.Popup(lPoint.x, lPoint.y);
-  end;
+
+end;
+
+procedure TFormMain.btnSpecialActionsMacroMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+  pt: TPoint;
+begin
+  pt.x := Mouse.CursorPos.x;
+  pt.y := Mouse.CursorPos.y;
+  pmTokensMacros.PopUp(pt.x - x, pt.y + ((Sender as TColorSpeedButtonCS).Height - y));
 end;
 
 procedure TFormMain.btnBackspaceClick(Sender: TObject);
@@ -2361,99 +2357,99 @@ begin
   menuItem := sender as TMenuItem;
 
   if menuItem = miFnToggle then
-    SetModifiedKey(VK_FN_TOGGLE, '', false, true)
+    SetModifiedKey(VK_FN_TOGGLE, '', false, true, true)
   else if menuItem = miFnShift then
-    SetModifiedKey(VK_FN_SHIFT, '', false, true)
+    SetModifiedKey(VK_FN_SHIFT, '', false, true, true)
   else if menuItem = miLed then
-    SetModifiedKey(VK_LED, '', false)
+    SetModifiedKey(VK_LED, '', false, false, true)
   else if menuItem = miRightWin then
-    SetModifiedKey(VK_RWIN, '', false)
+    SetModifiedKey(VK_RWIN, '', false, false, true)
   else if menuItem = miVolumeUp then
-    SetModifiedKey(VK_VOLUME_UP, '', false)
+    SetModifiedKey(VK_VOLUME_UP, '', false, false, true)
   else if menuItem = miVolumeDown then
-    SetModifiedKey(VK_VOLUME_DOWN, '', false)
+    SetModifiedKey(VK_VOLUME_DOWN, '', false, false, true)
   else if menuItem = miMute then
-    SetModifiedKey(VK_VOLUME_MUTE, '', false)
+    SetModifiedKey(VK_VOLUME_MUTE, '', false, false, true)
   else if menuItem = miPlayPause then
-    SetModifiedKey(VK_MEDIA_PLAY_PAUSE, '', false)
+    SetModifiedKey(VK_MEDIA_PLAY_PAUSE, '', false, false, true)
   else if menuItem = miPreviousTrack then
-    SetModifiedKey(VK_MEDIA_PREV_TRACK, '', false)
+    SetModifiedKey(VK_MEDIA_PREV_TRACK, '', false, false, true)
   else if menuItem = miNextTrack then
-    SetModifiedKey(VK_MEDIA_NEXT_TRACK, '', false)
+    SetModifiedKey(VK_MEDIA_NEXT_TRACK, '', false, false, true)
   else if menuItem = miMicMute then
-    SetModifiedKey(VK_MIC_MUTE, '', false)
+    SetModifiedKey(VK_MIC_MUTE, '', false, false, true)
   else if menuItem = miCalculator then
-    SetModifiedKey(VK_CALC, '', false)
+    SetModifiedKey(VK_CALC, '', false, false, true)
   else if menuItem = miShutdown then
-    SetModifiedKey(VK_SHUTDOWN, '', false)
+    SetModifiedKey(VK_SHUTDOWN, '', false, false, true)
   else if menuItem = miIntlKey then
-    SetModifiedKey(VK_OEM_102, '', false)
+    SetModifiedKey(VK_OEM_102, '', false, false, true)
   else if menuItem = miMenu then
-    SetModifiedKey(VK_APPS, '', false)
+    SetModifiedKey(VK_APPS, '', false, false, true)
   else if menuItem = miNull then
-    SetModifiedKey(VK_NULL, '', false)
+    SetModifiedKey(VK_NULL, '', false, false, true)
   else if menuItem = miF13 then
-    SetModifiedKey(VK_F13, '', false)
+    SetModifiedKey(VK_F13, '', false, false, true)
   else if menuItem = miF14 then
-    SetModifiedKey(VK_F14, '', false)
+    SetModifiedKey(VK_F14, '', false, false, true)
   else if menuItem = miF15 then
-    SetModifiedKey(VK_F15, '', false)
+    SetModifiedKey(VK_F15, '', false, false, true)
   else if menuItem = miF16 then
-    SetModifiedKey(VK_F16, '', false)
+    SetModifiedKey(VK_F16, '', false, false, true)
   else if menuItem = miF17 then
-    SetModifiedKey(VK_F17, '', false)
+    SetModifiedKey(VK_F17, '', false, false, true)
   else if menuItem = miF18 then
-    SetModifiedKey(VK_F18, '', false)
+    SetModifiedKey(VK_F18, '', false, false, true)
   else if menuItem = miF19 then
-    SetModifiedKey(VK_F19, '', false)
+    SetModifiedKey(VK_F19, '', false, false, true)
   else if menuItem = miF20 then
-    SetModifiedKey(VK_F20, '', false)
+    SetModifiedKey(VK_F20, '', false, false, true)
   else if menuItem = miF21 then
-    SetModifiedKey(VK_F21, '', false)
+    SetModifiedKey(VK_F21, '', false, false, true)
   else if menuItem = miF22 then
-    SetModifiedKey(VK_F22, '', false)
+    SetModifiedKey(VK_F22, '', false, false, true)
   else if menuItem = miF23 then
-    SetModifiedKey(VK_F23, '', false)
+    SetModifiedKey(VK_F23, '', false, false, true)
   else if menuItem = miF24 then
-    SetModifiedKey(VK_F24, '', false)
+    SetModifiedKey(VK_F24, '', false, false, true)
   else if (menuItem = miFullLeftSide) then
     SetFnNumericKpLeft
   else if (menuItem = miFullRightSide) then
     SetFnNumericKpRight
   else if (menuItem = miNum0) then
-    SetModifiedKey(VK_NUMPAD0, '', false)
+    SetModifiedKey(VK_NUMPAD0, '', false, false, true)
   else if (menuItem = miNum1) then
-    SetModifiedKey(VK_NUMPAD1, '', false)
+    SetModifiedKey(VK_NUMPAD1, '', false, false, true)
   else if (menuItem = miNum2) then
-    SetModifiedKey(VK_NUMPAD2, '', false)
+    SetModifiedKey(VK_NUMPAD2, '', false, false, true)
   else if (menuItem = miNum3) then
-    SetModifiedKey(VK_NUMPAD3, '', false)
+    SetModifiedKey(VK_NUMPAD3, '', false, false, true)
   else if (menuItem = miNum4) then
-    SetModifiedKey(VK_NUMPAD4, '', false)
+    SetModifiedKey(VK_NUMPAD4, '', false, false, true)
   else if (menuItem = miNum5) then
-    SetModifiedKey(VK_NUMPAD5, '', false)
+    SetModifiedKey(VK_NUMPAD5, '', false, false, true)
   else if (menuItem = miNum6) then
-    SetModifiedKey(VK_NUMPAD6, '', false)
+    SetModifiedKey(VK_NUMPAD6, '', false, false, true)
   else if (menuItem = miNum7) then
-    SetModifiedKey(VK_NUMPAD7, '', false)
+    SetModifiedKey(VK_NUMPAD7, '', false, false, true)
   else if (menuItem = miNum8) then
-    SetModifiedKey(VK_NUMPAD8, '', false)
+    SetModifiedKey(VK_NUMPAD8, '', false, false, true)
   else if (menuItem = miNum9) then
-    SetModifiedKey(VK_NUMPAD9, '', false)
+    SetModifiedKey(VK_NUMPAD9, '', false, false, true)
   else if (menuItem = miNumDec) then
-    SetModifiedKey(VK_DECIMAL, '', false)
+    SetModifiedKey(VK_DECIMAL, '', false, false, true)
   else if (menuItem = miNumPlus) then
-    SetModifiedKey(VK_ADD, '', false)
+    SetModifiedKey(VK_ADD, '', false, false, true)
   else if (menuItem = miNumMinus) then
-    SetModifiedKey(VK_SUBTRACT, '', false)
+    SetModifiedKey(VK_SUBTRACT, '', false, false, true)
   else if (menuItem = miNumDivide) then
-    SetModifiedKey(VK_DIVIDE, '', false)
+    SetModifiedKey(VK_DIVIDE, '', false, false, true)
   else if (menuItem = miNumMultiply) then
-    SetModifiedKey(VK_MULTIPLY, '', false)
+    SetModifiedKey(VK_MULTIPLY, '', false, false, true)
   else if (menuItem = miNumEnter) then
-    SetModifiedKey(VK_NUMPADENTER, '', false)
+    SetModifiedKey(VK_NUMPADENTER, '', false, false, true)
   else if (menuItem = miNumLock) then
-    SetModifiedKey(VK_NUMLOCK, '', false)
+    SetModifiedKey(VK_NUMLOCK, '', false, false, true)
   else if (menuItem = miDvorak) or (menuItem = miColemak) then
   begin
     if (menuItem = miDvorak) then
@@ -2477,23 +2473,23 @@ begin
       mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
   end
   else if (menuItem = miLeftMouse) then
-    SetModifiedKey(VK_MOUSE_LEFT, '', false)
+    SetModifiedKey(VK_MOUSE_LEFT, '', false, false, true)
   else if (menuItem = miRightMouse) then
-    SetModifiedKey(VK_MOUSE_RIGHT, '', false)
+    SetModifiedKey(VK_MOUSE_RIGHT, '', false, false, true)
   else if (menuItem = miMiddleMouse) then
-    SetModifiedKey(VK_MOUSE_MIDDLE, '', false)
+    SetModifiedKey(VK_MOUSE_MIDDLE, '', false, false, true)
   else if (menuItem = miBtn4Mouse) then
-    SetModifiedKey(VK_MOUSE_BTN4, '', false)
+    SetModifiedKey(VK_MOUSE_BTN4, '', false, false, true)
   else if (menuItem = miBtn5Mouse) then
-    SetModifiedKey(VK_MOUSE_BTN5, '', false)
+    SetModifiedKey(VK_MOUSE_BTN5, '', false, false, true)
   else if (menuItem = miHyper) or (menuItem = miMeh) then
   begin
     if (fileService.VersionBiggerEqualKBD(1, 0, 480) or GDemoMode) then
     begin
       if (menuItem = miHyper) then
-        SetModifiedKey(VK_HYPER, '', false)
+        SetModifiedKey(VK_HYPER, '', false, false, true)
       else if (menuItem = miMeh) then
-        SetModifiedKey(VK_MEH, '', false);
+        SetModifiedKey(VK_MEH, '', false, false, true);
     end
     else
     begin
@@ -2881,12 +2877,12 @@ end;
 
 procedure TFormMain.bCoTriggerClick(Sender: TObject);
 var
-  button: THSSpeedButton;
+  button: TColorSpeedButtonCS;
   aKey: TKey;
 begin
   if IsKeyLoaded then
   begin
-    button := Sender as THSSpeedButton;
+    button := Sender as TColorSpeedButtonCS;
     if (button.Down) then
     begin
       ResetMacroCoTriggers;
@@ -3733,7 +3729,8 @@ begin
   end;
 end;
 
-procedure TFormMain.SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false);
+procedure TFormMain.SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false;
+  overwriteTapHold: boolean = false);
 var
   aKbKeyOtherLayer: TKBKey;
   cursorPos: integer;
@@ -3829,12 +3826,12 @@ begin
         KeyModified := true;
         SetEditMode(true);
         SetSaveState(ssModified);
-        keyService.SetKBKey(activeKbKey, key);
+        keyService.SetKBKey(activeKbKey, key, overwriteTapHold);
         if (bothLayers) then
         begin
           aKbKeyOtherLayer := GetKeyOtherLayer(activeKeyBtn.Index);
           if aKbKeyOtherLayer <> nil then
-            keyService.SetKBKey(aKbKeyOtherLayer, key);
+            keyService.SetKBKey(aKbKeyOtherLayer, key, overwriteTapHold);
         end;
         UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
       end;
@@ -4026,21 +4023,14 @@ begin
   ResetCoTrigger(bRAltMacro);
 end;
 
-procedure TFormMain.ActivateCoTrigger(coTriggerBtn: THSSpeedButton);
+procedure TFormMain.ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.Down := true;
-  coTriggerBtn.Font.Bold := true;
-  coTriggerBtn.Font.Color := blueColor;
 end;
 
-procedure TFormMain.ResetCoTrigger(coTriggerBtn: THSSpeedButton);
+procedure TFormMain.ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.Down := false;
-  coTriggerBtn.Font.Bold := true;
-  if (GApplication = APPL_FSPRO) then
-    coTriggerBtn.Font.Color := KINESIS_DARK_GRAY_FS
-  else
-    coTriggerBtn.Font.Color := clBlack;
 end;
 
 procedure TFormMain.SetMemoTextColor(aMemo: TRichMemo; aKeysPos: TKeysPos);

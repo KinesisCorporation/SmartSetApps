@@ -6,7 +6,7 @@ interface
 
 uses
   Forms, Classes, SysUtils, StdCtrls, graphics, controls, buttons, extctrls, dialogs,
-  u_kinesis_device, eject_USB, u_const, u_key_service, HSSpeedButton, ColorSpeedButtonCS,
+  u_kinesis_device, eject_USB, u_const, u_key_service, ColorSpeedButtonCS,
   LabelBox, U_Keys, u_key_layer, contnrs, u_file_service, u_base_key_service, BCButton;
 
 type
@@ -16,8 +16,7 @@ TMenuAction = class
 private
   FActionType: TMenuActionType;
   FName: string;
-  FActionButton: TSpeedButton;
-  FActionButton2: TColorSpeedButtonCS;
+  FActionButton: TColorSpeedButtonCS;
   FActionImage: TImage;
   FActionLabel: TLabel;
   FMenuConfig: integer;
@@ -30,14 +29,11 @@ private
 protected
   procedure SetIsDown(value: boolean);
 public
-  constructor Create(aType: TMenuActionType; actionButton: TSpeedButton; actionLabel: TLabel; actionImage: TImage;
-    menuConfig: integer; ledMode: TLedMode; popupMenu: boolean; bStayDown: boolean; bMustSelectKey: boolean; bIsEnabled: boolean = true);
-  constructor Create2(aType: TMenuActionType; actionButton: TColorSpeedButtonCS; actionLabel: TLabel; actionImage: TImage;
+  constructor Create(aType: TMenuActionType; actionButton: TColorSpeedButtonCS; actionLabel: TLabel; actionImage: TImage;
     menuConfig: integer; ledMode: TLedMode; popupMenu: boolean; bStayDown: boolean; bMustSelectKey: boolean; bIsEnabled: boolean = true);
   property ActionType: TMenuActionType read FActionType write FActionType;
   property Name: string read FName write FName;
-  property ActionButton: TSpeedButton read FActionButton write FActionButton;
-  property ActionButton2: TColorSpeedButtonCS read FActionButton2 write FActionButton2;
+  property ActionButton: TColorSpeedButtonCS read FActionButton write FActionButton;
   property ActionImage: TImage read FActionImage write FActionImage;
   property ActionLabel: TLabel read FActionLabel write FActionLabel;
   property MenuConfig: integer read FMenuConfig write FMenuConfig;
@@ -114,35 +110,15 @@ begin
   FIsDown := value;
   if (FActionButton <> nil) then
      FActionButton.Down := value;
-  if (FActionButton2 <> nil) then
-     FActionButton2.Down := value;
 end;
 
-constructor TMenuAction.Create(aType: TMenuActionType; actionButton: TSpeedButton;
+constructor TMenuAction.Create(aType: TMenuActionType; actionButton: TColorSpeedButtonCS;
   actionLabel: TLabel; actionImage: TImage; menuConfig: integer; ledMode: TLedMode;
   popupMenu: boolean; bStayDown: boolean; bMustSelectKey: boolean;
   bIsEnabled: boolean);
 begin
   FActionType := aType;
   FActionButton := actionButton;
-  FActionImage := actionImage;
-  FActionLabel := actionLabel;
-  FMenuConfig := menuConfig;
-  FPopupMenu := popupMenu;
-  FStayDown := bStayDown;
-  FMustSelectKey := bMustSelectKey;
-  FIsEnabled := bIsEnabled;
-  FIsDown := false;
-  FLedMode := ledMode;
-end;
-
-constructor TMenuAction.Create2(aType: TMenuActionType;
-  actionButton: TColorSpeedButtonCS; actionLabel: TLabel; actionImage: TImage;
-  menuConfig: integer; ledMode: TLedMode; popupMenu: boolean;
-  bStayDown: boolean; bMustSelectKey: boolean; bIsEnabled: boolean);
-begin
-  FActionType := aType;
-  FActionButton2 := actionButton;
   FActionImage := actionImage;
   FActionLabel := actionLabel;
   FMenuConfig := menuConfig;
@@ -168,26 +144,12 @@ end;
 
 procedure LoadButtonImage(obj: TObject; imgList: TImageList; idx: integer);
 begin
-  if (obj is THSSpeedButton) then
-  begin
-    if (idx = -1) then
-      (obj as THSSpeedButton).Glyph.Clear
-    else
-      imgList.GetBitmap(idx, (obj as THSSpeedButton).Glyph)
-  end
-  else if (obj is TColorSpeedButtonCS) then
+  if (obj is TColorSpeedButtonCS) then
   begin
     if (idx = -1) then
       (obj as TColorSpeedButtonCS).Glyph.Clear
     else
       imgList.GetBitmap(idx, (obj as TColorSpeedButtonCS).Glyph)
-  end
-  else if (obj is TBCButton) then
-  begin
-    if (idx = -1) then
-      (obj as TBCButton).Glyph.Clear
-    else
-      imgList.GetBitmap(idx, (obj as TBCButton).Glyph)
   end
   else if (obj is TImage) then
   begin

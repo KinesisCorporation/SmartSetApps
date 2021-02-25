@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   lcltype, Menus, ExtCtrls, Buttons, lclintf, ComCtrls, u_const, u_key_service,
   u_key_layer, u_file_service, PanelBtn, LabelBox, LineObj, ColorSpeedButtonCS,
-  ECSwitch, ECSlider, RichMemo, HSSpeedButton, u_keys, userdialog, contnrs,
+  ECSwitch, ECSlider, RichMemo, u_keys, userdialog, contnrs,
   u_form_about, u_form_new, u_form_tapandhold, u_form_troubleshoot
   {$ifdef Win32},Windows, JwaWinUser{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonUtils, CarbonDef, CarbonProc}{$endif};
