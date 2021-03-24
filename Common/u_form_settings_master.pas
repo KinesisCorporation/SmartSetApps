@@ -40,8 +40,10 @@ var
   FormSettingsMaster: TFormSettingsMaster;
 
 const
-  HideAllNotifs = 'HideAllNotifs';
-  ShowAllNotifs = 'ShowAllNotifs';
+  HideAllNotifsGaming = 'HideAllNotifs';
+  ShowAllNotifsGaming = 'ShowAllNotifs';
+  HideAllNotifsOffice = 'HideAllNotifsOffice';
+  ShowAllNotifsOffice = 'ShowAllNotifsOffice';
 
 implementation
 
@@ -98,18 +100,30 @@ end;
 
 
 procedure TFormSettingsMaster.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+var
+  valueToSave: string;
 begin
   //Save values to registry
   if (chkHideAllNotifs.Checked) then
-     SaveToRegistry(HideAllNotifs, '1')
+     valueToSave := '1'
   else
-     SaveToRegistry(HideAllNotifs, '0');
+     valueToSave := '0';
+
+  if (GMasterAppId = APPL_MASTER_GAMING) then
+    SaveToRegistry(HideAllNotifsGaming, valueToSave)
+  else if (GMasterAppId = APPL_MASTER_OFFICE) then
+    SaveToRegistry(HideAllNotifsOffice, valueToSave);
   GHideAllNotifs := chkHideAllNotifs.Checked;
 
   if (chkShowNotifs.Checked) then
-     SaveToRegistry(ShowAllNotifs, '1')
+    valueToSave := '1'
   else
-     SaveToRegistry(ShowAllNotifs, '0');
+    valueToSave := '0';
+
+  if (GMasterAppId = APPL_MASTER_GAMING) then
+    SaveToRegistry(ShowAllNotifsGaming, valueToSave)
+  else if (GMasterAppId = APPL_MASTER_OFFICE) then
+    SaveToRegistry(ShowAllNotifsOffice, valueToSave);
   GShowAllNotifs := chkShowNotifs.Checked;
 
   if CloseAction = caFree then

@@ -13,6 +13,7 @@ uses
 {$R *.res}
 
 begin
+  GMasterAppId := APPL_MASTER_GAMING;
   {$if declared(UseHeapTrace)}
   GlobalSkipIfNoLeaks := true;
   if (GDevMode) then

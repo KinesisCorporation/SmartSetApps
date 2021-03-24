@@ -169,6 +169,7 @@ var
   GApplicationName: string; //Name of application
   GApplicationTitle: string; //Title of application
   GApplicationPath: string; //Application start path
+  GMasterAppId: integer; //Id of master application
   GExecutablePath: string; //Executable path
   GPedalsFile: string; //Location of Pedals.txt file
   GPedalsFilePath: string; //Location of Pedals.txt file folder
@@ -568,6 +569,10 @@ const
   APPL_RGB = 4;
   APPL_CROSSKP = 5;
   APPL_TKO = 6;
+
+  //Master app ID
+  APPL_MASTER_GAMING = 1;
+  APPL_MASTER_OFFICE = 2;
 
   //Led modes
   LED_MONO = '[mono]';

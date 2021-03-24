@@ -2478,7 +2478,7 @@ begin
     if reset then
     begin
       keyButton.BackColor := clNone;
-      aKbKey.KeyColor := clNone;
+      //aKbKey.KeyColor := clNone;
     end
     else
     begin

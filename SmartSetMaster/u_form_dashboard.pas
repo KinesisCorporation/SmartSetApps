@@ -192,8 +192,8 @@ begin
   lblAppName4.Font.Name := 'Quantify';
 
   //Load app settings
-  GShowAllNotifs := ReadFromRegistry(ShowAllNotifs) = '1';
-  GHideAllNotifs := ReadFromRegistry(HideAllNotifs) = '1';
+  GShowAllNotifs := ReadFromRegistry(ShowAllNotifsGaming) = '1';
+  GHideAllNotifs := ReadFromRegistry(HideAllNotifsGaming) = '1';
 
   //App shows in Taskbar only when minimized
   Application.MainFormOnTaskBar:= true;
