@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, u_base_form, u_const, UserDialog, lcltype,
-  u_keys, u_common_ui, u_base_key_service, ColorSpeedButtonCS;
+  u_keys, u_common_ui, u_base_key_service, ColorSpeedButtonCS, LineObj;
 
 type
 
@@ -16,13 +16,15 @@ type
   TFormTapAndHold = class(TBaseForm)
     btnCancel: TColorSpeedButtonCS;
     btnAccept: TColorSpeedButtonCS;
+    btnCancel1: TColorSpeedButtonCS;
+    btnAccept1: TColorSpeedButtonCS;
     eHoldAction: TEdit;
     eTimingDelay: TEdit;
     eTapAction: TEdit;
     imgListTiming: TImageList;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
+    lblTapAction: TLabel;
+    lblHoldAction: TLabel;
+    lblDelay: TLabel;
     procedure btnAcceptMouseExit(Sender: TObject);
     procedure btnAcceptMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
@@ -73,6 +75,20 @@ begin
   //FormTapAndHold.timingDelay := iTimingDelay;
   if (iTimingDelay <= 0) then
     iTimingDelay := DefaultDelay;
+
+  //Loads colors
+  if (GApplication in [APPL_ADV2, APPL_FSPRO, APPL_PEDAL]) and not(IsDarkTheme) then
+  begin
+    FormTapAndHold.Color := clWhite;
+    FormTapAndHold.Font.Color := clBlack;
+    FormTapAndHold.lblTapAction.Font.Color := clWhite;
+    FormTapAndHold.lblHoldAction.Font.Color := clBlack;
+    FormTapAndHold.lblDelay.Font.Color := clBlack;
+    FormTapAndHold.btnAccept.Visible := false;
+    FormTapAndHold.btnCancel.Visible := false;
+    FormTapAndHold.btnAccept1.Visible := true;
+    FormTapAndHold.btnCancel1.Visible := true;
+  end;
 
   FormTapAndHold.keyService := aKeyService;
   FormTapAndHold.eTimingDelay.Text := IntToStr(iTimingDelay);

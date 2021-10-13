@@ -46,8 +46,6 @@ var
 
 implementation
 
-uses u_form_main_rgb;
-
 {$R *.lfm}
 
 function ShowTimingDelays: integer;

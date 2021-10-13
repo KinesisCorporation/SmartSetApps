@@ -16,6 +16,7 @@ object Form_KeyPress: TForm_KeyPress
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   LCLVersion = '1.2.4.0'
+  Scaled = false
   object pcMain: TPageControl
     Left = 0
     Height = 415

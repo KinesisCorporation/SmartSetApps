@@ -6,11 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LineObj, ColorSpeedButtonCS,
+  LineObj, ColorSpeedButtonCS, u_form_main_adv2, u_form_main_fs, u_form_keypress,
   u_const, LResources, FileUtil, u_kinesis_device,
-  u_form_main_rgb, LCLIntf, u_form_loading, u_form_about_master,
+  LCLIntf, u_form_loading, u_form_about_master,
   u_form_settings_master, u_form_firmware, u_common_ui,
-  u_form_main_tko, u_form_scanvdrive
+  u_form_scanvdrive, UserDialog
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -31,6 +31,7 @@ type
     btnWatchTutorial2: TColorSpeedButtonCS;
     btnWatchTutorial3: TColorSpeedButtonCS;
     btnWatchTutorial4: TColorSpeedButtonCS;
+    imgBackgroundTop: TImage;
     imgAppLogo1: TImage;
     imgAppLogo2: TImage;
     lblAppName2: TLabel;
@@ -66,8 +67,6 @@ type
     lblProfileApp1: TLabel;
     lblVDriveError: TLabel;
     lblVDriveOk: TLabel;
-    lineBorderLeftTop: TLineObj;
-    lineBorderRightTop: TLineObj;
     pnlApp1: TPanel;
     pnlApp2: TPanel;
     pnlApp3: TPanel;
@@ -110,7 +109,6 @@ type
     fontColor: TColor;
     backColor: TColor;
     blueColor: TColor;
-    gamingMode: boolean;
     cusWindowState: TCusWinState;
     deviceList: TDeviceList;
     closing: boolean;
@@ -181,29 +179,18 @@ begin
   cusWindowState := cwNormal;
   deviceList := TDeviceList.Create;
 
-  //Load front from ressource
-  LoadFontFromRes('Quantify');
-  //vFnt := LoadFontFromRes('Quantify');
-  //SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
-  //Application.ProcessMessages;
-
   //Fonts
   SetFont(self, 'Tahoma');
-  lblAppName1.Font.Name := 'Quantify';
-  lblAppName2.Font.Name := 'Quantify';
-  lblAppName3.Font.Name := 'Quantify';
-  lblAppName4.Font.Name := 'Quantify';
 
   //Load app settings
-  GShowAllNotifs := ReadFromRegistry(ShowAllNotifsGaming) = '1';
-  GHideAllNotifs := ReadFromRegistry(HideAllNotifsGaming) = '1';
+  GShowAllNotifs := ReadFromRegistry(ShowAllNotifsOffice) = '1';
+  GHideAllNotifs := ReadFromRegistry(HideAllNotifsOffice) = '1';
 
   //App shows in Taskbar only when minimized
   Application.MainFormOnTaskBar:= true;
 
   AddDevices;
 
-  gamingMode := true;
   Init;
 end;
 
@@ -213,7 +200,6 @@ begin
   if (CloseAction = caFree) then
   begin
     closing := true;
-
     ResetToHome;
     FreeAndNil(deviceList);
   end;
@@ -227,13 +213,17 @@ end;
 procedure TFormDashboard.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  if (FormMainFS <> nil) and (FormMainFS.Visible) then
   begin
-    FormMainRGB.FormKeyDown(sender, key, shift);
+    FormMainFS.FormKeyDown(sender, key, shift);
   end
-  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+  else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
   begin
-    FormMainTKO.FormKeyDown(sender, key, shift);
+    FormMainAdv2.FormKeyDown(sender, key, shift);
+  end
+  else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+  begin
+    FormMainSE2.FormKeyDown(sender, key, shift);
   end;
 end;
 
@@ -245,13 +235,17 @@ end;
 procedure TFormDashboard.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  if (FormMainFS <> nil) and (FormMainFS.Visible) then
   begin
-    FormMainRGB.FormKeyUp(sender, key, shift);
+    FormMainFS.FormKeyUp(sender, key, shift);
   end
-  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+  else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
   begin
-    FormMainTKO.FormKeyUp(sender, key, shift);
+    FormMainAdv2.FormKeyUp(sender, key, shift);
+  end
+  else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+  begin
+    FormMainSE2.FormKeyUp(sender, key, shift);
   end;
 end;
 
@@ -278,7 +272,7 @@ procedure TFormDashboard.Init;
 begin
   //Set colors also check if DarkTheme is enabled on OS
   blueColor := KINESIS_BLUE;
-  if (gamingMode or IsDarkTheme) then
+  if (IsDarkTheme) then
   begin
     fontColor := clWhite;
     backColor := KINESIS_DARK_GRAY_RGB;
@@ -321,19 +315,19 @@ var
   aDevice: TDevice;
 begin
   aDevice := TDevice.Create;
-  aDevice.DeviceName := 'FREESTYLE EDGE RGB';
-  aDevice.DeviceNumber := APPL_RGB;
-  aDevice.VDriveName := RGB_DRIVE;
-  aDevice.TutorialUrl := RGB_TUTORIAL;
-  aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
+  aDevice.DeviceName := 'ADVANTAGE 2';
+  aDevice.DeviceNumber := APPL_ADV2;
+  aDevice.VDriveName := ADV2_DRIVE;
+  aDevice.TutorialUrl := ADV2_TUTORIAL;
+  //todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
   deviceList.Add(aDevice);
 
   aDevice := TDevice.Create;
-  aDevice.DeviceName := 'TKO';
-  aDevice.DeviceNumber := APPL_TKO;
-  aDevice.VDriveName := TKO_DRIVE;
-  aDevice.TutorialUrl := TKO_TUTORIAL;
-  aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
+  aDevice.DeviceName := 'FREESTYLE PRO';
+  aDevice.DeviceNumber := APPL_FSPRO;
+  aDevice.VDriveName := FSPRO_DRIVE;
+  aDevice.TutorialUrl := FSPRO_TUTORIAL;
+  //tpdp aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
   deviceList.Add(aDevice);
 
   //aDevice := TDevice.Create;
@@ -597,26 +591,32 @@ end;
 
 procedure TFormDashboard.LoadAppForms;
 begin
-  Application.CreateForm(TFormMainRGB, FormMainRGB);
-  FormMainRGB.Parent := pnlMain;
+  Application.CreateForm(TFormMainFS, FormMainFS);
+  FormMainFS.Parent := pnlMain;
 
-  Application.CreateForm(TFormMainTKO, FormMainTKO);
-  FormMainTKO.Parent := pnlMain;
+  Application.CreateForm(TFormMainAdv2, FormMainAdv2);
+  FormMainAdv2.Parent := pnlMain;
+
+  //todo Application.CreateForm(TFormMainSE2, FormMainSE2);
+  //todo FormMainSE2.Parent := pnlMain;
 end;
 
 procedure TFormDashboard.CloseActiveForms;
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible = true) then
+  if (FormMainFS <> nil) and (FormMainFS.Visible = true) then
   begin
-    FormMainRGB.Close;
-    FormMainRGB := nil;
-    //FreeAndNil(FormRGB);
+    FormMainFS.Close;
+    FormMainFS := nil;
   end;
-  if (FormMainTKO <> nil) and (FormMainTKO.Visible = true) then
+  if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible = true) then
   begin
-    FormMainTKO.Close;
-    FormMainTKO := nil;
-    //FreeAndNil(FormTKO);
+    FormMainAdv2.Close;
+    FormMainAdv2 := nil;
+  end;
+  if (FormMainSE2 <> nil) and (FormMainSE2.Visible = true) then
+  begin
+    FormMainSE2.Close;
+    FormMainSE2 := nil;
   end;
 end;
 
@@ -700,34 +700,51 @@ begin
     GDemoMode := not(device.Connected) or not(device.ReadWriteAccess);
     GApplication := device.DeviceNumber;
 
-    if (device.DeviceNumber = APPL_RGB) then
+    if (device.DeviceNumber = APPL_FSPRO) or (device.DeviceNumber = APPL_FSEDGE) then
     begin
       try
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading FREESTYLE EDGE RGB...');
+        ShowLoading('Loading...', 'Loading FREESTYLE EDGE...');
         {$ifdef darwin}
-        Application.CreateForm(TFormMainRGB, FormMainRGB);
+        Application.CreateForm(TFormMainFS, FormMainFS);
         {$endif};
-        FormMainRGB.Parent := pnlMain;
-        FormMainRGB.InitForm(self);
-        FormMainRGB.Show;
+        FormMainFS.Parent := pnlMain;
+        FormMainFS.InitForm(self);
+        FormMainFS.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo1.Visible := true;
       finally
         CloseLoading;
       end;
     end
-    else if (device.DeviceNumber = APPL_TKO) then
+    else if (device.DeviceNumber = APPL_ADV2) then
     begin
       try
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading TKO...');
+        ShowLoading('Loading...', 'Loading ADVANTAGE 2...');
         {$ifdef darwin}
-        Application.CreateForm(TFormMainTKO, FormMainTKO);
+        Application.CreateForm(TFormMainAdv2, FormMainAdv2);
         {$endif};
-        FormMainTKO.Parent := pnlMain;
-        FormMainTKO.InitForm(self);
-        FormMainTKO.Show;
+        FormMainAdv2.Parent := pnlMain;
+        FormMainAdv2.InitForm(self);
+        FormMainAdv2.Show;
+        lblDemoMode.Visible := GDemoMode;
+        imgAppLogo2.Visible := true;
+      finally
+        CloseLoading;
+      end;
+    end
+    else if (device.DeviceNumber = APPL_PEDAL) then
+    begin
+      try
+        GActiveDevice := device;
+        ShowLoading('Loading...', 'Loading SAVANT ELITE 2...');
+        {$ifdef darwin}
+        Application.CreateForm(TFormMainSE2, FormMainSE2);
+        {$endif};
+        FormMainSE2.Parent := pnlMain;
+        FormMainSE2.InitForm(self);
+        FormMainSE2.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo2.Visible := true;
       finally
@@ -760,10 +777,12 @@ begin
     cusWindowState := cwMaximized;
   end;
 
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
-     FormMainRGB.Maximize;
-  if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-     FormMainTKO.Maximize;
+  if (FormMainFS <> nil) and (FormMainFS.Visible) then
+     FormMainFS.Maximize;
+  if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
+     FormMainAdv2.Maximize;
+  if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+     FormMainSE2.Maximize;
 
   UpdateStateSettings;
 end;
@@ -784,7 +803,7 @@ begin
 
   if (cusWindowState = cwMaximized) then
   begin
-    if (IsDarkTheme or gamingMode) then
+    if (IsDarkTheme) then
       imgListMenu.GetBitmap(7, btnMaximize.Glyph)
     else
       imgListMenu.GetBitmap(2, btnMaximize.Glyph);
@@ -792,7 +811,7 @@ begin
   end
   else
   begin
-    if (IsDarkTheme or gamingMode) then
+    if (IsDarkTheme) then
       imgListMenu.GetBitmap(6, btnMaximize.Glyph)
     else
       imgListMenu.GetBitmap(1, btnMaximize.Glyph);
@@ -953,10 +972,12 @@ end;
 
 procedure TFormDashboard.FormActivate(Sender: TObject);
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
-    FormMainRGB.SetFocus
-  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-    FormMainTKO.SetFocus;
+  if (FormMainFS <> nil) and (FormMainFS.Visible) then
+    FormMainFS.SetFocus
+  else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
+    FormMainAdv2.SetFocus
+  else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+    FormMainSE2.SetFocus;
 end;
 
 initialization

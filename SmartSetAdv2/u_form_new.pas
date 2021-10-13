@@ -100,8 +100,7 @@ procedure TFormNew.btnCreateClick(Sender: TObject);
 begin
   if (Trim(cboLayout.Text) = '') then
   begin
-    ShowDialog('New Layout', 'You must select a layout position a-z or 0 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2,
-          self.Color, self.Font.Color);
+    ShowDialog('New Layout', 'You must select a layout position a-z or 0 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2);
     cboLayout.SetFocus;
   end
   else

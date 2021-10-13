@@ -1,21 +1,21 @@
 //CreoSource Inc. (info@creosource.com)
 //Business logic for key configuration utility
 //Contains key list for all inputs as well as supported keys
-unit u_key_service;
+unit u_key_service_se2;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, u_keys, LCLType, u_const, u_keyboardlayout;
+  Classes, SysUtils, u_keys, LCLType, u_const_pedal, u_keyboardlayout;
 
 type
   //KeyService contains all logic for key inputs
 
-  { TKeyService }
+  { TKeyServiceSE2 }
 
-  TKeyService = class
+  TKeyServiceSE2 = class
   private
     //FActivePedal: TKeyList;
     FCurrentPedal: TPedal;
@@ -90,9 +90,9 @@ type
 
 implementation
 
-{ TKeyService }
+{ TKeyServiceSE2 }
 
-constructor TKeyService.Create;
+constructor TKeyServiceSE2.Create;
 begin
   inherited Create;
   FCurrentPedal := pNone;
@@ -114,7 +114,7 @@ begin
   UpdateCurrentKeyboardLayout;
 end;
 
-destructor TKeyService.Destroy;
+destructor TKeyServiceSE2.Destroy;
 begin
   FreeAndNil(FConfigKeys);
   FreeAndNil(FActiveModifiers);
@@ -131,7 +131,7 @@ begin
 end;
 
 //Load key config
-procedure TKeyService.LoadKeyConfig;
+procedure TKeyServiceSE2.LoadKeyConfig;
 var
   i: integer;
 begin
@@ -214,18 +214,18 @@ begin
   self.ConfigKeys.Add(TKey.Create(VK_F24, 'F24'));
 
   //Character keys
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '=', '=', '+', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', 'hyphen', '-', '_', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '/', '/', '?', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '\', '\', '|', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', '''', '''', '"', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '`', '`', '~', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', ';', ';', ':', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', ',', ',', '<', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '.', '.', '>', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', 'obrack', '[', '{', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', 'cbrack', ']', '}', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', 'intl-\', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '', '=', '=', '+', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '', 'hyphen', '-', '_', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '', '/', '/', '?', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '', '\', '\', '|', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', '', '''', '''', '"', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '', '`', '`', '~', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '', ';', ';', ':', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', '', ',', ',', '<', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '', '.', '.', '>', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '', 'obrack', '[', '{', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '', 'cbrack', ']', '}', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl-\', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
 
   //Numpad keys
   self.ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0'));
@@ -246,31 +246,31 @@ begin
   self.ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter', 'kpenter'));
 
   //0 to 9
-  self.ConfigKeys.Add(TKey.Create(VK_0, '0', '0', '0', ')', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_1, '1', '1', '1', '!', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_2, '2', '2', '2', '@', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_3, '3', '3', '3', '#', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_4, '4', '4', '4', '$', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_5, '5', '5', '5', '%', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_6, '6', '6', '6', '^', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_7, '7', '7', '7', '&', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_8, '8', '8', '8', '*', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_9, '9', '9', '9', '(', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_0, '0', '', '0', '0', ')', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_1, '1', '', '1', '1', '!', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_2, '2', '', '2', '2', '@', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_3, '3', '', '3', '3', '#', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_4, '4', '', '4', '4', '$', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_5, '5', '', '5', '5', '%', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_6, '6', '', '6', '6', '^', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_7, '7', '', '7', '7', '&', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_8, '8', '', '8', '8', '*', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_9, '9', '', '9', '9', '(', true, true));
 
   //a to z
   for i := VK_A to VK_Z do
-    self.ConfigKeys.Add(TKey.Create(i, LowerCase(Chr(i)), LowerCase(Chr(i)), LowerCase(Chr(i)), Chr(i),
+    self.ConfigKeys.Add(TKey.Create(i, LowerCase(Chr(i)), '', LowerCase(Chr(i)), LowerCase(Chr(i)), Chr(i),
       true, true));
 
   //Custom for special events
   self.ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmouse'));
   self.ConfigKeys.Add(TKey.Create(VK_MOUSE_MIDDLE, 'mmouse'));
   self.ConfigKeys.Add(TKey.Create(VK_MOUSE_RIGHT, 'rmouse'));
-  self.ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', 'speed1', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', 'speed3', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', 'speed5', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', 'd125', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', 'd500', '', '', false, false, '', False));
+  self.ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', 'speed1', '', '', false, false, '', False));
+  self.ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', 'speed3', '', '', false, false, '', False));
+  self.ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', 'speed5', '', '', false, false, '', False));
+  self.ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False));
+  self.ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', 'd500', '', '', false, false, '', False));
   self.ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute'));
   self.ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-'));
   self.ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+'));
@@ -284,7 +284,7 @@ end;
 
 //Old Method, not used anymore
 //Load keyboard layouts
-procedure TKeyService.LoadKeyboardLayouts;
+procedure TKeyServiceSE2.LoadKeyboardLayouts;
 //var
 //  keyboardLayout: TKeyboardLayout;
 begin
@@ -310,13 +310,13 @@ begin
   //self.KeyboardLayouts.Add(keyboardLayout);
 end;
 
-procedure TKeyService.UpdateCurrentKeyboardLayout;
+procedure TKeyServiceSE2.UpdateCurrentKeyboardLayout;
 begin
   FCurrentKBLayout := GetCurrentKeyoardLayout;//KeyboardLayouts.FindByKBLayout(GetCurrentKeyoardLayout);
 end;
 
 //Checks for replacement key values (non US English drivers)
-function TKeyService.GetReplacementKey(aKey: word; saving: boolean): string;
+function TKeyServiceSE2.GetReplacementKey(aKey: word; saving: boolean): string;
 var
   returnKey: word;
   key: TKey;
@@ -338,7 +338,7 @@ end;
 
 //Old Method, not used anymore....
 //Checks for replacement key values (non US English drivers)
-//function TKeyService.GetReplacementKey(aKey: word): string;
+//function TKeyServiceSE2.GetReplacementKey(aKey: word): string;
 //var
 //  keyException: TKeyException;
 //begin
@@ -352,7 +352,7 @@ end;
 //end;
 
 //Finds and returns the key in list of configurable keys using virtual key
-function TKeyService.FindKeyConfig(iKey: word): TKey;
+function TKeyServiceSE2.FindKeyConfig(iKey: word): TKey;
 var
   i: integer;
 begin
@@ -369,7 +369,7 @@ begin
 end;
 
 //Finds and returns the key in list of configurable keys using string key
-function TKeyService.FindKeyConfig(sKey: string): TKey;
+function TKeyServiceSE2.FindKeyConfig(sKey: string): TKey;
 var
   i: integer;
 begin
@@ -386,20 +386,20 @@ begin
 end;
 
 //Checks if key is numeric (ascii 48 to 57)
-function TKeyService.IsNumericKey(aKey: TKey): boolean;
+function TKeyServiceSE2.IsNumericKey(aKey: TKey): boolean;
 begin
   Result := (aKey.Key >= VK_0) and (aKey.Key <= VK_9);
 end;
 
 //Checks if key is alphabetic (ascii lowercase 65 to 90 or uppercase 97 to 122)
-function TKeyService.IsAlphaKey(aKey: TKey): boolean;
+function TKeyServiceSE2.IsAlphaKey(aKey: TKey): boolean;
 begin
   Result := (aKey.Key >= VK_A) and (aKey.Key <= VK_Z);
 end;
 
 //Not used
 //Returns true if shiftable key pressed
-function TKeyService.IsShiftableKey(aKey: TKey): boolean;
+function TKeyServiceSE2.IsShiftableKey(aKey: TKey): boolean;
 begin
   Result := ((aKey.Key >= VK_0) and (aKey.Key <= VK_9)) or
     ((aKey.Key >= VK_A) and (aKey.Key <= VK_Z)) or
@@ -409,7 +409,7 @@ begin
 end;
 
 //Returns values of modifiers
-function TKeyService.GetModifierValues(aKey: TKey): string;
+function TKeyServiceSE2.GetModifierValues(aKey: TKey): string;
 var
   i: integer;
 begin
@@ -434,7 +434,7 @@ begin
 end;
 
 //Takes a list of modifiers in string and fills a list of keys with the values
-procedure TKeyService.FillModifiersFromValues(aKeyList: TKeyList; sModifiers: string);
+procedure TKeyServiceSE2.FillModifiersFromValues(aKeyList: TKeyList; sModifiers: string);
 var
   i: integer;
 begin
@@ -455,7 +455,7 @@ begin
 end;
 
 //Returns text value of modifiers
-function TKeyService.GetModifierText: string;
+function TKeyServiceSE2.GetModifierText: string;
 var
   i: integer;
 begin
@@ -477,7 +477,7 @@ begin
 end;
 
 //Backup keylist to a temp list
-function TKeyService.BackupKeyList: boolean;
+function TKeyServiceSE2.BackupKeyList: boolean;
 begin
   result := false;
   if ActivePedal <> nil then
@@ -488,7 +488,7 @@ begin
 end;
 
 //Restores keylist from temp list
-function TKeyService.RestoreKeyList: boolean;
+function TKeyServiceSE2.RestoreKeyList: boolean;
 begin
   result := false;
   if ActivePedal <> nil then
@@ -499,7 +499,7 @@ begin
 end;
 
 //Returns current active pedal
-function TKeyService.GetActivePedal: TKeyList;
+function TKeyServiceSE2.GetActivePedal: TKeyList;
 begin
   case CurrentPedal of
     pLeft: Result := LPKeys;
@@ -515,7 +515,7 @@ begin
 end;
 
 //Returns the output value for the edit field
-function TKeyService.GetOutputText(aPedal: TKeyList; var aPedalsPos: TPedalsPos): string;
+function TKeyServiceSE2.GetOutputText(aPedal: TKeyList; var aPedalsPos: TPedalsPos): string;
 var
   i: integer;
   aKey: TKey;
@@ -622,7 +622,7 @@ begin
 end;
 
 //Returns key Text
-function TKeyService.GetKeyText(aKey: TKey; defaultValue: string; checkAltGr: boolean): string;
+function TKeyServiceSE2.GetKeyText(aKey: TKey; defaultValue: string; checkAltGr: boolean): string;
 begin
   {$ifdef Win32}
     if (aKey.ConvertToUnicode) then
@@ -643,7 +643,7 @@ begin
 end;
 
 //Checks if AltGr pressed (Ctrl + Alt)
-function TKeyService.IsAltGr(aKey: TKey): boolean;
+function TKeyServiceSE2.IsAltGr(aKey: TKey): boolean;
 begin
   if (Pos(CTRL_MOD, aKey.Modifiers) <> 0) and
     (Pos(ALT_MOD, aKey.Modifiers) <> 0) and
@@ -654,7 +654,7 @@ begin
 end;
 
 //Loads pedals from file content
-function TKeyService.LoadKeysFromFile(pedal: TKeyList; pedalText: TPedalText): boolean;
+function TKeyServiceSE2.LoadKeysFromFile(pedal: TKeyList; pedalText: TPedalText): boolean;
 begin
   Result := False;
 
@@ -668,7 +668,7 @@ begin
 end;
 
 //Converts keys from pedals file to program keys
-procedure TKeyService.ConvertFromTextFileFmt(aKeyList: TKeyList; pedalText: string);
+procedure TKeyServiceSE2.ConvertFromTextFileFmt(aKeyList: TKeyList; pedalText: string);
 var
   aKey, newKey: TKey;
   sKey: string;
@@ -780,7 +780,7 @@ begin
 end;
 
 //Converts keys from program to format for the text file
-function TKeyService.ConvertToTextFileFmt(aKeyList: TKeyList): TPedalText;
+function TKeyServiceSE2.ConvertToTextFileFmt(aKeyList: TKeyList): TPedalText;
 var
   i, j: integer;
   isShiftLast, isShiftNext: boolean;
@@ -873,7 +873,7 @@ begin
 end;
 
 //Returns true if ActivePedal has been modified
-function TKeyService.ActivePedalModified: boolean;
+function TKeyServiceSE2.ActivePedalModified: boolean;
 begin
   result := false;
   if ActivePedal <> nil then
@@ -881,7 +881,7 @@ begin
 end;
 
 //Adds key to list of keys and returns output value
-function TKeyService.AddKey(iKey: word; modifiers: string): boolean;
+function TKeyServiceSE2.AddKey(iKey: word; modifiers: string): boolean;
 var
   aKey: TKey;
   newKey: TKey;
@@ -910,7 +910,7 @@ begin
 end;
 
 //Removes last key
-function TKeyService.RemoveLastKey: boolean;
+function TKeyServiceSE2.RemoveLastKey: boolean;
 begin
   Result := false;
   if ActivePedal <> nil then
@@ -924,7 +924,7 @@ begin
 end;
 
 //Adds modifier to list of active modifiers
-procedure TKeyService.AddModifier(key: word);
+procedure TKeyServiceSE2.AddModifier(key: word);
 var
   i: integer;
   found: boolean;
@@ -954,7 +954,7 @@ begin
 end;
 
 //Removes modifier from list of active modifiers
-procedure TKeyService.RemoveModifier(key: word);
+procedure TKeyServiceSE2.RemoveModifier(key: word);
 var
   i: integer;
   aKey: TKey;
@@ -972,13 +972,13 @@ begin
 end;
 
 //Clears all modifiers
-procedure TKeyService.ClearModifiers;
+procedure TKeyServiceSE2.ClearModifiers;
 begin
   ActiveModifiers.Clear;
 end;
 
 //Checks if windows key is down
-function TKeyService.IsWinKeyDown: boolean;
+function TKeyServiceSE2.IsWinKeyDown: boolean;
 var
   i:integer;
 begin

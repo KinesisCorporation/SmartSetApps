@@ -1,15 +1,16 @@
-object FormKeyPress: TFormKeyPress
+object FormMainSE2: TFormMainSE2
   Left = 508
   Height = 654
   Top = 71
   Width = 1105
-  HorzScrollBar.Page = 1086
-  VertScrollBar.Page = 654
+  HorzScrollBar.Page = 1075
+  VertScrollBar.Page = 624
   AutoScroll = True
   Caption = 'Savant Elite2 Config App'
-  ClientHeight = 654
-  ClientWidth = 1090
+  ClientHeight = 624
+  ClientWidth = 1075
   Color = clWhite
+  DesignTimePPI = 168
   Font.Color = clBlack
   Font.Height = -16
   Font.Name = 'Segoe UI'
@@ -20,6 +21,7 @@ object FormKeyPress: TFormKeyPress
   OnKeyUp = FormKeyUp
   Position = poScreenCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object pnlRight: TPanel
     Left = 598
     Height = 659
@@ -38,7 +40,6 @@ object FormKeyPress: TFormKeyPress
       BorderStyle = bsNone
       Color = cl3DLight
       HideSelection = False
-      Lines.Strings = (      )
       ParentShowHint = False
       ReadOnly = True
       ScrollBars = ssVertical
@@ -69,7 +70,6 @@ object FormKeyPress: TFormKeyPress
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
       HideSelection = False
-      Lines.Strings = (      )
       OnChange = memoConfigChange
       OnEnter = memoConfigEnter
       OnExit = memoConfigExit
@@ -98,9 +98,9 @@ object FormKeyPress: TFormKeyPress
     end
     object lblRight: TLabel
       Left = 7
-      Height = 18
+      Height = 21
       Top = 226
-      Width = 100
+      Width = 101
       Caption = 'Middle Pedal'
       Font.Color = clBlack
       Font.Height = -16
@@ -112,7 +112,7 @@ object FormKeyPress: TFormKeyPress
     end
     object lblRight1: TLabel
       Left = 7
-      Height = 18
+      Height = 21
       Top = 294
       Width = 88
       Caption = 'Right Pedal'
@@ -126,9 +126,9 @@ object FormKeyPress: TFormKeyPress
     end
     object lblMiddle2: TLabel
       Left = 7
-      Height = 18
+      Height = 21
       Top = 160
-      Width = 78
+      Width = 76
       Caption = 'Left Pedal'
       Font.Color = clBlack
       Font.Height = -16
@@ -140,9 +140,9 @@ object FormKeyPress: TFormKeyPress
     end
     object lblRight2: TLabel
       Left = 7
-      Height = 18
+      Height = 21
       Top = 378
-      Width = 48
+      Width = 46
       Caption = 'Jack 1'
       Font.Color = clBlack
       Font.Height = -16
@@ -154,9 +154,9 @@ object FormKeyPress: TFormKeyPress
     end
     object lblRight3: TLabel
       Left = 7
-      Height = 18
+      Height = 21
       Top = 446
-      Width = 51
+      Width = 46
       Caption = 'Jack 2'
       Font.Color = clBlack
       Font.Height = -16
@@ -168,9 +168,9 @@ object FormKeyPress: TFormKeyPress
     end
     object lblRight4: TLabel
       Left = 7
-      Height = 18
+      Height = 21
       Top = 514
-      Width = 51
+      Width = 46
       Caption = 'Jack 3'
       Font.Color = clBlack
       Font.Height = -16
@@ -182,9 +182,9 @@ object FormKeyPress: TFormKeyPress
     end
     object lblRight5: TLabel
       Left = 7
-      Height = 18
+      Height = 21
       Top = 582
-      Width = 51
+      Width = 46
       Caption = 'Jack 4'
       Font.Color = clBlack
       Font.Height = -16
@@ -409,7 +409,6 @@ object FormKeyPress: TFormKeyPress
       BorderStyle = bsNone
       Color = cl3DLight
       HideSelection = False
-      Lines.Strings = (      )
       ParentShowHint = False
       ReadOnly = True
       ScrollBars = ssVertical
@@ -426,7 +425,6 @@ object FormKeyPress: TFormKeyPress
       BorderStyle = bsNone
       Color = cl3DLight
       HideSelection = False
-      Lines.Strings = (      )
       ParentShowHint = False
       ReadOnly = True
       ScrollBars = ssVertical
@@ -443,7 +441,6 @@ object FormKeyPress: TFormKeyPress
       BorderStyle = bsNone
       Color = cl3DLight
       HideSelection = False
-      Lines.Strings = (      )
       ParentShowHint = False
       ReadOnly = True
       ScrollBars = ssVertical
@@ -460,7 +457,6 @@ object FormKeyPress: TFormKeyPress
       BorderStyle = bsNone
       Color = cl3DLight
       HideSelection = False
-      Lines.Strings = (      )
       ParentShowHint = False
       ReadOnly = True
       ScrollBars = ssVertical
@@ -477,7 +473,6 @@ object FormKeyPress: TFormKeyPress
       BorderStyle = bsNone
       Color = cl3DLight
       HideSelection = False
-      Lines.Strings = (      )
       ParentShowHint = False
       ReadOnly = True
       ScrollBars = ssVertical
@@ -494,7 +489,6 @@ object FormKeyPress: TFormKeyPress
       BorderStyle = bsNone
       Color = cl3DLight
       HideSelection = False
-      Lines.Strings = (      )
       ParentShowHint = False
       ReadOnly = True
       ScrollBars = ssVertical
@@ -1760,9 +1754,9 @@ object FormKeyPress: TFormKeyPress
     end
     object Label3: TLabel
       Left = 10
-      Height = 16
+      Height = 17
       Top = 96
-      Width = 62
+      Width = 58
       Caption = 'File name:'
       Font.Color = clBlack
       Font.Height = -13
@@ -1772,9 +1766,9 @@ object FormKeyPress: TFormKeyPress
     end
     object lblFileName: TLabel
       Left = 82
-      Height = 16
+      Height = 17
       Top = 96
-      Width = 71
+      Width = 68
       Caption = 'lblFileName'
       Font.Color = clBlack
       Font.Height = -13

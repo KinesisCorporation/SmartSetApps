@@ -1,4 +1,4 @@
-object FormAbout: TFormAbout
+object FormAboutOffice: TFormAboutOffice
   Left = 633
   Height = 256
   Top = 106
@@ -8,6 +8,7 @@ object FormAbout: TFormAbout
   ClientHeight = 256
   ClientWidth = 416
   Color = 2500134
+  DesignTimePPI = 168
   Font.Color = clWhite
   Font.Height = -13
   Font.Name = 'Segoe UI'
@@ -15,6 +16,7 @@ object FormAbout: TFormAbout
   OnCreate = FormCreate
   Position = poMainFormCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object lblTitle: TLabel
     Left = 43
     Height = 17
@@ -118,7 +120,7 @@ object FormAbout: TFormAbout
     TextPadding = 0
   end
   object btnWatchTutorial: TColorSpeedButtonCS
-    Left = 152
+    Left = 150
     Height = 32
     Top = 208
     Width = 120

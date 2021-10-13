@@ -138,14 +138,12 @@ procedure TFormLoad.btnLoadClick(Sender: TObject);
 begin
   if (rgLayout.Checked) and (Trim(cboLayout.Text) = '') then
   begin
-    ShowDialog('Load', 'You must select a layout position 1 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-          self.Color, self.Font.Color);
+    ShowDialog('Load', 'You must select a layout position 1 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
     cboLayout.SetFocus;
   end
   else if (rgCustom.Checked) and (Trim(cboBackup.Text) = '') then
   begin
-    ShowDialog('Load', 'You must select a backup layout', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-          self.Color, self.Font.Color) ;
+    ShowDialog('Load', 'You must select a backup layout', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS) ;
     cboBackup.SetFocus;
   end
   else

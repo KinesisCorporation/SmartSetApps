@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="48">
+      <Unit0>
+        <Filename Value="SmartSetMasterOffice.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="34" Y="8"/>
+        <UsageCount Value="32"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="u_form_about_master.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="32"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="u_form_dashboard.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormDashboard"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="596"/>
+        <CursorPos Y="604"/>
+        <UsageCount Value="32"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="u_form_scanvdrive.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormScanVDrive"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="40"/>
+        <CursorPos X="84" Y="50"/>
+        <UsageCount Value="32"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="u_form_settings_master.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="91"/>
+        <CursorPos X="39" Y="124"/>
+        <UsageCount Value="32"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\Common\u_const.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1913"/>
+        <CursorPos X="36" Y="1943"/>
+        <UsageCount Value="30"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\SmartSetAdv2\u_form_main_adv2.pas"/>
+        <ComponentName Value="FormMainAdv2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="455"/>
+        <CursorPos X="35" Y="462"/>
+        <UsageCount Value="17"/>
+        <Bookmarks Count="1">
+          <Item0 X="18" Y="737" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_main_fs.pas"/>
+        <ComponentName Value="FormMainFS"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="783"/>
+        <CursorPos X="20" Y="794"/>
+        <UsageCount Value="13"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\SmartSetAdv2\u_form_new.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="82"/>
+        <CursorPos X="122" Y="103"/>
+        <UsageCount Value="9"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\SmartSetAdv2\userdialog.pas"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="47"/>
+        <CursorPos Y="75"/>
+        <UsageCount Value="9"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\SmartSetAdv2\u_form_main_adv2.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\Common\userdialog.pas"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="21"/>
+        <CursorPos X="84" Y="44"/>
+        <UsageCount Value="9"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\SmartSetAdv2\userdialog_old.pas"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="..\SmartSetAdv2\u_form_troubleshoot.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="21"/>
+        <CursorPos X="51" Y="45"/>
+        <UsageCount Value="9"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="..\SmartSetAdv2\u_form_about.pas"/>
+        <ComponentName Value="FormAbout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="59"/>
+        <CursorPos X="22" Y="57"/>
+        <UsageCount Value="9"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="..\Common\u_form_about.pas"/>
+        <ComponentName Value="FormAbout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="55"/>
+        <CursorPos X="35" Y="73"/>
+        <UsageCount Value="9"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_about_office.pas"/>
+        <ComponentName Value="FormAbout"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="u_form_about"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="40" Y="20"/>
+        <UsageCount Value="9"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\Common\u_form_about_office.pas"/>
+        <ComponentName Value="FormAboutOffice"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="80"/>
+        <CursorPos X="20" Y="95"/>
+        <UsageCount Value="9"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\SmartSetAdv2\u_form_tapandhold.pas"/>
+        <ComponentName Value="FormTapAndHold"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="27"/>
+        <CursorPos X="43" Y="28"/>
+        <UsageCount Value="9"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\Common\u_form_tapandhold.pas"/>
+        <ComponentName Value="FormTapAndHold"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="193"/>
+        <CursorPos X="35" Y="63"/>
+        <UsageCount Value="9"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="..\SmartSetAdv2\u_form_tapandhold_office.pas"/>
+        <ComponentName Value="FormTapAndHoldOffice"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="24" Y="18"/>
+        <UsageCount Value="9"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="..\Common\u_form_tapandhold_office.pas"/>
+        <ComponentName Value="FormTapAndHoldOffice"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="30" Y="60"/>
+        <UsageCount Value="9"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_saveas.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="79"/>
+        <CursorPos X="103" Y="105"/>
+        <UsageCount Value="9"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_load.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="125"/>
+        <CursorPos X="98" Y="146"/>
+        <UsageCount Value="9"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="..\Common\u_form_timingdelays.pas"/>
+        <ComponentName Value="FormTimingDelays"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="37"/>
+        <CursorPos X="20" Y="53"/>
+        <UsageCount Value="9"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_tapandhold.pas"/>
+        <ComponentName Value="FormTapAndHold"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_troubleshoot.pas"/>
+        <ComponentName Value="FormTroubleshoot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
+        <CursorPos X="28" Y="49"/>
+        <UsageCount Value="9"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_troubleshoot_fs.pas"/>
+        <ComponentName Value="FormTroubleshootFS"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="39"/>
+        <CursorPos X="51" Y="48"/>
+        <UsageCount Value="10"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="..\SmartSetFSEdgePro\userdialog.pas"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_timingdelays.pas"/>
+        <ComponentName Value="FormTimingDelays"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
+        <CursorPos X="58" Y="39"/>
+        <UsageCount Value="13"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="..\SmartSetFSEdgePro\u_form_timingdelays_fs.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="63"/>
+        <CursorPos X="191" Y="84"/>
+        <UsageCount Value="9"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1263"/>
+        <CursorPos Y="1283"/>
+        <UsageCount Value="13"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="..\SmartSetSavantElite\U_KeyPress.pas"/>
+        <ComponentName Value="Form_KeyPress"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="76" Y="13"/>
+        <UsageCount Value="9"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="..\SmartSetSavantElite\u_form_keypress.pas"/>
+        <ComponentName Value="FormMainSE2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="128"/>
+        <CursorPos X="36" Y="148"/>
+        <UsageCount Value="13"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="..\SmartSetSavantElite\u_const.pas"/>
+        <UnitName Value="u_const_pedal"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="415"/>
+        <CursorPos X="19" Y="3"/>
+        <UsageCount Value="9"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="..\SmartSetSavantElite\u_const_pedal.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="34" Y="28"/>
+        <UsageCount Value="9"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="..\SmartSetSavantElite\u_key_service.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="19" Y="4"/>
+        <UsageCount Value="9"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="364"/>
+        <CursorPos X="65" Y="385"/>
+        <UsageCount Value="13"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="..\SmartSetSavantElite\u_key_service_se2.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="242"/>
+        <CursorPos X="21" Y="262"/>
+        <UsageCount Value="13"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="..\SmartSetSavantElite\u_keys.pas"/>
+        <UnitName Value="U_Keys"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="30" Y="18"/>
+        <UsageCount Value="9"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="..\Common\u_keys.pas"/>
+        <UnitName Value="U_Keys"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="98"/>
+        <CursorPos X="3" Y="102"/>
+        <UsageCount Value="13"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="..\SmartSetSavantElite\userdialog.pas"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="45"/>
+        <CursorPos X="83" Y="60"/>
+        <UsageCount Value="9"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
+        <UnitName Value="Dialogs"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="43"/>
+        <UsageCount Value="9"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="..\SmartSetSavantElite\userdialog_se2.pas"/>
+        <ComponentName Value="FormUserDialogSE2"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog_SE2"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="35" Y="9"/>
+        <UsageCount Value="13"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="..\SmartSetSavantElite\u_file_service_se2.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="247"/>
+        <CursorPos X="25" Y="283"/>
+        <UsageCount Value="9"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="..\Common\u_form_firmware.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="27"/>
+        <CursorPos X="13" Y="48"/>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="..\Common\u_common_ui.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="54" Y="9"/>
+        <UsageCount Value="9"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="..\SmartSetAdv2\u_key_service.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit47>
+    </Units>
+    <JumpHistory Count="16" HistoryIndex="15">
+      <Position1>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="12" Column="38"/>
+      </Position1>
+      <Position2>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="12" Column="38" TopLine="61"/>
+      </Position2>
+      <Position3>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="113" Column="28" TopLine="94"/>
+      </Position3>
+      <Position4>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="179" Column="24" TopLine="154"/>
+      </Position4>
+      <Position5>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="180" Column="28" TopLine="154"/>
+      </Position5>
+      <Position6>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="204" Column="26" TopLine="181"/>
+      </Position6>
+      <Position7>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="313" Column="36" TopLine="301"/>
+      </Position7>
+      <Position8>
+        <Filename Value="u_form_dashboard.pas"/>
+      </Position8>
+      <Position9>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="115" Column="25" TopLine="90"/>
+      </Position9>
+      <Position10>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="191" Column="6" TopLine="166"/>
+      </Position10>
+      <Position11>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="115" Column="15" TopLine="100"/>
+      </Position11>
+      <Position12>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="696" Column="40" TopLine="680"/>
+      </Position12>
+      <Position13>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="128" Column="29" TopLine="114"/>
+      </Position13>
+      <Position14>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="671" Column="104" TopLine="689"/>
+      </Position14>
+      <Position15>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="671" Column="104" TopLine="701"/>
+      </Position15>
+      <Position16>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="714" Column="36" TopLine="702"/>
+      </Position16>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

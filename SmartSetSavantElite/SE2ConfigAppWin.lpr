@@ -7,8 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, richmemopackage, u_keys, u_key_service, u_const, u_debug,
-  u_form_keypress, u_file_service, u_form_about, VersionSupport, UserDialog,
+  Forms, richmemopackage, u_debug,
+  u_form_keypress, u_form_about, VersionSupport,
   u_keyexception;
 
 {$R *.res}
@@ -17,7 +17,7 @@ begin
   Application.Title:='SE2 SmartSet App (Mac)';
   RequireDerivedFormResource := True;
   Application.Initialize;
-  Application.CreateForm(TFormKeyPress, FormKeyPress);
+  Application.CreateForm(TFormMainSE2, FormMainSE2);
   Application.Run;
 end.
 

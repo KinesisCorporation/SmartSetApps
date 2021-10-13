@@ -1,4 +1,4 @@
-object FormTroubleshoot: TFormTroubleshoot
+object FormTroubleshootFS: TFormTroubleshootFS
   Left = 427
   Height = 172
   Top = 128

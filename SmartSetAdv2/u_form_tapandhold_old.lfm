@@ -1,4 +1,4 @@
-object FormTapAndHold: TFormTapAndHold
+object FormTapAndHoldOffice: TFormTapAndHoldOffice
   Left = 573
   Height = 181
   Top = 333

@@ -6,16 +6,16 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  u_key_service, u_keys, lcltype, Menus, ExtCtrls, Buttons, RichMemo,
-  ColorSpeedButton, u_const, u_file_service, u_form_about, lclintf, UserDialog
+  u_key_service_se2, u_keys, lcltype, Menus, ExtCtrls, Buttons, RichMemo,
+  ColorSpeedButton, u_const_pedal, u_file_service_se2, u_form_about, lclintf, UserDialog_SE2
   {$ifdef Win32},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonUtils, CarbonDef, CarbonProc}{$endif};
 
 type
 
-  { TFormKeyPress }
+  { TFormMainSE2 }
 
-  TFormKeyPress = class(TForm)
+  TFormMainSE2 = class(TForm)
     bBackspace: TSpeedButton;
     bDone: TSpeedButton;
     bClear: TSpeedButton;
@@ -150,14 +150,16 @@ type
     procedure CheckKeyboardLayout;
   public
     { public declarations }
+    procedure InitForm(mdiParent: TForm);
+    procedure Maximize;
   end;
 
 var
-  keyService: TKeyService;
-  fileService: TFileService;
+  keyService: TKeyServiceSE2;
+  fileService: TFileServiceSE2;
   NeedInput: boolean;
   lastKeyDown: word;
-  FormKeyPress: TFormKeyPress;
+  FormMainSE2: TFormMainSE2;
   KBHook: HHook;
   lastKeyPressed: word;
 
@@ -179,7 +181,7 @@ implementation
 
 {$R *.lfm}
 
-{ TFormKeyPress }
+{ TFormMainSE2 }
 
 //{$ifdef Darwin}
 //function MAC_OS_Handler(ANextHandler: EventHandlerCallRef;
@@ -208,7 +210,7 @@ begin
   end;
 
   //If not in edit mode, does nothing
-  if not FormKeyPress.EditMode then
+  if not FormMainSE2.EditMode then
     exit;
 
   currentKey := wParam;
@@ -276,14 +278,14 @@ end;
 //Adds key to list of keys and writes back to edit field
 procedure SetKeyPress(Key: word; Modifiers: string);
 begin
-  if FormKeyPress.EditMode then
+  if FormMainSE2.EditMode then
   begin
     if keyService.AddKey(Key, Modifiers) then
-      FormKeyPress.LoadPedalText(true);
+      FormMainSE2.LoadPedalText(true);
   end;
 end;
 
-procedure TFormKeyPress.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TFormMainSE2.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   CheckToSave;
 
@@ -293,7 +295,7 @@ begin
     self := nil;
 end;
 
-procedure TFormKeyPress.FormCreate(Sender: TObject);
+procedure TFormMainSE2.FormCreate(Sender: TObject);
 begin
   //Sets Height and Width of form according to screen resolution
   self.Width := pnlLeft.Width + pnlRight.Width + 20;
@@ -321,8 +323,8 @@ begin
   end;
 
   self.Caption := GApplicationTitle;
-  keyService := TKeyService.Create;
-  fileService := TFileService.Create;
+  keyService := TKeyServiceSE2.Create;
+  fileService := TFileServiceSE2.Create;
   AddSpecialActions;
   SetSaveState(ssNone);
   NeedInput := False;
@@ -344,13 +346,18 @@ begin
   CheckKeyboardLayout;
 end;
 
-procedure TFormKeyPress.FormDestroy(Sender: TObject);
+procedure TFormMainSE2.InitForm(mdiParent: TForm);
+begin
+
+end;
+
+procedure TFormMainSE2.FormDestroy(Sender: TObject);
 begin
   RemoveKeyboardHook;
 end;
 
 //Only used for Mac version to trap key presses
-procedure TFormKeyPress.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TFormMainSE2.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
   {$ifdef Darwin}var currentKey: longint;{$endif}
 begin
@@ -391,7 +398,7 @@ begin
 end;
 
 //Only used for Mac OS to trap key presses
-procedure TFormKeyPress.FormKeyUp(Sender: TObject; var Key: Word;
+procedure TFormMainSE2.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 {$ifdef Darwin}var currentKey: longint;{$endif}
 begin
@@ -419,7 +426,7 @@ begin
   {$endif}
 end;
 
-procedure TFormKeyPress.lblWarningKbLanuageClick(Sender: TObject);
+procedure TFormMainSE2.lblWarningKbLanuageClick(Sender: TObject);
 var
   listKBLayouts: string;
   i: integer;
@@ -435,7 +442,7 @@ begin
 end;
 
 {Set the keyboard hook so we  can intercept keyboard input}
-procedure TFormKeyPress.SetKeyboardHook;
+procedure TFormMainSE2.SetKeyboardHook;
 {$ifdef Darwin}var eventType: EventTypeSpec;{$endif}
 begin
   //Windows
@@ -446,7 +453,7 @@ begin
 end;
 
 {unhook the keyboard interception}
-procedure TFormKeyPress.RemoveKeyboardHook;
+procedure TFormMainSE2.RemoveKeyboardHook;
 begin
   //Windows
   {$ifdef Win32}
@@ -454,7 +461,7 @@ begin
   {$endif}
 end;
 
-procedure TFormKeyPress.SetConfigOS;
+procedure TFormMainSE2.SetConfigOS;
 begin
   //Windows
   {$ifdef Win32}
@@ -496,28 +503,28 @@ begin
   {$endif}
 end;
 
-procedure TFormKeyPress.memoConfigChange(Sender: TObject);
+procedure TFormMainSE2.memoConfigChange(Sender: TObject);
 begin
   HideCaret(memoConfig.Handle);
 end;
 
-procedure TFormKeyPress.memoConfigEnter(Sender: TObject);
+procedure TFormMainSE2.memoConfigEnter(Sender: TObject);
 begin
   HideCaret(memoConfig.Handle);
 end;
 
-procedure TFormKeyPress.memoConfigExit(Sender: TObject);
+procedure TFormMainSE2.memoConfigExit(Sender: TObject);
 begin
   HideCaret(memoConfig.Handle);
 end;
 
-procedure TFormKeyPress.miAboutClick(Sender: TObject);
+procedure TFormMainSE2.miAboutClick(Sender: TObject);
 begin
   Application.CreateForm(TFormAbout, FormAbout);
   FormAbout.ShowModal;
 end;
 
-procedure TFormKeyPress.miHelpClick(Sender: TObject);
+procedure TFormMainSE2.miHelpClick(Sender: TObject);
 const
   HELP_FILE_NAME = 'SE2 Config App Help.pdf';
   HELP_FILE_NAME_NEW = 'SE2 SmartSet App Help.pdf';
@@ -533,7 +540,7 @@ begin
 end;
 
 //Fills popum menu with special actions
-procedure TFormKeyPress.AddSpecialActions;
+procedure TFormMainSE2.AddSpecialActions;
 var
   menuItem: TMenuItem;
 begin
@@ -893,7 +900,7 @@ begin
 end;
 
 //When special action button is clicked
-procedure TFormKeyPress.miSpecialClick(Sender: TObject);
+procedure TFormMainSE2.miSpecialClick(Sender: TObject);
 var
   isNewKey: boolean;
   LastKey: TKey;
@@ -1049,7 +1056,7 @@ begin
           begin
             isNewKey := false;
             LastKey.DiffPressRel := true;
-            FormKeyPress.LoadPedalText(true);
+            FormMainSE2.LoadPedalText(true);
           end;
         end;
       end;
@@ -1061,7 +1068,7 @@ begin
   end;
 end;
 
-procedure TFormKeyPress.bSpecialActionClick(Sender: TObject);
+procedure TFormMainSE2.bSpecialActionClick(Sender: TObject);
 var
   lPoint: TPoint;
   i: integer;
@@ -1090,12 +1097,12 @@ begin
   pmSpecial.Popup(lPoint.x, lPoint.y);
 end;
 
-procedure TFormKeyPress.bExitClick(Sender: TObject);
+procedure TFormMainSE2.bExitClick(Sender: TObject);
 begin
   self.Close;
 end;
 
-procedure TFormKeyPress.bBackspaceClick(Sender: TObject);
+procedure TFormMainSE2.bBackspaceClick(Sender: TObject);
 begin
   if keyService.RemoveLastKey then
   begin
@@ -1103,7 +1110,7 @@ begin
   end;
 end;
 
-procedure TFormKeyPress.bHelpClick(Sender: TObject);
+procedure TFormMainSE2.bHelpClick(Sender: TObject);
 var
   lPoint: TPoint;
 begin
@@ -1114,7 +1121,7 @@ begin
   pmHelp.Popup(lPoint.x, lPoint.y);
 end;
 
-procedure TFormKeyPress.bClearClick(Sender: TObject);
+procedure TFormMainSE2.bClearClick(Sender: TObject);
 begin
   memoConfig.Lines.Clear;
   keyService.ClearModifiers;
@@ -1122,7 +1129,7 @@ begin
     keyService.ActivePedal.Clear;
 end;
 
-procedure TFormKeyPress.LoadPedalText(configField: boolean);
+procedure TFormMainSE2.LoadPedalText(configField: boolean);
 var
   aPedalsPos: TPedalsPos;
 begin
@@ -1164,7 +1171,7 @@ begin
   end;
 end;
 
-procedure TFormKeyPress.bDoneClick(Sender: TObject);
+procedure TFormMainSE2.bDoneClick(Sender: TObject);
 begin
   if keyService.ActivePedalModified then
     begin
@@ -1204,14 +1211,14 @@ begin
     LoadPedalText(false);
 end;
 
-procedure TFormKeyPress.bCancelClick(Sender: TObject);
+procedure TFormMainSE2.bCancelClick(Sender: TObject);
 begin
   keyService.RestoreKeyList; //Returns to previous values
   SetEditMode(False, pNone);
 end;
 
 //Checks if user wants to apply changes in edit mode
-function TFormKeyPress.CheckEdit(checkEditing: boolean): boolean;
+function TFormMainSE2.CheckEdit(checkEditing: boolean): boolean;
 var
   msgResult: integer;
 begin
@@ -1233,7 +1240,7 @@ begin
 end;
 
 //Sets edit mode
-procedure TFormKeyPress.SetEditMode(Value: boolean; pedal: TPedal);
+procedure TFormMainSE2.SetEditMode(Value: boolean; pedal: TPedal);
 begin
   //If trying to edit and file is not valid
   if (Value) and not (fileService.FileIsValid) then
@@ -1334,7 +1341,7 @@ begin
 end;
 
 //When button configure button si pressed make it highlighted (down)
-procedure TFormKeyPress.SetEditButton(isEditMode: boolean; button: TObject);
+procedure TFormMainSE2.SetEditButton(isEditMode: boolean; button: TObject);
 begin
   if isEditMode then
   begin
@@ -1347,7 +1354,7 @@ begin
 end;
 
 //Sets the current save state
-procedure TFormKeyPress.SetSaveState(Value: TSaveState);
+procedure TFormMainSE2.SetSaveState(Value: TSaveState);
 begin
   SaveState := Value;
   bSave.Enabled := SaveState = ssModifed;
@@ -1365,87 +1372,87 @@ begin
   end;
 end;
 
-procedure TFormKeyPress.bLeftClick(Sender: TObject);
+procedure TFormMainSE2.bLeftClick(Sender: TObject);
 begin
   SetEditMode(True, pLeft);
 end;
 
-procedure TFormKeyPress.bMiddleClick(Sender: TObject);
+procedure TFormMainSE2.bMiddleClick(Sender: TObject);
 begin
   SetEditMode(True, pMiddle);
 end;
 
-procedure TFormKeyPress.bMoreMiddleClick(Sender: TObject);
+procedure TFormMainSE2.bMoreMiddleClick(Sender: TObject);
 begin
   ResizeControlMemo(memoMiddle);
 end;
 
-procedure TFormKeyPress.bMoreRightClick(Sender: TObject);
+procedure TFormMainSE2.bMoreRightClick(Sender: TObject);
 begin
   ResizeControlMemo(memoRight);
 end;
 
-procedure TFormKeyPress.bMoreJack1Click(Sender: TObject);
+procedure TFormMainSE2.bMoreJack1Click(Sender: TObject);
 begin
   ResizeControlMemo(memoJack1);
 end;
 
-procedure TFormKeyPress.bMoreJack2Click(Sender: TObject);
+procedure TFormMainSE2.bMoreJack2Click(Sender: TObject);
 begin
   ResizeControlMemo(memoJack2);
 end;
 
-procedure TFormKeyPress.bMoreJack3Click(Sender: TObject);
+procedure TFormMainSE2.bMoreJack3Click(Sender: TObject);
 begin
   ResizeControlMemo(memoJack3);
 end;
 
-procedure TFormKeyPress.bMoreJack4Click(Sender: TObject);
+procedure TFormMainSE2.bMoreJack4Click(Sender: TObject);
 begin
   ResizeControlMemo(memoJack4);
 end;
 
-procedure TFormKeyPress.bMoreLeftClick(Sender: TObject);
+procedure TFormMainSE2.bMoreLeftClick(Sender: TObject);
 begin
   ResizeControlMemo(memoLeft);
 end;
 
-procedure TFormKeyPress.bRightClick(Sender: TObject);
+procedure TFormMainSE2.bRightClick(Sender: TObject);
 begin
   SetEditMode(True, pRight);
 end;
 
-procedure TFormKeyPress.bJack1Click(Sender: TObject);
+procedure TFormMainSE2.bJack1Click(Sender: TObject);
 begin
   SetEditMode(True, pJack1);
 end;
 
-procedure TFormKeyPress.bJack2Click(Sender: TObject);
+procedure TFormMainSE2.bJack2Click(Sender: TObject);
 begin
   SetEditMode(True, pJack2);
 end;
 
-procedure TFormKeyPress.bJack3Click(Sender: TObject);
+procedure TFormMainSE2.bJack3Click(Sender: TObject);
 begin
   SetEditMode(True, pJack3);
 end;
 
-procedure TFormKeyPress.bJack4Click(Sender: TObject);
+procedure TFormMainSE2.bJack4Click(Sender: TObject);
 begin
   SetEditMode(True, pJack4);
 end;
 
-procedure TFormKeyPress.bMultipleKeysClick(Sender: TObject);
+procedure TFormMainSE2.bMultipleKeysClick(Sender: TObject);
 begin
   SetKeyMode(kmMulti);
 end;
 
-procedure TFormKeyPress.bSingleKeyClick(Sender: TObject);
+procedure TFormMainSE2.bSingleKeyClick(Sender: TObject);
 begin
   SetKeyMode(kmSingle);
 end;
 
-procedure TFormKeyPress.SetKeyMode(keyMode: TKeyMode);
+procedure TFormMainSE2.SetKeyMode(keyMode: TKeyMode);
 begin
   if keyService.ActivePedal <> nil then
   begin
@@ -1467,7 +1474,7 @@ begin
 end;
 
 //Resizes memo control to show more content
-procedure TFormKeyPress.ResizeControlMemo(Sender: TObject);
+procedure TFormMainSE2.ResizeControlMemo(Sender: TObject);
 var
   newHeight: integer;
   memoSender: TRichMemo;
@@ -1511,13 +1518,13 @@ begin
 
 end;
 
-procedure TFormKeyPress.ResetMemo(memoField: TRichMemo);
+procedure TFormMainSE2.ResetMemo(memoField: TRichMemo);
 begin
   memoField.Height := memoOriginalHeight;
   memoField.Color := memoOriginalColor;
 end;
 
-procedure TFormKeyPress.CheckKeyboardLayout;
+procedure TFormMainSE2.CheckKeyboardLayout;
 //var
   //isValid: boolean;
   //activeKBLayout: string;
@@ -1530,7 +1537,12 @@ begin
   {$endif}
 end;
 
-procedure TFormKeyPress.bOpenFileClick(Sender: TObject);
+procedure TFormMainSE2.Maximize;
+begin
+  //
+end;
+
+procedure TFormMainSE2.bOpenFileClick(Sender: TObject);
 begin
   CheckToSave;
   if pedalOpenDialog.Execute then
@@ -1541,7 +1553,7 @@ begin
   end;
 end;
 
-function TFormKeyPress.LoadPedalsFile(fileName: string): boolean;
+function TFormMainSE2.LoadPedalsFile(fileName: string): boolean;
 var
   loadMessage: string;
   canLoadFile: boolean;
@@ -1589,7 +1601,7 @@ begin
   end;
 end;
 
-procedure TFormKeyPress.CheckToSave;
+procedure TFormMainSE2.CheckToSave;
 begin
   if SaveState = ssModifed then
   begin
@@ -1602,7 +1614,7 @@ begin
   end;
 end;
 
-function TFormKeyPress.Save: boolean;
+function TFormMainSE2.Save: boolean;
 var
   errorMsg: string;
 begin
@@ -1640,7 +1652,7 @@ begin
   end;
 end;
 
-procedure TFormKeyPress.bSaveClick(Sender: TObject);
+procedure TFormMainSE2.bSaveClick(Sender: TObject);
 begin
   if fileService.FileIsValid then
   begin
@@ -1654,12 +1666,12 @@ begin
       mtError, [mbOK]);
 end;
 
-procedure TFormKeyPress.bSaveAsClick(Sender: TObject);
+procedure TFormMainSE2.bSaveAsClick(Sender: TObject);
 begin
   SaveAs;
 end;
 
-procedure TFormKeyPress.SaveAs;
+procedure TFormMainSE2.SaveAs;
 begin
   NeedInput := True;
   if pedalSaveDialog.Execute then
@@ -1671,7 +1683,7 @@ begin
   NeedInput := False;
 end;
 
-procedure TFormKeyPress.SetMemoTextColor(aMemo: TRichMemo; aPedalsPos: TPedalsPos);
+procedure TFormMainSE2.SetMemoTextColor(aMemo: TRichMemo; aPedalsPos: TPedalsPos);
 var
   i: integer;
   fontColor: TColor;

@@ -1,4 +1,4 @@
-unit u_form_about;
+unit u_form_about_office;
 
 {$mode objfpc}{$H+}
 
@@ -11,9 +11,9 @@ uses
 
 type
 
-  { TFormAbout }
+  { TFormAboutOffice }
 
-  TFormAbout = class(TForm)
+  TFormAboutOffice = class(TForm)
     btnReadManual: TColorSpeedButtonCS;
     btnWatchTutorial: TColorSpeedButtonCS;
     btnRequestSupport: TColorSpeedButtonCS;
@@ -40,49 +40,53 @@ type
   end;
 
 var
-  FormAbout: TFormAbout;
+  FormAboutOffice: TFormAboutOffice;
 
 implementation
 
 {$R *.lfm}
 
-{ TFormAbout }
+{ TFormAboutOffice }
 
-procedure TFormAbout.bOkClick(Sender: TObject);
+procedure TFormAboutOffice.bOkClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TFormAbout.btnReadManualClick(Sender: TObject);
+procedure TFormAboutOffice.btnReadManualClick(Sender: TObject);
 begin
   OpenHelpFile;
 end;
 
-procedure TFormAbout.btnRequestSupportClick(Sender: TObject);
+procedure TFormAboutOffice.btnRequestSupportClick(Sender: TObject);
 begin
-  if (GApplication = APPL_FSPRO) then
+  if (GApplication = APPL_ADV2) then
+    OpenUrl(ADV2_SUPPORT)
+  else if (GApplication = APPL_FSPRO) then
     OpenUrl(FSPRO_SUPPORT)
   else
     OpenUrl(FSEDGE_SUPPORT);
 end;
 
-procedure TFormAbout.btnWatchTutorialClick(Sender: TObject);
+procedure TFormAboutOffice.btnWatchTutorialClick(Sender: TObject);
 begin
-  if (GApplication = APPL_FSPRO) then
+  if (GApplication = APPL_ADV2) then
+    OpenUrl(ADV2_TUTORIAL)
+  else if (GApplication = APPL_FSPRO) then
     OpenUrl(FSPRO_TUTORIAL)
   else
     OpenUrl(FSEDGE_TUTORIAL);
 end;
 
-procedure TFormAbout.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TFormAboutOffice.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if CloseAction = caFree then
   begin
-    FormAbout := nil;
+    FormAboutOffice := nil;
   end;
 end;
 
-procedure TFormAbout.FormCreate(Sender: TObject);
+procedure TFormAboutOffice.FormCreate(Sender: TObject);
 begin
   SetFont(self, 'Segoe UI');
   lblTitle.Caption := GApplicationName;
@@ -93,7 +97,7 @@ begin
     lblCompany.Caption := 'Kinesis Gaming';
     lblWebsite.Caption := 'www.KinesisGaming.com';
   end
-  else if (GApplication = APPL_FSPRO) then
+  else if (GApplication = APPL_FSPRO) or (GApplication = APPL_ADV2) then
   begin
     if (not IsDarkTheme) then
     begin
@@ -108,12 +112,12 @@ begin
   btnWatchTutorial.Font.Color := clWhite;
 end;
 
-procedure TFormAbout.lblEmailClick(Sender: TObject);
+procedure TFormAboutOffice.lblEmailClick(Sender: TObject);
 begin
   OpenUrl('mailto:tech@kinesis.com');
 end;
 
-procedure TFormAbout.lblWebsiteClick(Sender: TObject);
+procedure TFormAboutOffice.lblWebsiteClick(Sender: TObject);
 begin
   if Copy(lblWebsite.Caption, 1, 4) <> 'http' then //Add HTTP for MacOS
     OpenUrl('http://' + lblWebsite.Caption)
@@ -121,7 +125,7 @@ begin
     OpenUrl(lblWebsite.Caption);
 end;
 
-function TFormAbout.FindFirstNumberPos(value: string): integer;
+function TFormAboutOffice.FindFirstNumberPos(value: string): integer;
 var
   i: integer;
   tempInt, Code: integer;
@@ -139,7 +143,7 @@ begin
   end;
 end;
 
-procedure TFormAbout.SetFirmwareVersion(firmwareVersion: string);
+procedure TFormAboutOffice.SetFirmwareVersion(firmwareVersion: string);
 begin
   if (firmwareVersion <> '') then
     lblFirmware.Caption := 'Keyboard Firmware: v' + firmwareVersion
@@ -147,11 +151,13 @@ begin
     lblFirmware.Caption := 'Keyboard Firmware : not found';
 end;
 
-procedure TFormAbout.OpenHelpFile;
+procedure TFormAboutOffice.OpenHelpFile;
 //var
 //  filePath: string;
 begin
-  if (GApplication = APPL_FSPRO) then
+  if (GApplication = APPL_ADV2) then
+    OpenUrl(ADV2_MANUAL)
+  else if (GApplication = APPL_FSPRO) then
     OpenUrl(FSPRO_MANUAL)
   else
     OpenUrl(FSEDGE_MANUAL);

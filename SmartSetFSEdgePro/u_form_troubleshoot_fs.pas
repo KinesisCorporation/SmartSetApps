@@ -1,4 +1,4 @@
-unit u_form_troubleshoot;
+unit u_form_troubleshoot_fs;
 
 {$mode objfpc}{$H+}
 
@@ -11,9 +11,9 @@ uses
 
 type
 
-  { TFormTroubleshoot }
+  { TFormTroubleshootFS }
 
-  TFormTroubleshoot = class(TForm)
+  TFormTroubleshootFS = class(TForm)
     btnDemoModeFsPro: TColorSpeedButtonCS;
     btnScan: TColorSpeedButtonCS;
     btnTroubleshootingTips: TColorSpeedButtonCS;
@@ -39,30 +39,30 @@ type
   end;
 
 var
-  FormTroubleshoot: TFormTroubleshoot;
+  FormTroubleshootFS: TFormTroubleshootFS;
   function ShowTroubleshootFS(title: string; init: boolean): integer;
 
 implementation
 
-uses u_form_main;
+uses u_form_main_fs;
 
 function ShowTroubleshootFS(title: string; init: boolean): integer;
 begin
-  if FormTroubleshoot <> nil then
-    FreeAndNil(FormTroubleshoot);
+  if FormTroubleshootFS <> nil then
+    FreeAndNil(FormTroubleshootFS);
 
   //Creates the dialog form
-  Application.CreateForm(TFormTroubleshoot, FormTroubleshoot);
-  FormTroubleshoot.lblTitle.Caption := title;
-  FormTroubleshoot.lblInitMessage.Visible := init;
-  FormTroubleshoot.lblSaveMsg.Visible := not init;
-  FormTroubleshoot.imgSmartInit.Visible := init;
-  FormTroubleshoot.imgSmartSave.Visible := not init;
+  Application.CreateForm(TFormTroubleshootFS, FormTroubleshootFS);
+  FormTroubleshootFS.lblTitle.Caption := title;
+  FormTroubleshootFS.lblInitMessage.Visible := init;
+  FormTroubleshootFS.lblSaveMsg.Visible := not init;
+  FormTroubleshootFS.imgSmartInit.Visible := init;
+  FormTroubleshootFS.imgSmartSave.Visible := not init;
 
-  FormTroubleshoot.ShowModal;
-  if (FormTroubleshoot.scanVDrive) then
+  FormTroubleshootFS.ShowModal;
+  if (FormTroubleshootFS.scanVDrive) then
     result := 1
-  else if (FormTroubleshoot.demoMode) then
+  else if (FormTroubleshootFS.demoMode) then
   begin
     GDemoMode := true;
     result := 2;
@@ -71,23 +71,23 @@ begin
     result := 0;
 end;
 
-function MainForm: TFormMain;
+function MainForm: TFormMainFS;
 begin
-  result := (Application.MainForm as TFormMain);
+  result := (Application.MainForm as TFormMainFS);
 end;
 
 {$R *.lfm}
 
-{ TFormTroubleshoot }
+{ TFormTroubleshootFS }
 
-procedure TFormTroubleshoot.FormCreate(Sender: TObject);
+procedure TFormTroubleshootFS.FormCreate(Sender: TObject);
 begin
   inherited;
   scanVDrive := false;
   demoMode := false;
 end;
 
-procedure TFormTroubleshoot.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TFormTroubleshootFS.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (key = VK_ESCAPE) then
@@ -96,51 +96,51 @@ begin
   end;
 end;
 
-procedure TFormTroubleshoot.openTroubleshootingTipsEdgeClick(Sender: TObject);
+procedure TFormTroubleshootFS.openTroubleshootingTipsEdgeClick(Sender: TObject);
 begin
   OpenUrl(FSEDGE_TROUBLESHOOT);
   CloseDialog(mrOk);
 end;
 
-procedure TFormTroubleshoot.openTroubleshootingTipsProClick(Sender: TObject);
+procedure TFormTroubleshootFS.openTroubleshootingTipsProClick(Sender: TObject);
 begin
   OpenUrl(FSPRO_TROUBLESHOOT);
   CloseDialog(mrOk);
 end;
 
-procedure TFormTroubleshoot.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TFormTroubleshootFS.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
 
 end;
 
-procedure TFormTroubleshoot.btnDemoModeFsEdgeClick(Sender: TObject);
+procedure TFormTroubleshootFS.btnDemoModeFsEdgeClick(Sender: TObject);
 begin
   GApplication := APPL_FSEDGE;
   demoMode := true;
   self.ModalResult := mrOk;
 end;
 
-procedure TFormTroubleshoot.btnDemoModeFsProClick(Sender: TObject);
+procedure TFormTroubleshootFS.btnDemoModeFsProClick(Sender: TObject);
 begin
   GApplication := APPL_FSPRO;
   demoMode := true;
   self.ModalResult := mrOk;
 end;
 
-procedure TFormTroubleshoot.btnScanClick(Sender: TObject);
+procedure TFormTroubleshootFS.btnScanClick(Sender: TObject);
 begin
   scanVDrive := true;
   self.ModalResult := mrOk;
 end;
 
-procedure TFormTroubleshoot.btnTroubleshootingTipsClick(Sender: TObject);
+procedure TFormTroubleshootFS.btnTroubleshootingTipsClick(Sender: TObject);
 var
   customBtns: TCustomButtons;
 begin
   MainForm.createCustomButton(customBtns, 'FS Edge', 100, @openTroubleshootingTipsEdgeClick);
   MainForm.createCustomButton(customBtns, 'FS Pro', 100, @openTroubleshootingTipsProClick);
   ShowDialog('Troubleshooting Tips', 'Select troubleshooting tips for your keyboard',
-    mtFSEdge, [], DEFAULT_DIAG_HEIGHT_FS, self.Color, clWhite, customBtns);
+    mtFSEdge, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
 end;
 
 

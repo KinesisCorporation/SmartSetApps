@@ -7494,6 +7494,8 @@ begin
   begin
     if (aMenuAction.ActionType = maDisable) then
       SetModifiedKey(VK_NULL, '', false, false, true, true)
+    else if (aMenuAction.ActionType = maBacklight) then
+      SetModifiedKey(VK_LED, '', false, false, true, true)
     else if (aMenuAction.ActionType = maDisableLed) then
       SetModifiedKey(VK_LED, '', false, false, true, true);
     ResetSingleKey;

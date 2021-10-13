@@ -38,11 +38,11 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_adv2;
 
-function MainForm: TFormMain;
+function MainForm: TFormMainAdv2;
 begin
-  result := (Application.MainForm as TFormMain);
+  result := (Application.MainForm as TFormMainAdv2);
 end;
 
 function ShowTroubleshoot(title: string; init: boolean; backColor: TColor; fontColor: TColor): integer;

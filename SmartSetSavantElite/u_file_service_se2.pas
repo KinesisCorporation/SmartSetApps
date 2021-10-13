@@ -1,18 +1,18 @@
-unit u_file_service;
+unit u_file_service_se2;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, FileUtil, u_const, u_debug;
+  Classes, SysUtils, FileUtil, u_const_pedal, u_debug;
 
 type
   //FileService contains all logic for file management
 
   { TFileService }
 
-  TFileService = class
+  TFileServiceSE2 = class
   private
     FFileContent: TStringList;
     FFilePath: string;
@@ -55,9 +55,9 @@ type
 
 implementation
 
-{ TFileService }
+{ TFileServiceSE2 }
 
-constructor TFileService.Create;
+constructor TFileServiceSE2.Create;
 begin
   inherited Create;
   FFileContent := TStringList.Create;
@@ -71,21 +71,21 @@ begin
   FJack4.MultiKey := false;
 end;
 
-destructor TFileService.Destroy;
+destructor TFileServiceSE2.Destroy;
 begin
   FreeAndNil(FFileContent);
   inherited Destroy;
 end;
 
 //Returns complet file name and path
-function TFileService.GetCompleteFileName: string;
+function TFileServiceSE2.GetCompleteFileName: string;
 begin
   result := FFilePath + FFileName;
 end;
 
 //Checks if file is valid
 //true if it exists or is a new file
-function TFileService.CheckFileValid: boolean;
+function TFileServiceSE2.CheckFileValid: boolean;
 begin
   result := (((FFileName <> '') and (FFilePath <> '')) and
     (FileExists(FFilePath + FFileName)))
@@ -93,7 +93,7 @@ begin
 end;
 
 //Checkes if file exists
-function TFileService.CheckIfFileExists(sFileName: string): boolean;
+function TFileServiceSE2.CheckIfFileExists(sFileName: string): boolean;
 begin
   result := false;
   if (sFileName <> '') and (FileExists(sFileName)) then
@@ -102,7 +102,7 @@ begin
 end;
 
 //Tries to set new filename
-function TFileService.SetNewFileName(sFileName: string): boolean;
+function TFileServiceSE2.SetNewFileName(sFileName: string): boolean;
 begin
   result := false;
 
@@ -122,7 +122,7 @@ begin
 end;
 
 //Receives complete file name and tries to load file
-function TFileService.LoadFile(sFileName: string; criticalFile: boolean): string;
+function TFileServiceSE2.LoadFile(sFileName: string; criticalFile: boolean): string;
 var
   filePedals: TextFile;
   currentLine: string;
@@ -158,7 +158,7 @@ begin
 end;
 
 //Gets pedal text to save to file
-function TFileService.GetPedalText(aPedal: TPedalText; aPedalType: TPedal): string;
+function TFileServiceSE2.GetPedalText(aPedal: TPedalText; aPedalType: TPedal): string;
 begin
   result := '';
 
@@ -189,7 +189,7 @@ begin
 end;
 
 //Clear pedal values
-procedure TFileService.ClearPedals;
+procedure TFileServiceSE2.ClearPedals;
 begin
   FLPedal.PedalText := '';
   FLPedal.MultiKey := false;
@@ -208,7 +208,7 @@ begin
 end;
 
 //Loads pedals from text file
-function TFileService.LoadPedals: boolean;
+function TFileServiceSE2.LoadPedals: boolean;
 var
   i:integer;
   currentLine: string;
@@ -280,7 +280,7 @@ begin
 end;
 
 //Save pedal content to text file
-function TFileService.SaveFile(var error: string): boolean;
+function TFileServiceSE2.SaveFile(var error: string): boolean;
 var
   i:integer;
   currentLine: string;

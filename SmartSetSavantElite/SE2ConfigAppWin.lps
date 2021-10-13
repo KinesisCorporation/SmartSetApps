@@ -5,31 +5,30 @@
     <Version Value="11"/>
     <BuildModes Active="Default">
       <SessionMatrixOptions Count="1">
-        <Item1 ID="821871335214" Modes="Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item1 ID="821871335214" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
       </SessionMatrixOptions>
     </BuildModes>
-    <Units Count="42">
+    <Units Count="47">
       <Unit0>
         <Filename Value="SE2ConfigAppWin.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
-        <CursorPos X="6" Y="16"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="17" Y="6"/>
         <UsageCount Value="275"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="u_keys.pas"/>
-        <IsPartOfProject Value="True"/>
         <UnitName Value="U_Keys"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="99"/>
         <CursorPos X="100" Y="119"/>
         <UsageCount Value="337"/>
-        <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="u_key_service.pas"/>
-        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="54" Y="192"/>
         <UsageCount Value="331"/>
@@ -42,7 +41,6 @@
           <Item5 X="32" Y="569" ID="8"/>
           <Item6 X="3" Y="628" ID="9"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="u_debug.pas"/>
@@ -54,40 +52,33 @@
       </Unit3>
       <Unit4>
         <Filename Value="u_const.pas"/>
-        <IsPartOfProject Value="True"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="69" Y="13"/>
         <UsageCount Value="330"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="283" ID="7"/>
         </Bookmarks>
-        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="u_form_keypress.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormKeyPress"/>
+        <ComponentName Value="FormMainSE2"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1645"/>
-        <CursorPos X="25" Y="1682"/>
+        <CursorPos X="38" Y="1670"/>
         <UsageCount Value="280"/>
         <Bookmarks Count="1">
           <Item0 X="7" Y="307" ID="1"/>
         </Bookmarks>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="u_file_service.pas"/>
-        <IsPartOfProject Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="90"/>
         <CursorPos X="31" Y="125"/>
         <UsageCount Value="289"/>
-        <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="u_form_about.pas"/>
@@ -95,35 +86,30 @@
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="45"/>
         <CursorPos X="40" Y="57"/>
         <UsageCount Value="211"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="versionsupport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="VersionSupport"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="211"/>
         <CursorPos X="43" Y="244"/>
         <UsageCount Value="210"/>
-        <Loaded Value="True"/>
       </Unit8>
       <Unit9>
         <Filename Value="userdialog.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="FormUserDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UserDialog"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos X="78" Y="47"/>
         <UsageCount Value="207"/>
-        <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit9>
       <Unit10>
@@ -333,9 +319,8 @@
       </Unit37>
       <Unit38>
         <Filename Value="..\Common\u_const.pas"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="1834"/>
-        <CursorPos X="59" Y="1856"/>
+        <TopLine Value="731"/>
+        <CursorPos X="7" Y="748"/>
         <UsageCount Value="16"/>
         <Loaded Value="True"/>
       </Unit38>
@@ -352,139 +337,74 @@
       </Unit39>
       <Unit40>
         <Filename Value="..\SmartSetAdv2\u_form_main.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="769"/>
         <CursorPos X="5" Y="775"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit40>
       <Unit41>
-        <Filename Value="..\..\..\..\Library\Lazarus\lcl\include\wincontrol.inc"/>
-        <EditorIndex Value="4"/>
+        <Filename Value="C:\Library\Lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="6459"/>
         <CursorPos Y="6480"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit41>
+      <Unit42>
+        <Filename Value="C:\lazarus\lcl\interfaces\cocoa\cocoa_extra.pas"/>
+        <UnitName Value="Cocoa_Extra"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2"/>
+        <CursorPos X="49" Y="14"/>
+        <UsageCount Value="10"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="u_const_pedal.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="u_file_service_se2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="u_key_service_se2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="..\Components\internettools\internet\internetaccess.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="12"/>
+        <CursorPos X="22" Y="28"/>
+        <UsageCount Value="10"/>
+      </Unit46>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="3" HistoryIndex="2">
       <Position1>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1669" Column="75" TopLine="1634"/>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="17" Column="3"/>
       </Position1>
       <Position2>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="132" Column="16" TopLine="116"/>
+        <Filename Value="..\Common\u_const.pas"/>
+        <Caret Line="748" Column="7" TopLine="731"/>
       </Position2>
       <Position3>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="310" Column="16" TopLine="271"/>
+        <Filename Value="SE2ConfigAppWin.lpr"/>
+        <Caret Line="7" Column="21"/>
       </Position3>
-      <Position4>
-        <Filename Value="u_form_keypress.pas"/>
-      </Position4>
-      <Position5>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="132" Column="14" TopLine="98"/>
-      </Position5>
-      <Position6>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1675" Column="6" TopLine="1637"/>
-      </Position6>
-      <Position7>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1674" Column="22" TopLine="1651"/>
-      </Position7>
-      <Position8>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1663" Column="60" TopLine="1652"/>
-      </Position8>
-      <Position9>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1383" Column="8" TopLine="1371"/>
-      </Position9>
-      <Position10>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="124" Column="15" TopLine="104"/>
-      </Position10>
-      <Position11>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1489" Column="33" TopLine="1468"/>
-      </Position11>
-      <Position12>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="130" Column="23" TopLine="109"/>
-      </Position12>
-      <Position13>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="322" Column="21" TopLine="287"/>
-      </Position13>
-      <Position14>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1489" Column="46" TopLine="1454"/>
-      </Position14>
-      <Position15>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1457" Column="44" TopLine="1437"/>
-      </Position15>
-      <Position16>
-        <Filename Value="u_form_keypress.pas"/>
-      </Position16>
-      <Position17>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="22" Column="79"/>
-      </Position17>
-      <Position18>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="132" Column="9" TopLine="98"/>
-      </Position18>
-      <Position19>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="298" Column="72" TopLine="274"/>
-      </Position19>
-      <Position20>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1473" Column="42" TopLine="1443"/>
-      </Position20>
-      <Position21>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1480" TopLine="1445"/>
-      </Position21>
-      <Position22>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1488" Column="32" TopLine="1457"/>
-      </Position22>
-      <Position23>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1493" Column="41" TopLine="1466"/>
-      </Position23>
-      <Position24>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1477" TopLine="1466"/>
-      </Position24>
-      <Position25>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1490" TopLine="1466"/>
-      </Position25>
-      <Position26>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1493" Column="24" TopLine="1466"/>
-      </Position26>
-      <Position27>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="1477" Column="17" TopLine="1466"/>
-      </Position27>
-      <Position28>
-        <Filename Value="u_form_keypress.pas"/>
-      </Position28>
-      <Position29>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="132" Column="9" TopLine="98"/>
-      </Position29>
-      <Position30>
-        <Filename Value="u_form_keypress.pas"/>
-        <Caret Line="318" Column="45" TopLine="286"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

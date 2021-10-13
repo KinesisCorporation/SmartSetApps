@@ -1,4 +1,4 @@
-unit u_form_main;
+unit u_form_main_fs;
 
 {$mode objfpc}{$H+}
 
@@ -9,16 +9,16 @@ uses
   lcltype, Menus, ExtCtrls, Buttons, lclintf, ComCtrls, u_const, u_key_service,
   u_key_layer, u_file_service, LabelBox, LineObj, ColorSpeedButtonCS, uEKnob,
   ueled, ECSwitch, ECSlider, RichMemo, u_keys, userdialog,
-  contnrs, u_form_about, LazUTF8, u_form_saveas, u_form_load,
-  u_form_timingdelays, u_form_tapandhold, u_form_troubleshoot
+  contnrs, u_form_about_office, LazUTF8, u_form_saveas, u_form_load,
+  u_form_timingdelays_fs, u_form_tapandhold, u_form_troubleshoot_fs
   {$ifdef Win32},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonDef, CarbonProc}{$endif};
 
 type
 
-  { TFormMain }
+  { TFormMainFS }
 
-  TFormMain = class(TForm)
+  TFormMainFS = class(TForm)
     bLAltMacro: TColorSpeedButtonCS;
     bLCtrlMacro: TColorSpeedButtonCS;
     bLShiftMacro: TColorSpeedButtonCS;
@@ -352,6 +352,7 @@ type
     knobBright: TuEKnob;
     ledPB: TuELED;
     ledBreathe: TuELED;
+    tmrAfterFormShown: TTimer;
     procedure bBrightnessClick(Sender: TObject);
     procedure bCoTriggerClick(Sender: TObject);
     procedure btnHelpIconClick(Sender: TObject);
@@ -397,6 +398,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormPaint(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure imgBackdropClick(Sender: TObject);
     procedure KeyButtonMouseDown(Sender: TObject; Button: TMouseButton;
@@ -429,6 +431,7 @@ type
     procedure miTokenMacroClick(Sender: TObject);
     procedure miTokenKeyClick(Sender: TObject);
     procedure ledPBClick(Sender: TObject);
+    procedure tmrAfterFormShownTimer(Sender: TObject);
     procedure watchTutorialClick(Sender: TObject);
     procedure readManualClick(Sender: TObject);
     procedure openTroubleshootingTipsEdgeClick(Sender: TObject);
@@ -477,6 +480,7 @@ type
     customWindowState: TCusWinState;
     defaultWidth: integer;
     defaultHeight: integer;
+    fromMasterApp: boolean;
 
     function CheckVDrive: boolean;
     function DoneKey: boolean;
@@ -546,11 +550,13 @@ type
     { public declarations }
     keyService: TKeyService;
     fileService: TFileService;
+    procedure InitForm(mdiParent: TForm);
+    procedure Maximize;
   end;
 
 
 var
-  FormMain: TFormMain;
+  FormMainFS: TFormMainFS;
   NeedInput: boolean;
   lastKeyDown: word;
   KBHook: HHook;
@@ -566,7 +572,7 @@ implementation
 
 {$R *.lfm}
 
-{ TFormMain }
+{ TFormMainFS }
 
 {$ifdef Win32}
 //Keyboard hook to trap key presses and process them
@@ -586,7 +592,8 @@ begin
     exit;
   end;
 
-  if (not FormMain.Active) and
+  //If entering speed, do nothing
+  if (not FormMainFS.Active) and not(FormMainFS.fromMasterApp and FormMainFS.Visible) and
     not((FormTapAndHold <> nil) and FormTapAndHold.Active and
     (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
     exit;
@@ -639,7 +646,7 @@ begin
       begin
         //If key is different then last pressed key (hasn't been released yet)
         if currentKey <> lastKeyPressed then
-          SetKeyPress(currentKey, FormMain.keyService.GetModifierText);
+          SetKeyPress(currentKey, FormMainFS.keyService.GetModifierText);
 
         //To prevent Windows from passing the keystrokes  to the target window, the Result value must  be a nonzero value.
         Result := 1;
@@ -650,7 +657,7 @@ begin
       else
       begin
         //Adds modifier to list of active modifiers
-        FormMain.keyService.AddModifier(currentKey);
+        FormMainFS.keyService.AddModifier(currentKey);
       end;
     end
     else if (Transition = tsReleased) then //On key up
@@ -663,7 +670,7 @@ begin
       if ((currentKey = lastKeyDown) and IsModifier(currentKey)) or
         (currentKey in [VK_PRINT, VK_SNAPSHOT]) then
       begin
-        SetKeyPress(currentKey, FormMain.keyService.GetModifierText);
+        SetKeyPress(currentKey, FormMainFS.keyService.GetModifierText);
 
         //To prevent Windows from passing the keystrokes  to the target window, the Result value must  be a nonzero value.
         Result := 1;
@@ -672,7 +679,7 @@ begin
       if IsModifier(currentKey) then
       begin
         //Removes modifier from list of active modifiers
-        FormMain.keyService.RemoveModifier(currentKey);
+        FormMainFS.keyService.RemoveModifier(currentKey);
       end;
     end;
   end;
@@ -681,7 +688,7 @@ end;
 {$endif}
 
 //Only used for Mac version to trap key presses
-procedure TFormMain.FormKeyDown(Sender: TObject; var Key: Word;
+procedure TFormMainFS.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 {$ifdef Darwin}var currentKey: longint;{$endif}
 begin
@@ -693,9 +700,10 @@ begin
   end;
 
   //If entering speed, do nothing
-  //if (not FormMain.Active) then
-//  if (not (Screen.ActiveForm.Name = self.Name)) then
-//    exit;
+  if (not FormMainFS.Active) and not(FormMainFS.fromMasterApp and FormMainFS.Visible) and
+    not((FormTapAndHold <> nil) and FormTapAndHold.Active and
+    (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
+    exit;
 
   currentKey := key;
 
@@ -723,7 +731,7 @@ begin
 end;
 
 //Only used for Mac OS to trap key presses
-procedure TFormMain.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
+procedure TFormMainFS.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
   );
 {$ifdef Darwin}var currentKey: longint;{$endif}
 begin
@@ -757,14 +765,21 @@ begin
   if (FormTapAndHold <> nil) and (FormTapAndHold.Visible) then
     FormTapAndHold.SetKeyPress(Key)
   else
-    FormMain.SetModifiedKey(Key, Modifiers, FormMain.memoMacro.Focused);
+    FormMainFS.SetModifiedKey(Key, Modifiers, FormMainFS.memoMacro.Focused);
 end;
 
-procedure TFormMain.FormCreate(Sender: TObject);
+procedure TFormMainFS.FormCreate(Sender: TObject);
+begin
+
+end;
+
+procedure TFormMainFS.InitForm(mdiParent: TForm);
 var
   customBtns: TCustomButtons;
   canShowApp: boolean;
 begin
+  fromMasterApp := mdiParent <> nil;
+
   //Sets Height and Width of form according to screen resolution
   self.Width := 1100;
   if screen.Width < self.Width then
@@ -773,6 +788,25 @@ begin
   self.Height := 725;
   if screen.Height < self.Height then
     self.Height := screen.Height - 20;
+
+  //From master app
+  if (fromMasterApp) then
+  begin
+    FormStyle := TFormStyle.fsMDIChild;
+    WindowState:= TWindowState.wsMaximized;
+    //NORMAL_HEIGHT := Parent.Height;
+    //NORMAL_WIDTH := Parent.Width;
+    Maximize;
+    ShowInTaskBar := stNever;
+    btnHelpIcon.Visible := false;
+    btnMinimize.Visible := false;
+    btnMaximize.Visible := false;
+    btnClose.Visible := false
+  end;
+
+  //cusWindowState := cwNormal;
+  //oldWindowState := wsNormal;
+  SetFormBorder(bsNone);
 
   defaultWidth := self.Width;
   defaultHeight := self.Height;
@@ -825,7 +859,7 @@ begin
   InitApp;
 end;
 
-procedure TFormMain.InitApp(scanVDrive: boolean);
+procedure TFormMainFS.InitApp(scanVDrive: boolean);
 var
   customBtns: TCustomButtons;
   canShowApp: boolean;
@@ -1013,14 +1047,14 @@ begin
       createCustomButton(customBtns, 'Troubleshooting Tips Edge', 200, @openTroubleshootingTipsEdgeClick);
       createCustomButton(customBtns, 'Troubleshooting Tips Pro', 200, @openTroubleshootingTipsProClick);
       ShowDialog('SmartSet App File Error', 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the keyboard to regenerate these files and try launching the App again.',
-        mtFSEdge, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+        mtFSEdge, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
       appError := true;
       Close;
     end;
   end;
 end;
 
-function TFormMain.CheckVDrive: boolean;
+function TFormMainFS.CheckVDrive: boolean;
 begin
   result := LoadVersionInfo;
   lblVDriveOk.Visible := Result and not(GDemoMode);
@@ -1028,7 +1062,7 @@ begin
   lblDemoMode.Visible := GDemoMode;
 end;
 
-function TFormMain.ShowTroubleshootingDialog(init: boolean; saveMsg: boolean; loadMsg: boolean): boolean;
+function TFormMainFS.ShowTroubleshootingDialog(init: boolean; saveMsg: boolean; loadMsg: boolean): boolean;
 var
   customBtns: TCustomButtons;
   title: string;
@@ -1041,7 +1075,7 @@ begin
   if init then
   begin
     title := 'Keyboard not detected';
-      resultTroubleshoot := ShowTroubleshoot(title, init);
+      resultTroubleshoot := ShowTroubleshootFS(title, init);
     if (resultTroubleshoot = 1) then
       ScanVDrive(init)
     else if (resultTroubleshoot = 2) then
@@ -1062,12 +1096,12 @@ begin
     else
        createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsEdgeClick);
 
-    if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns, '', 700) = mrCancel) then
+    if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_FS, customBtns, '', poMainFormCenter, 700) = mrCancel) then
       result := false;
   end;
 end;
 
-procedure TFormMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TFormMainFS.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if not CheckToSave(false) then
     CloseAction := caNone
@@ -1076,18 +1110,16 @@ begin
     closing := true;
     FreeAndNil(keyService);
     FreeAndNil(fileService);
-    if CloseAction = caFree then
-      self := nil;
-    Application.Terminate;
+    CloseAction := caFree;
   end;
 end;
 
-procedure TFormMain.FormDestroy(Sender: TObject);
+procedure TFormMainFS.FormDestroy(Sender: TObject);
 begin
   RemoveKeyboardHook;
 end;
 
-procedure TFormMain.FormPaint(Sender: TObject);
+procedure TFormMainFS.FormPaint(Sender: TObject);
 var
   Rect     : TRect;
 begin
@@ -1110,14 +1142,31 @@ begin
   end;
 end;
 
-procedure TFormMain.FormActivate(Sender: TObject);
+procedure TFormMainFS.FormShow(Sender: TObject);
 begin
-  if (not closing) then
-    self.Show;
+  //App error don't show main form
+  if (appError) then
+    self.Hide
+  else
+  begin
+    tmrAfterFormShown.Interval := 200;
+    tmrAfterFormShown.Enabled := true;
+  end;
+end;
+
+procedure TFormMainFS.FormActivate(Sender: TObject);
+begin
+
+end;
+
+procedure TFormMainFS.tmrAfterFormShownTimer(Sender: TObject);
+begin
+  tmrAfterFormShown.Enabled := false;
+  // After show code
   ShowIntroduction;
 end;
 
-procedure TFormMain.ShowIntroduction;
+procedure TFormMainFS.ShowIntroduction;
 var
   customBtns: TCustomButtons;
   hideNotif: integer;
@@ -1131,7 +1180,7 @@ begin
     hideNotif := ShowDialog('Introduction', 'To program, first select a key by clicking on the keyboard image' + #10 +
       '- Remap: Tap the desired key action on the keyboard or use the Special Actions button' + #10 +
       '- Macro: Click the macro box and then type your macro on the keyboard',
-      mtInformation, [], 200, backColor, fontColor, customBtns, 'Hide this notification?');
+      mtInformation, [], 200, customBtns, 'Hide this notification?');
     if (hideNotif >= DISABLE_NOTIF) then
     begin
       fileService.SetAppIntroMsg(true);
@@ -1143,7 +1192,7 @@ begin
   infoMessageShown := true;
 end;
 
-procedure TFormMain.ScanVDrive(init: boolean);
+procedure TFormMainFS.ScanVDrive(init: boolean);
 begin
   if (init) then
   begin
@@ -1161,7 +1210,7 @@ begin
   end;
 end;
 
-procedure TFormMain.LaunchDemoMode;
+procedure TFormMainFS.LaunchDemoMode;
 begin
   GDemoMode := true;
   if (CheckVDrive or GDemoMode) then
@@ -1172,19 +1221,19 @@ begin
   end;
 end;
 
-procedure TFormMain.scanVDriveClick(Sender: TObject);
+procedure TFormMainFS.scanVDriveClick(Sender: TObject);
 begin
   ScanVDrive(false);
 end;
 
-procedure TFormMain.pnlTitleMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TFormMainFS.pnlTitleMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   MPos.X := X;
   MPos.Y := Y;
 end;
 
-procedure TFormMain.pnlTitleMouseMove(Sender: TObject; Shift: TShiftState; X,
+procedure TFormMainFS.pnlTitleMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
   if ssLeft in Shift then
@@ -1194,7 +1243,7 @@ begin
   end;
 end;
 
-procedure TFormMain.SetConfigOS;
+procedure TFormMainFS.SetConfigOS;
 const
   SliderSeparator = 25;
 begin
@@ -1259,7 +1308,7 @@ begin
 end;
 
 {Set the keyboard hook so we  can intercept keyboard input}
-procedure TFormMain.SetKeyboardHook;
+procedure TFormMainFS.SetKeyboardHook;
 {$ifdef Darwin}var eventType: EventTypeSpec;{$endif}
 begin
   //Windows
@@ -1270,7 +1319,7 @@ begin
 end;
 
 {unhook the keyboard interception}
-procedure TFormMain.RemoveKeyboardHook;
+procedure TFormMainFS.RemoveKeyboardHook;
 begin
   //Windows
   {$ifdef Win32}
@@ -1278,7 +1327,7 @@ begin
   {$endif}
 end;
 
-procedure TFormMain.SetOtherPanelClick(container: TWinControl);
+procedure TFormMainFS.SetOtherPanelClick(container: TWinControl);
 //var
   //i: integer;
 begin
@@ -1293,7 +1342,7 @@ begin
   pnlKb.OnClick := @OtherPanelClick;
 end;
 
-procedure TFormMain.btnResetKeyClick(Sender: TObject);
+procedure TFormMainFS.btnResetKeyClick(Sender: TObject);
 var
   response: integer;
 begin
@@ -1303,7 +1352,7 @@ begin
     begin
       response := ShowDialog('Reset current key',
         'Do you want to reset the current Key?' + #10 + 'The remapped key action and any stored macros will be lost.',
-        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, nil, 'Hide this notification?');
+        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, nil, 'Hide this notification?');
       if (response >= DISABLE_NOTIF) then
       begin
         fileService.SetResetKeyMsg(true);
@@ -1324,11 +1373,11 @@ begin
   RefreshRemapInfo;
 end;
 
-procedure TFormMain.btnResetLayerClick(Sender: TObject);
+procedure TFormMainFS.btnResetLayerClick(Sender: TObject);
 begin
   if ShowDialog('Reset layer',
       'Do you want to reset the current Layer?' + #10 + 'All remapped keys and stored macros will be lost.',
-      mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor) = mrYes then
+      mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS) = mrYes then
   begin
     keyService.ResetLayer(activeLayer);
     LoadLayer(activeLayer);
@@ -1338,11 +1387,11 @@ begin
   end;
 end;
 
-procedure TFormMain.btnResetLayoutClick(Sender: TObject);
+procedure TFormMainFS.btnResetLayoutClick(Sender: TObject);
 begin
   if ShowDialog('Reset layout',
         'Do you want to reset the current Layout?' + #10 + 'All remapped keys and stored macros in both layers will be lost.',
-        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor) = mrYes then
+        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS) = mrYes then
   begin
     keyService.ResetLayout;
     LoadLayer(activeLayer);
@@ -1352,12 +1401,12 @@ begin
   end;
 end;
 
-procedure TFormMain.btnSpecialActionsRemapClick(Sender: TObject);
+procedure TFormMainFS.btnSpecialActionsRemapClick(Sender: TObject);
 begin
 
 end;
 
-procedure TFormMain.btnSpecialActionsRemapMouseUp(Sender: TObject;
+procedure TFormMainFS.btnSpecialActionsRemapMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   pt: TPoint;
@@ -1367,7 +1416,7 @@ begin
   pmTokensKeys.PopUp(pt.x - x, pt.y + ((Sender as TColorSpeedButtonCS).Height - y));
 end;
 
-procedure TFormMain.btnActivateMacroClick(Sender: TObject);
+procedure TFormMainFS.btnActivateMacroClick(Sender: TObject);
 begin
   //if IsKeyLoaded then
   //begin
@@ -1377,13 +1426,13 @@ begin
   //end;
 end;
 
-procedure TFormMain.btnCloseClick(Sender: TObject);
+procedure TFormMainFS.btnCloseClick(Sender: TObject);
 begin
   if CheckSaveKey(true) then
     Close;
 end;
 
-procedure TFormMain.btnCopyClick(Sender: TObject);
+procedure TFormMainFS.btnCopyClick(Sender: TObject);
 var
   hideNotif: integer;
 begin
@@ -1395,7 +1444,7 @@ begin
       if (not fileService.AppSettings.CopyMacroMsg) then
       begin
         hideNotif := ShowDialog('Copy', 'Macro copied. Now select a new trigger key or load a new layout, then hit Paste.',
-          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, nil, 'Hide this notification?');
+          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, nil, 'Hide this notification?');
         if (hideNotif >= DISABLE_NOTIF) then
         begin
           fileService.SetCopyMacroMsg(true);
@@ -1404,12 +1453,16 @@ begin
       end;
     end
     else
-      ShowDialog('Copy Macro', 'You must have an active maro to copy', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-        backColor, fontColor);
+      ShowDialog('Copy Macro', 'You must have an active maro to copy', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
   end;
 end;
 
-procedure TFormMain.btnMaximizeClick(Sender: TObject);
+procedure TFormMainFS.btnMaximizeClick(Sender: TObject);
+begin
+  Maximize;
+end;
+
+procedure TFormMainFS.Maximize;
 var
   aRect: TRect;
 begin
@@ -1455,7 +1508,7 @@ begin
   }
 end;
 
-procedure TFormMain.UpdateStateSettings;
+procedure TFormMainFS.UpdateStateSettings;
 begin
   self.DisableAlign;
 
@@ -1490,7 +1543,7 @@ begin
   self.Repaint;
 end;
 
-procedure TFormMain.RepaintForm(fullRepaint: boolean);
+procedure TFormMainFS.RepaintForm(fullRepaint: boolean);
 var
    region: TRect;
 begin
@@ -1507,18 +1560,18 @@ begin
   end;
 end;
 
-procedure TFormMain.SetFormBorder(formBorder: TFormBorderStyle);
+procedure TFormMainFS.SetFormBorder(formBorder: TFormBorderStyle);
 begin
   self.BorderStyle := formBorder;
   RepaintForm(true);
 end;
 
-procedure TFormMain.FormWindowStateChange(Sender: TObject);
+procedure TFormMainFS.FormWindowStateChange(Sender: TObject);
 begin
   UpdateStateSettings;
 end;
 
-procedure TFormMain.btnMinimizeClick(Sender: TObject);
+procedure TFormMainFS.btnMinimizeClick(Sender: TObject);
 begin
   try
     //Does not work if border style = none
@@ -1528,12 +1581,12 @@ begin
   end;
 end;
 
-procedure TFormMain.btnSpecialActionsMacroClick(Sender: TObject);
+procedure TFormMainFS.btnSpecialActionsMacroClick(Sender: TObject);
 begin
 
 end;
 
-procedure TFormMain.btnSpecialActionsMacroMouseUp(Sender: TObject;
+procedure TFormMainFS.btnSpecialActionsMacroMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
   pt: TPoint;
@@ -1543,7 +1596,7 @@ begin
   pmTokensMacros.PopUp(pt.x - x, pt.y + ((Sender as TColorSpeedButtonCS).Height - y));
 end;
 
-procedure TFormMain.btnBackspaceClick(Sender: TObject);
+procedure TFormMainFS.btnBackspaceClick(Sender: TObject);
 var
   cursorPos:integer;
   keyIdx: integer;
@@ -1586,7 +1639,7 @@ begin
   end;
 end;
 
-procedure TFormMain.btnCancelKeyClick(Sender: TObject);
+procedure TFormMainFS.btnCancelKeyClick(Sender: TObject);
 begin
   if IsKeyLoaded then
   begin
@@ -1599,7 +1652,7 @@ begin
   end;
 end;
 
-procedure TFormMain.btnCancelMacroClick(Sender: TObject);
+procedure TFormMainFS.btnCancelMacroClick(Sender: TObject);
 begin
   KeyModified := false;
   MacroModified := false;
@@ -1612,7 +1665,7 @@ begin
   RefreshRemapInfo;
 end;
 
-procedure TFormMain.btnClearClick(Sender: TObject);
+procedure TFormMainFS.btnClearClick(Sender: TObject);
 begin
   if (IsKeyLoaded) and (activeKbKey.IsMacro) then
   begin
@@ -1624,7 +1677,7 @@ begin
   end;
 end;
 
-function TFormMain.DoneKey: boolean;
+function TFormMainFS.DoneKey: boolean;
 begin
   result := false;
   if IsKeyLoaded then
@@ -1643,12 +1696,12 @@ begin
   end;
 end;
 
-procedure TFormMain.btnDoneKeyClick(Sender: TObject);
+procedure TFormMainFS.btnDoneKeyClick(Sender: TObject);
 begin
   DoneKey;
 end;
 
-function TFormMain.DoneMacro: boolean;
+function TFormMainFS.DoneMacro: boolean;
 var
   keyAssigned: string;
   extraInfo: string;
@@ -1679,18 +1732,17 @@ begin
     begin
       if (activeLayer.LayerIndex = BOTLAYER_IDX) then
         extraInfo := ' in the embedded layer';
-      ShowDialog('Macro', 'Macro assigned to ' + StringReplace(keyAssigned, #10, ' ', [rfReplaceAll]) + extraInfo, mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-          backColor, fontColor);
+      ShowDialog('Macro', 'Macro assigned to ' + StringReplace(keyAssigned, #10, ' ', [rfReplaceAll]) + extraInfo, mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
     end;
   end;
 end;
 
-procedure TFormMain.btnDoneMacroClick(Sender: TObject);
+procedure TFormMainFS.btnDoneMacroClick(Sender: TObject);
 begin
   DoneMacro;
 end;
 
-procedure TFormMain.btnLoadClick(Sender: TObject);
+procedure TFormMainFS.btnLoadClick(Sender: TObject);
 var
   fileName: string;
   errorMsg: string;
@@ -1722,7 +1774,7 @@ begin
   end;
 end;
 
-procedure TFormMain.btnPasteClick(Sender: TObject);
+procedure TFormMainFS.btnPasteClick(Sender: TObject);
 begin
   if (IsKeyLoaded) then
   begin
@@ -1738,13 +1790,13 @@ begin
   end;
 end;
 
-procedure TFormMain.btnSaveAsClick(Sender: TObject);
+procedure TFormMainFS.btnSaveAsClick(Sender: TObject);
 begin
   if CheckSaveKey(true) then
     SaveAs;
 end;
 
-procedure TFormMain.btnSaveClick(Sender: TObject);
+procedure TFormMainFS.btnSaveClick(Sender: TObject);
 begin
   if fileService.NewFile then
     SaveAs
@@ -1752,13 +1804,13 @@ begin
     Save(currentLayoutFile);
 end;
 
-procedure TFormMain.CheckVDriveTmrTimer(Sender: TObject);
+procedure TFormMainFS.CheckVDriveTmrTimer(Sender: TObject);
 begin
   if (not GDemoMode) then
      CheckVDrive;
 end;
 
-procedure TFormMain.eMacroFreqChange(Sender: TObject);
+procedure TFormMainFS.eMacroFreqChange(Sender: TObject);
 //var
 //  freq: integer;
 begin
@@ -1797,34 +1849,34 @@ begin
   //freqKeyDown := false;
 end;
 
-procedure TFormMain.eMacroFreqEnter(Sender: TObject);
+procedure TFormMainFS.eMacroFreqEnter(Sender: TObject);
 begin
   //eMacroFreq.SelectAll;
 end;
 
-procedure TFormMain.eMacroFreqKeyPress(Sender: TObject; var Key: char);
+procedure TFormMainFS.eMacroFreqKeyPress(Sender: TObject; var Key: char);
 begin
   //freqKeyDown := true;
 end;
 
-procedure TFormMain.eMacroFreqMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TFormMainFS.eMacroFreqMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   //eMacroFreq.SelectAll;
 end;
 
-procedure TFormMain.eSpeedEnter(Sender: TObject);
+procedure TFormMainFS.eSpeedEnter(Sender: TObject);
 begin
   //eSpeed.SelectAll;
 end;
 
-procedure TFormMain.eSpeedMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TFormMainFS.eSpeedMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   //eSpeed.SelectAll;
 end;
 
-procedure TFormMain.eSpeedChange(Sender: TObject);
+procedure TFormMainFS.eSpeedChange(Sender: TObject);
 //var
 //  speed: integer;
 begin
@@ -1860,12 +1912,12 @@ begin
   //speedKeyDown := false;
 end;
 
-procedure TFormMain.eSpeedKeyPress(Sender: TObject; var Key: char);
+procedure TFormMainFS.eSpeedKeyPress(Sender: TObject; var Key: char);
 begin
   //speedKeyDown := true;
 end;
 
-procedure TFormMain.OtherPanelClick(Sender: TObject);
+procedure TFormMainFS.OtherPanelClick(Sender: TObject);
 begin
   if IsKeyLoaded then
   begin
@@ -1873,7 +1925,7 @@ begin
   end;
 end;
 
-procedure TFormMain.imgBackdropClick(Sender: TObject);
+procedure TFormMainFS.imgBackdropClick(Sender: TObject);
 begin
   if IsKeyLoaded then
   begin
@@ -1881,7 +1933,7 @@ begin
   end;
 end;
 
-procedure TFormMain.KeyButtonMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TFormMainFS.KeyButtonMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   lPoint: TPoint;
@@ -1899,7 +1951,7 @@ begin
   end;
 end;
 
-procedure TFormMain.pmTokensKeysPopup(Sender: TObject);
+procedure TFormMainFS.pmTokensKeysPopup(Sender: TObject);
 var
   //i:integer;
   keyLoaded: boolean;
@@ -1928,7 +1980,7 @@ begin
   //end;
 end;
 
-procedure TFormMain.RefreshRemapInfo;
+procedure TFormMainFS.RefreshRemapInfo;
 var
   i, j:integer;
   aLayer: TKBLayer;
@@ -1977,7 +2029,7 @@ begin
   btnResetLayout.Enabled := (remapCount > 0) or (macroCount > 0);
 end;
 
-procedure TFormMain.rgMacroClick(Sender: TObject);
+procedure TFormMainFS.rgMacroClick(Sender: TObject);
 begin
   if (IsKeyLoaded) then
   begin
@@ -1986,7 +2038,7 @@ begin
   end;
 end;
 
-procedure TFormMain.slMacroMultiplayChange(Sender: TObject);
+procedure TFormMainFS.slMacroMultiplayChange(Sender: TObject);
 begin
   if (IsKeyLoaded) and (not loadingMacro) then
   begin
@@ -1996,7 +2048,7 @@ begin
   end;
 end;
 
-procedure TFormMain.tbMultiplayChange(Sender: TObject);
+procedure TFormMainFS.tbMultiplayChange(Sender: TObject);
 begin
   if (IsKeyLoaded) and (not loadingMacro) then
   begin
@@ -2006,7 +2058,7 @@ begin
   end;
 end;
 
-procedure TFormMain.tbSpeedChange(Sender: TObject);
+procedure TFormMainFS.tbSpeedChange(Sender: TObject);
 begin
   if (IsKeyLoaded) and (not loadingMacro) then
   begin
@@ -2016,7 +2068,7 @@ begin
   end;
 end;
 
-procedure TFormMain.slPlaybackSpeedChange(Sender: TObject);
+procedure TFormMainFS.slPlaybackSpeedChange(Sender: TObject);
 begin
   if (IsKeyLoaded) and (not loadingMacro) then
   begin
@@ -2026,12 +2078,12 @@ begin
   end;
 end;
 
-procedure TFormMain.textMacroInputClick(Sender: TObject);
+procedure TFormMainFS.textMacroInputClick(Sender: TObject);
 begin
   memoMacro.SetFocus;
 end;
 
-//procedure TFormMain.swAutoVDriveChange(Sender: TObject);
+//procedure TFormMainFS.swAutoVDriveChange(Sender: TObject);
 //begin
 //  if (not loadingSettings) then
 //  begin
@@ -2043,7 +2095,7 @@ end;
 //  end;
 //end;
 
-procedure TFormMain.swGameModeChange(Sender: TObject);
+procedure TFormMainFS.swGameModeChange(Sender: TObject);
 begin
   if (not loadingSettings) then
   begin
@@ -2052,7 +2104,7 @@ begin
   end;
 end;
 
-procedure TFormMain.swLayerSwitchClick(Sender: TObject);
+procedure TFormMainFS.swLayerSwitchClick(Sender: TObject);
 begin
   if (not resetLayer) then
   begin
@@ -2072,7 +2124,7 @@ begin
   resetLayer := false;
 end;
 
-procedure TFormMain.tbMacroSpeedChange(Sender: TObject);
+procedure TFormMainFS.tbMacroSpeedChange(Sender: TObject);
 begin
   if (not loadingSettings) then
   begin
@@ -2081,7 +2133,7 @@ begin
   end;
 end;
 
-procedure TFormMain.slMacroSpeedChange(Sender: TObject);
+procedure TFormMainFS.slMacroSpeedChange(Sender: TObject);
 begin
   if (not loadingSettings) then
   begin
@@ -2090,7 +2142,7 @@ begin
   end;
 end;
 
-procedure TFormMain.slStatusReportChange(Sender: TObject);
+procedure TFormMainFS.slStatusReportChange(Sender: TObject);
 begin
   if (not loadingSettings) then
   begin
@@ -2099,7 +2151,7 @@ begin
   end;
 end;
 
-procedure TFormMain.tbStatusReportChange(Sender: TObject);
+procedure TFormMainFS.tbStatusReportChange(Sender: TObject);
 begin
   if (not loadingSettings) then
   begin
@@ -2108,17 +2160,17 @@ begin
   end;
 end;
 
-procedure TFormMain.pmTokensMacrosPopup(Sender: TObject);
+procedure TFormMainFS.pmTokensMacrosPopup(Sender: TObject);
 begin
   miWinCombM.Checked := keyService.IsWinKeyDown;
 end;
 
-procedure TFormMain.pnlTitleClick(Sender: TObject);
+procedure TFormMainFS.pnlTitleClick(Sender: TObject);
 begin
 
 end;
 
-procedure TFormMain.miTokenMacroClick(Sender: TObject);
+procedure TFormMainFS.miTokenMacroClick(Sender: TObject);
 var
   menuItem: TMenuItem;
   timingDelay: integer;
@@ -2218,7 +2270,7 @@ begin
     begin
       keyService.AddModifier(VK_LWIN);
       ShowDialog('Windows Combination Active', 'Now press the key(s) you wish to combine with the Windows key in your macro. Then deselect Windows Combination from the Special Actions menu if you wish to continue programming or click Done.',
-        mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+        mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
       memoMacro.SetFocus;
     end;
   end
@@ -2235,7 +2287,7 @@ begin
       createCustomButton(customBtns, 'OK', 175, nil, bkOK);
       createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
       ShowDialog('Macro Delays', 'To utilize custom or random delays, please download and install the latest firmware.',
-        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
     end;
   end
   else if menuItem = miCustomDelayM then
@@ -2243,7 +2295,7 @@ begin
     if (fileService.VersionBiggerEqualKBD(1, 0, 340) or GDemoMode) then
     begin
       NeedInput := True;
-      timingDelay := ShowTimingDelays(backColor, fontColor);
+      timingDelay := ShowTimingDelaysFS(backColor, fontColor);
       if (timingDelay >= MIN_TIMING_DELAY) and (timingDelay <= MAX_TIMING_DELAY) then
         SetModifiedKey(VK_MIN_DELAY + (timingDelay - 1), '', true);
       NeedInput := False;
@@ -2253,7 +2305,7 @@ begin
       createCustomButton(customBtns, 'OK', 175, nil, bkOK);
       createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
       ShowDialog('Macro Delays', 'To utilize custom or random delays, please download and install the latest firmware.',
-        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
     end;
   end
   else if menuItem = miF13M then
@@ -2349,7 +2401,7 @@ begin
   end;
 end;
 
-procedure TFormMain.miTokenKeyClick(Sender: TObject);
+procedure TFormMainFS.miTokenKeyClick(Sender: TObject);
 var
   menuItem: TMenuItem;
   customBtns: TCustomButtons;
@@ -2470,7 +2522,7 @@ begin
     ShowDialog('Alternate Layout',
       'To which Layer would you like to apply this alternate layout?' + #10#10 +
       'Note: Implementing this layout may overwrite existing remaps.',
-      mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+      mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
   end
   else if (menuItem = miLeftMouse) then
     SetModifiedKey(VK_MOUSE_LEFT, '', false, false, true)
@@ -2496,7 +2548,7 @@ begin
       createCustomButton(customBtns, 'OK', 150, nil, bkOK);
       createCustomButton(customBtns, 'Update Firmware', 150, @openFirwareWebsite);
       ShowDialog('Multimodifiers', 'To utilize Multimodifiers, please download and install the latest firmware.',
-        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
     end;
   end
   else if (menuItem = miTapHold) then
@@ -2507,7 +2559,7 @@ begin
   btnDoneKey.Click;
 end;
 
-procedure TFormMain.knobBrightClick(Sender: TObject);
+procedure TFormMainFS.knobBrightClick(Sender: TObject);
 //var
 //  knobPos: Real;
 begin
@@ -2522,7 +2574,7 @@ begin
   //end;
 end;
 
-procedure TFormMain.knobBrightMouseUp(Sender: TObject; Button: TMouseButton;
+procedure TFormMainFS.knobBrightMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   knobPos: Real;
@@ -2538,13 +2590,13 @@ begin
   end;
 end;
 
-procedure TFormMain.ledBreatheClick(Sender: TObject);
+procedure TFormMainFS.ledBreatheClick(Sender: TObject);
 begin
   if (not settingLedMode) then
     SetLedMode(BREATHE);
 end;
 
-procedure TFormMain.memoMacroMouseUp(Sender: TObject; Button: TMouseButton;
+procedure TFormMainFS.memoMacroMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   //Prevent selecting text in macro with the mouse
@@ -2552,13 +2604,13 @@ begin
      memoMacro.SelLength := 0;
 end;
 
-procedure TFormMain.ledPBClick(Sender: TObject);
+procedure TFormMainFS.ledPBClick(Sender: TObject);
 begin
   if (not settingLedMode) then
     SetLedMode(PITCH_BLACK);
 end;
 
-procedure TFormMain.SetFnNumericKpLeft;
+procedure TFormMainFS.SetFnNumericKpLeft;
 var
   aFnLayer: TKBLayer;
   sMessage: string;
@@ -2570,7 +2622,7 @@ begin
       sMessage := sMessage  + #10#10 + 'Note: There is no numlock indicator light on the keyboard.';
 
     if ShowDialog('Insert Numeric Keypad', sMessage,
-      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor) = mrYes then
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS) = mrYes then
     begin
       aFnLayer := keyService.GetLayer(BOTLAYER_IDX);
       if (aFnLayer <> nil) then
@@ -2610,7 +2662,7 @@ begin
   end;
 end;
 
-procedure TFormMain.SetFnNumericKpRight;
+procedure TFormMainFS.SetFnNumericKpRight;
 var
   aFnLayer: TKBLayer;
   sMessage: string;
@@ -2622,7 +2674,7 @@ begin
       sMessage := sMessage  + #10#10 + 'Note: There is no numlock indicator light on the keyboard.';
 
     if ShowDialog('Insert Numeric Keypad', sMessage,
-      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor) = mrYes then
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS) = mrYes then
     begin
       aFnLayer := keyService.GetLayer(BOTLAYER_IDX);
       if (aFnLayer <> nil) then
@@ -2665,7 +2717,7 @@ begin
   end;
 end;
 
-procedure TFormMain.SetDvorakKb(layerIdx: integer; bothLayers: boolean);
+procedure TFormMainFS.SetDvorakKb(layerIdx: integer; bothLayers: boolean);
 var
   aLayer: TKBLayer;
   i: integer;
@@ -2733,7 +2785,7 @@ begin
   end;
 end;
 
-procedure TFormMain.SetColemakKb(layerIdx: integer; bothLayers: boolean);
+procedure TFormMainFS.SetColemakKb(layerIdx: integer; bothLayers: boolean);
 var
   aLayer: TKBLayer;
   i: integer;
@@ -2782,7 +2834,7 @@ begin
   end;
 end;
 
-procedure TFormMain.watchTutorialClick(Sender: TObject);
+procedure TFormMainFS.watchTutorialClick(Sender: TObject);
 begin
   if (GApplication = APPL_FSPRO) then
     OpenUrl(FSPRO_TUTORIAL)
@@ -2790,7 +2842,7 @@ begin
     OpenUrl(FSEDGE_TUTORIAL);
 end;
 
-procedure TFormMain.readManualClick(Sender: TObject);
+procedure TFormMainFS.readManualClick(Sender: TObject);
 //var
 //  filePath: string;
 begin
@@ -2807,17 +2859,17 @@ begin
 //    ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
 end;
 
-procedure TFormMain.openTroubleshootingTipsEdgeClick(Sender: TObject);
+procedure TFormMainFS.openTroubleshootingTipsEdgeClick(Sender: TObject);
 begin
   OpenUrl(FSEDGE_TROUBLESHOOT);
 end;
 
-procedure TFormMain.openTroubleshootingTipsProClick(Sender: TObject);
+procedure TFormMainFS.openTroubleshootingTipsProClick(Sender: TObject);
 begin
   OpenUrl(FSPRO_TROUBLESHOOT);
 end;
 
-procedure TFormMain.openFirwareWebsite(Sender: TObject);
+procedure TFormMainFS.openFirwareWebsite(Sender: TObject);
 begin
   if (GApplication = APPL_FSPRO) then
     OpenUrl('https://kinesis-ergo.com/support/freestyle-pro/#firmware-updates')
@@ -2825,7 +2877,7 @@ begin
     OpenUrl('https://gaming.kinesis-ergo.com/fs-edge-support/#firmware');
 end;
 
-procedure TFormMain.createCustomButton(var customBtns: TCustomButtons;
+procedure TFormMainFS.createCustomButton(var customBtns: TCustomButtons;
   btnCaption: string; btnWidth: integer; btnOnClick: TNotifyEvent;
   btnKind: TBitBtnKind = bkCustom);
 var
@@ -2840,42 +2892,42 @@ begin
   customBtns[Length(customBtns) - 1] := customBtn;
 end;
 
-procedure TFormMain.setDvorakBothLayers(Sender: TObject);
+procedure TFormMainFS.setDvorakBothLayers(Sender: TObject);
 begin
   SetDvorakKb(0, true);
 end;
 
-procedure TFormMain.setDvorakTopLayer(Sender: TObject);
+procedure TFormMainFS.setDvorakTopLayer(Sender: TObject);
 begin
   SetDvorakKb(TOPLAYER_IDX, false);
 end;
 
-procedure TFormMain.setDvorakFnLayer(Sender: TObject);
+procedure TFormMainFS.setDvorakFnLayer(Sender: TObject);
 begin
   SetDvorakKb(BOTLAYER_IDX, false);
 end;
 
-procedure TFormMain.setColemakBothLayers(Sender: TObject);
+procedure TFormMainFS.setColemakBothLayers(Sender: TObject);
 begin
   SetColemakKb(0, true);
 end;
 
-procedure TFormMain.setColemakTopLayer(Sender: TObject);
+procedure TFormMainFS.setColemakTopLayer(Sender: TObject);
 begin
   SetColemakKb(TOPLAYER_IDX, false);
 end;
 
-procedure TFormMain.setColemakFnLayer(Sender: TObject);
+procedure TFormMainFS.setColemakFnLayer(Sender: TObject);
 begin
   SetColemakKb(BOTLAYER_IDX, false);
 end;
 
-procedure TFormMain.continueClick(Sender: TObject);
+procedure TFormMainFS.continueClick(Sender: TObject);
 begin
   CloseDialog(mrOk);
 end;
 
-procedure TFormMain.bCoTriggerClick(Sender: TObject);
+procedure TFormMainFS.bCoTriggerClick(Sender: TObject);
 var
   button: TColorSpeedButtonCS;
   aKey: TKey;
@@ -2914,14 +2966,14 @@ begin
   end;
 end;
 
-procedure TFormMain.btnHelpIconClick(Sender: TObject);
+procedure TFormMainFS.btnHelpIconClick(Sender: TObject);
 begin
-  Application.CreateForm(TFormAbout, FormAbout);
-  FormAbout.SetFirmwareVersion(fileService.FirmwareVersionKBD);
-  FormAbout.ShowModal;
+  Application.CreateForm(TFormAboutOffice, FormAboutOffice);
+  FormAboutOffice.SetFirmwareVersion(fileService.FirmwareVersionKBD);
+  FormAboutOffice.ShowModal;
 end;
 
-function TFormMain.GetCoTriggerKey(Sender: TObject): TKey;
+function TFormMainFS.GetCoTriggerKey(Sender: TObject): TKey;
 begin
   if (Sender = bLShiftMacro) then
     result := keyService.FindKeyConfig(VK_LSHIFT)
@@ -2939,7 +2991,7 @@ begin
     result := nil;
 end;
 
-procedure TFormMain.RemoveCoTrigger(key: word);
+procedure TFormMainFS.RemoveCoTrigger(key: word);
 begin
   if IsKeyLoaded then
   begin
@@ -2950,7 +3002,7 @@ begin
   end;
 end;
 
-procedure TFormMain.bBrightnessClick(Sender: TObject);
+procedure TFormMainFS.bBrightnessClick(Sender: TObject);
 begin
 //var
 //  button: THSSpeedButton;
@@ -3002,7 +3054,7 @@ begin
 //  end;
 end;
 
-procedure TFormMain.SetLedMode(ledMode: string);
+procedure TFormMainFS.SetLedMode(ledMode: string);
 var
   iLedMode: integer;
 begin
@@ -3049,7 +3101,7 @@ begin
   settingLedMode := false;
 end;
 
-function TFormMain.ValidateBeforeDone: boolean;
+function TFormMainFS.ValidateBeforeDone: boolean;
 var
   errorMsg: string;
   errorTitle: string;
@@ -3075,7 +3127,7 @@ begin
         createCustomButton(customBtns, 'OK', 175, nil, bkOK);
         createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
         ShowDialog('Macro Capacity Reached', 'Only ' + IntToStr(maxMacros) + ' macros can be saved to a layout. If you need additional macros, please download and install the latest firmware.',
-          mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+          mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
       end
       else
       begin
@@ -3088,27 +3140,26 @@ begin
           if (not isCustomLayout) then
             fileName := 'Layout ' + IntToStr(idxNumber);
           ShowDialog('Macro Limit Reached', 'You have reached the macro limit for ' + fileName + '. To proceed, please delete an unused macro from this layout or create a new layout.',
-            mtError, [mbOk], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+            mtError, [mbOk], DEFAULT_DIAG_HEIGHT_FS, customBtns);
         end;
       end;
     end;
   end
   else
   begin
-    ShowDialog(errorTitle, errorMsg, mtError, [mbOk], DEFAULT_DIAG_HEIGHT_FS,
-          backColor, fontColor, customBtns);
+    ShowDialog(errorTitle, errorMsg, mtError, [mbOk], DEFAULT_DIAG_HEIGHT_FS, customBtns);
   end;
 
   result := isValid;
 end;
 
-procedure TFormMain.AppDeactivate(Sender: TObject);
+procedure TFormMainFS.AppDeactivate(Sender: TObject);
 begin
   if (keyService <> nil) and (not closing) then
     keyService.ClearModifiers;
 end;
 
-procedure TFormMain.EnableMacroBox(value: boolean);
+procedure TFormMainFS.EnableMacroBox(value: boolean);
 begin
   memoMacro.Enabled := value;
   memoMacro.ReadOnly:= not value;
@@ -3127,7 +3178,7 @@ begin
   slMacroMultiplay.Enabled := value;
 end;
 
-function TFormMain.GetKeyOtherLayer(keyIdx: integer): TKBKey;
+function TFormMainFS.GetKeyOtherLayer(keyIdx: integer): TKBKey;
 var
   i: integer;
 begin
@@ -3146,7 +3197,7 @@ begin
 end;
 
 //On application restore, remove borderstyle
-procedure TFormMain.OnRestore(Sender: TObject);
+procedure TFormMainFS.OnRestore(Sender: TObject);
 begin
   if (GApplication = APPL_FSEDGE) then
   begin
@@ -3158,7 +3209,7 @@ begin
   SetMacroText(true);
 end;
 
-procedure TFormMain.SetMacroMode(value: boolean; reset: boolean = true);
+procedure TFormMainFS.SetMacroMode(value: boolean; reset: boolean = true);
 begin
   MacroMode := false;
 
@@ -3213,12 +3264,12 @@ begin
   end;
 end;
 
-procedure TFormMain.KeyButtonClick(Sender: TObject);
+procedure TFormMainFS.KeyButtonClick(Sender: TObject);
 begin
   SetActiveKeyButton(sender as TLabelBox);
 end;
 
-function TFormMain.CheckSaveKey(canSave: boolean): boolean;
+function TFormMainFS.CheckSaveKey(canSave: boolean): boolean;
 var
   msgResult: integer;
 begin
@@ -3230,7 +3281,7 @@ begin
     begin
       msgResult := ShowDialog('Apply changes',
         'This macro has been modified, do you want to apply these changes?', mtConfirmation,
-        [mbYes, mbNo, mbCancel], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+        [mbYes, mbNo, mbCancel], DEFAULT_DIAG_HEIGHT_FS);
     if msgResult = mrYes then
       result := DoneMacro
     else if msgResult = mrNo then
@@ -3240,7 +3291,7 @@ begin
     end
     else
     begin
-      ShowDialog('Macro', 'You must finish editing macro before proceeding', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+      ShowDialog('Macro', 'You must finish editing macro before proceeding', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
       result := false;
     end;
   end
@@ -3269,7 +3320,7 @@ begin
   //end;
 end;
 
-procedure TFormMain.SetActiveKeyButton(keyButton: TLabelBox);
+procedure TFormMainFS.SetActiveKeyButton(keyButton: TLabelBox);
 begin
   if CheckSaveKey(true) then
   begin
@@ -3298,7 +3349,7 @@ begin
       else if (activeKbKey <> nil) then
       begin
         activeKbKey := nil;
-        ShowDialog('Select key', 'You cannot edit this key', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+        ShowDialog('Select key', 'You cannot edit this key', mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
       end;
     end;
 
@@ -3313,19 +3364,19 @@ begin
   end;
 end;
 
-procedure TFormMain.SetKeyButtonText(keybutton: TLabelBox; btnText: string);
+procedure TFormMainFS.SetKeyButtonText(keybutton: TLabelBox; btnText: string);
 begin
   keyButton.Caption := btnText;
 end;
 
-procedure TFormMain.SetSaveState(Value: TSaveState);
+procedure TFormMainFS.SetSaveState(Value: TSaveState);
 begin
   SaveState := Value;
   btnSave.Enabled := (SaveState = ssModified) and not(GDemoMode);
 end;
 
 //jm to remove
-procedure TFormMain.SetEditMode(value: boolean);
+procedure TFormMainFS.SetEditMode(value: boolean);
 begin
   //KeyModified := value;
   //btnCancelKey.Enabled := value;
@@ -3334,7 +3385,7 @@ begin
   //btnDoneMacro.Enabled := value;
 end;
 
-function TFormMain.LoadStateSettings: boolean;
+function TFormMainFS.LoadStateSettings: boolean;
 var
   errorMsg: string;
   ledMode: string;
@@ -3378,7 +3429,7 @@ begin
   loadingSettings := false;
 end;
 
-procedure TFormMain.SaveStateSettings;
+procedure TFormMainFS.SaveStateSettings;
 var
   errorMsg: string;
 const
@@ -3387,10 +3438,10 @@ begin
   errorMsg := fileService.SaveStateSettings;
 
   if (errorMsg <> '') then
-    ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+    ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
 end;
 
-function TFormMain.LoadVersionInfo: boolean;
+function TFormMainFS.LoadVersionInfo: boolean;
 var
   errorMsg: string;
 begin
@@ -3417,7 +3468,7 @@ begin
   end;
 end;
 
-function TFormMain.LoadKeyboardLayout(layoutFile: string): boolean;
+function TFormMainFS.LoadKeyboardLayout(layoutFile: string): boolean;
 var
   errorMsg: string;
   idxNumber: integer;
@@ -3449,11 +3500,11 @@ begin
       Result := true;
     end
     else
-      ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+      ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
   end;
 end;
 
-function TFormMain.CheckToSave(checkForVDrive: boolean): boolean;
+function TFormMainFS.CheckToSave(checkForVDrive: boolean): boolean;
 var
   dialogResult: integer;
 begin
@@ -3467,7 +3518,7 @@ begin
     begin
       dialogResult := ShowDialog('Save',
         'Do you want to save changes?',
-        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+        mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_FS);
 
       if dialogResult = mrYes then
         result := Save(currentLayoutFile)
@@ -3479,7 +3530,7 @@ begin
   end;
 end;
 
-function TFormMain.ValidateBeforeSave: boolean;
+function TFormMainFS.ValidateBeforeSave: boolean;
 var
   errorMsg: string;
   errorTitle: string;
@@ -3518,14 +3569,13 @@ begin
 
   if (not isValid) then
   begin
-    ShowDialog(errorTitle, errorMsg, mtError, [mbOk], DEFAULT_DIAG_HEIGHT_FS,
-          backColor, fontColor);
+    ShowDialog(errorTitle, errorMsg, mtError, [mbOk], DEFAULT_DIAG_HEIGHT_FS);
   end;
 
   result := isValid;
 end;
 
-function TFormMain.Save(layoutFile: string; isNew: boolean = false; showSaveDialog: boolean = true): boolean;
+function TFormMainFS.Save(layoutFile: string; isNew: boolean = false; showSaveDialog: boolean = true): boolean;
 var
   errorMsg: string;
   layoutContent: TStringList;
@@ -3573,7 +3623,7 @@ begin
               diagTitle := 'Layout & Settings Saved';
             end;
             hideNotif := ShowDialog(diagTitle, diagMessage,
-              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, nil, 'Hide this notification?');
+              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, nil, 'Hide this notification?');
             if (hideNotif >= DISABLE_NOTIF) then
             begin
               fileService.SetSaveMsg(true);
@@ -3585,7 +3635,7 @@ begin
         end
         else
           ShowDialog('Save', 'Error saving file: ' + errorMsg + #10 + 'Confirm that the v-drive is still open.',
-            mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+            mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
 
         SaveStateSettings;
       end;
@@ -3593,7 +3643,7 @@ begin
   end;
 end;
 
-procedure TFormMain.SaveAs(isNew: boolean = false);
+procedure TFormMainFS.SaveAs(isNew: boolean = false);
 var
   fileName: string;
   isBackupFile: boolean;
@@ -3632,10 +3682,10 @@ begin
           filename := ExtractFileNameWithoutExt(ExtractFileName(fileName));
           if (isBackupFile) then
             ShowDialog('Backup Layout & Settings Saved', 'This custom layout has been saved as ' + filename + '. To load this layout to the keyboard it must first be assigned to position 1-9 using the Save As button.',
-              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor)
+              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS)
           else
             ShowDialog('Layout & Settings Saved', 'This custom layout has been saved to Layout ' + layoutPosition + '. To implement your changes use the Refresh Shortcut (SmartSet + Layout) or simply close the v-Drive (SmartSet + F8). To load this layout to the keyboard press SmartSet + ' + layoutPosition + '.',
-              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+              mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
         end;
       //end;
     end;
@@ -3643,7 +3693,7 @@ begin
   end;
 end;
 
-procedure TFormMain.LoadLayer(layer: TKBLayer);
+procedure TFormMainFS.LoadLayer(layer: TKBLayer);
 var
   i: integer;
   keyButton: TLabelBox;
@@ -3661,7 +3711,7 @@ begin
   end;
 end;
 
-function TFormMain.GetKeyButtonByIndex(index: integer): TLabelBox;
+function TFormMainFS.GetKeyButtonByIndex(index: integer): TLabelBox;
 var
   i: integer;
   keyButton: TLabelBox;
@@ -3685,7 +3735,7 @@ begin
   end;
 end;
 
-function TFormMain.GetCursorNextKey(cursorPos: integer): integer;
+function TFormMainFS.GetCursorNextKey(cursorPos: integer): integer;
 var
   i:integer;
   keyIdx: integer;
@@ -3707,7 +3757,7 @@ begin
   end;
 end;
 
-function TFormMain.GetCursorPrevKey(cursorPos: integer): integer;
+function TFormMainFS.GetCursorPrevKey(cursorPos: integer): integer;
 var
   i:integer;
   keyIdx: integer;
@@ -3729,7 +3779,7 @@ begin
   end;
 end;
 
-procedure TFormMain.SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false;
+procedure TFormMainFS.SetModifiedKey(key: word; Modifiers: string; isMacro: boolean; bothLayers: boolean = false;
   overwriteTapHold: boolean = false);
 var
   aKbKeyOtherLayer: TKBKey;
@@ -3754,7 +3804,7 @@ begin
       nbKeystrokes := nbKeystrokes + (keyService.CountModifiers(Modifiers) * 2);
       if (nbKeystrokes > MAX_KEYSTROKES_MACRO_FS) then
         ShowDialog('Maximum Length Reached', 'Macros are limited to approximately 300 characters.',
-          mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor)
+          mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS)
       else
       begin
         //First keystroke in macro assign 1 to multiplay position
@@ -3839,7 +3889,7 @@ begin
   end;
 end;
 
-procedure TFormMain.SetMacroText(pushCursorToEnd: boolean; cursorPos: integer = -1);
+procedure TFormMainFS.SetMacroText(pushCursorToEnd: boolean; cursorPos: integer = -1);
 var
   aKeysPos: TKeysPos;
 begin
@@ -3887,7 +3937,7 @@ begin
   end;
 end;
 
-//procedure TFormMain.AddKeyToMacro(key: word; Modifiers: string);
+//procedure TFormMainFS.AddKeyToMacro(key: word; Modifiers: string);
 //var
 //  aKeysPos: TKeysPos;
 //  tmpKeyPos: integer;
@@ -3931,7 +3981,7 @@ end;
 //end;
 
 //Load macro from key
-procedure TFormMain.LoadMacro;
+procedure TFormMainFS.LoadMacro;
 begin
   loadingMacro := true;
   ResetMacroCoTriggers;
@@ -3988,7 +4038,7 @@ begin
   loadingMacro := false;
 end;
 
-procedure TFormMain.SetCoTrigger(aKey: TKey);
+procedure TFormMainFS.SetCoTrigger(aKey: TKey);
 begin
   if (aKey <> nil) then
   begin
@@ -4007,13 +4057,13 @@ begin
   end;
 end;
 
-function TFormMain.IsKeyLoaded: boolean;
+function TFormMainFS.IsKeyLoaded: boolean;
 begin
   result := (activeKeyBtn <> nil) and (activeKbKey <> nil);
 end;
 
 //Resets co-trigger buttons to default values
-procedure TFormMain.ResetMacroCoTriggers;
+procedure TFormMainFS.ResetMacroCoTriggers;
 begin
   ResetCoTrigger(bLShiftMacro);
   ResetCoTrigger(bLCtrlMacro);
@@ -4023,17 +4073,17 @@ begin
   ResetCoTrigger(bRAltMacro);
 end;
 
-procedure TFormMain.ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
+procedure TFormMainFS.ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.Down := true;
 end;
 
-procedure TFormMain.ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
+procedure TFormMainFS.ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
 begin
   coTriggerBtn.Down := false;
 end;
 
-procedure TFormMain.SetMemoTextColor(aMemo: TRichMemo; aKeysPos: TKeysPos);
+procedure TFormMainFS.SetMemoTextColor(aMemo: TRichMemo; aKeysPos: TKeysPos);
 var
   i: integer;
 begin
@@ -4047,13 +4097,13 @@ begin
   end;
 end;
 
-procedure TFormMain.SetActiveLayer(layerIdx: integer);
+procedure TFormMainFS.SetActiveLayer(layerIdx: integer);
 begin
   activeLayer := keyService.GetLayer(layerIdx);
   LoadLayer(activeLayer);
 end;
 
-procedure TFormMain.UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox; unselectKey: boolean = false);
+procedure TFormMainFS.UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox; unselectKey: boolean = false);
 var
   fontSize:integer;
   fontName: string;
@@ -4186,7 +4236,7 @@ begin
   end;
 end;
 
-procedure TFormMain.InitKeyButtons(container: TWinControl);
+procedure TFormMainFS.InitKeyButtons(container: TWinControl);
 var
   i: integer;
   keyButton: TLabelBox;
@@ -4214,7 +4264,7 @@ begin
   end;
 end;
 
-procedure TFormMain.OpenTapAndHold;
+procedure TFormMainFS.OpenTapAndHold;
 var
   customBtns: TCustomButtons;
   otherLayer: TKBLayer;
@@ -4232,24 +4282,24 @@ begin
       keyOtherLayer := keyService.GetKbKeyByIndex(otherLayer, activeKbKey.Index);
 
       if (keyOtherLayer <> nil) and (keyOtherLayer.TapAndHold) then
-        ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to the same key in both layers.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor)
+        ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to the same key in both layers.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS)
       else if (activeKbKey.TapAndHold = false) and (tapHoldCount >= MAX_TAP_HOLD) then
-        ShowDialog('Tap and Hold', 'You have reached the maximum number of Tap and Hold actions for this Profile.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor)
+        ShowDialog('Tap and Hold', 'You have reached the maximum number of Tap and Hold actions for this Profile.', mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS)
       else if (activeKbKey.IsMacro) then
       begin
         ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to a macro trigger key.',
-          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS);
       end
       else if (activeLayer.LayerIndex = TOPLAYER_IDX) and
         (((activeKbKey.OriginalKey.Key >= VK_A) and (activeKbKey.OriginalKey.Key <= VK_Z)) or
         ((activeKbKey.OriginalKey.Key >= VK_0) and (activeKbKey.OriginalKey.Key <= VK_9))) then
       begin
         ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to these keys (A-Z, 0-9) on the Top Layer.',
-          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor);
+          mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_FS);
       end
       else
       begin
-        if (ShowTapAndHold(activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
+        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
         begin
           KeyModified := true;
           SetSaveState(ssModified);
@@ -4264,7 +4314,7 @@ begin
       createCustomButton(customBtns, 'OK', 150, nil, bkOK);
       createCustomButton(customBtns, 'Update Firmware', 150, @openFirwareWebsite);
       ShowDialog('Tap and Hold', 'To utilize Tap and Hold Actions, please download and install the latest firmware.',
-        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, backColor, fontColor, customBtns);
+        mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
     end;
   end;
 end;

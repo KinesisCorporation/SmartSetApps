@@ -1,4 +1,4 @@
-unit UserDialog;
+unit UserDialog_SE2;
 
 {$mode objfpc}{$H+}
 
@@ -6,13 +6,13 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Buttons, u_const;
+  StdCtrls, Buttons, u_const_pedal;
 
 type
 
-  { TFormUserDialog }
+  { TFormUserDialogSE2 }
 
-  TFormUserDialog = class(TForm)
+  TFormUserDialogSE2 = class(TForm)
     ilDialog: TImageList;
     imgDialog: TImage;
     lblMessage: TLabel;
@@ -29,7 +29,7 @@ type
   end;
 
 var
-  FormUserDialog: TFormUserDialog;
+  FormUserDialogSE2: TFormUserDialogSE2;
   function ShowDialog(Caption, Message: string; dlgType: TMsgDlgType; dlgButtons: TMsgDlgButtons): integer;
 
 implementation
@@ -45,52 +45,52 @@ const
   CONFIRM_ICON = 3;
 begin
   //Close the dialog if opened
-  if FormUserDialog <> nil then
-    FreeAndNil(FormUserDialog);
+  if FormUserDialogSE2 <> nil then
+    FreeAndNil(FormUserDialogSE2);
 
   //Creates the dialog form
-  Application.CreateForm(TFormUserDialog, FormUserDialog);
+  Application.CreateForm(TFormUserDialogSE2, FormUserDialogSE2);
 
   //Loads Caption text
-  FormUserDialog.Caption := Caption;
-  FormUserDialog.lblMessage.Caption := Message;
+  FormUserDialogSE2.Caption := Caption;
+  FormUserDialogSE2.lblMessage.Caption := Message;
 
   if (IsDarkTheme) then
   begin;
-    FormUserDialog.Font.Color := clWhite;
-    FormUserDialog.lblMessage.Font.Color := clWhite;
-    FormUserDialog.Color := KINESIS_DARK_GRAY_FS;
+    FormUserDialogSE2.Font.Color := clWhite;
+    FormUserDialogSE2.lblMessage.Font.Color := clWhite;
+    FormUserDialogSE2.Color := KINESIS_DARK_GRAY_FS;
   end;
 
   //Loads the image for dialog type
   if dlgType in [mtConfirmation] then
-    FormUserDialog.ilDialog.GetBitmap(CONFIRM_ICON, FormUserDialog.imgDialog.Picture.Bitmap)
+    FormUserDialogSE2.ilDialog.GetBitmap(CONFIRM_ICON, FormUserDialogSE2.imgDialog.Picture.Bitmap)
   else if dlgType in [mtWarning] then
-    FormUserDialog.ilDialog.GetBitmap(WARNING_ICON, FormUserDialog.imgDialog.Picture.Bitmap)
+    FormUserDialogSE2.ilDialog.GetBitmap(WARNING_ICON, FormUserDialogSE2.imgDialog.Picture.Bitmap)
   else if dlgType in [mtError] then
-    FormUserDialog.ilDialog.GetBitmap(ERROR_ICON, FormUserDialog.imgDialog.Picture.Bitmap)
+    FormUserDialogSE2.ilDialog.GetBitmap(ERROR_ICON, FormUserDialogSE2.imgDialog.Picture.Bitmap)
   else if dlgType in [mtInformation] then
-    FormUserDialog.ilDialog.GetBitmap(INFO_ICON, FormUserDialog.imgDialog.Picture.Bitmap)
+    FormUserDialogSE2.ilDialog.GetBitmap(INFO_ICON, FormUserDialogSE2.imgDialog.Picture.Bitmap)
   else
-    FormUserDialog.ilDialog.GetBitmap(CONFIRM_ICON, FormUserDialog.imgDialog.Picture.Bitmap);
+    FormUserDialogSE2.ilDialog.GetBitmap(CONFIRM_ICON, FormUserDialogSE2.imgDialog.Picture.Bitmap);
 
   //Adds buttons according to options
   if mbYes in dlgButtons then
-    FormUserDialog.AddButton('Yes', bkYes);
+    FormUserDialogSE2.AddButton('Yes', bkYes);
   if mbNo in dlgButtons then
-    FormUserDialog.AddButton('No', bkNo);
+    FormUserDialogSE2.AddButton('No', bkNo);
   if mbOK in dlgButtons then
-    FormUserDialog.AddButton('OK', bkOK);
+    FormUserDialogSE2.AddButton('OK', bkOK);
   if mbCancel in dlgButtons then
-    FormUserDialog.AddButton('Cancel', bkCancel);
+    FormUserDialogSE2.AddButton('Cancel', bkCancel);
 
   //Shows dialog and returns value
-  result := FormUserDialog.ShowModal;
+  result := FormUserDialogSE2.ShowModal;
 end;
 
-{ TFormUserDialog }
+{ TFormUserDialogSE2 }
 
-procedure TFormUserDialog.FormCreate(Sender: TObject);
+procedure TFormUserDialogSE2.FormCreate(Sender: TObject);
 begin
     //Windows
   {$ifdef Win32}
@@ -102,7 +102,7 @@ begin
   {$endif}
 end;
 
-procedure TFormUserDialog.AddButton(btnCaption: String; btnType: TBitBtnKind);
+procedure TFormUserDialogSE2.AddButton(btnCaption: String; btnType: TBitBtnKind);
 var
   i, idx:integer;
   button: TBitBtn;

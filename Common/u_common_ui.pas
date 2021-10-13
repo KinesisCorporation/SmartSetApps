@@ -82,6 +82,9 @@ var
   NeedInput: boolean;
   keyService: TBaseKeyService;
   fileService: TFileService;
+  keyDownList: TList;
+  keyUpList: TList;
+  speakList: TList;
   procedure LoadButtonImage(obj: TObject; imgList: TImageList; idx: integer);
   function EjectDevice(device: TDevice): boolean;
   procedure CreateCustomButton(var customBtns: TCustomButtons;
@@ -90,6 +93,12 @@ var
   function GetKeyOtherLayer(keyService: TKeyService; keyIdx: integer): TKBKey;
   function GetKeyButtonByIndex(keyBtnList: TObjectList; index: integer): TLabelBox;
   procedure ClearBitmaps(container: TWinControl);
+  procedure AddKeyDown(key: integer);
+  procedure AddKeyUp(key: integer);
+  procedure AddSpeakKey(key: integer);
+  procedure RemoveSpeakKey(key: integer);
+  procedure RemoveKeyDown(key: integer);
+  procedure ClearAllKeyDowKeyUp;
 
 const
   PARAM_COLOR = 1;
@@ -283,6 +292,55 @@ begin
    // else if (container.Controls[i].InheritsFrom(TWinControl)) then
    //   ClearBitmaps(container.Controls[i] as TWinControl);
   //end;
+end;
+
+procedure AddKeyDown(key: integer);
+begin
+  if keyDownList.IndexOf(pointer(key)) = -1 then
+  begin
+    keyDownList.Add(pointer(key));
+  end;
+end;
+
+procedure AddKeyUp(key: integer);
+begin
+  if keyUpList.IndexOf(pointer(key)) = -1 then
+  begin
+    keyUpList.Add(pointer(key));
+  end;
+end;
+
+procedure AddSpeakKey(key: integer);
+begin
+  speakList.Add(pointer(key));
+end;
+
+procedure RemoveSpeakKey(key: integer);
+var
+  idx: integer;
+  item: pointer;
+begin
+  idx := speakList.IndexOf(pointer(key));
+  if idx <> -1 then
+  begin
+    item := speakList.Items[idx];
+    speakList.Remove(item);
+  end;
+end;
+
+procedure RemoveKeyDown(key: integer);
+begin
+  if keyDownList.IndexOf(pointer(key)) >= 0 then
+  begin
+    keyDownList.Remove(pointer(key));
+  end;
+end;
+
+procedure ClearAllKeyDowKeyUp;
+begin
+  keyDownList.Clear;
+  keyUpList.Clear;
+  speakList.Clear;
 end;
 
 end.

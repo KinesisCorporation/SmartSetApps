@@ -1,4 +1,4 @@
-unit u_form_tapandhold;
+unit u_form_tapandhold_office;
 
 {$mode objfpc}{$H+}
 
@@ -11,9 +11,9 @@ uses
 
 type
 
-  { TFormTapAndHold }
+  { TFormTapAndHoldOffice }
 
-  TFormTapAndHold = class(TForm)
+  TFormTapAndHoldOffice = class(TForm)
     btnDone: TColorSpeedButtonCS;
     btnCancel: TColorSpeedButtonCS;
     eHoldAction: TEdit;
@@ -43,8 +43,8 @@ type
   end;
 
 var
-  FormTapAndHold: TFormTapAndHold;
-  function ShowTapAndHold(aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
+  FormTapAndHoldOffice: TFormTapAndHoldOffice;
+  function ShowTapAndHoldOffice(aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
 
 implementation
 
@@ -57,66 +57,66 @@ begin
   result := (Application.MainForm as TFormMain);
 end;
 
-function ShowTapAndHold(aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
+function ShowTapAndHoldOffice(aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
 const
   DefaultDelay = 250;
 begin
   result := false;
   //Close the dialog if opened
-  if FormTapAndHold <> nil then
-    FreeAndNil(FormTapAndHold);
+  if FormTapAndHoldOffice <> nil then
+    FreeAndNil(FormTapAndHoldOffice);
 
   //Creates the dialog form
-  Application.CreateForm(TFormTapAndHold, FormTapAndHold);
+  Application.CreateForm(TFormTapAndHoldOffice, FormTapAndHoldOffice);
 
-  FormTapAndHold.Color := backColor;
-  FormTapAndHold.Font.Color := fontColor;
-  FormTapAndHold.lblTapAction.Color := backColor;
-  FormTapAndHold.lblTapAction.Font.Color := fontColor;
-  FormTapAndHold.lblHoldAction.Color := backColor;
-  FormTapAndHold.lblHoldAction.Font.Color := fontColor;
-  FormTapAndHold.lblDelay.Color := backColor;
-  FormTapAndHold.lblDelay.Font.Color := fontColor;
+  FormTapAndHoldOffice.Color := backColor;
+  FormTapAndHoldOffice.Font.Color := fontColor;
+  FormTapAndHoldOffice.lblTapAction.Color := backColor;
+  FormTapAndHoldOffice.lblTapAction.Font.Color := fontColor;
+  FormTapAndHoldOffice.lblHoldAction.Color := backColor;
+  FormTapAndHoldOffice.lblHoldAction.Font.Color := fontColor;
+  FormTapAndHoldOffice.lblDelay.Color := backColor;
+  FormTapAndHoldOffice.lblDelay.Font.Color := fontColor;
 
-  //FormTapAndHold.timingDelay := iTimingDelay;
+  //FormTapAndHoldOffice.timingDelay := iTimingDelay;
   if (iTimingDelay <= 0) then
     iTimingDelay := DefaultDelay;
 
-  FormTapAndHold.eTimingDelay.Text := IntToStr(iTimingDelay);
+  FormTapAndHoldOffice.eTimingDelay.Text := IntToStr(iTimingDelay);
   if (aTapAction <> nil) then
-    FormTapAndHold.SetKeyPress(aTapAction.Key, FormTapAndHold.eTapAction)
+    FormTapAndHoldOffice.SetKeyPress(aTapAction.Key, FormTapAndHoldOffice.eTapAction)
   else
-    FormTapAndHold.tapAction := 0;
+    FormTapAndHoldOffice.tapAction := 0;
   if (aHoldAction <> nil) then
-    FormTapAndHold.SetKeyPress(aHoldAction.Key, FormTapAndHold.eHoldAction)
+    FormTapAndHoldOffice.SetKeyPress(aHoldAction.Key, FormTapAndHoldOffice.eHoldAction)
    else
-    FormTapAndHold.holdAction := 0;
+    FormTapAndHoldOffice.holdAction := 0;
 
   //Shows dialog and returns value
-  if FormTapAndHold.ShowModal = mrOK then
+  if FormTapAndHoldOffice.ShowModal = mrOK then
   begin
     result := true;
   end;
 end;
 
-{ TFormTapAndHold }
+{ TFormTapAndHoldOffice }
 
-procedure TFormTapAndHold.FormCreate(Sender: TObject);
+procedure TFormTapAndHoldOffice.FormCreate(Sender: TObject);
 begin
   inherited;
 end;
 
-procedure TFormTapAndHold.FormShow(Sender: TObject);
+procedure TFormTapAndHoldOffice.FormShow(Sender: TObject);
 begin
   eTapAction.SetFocus;
 end;
 
-procedure TFormTapAndHold.btnCancelClick(Sender: TObject);
+procedure TFormTapAndHoldOffice.btnCancelClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
 end;
 
-function TFormTapAndHold.Validate: boolean;
+function TFormTapAndHoldOffice.Validate: boolean;
 begin
   result := false;
   if (timingDelay < MIN_TIMING_DELAY) or (timingDelay > MAX_TIMING_DELAY) then
@@ -130,13 +130,13 @@ begin
     result := true;
 end;
 
-procedure TFormTapAndHold.btnDoneClick(Sender: TObject);
+procedure TFormTapAndHoldOffice.btnDoneClick(Sender: TObject);
 begin
   if (Validate) then
     ModalResult := mrOK;
 end;
 
-procedure TFormTapAndHold.eHoldActionKeyDown(Sender: TObject; var Key: Word;
+procedure TFormTapAndHoldOffice.eHoldActionKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   {$ifdef Darwin}
@@ -145,7 +145,7 @@ begin
   key := 0;
 end;
 
-procedure TFormTapAndHold.eTapActionKeyDown(Sender: TObject; var Key: Word;
+procedure TFormTapAndHoldOffice.eTapActionKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   {$ifdef Darwin}
@@ -154,24 +154,24 @@ begin
   key := 0;
 end;
 
-procedure TFormTapAndHold.eTimingDelayChange(Sender: TObject);
+procedure TFormTapAndHoldOffice.eTimingDelayChange(Sender: TObject);
 begin
-  timingDelay := ConvertToInt(FormTapAndHold.eTimingDelay.Text);
+  timingDelay := ConvertToInt(FormTapAndHoldOffice.eTimingDelay.Text);
 end;
 
-procedure TFormTapAndHold.eTimingDelayKeyDown(Sender: TObject; var Key: Word;
+procedure TFormTapAndHoldOffice.eTimingDelayKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   if (Key = VK_UP) or (Key = VK_DOWN) then
   begin
-    timingDelay := ConvertToInt(FormTapAndHold.eTimingDelay.Text, 0);
+    timingDelay := ConvertToInt(FormTapAndHoldOffice.eTimingDelay.Text, 0);
     if (Key = VK_UP) then
     begin
       if (timingDelay < MAX_TIMING_DELAY) then
         inc(timingDelay)
       else
         timingDelay := MAX_TIMING_DELAY;
-      FormTapAndHold.eTimingDelay.Text := IntToStr(timingDelay);
+      FormTapAndHoldOffice.eTimingDelay.Text := IntToStr(timingDelay);
     end
     else if (Key = VK_DOWN) then
     begin
@@ -179,14 +179,14 @@ begin
         dec(timingDelay)
       else
         timingDelay := MIN_TIMING_DELAY;
-      FormTapAndHold.eTimingDelay.Text := IntToStr(timingDelay);
+      FormTapAndHoldOffice.eTimingDelay.Text := IntToStr(timingDelay);
     end;
   end
   else if ((key < VK_0) or (key > VK_9)) and (key <> VK_BACK) then
    key := 0;
 end;
 
-procedure TFormTapAndHold.SetKeyPress(key: word; edit: TEdit);
+procedure TFormTapAndHoldOffice.SetKeyPress(key: word; edit: TEdit);
 var
   aKey: TKey;
 begin

@@ -96,6 +96,16 @@ begin
   if (dialogWidth <> 0) then
     formDialog.Width := dialogWidth;
 
+  //Loads colors
+  if (GApplication in [APPL_ADV2, APPL_FSPRO, APPL_PEDAL]) and not(IsDarkTheme) then
+  begin
+    formDialog.Color := clWhite;
+    formDialog.Font.Color := clBlack;
+    formDialog.lblMessage.Color := clWhite;
+    formDialog.lblMessage.Font.Color := clBlack;
+    formDialog.lblCheckBox.Font.Color := clBlack;
+  end;
+
   {$ifdef Darwin}
   formDialog.chkCheckBox.Top := formDialog.chkCheckBox.Top - 5;
   formDialog.lblCheckBox.Left := formDialog.lblCheckBox.Left + 5;

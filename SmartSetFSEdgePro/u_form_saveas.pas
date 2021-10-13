@@ -97,14 +97,12 @@ procedure TFormSaveAs.btnSaveClick(Sender: TObject);
 begin
   if (rgLayout.Checked) and (Trim(cboLayout.Text) = '') then
   begin
-    ShowDialog('Save As', 'You must select a layout position 1 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-          self.Color, self.Font.Color);
+    ShowDialog('Save As', 'You must select a layout position 1 to 9', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
     cboLayout.SetFocus;
   end
   else if (rgCustom.Checked) and (Trim(eCustLayout.Text) = '') then
   begin
-    ShowDialog('Save As', 'You must enter a backup file name', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS,
-          self.Color, self.Font.Color);
+    ShowDialog('Save As', 'You must enter a backup file name', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_FS);
     eCustLayout.SetFocus;
   end
   else

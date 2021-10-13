@@ -6,18 +6,15 @@
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="SE2 SmartSet App (Mac)"/>
+      <Title Value="SmartSetMasterOffice"/>
+      <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <Icon Value="0"/>
     </General>
-    <i18n>
-      <EnableI18N LFM="False"/>
-    </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="2"/>
+      <MinorVersionNr Value="1"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -25,84 +22,85 @@
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
+      <UseFileFilters Value="True"/>
     </PublishOptions>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="1">
-        <Mode0 Name="default"/>
-      </Modes>
+      <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="bgracontrols"/>
+        <PackageName Value="installpkg"/>
       </Item1>
       <Item2>
-        <PackageName Value="richmemopackage"/>
+        <PackageName Value="creosource"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="bgracontrols"/>
       </Item3>
+      <Item4>
+        <PackageName Value="richmemopackage"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="gifviewer_pkg"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="uEControls"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="mbColorLibLaz"/>
+      </Item7>
+      <Item8>
+        <PackageName Value="eccontrols"/>
+      </Item8>
+      <Item9>
+        <PackageName Value="LCL"/>
+      </Item9>
     </RequiredPackages>
-    <Units Count="10">
+    <Units Count="6">
       <Unit0>
-        <Filename Value="SE2ConfigAppWin.lpr"/>
+        <Filename Value="SmartSetMasterOffice.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="u_debug.pas"/>
+        <Filename Value="u_form_about_master.pas"/>
         <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="u_form_keypress.pas"/>
+        <Filename Value="u_form_dashboard.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormMainSE2"/>
+        <ComponentName Value="FormDashboard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
       <Unit3>
-        <Filename Value="u_form_about.pas"/>
+        <Filename Value="u_form_scanvdrive.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormAbout"/>
+        <ComponentName Value="FormScanVDrive"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
-        <Filename Value="versionsupport.pas"/>
+        <Filename Value="u_form_settings_master.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="VersionSupport"/>
+        <HasResources Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="u_keyboardlayout.pas"/>
+        <Filename Value="..\Common\u_const.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="u_KeyboardLayout"/>
       </Unit5>
-      <Unit6>
-        <Filename Value="u_keyexception.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="u_const_pedal.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="u_file_service_se2.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="u_key_service_se2.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit9>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SE2 SmartSet App (PC)"/>
+      <Filename Value="SmartSetMasterOffice (PC)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\Common;..\Components;..\Components\internettools\internet;..\Components\internettools\system;..\Components\internettools\data"/>
+      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src;..\Components\synapse40\source\lib;..\SmartSetAdv2;..\SmartSetSavantElite;..\SmartSetFSEdgePro"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -118,7 +116,7 @@
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="False"/>
-        <DebugInfoType Value="dsDwarf2Set"/>
+        <UseHeaptrc Value="True"/>
         <StripSymbols Value="True"/>
       </Debugging>
       <LinkSmart Value="True"/>

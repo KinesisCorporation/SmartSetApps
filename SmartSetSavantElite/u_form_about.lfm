@@ -13,6 +13,7 @@ object FormAbout: TFormAbout
   OnCreate = FormCreate
   Position = poDesktopCenter
   LCLVersion = '2.0.8.0'
+  Scaled = false
   object bOk: TBitBtn
     Left = 333
     Height = 25

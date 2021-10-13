@@ -14,7 +14,7 @@ uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
   {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
-  HSSpeedButton, internetaccess, LazFileUtils, u_kinesis_device, registry;//, HTTPSend, ssl_openssl;
+  internetaccess, LazFileUtils, u_kinesis_device, registry;
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -247,7 +247,6 @@ function GetDeviceInformation(aDevice: TDevice): boolean;
 function LoadFontFromRes(FontName: string):THandle;
 function SaveToRegistry(keyName: string; value: string): boolean;
 function ReadFromRegistry(keyName: string): string;
-procedure DownloadFile(url: string; destFolder: string);
 function ShowNotification(hideNotif: boolean): boolean;
 
 const
@@ -571,8 +570,9 @@ const
   APPL_TKO = 6;
 
   //Master app ID
-  APPL_MASTER_GAMING = 1;
-  APPL_MASTER_OFFICE = 2;
+  APPL_MASTER_GAMING = 100;
+  APPL_MASTER_OFFICE = 200;
+  APPL_KINESIS_APP = 900;
 
   //Led modes
   LED_MONO = '[mono]';
@@ -745,8 +745,8 @@ begin
   begin
     if aObject.Components[i].InheritsFrom(TWinControl) then
        TWinControl(aObject.Components[i]).Font.Color := fontColor;
-    if aObject.Components[i].InheritsFrom(TGraphicControl) and not(aObject.Components[i].InheritsFrom(THSSpeedButton)) then
-       TGraphicControl(aObject.Components[i]).Font.Color := fontColor;
+    //if aObject.Components[i].InheritsFrom(TGraphicControl) and not(aObject.Components[i].InheritsFrom(THSSpeedButton)) then
+    //   TGraphicControl(aObject.Components[i]).Font.Color := fontColor;
   end;
 end;
 
@@ -1190,21 +1190,26 @@ var
 begin
   ConfigKeys := TKeyList.Create;
 
-  smallFontSize := 8;
-  {$ifdef Darwin}smallFontSize := 9;{$endif}
+  if (GApplication in [APPL_RGB, APPL_TKO]) then
+    smallFontSize := 9
+  else
+  begin
+    smallFontSize := 8;
+    {$ifdef Darwin}smallFontSize := 9;{$endif}
+  end;
 
   ConfigKeys.Clear;
   //Control keys
   if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
-    ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'esc', 'Esc'))
+    ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'esc', 'Esc', '', '', '', false, false, '', true, false, 0, '', 'Escape'))
   else
-    ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'escape', 'Esc'));
+    ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'escape', 'Esc', '', '', '', false, false, '', true, false, 0, '', 'Escape'));
   ConfigKeys.Add(TKey.Create(VK_PAUSE, 'pause', 'Pause' + #10 + 'Break', '', '', '', false, false, '', true, false, smallFontSize, '', 'Pause Break'));
-  ConfigKeys.Add(TKey.Create(VK_PRINT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Scrn')); //Old print key...
+  ConfigKeys.Add(TKey.Create(VK_PRINT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Screen')); //Old print key...
   if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
-    ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prnt', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize ,'', 'Print Scrn')) //Print screen key
+    ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prnt', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize ,'', 'Print Screen')) //Print screen key
   else
-    ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Scrn')); //Print screen key
+    ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Screen')); //Print screen key
   if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
     ConfigKeys.Add(TKey.Create(VK_SCROLL, 'scrlk', 'Scroll' + #10 + 'Lock', '', '', '', false, false, '', true, false, smallFontSize, '', 'Scroll Lock'))
   else
@@ -1259,8 +1264,8 @@ begin
   end
   else
   begin
-    ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshift', 'Left' + #10 + 'Shift'));
-    ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift', 'Right' + #10 + 'Shift'));
+    ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshift', 'Left' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Left Shift'));
+    ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift', 'Right' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Right Shift'));
   end;
   ConfigKeys.Add(TKey.Create(VK_CONTROL, 'Ctrl', 'Ctrl', 'ctrl'));
   //if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO, APPL_FSPRO]) then
@@ -1273,8 +1278,8 @@ begin
     ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctrl', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Ctrl'));
     ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctrl', 'Right' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Right Ctrl'));
   //end;
-  ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'numlk', 'Num' + #10 + 'Lock'));
-  ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'numlk', 'Num' + #10 + 'Lock'));
+  ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'numlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
+  ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'numlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
   ConfigKeys.Add(TKey.Create(VK_APPS, 'menu', 'PC' + #10 + 'Menu'));
   ConfigKeys.Add(TKey.Create(VK_KP_MENU, 'menu', 'PC' + #10 + 'Menu'));
   //Windows
@@ -1461,7 +1466,7 @@ begin
     ConfigKeys.Add(TKey.Create(VK_KP_PLUS, 'kp+', '+', 'kpplus'));
     ConfigKeys.Add(TKey.Create(VK_DECIMAL, 'kp.', '.'));
     ConfigKeys.Add(TKey.Create(VK_KP_PERI, 'kp.', '.'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter', 'Kp' + #10 + 'Enter', 'kpenter', '', '', false, false, '', true, false, 0, '', 'Kp Enter'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter', 'Kp' + #10 + 'Enter', 'kpenter', '', '', false, false, '', true, false, 0, '', 'Keypad Enter'));
     //ConfigKeys.Add(TKey.Create(VK_OEM_NEC_EQUAL, 'kp=', '='));
     ConfigKeys.Add(TKey.Create(VK_KP_EQUAL, 'kp=', '='));
   end;
@@ -2086,42 +2091,6 @@ begin
      end;
   finally
     RegNGFS.Free;
-  end;
-end;
-
-procedure DownloadFile(url: string; destFolder: string);
-//var
-  //HTTP: THTTPSend;
-  //Redirected: boolean;
-  //Filename: String;
-  //i: integer;
-begin
-  //HTTP := THTTPSend.Create;
-  try
-    //repeat
-    //  Redirected := False;
-    //  HTTP.HTTPMethod('GET', Url);
-    //  case HTTP.Resultcode of
-    //    301, 302, 307:
-    //    begin
-    //      for i := 0 to HTTP.Headers.Count - 1 do
-    //        if (Pos('location: ', lowercase(HTTP.Headers.Strings[i])) = 1) then
-    //        begin
-    //          Url := StringReplace(HTTP.Headers.Strings[i], 'location: ', '', []);
-    //          HTTP.Clear;
-    //          Redirected := True;
-    //          break;
-    //        end;
-    //    end;
-    //  end;
-    //until not Redirected;
-
-    //Filename := ExtractFileName(url);
-
-    //HTTP.Document.SaveToFile(IncludeTrailingBackslash(destFolder) + Filename);
-
-  finally
-    //HTTP.Free;
   end;
 end;
 

@@ -27,7 +27,7 @@ inherited FormTapAndHold: TFormTapAndHold
   inherited lblTitle: TLabel
     Width = 334
   end
-  object Label2: TLabel[6]
+  object lblHoldAction: TLabel[6]
     Left = 30
     Height = 24
     Hint = 'Designate the action sent when the key is held longer than the delay'
@@ -59,7 +59,6 @@ inherited FormTapAndHold: TFormTapAndHold
     Height = 46
     Top = 169
     Width = 46
-    Alignment = taCenter
     AllowAllUp = True
     Font.Color = clWhite
     Glyph.Data = {
@@ -331,41 +330,40 @@ inherited FormTapAndHold: TFormTapAndHold
       3240323232403232324032323240323232403232324032323240323232403232
       32403232324032323240
     }
-    ShowHint = True
-  ParentFont = False
-  ParentShowHint = False
-  Alignment = taCenter
-  TextAutoSize = True
-  Toggle = False
-  Pressed = False
-  PopupMode = False
-  StateNormal.Color = 3355443
-  StateNormal.BorderColor = 1644825
-  StateNormal.BorderWidth = 1
-  StateNormal.FontColor = clWhite
-  StateHover.Color = 1644825
-  StateHover.BorderColor = 1644825
-  StateHover.BorderWidth = 1
-  StateHover.FontColor = clWhite
-  StateActive.Color = 1644825
-  StateActive.BorderColor = 3355443
-  StateActive.BorderWidth = 1
-  StateActive.FontColor = clWhite
-  StateDisabled.Color = 3355443
-  StateDisabled.BorderColor = 1644825
-  StateDisabled.BorderWidth = 1
-  StateDisabled.FontColor = clWhite
-  TextPadding = 0
     OnClick = btnAcceptClick
     OnMouseLeave = btnAcceptMouseExit
     OnMouseMove = btnAcceptMouseMove
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 1644825
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 1644825
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
   object btnCancel: TColorSpeedButtonCS[9]
     Left = 272
     Height = 46
     Top = 168
     Width = 46
-    Alignment = taCenter
     AllowAllUp = True
     Font.Color = clWhite
     Glyph.Data = {
@@ -637,36 +635,36 @@ inherited FormTapAndHold: TFormTapAndHold
       3240323232403232324032323240323232403232324032323240323232403232
       32403232324032323240
     }
-    ShowHint = True
-  ParentFont = False
-  ParentShowHint = False
-  Alignment = taCenter
-  TextAutoSize = True
-  Toggle = False
-  Pressed = False
-  PopupMode = False
-  StateNormal.Color = 3355443
-  StateNormal.BorderColor = 1644825
-  StateNormal.BorderWidth = 1
-  StateNormal.FontColor = clWhite
-  StateHover.Color = 1644825
-  StateHover.BorderColor = 1644825
-  StateHover.BorderWidth = 1
-  StateHover.FontColor = clWhite
-  StateActive.Color = 1644825
-  StateActive.BorderColor = 3355443
-  StateActive.BorderWidth = 1
-  StateActive.FontColor = clWhite
-  StateDisabled.Color = 3355443
-  StateDisabled.BorderColor = 1644825
-  StateDisabled.BorderWidth = 1
-  StateDisabled.FontColor = clWhite
-  TextPadding = 0
     OnClick = btnCancelClick
     OnMouseLeave = btnCancelMouseExit
     OnMouseMove = btnCancelMouseMove
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 1644825
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 1644825
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
   end
-  object Label1: TLabel[10]
+  object lblTapAction: TLabel[10]
     Left = 30
     Height = 24
     Hint = 'Designate the action sent when the key is tapped and released faster than the delay'
@@ -680,7 +678,7 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentShowHint = False
     ShowHint = True
   end
-  object Label3: TLabel[11]
+  object lblDelay: TLabel[11]
     Left = 30
     Height = 24
     Hint = 'Designate the time interval used to differentiate between the Tap and Hold actions'
@@ -723,7 +721,83 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentFont = False
     TabOrder = 0
   end
-  object imgListTiming: TImageList[14]
+  object btnAccept1: TColorSpeedButtonCS[14]
+    Left = 216
+    Height = 32
+    Top = 176
+    Width = 80
+    Caption = 'Ok'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Visible = False
+    OnClick = btnAcceptClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object btnCancel1: TColorSpeedButtonCS[15]
+    Left = 300
+    Height = 32
+    Top = 176
+    Width = 80
+    Caption = 'Cancel'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    Visible = False
+    OnClick = btnCancelClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 1
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 3355443
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 1
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object imgListTiming: TImageList[16]
     DrawingStyle = dsTransparent
     Height = 46
     Width = 46

@@ -1,18 +1,20 @@
-object FormUserDialog: TFormUserDialog
+object FormUserDialogSE2: TFormUserDialogSE2
   Left = 814
   Height = 146
   Top = 573
   Width = 481
   BorderStyle = bsDialog
-  Caption = 'FormUserDialog'
+  Caption = 'FormUserDialogSE2'
   ClientHeight = 146
   ClientWidth = 481
   Color = clWhite
+  DesignTimePPI = 168
   Font.Color = clBlack
   Font.Height = -16
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.8.0'
+  Scaled = False
   object pnlBottom: TPanel
     Left = 0
     Height = 42

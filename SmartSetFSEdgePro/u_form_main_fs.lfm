@@ -1,4 +1,4 @@
-object FormMain: TFormMain
+object FormMainFS: TFormMainFS
   Left = 469
   Height = 720
   Top = 110
@@ -8,6 +8,7 @@ object FormMain: TFormMain
   ClientHeight = 720
   ClientWidth = 1098
   Color = 2500134
+  DesignTimePPI = 168
   Font.CharSet = ANSI_CHARSET
   Font.Color = clWhite
   Font.Height = -21
@@ -21,6 +22,7 @@ object FormMain: TFormMain
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
   OnPaint = FormPaint
+  OnShow = FormShow
   OnWindowStateChange = FormWindowStateChange
   Position = poScreenCenter
   LCLVersion = '2.0.8.0'
@@ -10756,5 +10758,12 @@ object FormMain: TFormMain
     OnTimer = CheckVDriveTmrTimer
     left = 560
     top = 56
+  end
+  object tmrAfterFormShown: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmrAfterFormShownTimer
+    left = 790
+    top = 46
   end
 end

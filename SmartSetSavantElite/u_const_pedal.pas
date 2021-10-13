@@ -1,6 +1,6 @@
 //CreoSource Inc. (info@creosource.com)
 //Constants and utility fonctions
-unit u_const;
+unit u_const_pedal;
 
 {$mode objfpc}{$H+}
 {$ifdef Darwin}

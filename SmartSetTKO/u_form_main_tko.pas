@@ -1248,7 +1248,8 @@ end;
 procedure TFormMainTKO.SetConfigOS;
 begin
   //defaultKeyFontName := 'Arial Narrow';
-  //defaultKeyFontSize := 10;
+  defaultKeyFontSize := 10;
+
   //Windows
   {$ifdef Win32}
   {$endif}
