@@ -126,3 +126,40 @@ clean:
 		"SmartSetFSEdgePro/SmartSet App-Freestyle (PC)" \
 		"SmartSetMaster/SmartSetMaster (PC)" \
 		"SmartSetSavantElite/SE2 SmartSet App (Mac)"
+
+################################################
+# Compiler Installation
+################################################
+
+DEB_LAZARUS = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.12/lazarus-project_2.0.12-0_amd64.deb/download"
+DEB_FPC_LAZ = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.12/fpc-laz_3.2.0-1_amd64.deb/download"
+DEB_FPC_SRC = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.0.12/fpc-src_3.2.0-1_amd64.deb/download"
+
+# Lazarus 2.1+ causes build errors related to GTK and richmemo:
+# https://wiki.freepascal.org/RichMemo#2.1.0_.28trunk.2Flater.29
+
+# DEB_LAZARUS = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.2RC2/lazarus-project_2.2.0RC2-0_amd64.deb/download"
+# DEB_FPC_LAZ = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.2RC2/fpc-laz_3.2.2-210709_amd64.deb/download"
+# DEB_FPC_SRC = "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%202.2RC2/fpc-src_3.2.2-210709_amd64.deb/download"
+
+
+install-lazarus-linux:
+	DEBIAN_FRONTEND=noninteractive apt-get install -y libgtk2.0-dev
+	wget $(DEB_LAZARUS) -O lazarus-project.deb
+	wget $(DEB_FPC_LAZ) -O fpc-laz.deb
+	wget $(DEB_FPC_SRC) -O fpc-src.deb
+	dpkg -i fpc-laz.deb
+	dpkg -i fpc-src.deb
+	dpkg -i lazarus-project.deb
+
+DMG_FPC = "https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%202.2.0/fpc-3.2.2.intelarm64-macosx.dmg/download"
+DMG_FPC_PKG = "fpc-3.2.2.intelarm64-macosx/fpc-3.2.2-intelarm64-macosx.mpkg/Contents/Packages/fpc-3.2.2-intelarm64-macosx.pkg"
+DMG_LAZARUS = "https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%202.2.0/Lazarus-2.2.0-0-x86_64-macosx.pkg/download"
+
+install-lazarus-mac:
+	wget $(DMG_FPC) -q -O fpc.dmg
+	7z x fpc.dmg
+	sudo installer -pkg $(DMG_FPC_PKG) -target /
+	wget $(DMG_LAZARUS) -q -O lazarus.pkg
+	sudo installer -pkg lazarus.pkg -target /
+
