@@ -1,0 +1,48 @@
+object fPlaylist: TfPlaylist
+  BorderStyle = bsSizeToolWin
+  Caption = 'Playlist'
+  ClientHeight = 215
+  ClientWidth = 200
+  PixelsPerInch = 96
+  HorzScrollBar.Page = 199
+  VertScrollBar.Page = 214
+  Left = 278
+  Height = 215
+  Top = 276
+  Width = 200
+  object lbPlaylist: TListBox
+    Align = alClient
+    BorderSpacing.OnChange = nil
+    BorderSpacing.Bottom = 25
+    BorderStyle = bsNone
+    TabOrder = 0
+    Height = 190
+    Width = 200
+  end
+  object btAdd: TBitBtn
+    Anchors = [akLeft, akBottom]
+    Caption = '+'
+    OnClick = btAddClick
+    TabOrder = 1
+    Height = 22
+    Top = 193
+    Width = 27
+  end
+  object Button1: TButton
+    Anchors = [akLeft, akBottom]
+    BorderSpacing.OnChange = nil
+    Caption = '-'
+    OnClick = Button1Click
+    TabOrder = 2
+    Left = 32
+    Height = 22
+    Top = 193
+    Width = 27
+  end
+  object OpenDialog: TOpenDialog
+    Options = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    Title = 'Vorhandene Datei öffnen'
+    FilterIndex = 0
+    Title = 'Vorhandene Datei öffnen'
+  end
+end

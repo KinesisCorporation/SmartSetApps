@@ -434,7 +434,6 @@ inherited FormSettings: TFormSettings
     Position = 1
     ProgressColor = 14064158
     ProgressColor2 = 14064158
-    ProgressMiddlePos = 0
     RelativeScaleLength = -1
     Scale.DateTimeFormat = 'hh:nn:ss'
     Scale.LogarithmBase = 10
@@ -473,9 +472,9 @@ inherited FormSettings: TFormSettings
   end
   object chkDisableSpeed: TCheckBox[14]
     Left = 552
-    Height = 29
+    Height = 33
     Top = 64
-    Width = 30
+    Width = 34
     OnClick = chkDisableSpeedClick
     TabOrder = 4
   end
@@ -503,7 +502,6 @@ inherited FormSettings: TFormSettings
     Position = 1
     ProgressColor = 14064158
     ProgressColor2 = 14064158
-    ProgressMiddlePos = 0
     RelativeScaleLength = -1
     Scale.DateTimeFormat = 'hh:nn:ss'
     Scale.LogarithmBase = 10
@@ -564,7 +562,6 @@ inherited FormSettings: TFormSettings
     Position = 1
     ProgressColor = 14064158
     ProgressColor2 = 14064158
-    ProgressMiddlePos = 0
     RelativeScaleLength = -1
     Scale.DateTimeFormat = 'hh:nn:ss'
     Scale.LogarithmBase = 10
@@ -603,9 +600,9 @@ inherited FormSettings: TFormSettings
   end
   object chkDisableStatus: TCheckBox[19]
     Left = 872
-    Height = 29
+    Height = 33
     Top = 64
-    Width = 30
+    Width = 34
     OnClick = chkDisableStatusClick
     TabOrder = 5
   end
@@ -684,8 +681,8 @@ inherited FormSettings: TFormSettings
     DrawingStyle = dsTransparent
     Height = 46
     Width = 46
-    left = 632
-    top = 8
+    Left = 632
+    Top = 8
     Bitmap = {
       4C69020000002E0000002E000000808080C0808080C0808080C0808080C08080
       80C0808080C0808080C0808080C0808080C0808080C0808080C0808080C08080

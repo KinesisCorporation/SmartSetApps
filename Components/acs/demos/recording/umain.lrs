@@ -1,0 +1,25 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfMain','FORMDATA',[
+  'TPF0'#6'TfMain'#5'fMain'#4'Left'#3#218#1#6'Height'#2';'#3'Top'#3#201#0#5'Wid'
+  +'th'#3#153#1#18'HorzScrollBar.Page'#3#143#1#18'VertScrollBar.Page'#2'4'#11'B'
+  +'orderStyle'#7#12'bsToolWindow'#7'Caption'#6#15'Sound Indicator'#12'ClientHe'
+  +'ight'#2';'#11'ClientWidth'#3#153#1#6'OnShow'#7#8'FormShow'#10'LCLVersion'#6
+  +#7'1.4.4.0'#0#6'TLabel'#6'Label1'#4'Left'#2#8#6'Height'#2#13#3'Top'#2#2#5'Wi'
+  +'dth'#2'6'#7'Caption'#6#11'Input Level'#11'ParentColor'#8#0#0#6'TLabel'#6'La'
+  +'bel2'#4'Left'#3#255#0#6'Height'#2#13#3'Top'#2'$'#5'Width'#2#25#7'Caption'#6
+  +#5'-3 db'#11'ParentColor'#8#0#0#6'TLabel'#6'Label3'#4'Left'#2#8#6'Height'#2
+  +#13#3'Top'#2'$'#5'Width'#2#31#7'Caption'#6#6'-96 db'#11'ParentColor'#8#0#0#12
+  +'TProgressBar'#11'ProgressBar'#4'Left'#2#8#6'Height'#2#16#3'Top'#2#16#5'Widt'
+  +'h'#3#16#1#3'Max'#2#0#3'Min'#2#160#8'TabOrder'#2#0#0#0#7'TButton'#7'Button1'
+  +#4'Left'#3' '#1#6'Height'#2#24#3'Top'#2#12#5'Width'#2's'#7'Caption'#6#5'Star'
+  +'t'#7'OnClick'#7#12'Button1Click'#8'TabOrder'#2#1#0#0#6'TLabel'#6'Label4'#4
+  +'Left'#3#136#0#6'Height'#2#13#3'Top'#2'.'#5'Width'#2#31#7'Caption'#6#6'Label'
+  +'4'#11'ParentColor'#8#0#0#11'TAcsAudioIn'#8'AudioIn1'#6'Driver'#6#10'Wavemap'
+  +'per'#6'Device'#2#0#15'InBitsPerSample'#2#8#10'InChannels'#2#1#12'InSampleRa'
+  +'te'#3'@'#31#7'RecTime'#2#255#4'left'#2'0'#0#0#11'TAcsNULLOut'#8'NULLOut1'#5
+  +'Input'#7#11'VolumeQuery'#10'BufferSize'#2#0#12'PrefetchMode'#7#6'pmAuto'#4
+  +'left'#3#192#0#0#0#15'TAcsVolumeQuery'#11'VolumeQuery'#5'Input'#7#8'AudioIn1'
+  +#5'Delay'#2#0#4'left'#3#144#0#0#0#6'TTimer'#6'Timer1'#8'Interval'#2'd'#7'OnT'
+  +'imer'#7#11'Timer1Timer'#4'left'#2'`'#0#0#0
+]);

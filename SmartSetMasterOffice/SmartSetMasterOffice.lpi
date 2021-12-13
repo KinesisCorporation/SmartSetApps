@@ -15,6 +15,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="1"/>
+      <RevisionNr Value="1"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -65,7 +66,9 @@
       <Unit1>
         <Filename Value="u_form_about_master.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormAboutMaster"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
         <Filename Value="u_form_dashboard.pas"/>
@@ -82,13 +85,15 @@
         <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
-        <Filename Value="u_form_settings_master.pas"/>
-        <IsPartOfProject Value="True"/>
-        <HasResources Value="True"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="..\Common\u_const.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMainAdv360"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit5>
     </Units>
   </ProjectOptions>
@@ -96,11 +101,11 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="SmartSetMasterOffice (PC)"/>
+      <Filename Value="SmartSetMasterErgo (PC)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src;..\Components\synapse40\source\lib;..\SmartSetAdv2;..\SmartSetSavantElite;..\SmartSetFSEdgePro"/>
+      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src;..\Components\synapse40\source\lib;..\SmartSetAdv2;..\SmartSetSavantElite;..\SmartSetFSEdgePro;..\SmartSetAdv360"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

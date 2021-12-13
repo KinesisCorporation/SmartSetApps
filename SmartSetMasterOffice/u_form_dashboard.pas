@@ -6,11 +6,11 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LineObj, ColorSpeedButtonCS, u_form_main_adv2, u_form_main_fs, u_form_keypress,
-  u_const, LResources, FileUtil, u_kinesis_device,
-  LCLIntf, u_form_loading, u_form_about_master,
-  u_form_settings_master, u_form_firmware, u_common_ui,
-  u_form_scanvdrive, UserDialog
+  LineObj, ColorSpeedButtonCS, BCImageButton, BCButton, u_form_main_adv2,
+  u_form_main_fs, u_form_keypress, u_const, LResources, FileUtil,
+  u_kinesis_device, LCLIntf, Buttons, u_form_loading, u_form_about_master,
+  u_form_settings_master, u_form_firmware, u_common_ui, u_form_scanvdrive,
+  UserDialog, u_form_main_adv360
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -31,9 +31,12 @@ type
     btnWatchTutorial2: TColorSpeedButtonCS;
     btnWatchTutorial3: TColorSpeedButtonCS;
     btnWatchTutorial4: TColorSpeedButtonCS;
+    imgClose: TImage;
+    imgMaximize: TImage;
+    imgMinimize: TImage;
     imgBackgroundTop: TImage;
-    imgAppLogo1: TImage;
-    imgAppLogo2: TImage;
+    imgAppLogoAdv360: TImage;
+    imgAppLogoFsPro: TImage;
     lblAppName2: TLabel;
     lblAppName3: TLabel;
     lblAppName4: TLabel;
@@ -95,7 +98,10 @@ type
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
+    procedure imgCloseClick(Sender: TObject);
     procedure imgLogoClick(Sender: TObject);
+    procedure imgMaximizeClick(Sender: TObject);
+    procedure imgMinimizeClick(Sender: TObject);
     procedure lblHomeClick(Sender: TObject);
     procedure lblHelpClick(Sender: TObject);
     procedure lblSettingsClick(Sender: TObject);
@@ -118,10 +124,12 @@ type
       var appConnLabel: TLabel; var appProfileLabel: TLabel;  var appCheckUpdBtn: TColorSpeedButtonCS;
       var appEjectBtn: TColorSpeedButtonCS; var appWatchTutoBtn: TColorSpeedButtonCS; var appOpenBtn: TColorSpeedButtonCS);
     procedure Init;
+    procedure Maximize;
     procedure RepaintForm(fullRepaint: boolean);
     procedure RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButtonCS;
       btnEject: TColorSpeedButtonCS; btnWatchTutorial: TColorSpeedButtonCS);
     procedure SetFormBorder(formBorder: TFormBorderStyle);
+    procedure SetSelectedMenu(menuLabel: TLabel);
     procedure UpdateDevices;
     procedure UpdateDevice(aDevice: TDevice);
     procedure UpdateStateSettings;
@@ -139,7 +147,7 @@ var
   procedure SetVDriveState(state: boolean);
 
 const
-  MAX_DEVICES = 2;
+  MAX_DEVICES = 1;
   MM_MAX_NUMAXES = 16;
   NORMAL_HEIGHT = 850;
   NORMAL_WIDTH = 1550;
@@ -181,6 +189,7 @@ begin
 
   //Fonts
   SetFont(self, 'Tahoma');
+  SetSelectedMenu(lblHome);
 
   //Load app settings
   GShowAllNotifs := ReadFromRegistry(ShowAllNotifsOffice) = '1';
@@ -213,7 +222,11 @@ end;
 procedure TFormDashboard.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainFS <> nil) and (FormMainFS.Visible) then
+  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+  begin
+    FormMainAdv360.FormKeyDown(sender, key, shift);
+  end
+  else if (FormMainFS <> nil) and (FormMainFS.Visible) then
   begin
     FormMainFS.FormKeyDown(sender, key, shift);
   end
@@ -235,7 +248,11 @@ end;
 procedure TFormDashboard.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainFS <> nil) and (FormMainFS.Visible) then
+  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+  begin
+    FormMainAdv360.FormKeyUp(sender, key, shift);
+  end
+  else if (FormMainFS <> nil) and (FormMainFS.Visible) then
   begin
     FormMainFS.FormKeyUp(sender, key, shift);
   end
@@ -299,9 +316,9 @@ begin
     //btnClose.ShadowColor := backColor;
     //btnClose.TransparentColor := backColor;
 
-    imgListMenu.GetBitmap(0, btnMinimize.Glyph);
-    imgListMenu.GetBitmap(4, btnClose.Glyph);
-    imgListMenu.GetBitmap(1, btnMaximize.Glyph);
+    imgListMenu.GetBitmap(0, imgMinimize.Picture.Bitmap); // btnMinimize.Glyph);
+    imgListMenu.GetBitmap(4, imgClose.Picture.Bitmap); // btnClose.Glyph);
+    imgListMenu.GetBitmap(1, imgMaximize.Picture.Bitmap); //btnMaximize.Glyph);
   end;
 
   UpdateDevices;
@@ -315,42 +332,35 @@ var
   aDevice: TDevice;
 begin
   aDevice := TDevice.Create;
-  aDevice.DeviceName := 'ADVANTAGE 2';
-  aDevice.DeviceNumber := APPL_ADV2;
-  aDevice.VDriveName := ADV2_DRIVE;
-  aDevice.TutorialUrl := ADV2_TUTORIAL;
+  aDevice.DeviceName := 'ADVANTAGE 360';
+  aDevice.DeviceNumber := APPL_ADV360;
+  aDevice.VDriveName := ADV360_DRIVE;
+  aDevice.TutorialUrl := ADV360_TUTORIAL;
   //todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
   deviceList.Add(aDevice);
 
-  aDevice := TDevice.Create;
-  aDevice.DeviceName := 'FREESTYLE PRO';
-  aDevice.DeviceNumber := APPL_FSPRO;
-  aDevice.VDriveName := FSPRO_DRIVE;
-  aDevice.TutorialUrl := FSPRO_TUTORIAL;
-  //tpdp aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
-  deviceList.Add(aDevice);
-
   //aDevice := TDevice.Create;
-  //aDevice.DeviceName := 'CROSSFIRE KEYPAD';
-  //aDevice.DeviceNumber := APPL_CROSSKP;
-  //aDevice.VDriveName := CROSSKP_DRIVE;
-  //aDevice.FutureDevice := true;
-  //aDevice.TutorialUrl := '';
+  //aDevice.DeviceName := 'FREESTYLE PRO';
+  //aDevice.DeviceNumber := APPL_FSPRO;
+  //aDevice.VDriveName := FSPRO_DRIVE;
+  //aDevice.TutorialUrl := FSPRO_TUTORIAL;
+  ////tpdp aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
   //deviceList.Add(aDevice);
   //
   //aDevice := TDevice.Create;
-  //aDevice.DeviceName := 'TKO';
-  //aDevice.DeviceNumber := APPL_TKO;
-  //aDevice.VDriveName := TKO_DRIVE;
-  //aDevice.FutureDevice := true;
-  //aDevice.TutorialUrl := '';
+  //aDevice.DeviceName := 'SAVANT ELITE2';
+  //aDevice.DeviceNumber := APPL_PEDAL;
+  //aDevice.VDriveName := PEDAL_DRIVE;
+  //aDevice.TutorialUrl := PEDAL_TUTORIAL;
+  ////tpdp aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
   //deviceList.Add(aDevice);
   //
   //aDevice := TDevice.Create;
-  //aDevice.DeviceName := 'FREESTYLE EDGE';
-  //aDevice.DeviceNumber := APPL_FSEDGE;
-  //aDevice.VDriveName := FSEDGE_DRIVE;
-  //aDevice.TutorialUrl := FSEDGE_TUTORIAL;
+  //aDevice.DeviceName := 'ADVANTAGE 2';
+  //aDevice.DeviceNumber := APPL_ADV2;
+  //aDevice.VDriveName := ADV2_DRIVE;
+  //aDevice.TutorialUrl := ADV2_TUTORIAL;
+  ////todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
   //deviceList.Add(aDevice);
 end;
 
@@ -591,19 +601,27 @@ end;
 
 procedure TFormDashboard.LoadAppForms;
 begin
+  Application.CreateForm(TFormMainAdv360, FormMainAdv360);
+  FormMainAdv360.Parent := pnlMain;
+
   Application.CreateForm(TFormMainFS, FormMainFS);
   FormMainFS.Parent := pnlMain;
 
   Application.CreateForm(TFormMainAdv2, FormMainAdv2);
   FormMainAdv2.Parent := pnlMain;
 
-  //todo Application.CreateForm(TFormMainSE2, FormMainSE2);
-  //todo FormMainSE2.Parent := pnlMain;
+  Application.CreateForm(TFormMainSE2, FormMainSE2);
+  FormMainSE2.Parent := pnlMain;
 end;
 
 procedure TFormDashboard.CloseActiveForms;
 begin
-  if (FormMainFS <> nil) and (FormMainFS.Visible = true) then
+  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible = true) then
+  begin
+    FormMainAdv360.Close;
+    FormMainAdv360 := nil;
+  end
+  else if (FormMainFS <> nil) and (FormMainFS.Visible = true) then
   begin
     FormMainFS.Close;
     FormMainFS := nil;
@@ -700,11 +718,30 @@ begin
     GDemoMode := not(device.Connected) or not(device.ReadWriteAccess);
     GApplication := device.DeviceNumber;
 
-    if (device.DeviceNumber = APPL_FSPRO) or (device.DeviceNumber = APPL_FSEDGE) then
+    if (device.DeviceNumber = APPL_ADV360) then
     begin
       try
+        SetSelectedMenu(nil);
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading FREESTYLE EDGE...');
+        ShowLoading('Loading...', 'Loading Advantage 360...');
+        {$ifdef darwin}
+        Application.CreateForm(TFormMainAdv360, FormMainAdv360);
+        {$endif};
+        FormMainAdv360.Parent := pnlMain;
+        FormMainAdv360.InitForm(self);
+        FormMainAdv360.Show;
+        lblDemoMode.Visible := GDemoMode;
+        imgAppLogoAdv360.Visible := true;
+      finally
+        CloseLoading;
+      end;
+    end
+    else if (device.DeviceNumber = APPL_FSPRO) or (device.DeviceNumber = APPL_FSEDGE) then
+    begin
+      try
+        SetSelectedMenu(nil);
+        GActiveDevice := device;
+        ShowLoading('Loading...', 'Loading FREESTYLE PRO...');
         {$ifdef darwin}
         Application.CreateForm(TFormMainFS, FormMainFS);
         {$endif};
@@ -712,7 +749,7 @@ begin
         FormMainFS.InitForm(self);
         FormMainFS.Show;
         lblDemoMode.Visible := GDemoMode;
-        imgAppLogo1.Visible := true;
+        imgAppLogoFsPro.Visible := true;
       finally
         CloseLoading;
       end;
@@ -720,6 +757,7 @@ begin
     else if (device.DeviceNumber = APPL_ADV2) then
     begin
       try
+        SetSelectedMenu(nil);
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading ADVANTAGE 2...');
         {$ifdef darwin}
@@ -729,7 +767,7 @@ begin
         FormMainAdv2.InitForm(self);
         FormMainAdv2.Show;
         lblDemoMode.Visible := GDemoMode;
-        imgAppLogo2.Visible := true;
+        imgAppLogoFsPro.Visible := true;
       finally
         CloseLoading;
       end;
@@ -737,6 +775,7 @@ begin
     else if (device.DeviceNumber = APPL_PEDAL) then
     begin
       try
+        SetSelectedMenu(nil);
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading SAVANT ELITE 2...');
         {$ifdef darwin}
@@ -746,7 +785,7 @@ begin
         FormMainSE2.InitForm(self);
         FormMainSE2.Show;
         lblDemoMode.Visible := GDemoMode;
-        imgAppLogo2.Visible := true;
+        imgAppLogoFsPro.Visible := true;
       finally
         CloseLoading;
       end;
@@ -755,6 +794,16 @@ begin
 end;
 
 procedure TFormDashboard.btnMaximizeClick(Sender: TObject);
+begin
+  Maximize;
+end;
+
+procedure TFormDashboard.imgMaximizeClick(Sender: TObject);
+begin
+  Maximize;
+end;
+
+procedure TFormDashboard.Maximize;
 var
   aRect: TRect;
 begin
@@ -777,6 +826,8 @@ begin
     cusWindowState := cwMaximized;
   end;
 
+  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+     FormMainAdv360.Maximize;
   if (FormMainFS <> nil) and (FormMainFS.Visible) then
      FormMainFS.Maximize;
   if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
@@ -804,17 +855,17 @@ begin
   if (cusWindowState = cwMaximized) then
   begin
     if (IsDarkTheme) then
-      imgListMenu.GetBitmap(7, btnMaximize.Glyph)
+      imgListMenu.GetBitmap(7, imgMaximize.Picture.Bitmap) // btnMaximize.Glyph)
     else
-      imgListMenu.GetBitmap(2, btnMaximize.Glyph);
+      imgListMenu.GetBitmap(2, imgMaximize.Picture.Bitmap); //btnMaximize.Glyph);
     btnMaximize.Hint := 'Restore window';
   end
   else
   begin
     if (IsDarkTheme) then
-      imgListMenu.GetBitmap(6, btnMaximize.Glyph)
+      imgListMenu.GetBitmap(6, imgMaximize.Picture.Bitmap) //btnMaximize.Glyph)
     else
-      imgListMenu.GetBitmap(1, btnMaximize.Glyph);
+      imgListMenu.GetBitmap(1, imgMaximize.Picture.Bitmap); //btnMaximize.Glyph);
     btnMaximize.Hint := 'Maximize';
   end;
 
@@ -832,9 +883,19 @@ begin
   //UpdateStateSettings;
 end;
 
+procedure TFormDashboard.imgCloseClick(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TFormDashboard.imgLogoClick(Sender: TObject);
 begin
-  OpenURL(KINESIS_GAMING_URL);
+  OpenURL(KINESIS_URL);
+end;
+
+procedure TFormDashboard.imgMinimizeClick(Sender: TObject);
+begin
+  Application.Minimize;
 end;
 
 procedure TFormDashboard.lblHomeClick(Sender: TObject);
@@ -845,9 +906,10 @@ end;
 procedure TFormDashboard.ResetToHome;
 begin
   //Hide logos
-  imgAppLogo1.Visible := false;
-  imgAppLogo2.Visible := false;
+  //imgAppLogoAdv360.Visible := false;
+  imgAppLogoFsPro.Visible := false;
 
+  SetSelectedMenu(lblHome);
   lblDemoMode.Visible := false;
   lblVDriveOk.Visible := false;
   lblVDriveError.Visible := false;
@@ -863,23 +925,27 @@ end;
 procedure TFormDashboard.lblHelpClick(Sender: TObject);
 begin
   try
+    SetSelectedMenu(lblHelp);
     NeedInput := true;
     Application.CreateForm(TFormAboutMaster, FormAboutMaster);
     FormAboutMaster.ShowModal;
     FreeAndNil(FormAboutMaster);
   finally
     NeedInput := false;
+    SetSelectedMenu(lblHome);
   end;
 end;
 
 procedure TFormDashboard.lblSettingsClick(Sender: TObject);
 begin
-    try
+  try
+    SetSelectedMenu(lblSettings);
     NeedInput := true;
     Application.CreateForm(TFormSettingsMaster, FormSettingsMaster);
     FormSettingsMaster.ShowModal;
     FreeAndNil(FormSettingsMaster);
   finally
+    SetSelectedMenu(lblHome);
     NeedInput := false;
   end;
 end;
@@ -972,12 +1038,30 @@ end;
 
 procedure TFormDashboard.FormActivate(Sender: TObject);
 begin
-  if (FormMainFS <> nil) and (FormMainFS.Visible) then
+  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+    FormMainAdv360.SetFocus
+  else if (FormMainFS <> nil) and (FormMainFS.Visible) then
     FormMainFS.SetFocus
   else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
     FormMainAdv2.SetFocus
   else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
     FormMainSE2.SetFocus;
+end;
+
+procedure TFormDashboard.SetSelectedMenu(menuLabel: TLabel);
+begin
+  lblHome.Font.Color := KINESIS_MED_GRAY_RGB;
+  lblHome.Font.Style := [fsBold];
+  lblSettings.Font.Color := KINESIS_MED_GRAY_RGB;
+  lblSettings.Font.Style := [fsBold];
+  lblHelp.Font.Color := KINESIS_MED_GRAY_RGB;
+  lblHelp.Font.Style := [fsBold];
+
+  if (menuLabel <> nil) then
+  begin
+    menuLabel.Font.Color := KINESIS_GREEN_OFFICE;
+    menuLabel.Font.Style := [fsUnderline, fsBold];
+  end;
 end;
 
 initialization

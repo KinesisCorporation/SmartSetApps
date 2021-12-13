@@ -1,0 +1,51 @@
+Audio Components Suite (ACS)
+
+ACS is an freeware crossplatform set of components designed to perform 
+different sound-processing tasks. It supports reading the audio data from CD, 
+different fileformats- wav, mp3, wma, ogg, mac and others, output to soundcard 
+and files are sure also possible. Between input and output you can work with 
+the data, different converters, mixers and processors are available.
+
+Main characteristics are:
+* Abstract Layer to include different "drivers"
+  * Alsa, /dev/dsp, AOLive, OSS support within linux
+  * DirectX, Wavemapper support within Windows
+  * Audio playback and capture
+  * Simultaneous operations on the same or different devices are allowed.
+* Abstract Layer to make it easy to add new fileformats; already included
+  fileformats:
+  * Wave files/streams support, Raw PCM, MS ADPCM, DVI IMA ADPCM support
+  * MP3 format support : Encode mp3 files using LAME, mp3 playback with 
+    smpeg library, streams conversion using MAD decoder
+  * Ogg Vorbis format support : Reading Ogg files/streams (including m
+    ulti-streamed ones). Storing data in Ogg Vorbis format with wide range 
+    of settings for compression/quality tweaks. Ogg comments support
+  * FLAC format support : Reading FLAC files/streams, storing data in FLAC 
+    format with wide range of settings for compressiontweaks.
+  * Monkey Audio format support (for Windows only)
+  * CD-ROM playback and direct CDDA data capture
+  * Append data to existing file/stream capability
+* AudioMixer component for mixing/concatenating audio streams
+* InputList component for building dynamically playback/input lists
+* Set of audio converter components
+  * Sample converter for bits per sample conversion.
+  * Sample rate converter (resampler) using sinc filtering
+  * Mono/Stereo converter
+  * Stereo balance control
+  * Sound indicator
+  * Windowed sinc and Butterworth filters for changing audio spectrum
+  * Convolver component for applying custom sound effects
+* Mixer component to use mixer devices
+
+
+Audio Components Suite v 2.3
+Copyright (c) 2002-2005 Andrei Borovsky.
+You can contact me at acs@compiler4.net
+
+You can get the package sources at
+Audio Components Suite home page 
+http://www.compiler4.net/acs
+NOTE: These components require Delphi 6 or above (has been tested on Delphi 6, 7, 2005)
+or Kylix 2+.
+See "installation" file on how to install ACS.
+See "license" file for licesing information.

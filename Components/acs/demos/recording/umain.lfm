@@ -1,0 +1,88 @@
+object fMain: TfMain
+  Left = 474
+  Height = 59
+  Top = 201
+  Width = 409
+  HorzScrollBar.Page = 399
+  VertScrollBar.Page = 52
+  BorderStyle = bsToolWindow
+  Caption = 'Sound Indicator'
+  ClientHeight = 59
+  ClientWidth = 409
+  OnShow = FormShow
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 2
+    Width = 58
+    Caption = 'Input Level'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 255
+    Height = 15
+    Top = 36
+    Width = 28
+    Caption = '-3 db'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 15
+    Top = 36
+    Width = 34
+    Caption = '-96 db'
+    ParentColor = False
+  end
+  object ProgressBar: TProgressBar
+    Left = 8
+    Height = 16
+    Top = 16
+    Width = 272
+    Max = 0
+    Min = -96
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 288
+    Height = 24
+    Top = 12
+    Width = 115
+    Caption = 'Start'
+    OnClick = Button1Click
+    TabOrder = 1
+  end
+  object Label4: TLabel
+    Left = 136
+    Height = 15
+    Top = 46
+    Width = 34
+    Caption = 'Label4'
+    ParentColor = False
+  end
+  object AudioIn1: TAcsAudioIn
+    DriverName = 'Wavemapper'
+    Device = 0
+    InBitsPerSample = 8
+    InChannels = 1
+    InSampleRate = 8000
+    RecTime = -1
+    Left = 48
+  end
+  object NULLOut1: TAcsNULLOut
+    Input = VolumeQuery
+    BufferSize = 0
+    PrefetchMode = pmAuto
+    Left = 192
+  end
+  object VolumeQuery: TAcsVolumeQuery
+    Input = AudioIn1
+    Delay = 0
+    Left = 144
+  end
+  object Timer1: TTimer
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 96
+  end
+end

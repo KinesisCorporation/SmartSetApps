@@ -135,7 +135,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="Adv2 SmartSet App (Mac)"/>
+      <Filename Value="Adv2 SmartSet App (PC)"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

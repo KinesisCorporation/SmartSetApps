@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, u_form_dashboard, u_const, uecontrols;
+  Forms, u_form_dashboard, u_const, u_form_main_adv360, uecontrols;
 
 {$R *.res}
 

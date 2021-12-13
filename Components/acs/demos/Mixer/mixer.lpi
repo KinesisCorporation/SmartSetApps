@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+    </General>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LAZ_ACS"/>
+        <MinVersion Major="2" Minor="3" Valid="True"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="40">
+      <Unit0>
+        <Filename Value="mixer.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="41" Y="19"/>
+        <UsageCount Value="88"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="umixer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMixer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uMixer"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="131"/>
+        <CursorPos X="35" Y="154"/>
+        <UsageCount Value="88"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\ACS_Mixer.pas"/>
+        <TopLine Value="138"/>
+        <CursorPos Y="168"/>
+        <UsageCount Value="20"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="D:\lazarus\lcl\ExtCtrls.pp"/>
+        <TopLine Value="875"/>
+        <CursorPos X="21" Y="889"/>
+        <UsageCount Value="6"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="D:\lazarus\lcl\Controls.pp"/>
+        <TopLine Value="109"/>
+        <CursorPos X="29" Y="126"/>
+        <UsageCount Value="6"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="D:\lazarus\lcl\GraphType.pp"/>
+        <TopLine Value="24"/>
+        <CursorPos X="3" Y="41"/>
+        <UsageCount Value="6"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="D:\lazarus\lcl\LCLProc.pas"/>
+        <TopLine Value="569"/>
+        <CursorPos X="15" Y="575"/>
+        <UsageCount Value="12"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\include\windows\ACS_Mixer.inc"/>
+        <TopLine Value="232"/>
+        <CursorPos Y="249"/>
+        <UsageCount Value="12"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="D:\lazarus\lcl\include\wincontrol.inc"/>
+        <TopLine Value="3122"/>
+        <CursorPos Y="3139"/>
+        <UsageCount Value="6"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="D:\lazarus\lcl\include\control.inc"/>
+        <TopLine Value="3105"/>
+        <CursorPos Y="3122"/>
+        <UsageCount Value="6"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="F:\mixer\cmpMidiMixer.pas"/>
+        <TopLine Value="415"/>
+        <CursorPos Y="422"/>
+        <UsageCount Value="6"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="D:\lazarus\lcl\include\trackbar.inc"/>
+        <TopLine Value="154"/>
+        <CursorPos Y="171"/>
+        <UsageCount Value="6"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="F:\mixer\mixer.txt"/>
+        <TopLine Value="40"/>
+        <CursorPos X="47" Y="64"/>
+        <SyntaxHighlighter Value="None"/>
+        <UsageCount Value="11"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="F:\mixer\AMixer.pas"/>
+        <TopLine Value="671"/>
+        <CursorPos X="21" Y="705"/>
+        <UsageCount Value="11"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="D:\fpc\packages\extra\winunits\mmsystem.pp"/>
+        <TopLine Value="78"/>
+        <CursorPos X="7" Y="95"/>
+        <UsageCount Value="7"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="windows\D\src\LKomponenten\acs\Src\Common\include\linux\ACS_Mixer.inc"/>
+        <CursorPos Y="158"/>
+        <UsageCount Value="7"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="windows\D\src\lazarus\lcl\include\trackbar.inc"/>
+        <TopLine Value="147"/>
+        <CursorPos Y="171"/>
+        <UsageCount Value="7"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="D:\MixAbstrmain.pas"/>
+        <CursorPos X="31" Y="1714"/>
+        <UsageCount Value="10"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="D:\SRC\LKomponenten\acs\Src\Common\ACS_Mixer.pas"/>
+        <TopLine Value="43"/>
+        <CursorPos X="31" Y="80"/>
+        <UsageCount Value="9"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="D:\SRC\LKomponenten\acs\Src\Common\include\windows\ACS_Mixer.inc"/>
+        <CursorPos X="51" Y="146"/>
+        <UsageCount Value="10"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="D:\mixer\AMixer.pas"/>
+        <TopLine Value="1011"/>
+        <CursorPos X="57" Y="300"/>
+        <UsageCount Value="7"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="D:\test\unit1.pas"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <UnitName Value="Unit1"/>
+        <TopLine Value="144"/>
+        <CursorPos X="157" Y="164"/>
+        <UsageCount Value="10"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="D:\SRC\lazarus\lcl\LCLProc.pas"/>
+        <TopLine Value="73"/>
+        <CursorPos X="23" Y="566"/>
+        <UsageCount Value="9"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="D:\SRC\LKomponenten\acs\Src\Common\ACS_Classes.pas"/>
+        <TopLine Value="271"/>
+        <CursorPos X="5" Y="294"/>
+        <UsageCount Value="7"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="D:\SRC\LKomponenten\acs\Src\Common\include\linux\ACS_Mixer.inc"/>
+        <TopLine Value="180"/>
+        <CursorPos Y="220"/>
+        <UsageCount Value="7"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="D:\SRC\LKomponenten\acs\Src\Common\include\linux\Soundcard.pas"/>
+        <TopLine Value="459"/>
+        <UsageCount Value="7"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="D:\SRC\fpc\packages\extra\winunits\mmsystem.pp"/>
+        <TopLine Value="270"/>
+        <CursorPos X="34" Y="278"/>
+        <UsageCount Value="9"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="D:\SRC\LKomponenten\acs\Src\Common\ACS_Converters.pas"/>
+        <TopLine Value="460"/>
+        <CursorPos X="35" Y="460"/>
+        <UsageCount Value="8"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="D:\SRC\lazarus\lcl\include\control.inc"/>
+        <TopLine Value="2676"/>
+        <CursorPos Y="3131"/>
+        <UsageCount Value="7"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\ACS_Classes.pas"/>
+        <TopLine Value="36"/>
+        <CursorPos Y="70"/>
+        <UsageCount Value="7"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\ACS_MultiMix.pas"/>
+        <TopLine Value="19"/>
+        <CursorPos X="40" Y="44"/>
+        <UsageCount Value="7"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="D:\LKomponenten\acs\Src\Win32\laz_acs.pas"/>
+        <UnitName Value="LAZ_ACS"/>
+        <UsageCount Value="7"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\ACS_CDROM.pas"/>
+        <TopLine Value="121"/>
+        <CursorPos X="17" Y="122"/>
+        <UsageCount Value="26"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\include\windows\ACS_CDROM.inc"/>
+        <TopLine Value="225"/>
+        <CursorPos X="6" Y="236"/>
+        <UsageCount Value="26"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\include\windows\akrip32.pas"/>
+        <TopLine Value="275"/>
+        <CursorPos X="3" Y="292"/>
+        <UsageCount Value="26"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="D:\LKomponenten\acs\Src\Common\include\windows\CDRip.pas"/>
+        <TopLine Value="18"/>
+        <CursorPos Y="18"/>
+        <UsageCount Value="24"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="D:\SOMETHING\akrip\CDRip.pas"/>
+        <TopLine Value="99"/>
+        <CursorPos X="62" Y="133"/>
+        <UsageCount Value="12"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="windows\D\src\LKomponenten\acs\Src\Common\ACS_Mixer.pas"/>
+        <TopLine Value="198"/>
+        <CursorPos Y="226"/>
+        <UsageCount Value="10"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="windows\D\src\LKomponenten\acs\Src\Common\ACS_Classes.pas"/>
+        <CursorPos X="50" Y="361"/>
+        <UsageCount Value="10"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="umixer.lfm"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="33"/>
+        <CursorPos Y="59"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <WindowIndex Value="1"/>
+        </ExtraEditor1>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit39>
+    </Units>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="umixer.pas"/>
+        <Caret Line="19" Column="42" TopLine="4"/>
+      </Position1>
+      <Position2>
+        <Filename Value="umixer.pas"/>
+        <Caret Line="181" Column="37" TopLine="165"/>
+      </Position2>
+      <Position3>
+        <Filename Value="umixer.pas"/>
+        <Caret Line="115" Column="48" TopLine="143"/>
+      </Position3>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+  </CompilerOptions>
+  <Debugging>
+    <BreakPoints Count="2">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsGlobal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="D:\SRC\LKomponenten\Virtualtrees\Neuer Ordner\windows\D\src\LKomponenten\Virtualtrees\example\minimal\main.pas"/>
+        <Line Value="58"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsGlobal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="D:\SRC\LKomponenten\Virtualtrees\Neuer Ordner\windows\D\src\LKomponenten\Virtualtrees\VirtualTrees.pas"/>
+        <Line Value="7054"/>
+      </Item2>
+    </BreakPoints>
+    <Watches Count="3">
+      <Item1>
+        <Expression Value="Input.TotalTime"/>
+      </Item1>
+      <Item2>
+        <Expression Value="Input.FPosition"/>
+      </Item2>
+      <Item3>
+        <Expression Value="tmp"/>
+      </Item3>
+    </Watches>
+    <Exceptions Count="2">
+      <Item1>
+        <Name Value="ECodetoolError"/>
+      </Item1>
+      <Item2>
+        <Name Value="EFOpenError"/>
+      </Item2>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

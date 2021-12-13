@@ -1,0 +1,84 @@
+object fMain: TfMain
+  Left = 347
+  Height = 43
+  Top = 208
+  Width = 308
+  HorzScrollBar.Page = 307
+  VertScrollBar.Page = 42
+  ActiveControl = bRecord
+  BorderStyle = bsToolWindow
+  Caption = 'Audio Record'
+  ClientHeight = 43
+  ClientWidth = 308
+  OnCreate = FormCreate
+  LCLVersion = '1.4.4.0'
+  object Label1: TLabel
+    Left = 60
+    Height = 13
+    Top = 0
+    Width = 33
+    Caption = 'Source'
+    ParentColor = False
+  end
+  object bRecord: TBitBtn
+    Left = 184
+    Height = 26
+    Top = 12
+    Width = 60
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Record'
+    OnClick = bRecordClick
+    TabOrder = 0
+  end
+  object cbRecordSource: TComboBox
+    Left = 60
+    Height = 21
+    Top = 12
+    Width = 116
+    ItemHeight = 13
+    OnChange = cbRecordSourceChange
+    TabOrder = 1
+  end
+  object bStop: TBitBtn
+    Left = 248
+    Height = 26
+    Top = 12
+    Width = 56
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Stop'
+    OnClick = bStopClick
+    TabOrder = 2
+  end
+  object bOpen: TBitBtn
+    Left = 4
+    Height = 26
+    Top = 12
+    Width = 51
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Open'
+    OnClick = bOpenClick
+    TabOrder = 3
+  end
+  object FileOut1: TAcsFileOut
+    Input = AudioIn1
+    BufferSize = 100
+    PrefetchMode = pmAuto
+    FileMode = foRewrite
+    left = 184
+    top = 8
+  end
+  object AudioIn1: TAcsAudioIn
+    DriverName = 'Wavemapper'
+    Device = 0
+    InBitsPerSample = 8
+    InChannels = 1
+    InSampleRate = 8000
+    RecTime = 0
+    left = 144
+    top = 8
+  end
+  object OpenDialog1: TOpenDialog
+    left = 104
+    top = 8
+  end
+end

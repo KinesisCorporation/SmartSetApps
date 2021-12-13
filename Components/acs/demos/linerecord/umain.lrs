@@ -1,0 +1,25 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfMain','FORMDATA',[
+  'TPF0'#6'TfMain'#5'fMain'#4'Left'#3'['#1#6'Height'#2'+'#3'Top'#3#208#0#5'Widt'
+  +'h'#3'4'#1#18'HorzScrollBar.Page'#3'3'#1#18'VertScrollBar.Page'#2'*'#13'Acti'
+  +'veControl'#7#7'bRecord'#11'BorderStyle'#7#12'bsToolWindow'#7'Caption'#6#12
+  +'Audio Record'#12'ClientHeight'#2'+'#11'ClientWidth'#3'4'#1#8'OnCreate'#7#10
+  +'FormCreate'#10'LCLVersion'#6#7'1.4.4.0'#0#6'TLabel'#6'Label1'#4'Left'#2'<'#6
+  +'Height'#2#13#3'Top'#2#0#5'Width'#2'!'#7'Caption'#6#6'Source'#11'ParentColor'
+  +#8#0#0#7'TBitBtn'#7'bRecord'#4'Left'#3#184#0#6'Height'#2#26#3'Top'#2#12#5'Wi'
+  +'dth'#2'<'#25'BorderSpacing.InnerBorder'#2#2#7'Caption'#6#6'Record'#7'OnClic'
+  +'k'#7#12'bRecordClick'#8'TabOrder'#2#0#0#0#9'TComboBox'#14'cbRecordSource'#4
+  +'Left'#2'<'#6'Height'#2#21#3'Top'#2#12#5'Width'#2't'#10'ItemHeight'#2#13#8'O'
+  +'nChange'#7#20'cbRecordSourceChange'#8'TabOrder'#2#1#0#0#7'TBitBtn'#5'bStop'
+  +#4'Left'#3#248#0#6'Height'#2#26#3'Top'#2#12#5'Width'#2'8'#25'BorderSpacing.I'
+  +'nnerBorder'#2#2#7'Caption'#6#4'Stop'#7'OnClick'#7#10'bStopClick'#8'TabOrder'
+  +#2#2#0#0#7'TBitBtn'#5'bOpen'#4'Left'#2#4#6'Height'#2#26#3'Top'#2#12#5'Width'
+  +#2'3'#25'BorderSpacing.InnerBorder'#2#2#7'Caption'#6#4'Open'#7'OnClick'#7#10
+  +'bOpenClick'#8'TabOrder'#2#3#0#0#11'TAcsFileOut'#8'FileOut1'#5'Input'#7#8'Au'
+  +'dioIn1'#10'BufferSize'#2'd'#12'PrefetchMode'#7#6'pmAuto'#8'FileMode'#7#9'fo'
+  +'Rewrite'#4'left'#3#184#0#3'top'#2#8#0#0#11'TAcsAudioIn'#8'AudioIn1'#6'Drive'
+  +'r'#6#10'Wavemapper'#6'Device'#2#0#15'InBitsPerSample'#2#8#10'InChannels'#2#1
+  +#12'InSampleRate'#3'@'#31#7'RecTime'#2#0#4'left'#3#144#0#3'top'#2#8#0#0#11'T'
+  +'OpenDialog'#11'OpenDialog1'#4'left'#2'h'#3'top'#2#8#0#0#0
+]);

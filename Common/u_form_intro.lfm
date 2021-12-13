@@ -1,0 +1,189 @@
+inherited FormIntro: TFormIntro
+  Left = 428
+  Height = 172
+  Top = 130
+  Width = 871
+  Caption = 'FormIntro'
+  ClientHeight = 172
+  ClientWidth = 871
+  Font.Height = -19
+  KeyPreview = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  inherited btnClose: TColorSpeedButtonCS
+    Left = 839
+  end
+  inherited lineBorderTop: TLineObj
+    Width = 871
+  end
+  inherited lineBorderBottom: TLineObj
+    Top = 170
+    Width = 871
+  end
+  inherited lineBorderLeft: TLineObj
+    Height = 168
+  end
+  inherited lineBorderRight: TLineObj
+    Left = 869
+    Height = 168
+  end
+  inherited lblTitle: TLabel
+    Width = 816
+    Caption = 'Introduction'
+    Font.Height = -19
+  end
+  object lblMessage: TLabel[6]
+    Left = 18
+    Height = 76
+    Top = 36
+    Width = 832
+    AutoSize = False
+    Caption = 'Introduction message'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+    WordWrap = True
+  end
+  object btnContinue: TColorSpeedButtonCS[7]
+    Left = 694
+    Height = 32
+    Top = 128
+    Width = 165
+    Anchors = [akRight, akBottom]
+    Caption = 'Continue'
+    Font.Color = clBlack
+    Font.Height = -19
+    Font.Style = [fsBold]
+    OnClick = btnContinueClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 2500134
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object btnWatchTutorial: TColorSpeedButtonCS[8]
+    Left = 354
+    Height = 32
+    Top = 128
+    Width = 165
+    Anchors = [akRight, akBottom]
+    Caption = 'Watch Tutorial'
+    Font.Color = clBlack
+    Font.Height = -19
+    Font.Style = [fsBold]
+    OnClick = btnWatchTutorialClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 2500134
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object btnReadManual: TColorSpeedButtonCS[9]
+    Left = 524
+    Height = 32
+    Top = 128
+    Width = 165
+    Anchors = [akRight, akBottom]
+    Caption = 'Read Manual'
+    Font.Color = clBlack
+    Font.Height = -19
+    Font.Style = [fsBold]
+    OnClick = btnReadManualClick
+    ShowHint = True
+    ParentFont = False
+    ParentShowHint = False
+    Alignment = taCenter
+    TextAutoSize = True
+    Toggle = False
+    Pressed = False
+    PopupMode = False
+    StateNormal.Color = 3355443
+    StateNormal.BorderColor = 1644825
+    StateNormal.BorderWidth = 0
+    StateNormal.FontColor = clWhite
+    StateHover.Color = 4934475
+    StateHover.BorderColor = 1644825
+    StateHover.BorderWidth = 1
+    StateHover.FontColor = clWhite
+    StateActive.Color = 4934475
+    StateActive.BorderColor = 3355443
+    StateActive.BorderWidth = 1
+    StateActive.FontColor = clWhite
+    StateDisabled.Color = 2500134
+    StateDisabled.BorderColor = 1644825
+    StateDisabled.BorderWidth = 0
+    StateDisabled.FontColor = clWhite
+    TextPadding = 0
+  end
+  object chkCheckBox: TCheckBox[10]
+    Left = 21
+    Height = 19
+    Top = 132
+    Width = 20
+    Anchors = [akLeft, akBottom]
+    Color = clWhite
+    ParentColor = False
+    TabOrder = 0
+    TabStop = False
+  end
+  object lblCheckBox: TLabel[11]
+    Left = 37
+    Height = 16
+    Top = 134
+    Width = 128
+    Alignment = taRightJustify
+    Anchors = [akLeft, akBottom]
+    AutoSize = False
+    Caption = 'Hide this notification?'
+    Font.Color = clWhite
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    OnClick = lblCheckBoxClick
+  end
+end

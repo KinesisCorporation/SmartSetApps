@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="laz_acs_directx"/>
+    <Type Value="RunTimeOnly"/>
+    <Author Value="Andrei Borovsky, Christian Ulrich, Sergey Bodrov"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="..\src\devices;..\src\devices\$(TargetOS);..\src\formats;..\src\formats\$(TargetOS);..\src\formats\general;..\src\filters;..\src\filters\$(TargetOS)"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+          <IncludeAssertionCode Value="True"/>
+        </SyntaxOptions>
+      </Parsing>
+      <CodeGeneration>
+        <Checks>
+          <IOChecks Value="True"/>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+          <StackChecks Value="True"/>
+        </Checks>
+        <VerifyObjMethodCallValidity Value="True"/>
+      </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <UseExternalDbgSyms Value="True"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CustomOptions Value="-dDIRECTX_ENABLED"/>
+        <OtherDefines Count="1">
+          <Define0 Value="DIRECTX_ENABLED"/>
+        </OtherDefines>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Audio Component Suite addon for MS Windows DirectX audio devices, codecs, file formats."/>
+    <License Value="The MIT License (MIT)"/>
+    <Version Major="3" Release="3"/>
+    <Files Count="2">
+      <Item1>
+        <Filename Value="..\src\devices\acs_dxaudio.pas"/>
+        <UnitName Value="acs_dxaudio"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\src\formats\acs_dsfiles.pas"/>
+        <UnitName Value="acs_dsfiles"/>
+      </Item2>
+    </Files>
+    <RequiredPkgs Count="3">
+      <Item1>
+        <PackageName Value="pl_directx"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="laz_acs"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+      </Item3>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

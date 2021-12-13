@@ -1,0 +1,257 @@
+object FormMain: TFormMain
+  Left = 499
+  Height = 380
+  Top = 299
+  Width = 729
+  Caption = 'FormMain'
+  ClientHeight = 380
+  ClientWidth = 729
+  OnCreate = FormCreate
+  LCLVersion = '2.0.0.4'
+  object gbInput: TGroupBox
+    Left = 10
+    Height = 358
+    Top = 10
+    Width = 254
+    Caption = 'Input'
+    ClientHeight = 338
+    ClientWidth = 250
+    TabOrder = 0
+    object pgcInputTypes: TPageControl
+      Left = 4
+      Height = 330
+      Top = 4
+      Width = 242
+      ActivePage = tsInputAudioDevice
+      Align = alClient
+      BorderSpacing.Around = 4
+      TabIndex = 0
+      TabOrder = 0
+      object tsInputAudioDevice: TTabSheet
+        Caption = 'Audio device'
+        ClientHeight = 302
+        ClientWidth = 234
+        object ListBoxAudioInDrivers: TListBox
+          Left = 7
+          Height = 66
+          Top = 14
+          Width = 217
+          ItemHeight = 0
+          OnSelectionChange = ListBoxAudioInDriversSelectionChange
+          TabOrder = 0
+        end
+        object MemoAudioInInfo: TMemo
+          Left = 7
+          Height = 111
+          Top = 184
+          Width = 217
+          TabOrder = 1
+        end
+        object ListBoxAudioInDevices: TListBox
+          Left = 7
+          Height = 80
+          Top = 88
+          Width = 217
+          ItemHeight = 0
+          TabOrder = 2
+        end
+      end
+      object tsInputFile: TTabSheet
+        Caption = 'File'
+        ClientHeight = 302
+        ClientWidth = 234
+        object FileNameEditInput: TFileNameEdit
+          Left = 8
+          Height = 23
+          Top = 8
+          Width = 217
+          OnAcceptFileName = FileNameEditInputAcceptFileName
+          FilterIndex = 0
+          HideDirectories = False
+          ButtonWidth = 23
+          NumGlyphs = 1
+          MaxLength = 0
+          TabOrder = 0
+        end
+        object MemoInputFileInfo: TMemo
+          Left = 7
+          Height = 167
+          Top = 128
+          Width = 217
+          TabOrder = 1
+        end
+        object ListBoxFileInDrivers: TListBox
+          Left = 7
+          Height = 80
+          Top = 40
+          Width = 217
+          ItemHeight = 0
+          TabOrder = 2
+        end
+      end
+    end
+  end
+  object gbOutput: TGroupBox
+    Left = 464
+    Height = 358
+    Top = 10
+    Width = 256
+    Caption = 'Output'
+    ClientHeight = 338
+    ClientWidth = 252
+    TabOrder = 1
+    object pgcOutputTypes: TPageControl
+      Left = 4
+      Height = 330
+      Top = 4
+      Width = 244
+      ActivePage = tsOutAudioDevice
+      Align = alClient
+      BorderSpacing.Around = 4
+      TabIndex = 0
+      TabOrder = 0
+      object tsOutAudioDevice: TTabSheet
+        Caption = 'Audio device'
+        ClientHeight = 302
+        ClientWidth = 236
+        object ListBoxAudioOutDrivers: TListBox
+          Left = 7
+          Height = 66
+          Top = 14
+          Width = 217
+          ItemHeight = 0
+          OnSelectionChange = ListBoxAudioOutDriversSelectionChange
+          TabOrder = 0
+        end
+        object ListBoxAudioOutDevices: TListBox
+          Left = 7
+          Height = 80
+          Top = 88
+          Width = 217
+          ItemHeight = 0
+          TabOrder = 1
+        end
+        object MemoAudioOutInfo: TMemo
+          Left = 7
+          Height = 111
+          Top = 184
+          Width = 217
+          TabOrder = 2
+        end
+      end
+      object tsOutFile: TTabSheet
+        Caption = 'File'
+        ClientHeight = 302
+        ClientWidth = 236
+        object FileNameEditOut: TFileNameEdit
+          Left = 7
+          Height = 23
+          Top = 8
+          Width = 217
+          OnAcceptFileName = FileNameEditOutAcceptFileName
+          DialogKind = dkSave
+          FilterIndex = 0
+          HideDirectories = False
+          ButtonWidth = 23
+          NumGlyphs = 1
+          MaxLength = 0
+          TabOrder = 0
+          OnEditingDone = FileNameEditOutEditingDone
+        end
+        object ListBoxFileOutDrivers: TListBox
+          Left = 7
+          Height = 80
+          Top = 40
+          Width = 217
+          ItemHeight = 0
+          OnSelectionChange = ListBoxFileOutDriversSelectionChange
+          TabOrder = 1
+        end
+      end
+    end
+  end
+  object btnStart: TButton
+    Left = 272
+    Height = 25
+    Top = 343
+    Width = 75
+    Caption = 'Start'
+    OnClick = btnStartClick
+    TabOrder = 2
+  end
+  object btnStop: TButton
+    Left = 381
+    Height = 25
+    Top = 343
+    Width = 75
+    Caption = 'Stop'
+    OnClick = btnStopClick
+    TabOrder = 3
+  end
+  object gbProgress: TGroupBox
+    Left = 272
+    Height = 105
+    Top = 10
+    Width = 184
+    Caption = 'Progress'
+    ClientHeight = 85
+    ClientWidth = 180
+    TabOrder = 4
+    object ProgressBar1: TProgressBar
+      Left = 8
+      Height = 20
+      Top = 7
+      Width = 164
+      Smooth = True
+      Step = 1
+      TabOrder = 0
+      BarShowText = True
+    end
+    object lbOutPosition: TLabel
+      Left = 11
+      Height = 32
+      Top = 32
+      Width = 157
+      Alignment = taRightJustify
+      AutoSize = False
+      Caption = '00:00:00'
+      Font.Height = 32
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object AcsFileIn1: TAcsFileIn
+    StartSample = 0
+    EndSample = -1
+    Loop = False
+    left = 161
+    top = 295
+  end
+  object AcsFileOut1: TAcsFileOut
+    BufferSize = 0
+    PrefetchMode = pmAuto
+    FileMode = foRewrite
+    left = 664
+    top = 304
+  end
+  object AcsAudioOut1: TAcsAudioOut
+    BufferSize = 16384
+    PrefetchMode = pmAuto
+    DriverName = 'Wavemapper'
+    Device = 0
+    Volume = 0
+    Delay = -1
+    left = 504
+    top = 304
+  end
+  object AcsAudioIn1: TAcsAudioIn
+    DriverName = 'Wavemapper'
+    Device = 0
+    InBitsPerSample = 8
+    InChannels = 1
+    InSampleRate = 8000
+    RecTime = 0
+    left = 40
+    top = 295
+  end
+end

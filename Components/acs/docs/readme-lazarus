@@ -1,0 +1,14 @@
+to use the Package in Linux you must add cthreads unit to
+main lazarus unit lazarus.pp
+like:
+
+uses
+   {$ifdef MemCheck}
+   MemCheck
+   {$endif}
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+   {$ifdef Linux}
+   ,cthreads
+   {$endif}
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+...   

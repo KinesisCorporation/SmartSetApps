@@ -60,7 +60,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="22">
+    <Units Count="21">
       <Unit0>
         <Filename Value="SmartSetMaster.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -148,42 +148,35 @@
         <UnitName Value="Eject_USB"/>
       </Unit16>
       <Unit17>
-        <Filename Value="u_form_settings_master.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormSettingsMaster"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
         <Filename Value="..\Common\infodialog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormInfoDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="InfoDialog"/>
-      </Unit18>
-      <Unit19>
+      </Unit17>
+      <Unit18>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMainTKO"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit19>
-      <Unit20>
+      </Unit18>
+      <Unit19>
         <Filename Value="..\Common\userdialog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormUserDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UserDialog"/>
-      </Unit20>
-      <Unit21>
+      </Unit19>
+      <Unit20>
         <Filename Value="u_form_scanvdrive.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormScanVDrive"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit21>
+      </Unit20>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

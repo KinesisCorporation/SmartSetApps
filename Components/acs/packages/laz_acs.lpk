@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="laz_acs"/>
+    <Type Value="RunAndDesignTime"/>
+    <Author Value="Andrei Borovsky, Christian Ulrich, Sergey Bodrov"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <IncludeFiles Value="..\src\filters;..\src\filters\$(TargetOS);..\src\formats;..\src\formats\general;..\src\formats\$(TargetOS);..\src\devices;..\src\devices\$(TargetOS)"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Linking>
+        <Debugging>
+          <UseExternalDbgSyms Value="True"/>
+        </Debugging>
+      </Linking>
+    </CompilerOptions>
+    <Description Value="Audio Component Suite - non-visual components for audio recording, playing and processing.
+Supports many audio devices and libraries, codecs, file formats."/>
+    <License Value="The MIT License (MIT)"/>
+    <Version Major="3" Release="3"/>
+    <Files Count="3">
+      <Item1>
+        <Filename Value="..\src\resources\acs_reg.lrs"/>
+        <Type Value="LRS"/>
+      </Item1>
+      <Item2>
+        <Filename Value="acs_reg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="acs_reg"/>
+      </Item2>
+      <Item3>
+        <Filename Value="acs_properties.pas"/>
+        <UnitName Value="acs_properties"/>
+      </Item3>
+    </Files>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="laz_acs_lib"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="IDEIntf"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <CustomOptions Value="-dUseCThreads"/>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

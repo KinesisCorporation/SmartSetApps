@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, u_const, u_debug, graphics, VersionSupport,
-  u_kinesis_device, dialogs, LazFileUtils;
+  u_kinesis_device, dialogs, LazFileUtils, Zipper, HTTPSend, ssl_openssl;
 
 type
   //FileService contains all logic for file management
@@ -94,6 +94,8 @@ type
     function GetStartupFileNo(aDevice: TDevice): string;
     function GetFirmwareVersionInfo(aDevice: TDevice): TFirmwareInfo;
     function CheckReadWriteAccess(aDevice: TDevice): boolean;
+    function UnzipFile(inputFile: string; outputPath: string): string;
+    function DownloadFile(url: string; destFolder: string): boolean;
 
     property FileIsValid: boolean read CheckFileValid;
     property FilePath: string read FFilePath write FFilePath;
@@ -547,6 +549,61 @@ begin
       sFilePath := sRootPath + KB_SETTINGS_FILE;
     end;
     result := CheckIfFileExists(sFilePath) and (not(DirectoryIsWritable(sRootPath)) or not(FileIsWritable(sFilePath)));
+  end;
+end;
+
+function TFileService.UnzipFile(inputFile: string; outputPath: string): string;
+var
+  UnZipper: TUnZipper;
+begin
+  result := '';
+  UnZipper := TUnZipper.Create;
+  try
+    UnZipper.FileName := inputFile;
+    UnZipper.OutputPath := outputPath;
+    UnZipper.Examine;
+    UnZipper.UnZipAllFiles;
+    result := UnZipper.Entries[0].DiskFileName;
+  finally
+    UnZipper.Free;
+  end;
+end;
+
+function TFileService.DownloadFile(url: string; destFolder: string): boolean;
+var
+  HTTP: THTTPSend;
+  Redirected: boolean;
+  sFileName: String;
+  i: integer;
+begin
+  result := false;
+  HTTP := THTTPSend.Create;
+  try
+    repeat
+      Redirected := False;
+      HTTP.HTTPMethod('GET', Url);
+      case HTTP.Resultcode of
+        301, 302, 307:
+        begin
+          for i := 0 to HTTP.Headers.Count - 1 do
+            if (Pos('location: ', lowercase(HTTP.Headers.Strings[i])) = 1) then
+            begin
+              Url := StringReplace(HTTP.Headers.Strings[i], 'location: ', '', []);
+              HTTP.Clear;
+              Redirected := True;
+              break;
+            end;
+        end;
+      end;
+    until not Redirected;
+
+    sFileName := ExtractFileName(url);
+
+    HTTP.Document.SaveToFile(IncludeTrailingBackslash(destFolder) + sFileName);
+
+    result := true;
+  finally
+    HTTP.Free;
   end;
 end;
 
@@ -1061,11 +1118,16 @@ begin
     //App settings
     aAllContent.Add(APP_SETTINGS_FILE);
     aAllContent.Add('--------------');
-    errorMsg := LoadFile(GSettingsFilePath + APP_SETTINGS_FILE, aFileContent, false);
-    if (errorMsg = '') then
-      aAllContent.AddStrings(aFileContent)
+    if (CheckIfFileExists(GSettingsFilePath + APP_SETTINGS_FILE)) then
+    begin
+      errorMsg := LoadFile(GSettingsFilePath + APP_SETTINGS_FILE, aFileContent, false);
+      if (errorMsg = '') then
+        aAllContent.AddStrings(aFileContent)
+      else
+        aAllContent.Add(errorMsg);
+    end
     else
-      aAllContent.Add(errorMsg);
+        aAllContent.Add('No app settings');
     aAllContent.Add('');
 
     //Layout files

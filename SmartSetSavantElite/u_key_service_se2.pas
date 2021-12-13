@@ -8,7 +8,7 @@ unit u_key_service_se2;
 interface
 
 uses
-  Classes, SysUtils, u_keys, LCLType, u_const_pedal, u_keyboardlayout;
+  Classes, SysUtils, u_keys, LCLType, u_const, u_keyboardlayout;
 
 type
   //KeyService contains all logic for key inputs

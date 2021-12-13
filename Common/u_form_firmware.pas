@@ -38,7 +38,7 @@ type
     aDevice: TDevice;
     firmwareInfo: TFirmwareInfo;
     procedure CheckFirmware;
-
+    procedure DonwloadAndUnzip(url: string);
   public
 
   end;
@@ -118,7 +118,32 @@ begin
     if (aDevice.DeviceNumber = APPL_RGB) then
       OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#firmware')
     else if (aDevice.DeviceNumber = APPL_TKO) then
+    begin
+      //DonwloadAndUnzip('https://gaming.kinesis-ergo.com/wp-content/uploads/2020/12/TKO_Keyboard_1.0.1_UPDATE.zip');
       OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware');
+    end;
+  end;
+end;
+
+procedure TFormFirmware.DonwloadAndUnzip(url: string);
+var
+  fileName: string;
+  outputPath: string;
+  unzippedFile: string;
+begin
+  outputPath := IncludeTrailingBackslash(IncludeTrailingBackslash(aDevice.RootFolder) + 'firmware');
+  if (fileService.DownloadFile(url, outputPath)) then
+  begin
+    fileName := ExtractFileName(url);
+    unzippedFile := fileService.UnzipFile(outputPath + fileName, outputPath);
+    if (unzippedFile <> '') then
+    begin
+      if (FileExists(outputPath + 'update.upd')) then
+         DeleteFile(outputPath + 'update.upd');
+
+      if (RenameFile(outputPath + unzippedFile, outputPath + 'update.upd')) then
+         ShowMessage('Ready to update!');
+    end;
   end;
 end;
 
@@ -275,39 +300,6 @@ begin
     pnlApp.Caption := 'Error reading version.txt file';
   end;
 end;
-
-//procedure TFormFirmware.btnCreateDiagnosticFileClick(Sender: TObject);
-//var
-//  fileContent: TStringList;
-//  errorMsg: string;
-//begin
-//  if (Trim(eSerial.Text) <> '') then
-//  begin
-//    try
-//      Cursor := crHourGlass;
-//      fileContent := MainForm.fileService.GetDiagnosticInfo;
-//
-//      diagnosticFileCreated := (MainForm.fileService.SaveFile(GetDesktopDirectory + '\' + Trim(eSerial.Text) + '.txt', fileContent, true, errorMsg));
-//
-//      if (diagnosticFileCreated) then
-//        ShowDialog('Diagnostics', 'Diagnostics file saved to Desktop!', mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT)
-//      else
-//        ShowDialog('Diagnostics', 'Error creating diagnostics file: ' + errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT);
-//
-//    finally
-//      Cursor := crDefault;
-//
-//      if (fileContent <> nil) then
-//        FreeAndNil(fileContent);
-//    end;
-//  end;
-//end;
-
-//procedure TFormFirmware.btnContactTechSupportClick(Sender: TObject);
-//begin
-//  OpenUrl('https://gaming.kinesis-ergo.com/contact-tech-support/');
-//end;
-
 
 end.
 

@@ -1,0 +1,17 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfVizu','FORMDATA',[
+  'TPF0'#6'TfVizu'#5'fVizu'#4'Left'#3#227#1#6'Height'#2'c'#3'Top'#3#150#0#5'Wid'
+  +'th'#3#194#0#18'HorzScrollBar.Page'#3#193#0#18'VertScrollBar.Page'#2'N'#11'B'
+  +'orderStyle'#7#13'bsSizeToolWin'#7'Caption'#6#13'Visualization'#12'ClientHei'
+  +'ght'#2'O'#11'ClientWidth'#3#194#0#4'Menu'#7#9'MainMenu1'#8'OnCreate'#7#10'F'
+  +'ormCreate'#7'OnPaint'#7#9'FormPaint'#10'LCLVersion'#6#7'1.6.0.4'#0#6'TImage'
+  +#5'Image'#4'Left'#2#0#6'Height'#2'O'#3'Top'#2#0#5'Width'#3#194#0#5'Align'#7#8
+  +'alClient'#11'Transparent'#9#0#0#9'TMainMenu'#9'MainMenu1'#4'left'#2#17#3'to'
+  +'p'#2#10#0#9'TMenuItem'#6'miType'#7'Caption'#6#4'Type'#0#9'TMenuItem'#4'rFFT'
+  +#9'AutoCheck'#9#7'Caption'#6#3'FFT'#7'Checked'#9#10'GroupIndex'#2#1#9'RadioI'
+  +'tem'#9#19'ShowAlwaysCheckable'#9#0#0#9'TMenuItem'#9'MenuItem2'#9'AutoCheck'
+  +#9#7'Caption'#6#4'Wave'#10'GroupIndex'#2#1#9'RadioItem'#9#19'ShowAlwaysCheck'
+  +'able'#9#0#0#0#0#6'TTimer'#6'Timer1'#8'Interval'#2'd'#7'OnTimer'#7#11'Timer1'
+  +'Timer'#4'left'#2#17#3'top'#2','#0#0#0
+]);

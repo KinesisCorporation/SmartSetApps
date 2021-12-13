@@ -25,7 +25,7 @@ object FormMainFS: TFormMainFS
   OnShow = FormShow
   OnWindowStateChange = FormWindowStateChange
   Position = poScreenCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.12.0'
   Scaled = False
   object pnlMain: TPanel
     Left = 2
@@ -115,16 +115,13 @@ object FormMainFS: TFormMainFS
         Knob.TickMarkCount = 2
         PageSize = 10
         ParentColor = False
-        Position = 0
         ProgressColor = 14064162
         ProgressColor2 = 14064162
         ProgressMarkSize = 2
-        ProgressMiddlePos = 0
         RelativeScaleLength = -1
         Scale.DateTimeFormat = 'hh:nn:ss'
         Scale.LogarithmBase = 10
         Scale.Max = 9
-        Scale.Min = 0
         Scale.TickLength = 5
         Scale.TickLongValue = 5
         Scale.TickMiddleValue = 5
@@ -281,7 +278,6 @@ object FormMainFS: TFormMainFS
         }
         Max = 9
         MaxAngle = 3450
-        Min = 0
         MinAngle = 1150
         OffsetAngle = 3100
         Image.Data = {
@@ -901,7 +897,6 @@ object FormMainFS: TFormMainFS
           0000000000000000000000000000000000000000000000000000000000000000
           00000000000000000000
         }
-        Position = 0
         TicksMargin = 25
         LTicks = 9
         LTicksSize = 16
@@ -1081,16 +1076,13 @@ object FormMainFS: TFormMainFS
         Knob.TickMarkCount = 2
         PageSize = 10
         ParentColor = False
-        Position = 0
         ProgressColor = 14064162
         ProgressColor2 = 14064162
         ProgressMarkSize = 2
-        ProgressMiddlePos = 0
         RelativeScaleLength = -1
         Scale.DateTimeFormat = 'hh:nn:ss'
         Scale.LogarithmBase = 10
         Scale.Max = 4
-        Scale.Min = 0
         Scale.TickLength = 5
         Scale.TickLongValue = 5
         Scale.TickMiddleValue = 5
@@ -9198,16 +9190,13 @@ object FormMainFS: TFormMainFS
               Knob.TickMarkCount = 2
               PageSize = 10
               ParentColor = False
-              Position = 0
               ProgressColor = 14064162
               ProgressColor2 = 14064162
               ProgressMarkSize = 2
-              ProgressMiddlePos = 0
               RelativeScaleLength = -1
               Scale.DateTimeFormat = 'hh:nn:ss'
               Scale.LogarithmBase = 10
               Scale.Max = 9
-              Scale.Min = 0
               Scale.TickLength = 5
               Scale.TickLongValue = 5
               Scale.TickMiddleValue = 5
@@ -9236,16 +9225,13 @@ object FormMainFS: TFormMainFS
               Knob.TickMarkCount = 2
               PageSize = 10
               ParentColor = False
-              Position = 0
               ProgressColor = 14064162
               ProgressColor2 = 14064162
               ProgressMarkSize = 2
-              ProgressMiddlePos = 0
               RelativeScaleLength = -1
               Scale.DateTimeFormat = 'hh:nn:ss'
               Scale.LogarithmBase = 10
               Scale.Max = 9
-              Scale.Min = 0
               Scale.TickLength = 5
               Scale.TickLongValue = 5
               Scale.TickMiddleValue = 5
@@ -10058,8 +10044,8 @@ object FormMainFS: TFormMainFS
   end
   object pmTokensMacros: TPopupMenu
     OnPopup = pmTokensMacrosPopup
-    left = 256
-    top = 128
+    Left = 256
+    Top = 128
     object MenuItem1: TMenuItem
       Caption = 'Common Shortcuts'
       object miCutM: TMenuItem
@@ -10233,8 +10219,8 @@ object FormMainFS: TFormMainFS
   end
   object pmTokensKeys: TPopupMenu
     OnPopup = pmTokensKeysPopup
-    left = 352
-    top = 128
+    Left = 352
+    Top = 128
     object miMultimedia: TMenuItem
       Caption = 'Multimedia'
       object miVolumeUp: TMenuItem
@@ -10511,19 +10497,19 @@ object FormMainFS: TFormMainFS
   object OpenDialog: TOpenDialog
     Filter = 'Text files|*.txt'
     Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
-    left = 608
-    top = 128
+    Left = 608
+    Top = 128
   end
   object SaveDialog: TSaveDialog
     Filter = 'Text files|*.txt'
     Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
-    left = 688
-    top = 128
+    Left = 688
+    Top = 128
   end
   object imageList: TImageList
     DrawingStyle = dsTransparent
-    left = 520
-    top = 120
+    Left = 520
+    Top = 120
     Bitmap = {
       4C69070000001000000010000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -10756,14 +10742,14 @@ object FormMainFS: TFormMainFS
     Enabled = False
     Interval = 30000
     OnTimer = CheckVDriveTmrTimer
-    left = 560
-    top = 56
+    Left = 560
+    Top = 56
   end
   object tmrAfterFormShown: TTimer
     Enabled = False
     Interval = 500
     OnTimer = tmrAfterFormShownTimer
-    left = 790
-    top = 46
+    Left = 790
+    Top = 46
   end
 end

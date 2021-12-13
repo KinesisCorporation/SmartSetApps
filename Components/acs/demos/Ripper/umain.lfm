@@ -1,0 +1,117 @@
+object fMain: TfMain
+  Left = 306
+  Height = 300
+  Top = 151
+  Width = 400
+  HorzScrollBar.Page = 399
+  VertScrollBar.Page = 299
+  ActiveControl = lvTracks
+  Caption = 'CD Ripper'
+  ClientHeight = 300
+  ClientWidth = 400
+  OnCreate = FormCreate
+  LCLVersion = '1.4.4.0'
+  object Label1: TLabel
+    Left = 8
+    Height = 13
+    Top = 7
+    Width = 25
+    Caption = 'Drive'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 265
+    Height = 13
+    Top = 7
+    Width = 71
+    Caption = 'Output Format'
+    ParentColor = False
+  end
+  object lvTracks: TListView
+    Left = 0
+    Height = 250
+    Top = 34
+    Width = 400
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Columns = <    
+      item
+        Caption = 'Track'
+        Width = 10
+      end    
+      item
+        Caption = 'Tracktitle'
+        Width = 10
+      end    
+      item
+        Caption = 'Length'
+        Width = 10
+      end>
+    MultiSelect = True
+    RowSelect = True
+    TabOrder = 0
+    ViewStyle = vsReport
+  end
+  object cbDrives: TComboBox
+    Left = 40
+    Height = 21
+    Top = 4
+    Width = 132
+    ItemHeight = 13
+    OnChange = cbDrivesChange
+    Style = csDropDownList
+    TabOrder = 1
+  end
+  object bRip: TButton
+    Left = 184
+    Height = 21
+    Top = 4
+    Width = 75
+    BorderSpacing.InnerBorder = 2
+    Caption = 'Rip selected'
+    OnClick = Button1Click
+    TabOrder = 2
+  end
+  object cbFormat: TComboBox
+    Left = 340
+    Height = 21
+    Top = 4
+    Width = 61
+    ItemHeight = 13
+    ItemIndex = 2
+    Items.Strings = (
+      'ogg'
+      'mp3'
+      'wav'
+    )
+    Style = csDropDownList
+    TabOrder = 3
+    Text = 'wav'
+  end
+  object ProgressBar: TProgressBar
+    Left = 0
+    Height = 12
+    Top = 288
+    Width = 400
+    Align = alBottom
+    TabOrder = 4
+  end
+  object Timer: TTimer
+    OnTimer = TimerTimer
+    left = 76
+    top = 4
+  end
+  object SelectDirectoryDialog: TSelectDirectoryDialog
+    Title = 'Select Directory'
+    FilterIndex = 0
+    left = 144
+    top = 4
+  end
+  object FileOut: TAcsFileOut
+    OnDone = FileOutDone
+    BufferSize = 0
+    PrefetchMode = pmAuto
+    FileMode = foRewrite
+    left = 112
+    top = 4
+  end
+end

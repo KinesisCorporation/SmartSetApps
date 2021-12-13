@@ -8,7 +8,7 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms,
-  richmemopackage, u_form_main, u_form_troubleshoot, u_const;
+  richmemopackage, u_form_main_fs, u_const;
 
 {$R *.res}
 begin
@@ -17,7 +17,9 @@ begin
   GApplicationName := 'SmartSet App';
   RequireDerivedFormResource:=True;
   Application.Initialize;
-  Application.CreateForm(TFormMain, FormMain);
+  GApplication:= APPL_FSPRO;
+  Application.CreateForm(TFormMainFS, FormMainFS);
+  FormMainFS.InitForm(nil);
   Application.Run;
 end.
 

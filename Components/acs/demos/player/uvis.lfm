@@ -1,0 +1,49 @@
+object fVizu: TfVizu
+  BorderStyle = bsSizeToolWin
+  Caption = 'Visualization'
+  ClientHeight = 79
+  ClientWidth = 194
+  Menu = MainMenu1
+  OnPaint = FormPaint
+  PixelsPerInch = 96
+  HorzScrollBar.Page = 193
+  VertScrollBar.Page = 78
+  Left = 483
+  Height = 99
+  Top = 150
+  Width = 194
+  object Image: TImage
+    Align = alClient
+    Transparent = True
+    Height = 79
+    Width = 194
+  end
+  object MainMenu1: TMainMenu
+    left = 17
+    top = 10
+    object miType: TMenuItem
+      Caption = 'Type'
+      object rFFT: TMenuItem
+        AutoCheck = True
+        Caption = 'FFT'
+        Checked = True
+        GroupIndex = 1
+        RadioItem = True
+        ShowAlwaysCheckable = True
+      end
+      object MenuItem2: TMenuItem
+        AutoCheck = True
+        Caption = 'Wave'
+        GroupIndex = 1
+        RadioItem = True
+        ShowAlwaysCheckable = True
+      end
+    end
+  end
+  object Timer1: TTimer
+    Interval = 150
+    OnTimer = Timer1Timer
+    left = 17
+    top = 44
+  end
+end

@@ -7,7 +7,8 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   u_key_service_se2, u_keys, lcltype, Menus, ExtCtrls, Buttons, RichMemo,
-  ColorSpeedButton, u_const_pedal, u_file_service_se2, u_form_about, lclintf, UserDialog_SE2
+  ColorSpeedButton, u_const, u_file_service_se2, u_form_about, lclintf, UserDialog,
+  u_form_troubleshoot
   {$ifdef Win32},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonUtils, CarbonDef, CarbonProc}{$endif};
 
@@ -42,6 +43,7 @@ type
     bSaveAs: TSpeedButton;
     bSingleKey: TSpeedButton;
     bSpecialAction: TSpeedButton;
+    CheckVDriveTmr: TIdleTimer;
     Image1: TImage;
     ImageList1: TImageList;
     Label3: TLabel;
@@ -83,6 +85,7 @@ type
     pnlLeft: TPanel;
     pnlRight: TPanel;
     shSpecialAction: TShape;
+    tmrAfterFormShown: TTimer;
     procedure bCancelClick(Sender: TObject);
     procedure bDoneClick(Sender: TObject);
     procedure bBackspaceClick(Sender: TObject);
@@ -109,11 +112,13 @@ type
     procedure bSaveClick(Sender: TObject);
     procedure bSingleKeyClick(Sender: TObject);
     procedure bSpecialActionClick(Sender: TObject);
+    procedure CheckVDriveTmrTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
     procedure lblWarningKbLanuageClick(Sender: TObject);
     procedure memoConfigChange(Sender: TObject);
     procedure memoConfigEnter(Sender: TObject);
@@ -122,6 +127,7 @@ type
     procedure miHelpClick(Sender: TObject);
     procedure miSpecialClick(Sender: TObject);
     procedure ResizeControlMemo(Sender: TObject);
+    procedure tmrAfterFormShownTimer(Sender: TObject);
   private
     { private declarations }
     EditMode: boolean;
@@ -130,13 +136,23 @@ type
     memoOriginalHeight: integer;
     memoOriginalColor: TColor;
     darkTheme: boolean;
+    appError: boolean;
+    fontColor: TColor;
+    backColor: TColor;
+    fromMasterApp: boolean;
+    closing: boolean;
 
     procedure AddSpecialActions;
+    function CheckVDrive: boolean;
+    procedure InitApp(scanVDrive: boolean = false);
+    procedure LaunchDemoMode;
+    procedure openTroubleshootingTipsClick(Sender: TObject);
+    procedure ScanVDrive(init: boolean);
     procedure SetEditMode(Value: boolean; pedal: TPedal);
     procedure SetEditButton(isEditMode: boolean; button: TObject);
     procedure SetSaveState(Value: TSaveState);
     function LoadPedalsFile(fileName: string): boolean;
-    procedure CheckToSave;
+    function CheckToSave(checkForVDrive: boolean): boolean;
     function Save: boolean;
     procedure SaveAs;
     function CheckEdit(checkEditing: boolean): boolean;
@@ -148,6 +164,12 @@ type
     procedure SetKeyMode(keyMode: TKeyMode);
     procedure ResetMemo(memoField: TRichMemo);
     procedure CheckKeyboardLayout;
+    procedure ShowIntroduction;
+    function ShowTroubleshootingDialog(init: boolean; saveChg: boolean;
+      load: boolean): boolean;
+    procedure createCustomButton(var customBtns: TCustomButtons; btnCaption: string; btnWidth: integer; btnOnClick: TNotifyEvent; btnKind: TBitBtnKind = bkCustom);
+    procedure scanVDriveClick(Sender: TObject);
+    procedure UpdateStateSettings;
   public
     { public declarations }
     procedure InitForm(mdiParent: TForm);
@@ -275,87 +297,6 @@ begin
 end;
 {$endif}
 
-//Adds key to list of keys and writes back to edit field
-procedure SetKeyPress(Key: word; Modifiers: string);
-begin
-  if FormMainSE2.EditMode then
-  begin
-    if keyService.AddKey(Key, Modifiers) then
-      FormMainSE2.LoadPedalText(true);
-  end;
-end;
-
-procedure TFormMainSE2.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  CheckToSave;
-
-  FreeAndNil(keyService);
-  FreeAndNil(fileService);
-  if CloseAction = caFree then
-    self := nil;
-end;
-
-procedure TFormMainSE2.FormCreate(Sender: TObject);
-begin
-  //Sets Height and Width of form according to screen resolution
-  self.Width := pnlLeft.Width + pnlRight.Width + 20;
-  if screen.Width < self.Width then
-    self.Width := screen.Width - 20;
-
-  self.Height := 675;
-  if screen.Height < self.Height then
-    self.Height := screen.Height - 20;
-
-  SetConfigOS; //Sets config according to OS version
-
-  darkTheme := IsDarkTheme;
-  if (darkTheme) then
-  begin
-    ImageList1.GetBitmap(0, bSpecialAction.Glyph);
-    shSpecialAction.Visible := false;
-    memoLeft.Color := clGray;
-    memoMiddle.Color := clGray;
-    memoRight.Color := clGray;
-    memoJack1.Color := clGray;
-    memoJack2.Color := clGray;
-    memoJack3.Color := clGray;
-    memoJack4.Color := clGray;
-  end;
-
-  self.Caption := GApplicationTitle;
-  keyService := TKeyServiceSE2.Create;
-  fileService := TFileServiceSE2.Create;
-  AddSpecialActions;
-  SetSaveState(ssNone);
-  NeedInput := False;
-  memoOriginalHeight := memoLeft.Height;
-  memoOriginalColor := memoLeft.Color;
-
-  SetKeyboardHook;
-
-  //Tries to load Pedals.txt file
-  LoadPedalsFile(GPedalsFile);
-
-  //Sets default directory as the active folder
-  if DirectoryExists(GPedalsFilePath) then
-  begin
-    pedalOpenDialog.InitialDir := GPedalsFilePath;
-    pedalSaveDialog.InitialDir := GPedalsFilePath;
-  end;
-
-  CheckKeyboardLayout;
-end;
-
-procedure TFormMainSE2.InitForm(mdiParent: TForm);
-begin
-
-end;
-
-procedure TFormMainSE2.FormDestroy(Sender: TObject);
-begin
-  RemoveKeyboardHook;
-end;
-
 //Only used for Mac version to trap key presses
 procedure TFormMainSE2.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -424,6 +365,262 @@ begin
     keyService.RemoveModifier(currentKey);
   end;
   {$endif}
+end;
+
+//Adds key to list of keys and writes back to edit field
+procedure SetKeyPress(Key: word; Modifiers: string);
+begin
+  if FormMainSE2.EditMode then
+  begin
+    if keyService.AddKey(Key, Modifiers) then
+      FormMainSE2.LoadPedalText(true);
+  end;
+end;
+
+procedure TFormMainSE2.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  if not CheckToSave(false) then
+    CloseAction := caNone
+  else
+  begin
+    closing := true;
+    FreeAndNil(keyService);
+    FreeAndNil(fileService);
+    CloseAction := caFree;
+  end;
+end;
+
+procedure TFormMainSE2.FormCreate(Sender: TObject);
+begin
+
+end;
+
+procedure TFormMainSE2.InitForm(mdiParent: TForm);
+begin
+  fromMasterApp := mdiParent <> nil;
+
+  //Sets Height and Width of form according to screen resolution
+  self.Width := pnlLeft.Width + pnlRight.Width + 20;
+  if screen.Width < self.Width then
+    self.Width := screen.Width - 20;
+
+  self.Height := 675;
+  if screen.Height < self.Height then
+    self.Height := screen.Height - 20;
+
+  SetConfigOS; //Sets config according to OS version
+
+  lblFileName.Caption := '';
+  fontColor := clBlack;
+  backColor := clWhite;
+  darkTheme := IsDarkTheme;
+  closing := false;
+  if (darkTheme) then
+  begin
+    fontColor := clWhite;
+    backColor := KINESIS_DARK_GRAY_FS;
+    ImageList1.GetBitmap(0, bSpecialAction.Glyph);
+    shSpecialAction.Visible := false;
+    memoLeft.Color := clGray;
+    memoMiddle.Color := clGray;
+    memoRight.Color := clGray;
+    memoJack1.Color := clGray;
+    memoJack2.Color := clGray;
+    memoJack3.Color := clGray;
+    memoJack4.Color := clGray;
+  end;
+
+  //From master app
+  if (fromMasterApp) then
+  begin
+    FormStyle := TFormStyle.fsMDIChild;
+    WindowState:= TWindowState.wsMaximized;
+    //NORMAL_HEIGHT := Parent.Height;
+    //NORMAL_WIDTH := Parent.Width;
+    Maximize;
+    ShowInTaskBar := stNever;
+    bExit.Visible := false;
+  end;
+
+  self.Caption := GApplicationTitle;
+  keyService := TKeyServiceSE2.Create;
+  fileService := TFileServiceSE2.Create;
+  AddSpecialActions;
+  SetSaveState(ssNone);
+  NeedInput := False;
+  memoOriginalHeight := memoLeft.Height;
+  memoOriginalColor := memoLeft.Color;
+  self.BorderStyle := bsNone;
+
+  InitApp;
+end;
+
+procedure TFormMainSE2.InitApp(scanVDrive: boolean);
+var
+  customBtns: TCustomButtons;
+  canShowApp: boolean;
+begin
+  canShowApp := GDemoMode or CheckVDrive;
+
+  if (canShowApp) then
+  begin
+    SetKeyboardHook;
+
+    if (GDemoMode) then
+    begin
+      bOpenFile.Enabled := false;
+      bSave.Enabled := false;
+      bSaveAs.Enabled := false;
+    end;
+
+    //Tries to load Pedals.txt file
+    LoadPedalsFile(GPedalsFile);
+
+    //Sets default directory as the active folder
+    if DirectoryExists(GPedalsFilePath) then
+    begin
+      pedalOpenDialog.InitialDir := GPedalsFilePath;
+      pedalSaveDialog.InitialDir := GPedalsFilePath;
+    end;
+
+    CheckKeyboardLayout;
+  end;
+
+  if not canShowApp then
+  begin
+    if (GDesktopMode) then
+    begin
+      if (not ShowTroubleshootingDialog(true, false, false)) then
+      begin
+        appError := true;
+        Close;
+      end;
+    end
+    else
+    begin
+      createCustomButton(customBtns, 'Troubleshooting Tips', 175, @openTroubleshootingTipsClick);
+      ShowDialog('SmartSet App File Error', 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the pedal to regenerate these files and try launching the App again.',
+        mtWarning, [], DEFAULT_DIAG_HEIGHT_PEDAL, customBtns);
+      appError := true;
+      Close;
+    end;
+  end;
+end;
+
+procedure TFormMainSE2.FormDestroy(Sender: TObject);
+begin
+  RemoveKeyboardHook;
+end;
+
+function TFormMainSE2.CheckVDrive: boolean;
+begin
+  //todo
+  result := fileService.FirmwareExists;
+  //lblVDriveOk.Visible := Result and not(GDemoMode);
+  //lblVDriveError.Visible := not(Result) and not(GDemoMode);
+  //lblDemoMode.Visible := GDemoMode;
+end;
+
+function TFormMainSE2.ShowTroubleshootingDialog(init: boolean; saveChg: boolean; load: boolean): boolean;
+var
+  customBtns: TCustomButtons;
+  title: string;
+  message: string;
+  resultTroubleshoot: integer;
+begin
+  result := true;
+
+  if init then
+  begin
+    title := 'Pedal not detected';
+      resultTroubleshoot := ShowTroubleshoot(title, init, backColor, fontColor);
+    if (resultTroubleshoot = 1) then
+      ScanVDrive(init)
+    else if (resultTroubleshoot = 2) then
+      LaunchDemoMode;
+    result := resultTroubleshoot > 0;
+  end
+  else
+  begin
+    createCustomButton(customBtns, 'Scan for v-Drive', 200, @scanVDriveClick);
+    title := 'Pedal Connection Lost';
+    if (save) then
+      message := 'To save your changes you must use the onboard shortcut “Program + F1” to open the v-Drive and re-establish the connection with the SmartSet App.'
+    else if (load) then
+      message := 'To load a layout you must use the onboard shortcut “Program + F1” to open the v-Drive and re-establish the connection with the SmartSet App.'
+    else
+      message := 'To create a new layout you must use the onboard shortcut “Program + F1” to open the v-Drive and re-establish the connection with the SmartSet App.';
+    createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsClick);
+
+    if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_PEDAL, customBtns, '', poMainFormCenter, 700) = mrCancel) then
+      result := false;
+  end;
+end;
+
+procedure TFormMainSE2.openTroubleshootingTipsClick(Sender: TObject);
+begin
+  OpenUrl(PEDAL_TROUBLESHOOT);
+end;
+
+procedure TFormMainSE2.createCustomButton(var customBtns: TCustomButtons;
+  btnCaption: string; btnWidth: integer; btnOnClick: TNotifyEvent;
+  btnKind: TBitBtnKind);
+var
+  customBtn: TCustomButton;
+begin
+  customBtn.Caption := btnCaption;
+  customBtn.Width := btnwidth;
+  customBtn.OnClick := btnOnClick;
+  customBtn.Kind := btnKind;
+
+  SetLength(customBtns, Length(customBtns) + 1);
+  customBtns[Length(customBtns) - 1] := customBtn;
+end;
+
+procedure TFormMainSE2.scanVDriveClick(Sender: TObject);
+begin
+  ScanVDrive(false);
+end;
+
+procedure TFormMainSE2.FormShow(Sender: TObject);
+begin
+  //App error don't show main form
+  if (appError) then
+    self.Hide
+  else
+  begin
+    tmrAfterFormShown.Interval := 200;
+    tmrAfterFormShown.Enabled := true;
+  end;
+end;
+
+procedure TFormMainSE2.ScanVDrive(init: boolean);
+begin
+  if (init) then
+  begin
+    CloseDialog(mrOK);
+    SetBaseDirectory(true);
+    InitApp(true);
+  end
+  else
+  begin
+    if (CheckVDrive) then
+    begin
+      CloseDialog(mrOK);
+      SetBaseDirectory;
+    end;
+  end;
+end;
+
+procedure TFormMainSE2.LaunchDemoMode;
+begin
+  GDemoMode := true;
+  if (CheckVDrive or GDemoMode) then
+  begin
+    CloseDialog(mrOK);
+    SetBaseDirectory;
+    InitApp(false);
+  end;
 end;
 
 procedure TFormMainSE2.lblWarningKbLanuageClick(Sender: TObject);
@@ -1097,6 +1294,12 @@ begin
   pmSpecial.Popup(lPoint.x, lPoint.y);
 end;
 
+procedure TFormMainSE2.CheckVDriveTmrTimer(Sender: TObject);
+begin
+  if (not GDemoMode) then
+    CheckVDrive;
+end;
+
 procedure TFormMainSE2.bExitClick(Sender: TObject);
 begin
   self.Close;
@@ -1205,7 +1408,7 @@ begin
           lblJack4Modified.Visible := True;
         end;
       end;
-      SetSaveState(ssModifed);
+      SetSaveState(ssModified);
     end;
     SetEditMode(False, pNone);
     LoadPedalText(false);
@@ -1243,7 +1446,7 @@ end;
 procedure TFormMainSE2.SetEditMode(Value: boolean; pedal: TPedal);
 begin
   //If trying to edit and file is not valid
-  if (Value) and not (fileService.FileIsValid) then
+  if (Value) and not (fileService.FileIsValid) and not(GDemoMode) then
   begin
     //Try to load original pedals.txt file, if not exit
     if not LoadPedalsFile(GPedalsFile) then
@@ -1357,9 +1560,9 @@ end;
 procedure TFormMainSE2.SetSaveState(Value: TSaveState);
 begin
   SaveState := Value;
-  bSave.Enabled := SaveState = ssModifed;
+  bSave.Enabled := (SaveState = ssModified) and not(GDemoMode);
 
-  if SaveState = ssNone then
+  if (SaveState = ssNone) and not(GDemoMode) then
   begin
     SetEditMode(False, pNone);
     lblLeftModified.Visible := False;
@@ -1518,6 +1721,18 @@ begin
 
 end;
 
+procedure TFormMainSE2.tmrAfterFormShownTimer(Sender: TObject);
+begin
+  tmrAfterFormShown.Enabled := false;
+  // After show code
+  ShowIntroduction;
+end;
+
+procedure TFormMainSE2.ShowIntroduction;
+begin
+//
+end;
+
 procedure TFormMainSE2.ResetMemo(memoField: TRichMemo);
 begin
   memoField.Height := memoOriginalHeight;
@@ -1538,18 +1753,45 @@ begin
 end;
 
 procedure TFormMainSE2.Maximize;
+var
+  aRect: TRect;
 begin
-  //
+  aRect := Screen.PrimaryMonitor.WorkareaRect;
+
+  self.Left := aRect.Left;
+  self.Top := aRect.Top;
+  self.Width := aRect.Width;
+  self.Height := aRect.Height;
+end;
+
+procedure TFormMainSE2.UpdateStateSettings;
+begin
+  self.DisableAlign;
+
+  {$ifdef Win32}
+  //Disable paint on form
+  SendMessage(self.Handle, WM_SETREDRAW, Integer(False), 0);
+  {$endif}
+
+  {$ifdef Win32}
+  //Enable paint on form on repaint
+  SendMessage(self.Handle, WM_SETREDRAW, Integer(True), 0);
+  {$endif}
+
+  self.EnableAlign;
+  self.Repaint;
 end;
 
 procedure TFormMainSE2.bOpenFileClick(Sender: TObject);
 begin
-  CheckToSave;
-  if pedalOpenDialog.Execute then
+  if (CheckToSave(true)) then
   begin
-    keyService.UpdateCurrentKeyboardLayout;
-    LoadPedalsFile(pedalOpenDialog.FileName);
-    SetSaveState(ssNone);
+    if pedalOpenDialog.Execute then
+    begin
+      keyService.UpdateCurrentKeyboardLayout;
+      LoadPedalsFile(pedalOpenDialog.FileName);
+      SetSaveState(ssNone);
+    end;
   end;
 end;
 
@@ -1557,113 +1799,153 @@ function TFormMainSE2.LoadPedalsFile(fileName: string): boolean;
 var
   loadMessage: string;
   canLoadFile: boolean;
+  continue: boolean;
 begin
   Result := False;
-  canLoadFile := False;
-  lblFileName.Caption := '';
+  continue := true;
 
-  //Checks if file exists, if not, propose to create new file
-  if not fileService.CheckIfFileExists(fileName) then
+  if (GDemoMode) then
+    continue := false;
+
+  if continue and (not CheckVDrive) then
+    continue := ShowTroubleshootingDialog(false, false, true);
+
+  if (continue) then
   begin
-    if ShowDialog('File', 'Cannot open pedals.txt configuration file.' +
-      #10 + 'Create a new file?', mtWarning, [mbYes, mbNo]) = mrYes then
-    begin
-      fileService.NewFile := True;
-      lblFileName.Caption := '[New file]';
-      Result := True;
-    end;
-  end
-  else
-    canLoadFile := True;
+    canLoadFile := False;
+    lblFileName.Caption := '';
 
-  if canLoadFile then
-  begin
-    //Tries to load file, if it works open it and load keys
-    loadMessage := fileService.LoadFile(fileName, true);
-    if loadMessage = '' then
+    //Checks if file exists, if not, propose to create new file
+    if not fileService.CheckIfFileExists(fileName) then
     begin
-      Result := True;
-      lblFileName.Caption := fileService.CompleteFileName;
-
-      keyService.LoadKeysFromFile(keyService.LPKeys, fileService.LPedal);
-      keyService.LoadKeysFromFile(keyService.MPKeys, fileService.MPedal);
-      keyService.LoadKeysFromFile(keyService.RPKeys, fileService.RPedal);
-      keyService.LoadKeysFromFile(keyService.J1Keys, fileService.Jack1);
-      keyService.LoadKeysFromFile(keyService.J2Keys, fileService.Jack2);
-      keyService.LoadKeysFromFile(keyService.J3Keys, fileService.Jack3);
-      keyService.LoadKeysFromFile(keyService.J4Keys, fileService.Jack4);
-      LoadPedalText(false);
+      if ShowDialog('File', 'Cannot open pedals.txt configuration file.' +
+        #10 + 'Create a new file?', mtWarning, [mbYes, mbNo]) = mrYes then
+      begin
+        fileService.NewFile := True;
+        lblFileName.Caption := '[New file]';
+        Result := True;
+      end;
     end
     else
+      canLoadFile := True;
+
+    if canLoadFile then
     begin
-      ShowDialog('Load file', loadMessage, mtError, [mbOK]);
+      //Tries to load file, if it works open it and load keys
+      loadMessage := fileService.LoadFile(fileName, true);
+      if loadMessage = '' then
+      begin
+        Result := True;
+        lblFileName.Caption := fileService.CompleteFileName;
+
+        keyService.LoadKeysFromFile(keyService.LPKeys, fileService.LPedal);
+        keyService.LoadKeysFromFile(keyService.MPKeys, fileService.MPedal);
+        keyService.LoadKeysFromFile(keyService.RPKeys, fileService.RPedal);
+        keyService.LoadKeysFromFile(keyService.J1Keys, fileService.Jack1);
+        keyService.LoadKeysFromFile(keyService.J2Keys, fileService.Jack2);
+        keyService.LoadKeysFromFile(keyService.J3Keys, fileService.Jack3);
+        keyService.LoadKeysFromFile(keyService.J4Keys, fileService.Jack4);
+        LoadPedalText(false);
+      end
+      else
+      begin
+        ShowDialog('Load file', loadMessage, mtError, [mbOK]);
+      end;
     end;
   end;
 end;
 
-procedure TFormMainSE2.CheckToSave;
+function TFormMainSE2.CheckToSave(checkForVDrive: boolean): boolean;
+var
+  dialogResult: integer;
 begin
-  if SaveState = ssModifed then
+  result := true;
+  if (SaveState = ssModified) and not(GDemoMode) then
   begin
-    if ShowDialog('Save',
-      'Do you want to save changes to the pedal configuration file?',
-      mtConfirmation, [mbYes, mbNo]) = mrYes then
-      bSave.Click
-    else
-      SetSaveState(ssNone);
+    if checkForVDrive and (not CheckVDrive) then
+      result := ShowTroubleshootingDialog(false, true, false);
+
+    if (result) then
+    begin
+      dialogResult := ShowDialog('Save',
+        'Do you want to save changes to the pedal configuration file?',
+        mtConfirmation, [mbYes, mbNo]);
+
+      if dialogResult = mrYes then
+        result := Save
+      else if dialogResult = mrNo then
+        SetSaveState(ssNone)
+      else
+        result := false;
+    end;
   end;
 end;
 
 function TFormMainSE2.Save: boolean;
 var
   errorMsg: string;
+  continue: boolean;
 begin
   result := false;
-  if (fileService.FileIsValid) then
+  continue := true;
+
+  if (GDemoMode) then
+    continue := false;
+
+  if continue and (not CheckVDrive) then
+    continue := ShowTroubleshootingDialog(false, true, false);
+
+  if (continue) then
   begin
-    keyService.UpdateCurrentKeyboardLayout;
-
-    errorMsg := '';
-
-    CheckEdit(true);
-
-    fileService.LPedal := keyService.ConvertToTextFileFmt(keyService.LPKeys);
-    fileService.MPedal := keyService.ConvertToTextFileFmt(keyService.MPKeys);
-    fileService.RPedal := keyService.ConvertToTextFileFmt(keyService.RPKeys);
-    fileService.Jack1 := keyService.ConvertToTextFileFmt(keyService.J1Keys);
-    fileService.Jack2 := keyService.ConvertToTextFileFmt(keyService.J2Keys);
-    fileService.Jack3 := keyService.ConvertToTextFileFmt(keyService.J3Keys);
-    fileService.Jack4 := keyService.ConvertToTextFileFmt(keyService.J4Keys);
-    if fileService.SaveFile(errorMsg) then
+    if (fileService.FileIsValid) then
     begin
-      ShowDialog('Save', 'SAVE DONE.' + #10 + #10 + 'NOW CHANGE YOUR SE2 TO ''PLAY MODE'' TO IMPLEMENT CHANGES.', mtConfirmation, [mbOK]);
-      lblFileName.Caption := fileService.CompleteFileName;
-      SetSaveState(ssNone);
-      result := true;
+      keyService.UpdateCurrentKeyboardLayout;
+
+      errorMsg := '';
+
+      CheckEdit(true);
+
+      fileService.LPedal := keyService.ConvertToTextFileFmt(keyService.LPKeys);
+      fileService.MPedal := keyService.ConvertToTextFileFmt(keyService.MPKeys);
+      fileService.RPedal := keyService.ConvertToTextFileFmt(keyService.RPKeys);
+      fileService.Jack1 := keyService.ConvertToTextFileFmt(keyService.J1Keys);
+      fileService.Jack2 := keyService.ConvertToTextFileFmt(keyService.J2Keys);
+      fileService.Jack3 := keyService.ConvertToTextFileFmt(keyService.J3Keys);
+      fileService.Jack4 := keyService.ConvertToTextFileFmt(keyService.J4Keys);
+      if fileService.SaveFile(errorMsg) then
+      begin
+        ShowDialog('Save', 'SAVE DONE.' + #10 + #10 + 'NOW CHANGE YOUR SE2 TO ''PLAY MODE'' TO IMPLEMENT CHANGES.', mtConfirmation, [mbOK]);
+        lblFileName.Caption := fileService.CompleteFileName;
+        SetSaveState(ssNone);
+        result := true;
+      end
+      else
+        ShowDialog('Save', 'Error saving configuration file: ' + errorMsg,
+          mtError, [mbOK]);
     end
     else
-      ShowDialog('Save', 'Error saving configuration file: ' + errorMsg,
-        mtError, [mbOK]);
-  end
-  else
-  begin
-    ShowDialog('Save', 'File does not exist: ' + fileService.CompleteFileName,
-        mtError, [mbOK]);
+    begin
+      ShowDialog('Save', 'File does not exist: ' + fileService.CompleteFileName,
+          mtError, [mbOK]);
+    end;
   end;
 end;
 
 procedure TFormMainSE2.bSaveClick(Sender: TObject);
 begin
-  if fileService.FileIsValid then
+  if (not GDemoMode) then
   begin
-    if fileService.NewFile then
-      SaveAs
+    if fileService.FileIsValid then
+    begin
+      if fileService.NewFile then
+        SaveAs
+      else
+        Save;
+    end
     else
-      Save;
-  end
-  else
-    ShowDialog('Error', 'File is not valid: ' + fileService.CompleteFileName,
-      mtError, [mbOK]);
+      ShowDialog('Error', 'File is not valid: ' + fileService.CompleteFileName,
+        mtError, [mbOK]);
+  end;
 end;
 
 procedure TFormMainSE2.bSaveAsClick(Sender: TObject);
@@ -1673,27 +1955,30 @@ end;
 
 procedure TFormMainSE2.SaveAs;
 begin
-  NeedInput := True;
-  if pedalSaveDialog.Execute then
+  if (not GDemoMode) then
   begin
-    //Sets new filename
-    if fileService.SetNewFileName(pedalSaveDialog.FileName) then
-      Save;
+    NeedInput := True;
+    if pedalSaveDialog.Execute then
+    begin
+      //Sets new filename
+      if fileService.SetNewFileName(pedalSaveDialog.FileName) then
+        Save;
+    end;
+    NeedInput := False;
   end;
-  NeedInput := False;
 end;
 
 procedure TFormMainSE2.SetMemoTextColor(aMemo: TRichMemo; aPedalsPos: TPedalsPos);
 var
   i: integer;
-  fontColor: TColor;
+  memoFontColor: TColor;
 begin
   //Version 1.0.6, reset to default color before setting red (MacOS bug)
-  fontColor := clDefault;
+  memoFontColor := clDefault;
   if darkTheme and (aMemo <> memoConfig) then
-    fontColor := clWhite;
+    memoFontColor := clWhite;
 
-  aMemo.SetRangeColor(0, Length(aMemo.Text), fontColor);
+  aMemo.SetRangeColor(0, Length(aMemo.Text), memoFontColor);
 
   if (aPedalsPos <> nil) then
   begin

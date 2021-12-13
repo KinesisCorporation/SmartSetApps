@@ -1,2 +1,2 @@
-upx "SmartSetMasterOffice (PC).exe"
+upx "SmartSetMasterErgo (PC).exe"
 pause

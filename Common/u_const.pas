@@ -14,7 +14,7 @@ uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
   {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
-  internetaccess, LazFileUtils, u_kinesis_device, registry;
+  internetaccess, LazFileUtils, u_kinesis_device, registry, ExtCtrls;
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -154,6 +154,12 @@ type
 
   TKeysPos = array of TKeyPos;
 
+  TPedalPos = record
+    iStart: integer;
+    iEnd: integer;
+  end;
+  TPedalsPos = array of TPedalPos;
+
 {$ifdef Win32}
 type
     LPDWORD = ^DWORD;
@@ -196,6 +202,9 @@ var
   KINESIS_DARK_GRAY_RGB: TColor; //Kinesis dark gray color for RGB app
   KINESIS_MED_GRAY_RGB: TColor; //Kinesis medium gray color for RGB app
   KINESIS_FONT_COLOR_RGB: TColor; //Kinesis font color for RGB app
+  KINESIS_LIGHT_GRAY_ADV360: TColor;
+  KINESIS_DARK_GRAY_ADV360: TColor;
+  KINESIS_GREEN_OFFICE: TColor;
 
 function MapShiftToVirutalKey(sShift: TShiftStateEnum): word;
 function IsModifier(Key: word): boolean;
@@ -530,6 +539,7 @@ const
   DEFAULT_DIAG_HEIGHT_ADV2 = 175;
   DEFAULT_DIAG_HEIGHT_FS = 175;
   DEFAULT_DIAG_HEIGHT_RGB = 210;
+  DEFAULT_DIAG_HEIGHT_PEDAL = 175;
   LED_SPEED_EDGE = 'spd';
   LED_DIR_EDGE = 'dir';
   LED_DIR_DOWN = 'down';
@@ -554,6 +564,11 @@ const
   BOTLAYER_IDX = 1;
   LAYER_QWERTY = 0;
   LAYER_DVORAK = 1;
+  LAYER_DEFAULT_360 = 0;
+  LAYER_KEYPAD_360 = 1;
+  LAYER_FN1_360 = 2;
+  LAYER_FN2_360 = 3;
+  LAYER_FN3_360 = 4;
 
   //Config modes
   CONFIG_LAYOUT = 0;
@@ -568,6 +583,7 @@ const
   APPL_RGB = 4;
   APPL_CROSSKP = 5;
   APPL_TKO = 6;
+  APPL_ADV360 = 7;
 
   //Master app ID
   APPL_MASTER_GAMING = 100;
@@ -601,7 +617,8 @@ const
   EDGE_FROZENWAVE = '[frozenwave_edge]';
 
   //Misc constants
-  HELP_TITLE = 'Kinesis Gaming SmartSet App';
+  HELP_TITLE_OFFICE = 'Kinesis Ergo SmartSet App';
+  HELP_TITLE_GAMING = 'Kinesis Gaming SmartSet App';
   USER_MANUAL_FSEDGE = 'User Manual-SmartSet App.pdf';
   USER_MANUAL_ADV2 = 'SmartSet App Help.pdf';
   KB_SETTINGS_FILE = 'kbd_settings.txt';
@@ -621,10 +638,12 @@ const
   FILE_LED = 'led';
   PITCH_BLACK = 'P';
   BREATHE = 'B';
+  KINESIS_URL = 'https://kinesis.com/';
   KINESIS_GAMING_URL = 'https://gaming.kinesis-ergo.com/';
   FSEDGE_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOcHFihFhnZhJGb854SRy7Z';
   RGB_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOjCXMkLf7Ur3Jm9Dsqf_KD';
   TKO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uNVIBnNgfaWtxnbzMFkAF8C';
+  ADV360_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0b_TJAf6qlHX97A-vnne2-N';
   RGB_HELP = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_HELP = 'https://gaming.kinesis-ergo.com/tko-support/';
   MASTER_HELP = 'https://gaming.kinesis-ergo.com/support/#support-for-my-device';
@@ -633,19 +652,24 @@ const
   ADV2_MANUAL = 'https://kinesis-ergo.com/support/advantage2/#manuals';
   RGB_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#manuals';
   TKO_MANUAL = 'https://gaming.kinesis-ergo.com/tko-support/#manuals';
+  PEDAL_MANUAL = 'https://kinesis-ergo.com/support/savant-elite2/#manuals';
+  ADV360_MANUAL = 'https://kinesis-ergo.com/support/adv360/#manuals';
   FSPRO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0Z7Gx0T5N7TTzceorPHXJr5';
   ADV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0aNmELoR6kakcNf7AInoEfW';
+  PEDAL_TUTORIAL = 'https://www.youtube.com/';
   FSPRO_TROUBLESHOOT = 'https://kinesis-ergo.com/support/freestyle-pro/';
   FSEDGE_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-support/';
   RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/tko-support/';
   ADV2_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage2/';
+  PEDAL_TROUBLESHOOT = 'https://kinesis-ergo.com/support/savant-elite2/';
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   ADV2_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   MASTER_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   RGB_FIRMWARE = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#firmware';
   TKO_FIRMWARE = 'https://gaming.kinesis-ergo.com/tko-support/#firmware';
+  ADV360_FIRMWARE = 'https://kinesis-ergo.com/adv360/#firmware';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -661,8 +685,11 @@ const
   ADV2_DRIVE = 'ADVANTAGE2';
   ADV2_DRIVE_2 = 'KINESIS KB';
   ADV2_DRIVE_3 = 'ADV2';
+  PEDAL_DRIVE = 'SE2';
+  PEDAL_DRIVE_2 = 'KINESIS FP';
   CROSSKP_DRIVE = 'CROSSFIRE KEYPAD';
   TKO_DRIVE = 'TKO';
+  ADV360_DRIVE = 'ADV360';
   TAP_AND_HOLD = 't&h';
   DEFAULT_SPEED_TAP_HOLD = 250;
   MAX_TAP_HOLD = 10;
@@ -739,12 +766,20 @@ end;
 procedure SetFontColor(aObject: TWinControl; fontColor: TColor);
 var
   i:integer;
+  name: string;
 begin
   aObject.Font.Color := fontColor;
-  for i := 0 to aObject.ComponentCount - 1 do
+  for i := 0 to aObject.ControlCount - 1 do
   begin
-    if aObject.Components[i].InheritsFrom(TWinControl) then
-       TWinControl(aObject.Components[i]).Font.Color := fontColor;
+    if aObject.Controls[i].InheritsFrom(TWinControl) then
+    begin
+      name := TWinControl(aObject.Controls[i]).Name;
+      TWinControl(aObject.Controls[i]).Font.Color := fontColor;
+
+      if (aObject.Controls[i] is TPanel) then
+        SetFontColor(TPanel(aObject.Controls[i]), fontColor);
+    end
+
     //if aObject.Components[i].InheritsFrom(TGraphicControl) and not(aObject.Components[i].InheritsFrom(THSSpeedButton)) then
     //   TGraphicControl(aObject.Components[i]).Font.Color := fontColor;
   end;
@@ -1940,10 +1975,29 @@ var
   kbDrive: string;
   driveLetter: string;
   rootFolder: string;
+  driveName1: string;
+  driveName2: string;
+  driveName3: string;
+  firmwareFolder: string;
 begin
   result := false;
   kbDrive := '';
   rootFolder := '';
+  firmwareFolder := 'firmware';
+  driveName1 := aDevice.VDriveName;
+  driveName2 := '';
+  driveName3 := '';
+  if (aDevice.DeviceNumber = APPL_ADV2) then
+  begin
+    firmwareFolder := 'active';
+    driveName2 := ADV2_DRIVE_2;
+    driveName3 := ADV2_DRIVE_3;
+  end
+  else if (aDevice.DeviceNumber = APPL_PEDAL) then
+  begin
+    firmwareFolder := 'active';
+    driveName2 := PEDAL_DRIVE_2;
+  end;
 
   //Reset device values
   aDevice.DriveLetter := '';
@@ -1954,38 +2008,19 @@ begin
   driveList := GetAvailableDrives;
   for i := 0 to driveList.Count - 1 do
   begin
-    rootFolder := driveList[i];
+    rootFolder := IncludeTrailingBackslash(driveList[i]);
     driveLetter := UpperCase(Copy(rootFolder, 1, 1));
+    dirFirmware := IncludeTrailingBackslash(rootFolder + firmwareFolder);
     driveName := UpperCase(Trim(GetVolumeLabel(rootFolder[1])));
 
-    if (aDevice.DeviceNumber = APPL_ADV2) then
+    if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
+      ((driveName = driveName1) or (driveName = driveName2) or (driveName = driveName3)) then
     begin
-      dirFirmware := rootFolder + '\active\';
-
-      if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
-        ((driveName = ADV2_DRIVE) or (driveName = ADV2_DRIVE_2) or (driveName = ADV2_DRIVE_3)) then
-      begin
-        aDevice.DriveLetter := driveLetter;
-        aDevice.RootFolder := IncludeTrailingBackslash(rootFolder);
-        aDevice.Connected := true;
-        aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
-        result := true;
-      end;
-    end
-    else
-    begin
-      dirFirmware := rootFolder + '\firmware\';
-      driveName := UpperCase(Trim(GetVolumeLabel(rootFolder[1])));
-
-      if (DirectoryExists(dirFirmware) and FileExists(dirFirmware + 'version.txt')) and
-        (driveName = aDevice.VDriveName) then
-      begin
-        aDevice.DriveLetter := driveLetter;
-        aDevice.RootFolder := IncludeTrailingBackslash(rootFolder);
-        aDevice.Connected := true;
-        aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
-        result := true;
-      end;
+      aDevice.DriveLetter := driveLetter;
+      aDevice.RootFolder := rootFolder;
+      aDevice.Connected := true;
+      aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
+      result := true;
     end;
   end;
   FreeAndNil(driveList);
@@ -1993,20 +2028,20 @@ begin
 
   //MacOS
   {$ifdef Darwin}
-  if (GApplication in [APPL_ADV2]) then
+  for i := 1 to 3 do
   begin
-    for i := 1 to 3 do
+    case i of
+     1: kbDrive := driveName1;
+     2: kbDrive := driveName2;
+     3: kbDrive := driveName3;
+    end;
+    if (kbDrive != '') then
     begin
-      case i of
-       1: kbDrive := ADV2_DRIVE;
-       2: kbDrive := ADV2_DRIVE_2;
-       3: kbDrive := ADV2_DRIVE_3;
-      end;
       driveLetter := '';
       driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
-      dirFirmware := driveName + '/active/';
+      dirFirmware := IncludeTrailingBackslash(driveName + firmwareFolder);
 
-      if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
+      if (DirectoryExists(driveName) and FileExists(dirFirmware + 'version.txt')) then
       begin
         aDevice.DriveLetter := driveLetter;
         aDevice.RootFolder := IncludeTrailingBackslash(driveName);
@@ -2015,23 +2050,7 @@ begin
         result := true;
       end;
     end;
-  end
-  else
-  begin
-    driveName := IncludeTrailingBackslash('/VOLUMES/' + aDevice.VDriveName);
-    dirFirmware := driveName + '/firmware/';
-
-    if (DirectoryExists(driveName + '/firmware/') and FileExists(dirFirmware + 'version.txt')) then
-    begin
-      aDevice.DriveLetter := driveLetter;
-      aDevice.RootFolder := IncludeTrailingBackslash(driveName);
-      aDevice.Connected := true;
-      aDevice.ReadWriteAccess := DirectoryIsWritable(dirFirmware) and FileIsWritable(dirFirmware + 'version.txt');
-      result := true;
-    end;
-  end;
-
-  {$endif}
+   {$endif}
 end;
 
 function LoadFontFromRes(FontName: string):THandle;
@@ -2109,6 +2128,9 @@ initialization
   KINESIS_DARK_GRAY_RGB := RGB(25, 25, 25);
   KINESIS_MED_GRAY_RGB := RGB(50, 50, 50);
   KINESIS_FONT_COLOR_RGB := RGB(210, 210, 210);
+  KINESIS_LIGHT_GRAY_ADV360 := RGB(195, 205, 210);
+  KINESIS_DARK_GRAY_ADV360 := RGB(170, 180, 190);
+  KINESIS_GREEN_OFFICE := RGB(105, 199, 157);
   GApplicationTitle := 'SmartSet App';
   GDesktopMode := false;
   GDemoMode := false;

@@ -898,6 +898,18 @@ begin
       lblFile.Font.Color := blueColor;
       lblSettings.Font.Color := blueColor;
       lblProgramming.Font.Color := blueColor;
+      lblGlobalMacroSpeed.Font.Color := fontColor;
+      lblStatusReport.Font.Color := fontColor;
+      lblGlobalSpeed0.Font.Color := fontColor;
+      lblGlobalSpeed2.Font.Color := fontColor;
+      lblGlobalSpeed4.Font.Color := fontColor;
+      lblGlobalSpeed6.Font.Color := fontColor;
+      lblGlobalSpeed8.Font.Color := fontColor;
+      lblStatutReport0.Font.Color := fontColor;
+      lblStatutReport1.Font.Color := fontColor;
+      lblStatutReport2.Font.Color := fontColor;
+      lblStatutReport3.Font.Color := fontColor;
+      lblStatutReport4.Font.Color := fontColor;
       memoMacro.Color := backColor;
       memoMacro.Font.Color := fontColor;
       shpKeys.Color := blueColor;
@@ -1015,6 +1027,10 @@ begin
       btnSave.Enabled := false;
       btnSaveAs.Enabled := false;
       btnLoad.Enabled := false;
+      slMacroSpeed.Enabled := false;
+      slStatusReport.Enabled := false;
+      tbMacroSpeed.Enabled := false;
+      tbStatusReport.Enabled := false;
       SetActiveLayer(TOPLAYER_IDX);
       SetActiveKeyButton(nil);
     end
@@ -1171,7 +1187,7 @@ var
   customBtns: TCustomButtons;
   hideNotif: integer;
 begin
-  if (not closing) and (not infoMessageShown) and (not fileService.AppSettings.AppIntroMsg) then
+  if (not closing) and (not infoMessageShown) and (fileService <> nil) and (not fileService.AppSettings.AppIntroMsg) then
   begin
     createCustomButton(customBtns, 'Continue', 130, @continueClick);
     createCustomButton(customBtns, 'Watch Tutorial', 130, @watchTutorialClick);

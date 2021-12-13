@@ -5,12 +5,14 @@ unit u_file_service_se2;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, u_const_pedal, u_debug;
+  Classes, SysUtils, FileUtil, u_const, u_debug;
 
 type
   //FileService contains all logic for file management
 
   { TFileService }
+
+  { TFileServiceSE2 }
 
   TFileServiceSE2 = class
   private
@@ -37,6 +39,7 @@ type
     function LoadPedals: boolean;
     function CheckIfFileExists(sFileName: string): boolean;
     function SetNewFileName(sFileName: string): boolean;
+    function FirmwareExists: boolean;
 
     property FileIsValid: boolean read CheckFileValid;
     //property FileContent: TStringList read FFileContent write FFileContent;
@@ -119,6 +122,11 @@ begin
       result := true;
     end;
  end;
+end;
+
+function TFileServiceSE2.FirmwareExists: boolean;
+begin
+   result := CheckIfFileExists(GVersionFile);
 end;
 
 //Receives complete file name and tries to load file

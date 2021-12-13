@@ -44,7 +44,7 @@ var
 
 implementation
 
-uses u_form_main;
+uses u_form_main_fs;
 
 function ShowTroubleshootFS(title: string; init: boolean): integer;
 begin
@@ -71,9 +71,9 @@ begin
     result := 0;
 end;
 
-function MainForm: TFormMain;
+function MainForm: TFormMainFS;
 begin
-  result := (Application.MainForm as TFormMain);
+  result := (Application.MainForm as TFormMainFS);
 end;
 
 {$R *.lfm}

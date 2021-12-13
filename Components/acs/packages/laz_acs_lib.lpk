@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="laz_acs_lib"/>
+    <Type Value="RunAndDesignTime"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Andrei Borovsky, Christian Ulrich, Sergey Bodrov"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <IncludeFiles Value="..\src\filters\$(TargetOS);..\src\formats\$(TargetOS);..\src\devices\$(TargetOS)"/>
+        <OtherUnitFiles Value="..\src\filters;..\src\filters\$(TargetOS);..\src\formats;..\src\formats\$(TargetOS);..\src\formats\general;..\src\devices;..\src\devices\$(TargetOS)"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+          <CStyleOperator Value="False"/>
+          <IncludeAssertionCode Value="True"/>
+          <UseAnsiStrings Value="False"/>
+        </SyntaxOptions>
+      </Parsing>
+      <CodeGeneration>
+        <Checks>
+          <IOChecks Value="True"/>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+          <StackChecks Value="True"/>
+        </Checks>
+        <VerifyObjMethodCallValidity Value="True"/>
+      </CodeGeneration>
+    </CompilerOptions>
+    <Description Value="Audio Component Suite - non-visual components for audio recording, playing and processing.
+Supports many audio devices and libraries, codecs, file formats.
+"/>
+    <License Value="The MIT License (MIT)
+
+Copyright (c) 2002-2010, Andrei Borovsky, anb@symmetrica.net
+Copyright (c) 2005-2006  Christian Ulrich, mail@z0m3ie.de
+Copyright (c) 2014-2015  Sergey Bodrov, serbod@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE."/>
+    <Version Major="3" Release="3"/>
+    <Files Count="25">
+      <Item1>
+        <Filename Value="..\src\filters\acs_audio.pas"/>
+        <UnitName Value="acs_audio"/>
+      </Item1>
+      <Item2>
+        <Filename Value="..\src\filters\acs_audiomix.pas"/>
+        <UnitName Value="acs_audiomix"/>
+      </Item2>
+      <Item3>
+        <Filename Value="..\src\filters\acs_cdrom.pas"/>
+        <UnitName Value="acs_cdrom"/>
+      </Item3>
+      <Item4>
+        <Filename Value="..\src\filters\acs_classes.pas"/>
+        <UnitName Value="acs_classes"/>
+      </Item4>
+      <Item5>
+        <Filename Value="..\src\filters\acs_converters.pas"/>
+        <UnitName Value="acs_converters"/>
+      </Item5>
+      <Item6>
+        <Filename Value="..\src\filters\acs_file.pas"/>
+        <UnitName Value="acs_file"/>
+      </Item6>
+      <Item7>
+        <Filename Value="..\src\filters\acs_filters.pas"/>
+        <UnitName Value="acs_filters"/>
+      </Item7>
+      <Item8>
+        <Filename Value="..\src\filters\acs_indicator.pas"/>
+        <UnitName Value="acs_indicator"/>
+      </Item8>
+      <Item9>
+        <Filename Value="..\src\filters\acs_misc.pas"/>
+        <UnitName Value="acs_misc"/>
+      </Item9>
+      <Item10>
+        <Filename Value="..\src\filters\acs_mixer.pas"/>
+        <UnitName Value="acs_mixer"/>
+      </Item10>
+      <Item11>
+        <Filename Value="..\src\filters\acs_multimix.pas"/>
+        <UnitName Value="acs_multimix"/>
+      </Item11>
+      <Item12>
+        <Filename Value="..\src\filters\acs_procs.pas"/>
+        <UnitName Value="acs_procs"/>
+      </Item12>
+      <Item13>
+        <Filename Value="..\src\filters\acs_streams.pas"/>
+        <UnitName Value="acs_streams"/>
+      </Item13>
+      <Item14>
+        <Filename Value="..\src\filters\acs_strings.pas"/>
+        <UnitName Value="acs_strings"/>
+      </Item14>
+      <Item15>
+        <Filename Value="..\src\filters\acs_types.pas"/>
+        <UnitName Value="acs_types"/>
+      </Item15>
+      <Item16>
+        <Filename Value="..\src\formats\acs_flac.pas"/>
+        <UnitName Value="acs_flac"/>
+      </Item16>
+      <Item17>
+        <Filename Value="..\src\formats\acs_lame.pas"/>
+        <UnitName Value="acs_lame"/>
+      </Item17>
+      <Item18>
+        <Filename Value="..\src\formats\acs_mac.pas"/>
+        <UnitName Value="acs_mac"/>
+      </Item18>
+      <Item19>
+        <Filename Value="..\src\formats\acs_vorbis.pas"/>
+        <UnitName Value="acs_vorbis"/>
+      </Item19>
+      <Item20>
+        <Filename Value="..\src\formats\acs_wave.pas"/>
+        <UnitName Value="acs_wave"/>
+      </Item20>
+      <Item21>
+        <Filename Value="..\src\formats\acs_allformats.pas"/>
+        <UnitName Value="acs_allformats"/>
+      </Item21>
+      <Item22>
+        <Filename Value="..\src\devices\acs_stdaudio.pas"/>
+        <UnitName Value="acs_stdaudio"/>
+      </Item22>
+      <Item23>
+        <Filename Value="..\src\devices\acs_alsaaudio.pas"/>
+        <UnitName Value="acs_alsaaudio"/>
+      </Item23>
+      <Item24>
+        <Filename Value="..\src\devices\acs_aolive.pas"/>
+        <UnitName Value="acs_aolive"/>
+      </Item24>
+      <Item25>
+        <Filename Value="..\src\filters\acs_volumequery.pas"/>
+        <UnitName Value="acs_volumequery"/>
+      </Item25>
+    </Files>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LazUtils"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <CustomOptions Value="-dUseCThreads"/>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>

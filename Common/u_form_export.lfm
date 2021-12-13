@@ -33,8 +33,8 @@ inherited FormExport: TFormExport
     Height = 46
     Top = 137
     Width = 46
-    Alignment = taCenter
     AllowAllUp = True
+    Font.Color = clBlack
     Glyph.Data = {
       46210000424D462100000000000036000000280000002E0000002E0000000100
       2000000000001021000064000000640000000000000000000000323232403232
@@ -338,8 +338,8 @@ inherited FormExport: TFormExport
     Height = 46
     Top = 136
     Width = 46
-    Alignment = taCenter
     AllowAllUp = True
+    Font.Color = clBlack
     Glyph.Data = {
       46210000424D462100000000000036000000280000002E0000002E0000000100
       2000000000001021000064000000640000000000000000000000323232403232
@@ -653,17 +653,17 @@ inherited FormExport: TFormExport
   end
   object chkBoth: TCheckBox[9]
     Left = 26
-    Height = 18
+    Height = 33
     Top = 48
-    Width = 20
+    Width = 34
     OnClick = checkBoxClick
     TabOrder = 0
   end
   object chkLayout: TCheckBox[10]
     Left = 26
-    Height = 18
+    Height = 33
     Top = 76
-    Width = 20
+    Width = 34
     OnClick = checkBoxClick
     TabOrder = 1
   end
@@ -682,9 +682,9 @@ inherited FormExport: TFormExport
   end
   object chkLighting: TCheckBox[12]
     Left = 26
-    Height = 18
+    Height = 33
     Top = 104
-    Width = 20
+    Width = 34
     OnClick = checkBoxClick
     TabOrder = 2
   end
@@ -705,8 +705,8 @@ inherited FormExport: TFormExport
     DrawingStyle = dsTransparent
     Height = 46
     Width = 46
-    left = 48
-    top = 112
+    Left = 48
+    Top = 112
     Bitmap = {
       4C69040000002E0000002E000000323232103232324032323240323232403232
       3240323232403232324032323240323232403232324032323240323232403232
@@ -1771,7 +1771,7 @@ inherited FormExport: TFormExport
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog[15]
     Title = 'Select export location'
-    left = 272
-    top = 72
+    Left = 272
+    Top = 72
   end
 end

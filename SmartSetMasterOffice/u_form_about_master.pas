@@ -57,7 +57,18 @@ implementation
 procedure TFormAboutMaster.FormCreate(Sender: TObject);
 begin
   SetFont(self, 'Tahoma');
-  lblAppTitle.Caption := HELP_TITLE;
+  if (GMasterAppId = APPL_MASTER_GAMING) then
+  begin
+    lblAppTitle.Caption := HELP_TITLE_GAMING;
+  end
+  else
+  begin
+    lblAppTitle.Caption := HELP_TITLE_OFFICE;
+    FormAboutMaster.Color := clWhite;
+    lblAppTitle.Font.Color := clBlack;
+    lblVersion.Font.Color := clBlack;
+  end;
+
   lblVersion.Caption := 'App Version : ' + GetFileVersion;
   btnReadManual.Font.Color := clWhite;
 end;

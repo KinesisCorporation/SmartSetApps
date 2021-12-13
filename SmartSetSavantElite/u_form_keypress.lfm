@@ -1,14 +1,14 @@
 object FormMainSE2: TFormMainSE2
-  Left = 508
-  Height = 654
-  Top = 71
-  Width = 1105
-  HorzScrollBar.Page = 1075
-  VertScrollBar.Page = 624
+  Left = 908
+  Height = 705
+  Top = 739
+  Width = 1116
+  HorzScrollBar.Page = 1086
+  VertScrollBar.Page = 659
   AutoScroll = True
   Caption = 'Savant Elite2 Config App'
-  ClientHeight = 624
-  ClientWidth = 1075
+  ClientHeight = 705
+  ClientWidth = 1116
   Color = clWhite
   DesignTimePPI = 168
   Font.Color = clBlack
@@ -19,17 +19,18 @@ object FormMainSE2: TFormMainSE2
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
+  OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.12.0'
   Scaled = False
   object pnlRight: TPanel
     Left = 598
-    Height = 659
+    Height = 705
     Top = 0
     Width = 488
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 659
+    ClientHeight = 705
     ClientWidth = 488
     TabOrder = 0
     object memoJack4: TRichMemo
@@ -708,12 +709,12 @@ object FormMainSE2: TFormMainSE2
   end
   object pnlLeft: TPanel
     Left = 0
-    Height = 659
+    Height = 705
     Top = 0
     Width = 598
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 659
+    ClientHeight = 705
     ClientWidth = 598
     Font.Height = -12
     Font.Name = 'Segoe UI'
@@ -1810,19 +1811,19 @@ object FormMainSE2: TFormMainSE2
   object pedalOpenDialog: TOpenDialog
     Filter = 'Text files|*.txt'
     Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
-    left = 74
-    top = 145
+    Left = 74
+    Top = 145
   end
   object pedalSaveDialog: TSaveDialog
     FileName = 'pedals.txt'
     Filter = 'Text files|*.txt'
     Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
-    left = 277
-    top = 129
+    Left = 277
+    Top = 129
   end
   object pmHelp: TPopupMenu
-    left = 510
-    top = 128
+    Left = 510
+    Top = 128
     object miHelp: TMenuItem
       Caption = 'Help'
       OnClick = miHelpClick
@@ -1833,8 +1834,8 @@ object FormMainSE2: TFormMainSE2
     end
   end
   object pmSpecial: TPopupMenu
-    left = 333
-    top = 88
+    Left = 333
+    Top = 88
     object MenuItem1: TMenuItem
       Caption = 'New Item1'
     end
@@ -1842,8 +1843,8 @@ object FormMainSE2: TFormMainSE2
   object ImageList1: TImageList
     Height = 12
     Width = 12
-    left = 407
-    top = 122
+    Left = 407
+    Top = 122
     Bitmap = {
       4C69010000000C0000000C000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1865,5 +1866,19 @@ object FormMainSE2: TFormMainSE2
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000
     }
+  end
+  object tmrAfterFormShown: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmrAfterFormShownTimer
+    Left = 790
+    Top = 46
+  end
+  object CheckVDriveTmr: TIdleTimer
+    Enabled = False
+    Interval = 30000
+    OnTimer = CheckVDriveTmrTimer
+    Left = 742
+    Top = 78
   end
 end

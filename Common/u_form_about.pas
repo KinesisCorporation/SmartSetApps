@@ -87,7 +87,7 @@ procedure TFormAbout.FormCreate(Sender: TObject);
 begin
   lblTitle.Visible := false;
   SetFont(self, 'Tahoma');
-  lblAppTitle.Caption := HELP_TITLE;
+  lblAppTitle.Caption := HELP_TITLE_GAMING;
   lblVersion.Caption := 'App Version : ' + GetFileVersion;
   btnReadManual.Font.Color := clWhite;
   btnWatchTutorial.Font.Color := clWhite;

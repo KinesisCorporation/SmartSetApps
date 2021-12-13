@@ -1,3 +1,5 @@
+//OLD FILE NOT USED ANYMORE
+
 //CreoSource Inc. (info@creosource.com)
 //Constants and utility fonctions
 unit u_const_pedal;
@@ -10,7 +12,7 @@ unit u_const_pedal;
 interface
 
 uses
-  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics
+  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics, Buttons
   {$ifdef Win32}, Windows, jwawinuser{$endif}
   {$ifdef Darwin},LCLIntf, CocoaUtils, CocoaAll{$endif};
 
@@ -57,6 +59,13 @@ type
 
   TPedalsPos = array of TPedalPos;
 
+  TCustomButton = record
+    Caption: string;
+    Width: integer;
+    OnClick: TNotifyEvent;
+    Kind: TBitBtnKind;
+  end;
+  TCustomButtons = array of TCustomButton;
 
 var
   GApplicationName: string; //Name of application
@@ -64,6 +73,8 @@ var
   GApplicationPath: string; //Application start path
   GPedalsFile: string; //Location of Pedals.txt file
   GPedalsFilePath: string; //Location of Pedals.txt file folder
+  GDemoMode: boolean; //Demo Mode
+  GDesktopMode: boolean; //Desktop Mode
   GVersionFile: string; //Location of the version.txt file
   KINESIS_DARK_GRAY_FS: TColor; //Kinesis dark gray color for FS app
 
@@ -180,6 +191,10 @@ const
   ENGLISH_US_LAYOUT_NAME = '00000409';
   //ENGLISH_US_VAL = 67699721;
   ENGLISH_US_LAYOUT_VALUE = 1033;
+
+  DEFAULT_DIAG_HEIGHT_PEDAL = 175;
+
+  PEDAL_TROUBLESHOOT = 'https://kinesis-ergo.com/support/savant-elite2/';
 
 implementation
 
@@ -428,6 +443,8 @@ end;
 initialization
   KINESIS_DARK_GRAY_FS := RGB(38, 38, 38);
   GApplicationTitle := 'Savant Elite2 SmartSet App';
+  GDemoMode := false;
+  GDesktopMode := false;
   //Windows
   {$ifdef Win32}
   GApplicationName := 'Savant Elite2 SmartSet App (Win)';

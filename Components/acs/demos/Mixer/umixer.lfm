@@ -1,0 +1,75 @@
+object fMixer: TfMixer
+  Left = 379
+  Height = 212
+  Top = 347
+  Width = 270
+  HorzScrollBar.Page = 399
+  VertScrollBar.Page = 211
+  ActiveControl = cbDevice
+  Caption = 'Mixer'
+  ClientHeight = 212
+  ClientWidth = 270
+  Constraints.MinWidth = 270
+  OnCreate = FormCreate
+  OnHide = FormHide
+  OnShow = FormShow
+  LCLVersion = '1.4.4.0'
+  object TopPanel: TPanel
+    Left = 0
+    Height = 32
+    Top = 0
+    Width = 270
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 32
+    ClientWidth = 270
+    FullRepaint = False
+    TabOrder = 0
+    object lDevice: TLabel
+      Left = 0
+      Height = 15
+      Top = 8
+      Width = 28
+      Alignment = taCenter
+      Caption = 'Gerät'
+      ParentColor = False
+    end
+    object Label3: TLabel
+      Left = 201
+      Height = 32
+      Top = 0
+      Width = 69
+      Align = alRight
+      Alignment = taCenter
+      Caption = 'Mixer'
+      Color = clBtnFace
+      Font.Color = clInactiveCaption
+      Font.Height = -25
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
+    object cbDevice: TComboBox
+      Left = 48
+      Height = 23
+      Top = 4
+      Width = 138
+      Anchors = [akTop, akLeft, akRight]
+      ItemHeight = 15
+      OnChange = cbDeviceChange
+      Style = csDropDownList
+      TabOrder = 0
+    end
+  end
+  object Mixer: TAcsMixer
+    DevNum = 0
+    top = 368
+  end
+  object Timer: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = TimerTimer
+    top = 336
+  end
+end

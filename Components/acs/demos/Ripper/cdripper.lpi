@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+    </General>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IgnoreBinaries Value="False"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|ppw|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="\usr\X11R6\bin\xterm -T 'Lazarus Run Output' -e $(LazarusDir)\tools\runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LAZ_ACS"/>
+        <MinVersion Major="2" Minor="4" Valid="True"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="21">
+      <Unit0>
+        <Filename Value="cdripper.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="1"/>
+        <CursorPos Y="20"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="umain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uMain"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="62" Y="55"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="D:\LKomponenten\acs\Src\classes\ACS_CDROM.pas"/>
+        <TopLine Value="176"/>
+        <CursorPos X="10" Y="190"/>
+        <UsageCount Value="10"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="D:\LKomponenten\acs\Src\classes\ACS_Classes.pas"/>
+        <TopLine Value="671"/>
+        <CursorPos Y="688"/>
+        <UsageCount Value="10"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="D:\lazarus\lcl\include\control.inc"/>
+        <TopLine Value="2176"/>
+        <CursorPos Y="2193"/>
+        <UsageCount Value="10"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="D:\lazarus\lcl\include\listitems.inc"/>
+        <TopLine Value="38"/>
+        <CursorPos Y="55"/>
+        <UsageCount Value="10"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="D:\lazarus\lcl\include\listitem.inc"/>
+        <TopLine Value="444"/>
+        <CursorPos Y="461"/>
+        <UsageCount Value="10"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="D:\LKomponenten\acs\Src\classes\ACS_File.pas"/>
+        <TopLine Value="491"/>
+        <CursorPos Y="508"/>
+        <UsageCount Value="10"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="D:\LKomponenten\acs\Src\fileformats\ACS_Vorbis.pas"/>
+        <TopLine Value="242"/>
+        <CursorPos Y="257"/>
+        <UsageCount Value="10"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="D:\LKomponenten\acs\Src\fileformats\general\VorbisFile.pas"/>
+        <TopLine Value="226"/>
+        <CursorPos X="29" Y="255"/>
+        <UsageCount Value="10"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="D:\LKomponenten\acs\Src\classes\ACS_Audio.pas"/>
+        <CursorPos X="19" Y="176"/>
+        <UsageCount Value="10"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="D:\LKomponenten\acs\Src\classes\ACS_Strings.pas"/>
+        <TopLine Value="12"/>
+        <CursorPos X="78" Y="27"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="D:\LKomponenten\acs\Src\classes\windows\ACS_CDROM.inc"/>
+        <TopLine Value="181"/>
+        <CursorPos X="31" Y="200"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="D:\LKomponenten\acs\Src\fileformats\ACS_Wave.pas"/>
+        <TopLine Value="1411"/>
+        <CursorPos Y="1428"/>
+        <UsageCount Value="10"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="D:\lazarus\lcl\lresources.pp"/>
+        <UnitName Value="LResources"/>
+        <TopLine Value="1986"/>
+        <CursorPos X="14" Y="1995"/>
+        <UsageCount Value="10"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="D:\lazarus\lcl\include\application.inc"/>
+        <TopLine Value="1487"/>
+        <CursorPos Y="1490"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="umain.lfm"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="43" Y="11"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="..\..\src\filters\acs_classes.pas"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="735"/>
+        <CursorPos Y="754"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="250"/>
+        <CursorPos Y="271"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="..\..\src\filters\acs_cdrom.pas"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="106"/>
+        <CursorPos X="15" Y="127"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="..\..\src\filters\win32\akrip32.pas"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="243"/>
+        <CursorPos X="12" Y="262"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="..\..\src\filters\acs_cdrom.pas"/>
+        <Caret Line="93" Column="12" TopLine="74"/>
+      </Position1>
+      <Position2>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="259" Column="22" TopLine="253"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="262" Column="26" TopLine="253"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="273" Column="20" TopLine="253"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="278" Column="20" TopLine="253"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="25" Column="19" TopLine="6"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\src\filters\acs_classes.pas"/>
+        <Caret Line="754" TopLine="735"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\src\filters\acs_cdrom.pas"/>
+        <Caret Line="120" Column="14" TopLine="110"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="15" Column="28" TopLine="15"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\src\filters\acs_classes.pas"/>
+        <Caret Line="754" TopLine="735"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="273" TopLine="253"/>
+      </Position11>
+      <Position12>
+        <Filename Value="umain.pas"/>
+        <Caret Line="57" Column="10" TopLine="36"/>
+      </Position12>
+      <Position13>
+        <Filename Value="umain.pas"/>
+        <Caret Line="19" Column="5" TopLine="52"/>
+      </Position13>
+      <Position14>
+        <Filename Value="umain.pas"/>
+        <Caret Line="52" TopLine="34"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="16"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="28"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="17"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="18"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="19"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="20"/>
+      </Position20>
+      <Position21>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="21"/>
+      </Position21>
+      <Position22>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="22"/>
+      </Position22>
+      <Position23>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="23"/>
+      </Position23>
+      <Position24>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="24"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Caret Line="21"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\..\src\filters\acs_cdrom.pas"/>
+        <Caret Line="119" Column="23" TopLine="110"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\..\src\filters\acs_cdrom.pas"/>
+        <Caret Line="217" Column="7" TopLine="211"/>
+      </Position27>
+      <Position28>
+        <Filename Value="..\..\src\filters\win32\akrip32.pas"/>
+        <Caret Line="304" Column="9" TopLine="294"/>
+      </Position28>
+      <Position29>
+        <Filename Value="..\..\src\filters\acs_cdrom.pas"/>
+        <Caret Line="220" Column="23" TopLine="200"/>
+      </Position29>
+      <Position30>
+        <Filename Value="umain.pas"/>
+        <Caret Line="55" Column="62" TopLine="34"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <SearchPaths>
+      <SrcPath Value="$(LazarusDir)\lcl;$(LazarusDir)\lcl\interfaces\$(LCLWidgetType)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <UseAnsiStrings Value="False"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+  </CompilerOptions>
+  <Debugging>
+    <BreakPoints Count="2">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\src\filters\win32\acs_cdrom.inc"/>
+        <Line Value="270"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="umain.pas"/>
+        <Line Value="52"/>
+      </Item2>
+    </BreakPoints>
+    <Watches Count="2">
+      <Item1>
+        <Expression Value="HandleMultiSelect"/>
+      </Item1>
+      <Item2>
+        <Expression Value="FDelayMax"/>
+      </Item2>
+    </Watches>
+  </Debugging>
+</CONFIG>
