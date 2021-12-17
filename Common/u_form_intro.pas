@@ -55,6 +55,7 @@ begin
   FormIntro.lblTitle.Font.Color := fontColor;
   FormIntro.lblMessage.Font.Color := fontColor;
   FormIntro.lblCheckBox.Font.Color := fontColor;
+  FormIntro.chkCheckBox.Color := backColor;
 
   FormIntro.ShowModal;
   NeedInput := false;

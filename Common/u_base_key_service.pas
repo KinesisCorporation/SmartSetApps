@@ -1787,7 +1787,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_3), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_4), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_5), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KEYPAD_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_6), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_7), 9));
@@ -1802,8 +1802,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_E), 17));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_R), 18));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_T), 19));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 20, false, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 21, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK1), 20));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK3), 21));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Y), 22));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_U), 23));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 24));
@@ -1817,8 +1817,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_D), 31));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F), 32));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_G), 33));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 34, false, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 35, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK2), 34));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK4), 35));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_H), 36));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_J), 37));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_K), 38));
@@ -1839,7 +1839,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -1848,11 +1848,11 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN_SHIFT), 63, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63, false, false));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
@@ -1878,73 +1878,89 @@ begin
   aKBLayer.LayerType := LAYER_KEYPAD_360;
 
   //Put Keys in order needed...
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 0));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F1), 1));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F2), 2));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F3), 3));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 4));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 6));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 7));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 8));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F9), 9));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F10), 10));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F11), 11));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F12), 12));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 13));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_EQUAL), 0));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_1), 1));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_2), 2));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_3), 3));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_4), 4));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_5), 5));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_6), 8));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMLOCK), 9));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_EQUAL), 10));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DIVIDE), 11));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_MULTIPLY), 12));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_MINUS), 13));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 14));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_MOUSE_LEFT), 15));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_MEDIA_PLAY_PAUSE), 16));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_MEDIA_PREV_TRACK), 17));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_MEDIA_NEXT_TRACK), 18));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LED), 19));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_INSERT), 20));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CALC), 21));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 22));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_PAUSE), 23));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_PRIOR), 24));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HOME), 25));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SNAPSHOT), 26));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Q), 15));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_W), 16));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_E), 17));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_R), 18));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_T), 19));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK1), 20));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK3), 21));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Y), 22));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD7), 23));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD8), 24));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD9), 25));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SUBTRACT), 26));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 27));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 28));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_MOUSE_RIGHT), 29));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_VOLUME_MUTE), 30));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_VOLUME_DOWN), 31));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_VOLUME_UP), 32));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_APPS), 33));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SCROLL), 34));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 35));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 36));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 37));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 38));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 39));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RETURN), 40));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_ESCAPE), 28));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_A), 29));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_S), 30));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_D), 31));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F), 32));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_G), 33));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK2), 34));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK4), 35));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_H), 36));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD4), 37));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD5), 38));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD6), 39));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_ADD), 40));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 41, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 42));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 43));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 44));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_V), 45));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_B), 46));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_N), 47));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_M), 48));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 49));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 50));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 51));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 52, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_V), 46));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_B), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_N), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD1), 49));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD2), 50));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD3), 51));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPADENTER), 52));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 53, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 54, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 55, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSPACE), 56));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_MSPACE), 57));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSPACE), 58));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RMENU), 59, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN_SHIFT), 60, true, true));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 61, false, false)); //SmartSet Key
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 62, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_TOGGLE), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DECIMAL), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_TOGGLE), 63, false, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HOME), 70));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_PRIOR), 71));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RETURN), 72));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD0), 73));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
 
   result := aKBLayer;
 end;
@@ -1958,7 +1974,92 @@ begin
   aKBLayer.LayerName := 'Fn1';
   aKBLayer.LayerType := LAYER_FN1_360;
 
+  //Put Keys in order needed...
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F1), 0));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F2), 1));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F3), 2));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F9), 10));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F10), 11));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F11), 12));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F12), 13));
 
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 14));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Q), 15));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_W), 16));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_E), 17));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_R), 18));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_T), 19));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK1), 20));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK3), 21));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Y), 22));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_U), 23));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 24));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 25));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 26));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 27));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_ESCAPE), 28));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_A), 29));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_S), 30));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_D), 31));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F), 32));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_G), 33));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK2), 34));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK4), 35));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_H), 36));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_J), 37));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_K), 38));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_L), 39));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SEMI_COMMA), 40));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_V), 46));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_B), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_N), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_M), 49));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 50));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 51));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 63, false, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HOME), 70));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_PRIOR), 71));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RETURN), 72));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SPACE), 73));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
+
+  result := aKBLayer;
 end;
 
 function TBaseKeyService.GetFN2LayerAdv360: TKBLayer;
@@ -1970,7 +2071,92 @@ begin
   aKBLayer.LayerName := 'Fn2';
   aKBLayer.LayerType := LAYER_FN2_360;
 
+  //Put Keys in order needed...
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F1), 0));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F2), 1));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F3), 2));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F9), 10));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F10), 11));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F11), 12));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F12), 13));
 
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 14));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Q), 15));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_W), 16));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_E), 17));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_R), 18));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_T), 19));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK1), 20));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK3), 21));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Y), 22));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_U), 23));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 24));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 25));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 26));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 27));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_ESCAPE), 28));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_A), 29));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_S), 30));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_D), 31));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F), 32));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_G), 33));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK2), 34));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK4), 35));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_H), 36));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_J), 37));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_K), 38));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_L), 39));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SEMI_COMMA), 40));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_V), 46));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_B), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_N), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_M), 49));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 50));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 51));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 63, false, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HOME), 70));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_PRIOR), 71));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RETURN), 72));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SPACE), 73));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
+
+  result := aKBLayer;
 end;
 
 function TBaseKeyService.GetFN3LayerAdv360: TKBLayer;
@@ -1982,7 +2168,92 @@ begin
   aKBLayer.LayerName := 'Fn3';
   aKBLayer.LayerType := LAYER_FN3_360;
 
+  //Put Keys in order needed...
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F1), 0));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F2), 1));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F3), 2));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F9), 10));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F10), 11));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F11), 12));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F12), 13));
 
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 14));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Q), 15));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_W), 16));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_E), 17));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_R), 18));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_T), 19));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK1), 20));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK3), 21));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Y), 22));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_U), 23));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 24));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 25));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 26));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 27));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_ESCAPE), 28));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_A), 29));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_S), 30));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_D), 31));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F), 32));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_G), 33));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK2), 34));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HK4), 35));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_H), 36));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_J), 37));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_K), 38));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_L), 39));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SEMI_COMMA), 40));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_V), 46));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_B), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_N), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_M), 49));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 50));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 51));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 63, false, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_HOME), 70));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_PRIOR), 71));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RETURN), 72));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SPACE), 73));
+
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
+
+  result := aKBLayer;
 end;
 
 procedure TBaseKeyService.LoadLayerList(layerType: integer);

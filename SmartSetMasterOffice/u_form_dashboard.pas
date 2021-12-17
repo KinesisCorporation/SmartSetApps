@@ -336,6 +336,8 @@ begin
   aDevice.DeviceNumber := APPL_ADV360;
   aDevice.VDriveName := ADV360_DRIVE;
   aDevice.TutorialUrl := ADV360_TUTORIAL;
+  aDevice.VersionFile := VERSION_FILE_ADV360;
+  aDevice.VersionFolder := VERSION_FOLDER_ADV360;
   //todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
   deviceList.Add(aDevice);
 
@@ -352,6 +354,7 @@ begin
   //aDevice.DeviceNumber := APPL_PEDAL;
   //aDevice.VDriveName := PEDAL_DRIVE;
   //aDevice.TutorialUrl := PEDAL_TUTORIAL;
+  //aDevice.VersionFolder := VERSION_FOLDER_PEDAL;
   ////tpdp aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
   //deviceList.Add(aDevice);
   //
@@ -360,6 +363,7 @@ begin
   //aDevice.DeviceNumber := APPL_ADV2;
   //aDevice.VDriveName := ADV2_DRIVE;
   //aDevice.TutorialUrl := ADV2_TUTORIAL;
+  //aDevice.VersionFolder := VERSION_FOLDER_ADV2;
   ////todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
   //deviceList.Add(aDevice);
 end;

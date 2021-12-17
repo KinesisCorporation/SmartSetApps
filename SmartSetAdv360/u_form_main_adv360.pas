@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Menus, uGifViewer, ECSwitch, ECSlider, u_const, ColorSpeedButtonCS, LineObj,
+  Menus, ECSwitch, ECSlider, u_const, ColorSpeedButtonCS, LineObj,
   LabelBox, RichMemo, HSLRingPicker, mbColorPreview, ueled, uEKnob, u_form_tapandhold, contnrs,
   u_key_layer, u_key_service, u_file_service, u_common_ui, U_Keys, UserDialog,
   FileUtil, u_form_troubleshoot, u_form_settings, u_gif, LCLIntf,
@@ -20,7 +20,6 @@ type
   { TFormMainAdv360 }
 
   TFormMainAdv360 = class(TForm)
-    BreatheTimer: TIdleTimer;
     btnAltLayouts: TColorSpeedButtonCS;
     btnRightLED1: TColorSpeedButtonCS;
     btnZoneAllKeys: TColorSpeedButtonCS;
@@ -38,16 +37,14 @@ type
     btnRightLED2: TColorSpeedButtonCS;
     btnLeftLED3: TColorSpeedButtonCS;
     btnMultimodifiers: TColorSpeedButtonCS;
-    btnMacModifiers: TColorSpeedButtonCS;
     btnSpecialActions: TColorSpeedButtonCS;
-    btnDisableKey: TColorSpeedButtonCS;
     btnTapAndHold: TColorSpeedButtonCS;
     btnMacroOff: TColorSpeedButtonCS;
-    btnBacklight: TColorSpeedButtonCS;
     btnLeftLED1: TColorSpeedButtonCS;
     btnZoneMediaKeys: TColorSpeedButtonCS;
     imgEdgeBack: TImage;
     imgListSave: TImageList;
+    lblLayerSelect: TLabel;
     lbRow5_6: TLabelBox;
     lbRow5_7: TLabelBox;
     lbRow5_8: TLabelBox;
@@ -61,7 +58,12 @@ type
     lbRow7_6: TLabelBox;
     lbRow8_1: TLabelBox;
     lbRow8_2: TLabelBox;
-    SpectrumTimer: TIdleTimer;
+    MonochromeTimer: TIdleTimer;
+    pnlTopLayer: TPanel;
+    pnlFnLayer: TPanel;
+    pnlKPLayer: TPanel;
+    pnlFn2Layer: TPanel;
+    pnlFn3Layer: TPanel;
     btnBackspaceMacro: TColorSpeedButtonCS;
     btnCancel: TColorSpeedButtonCS;
     btnCancelMacro: TColorSpeedButtonCS;
@@ -81,9 +83,9 @@ type
     btnDoneMacro: TColorSpeedButtonCS;
     btnExport: TColorSpeedButtonCS;
     btnFirmware: TColorSpeedButtonCS;
-    btnFnAccess: TColorSpeedButtonCS;
-    btnFullKeypad: TColorSpeedButtonCS;
-    btnKeypadActions: TColorSpeedButtonCS;
+    btnLayerToggling: TColorSpeedButtonCS;
+    btnLayerShifting: TColorSpeedButtonCS;
+    btnNumericKeypad: TColorSpeedButtonCS;
     btnHelp: TColorSpeedButtonCS;
     btnImport: TColorSpeedButtonCS;
     btnLeftAlt: TColorSpeedButtonCS;
@@ -131,7 +133,6 @@ type
     eHTMLBase: TEdit;
     eRed: TEdit;
     eRedBase: TEdit;
-    gifViewer: TGIFViewer;
     imageKnob: TImage;
     imageKnobBig: TImage;
     imgBackground: TImage;
@@ -264,11 +265,8 @@ type
     lineBorderLeftMacro: TLineObj;
     lineBorderRightMacro: TLineObj;
     lineBorderTopMacro: TLineObj;
-    LoadGifTimer: TIdleTimer;
     memoMacro: TRichMemo;
     miAddCustColor: TMenuItem;
-    MonochromeTimer: TIdleTimer;
-    NewGifTimer: TIdleTimer;
     OpenDialog: TOpenDialog;
     pmColorPreview: TPopupMenu;
     pnlAssignMacro: TPanel;
@@ -317,10 +315,8 @@ type
     SaveDialog: TSaveDialog;
     sliderMacroSpeed: TECSlider;
     sliderMultiplay: TECSlider;
-    swLayerSwitch: TECSwitch;
     textMacroInput: TStaticText;
     tmrAfterFormShown: TTimer;
-    WaveTimer: TIdleTimer;
     procedure btnBacklightClick(Sender: TObject);
     procedure btnDisableKeyClick(Sender: TObject);
     procedure btnEjectClick(Sender: TObject);
@@ -344,9 +340,6 @@ type
     procedure imgKeyboardLightingClick(Sender: TObject);
     procedure imgProfileMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure LoadGifTimerTimer(Sender: TObject);
-    procedure BreatheTimerTimer(Sender: TObject);
-    procedure NewGifTimerTimer(Sender: TObject);
     procedure imgProfileClick(Sender: TObject);
     procedure bCoTriggerClick(Sender: TObject);
     procedure btnZoneBtnClick(Sender: TObject);
@@ -389,7 +382,6 @@ type
     procedure eHTMLKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormActivate(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure gifViewerStart(Sender: TObject);
     procedure imgKeyboardLightingMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure lblGlobalSpeedClick(Sender: TObject);
@@ -418,10 +410,7 @@ type
     procedure ringPickerBaseChange(Sender: TObject);
     procedure ringPickerChange(Sender: TObject);
     procedure MonochromeTimerTimer(Sender: TObject);
-    procedure SpectrumTimerTimer(Sender: TObject);
-    procedure swLayerSwitchClick(Sender: TObject);
     procedure tmrAfterFormShownTimer(Sender: TObject);
-    procedure TopMenuClick(Sender: TObject);
     procedure lbMenuMacroMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure lbMenuMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
@@ -439,7 +428,6 @@ type
     procedure btnPasteClick(Sender: TObject);
     procedure btnBackspaceMacroClick(Sender: TObject);
     procedure lbProfileMouseLeave(Sender: TObject);
-    procedure WaveTimerTimer(Sender: TObject);
     procedure MenuDrawItem(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; AState: TOwnerDrawState);
     procedure MenuItemClick(Sender: TObject);
@@ -447,6 +435,9 @@ type
     procedure ProfileMenuItemClick(Sender: TObject);
     procedure PopupProfileClose(Sender: TObject);
     procedure PopupProfilePopup(Sender: TObject);
+    procedure LayerClick(Sender: TObject);
+    procedure TopMenuClick(Sender: TObject);
+    procedure ResetLayers;
   private
     closing: boolean;
     MacroMode: boolean;
@@ -567,7 +558,6 @@ type
     procedure KeyButtonsSendToBack;
     procedure LaunchDemoMode;
     procedure LoadAppSettings;
-    procedure LoadGif(speed: integer; direction: integer);
     function LoadKeyboardLayout(layoutFile: string; fileContent: TStringList
       ): boolean;
     procedure LoadKeyButtonRows;
@@ -618,7 +608,6 @@ type
     procedure SetActiveLayer(layerIdx: integer);
     procedure SetButtonColor(keyButton: TLabelBox; aKbKey: TKBKey; reset: boolean);
     procedure SetColemakKb(layerIdx: integer; bothLayers: boolean);
-    procedure SetColorWave(arrayButton: array of TLabelBox; colorIdx: integer; invertColors: boolean = false; gradient: boolean = false);
     procedure SetConfigMode(mode: integer; init: boolean = false);
     procedure SetCoTrigger(aKey: TKey);
     procedure SetCurrentMenuAction(aType: TMenuActionType; aButton: TColorSpeedButtonCS);
@@ -987,7 +976,7 @@ begin
   CloseMacroEditor;
   currentPopupMenu := nil;
   profileMode := pmNone;
-  maxMacros := MAX_MACRO_RGB;
+  maxMacros := MAX_MACRO_ADV360;
   maxKeystrokes := MAX_KEYSTROKES_RGB;
   lblMacroEditor.Hint := 'Each layout can store ' + IntToStr(maxKeystrokes) +
       ' total macro characters and up to ' + IntToStr(maxMacros) + ' macros';
@@ -1002,7 +991,6 @@ begin
   //Set correct z-order for images
   imgKeyboardLayout.SendToBack;
   imgKeyboardLighting.SendToBack;
-  gifViewer.SendToBack;
   imgKeyboardBack.SendToBack;
   imgBackground.SendToBack;
 
@@ -1076,8 +1064,6 @@ begin
 
     RefreshRemapInfo;
 
-    swLayerSwitch.Checked := true;
-
     keyService.LoadLayerList;
 
     LoadKeyButtonRows;
@@ -1097,7 +1083,7 @@ begin
       btnExport.Enabled := false;
       btnFirmware.Enabled := false;
       btnDiagnostic.Enabled := false;
-      SetActiveLayer(TOPLAYER_IDX);
+      SetActiveLayer(LAYER_DEFAULT_360);
       SetActiveKeyButton(nil);
       SetConfigMode(CONFIG_LAYOUT, true);
     end
@@ -1203,12 +1189,6 @@ begin
   end
   else
   begin
-    //if (gifViewer.Playing) then
-    //  gifViewer.Stop;
-    //GifIdleTimer.Enabled := false;
-    WaveTimer.Enabled := false;
-    BreatheTimer.Enabled := false;
-    NewGifTimer.Enabled := false;
     CloseAction := caFree;
   end;
 end;
@@ -1359,16 +1339,13 @@ begin
   menuActionList.Add(TMenuAction.Create(maMultimedia, btnMultimedia, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
   menuActionList.Add(TMenuAction.Create(maMouseClicks, btnMouseClicks, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
   menuActionList.Add(TMenuAction.Create(maFuncKeys, btnFunctionKeys, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create(maFnAccess, btnFnAccess, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create(maFullKeypad, btnFullKeypad, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
-  menuActionList.Add(TMenuAction.Create(maKeypadActions, btnKeypadActions, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFnAccess, btnLayerToggling, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maFullKeypad, btnLayerShifting, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
+  menuActionList.Add(TMenuAction.Create(maKeypadActions, btnNumericKeypad, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
   menuActionList.Add(TMenuAction.Create(maAltLayouts, btnAltLayouts, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
   menuActionList.Add(TMenuAction.Create(maMultimodifiers, btnMultimodifiers, nil, nil, CONFIG_LAYOUT, lmNone, true, false, false));
   menuActionList.Add(TMenuAction.Create(maTapHold, btnTapAndHold, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
-  menuActionList.Add(TMenuAction.Create(maBacklight, btnBacklight, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
-  menuActionList.Add(TMenuAction.Create(maMacModifiers, btnMacModifiers, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
   menuActionList.Add(TMenuAction.Create(maSpecialActions, btnSpecialActions, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
-  menuActionList.Add(TMenuAction.Create(maDisable, btnDisableKey, nil, nil, CONFIG_LAYOUT, lmNone, false, false, true));
 end;
 
 procedure TFormMainAdv360.FillHoveredList;
@@ -1488,15 +1465,25 @@ begin
   //Multimedia
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  AddMenuItem(popMenu, 'Next Track', VK_MEDIA_NEXT_TRACK);
+  AddMenuItem(popMenu, 'Previous Track', VK_MEDIA_PREV_TRACK);
+  AddMenuItem(popMenu, 'Play', VK_MEDIA_PLAY);
+  AddMenuItem(popMenu, 'Stop', VK_MEDIA_STOP);
+  AddMenuItem(popMenu, 'Mute', VK_VOLUME_MUTE);
   AddMenuItem(popMenu, 'Volume Up', VK_VOLUME_UP);
   AddMenuItem(popMenu, 'Volume Down', VK_VOLUME_DOWN);
-  AddMenuItem(popMenu, 'Mute', VK_VOLUME_MUTE);
+  AddMenuItem(popMenu, 'Forward', VK_MEDIA_FORWARD);
+  AddMenuItem(popMenu, 'Pause', VK_MEDIA_PAUSE);
+  AddMenuItem(popMenu, 'Eject', VK_MEDIA_EJECT);
   AddMenuItem(popMenu, 'Play/Pause', VK_MEDIA_PLAY_PAUSE);
-  AddMenuItem(popMenu, 'Previous Track', VK_MEDIA_PREV_TRACK);
-  AddMenuItem(popMenu, 'Next Track', VK_MEDIA_NEXT_TRACK);
+  AddMenuItem(popMenu, 'Record', VK_MEDIA_RECORD);
+  AddMenuItem(popMenu, 'Random Play', VK_MEDIA_RANDOM_PLAY);
+  AddMenuItem(popMenu, 'Play/Skip', VK_MEDIA_PLAY_SKIP);
+  AddMenuItem(popMenu, 'Microphone Mute', VK_MIC_MUTE);
+  AddMenuItem(popMenu, 'Calculator', VK_CALC);
   btnMultimedia.PopupMenu := popMenu;
 
-  //Mouse clicks
+  //Mouse actions
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
   AddMenuItem(popMenu, 'Left Click', VK_MOUSE_LEFT);
@@ -1504,11 +1491,29 @@ begin
   AddMenuItem(popMenu, 'Right Click', VK_MOUSE_RIGHT);
   AddMenuItem(popMenu, 'Button 4', VK_MOUSE_BTN4);
   AddMenuItem(popMenu, 'Button 5', VK_MOUSE_BTN5);
+  AddMenuItem(popMenu, 'Scroll Up', VK_MOUSE_SCROLL_UP);
+  AddMenuItem(popMenu, 'Scroll Down', VK_MOUSE_SCROLL_DOWN);
+  AddMenuItem(popMenu, 'Move Left', VK_MOUSE_MOVE_LEFT);
+  AddMenuItem(popMenu, 'Move Right', VK_MOUSE_MOVE_RIGHT);
+  AddMenuItem(popMenu, 'Move Up', VK_MOUSE_MOVE_UP);
+  AddMenuItem(popMenu, 'Move Down', VK_MOUSE_MOVE_DOWN);
   btnMouseClicks.PopupMenu := popMenu;
 
   //Function keys
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  AddMenuItem(popMenu, 'F1', VK_F1);
+  AddMenuItem(popMenu, 'F2', VK_F2);
+  AddMenuItem(popMenu, 'F3', VK_F3);
+  AddMenuItem(popMenu, 'F4', VK_F4);
+  AddMenuItem(popMenu, 'F5', VK_F5);
+  AddMenuItem(popMenu, 'F6', VK_F6);
+  AddMenuItem(popMenu, 'F7', VK_F7);
+  AddMenuItem(popMenu, 'F8', VK_F8);
+  AddMenuItem(popMenu, 'F9', VK_F9);
+  AddMenuItem(popMenu, 'F10', VK_F10);
+  AddMenuItem(popMenu, 'F11', VK_F11);
+  AddMenuItem(popMenu, 'F12', VK_F12);
   AddMenuItem(popMenu, 'F13', VK_F13);
   AddMenuItem(popMenu, 'F14', VK_F14);
   AddMenuItem(popMenu, 'F15', VK_F15);
@@ -1523,41 +1528,32 @@ begin
   AddMenuItem(popMenu, 'F24', VK_F24);
   btnFunctionKeys.PopupMenu := popMenu;
 
-  //Fn Access
+  //Laying Shifting
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, 'Fn Toggle', VK_FN_TOGGLE);
-  AddMenuItem(popMenu, 'Fn Shift', VK_FN_SHIFT);
-  btnFnAccess.PopupMenu := popMenu;
+  AddMenuItem(popMenu, 'Default Shift', VK_DEF_LAYER_SHIFT);
+  AddMenuItem(popMenu, 'Fn Shift', VK_FN1_LAYER_SHIFT);
+  AddMenuItem(popMenu, 'Keypad Shift', VK_KP_LAYER_SHIFT);
+  AddMenuItem(popMenu, 'Fn2 Shift', VK_FN2_LAYER_SHIFT);
+  AddMenuItem(popMenu, 'Fn3 Shift', VK_FN3_LAYER_SHIFT);
+  btnLayerShifting.PopupMenu := popMenu;
 
-  //Full Keypad
+  //Layer Toggling
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, 'Right Side', VK_NUMERIC_RIGHT);
-  //AddMenuItem(popMenu, 'Left Side', VK_NUMERIC_LEFT);
-  btnFullKeypad.PopupMenu := popMenu;
+  AddMenuItem(popMenu, 'Default Toggle', VK_DEF_LAYER_TOGGLE);
+  AddMenuItem(popMenu, 'Fn Toggle', VK_FN1_LAYER_TOGGLE);
+  AddMenuItem(popMenu, 'Keypad Toggle', VK_KP_LAYER_TOGGLE);
+  AddMenuItem(popMenu, 'Fn2 Toggle', VK_FN2_LAYER_TOGGLE);
+  AddMenuItem(popMenu, 'Fn3 Toggle', VK_FN3_LAYER_TOGGLE);
+  btnLayerToggling.PopupMenu := popMenu;
 
   //Keypad actions
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, '0', VK_NUMPAD0);
-  AddMenuItem(popMenu, '1', VK_NUMPAD1);
-  AddMenuItem(popMenu, '2', VK_NUMPAD2);
-  AddMenuItem(popMenu, '3', VK_NUMPAD3);
-  AddMenuItem(popMenu, '4', VK_NUMPAD4);
-  AddMenuItem(popMenu, '5', VK_NUMPAD5);
-  AddMenuItem(popMenu, '6', VK_NUMPAD6);
-  AddMenuItem(popMenu, '7', VK_NUMPAD7);
-  AddMenuItem(popMenu, '8', VK_NUMPAD8);
-  AddMenuItem(popMenu, '9', VK_NUMPAD9);
-  AddMenuItem(popMenu, 'Decimal', VK_DECIMAL);
-  AddMenuItem(popMenu, 'Plus', VK_ADD);
-  AddMenuItem(popMenu, 'Minus', VK_SUBTRACT);
-  AddMenuItem(popMenu, 'Divide', VK_DIVIDE);
-  AddMenuItem(popMenu, 'Multiply', VK_MULTIPLY);
-  AddMenuItem(popMenu, 'Enter', VK_NUMPADENTER);
-  AddMenuItem(popMenu, 'Num Lock', VK_NUMLOCK);
-  btnKeypadActions.PopupMenu := popMenu;
+  AddMenuItem(popMenu, 'Full Keypad Right', VK_NUMERIC_RIGHT);
+  AddMenuItem(popMenu, 'Full Keypad Left', VK_NUMERIC_LEFT);
+  btnNumericKeypad.PopupMenu := popMenu;
 
   //Alternate layouts
   popMenu := TPopupMenu.Create(self);
@@ -1577,17 +1573,20 @@ begin
   //Special actions
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, 'Right Windows', VK_RWIN);
-  AddMenuItem(popMenu, 'Left Windows', VK_LWIN);
-  {$ifdef Win32}
-  AddMenuItem(popMenu, 'Menu', VK_KP_MENU);
-  {$endif}
-  {$ifdef darwin}
-  AddMenuItem(popMenu, 'Menu', VK_MOUSE_RIGHT);
-  {$endif}
+  AddMenuItem(popMenu, 'Disable Key', VK_NULL);
+  AddMenuItem(popMenu, 'SmartSet Key', VK_SMARTSET);
+  AddMenuItem(popMenu, 'Macro Interrupt', VK_STOP_MACRO_PLAYBACK);
+  AddMenuItem(popMenu, 'Application', VK_APPS);
+  //AddMenuItem(popMenu, 'Right Windows', VK_RWIN);
+  //AddMenuItem(popMenu, 'Left Windows', VK_LWIN);
+  //{$ifdef Win32}
+  //AddMenuItem(popMenu, 'Menu', VK_KP_MENU);
+  //{$endif}
+  //{$ifdef darwin}
+  //AddMenuItem(popMenu, 'Menu', VK_MOUSE_RIGHT);
+  //{$endif}
   AddMenuItem(popMenu, 'International Key', VK_OEM_102);
-  AddMenuItem(popMenu, 'Shutdown (Windows)', VK_SHUTDOWN);
-  AddMenuItem(popMenu, 'Calculator (Windows)', VK_CALC);
+  AddMenuItem(popMenu, 'System Power', VK_SHUTDOWN);
   btnSpecialActions.PopupMenu := popMenu;
 
   //// MACRO menu
@@ -1661,6 +1660,8 @@ var
   mnuAction: Integer;
   bothLayers: boolean;
   layoutName: string;
+  aKbKeyOtherLayer: TKBKey;
+  keyShiftActiveLayer: integer;
 begin
   mnu := (sender as TMenuItem);
   mnuAction := mnu.Tag;
@@ -1687,12 +1688,39 @@ begin
         'Note: Implementing this layout may overwrite existing remaps.',
         mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes) then
       begin
-        if (mnuAction = VK_DVORAK) then
-          SetDvorakKb(TOPLAYER_IDX, false)
-        else if (mnuAction = VK_COLEMAK) then
-          SetColemakKb(TOPLAYER_IDX, false)
-        else if (mnuAction = VK_WORKMAN) then
-          SetWorkmanKb(TOPLAYER_IDX, false);
+        //todo ?
+        //if (mnuAction = VK_DVORAK) then
+        //  SetDvorakKb(LAYER_DEFAULT_360, false)
+        //else if (mnuAction = VK_COLEMAK) then
+        //  SetColemakKb(LAYER_DEFAULT_360, false)
+        //else if (mnuAction = VK_WORKMAN) then
+        //  SetWorkmanKb(LAYER_DEFAULT_360, false);
+      end;
+    end
+    else if (mnuAction = VK_DEF_LAYER_SHIFT) or (mnuAction = VK_KP_LAYER_SHIFT) or (mnuAction = VK_FN1_LAYER_SHIFT) or
+      (mnuAction = VK_FN2_LAYER_SHIFT) or (mnuAction = VK_FN3_LAYER_SHIFT) then
+    begin
+      KeyModified := true;
+      SetSaveState(ssModified);
+
+      keyService.SetKBKey(activeKbKey, mnuAction, true);
+      UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
+
+      if (mnuAction = VK_DEF_LAYER_SHIFT) then
+        aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_DEFAULT_360, activeKeyBtn.Index)
+      else if (mnuAction = VK_KP_LAYER_SHIFT) then
+        aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_KEYPAD_360, activeKeyBtn.Index)
+      else if (mnuAction = VK_FN1_LAYER_SHIFT) then
+        aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_FN1_360, activeKeyBtn.Index)
+      else if (mnuAction = VK_FN2_LAYER_SHIFT) then
+        aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_FN2_360, activeKeyBtn.Index)
+      else if (mnuAction = VK_FN3_LAYER_SHIFT) then
+        aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_FN3_360, activeKeyBtn.Index);
+
+      if aKbKeyOtherLayer <> nil then
+      begin
+        keyShiftActiveLayer := GetKeyShiftActiveLayer;
+        keyService.SetKBKey(aKbKeyOtherLayer, keyShiftActiveLayer, true);
       end;
     end
     else if (mnuAction  = VK_NUMERIC_RIGHT) then
@@ -1913,7 +1941,7 @@ var
 begin
   Result := False;
 
-  errorMsg := fileService.LoadVersionInfo;
+  errorMsg := fileService.LoadVersionInfo(GActiveDevice);
 
   if (errorMsg = '') then
   begin
@@ -2010,7 +2038,7 @@ begin
       if (errorMsg = '') then
       begin
         keyService.ActiveLayer := nil;
-        ChangeActiveLayer(TOPLAYER_IDX);
+        ChangeActiveLayer(LAYER_DEFAULT_360);
         layoutFile := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
         keyService.ConvertFromTextFileFmt(layoutContent);
         LoadButtonImage(imgProfile, imgListProfileDefault, currentProfileNumber);
@@ -2021,7 +2049,7 @@ begin
         LoadButtonImage(imgProfile, imgListProfileDefault, 0);
         ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
-      SetActiveLayer(TOPLAYER_IDX);
+      SetActiveLayer(LAYER_DEFAULT_360);
       SetActiveKeyButton(nil);
       RefreshRemapInfo;
     finally
@@ -2145,9 +2173,45 @@ begin
   //btnResetAll.Enabled := (remapCount > 0) or (macroCount > 0);
 end;
 
+procedure TFormMainAdv360.ResetLayers;
+begin
+  pnlTopLayer.Color := KINESIS_LIGHT_GRAY_ADV360;
+  pnlKPLayer.Color := KINESIS_LIGHT_GRAY_ADV360;
+  pnlFnLayer.Color := KINESIS_LIGHT_GRAY_ADV360;
+  pnlFn2Layer.Color := KINESIS_LIGHT_GRAY_ADV360;
+  pnlFn3Layer.Color := KINESIS_LIGHT_GRAY_ADV360;
+end;
+
+procedure TFormMainAdv360.LayerClick(Sender: TObject);
+begin
+  if (sender = pnlTopLayer) then
+    SetActiveLayer(LAYER_DEFAULT_360)
+  else if (sender = pnlKPLayer) then
+    SetActiveLayer(LAYER_KEYPAD_360)
+  else if (sender = pnlFnLayer) then
+    SetActiveLayer(LAYER_FN1_360)
+  else if (sender = pnlFn2Layer) then
+    SetActiveLayer(LAYER_FN2_360)
+  else if (sender = pnlFn3Layer) then
+    SetActiveLayer(LAYER_FN3_360);
+end;
+
 procedure TFormMainAdv360.SetActiveLayer(layerIdx: integer);
 begin
   keyService.ActiveLayer := keyService.GetLayer(layerIdx);
+
+  ResetLayers;
+  if (layerIdx = LAYER_DEFAULT_360) then
+     pnlTopLayer.Color := KINESIS_DARK_GRAY_ADV360
+  else if (layerIdx = LAYER_KEYPAD_360) then
+     pnlKPLayer.Color := KINESIS_DARK_GRAY_ADV360
+  else if (layerIdx = LAYER_FN1_360) then
+     pnlFnLayer.Color := KINESIS_DARK_GRAY_ADV360
+  else if (layerIdx = LAYER_FN2_360) then
+     pnlFn2Layer.Color := KINESIS_DARK_GRAY_ADV360
+  else if (layerIdx = LAYER_FN3_360) then
+     pnlFn3Layer.Color := KINESIS_DARK_GRAY_ADV360;
+
   LoadLayer(keyService.ActiveLayer);
 end;
 
@@ -2308,7 +2372,6 @@ end;
 function TFormMainAdv360.CheckToSave(checkForVDrive: boolean): boolean;
 var
   dialogResult: integer;
-  mustRestartGif: boolean;
 begin
   result := true;
   if (SaveState = ssModified) and not(GDemoMode) then
@@ -2318,13 +2381,6 @@ begin
 
     if (result) then
     begin
-      mustRestartGif := false;
-      if (keyService.ConfigMode = CONFIG_LIGHTING) and gifViewer.Visible and gifViewer.Playing then
-      begin
-        gifViewer.Stop;
-        mustRestartGif := true;
-      end;
-
       dialogResult := ShowDialog('Save',
         'Do you want to save changes to Profile ' + IntToStr(currentProfileNumber) + '?',
         mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB);
@@ -2335,9 +2391,6 @@ begin
         SetSaveState(ssNone)
       else
         result := false;
-
-      if (mustRestartGif) then
-        gifViewer.Start;
     end;
   end;
 end;
@@ -2427,17 +2480,9 @@ begin
   canContinue := true;
 
   //Stop and hide gif viewer first
-  BreatheTimer.Enabled := false;
-  LoadGifTimer.Enabled := false;
-  NewGifTimer.Enabled := false;
-  SpectrumTimer.Enabled := false;
-  WaveTimer.Enabled := false;
-  gifViewer.Visible := false;
   ShowHideKeyButtons(false);
   ReloadKeyButtonsColor(true, false);
   SetMenuEnabled;
-  //if (gifViewer.Playing) then
-  //  gifViewer.Stop;
 
   //Process messages to speed up processing
   Application.ProcessMessages;
@@ -2480,7 +2525,6 @@ begin
     end;
 
     //imgLeftMenu.Visible := ConfigMode = CONFIG_LAYOUT;
-    swLayerSwitch.Visible := true;
     btnCancel.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
     btnDone.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
     btnResetKey.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
@@ -2516,8 +2560,6 @@ begin
     else if (keyService.ConfigMode = CONFIG_LAYOUT) then
     begin
       ReloadKeyButtons;
-      if (gifViewer.Playing) then
-        gifViewer.Stop;
     end;
   end;
 end;
@@ -2580,16 +2622,13 @@ end;
 procedure TFormMainAdv360.PositionMenuItems;
 begin
   //Position layout menu (last first)
-  btnDisableKey.Top := 0;
   btnSpecialActions.Top := 0;
   btnMultimodifiers.Top := 0;
-  btnBacklight.Top := 0;
   btnTapAndHold.Top := 0;
-  btnMacModifiers.Top := 0;
   btnAltLayouts.Top := 0;
-  btnKeypadActions.Top := 0;
-  btnFullKeypad.Top := 0;
-  btnFnAccess.Top := 0;
+  btnNumericKeypad.Top := 0;
+  btnLayerToggling.Top := 0;
+  btnLayerShifting.Top := 0;
   btnFunctionKeys.Top := 0;
   btnMouseClicks.Top := 0;
   btnMultimedia.Top := 0;
@@ -3399,14 +3438,14 @@ begin
     PARAM_ZONE:
     begin
       pnlZone.Visible := state;
-      btnZoneWASDKeys.Visible := keyService.ActiveLayer.LayerIndex = TOPLAYER_IDX;
-      btnZoneModifiers.Visible := keyService.ActiveLayer.LayerIndex = TOPLAYER_IDX;
-      btnZoneNumberRow.Visible := keyService.ActiveLayer.LayerIndex = TOPLAYER_IDX;
-      btnZoneHomeRow.Visible := keyService.ActiveLayer.LayerIndex = TOPLAYER_IDX;
-      btnZoneMediaKeys.Visible := keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX;
-      btnZoneNavKeys.Visible := keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX;
-      btnZoneFunctionKeys.Visible := keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX;
-      btnZoneArrowKeys.Visible := keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX;
+      btnZoneWASDKeys.Visible := keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360;
+      btnZoneModifiers.Visible := keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360;
+      btnZoneNumberRow.Visible := keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360;
+      btnZoneHomeRow.Visible := keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360;
+      btnZoneMediaKeys.Visible := keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360;
+      btnZoneNavKeys.Visible := keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360;
+      btnZoneFunctionKeys.Visible := keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360;
+      btnZoneArrowKeys.Visible := keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360;
       pnlZone.Repaint;
     end;
   end;
@@ -3457,12 +3496,6 @@ begin
   try
     keyService.ActiveGif := nil;
     loadingLedSettings := true;
-    BreatheTimer.Enabled := false;
-    LoadGifTimer.Enabled := false;
-    NewGifTimer.Enabled := false;
-    SpectrumTimer.Enabled := false;
-    WaveTimer.Enabled := false;
-    gifViewer.Visible := false;
     //todo imgKeyboardBack.Visible := (keyService.ConfigMode = CONFIG_LIGHTING);
     keyService.LedMode := ledMode;
     ShowHideKeyButtons(false);
@@ -3483,18 +3516,6 @@ begin
     imgKeyboardLighting.Cursor := crDefault;
 
     ReloadKeyButtonsColor;
-
-    //LoadGif(keyService.LedSpeed, keyService.LedDirection);
-    if (ledMode in [lmBreathe, lmPulse]) then
-      BreatheTimer.Enabled := true
-    else if (ledMode in [lmRain, lmReactive, lmRipple, lmFireball, lmLoop, lmRebound, lmStarlight]) then
-      NewGifTimer.Enabled := true
-    else if (ledMode in [lmSpectrum]) then
-      SpectrumTimer.Enabled := true
-    else if (ledMode in [lmWave]) then
-      WaveTimer.Enabled := true
-    else if not(ledMode in [lmFrozenWave]) then
-      LoadGifTimer.Enabled := true;
   finally
     loadingLedSettings := false;
   end;
@@ -3520,519 +3541,16 @@ begin
   end;
 end;
 
-procedure TFormMainAdv360.LoadGifTimerTimer(Sender: TObject);
-begin
-  LoadGifTimer.Enabled := false;
-  LoadGif(Round(knobSpeed.Position), keyService.LedDirection);
-end;
-
 procedure TFormMainAdv360.SetMenuEnabled;
 begin
   btnMultimedia.Enabled := IsKeyLoaded;
   btnMouseClicks.Enabled := IsKeyLoaded;
   btnFunctionKeys.Enabled := IsKeyLoaded;
-  btnFnAccess.Enabled := IsKeyLoaded;
-  btnKeypadActions.Enabled := IsKeyLoaded;
+  btnLayerShifting.Enabled := IsKeyLoaded;
+  btnLayerToggling.Enabled := IsKeyLoaded;
   btnTapAndHold.Enabled := IsKeyLoaded;
-  btnBacklight.Enabled := IsKeyLoaded;
   btnMultimodifiers.Enabled := IsKeyLoaded;
   btnSpecialActions.Enabled := IsKeyLoaded;
-  btnDisableKey.Enabled := IsKeyLoaded;
-end;
-
-procedure TFormMainAdv360.BreatheTimerTimer(Sender: TObject);
-var
-  delay: integer;
-  incTransparency: integer;
-begin
-  delay := 35;
-  incTransparency := 20;
-
-  BreatheTimer.Enabled := false;
-  case keyService.LedSpeed of
-    1: begin
-      BreatheTimer.Interval := Trunc((12 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 65;
-    end;
-    2: begin
-      BreatheTimer.Interval := Trunc((10 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 65;
-    end;
-    3: begin
-      BreatheTimer.Interval := Trunc((9 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 65;
-    end;
-    4: begin
-      BreatheTimer.Interval := Trunc((8 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 65;
-    end;
-    5: begin
-      BreatheTimer.Interval := Trunc((7 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 70;
-    end;
-    6: begin
-      BreatheTimer.Interval := Trunc((6 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 70;
-    end;
-    7: begin
-      BreatheTimer.Interval := Trunc((5 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 80;
-    end;
-    8: begin
-      BreatheTimer.Interval := Trunc((4 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 120;
-    end;
-    9: begin
-      BreatheTimer.Interval := Trunc((2 * 1000) / delay);
-      if (keyService.LedMode = lmPulse) then
-        incTransparency := 120;
-    end;
-  end;
-
-  if (breatheDirection = 0) then
-    breatheTransparency := breatheTransparency + incTransparency
-  else
-    breatheTransparency := breatheTransparency - incTransparency;
-
-  if (breatheTransparency >= 255) then
-  begin
-    breatheTransparency := 255;
-    breatheDirection := 1
-  end
-  else if (breatheTransparency <= 0) then
-  begin
-    breatheTransparency := 0;
-    breatheDirection := 0;
-    inc(breatheCycle);
-    if (breatheCycle > 12) then
-      breatheCycle := 1;
-  end;
-
-  case breatheCycle of
-    1: pulseColor := RGB(255, 0, 255);
-    2: pulseColor := RGB(255, 0, 128);
-    3: pulseColor := RGB(255, 0, 0);
-    4: pulseColor := RGB(255, 128, 0);
-    5: pulseColor := RGB(255, 255, 0);
-    6: pulseColor := RGB(128, 255, 0);
-    7: pulseColor := RGB(0, 255, 0);
-    8: pulseColor := RGB(0, 255, 128);
-    9: pulseColor := RGB(0, 255, 255);
-    10: pulseColor := RGB(0, 128, 255);
-    11: pulseColor := RGB(0, 0, 255);
-    12: pulseColor := RGB(128, 0, 255);
-  end;
-
-  ReloadKeyButtonsColor;
-
-  BreatheTimer.Enabled := true;
-end;
-
-procedure TFormMainAdv360.WaveTimerTimer(Sender: TObject);
-const
-  MaxCycle = 20;
-begin
-  WaveTimer.Enabled := false;
-  inc(waveCycle);
-
-  if (keyService.LedDirection in [LED_DIR_LEFT_INT, LED_DIR_RIGHT_INT]) then
-  begin
-    if (keyService.ConfigMode = CONFIG_LIGHTING) then
-    begin
-      case keyService.LedSpeed of
-        1: WaveTimer.Interval := 1000;
-        2: WaveTimer.Interval := 800;
-        3: WaveTimer.Interval := 700;
-        4: WaveTimer.Interval := 600;
-        5: WaveTimer.Interval := 500;
-        6: WaveTimer.Interval := 400;
-        7: WaveTimer.Interval := 300;
-        8: WaveTimer.Interval := 200;
-        9: WaveTimer.Interval := 100;
-      end;
-    end
-    else
-    begin
-      case keyService.LedSpeed of
-        1: WaveTimer.Interval := 250;
-        2: WaveTimer.Interval := 220;
-        3: WaveTimer.Interval := 200;
-        4: WaveTimer.Interval := 180;
-        5: WaveTimer.Interval := 150;
-        6: WaveTimer.Interval := 110;
-        7: WaveTimer.Interval := 80;
-        8: WaveTimer.Interval := 50;
-        9: WaveTimer.Interval := 20;
-      end;
-    end;
-  end
-  else
-  begin
-    case keyService.LedSpeed of
-      1: WaveTimer.Interval := 450;
-      2: WaveTimer.Interval := 400;
-      3: WaveTimer.Interval := 350;
-      4: WaveTimer.Interval := 300;
-      5: WaveTimer.Interval := 250;
-      6: WaveTimer.Interval := 200;
-      7: WaveTimer.Interval := 150;
-      8: WaveTimer.Interval := 100;
-      9: WaveTimer.Interval := 50;
-    end;
-  end;
-
-  if (keyService.LedDirection = LED_DIR_LEFT_INT) then
-  begin
-    if (keyService.ConfigMode = CONFIG_LIGHTING) then
-    begin
-      SetColorWave(kbArrayCol1, waveCycle);
-      SetColorWave(kbArrayCol2, (waveCycle + 1) Mod MaxCycle);
-      SetColorWave(kbArrayCol3, (waveCycle + 2) Mod MaxCycle);
-      SetColorWave(kbArrayCol4, (waveCycle + 3) Mod MaxCycle);
-      SetColorWave(kbArrayCol5, (waveCycle + 4) Mod MaxCycle);
-      SetColorWave(kbArrayCol6, (waveCycle + 5) Mod MaxCycle);
-      SetColorWave(kbArrayCol7, (waveCycle + 6) Mod MaxCycle);
-      SetColorWave(kbArrayCol8, (waveCycle + 7) Mod MaxCycle);
-      SetColorWave(kbArrayCol9, (waveCycle + 8) Mod MaxCycle);
-      SetColorWave(kbArrayCol10, (waveCycle + 9) Mod MaxCycle);
-      SetColorWave(kbArrayCol11, (waveCycle + 10) Mod MaxCycle);
-      SetColorWave(kbArrayCol12, (waveCycle + 11) Mod MaxCycle);
-      SetColorWave(kbArrayCol13, (waveCycle + 12) Mod MaxCycle);
-      SetColorWave(kbArrayCol14, (waveCycle + 13) Mod MaxCycle);
-    end;
-  end
-  else if (keyService.LedDirection = LED_DIR_RIGHT_INT) then
-  begin
-    if (keyService.ConfigMode = CONFIG_LIGHTING) then
-    begin
-      SetColorWave(kbArrayCol14, waveCycle, true);
-      SetColorWave(kbArrayCol13, (waveCycle + 1) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol12, (waveCycle + 2) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol11, (waveCycle + 3) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol10, (waveCycle + 4) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol9, (waveCycle + 5) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol8, (waveCycle + 6) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol7, (waveCycle + 7) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol6, (waveCycle + 8) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol5, (waveCycle + 9) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol4, (waveCycle + 10) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol3, (waveCycle + 11) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol2, (waveCycle + 12) Mod MaxCycle, true);
-      SetColorWave(kbArrayCol1, (waveCycle + 13) Mod MaxCycle, true);
-    end;
-  end
-  else if (keyService.LedDirection = LED_DIR_DOWN_INT) then
-  begin
-    SetColorWave(kbArrayRow5, waveCycle, true);
-    SetColorWave(kbArrayRow4, (waveCycle + 1) Mod MaxCycle, true);
-    SetColorWave(kbArrayRow3, (waveCycle + 2) Mod MaxCycle, true);
-    SetColorWave(kbArrayRow2, (waveCycle + 3) Mod MaxCycle, true);
-    SetColorWave(kbArrayRow1, (waveCycle + 4) Mod MaxCycle, true);
-  end
-  else if (keyService.LedDirection = LED_DIR_UP_INT) then
-  begin
-    SetColorWave(kbArrayRow1, waveCycle);
-    SetColorWave(kbArrayRow2, (waveCycle + 1) Mod MaxCycle);
-    SetColorWave(kbArrayRow3, (waveCycle + 2) Mod MaxCycle);
-    SetColorWave(kbArrayRow4, (waveCycle + 3) Mod MaxCycle);
-    SetColorWave(kbArrayRow5, (waveCycle + 4) Mod MaxCycle);
-  end;
-
-  RepaintForm(false);
-
-  if (waveCycle = MaxCycle) then
-    waveCycle := 0;
-
-  WaveTimer.Enabled := true;
-end;
-
-procedure TFormMainAdv360.SpectrumTimerTimer(Sender: TObject);
-begin
-  SpectrumTimer.Enabled := false;
-  if (keyService.ConfigMode = CONFIG_LIGHTING) then
-  begin
-    case keyService.LedSpeed of
-      1: SpectrumTimer.Interval := 900;
-      2: SpectrumTimer.Interval := 700;
-      3: SpectrumTimer.Interval := 600;
-      4: SpectrumTimer.Interval := 500;
-      5: SpectrumTimer.Interval := 400;
-      6: SpectrumTimer.Interval := 300;
-      7: SpectrumTimer.Interval := 200;
-      8: SpectrumTimer.Interval := 100;
-      9: SpectrumTimer.Interval := 50;
-    end;
-  end
-  else
-  begin
-    case keyService.LedSpeed of
-      1: SpectrumTimer.Interval := 250;
-      2: SpectrumTimer.Interval := 220;
-      3: SpectrumTimer.Interval := 200;
-      4: SpectrumTimer.Interval := 180;
-      5: SpectrumTimer.Interval := 150;
-      6: SpectrumTimer.Interval := 110;
-      7: SpectrumTimer.Interval := 80;
-      8: SpectrumTimer.Interval := 50;
-      9: SpectrumTimer.Interval := 20;
-    end;
-  end;
-
-  inc(spectrumCycle);
-  if (spectrumCycle > 20) then
-    spectrumCycle := 1;
-
-  case spectrumCycle of
-    1: spectrumColor := RGB(255, 0, 128);
-    2: spectrumColor := RGB(255, 0, 255);
-    3: spectrumColor := RGB(200, 0, 255);
-    4: spectrumColor := RGB(128, 0, 255);
-    5: spectrumColor := RGB(75, 0, 255);
-    6: spectrumColor := RGB(0, 0, 255);
-    7: spectrumColor := RGB(0, 70, 255);
-    8: spectrumColor := RGB(0, 128, 255);
-    9: spectrumColor := RGB(0, 200, 255);
-    10: spectrumColor := RGB(0, 255, 255);
-    11: spectrumColor := RGB(0, 255, 200);
-    12: spectrumColor := RGB(0, 255, 128);
-    13: spectrumColor := RGB(0, 255, 0);
-    14: spectrumColor := RGB(128, 255, 0);
-    15: spectrumColor := RGB(210, 255, 0);
-    16: spectrumColor := RGB(255, 255, 0);
-    17: spectrumColor := RGB(255, 200, 0);
-    18: spectrumColor := RGB(255, 128, 0);
-    19: spectrumColor := RGB(255, 75, 0);
-    20: spectrumColor := RGB(255, 0, 0);
-  end;
-
-  ReloadKeyButtonsColor;
-
-  SpectrumTimer.Enabled := true;
-end;
-
-procedure TFormMainAdv360.NewGifTimerTimer(Sender: TObject);
-const
-  delay = 30;
-var
-  interval: integer;
-begin
-  NewGifTimer.Enabled := false;
-  interval := 1000;
-
-  if (keyService.LedMode = lmRain) then
-    keyService.ActiveGif := keyService.RainGif
-  else if (keyService.LedMode = lmReactive) then
-    keyService.ActiveGif := keyService.ReactiveGif
-  else if (keyService.LedMode = lmRipple) then
-    keyService.ActiveGif := keyService.RippleGif
-  else if (keyService.LedMode = lmFireball) then
-  begin
-    case keyService.LedDirection of
-      LED_DIR_LEFT_INT: keyService.ActiveGif := keyService.FireballLeftGif;
-      LED_DIR_RIGHT_INT: keyService.ActiveGif := keyService.FireballRightGif;
-    end;
-  end
-  else if (keyService.LedMode = lmStarlight) then
-    keyService.ActiveGif := keyService.StarlightGif
-  else if (keyService.LedMode = lmLoop) then
-  begin
-    if (keyService.ConfigMode = CONFIG_LIGHTING) then
-    begin
-      case keyService.LedDirection of
-        LED_DIR_DOWN_INT: keyService.ActiveGif := keyService.LoopDownGif;
-        LED_DIR_LEFT_INT: keyService.ActiveGif := keyService.LoopLeftGif;
-        LED_DIR_UP_INT: keyService.ActiveGif := keyService.LoopUpGif;
-        LED_DIR_RIGHT_INT: keyService.ActiveGif := keyService.LoopRightGif;
-      end;
-    end;
-  end
-  else if (keyService.LedMode = lmRebound) then
-  begin
-    if (keyService.ConfigMode = CONFIG_LIGHTING) then
-    begin
-      case keyService.LedDirection of
-        LED_DIR_UP_INT: keyService.ActiveGif := keyService.ReboundVerGif;
-        LED_DIR_LEFT_INT: keyService.ActiveGif := keyService.ReboundHorGif;
-        else keyService.ActiveGif := keyService.ReboundHorGif
-      end;
-    end;
-  end
-  else
-    keyService.ActiveGif := nil;
-
-  if (keyService.ActiveGif <> nil) then
-  begin
-    case keyService.LedSpeed of
-      1: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-          if (keyService.LedMode in [lmRipple, lmFireball, lmReactive]) then
-             interval := 250
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 1000
-          else if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 450
-          else if (keyService.LedMode in [lmRain]) then
-             interval := 500;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 200;
-        end;
-      end;
-      2: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-          if (keyService.LedMode in [lmRipple, lmFireball, lmReactive]) then
-             interval := 220
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 900
-          else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-             interval := 400;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 180;
-        end;
-      end;
-      3: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-          if (keyService.LedMode in [lmRipple, lmFireball, lmReactive]) then
-             interval := 200
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 800
-          else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-             interval := 350;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 140;
-        end;
-      end;
-      4: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-          if (keyService.LedMode in [lmRipple]) then
-             interval := 170
-          else if (keyService.LedMode in [lmFireball, lmReactive]) then
-             interval := 180
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 700
-          else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-             interval := 300;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 120;
-        end;
-      end;
-      5: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-          if (keyService.LedMode in [lmRipple, lmFireball, lmReactive]) then
-             interval := 140
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 600
-          else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-             interval := 250;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 100;
-        end;
-      end;
-      6: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-          if (keyService.LedMode in [lmRipple, lmFireball, lmReactive]) then
-             interval := 110
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 500
-          else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-             interval := 200;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 80;
-        end;
-      end;
-      7: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-        if (keyService.LedMode in [lmRipple, lmFireball, lmReactive]) then
-           interval := 80
-        else if (keyService.LedMode in [lmStarlight]) then
-           interval := 400
-        else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-           interval := 150;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 60;
-        end;
-      end;
-      8: begin
-         if (keyService.ConfigMode = CONFIG_LIGHTING) then
-         begin
-          if (keyService.LedMode in [lmRipple, lmFireball, lmReactive]) then
-             interval := 50
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 300
-          else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-             interval := 100;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 40;
-        end;
-      end;
-      9: begin
-        if (keyService.ConfigMode = CONFIG_LIGHTING) then
-        begin
-          if (keyService.LedMode in [lmRipple]) then
-             interval := 10
-          else if (keyService.LedMode in [lmFireball, lmReactive]) then
-             interval := 30
-          else if (keyService.LedMode in [lmStarlight]) then
-             interval := 200
-          else if (keyService.LedMode in [lmRebound, lmLoop, lmRain]) then
-             interval := 50;
-        end
-        else
-        begin
-          if (keyService.LedMode in [lmRebound, lmLoop]) then
-             interval := 20;
-        end;
-      end;
-    end;
-    NewGifTimer.Interval := interval;
-
-    if (gifFrameIdx = (keyService.ActiveGif.Count)) then
-      gifFrameIdx := 1
-    else
-      inc(gifFrameIdx);
-
-    ReloadKeyButtonsColor;
-
-    NewGifTimer.Enabled := true;
-  end;
 end;
 
 procedure TFormMainAdv360.bCoTriggerClick(Sender: TObject);
@@ -4296,7 +3814,7 @@ begin
         SetSingleKeyColor(lbRow3_10, keyColor);
       end;
       ztMedia: begin
-        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
         begin
           SetSingleKeyColor(lbRow2_3, keyColor);
           SetSingleKeyColor(lbRow2_4, keyColor);
@@ -4307,7 +3825,7 @@ begin
         end;
       end;
       ztNavigation: begin
-        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
         begin
           SetSingleKeyColor(lbRow2_11, keyColor);
           SetSingleKeyColor(lbRow2_12, keyColor);
@@ -4316,7 +3834,7 @@ begin
         end;
       end;
       ztFunction: begin
-        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
         begin
           SetSingleKeyColor(lbRow1_2, keyColor);
           SetSingleKeyColor(lbRow1_3, keyColor);
@@ -4333,7 +3851,7 @@ begin
         end;
       end;
       ztArrow: begin
-        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+        if (keyService.ActiveLayer <> nil) and (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
         begin
           SetSingleKeyColor(lbRow2_9, keyColor);
           SetSingleKeyColor(lbRow3_7, keyColor);
@@ -4343,187 +3861,6 @@ begin
       end;
     end;
     SetSaveState(ssModified);
-  end;
-end;
-
-procedure TFormMainAdv360.LoadGif(speed: integer; direction: integer);
-var
-  gifToLoad: string;
-begin
-  if (keyService.LedMode = lmBreathe) then
-  begin
-    //gifToLoad := imagePath + 'Breathe_Spd' + IntToStr(speed) + '.gif';
-    //gifToLoad := 'BREATHE-SPD' +  IntToStr(speed);
-  end
-  else if (keyService.LedMode = lmWave) then
-  begin
-    //gifToLoad := imagePath + 'Wave_Spd' + IntToStr(speed) + '.gif';
-  //  WaveTimer.Enabled := true;
-    //gifToLoad := 'WAVE';
-    //case direction of
-    //  LED_DIR_DOWN_INT: gifToLoad := gifToLoad + 'DOWN-';
-    //  LED_DIR_LEFT_INT: gifToLoad := gifToLoad + 'LEFT-';
-    //  LED_DIR_UP_INT: gifToLoad := gifToLoad + 'UP-';
-    //  LED_DIR_RIGHT_INT: gifToLoad := gifToLoad + 'RIGHT-';
-    //end;
-    //gifToLoad := gifToLoad + 'SPD' + IntToStr(speed);
-  end
-  else if (keyService.LedMode = lmLoop) then
-  begin
-    //gifToLoad := 'LOOP';
-    //case direction of
-    //  LED_DIR_DOWN_INT: gifToLoad := gifToLoad + '-DOWN-';
-    //  LED_DIR_LEFT_INT: gifToLoad := gifToLoad + '-LEFT-';
-    //  LED_DIR_UP_INT: gifToLoad := gifToLoad + '-UP-';
-    //  LED_DIR_RIGHT_INT: gifToLoad := gifToLoad + '-RIGHT-';
-    //end;
-    //gifToLoad := gifToLoad + 'SPD' + IntToStr(speed);
-  end
-  else if (keyService.LedMode = lmSpectrum) then
-  begin
-    //gifToLoad := 'SPECTRUM-SPD' +  IntToStr(speed);
-    //gifToLoad := imagePath + 'Spectrum-Spd' + IntToStr(speed) + '.gif';
-  end
-  //else if (keyService.LedMode = lmReactive) then
-  //begin
-  //  gifToLoad := 'REACTIVE-SPD' +  IntToStr(speed);
-  //  //gifToLoad := imagePath + 'Reactive_Spd' + IntToStr(speed) + '.gif';
-  //end
-  else if (keyService.LedMode = lmStarlight) then
-  begin
-    //gifToLoad := 'STARLIGHT-SPD' +  IntToStr(speed);
-  end
-  else if (keyService.LedMode = lmRebound) then
-  begin
-    //gifToLoad := 'REBOUND-SPD' +  IntToStr(speed);
-    //gifToLoad := 'REBOUND';
-    //case direction of
-    //  LED_DIR_UP_INT: gifToLoad := gifToLoad + 'VER-';
-    //  LED_DIR_LEFT_INT: gifToLoad := gifToLoad + 'HOR-';
-    //  else gifToLoad := gifToLoad + 'HOR-';
-    //end;
-    //gifToLoad := gifToLoad + 'SPD' + IntToStr(speed);
-  end
-  else if (keyService.LedMode = lmRipple) then
-  begin
-    //gifToLoad := 'RIPPLE-SPD' +  IntToStr(speed);
-  end;
-  //else if (keyService.LedMode = lmRain) then
-  //begin
-  //  gifToLoad := 'RAIN-SPD' +  IntToStr(speed);
-  //end;
-
-  if (gifToLoad <> '') then
-  begin
-    try
-      if (currentGif <> gifToLoad) then
-      begin
-        //gifViewer.LoadFromFile(gifToLoad);
-        gifViewer.Pause;
-        gifViewer.LoadFromResource(gifToLoad);
-      end;
-
-      gifViewer.Visible := true;
-      gifViewer.Start;
-      currentGif := gifToLoad;
-    except
-    end;
-  end
-  else
-  begin
-    if (gifViewer.Playing) then
-      gifViewer.Stop;
-    gifViewer.Visible := false;
-  end;
-end;
-
-procedure TFormMainAdv360.SetColorWave(arrayButton: array of TLabelBox; colorIdx: integer;
-  invertColors: boolean; gradient: boolean = false);
-var
-  i: integer;
-  pass: integer;
-  keyColor: TColor;
-  baseColor: TColor;
-begin
-  for pass := 1 to 2 do
-  begin
-    if (invertColors) then
-    begin
-      if (pass = 2) then
-      begin
-       colorIdx := colorIdx - 1;
-       if (colorIdx < 0) then
-         colorIdx := 19;
-      end;
-      case colorIdx of
-        19: keyColor := RGB(0, 255, 255); //Turquoise
-        18: keyColor := RGB(0, 200, 255); //Powder blue
-        17: keyColor := RGB(0, 128, 255); //Paler blue
-        16: keyColor := RGB(0, 70, 255); //Pale blue
-        15: keyColor := RGB(0, 0, 255); //Blue
-        14: keyColor := RGB(75, 0, 255); //Bluish
-        13: keyColor := RGB(128, 0, 255); //Purple-blue
-        12: keyColor := RGB(200, 0, 255); //Purple
-        11: keyColor := RGB(255, 0, 144); //Pink
-        10: keyColor := RGB(255, 0, 128); //Red-Purple
-        9: keyColor := RGB(255, 0, 0); //Red
-        8: keyColor := RGB(255, 75, 0); //Orange-Red
-        7: keyColor := RGB(255, 128, 0); //Orange
-        6: keyColor := RGB(255, 200, 0); //Yellow-orange
-        5: keyColor := RGB(255, 255, 0); //Yellow
-        4: keyColor := RGB(210, 255, 0); //Yellow-green
-        3: keyColor := RGB(128, 255, 0); //Pale Green
-        2: keyColor := RGB(0, 255, 0); //Green
-        1: keyColor := RGB(0, 255, 128); //Greenish
-        0: keyColor := RGB(0, 255, 200); //Teal
-      end;
-    end
-    else
-    begin
-      if (pass = 2) then
-      begin
-       colorIdx := colorIdx + 1;
-       if (colorIdx > 19) then
-         colorIdx := 0;
-      end;
-      case colorIdx of
-        0: keyColor := RGB(0, 255, 255); //Turquoise
-        1: keyColor := RGB(0, 200, 255); //Powder blue
-        2: keyColor := RGB(0, 128, 255); //Paler blue
-        3: keyColor := RGB(0, 70, 255); //Pale blue
-        4: keyColor := RGB(0, 0, 255); //Blue
-        5: keyColor := RGB(75, 0, 255); //Bluish
-        6: keyColor := RGB(128, 0, 255); //Purple-blue
-        7: keyColor := RGB(200, 0, 255); //Purple
-        8: keyColor := RGB(255, 0, 144); //Pink
-        9: keyColor := RGB(255, 0, 128); //Red-Purple
-        10: keyColor := RGB(255, 0, 0); //Red
-        11: keyColor := RGB(255, 75, 0); //Orange-Red
-        12: keyColor := RGB(255, 128, 0); //Orange
-        13: keyColor := RGB(255, 200, 0); //Yellow-orange
-        14: keyColor := RGB(255, 255, 0); //Yellow
-        15: keyColor := RGB(210, 255, 0); //Yellow-green
-        16: keyColor := RGB(128, 255, 0); //Pale Green
-        17: keyColor := RGB(0, 255, 0); //Green
-        18: keyColor := RGB(0, 255, 128); //Greenish
-        19: keyColor := RGB(0, 255, 200); //Teal
-      end;
-    end;
-    if (pass = 1) then
-      baseColor := keyColor;
-  end;
-
-  if Length(arrayButton) > 0 then
-  begin
-    for i := 0 to Length(arrayButton) - 1 do
-    begin
-      arrayButton[i].GradientFill := gradient;
-      arrayButton[i].Opaque := true;
-      arrayButton[i].BackColor := baseColor;
-      if (gradient) then
-        arrayButton[i].NextColor := keyColor;
-      //arrayButton[i].Repaint;
-    end;
   end;
 end;
 
@@ -4792,8 +4129,8 @@ begin
     if ShowDialog('Reset Lighting', sMessage,
           mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
-      keyService.SetAllKeyColor(clNone, TOPLAYER_IDX);
-      keyService.SetAllKeyColor(clNone, BOTLAYER_IDX);
+      keyService.SetAllKeyColor(clNone, LAYER_DEFAULT_360);
+      keyService.SetAllKeyColor(clNone, LAYER_KEYPAD_360);
       ReloadKeyButtonsColor(true);
       SetSaveState(ssModified);
     end;
@@ -5177,15 +4514,6 @@ begin
   //lblVDriveError.Left := lblVDriveOk.Left;
 end;
 
-procedure TFormMainAdv360.gifViewerStart(Sender: TObject);
-begin
-  if (keyService.LedMode in [lmBreathe, lmReactive, lmStarlight, lmRebound, lmRipple, lmFireball, lmLoop, lmRain, lmPulse, lmSpectrum, lmWave]) then
-  begin
-    if (keyService.ConfigMode = CONFIG_LIGHTING) then
-      ShowHideKeyButtons(true);
-  end;
-end;
-
 procedure TFormMainAdv360.imgKeyboardLightingMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
@@ -5278,10 +4606,10 @@ begin
   if (IsKeyLoaded) then
   begin
     //Check key other layer
-    if (keyService.ActiveLayer.LayerIndex = TOPLAYER_IDX) then
-      otherLayer := keyService.GetLayer(BOTLAYER_IDX)
+    if (keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360) then
+      otherLayer := keyService.GetLayer(LAYER_KEYPAD_360)
     else
-      otherLayer := keyService.GetLayer(TOPLAYER_IDX);
+      otherLayer := keyService.GetLayer(LAYER_DEFAULT_360);
     keyOtherLayer := keyService.GetKbKeyByIndex(otherLayer, activeKbKey.Index);
 
     if (keyOtherLayer <> nil) and (keyOtherLayer.TapAndHold) then
@@ -5293,7 +4621,7 @@ begin
       ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to a macro trigger key.',
         mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_RGB);
     end
-    else if (keyService.ActiveLayer.LayerIndex = TOPLAYER_IDX) and
+    else if (keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360) and
       (((activeKbKey.OriginalKey.Key >= VK_A) and (activeKbKey.OriginalKey.Key <= VK_Z)) or
       ((activeKbKey.OriginalKey.Key >= VK_0) and (activeKbKey.OriginalKey.Key <= VK_9))) then
     begin
@@ -5409,13 +4737,6 @@ begin
 
     SetDirection(value, keyService.LedMode);
     SetSaveState(ssModified);
-    if (keyService.LedMode in [lmRain, lmReactive, lmRipple, lmFireball, lmLoop, lmRebound, lmStarlight]) then
-    begin
-      ResetNewGif;
-      NewGifTimer.Enabled := true;
-    end
-    else
-      LoadGifTimer.Enabled := true;
   end;
 end;
 
@@ -5443,37 +4764,6 @@ begin
     begin
       keyService.LedSpeed := Round(knobSpeed.Position);
       SetSaveState(ssModified);
-      knobSpeed.Enabled := false;
-      LoadGifTimer.Enabled := false;
-      BreatheTimer.Enabled := false;
-      SpectrumTimer.Enabled := false;
-      WaveTimer.Enabled := false;
-      NewGifTimer.Enabled := false;
-      if (keyService.LedMode in [lmBreathe, lmPulse]) then
-      begin
-        ResetBreathe;
-        BreatheTimer.Enabled := true;
-      end
-      else if (keyService.LedMode in [lmSpectrum]) then
-      begin
-        ResetSpectrum;
-        SpectrumTimer.Enabled := true;
-      end
-      else if (keyService.LedMode in [lmRain, lmReactive, lmRipple, lmFireball, lmLoop, lmRebound, lmStarlight]) then
-      begin
-        ResetNewGif;
-        NewGifTimer.Enabled := true;
-      end
-      else if (keyService.LedMode in [lmWave]) then
-      begin
-        ResetWave;
-        WaveTimer.Enabled := true;
-      end
-      else if not(keyService.LedMode in [lmFrozenWave]) then
-      begin
-        LoadGifTimer.Enabled := true;
-      end;
-      knobSpeed.Enabled := true;
     end;
   end;
 
@@ -5761,17 +5051,8 @@ begin
     begin
       resetLayer := true;
     end;
-    swLayerSwitch.Checked := layerIdx = TOPLAYER_IDX;
   end;
   resetLayer := false;
-end;
-
-procedure TFormMainAdv360.swLayerSwitchClick(Sender: TObject);
-begin
-  if (swLayerSwitch.Checked) then
-    ChangeActiveLayer(TOPLAYER_IDX)
-  else
-    ChangeActiveLayer(BOTLAYER_IDX);
 end;
 
 procedure TFormMainAdv360.TopMenuClick(Sender: TObject);
@@ -6061,49 +5342,46 @@ end;
 
 procedure TFormMainAdv360.SetFnNumericKpLeft;
 var
-  aFnLayer: TKBLayer;
+  aLayer: TKBLayer;
   sMessage: string;
 begin
   if CheckSaveKey then
   begin
-    sMessage := 'Inserting this numeric keypad may overwrite existing remaps in the Fn Layer of this Layout, proceed?';
-    if (GApplication = APPL_FSEDGE) then
-      sMessage := sMessage  + #10#10 + 'Note: There is no numlock indicator light on the keyboard.';
+    sMessage := 'Inserting this numeric keypad may overwrite existing remaps of this Layout, proceed?';
 
     if ShowDialog('Insert Numeric Keypad', sMessage,
       mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
-      aFnLayer := keyService.GetLayer(BOTLAYER_IDX);
-      if (aFnLayer <> nil) then
+      aLayer := keyService.ActiveLayer;
+      if (aLayer <> nil) then
       begin
         KeyModified := true;
         SetSaveState(ssModified);
 
-        keyService.SetKBKeyIdx(aFnLayer, 21, VK_NUMPAD7);  //Replace Fn 2
-        keyService.SetKBKeyIdx(aFnLayer, 22, VK_NUMPAD8);  //Replace Fn 3
-        keyService.SetKBKeyIdx(aFnLayer, 23, VK_NUMPAD9);  //Replace Fn 4
-        keyService.SetKBKeyIdx(aFnLayer, 24, VK_NUMPAD0);  //Replace Fn 5
-        keyService.SetKBKeyIdx(aFnLayer, 25, VK_MULTIPLY); //Replace Fn 6
+        keyService.SetKBKeyIdx(aLayer, 1, VK_NUMLOCK);  //Replace 1
+        keyService.SetKBKeyIdx(aLayer, 2, VK_KP_EQUAL);  //Replace 2
+        keyService.SetKBKeyIdx(aLayer, 3, VK_DIVIDE);  //Replace 3
+        keyService.SetKBKeyIdx(aLayer, 4, VK_MULTIPLY);  //Replace 4
 
-        keyService.SetKBKeyIdx(aFnLayer, 7, VK_NUMLOCK);  //Replace Fn F7
-        keyService.SetKBKeyIdx(aFnLayer, 38, VK_NUMPAD4);  //Replace Fn w
-        keyService.SetKBKeyIdx(aFnLayer, 39, VK_NUMPAD5);  //Replace Fn e
-        keyService.SetKBKeyIdx(aFnLayer, 40, VK_NUMPAD6);  //Replace Fn r
-        keyService.SetKBKeyIdx(aFnLayer, 41, VK_SUBTRACT);  //Replace Fn t
+        keyService.SetKBKeyIdx(aLayer, 15, VK_NUMPAD7);  //Replace Q
+        keyService.SetKBKeyIdx(aLayer, 16, VK_NUMPAD8);  //Replace W
+        keyService.SetKBKeyIdx(aLayer, 17, VK_NUMPAD9);  //Replace E
+        keyService.SetKBKeyIdx(aLayer, 18, VK_SUBTRACT);  //Replace R
 
-        keyService.SetKBKeyIdx(aFnLayer, 55, VK_NUMPAD1);  //Replace Fn s
-        keyService.SetKBKeyIdx(aFnLayer, 56, VK_NUMPAD2);  //Replace Fn d
-        keyService.SetKBKeyIdx(aFnLayer, 57, VK_NUMPAD3);  //Replace Fn f
-        keyService.SetKBKeyIdx(aFnLayer, 58, VK_ADD);  //Replace Fn g
+        keyService.SetKBKeyIdx(aLayer, 29, VK_NUMPAD4);  //Replace A
+        keyService.SetKBKeyIdx(aLayer, 30, VK_NUMPAD5);  //Replace S
+        keyService.SetKBKeyIdx(aLayer, 31, VK_NUMPAD6);  //Replace D
+        keyService.SetKBKeyIdx(aLayer, 32, VK_ADD);  //Replace F
 
-        keyService.SetKBKeyIdx(aFnLayer, 71, VK_NUMPAD0);  //Replace Fn x
-        keyService.SetKBKeyIdx(aFnLayer, 72, VK_LCL_COMMA);  //Replace Fn c
-        keyService.SetKBKeyIdx(aFnLayer, 73, VK_DECIMAL);  //Replace Fn v
-        keyService.SetKBKeyIdx(aFnLayer, 74, VK_DIVIDE);  //Replace Fn b
-        keyService.SetKBKeyIdx(aFnLayer, 88, VK_NUMPADENTER);  //Replace Fn lspc
+        keyService.SetKBKeyIdx(aLayer, 43, VK_NUMPAD1);  //Replace Z
+        keyService.SetKBKeyIdx(aLayer, 44, VK_NUMPAD2);  //Replace X
+        keyService.SetKBKeyIdx(aLayer, 45, VK_NUMPAD3);  //Replace C
+        keyService.SetKBKeyIdx(aLayer, 46, VK_NUMPADENTER);  //Replace V
 
-        SetActiveLayer(BOTLAYER_IDX);
-        swLayerSwitch.Checked := false;
+        keyService.SetKBKeyIdx(aLayer, 56, VK_DECIMAL);  //Replace Caps
+        keyService.SetKBKeyIdx(aLayer, 69, VK_NUMPAD0);  //Replace Delete
+
+        ReloadKeyButtons;
         RefreshRemapInfo;
       end;
     end;
@@ -6112,48 +5390,46 @@ end;
 
 procedure TFormMainAdv360.SetFnNumericKpRight;
 var
-  aFnLayer: TKBLayer;
+  aLayer: TKBLayer;
   sMessage: string;
 begin
   if CheckSaveKey then
   begin
-    sMessage := 'Inserting this numeric keypad may overwrite existing remaps in the Fn Layer of this Layout, proceed?';
-    if (GApplication = APPL_FSEDGE) then
-      sMessage := sMessage  + #10#10 + 'Note: There is no numlock indicator light on the keyboard.';
+    sMessage := 'Inserting this numeric keypad may overwrite existing remaps of this Layout, proceed?';
 
     if ShowDialog('Insert Numeric Keypad', sMessage,
       mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
-      aFnLayer := keyService.GetLayer(BOTLAYER_IDX);
-      if (aFnLayer <> nil) then
+      aLayer := keyService.ActiveLayer;
+      if (aLayer <> nil) then
       begin
         KeyModified := true;
         SetSaveState(ssModified);
 
-        keyService.SetKBKeyIdx(aFnLayer, 7, VK_NUMLOCK);  //Replace Fn F7
-        keyService.SetKBKeyIdx(aFnLayer, 8, VK_DIVIDE);  //Replace Fn F8
-        keyService.SetKBKeyIdx(aFnLayer, 9, VK_MULTIPLY);  //Replace Fn F9
-        keyService.SetKBKeyIdx(aFnLayer, 10, VK_SUBTRACT);  //Replace Fn F10
+        keyService.SetKBKeyIdx(aLayer, 9, VK_NUMLOCK);  //Replace 7
+        keyService.SetKBKeyIdx(aLayer, 10, VK_KP_EQUAL);  //Replace 8
+        keyService.SetKBKeyIdx(aLayer, 11, VK_DIVIDE);  //Replace 9
+        keyService.SetKBKeyIdx(aLayer, 12, VK_MULTIPLY);  //Replace 0
 
-        keyService.SetKBKeyIdx(aFnLayer, 21, VK_NUMPAD7);  //Replace Fn Calc
-        keyService.SetKBKeyIdx(aFnLayer, 22, VK_NUMPAD8);  //Replace Fn Up
-        keyService.SetKBKeyIdx(aFnLayer, 23, VK_NUMPAD9);  //Replace Fn Pause
-        keyService.SetKBKeyIdx(aFnLayer, 38, VK_ADD);  //Replace Fn Page Up
+        keyService.SetKBKeyIdx(aLayer, 23, VK_NUMPAD7);  //Replace U
+        keyService.SetKBKeyIdx(aLayer, 24, VK_NUMPAD8);  //Replace I
+        keyService.SetKBKeyIdx(aLayer, 25, VK_NUMPAD9);  //Replace O
+        keyService.SetKBKeyIdx(aLayer, 26, VK_SUBTRACT);  //Replace P
 
-        keyService.SetKBKeyIdx(aFnLayer, 35, VK_NUMPAD4);  //Replace Fn Left
-        keyService.SetKBKeyIdx(aFnLayer, 36, VK_NUMPAD5);  //Replace Fn Down
-        keyService.SetKBKeyIdx(aFnLayer, 37, VK_NUMPAD6);  //Replace Fn Right
-        keyService.SetKBKeyIdx(aFnLayer, 24, VK_ADD);  //Replace Fn Page Down
+        keyService.SetKBKeyIdx(aLayer, 37, VK_NUMPAD4);  //Replace J
 
-        keyService.SetKBKeyIdx(aFnLayer, 48, VK_NUMPAD1);  //Replace Fn m
-        keyService.SetKBKeyIdx(aFnLayer, 49, VK_NUMPAD2);  //Replace Fn comma
-        keyService.SetKBKeyIdx(aFnLayer, 50, VK_NUMPAD3);  //Replace Fn .
-        keyService.SetKBKeyIdx(aFnLayer, 51, VK_NUMPADENTER);  //Replace Fn /
-        keyService.SetKBKeyIdx(aFnLayer, 58, VK_NUMPAD0);  //Replace Fn right space
-        keyService.SetKBKeyIdx(aFnLayer, 59, VK_DECIMAL);  //Replace Fn right alt
+        keyService.SetKBKeyIdx(aLayer, 38, VK_NUMPAD5);  //Replace K
+        keyService.SetKBKeyIdx(aLayer, 39, VK_NUMPAD6);  //Replace L
+        keyService.SetKBKeyIdx(aLayer, 40, VK_ADD);  //Replace Semicolon
 
-        SetActiveLayer(BOTLAYER_IDX);
-        swLayerSwitch.Checked := false;
+        keyService.SetKBKeyIdx(aLayer, 49, VK_NUMPAD1);  //Replace M
+        keyService.SetKBKeyIdx(aLayer, 50, VK_NUMPAD2);  //Replace Comma
+        keyService.SetKBKeyIdx(aLayer, 51, VK_NUMPAD3);  //Replace Period
+        keyService.SetKBKeyIdx(aLayer, 52, VK_NUMPADENTER);  //Replace /
+        keyService.SetKBKeyIdx(aLayer, 61, VK_DECIMAL);  //Replace OBrack
+        keyService.SetKBKeyIdx(aLayer, 73, VK_NUMPAD0);  //Replace Space
+
+        ReloadKeyButtons;
         RefreshRemapInfo;
       end;
     end;
@@ -6418,7 +5694,6 @@ begin
     if (not bothLayers) then
     begin
       SetActiveLayer(layerIdx);
-      swLayerSwitch.Checked := layerIdx = TOPLAYER_IDX;
     end
     else
       LoadLayer(keyService.ActiveLayer);
@@ -6490,7 +5765,6 @@ begin
     if (not bothLayers) then
     begin
       SetActiveLayer(layerIdx);
-      swLayerSwitch.Checked := layerIdx = TOPLAYER_IDX;
     end
     else
       LoadLayer(keyService.ActiveLayer);
@@ -6558,7 +5832,6 @@ begin
     if (not bothLayers) then
     begin
       SetActiveLayer(layerIdx);
-      swLayerSwitch.Checked := layerIdx = TOPLAYER_IDX;
     end
     else
       LoadLayer(keyService.ActiveLayer);
@@ -6651,7 +5924,7 @@ begin
         nbKeystrokes := keyService.CountKeystrokes(activeKbKey.ActiveMacro);
         inc(nbKeystrokes);
         nbKeystrokes := nbKeystrokes + (keyService.CountModifiers(Modifiers) * 2);
-        if (nbKeystrokes > MAX_KEYSTROKES_MACRO_FS) then
+        if (nbKeystrokes > MAX_KEYSTROKES_MACRO_ADV360) then
           ShowDialog('Maximum Length Reached', 'Macros are limited to approximately 300 characters.',
             mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB)
         else
@@ -6927,7 +6200,7 @@ begin
     else
       keyAssigned := activeKbKey.OriginalKey.OtherDisplayText;
   end;
-  if (keyAssigned <> '') and (keyService.ActiveLayer.LayerIndex = BOTLAYER_IDX) then
+  if (keyAssigned <> '') and (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
     keyAssigned := 'Fn Layer ' + keyAssigned;
 
   if (keyAssigned <> '') then

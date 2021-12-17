@@ -91,7 +91,9 @@ var
     btnCaption: string; btnWidth: integer; btnOnClick: TNotifyEvent;
     btnKind: TBitBtnKind = bkCustom);
   function GetKeyOtherLayer(keyService: TKeyService; keyIdx: integer): TKBKey;
+  function GetKeyByLayerIdx(keyService: TKeyService; layerIdx, keyIdx: integer): TKBKey;
   function GetKeyButtonByIndex(keyBtnList: TObjectList; index: integer): TLabelBox;
+  function GetKeyShiftActiveLayer: integer;
   procedure ClearBitmaps(container: TWinControl);
   procedure AddKeyDown(key: integer);
   procedure AddKeyUp(key: integer);
@@ -250,6 +252,21 @@ begin
   end;
 end;
 
+function GetKeyByLayerIdx(keyService: TKeyService; layerIdx, keyIdx: integer): TKBKey;
+var
+  i: integer;
+begin
+  result := nil;
+  for i := 0 to keyService.KBLayers.Count - 1 do
+  begin
+    if (keyService.KBLayers[i].LayerIndex = layerIdx) then
+    begin
+      result := keyService.GetKbKeyByIndex(keyService.KBLayers[i], keyIdx);
+      break;
+    end;
+  end;
+end;
+
 function GetKeyButtonByIndex(keyBtnList: TObjectList; index: integer): TLabelBox;
 var
   i: integer;
@@ -272,6 +289,20 @@ begin
     end;
     inc(i);
   end;
+end;
+
+function GetKeyShiftActiveLayer: integer;
+begin
+  if (keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360) then
+     result := VK_DEF_LAYER_SHIFT
+  else if (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
+    result := VK_KP_LAYER_SHIFT
+  else if (keyService.ActiveLayer.LayerIndex = LAYER_FN1_360) then
+    result := VK_FN1_LAYER_SHIFT
+  else if (keyService.ActiveLayer.LayerIndex = LAYER_FN2_360) then
+    result := VK_FN2_LAYER_SHIFT
+  else if (keyService.ActiveLayer.LayerIndex = LAYER_FN3_360) then
+    result := VK_FN3_LAYER_SHIFT;
 end;
 
 procedure ClearBitmaps(container: TWinControl);

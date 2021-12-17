@@ -50,9 +50,9 @@ type
     function SetNewFileName(sFileName: string): boolean;
     function LoadStateSettings: string;
     function SaveStateSettings: string;
-    function LoadVersionInfo: string;
+    function LoadVersionInfo(aDevice: TDevice): string;
     function LoadLayoutFile(aFileName: string): string;
-    function FirmwareExists: boolean;
+    function FirmwareExists(aDevice: TDevice): boolean;
     function SaveAppSettings: string;
     function LoadAppSettings(aFileName: string): string;
     procedure SetStatusPlaySpeed(value: integer);
@@ -86,7 +86,7 @@ type
     function VersionSmallerThanApp(major, minor, revision: integer): boolean;
     function VersionSmallerThanKBD(major, minor, revision: integer): boolean;
     function VersionSmallerThanLED(major, minor, revision: integer): boolean;
-    function GetDiagnosticInfo: TStringList;
+    function GetDiagnosticInfo(aDevice: TDevice): TStringList;
     function CheckIfLedFilesHasValue(value: string): boolean;
     function FileContainsValue(sFileName: string; textValue: string): boolean;
     procedure AssignExpansion2Pack;
@@ -238,7 +238,7 @@ begin
   try
     result := '';
     if (GApplication = APPL_ADV2) then
-      sFilePath := GStateFile
+      sFilePath := IncludeTrailingBackslash(GApplicationPath + VERSION_FOLDER_ADV2) + ADV2_STATE_FILE
     else
       sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
     fileExists := CheckIfFileExists(sFilePath);
@@ -324,7 +324,7 @@ begin
   try
     result := '';
     if (GApplication = APPL_ADV2) then
-      sFilePath := GStateFile
+      sFilePath := IncludeTrailingBackslash(GApplicationPath + VERSION_FOLDER_ADV2) + ADV2_STATE_FILE
     else
       sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
     fileExists := CheckIfFileExists(sFilePath);
@@ -492,10 +492,7 @@ begin
       FirmwareTextKBD := 'firmware version';
       FirmwareTextLED := '';
     end;
-    if (aDevice.DeviceNumber = APPL_ADV2) then
-      sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'active') + VERSION_FILE
-    else
-      sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'firmware') + VERSION_FILE;
+    sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + aDevice.VersionFolder) + aDevice.VersionFile;
     fileExists := CheckIfFileExists(sFilePath);
     if (fileExists) then
     begin
@@ -607,7 +604,7 @@ begin
   end;
 end;
 
-function TFileService.LoadVersionInfo: string;
+function TFileService.LoadVersionInfo(aDevice: TDevice): string;
 var
   fileExists: boolean;
   fileContent: TStringList;
@@ -634,10 +631,7 @@ begin
       FirmwareTextKBD := 'firmware version';
       FirmwareTextLED := '';
     end;
-    if (GApplication = APPL_ADV2) then
-      sFilePath := GVersionFile
-    else
-      sFilePath := GFirmwareFilePath + VERSION_FILE;
+    sFilePath := IncludeTrailingBackslash(GApplicationPath + aDevice.VersionFolder) + aDevice.VersionFile;
     fileExists := CheckIfFileExists(sFilePath);
     if (fileExists) then
     begin
@@ -694,12 +688,9 @@ begin
     result := aFileName + ' not found';
 end;
 
-function TFileService.FirmwareExists: boolean;
+function TFileService.FirmwareExists(aDevice: TDevice): boolean;
 begin
-  if (GApplication = APPL_ADV2) then
-    result := CheckIfFileExists(GVersionFile)
-  else
-    result := CheckIfFileExists(GFirmwareFilePath + VERSION_FILE);
+  result := CheckIfFileExists(IncludeTrailingBackslash(GApplicationPath + aDevice.VersionFolder) + aDevice.VersionFile);
 end;
 
 function TFileService.SaveAppSettings: string;
@@ -1080,7 +1071,7 @@ begin
   result := IsVersionSmaller(FAppVersionMajor, FAppVersionMinor, FAppVersionRevision, major, minor, revision);
 end;
 
-function TFileService.GetDiagnosticInfo: TStringList;
+function TFileService.GetDiagnosticInfo(aDevice: TDevice): TStringList;
 var
   aFileContent: TStringList;
   aAllContent: TStringList;
@@ -1096,9 +1087,9 @@ begin
     aAllContent.Add('');
 
     //Firmware
-    aAllContent.Add(VERSION_FILE);
+    aAllContent.Add(aDevice.VersionFile);
     aAllContent.Add('--------------');
-    errorMsg := LoadFile(GFirmwareFilePath + VERSION_FILE, aFileContent, false);
+    errorMsg := LoadFile(IncludeTrailingBackslash(GApplicationPath + aDevice.VersionFolder) + aDevice.VersionFile, aFileContent, false);
     if (errorMsg = '') then
       aAllContent.AddStrings(aFileContent)
     else

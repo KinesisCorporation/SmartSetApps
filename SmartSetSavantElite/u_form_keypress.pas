@@ -141,6 +141,8 @@ type
     backColor: TColor;
     fromMasterApp: boolean;
     closing: boolean;
+    pedalFilePath: string;
+    pedalFolderPath: string;
 
     procedure AddSpecialActions;
     function CheckVDrive: boolean;
@@ -474,13 +476,15 @@ begin
     end;
 
     //Tries to load Pedals.txt file
-    LoadPedalsFile(GPedalsFile);
+    pedalFolderPath := IncludeTrailingBackslash(GApplicationPath + VERSION_FOLDER_PEDAL);
+    pedalFilePath := pedalFolderPath + VERSION_FILE_PEDAL;
+    LoadPedalsFile(pedalFilePath);
 
     //Sets default directory as the active folder
-    if DirectoryExists(GPedalsFilePath) then
+    if DirectoryExists(pedalFolderPath) then
     begin
-      pedalOpenDialog.InitialDir := GPedalsFilePath;
-      pedalSaveDialog.InitialDir := GPedalsFilePath;
+      pedalOpenDialog.InitialDir := pedalFolderPath;
+      pedalSaveDialog.InitialDir := pedalFolderPath;
     end;
 
     CheckKeyboardLayout;
@@ -515,7 +519,7 @@ end;
 function TFormMainSE2.CheckVDrive: boolean;
 begin
   //todo
-  result := fileService.FirmwareExists;
+  result := fileService.FirmwareExists(GActiveDevice);
   //lblVDriveOk.Visible := Result and not(GDemoMode);
   //lblVDriveError.Visible := not(Result) and not(GDemoMode);
   //lblDemoMode.Visible := GDemoMode;
@@ -1449,7 +1453,7 @@ begin
   if (Value) and not (fileService.FileIsValid) and not(GDemoMode) then
   begin
     //Try to load original pedals.txt file, if not exit
-    if not LoadPedalsFile(GPedalsFile) then
+    if not LoadPedalsFile(pedalFilePath) then
       exit;
   end;
 

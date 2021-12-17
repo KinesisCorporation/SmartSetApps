@@ -24,6 +24,8 @@ type
     FDriveLetter: string;
     FRootFolder: string;
     FScanVDriveHint: string;
+    FVersionFile: string;
+    FVersionFolder: string;
   public
     constructor Create;
     destructor Destroy;
@@ -39,6 +41,8 @@ type
     property DriveLetter: string read FDriveLetter write FDriveLetter;
     property RootFolder: string read FRootFolder write FRootFolder;
     property ScanVDriveHint: string read FScanVDriveHint write FScanVDriveHint;
+    property VersionFolder: string read FVersionFolder write FVersionFolder;
+    property VersionFile: string read FVersionFile write FVersionFile;
   end;
 
   { TKeyList }
@@ -115,6 +119,8 @@ begin
   FDriveLetter := '';
   FRootFolder := '';
   FScanVDriveHint := '';
+  FVersionFile := 'version.txt';
+  FVersionFolder := 'firmware';
 end;
 
 destructor TDevice.Destroy;

@@ -933,7 +933,7 @@ end;
 
 function TFormMainAdv2.CheckVDrive: boolean;
 begin
-  result := fileService.FirmwareExists;
+  result := fileService.FirmwareExists(GActiveDevice);
   lblVDriveOk.Visible := Result and not(GDemoMode);
   lblVDriveError.Visible := not(Result) and not(GDemoMode);
   lblDemoMode.Visible := GDemoMode;
@@ -1636,7 +1636,7 @@ begin
   begin
     if (CheckSaveKey(true) and CheckToSave(true)) then
     begin
-      OpenDialog.InitialDir := GPedalsFilePath;
+      OpenDialog.InitialDir := GApplicationPath + VERSION_FOLDER_ADV2;
       if OpenDialog.Execute then
       begin
         currentLayoutFile := OpenDialog.FileName;
@@ -2609,7 +2609,7 @@ begin
 
   if (errorMsg = '') then
   begin
-    currentLayoutFile := GPedalsFilePath + fileService.StateSettings.StartupFile;
+    currentLayoutFile := IncludeTrailingBackslash(GApplicationPath + VERSION_FOLDER_ADV2) + fileService.StateSettings.StartupFile;
     slStatusReport.Position := fileService.StateSettings.StatusPlaySpeed;
     swAutoVDrive.Checked := fileService.StateSettings.VDriveStartup;
     slMacroSpeed.Position := fileService.StateSettings.MacroSpeed;
@@ -2750,19 +2750,6 @@ begin
     end;
   end;
 end;
-
-//procedure TFormMainAdv2.SaveAs;
-//begin
-//  NeedInput := True;
-//  SaveDialog.InitialDir := GPedalsFilePath;
-//  if SaveDialog.Execute then
-//  begin
-//    currentLayoutFile := SaveDialog.FileName;
-//    Save(true);
-//    LoadKeyboardLayout(currentLayoutFile);
-//  end;
-//  NeedInput := False;
-//end;
 
 procedure TFormMainAdv2.LoadLayer(layer: TKBLayer);
 var
@@ -3258,7 +3245,7 @@ begin
       if (fileName <> '') then
       begin
         keyService.ResetLayout;
-        currentLayoutFile := GPedalsFilePath + fileName;
+        currentLayoutFile := IncludeTrailingBackslash(GApplicationPath + VERSION_FOLDER_ADV2) + fileName;
         if (loadAfterSave) then
         begin
           fileService.SetStatupFile(fileName);
@@ -3314,7 +3301,7 @@ var
 begin
   Result := False;
 
-  errorMsg := fileService.LoadVersionInfo;
+  errorMsg := fileService.LoadVersionInfo(GActiveDevice);
 
   if (errorMsg = '') then
   begin

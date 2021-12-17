@@ -5,7 +5,7 @@ unit u_file_service_se2;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, u_const, u_debug;
+  Classes, SysUtils, FileUtil, u_const, u_debug, u_kinesis_device;
 
 type
   //FileService contains all logic for file management
@@ -39,7 +39,7 @@ type
     function LoadPedals: boolean;
     function CheckIfFileExists(sFileName: string): boolean;
     function SetNewFileName(sFileName: string): boolean;
-    function FirmwareExists: boolean;
+    function FirmwareExists(aDevice: TDevice): boolean;
 
     property FileIsValid: boolean read CheckFileValid;
     //property FileContent: TStringList read FFileContent write FFileContent;
@@ -124,9 +124,9 @@ begin
  end;
 end;
 
-function TFileServiceSE2.FirmwareExists: boolean;
+function TFileServiceSE2.FirmwareExists(aDevice: TDevice): boolean;
 begin
-   result := CheckIfFileExists(GVersionFile);
+   result := CheckIfFileExists(IncludeTrailingBackslash(GApplicationPath + aDevice.VersionFolder) + aDevice.VersionFile);
 end;
 
 //Receives complete file name and tries to load file

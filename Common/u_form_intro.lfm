@@ -1,7 +1,7 @@
 inherited FormIntro: TFormIntro
-  Left = 428
+  Left = 728
   Height = 172
-  Top = 130
+  Top = 619
   Width = 871
   Caption = 'FormIntro'
   ClientHeight = 172
@@ -161,9 +161,9 @@ inherited FormIntro: TFormIntro
   end
   object chkCheckBox: TCheckBox[10]
     Left = 21
-    Height = 19
-    Top = 132
-    Width = 20
+    Height = 35
+    Top = 116
+    Width = 36
     Anchors = [akLeft, akBottom]
     Color = clWhite
     ParentColor = False

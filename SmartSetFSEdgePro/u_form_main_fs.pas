@@ -3463,7 +3463,7 @@ var
 begin
   Result := False;
 
-  errorMsg := fileService.LoadVersionInfo;
+  errorMsg := fileService.LoadVersionInfo(GActiveDevice);
 
   if (errorMsg = '') then
   begin
