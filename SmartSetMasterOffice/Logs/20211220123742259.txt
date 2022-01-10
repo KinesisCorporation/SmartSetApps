@@ -1,0 +1,7 @@
+Error saving file: C:\Work\SmartSetApps\SmartSetMasterOffice\settings\app_settings.txt, Invalid filename
+---------------------------------------------------------------------
+Current date/time: 2021-12-20, 12:37:42
+Exception class  : EInOutError
+Exception message: Invalid filename
+---------------------------------------------------------------------
+Windows version: 10.0

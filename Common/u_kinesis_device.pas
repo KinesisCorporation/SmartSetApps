@@ -26,6 +26,8 @@ type
     FScanVDriveHint: string;
     FVersionFile: string;
     FVersionFolder: string;
+    FSettingsFile: string;
+    FSettingsFolder: string;
   public
     constructor Create;
     destructor Destroy;
@@ -43,6 +45,8 @@ type
     property ScanVDriveHint: string read FScanVDriveHint write FScanVDriveHint;
     property VersionFolder: string read FVersionFolder write FVersionFolder;
     property VersionFile: string read FVersionFile write FVersionFile;
+    property SettingsFolder: string read FSettingsFolder write FSettingsFolder;
+    property SettingsFile: string read FSettingsFile write FSettingsFile;
   end;
 
   { TKeyList }
@@ -120,7 +124,9 @@ begin
   FRootFolder := '';
   FScanVDriveHint := '';
   FVersionFile := 'version.txt';
+  FSettingsFile := 'kbd_settings.txt';
   FVersionFolder := 'firmware';
+  FSettingsFolder := 'settings';
 end;
 
 destructor TDevice.Destroy;

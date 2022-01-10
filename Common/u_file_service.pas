@@ -22,9 +22,13 @@ type
     FStateSettings: TStateSettings;
     FAppSettings: TAppSettings;
     FFirmwareVersionKBD: string;
+    FFirmwareVersionKBD_L: string;
     FFirmwareMajorKBD: integer;
     FFirmwareMinorKBD: integer;
     FFirmwareRevisionKBD: integer;
+    FFirmwareMajorKBD_L: integer;
+    FFirmwareMinorKBD_L: integer;
+    FFirmwareRevisionKBD_L: integer;
     FFirmwareVersionLED: string;
     FFirmwareMajorLED: integer;
     FFirmwareMinorLED: integer;
@@ -48,8 +52,8 @@ type
     function SaveFile(sFileName: string; fileContent: TStringList; allowNew: boolean; var error: string): boolean;
     function CheckIfFileExists(sFileName: string): boolean;
     function SetNewFileName(sFileName: string): boolean;
-    function LoadStateSettings: string;
-    function SaveStateSettings: string;
+    function LoadStateSettings(aDevice: TDevice): string;
+    function SaveStateSettings(aDevice: TDevice): string;
     function LoadVersionInfo(aDevice: TDevice): string;
     function LoadLayoutFile(aFileName: string): string;
     function FirmwareExists(aDevice: TDevice): boolean;
@@ -107,6 +111,7 @@ type
     property ModelName: string read FModelName;
     property LayoutContent: TStringList read FLayoutContent;
     property FirmwareVersionKBD: string read FFirmwareVersionKBD;
+    property FirmwareVersionKBD_L: string read FFirmwareVersionKBD_L;
     property FirmwareVersionLED: string read FFirmwareVersionLED;
     property AllowEditSettings: boolean read FAllowEditSettings;
     property AppVersion: string read FAppVersion;
@@ -114,12 +119,14 @@ type
 
   const
     StartupFile = 'startup_file';
+    Profile = 'profile';
     MacroSpeed = 'macro_speed';
     StatusPlaySpeed = 'status_play_speed';
     VDriveStartup = 'v_drive';
     GameMode = 'game_mode';
     ProgramKeyLock = 'program_key_lock';
     LedMode = 'led_mode';
+    Country = 'country';
     ThumbMode = 'thumb_mode';
     KeyClickTone = 'key_click_tone';
     ToggleTone = 'toggle_tone';
@@ -226,7 +233,7 @@ begin
  end;
 end;
 
-function TFileService.LoadStateSettings: string;
+function TFileService.LoadStateSettings(aDevice: TDevice): string;
 var
   fileExists: boolean;
   fileContent: TStringList;
@@ -237,10 +244,7 @@ begin
   fileContent := nil;
   try
     result := '';
-    if (GApplication = APPL_ADV2) then
-      sFilePath := IncludeTrailingBackslash(GApplicationPath + VERSION_FOLDER_ADV2) + ADV2_STATE_FILE
-    else
-      sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
+    sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + aDevice.SettingsFolder) + aDevice.SettingsFile;
     fileExists := CheckIfFileExists(sFilePath);
     if (fileExists) then
     begin
@@ -260,6 +264,14 @@ begin
           if (Copy(currentLine, 1, length(StartupFile)) = StartupFile) then
           begin
             FStateSettings.StartupFile := Copy(currentLine, length(StartupFile) + 2, length(currentLine));
+            FStateSettings.StartupFileNumber := GetFileNumber(FStateSettings.StartupFile);
+            FStateSettings.LayoutFile := FILE_LAYOUT + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
+            FStateSettings.LedFile := FILE_LED + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
+          end;
+
+          if (Copy(currentLine, 1, length(Profile)) = Profile) then
+          begin
+            FStateSettings.StartupFile := Copy(currentLine, length(Profile) + 2, length(currentLine));
             FStateSettings.StartupFileNumber := GetFileNumber(FStateSettings.StartupFile);
             FStateSettings.LayoutFile := FILE_LAYOUT + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
             FStateSettings.LedFile := FILE_LED + IntToStr(FStateSettings.StartupFileNumber) + '.txt';
@@ -300,6 +312,9 @@ begin
 
           if (Copy(currentLine, 1, length(PowerUser)) = PowerUser) then
             FStateSettings.PowerUser := Copy(currentLine, length(PowerUser) + 2, length(currentLine)) = 'true';
+
+          if (Copy(currentLine, 1, length(Country)) = Country) then
+            FStateSettings.Country := Copy(currentLine, length(Country) + 2, length(currentLine));
         end;
       end;
     end
@@ -311,7 +326,7 @@ begin
   end;
 end;
 
-function TFileService.SaveStateSettings: string;
+function TFileService.SaveStateSettings(aDevice: TDevice): string;
 var
   fileExists: boolean;
   fileContent: TStringList;
@@ -323,10 +338,7 @@ begin
 
   try
     result := '';
-    if (GApplication = APPL_ADV2) then
-      sFilePath := IncludeTrailingBackslash(GApplicationPath + VERSION_FOLDER_ADV2) + ADV2_STATE_FILE
-    else
-      sFilePath := GSettingsFilePath + KB_SETTINGS_FILE;
+    sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + aDevice.SettingsFolder) + aDevice.SettingsFile;
     fileExists := CheckIfFileExists(sFilePath);
     if (fileExists) then
     begin
@@ -466,6 +478,7 @@ var
   sVersion: string;
   FirmwareTextKBD: string;
   FirmwareTextLED: string;
+  FirmwareTextKBD_L: string;
   firmwareInfo: TFirmwareInfo;
 const
   ModelNameText = 'model name';
@@ -473,6 +486,7 @@ begin
   fileContent := nil;
   firmwareInfo.ModelName := '';
   firmwareInfo.VersionKBD := '';
+  firmwareInfo.VersionKBD_L := '';
   firmwareInfo.MajorKBD := -1;
   firmwareInfo.MinorKBD := -1;
   firmwareInfo.RevisionKBD := -1;
@@ -486,6 +500,12 @@ begin
     begin
       FirmwareTextKBD := 'kbd firmware';
       FirmwareTextLED := 'led firmware';
+    end
+    else if (aDevice.DeviceNumber in [APPL_RGB, APPL_TKO]) then
+    begin
+      FirmwareTextKBD := 'kbd_fw_r';
+      FirmwareTextKBD_L := 'kbd_fw_l';
+      FirmwareTextLED := '';
     end
     else
     begin
@@ -515,7 +535,12 @@ begin
           begin
             firmwareInfo.VersionLED := Trim(Copy(currentLine, length(FirmwareTextLED) + 2, length(currentLine)));
             GetVersionNumbers(firmwareInfo.VersionLED, firmwareInfo.MajorLED, firmwareInfo.MinorLED, firmwareInfo.RevisionLED);
-          end;
+          end
+          else if (Copy(currentLine, 1, length(FirmwareTextKBD_L)) = FirmwareTextKBD_L) then
+          begin
+            firmwareInfo.VersionKBD_L := Trim(Copy(currentLine, length(FirmwareTextKBD_L) + 2, length(currentLine)));
+            GetVersionNumbers(firmwareInfo.VersionKBD_L, firmwareInfo.MajorKBD_L, firmwareInfo.MinorKBD_L, firmwareInfo.RevisionKBD_L);
+          end
         end;
       end;
     end;
@@ -535,16 +560,18 @@ begin
   result := false;
   if (aDevice.Connected and (aDevice.RootFolder <> '')) then
   begin
-    if (aDevice.DeviceNumber = APPL_ADV2) then
-    begin
-      sRootPath := IncludeTrailingBackslash(aDevice.RootFolder + 'active');
-      sFilePath := sRootPath + ADV2_STATE_FILE
-    end
-    else
-    begin
-      sRootPath := IncludeTrailingBackslash(aDevice.RootFolder + 'settings');
-      sFilePath := sRootPath + KB_SETTINGS_FILE;
-    end;
+    sRootPath := IncludeTrailingBackslash(aDevice.RootFolder + aDevice.SettingsFolder);
+    sFilePath := sRootPath + aDevice.SettingsFile;
+    //if (aDevice.DeviceNumber = APPL_ADV2) then
+    //begin
+    //  sRootPath := IncludeTrailingBackslash(aDevice.RootFolder + 'active');
+    //  sFilePath := sRootPath + ADV2_STATE_FILE
+    //end
+    //else
+    //begin
+    //  sRootPath := IncludeTrailingBackslash(aDevice.RootFolder + 'settings');
+    //  sFilePath := sRootPath + KB_SETTINGS_FILE;
+    //end;
     result := CheckIfFileExists(sFilePath) and (not(DirectoryIsWritable(sRootPath)) or not(FileIsWritable(sFilePath)));
   end;
 end;
@@ -614,6 +641,7 @@ var
   sTemp: string;
   sVersion: string;
   FirmwareTextKBD: string;
+  FirmwareTextKBD_L: string;
   FirmwareTextLED: string;
 const
   ModelNameText = 'model name';
@@ -625,6 +653,12 @@ begin
     begin
       FirmwareTextKBD := 'kbd firmware';
       FirmwareTextLED := 'led firmware';
+    end
+    else if (aDevice.DeviceNumber in [APPL_ADV360]) then
+    begin
+      FirmwareTextKBD := 'kbd_fw_r';
+      FirmwareTextKBD_L := 'kbd_fw_l';
+      FirmwareTextLED := '';
     end
     else
     begin
@@ -657,6 +691,11 @@ begin
           begin
             FFirmwareVersionKBD := Trim(Copy(currentLine, length(FirmwareTextKBD) + 2, length(currentLine)));
             GetVersionNumbers(FFirmwareVersionKBD, FFirmwareMajorKBD, FFirmwareMinorKBD, FFirmwareRevisionKBD);
+          end
+          else if (Copy(currentLine, 1, length(FirmwareTextKBD_L)) = FirmwareTextKBD_L) then
+          begin
+            FFirmwareVersionKBD_L := Trim(Copy(currentLine, length(FirmwareTextKBD_L) + 2, length(currentLine)));
+            GetVersionNumbers(FFirmwareVersionKBD_L, FFirmwareMajorKBD_L, FFirmwareMinorKBD_L, FFirmwareRevisionKBD_L);
           end
           else if (Copy(currentLine, 1, length(FirmwareTextLED)) = FirmwareTextLED) then
           begin
@@ -732,42 +771,45 @@ begin
   try
     result := '';
 
-    fileContent := TStringList.Create;
-    sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
-    if CheckIfFileExists(sFilePath) then
-      result := LoadFile(sFilePath, fileContent, true);
-
-    if result = '' then //no error
+    if (not GDemoMode) then
     begin
-      SaveValueBoolean(FAppSettings.AppIntroMsg, AppIntroMsg);
-      SaveValueBoolean(FAppSettings.SaveAsMsg, SaveAsMsg);
-      SaveValueBoolean(FAppSettings.SaveMsg, SaveMsg);
-      SaveValueBoolean(FAppSettings.MultiplayMsg, MultiplayMsg);
-      SaveValueBoolean(FAppSettings.SpeedMsg, SpeedMsg);
-      SaveValueBoolean(FAppSettings.CopyMacroMsg, CopyMacroMsg);
-      SaveValueBoolean(FAppSettings.ResetKeyMsg, ResetKeyMsg);
-      SaveValueBoolean(FAppSettings.AppCheckFirmMsg, AppCheckFirmMsg);
+      fileContent := TStringList.Create;
+      sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
+      if CheckIfFileExists(sFilePath) then
+        result := LoadFile(sFilePath, fileContent, true);
 
-      if (GApplication in [APPL_RGB, APPL_TKO]) then
+      if result = '' then //no error
       begin
-        SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
-        SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
-        SaveValueBoolean(FAppSettings.WindowsComboMsg, WindowsComboMsg);
-        SaveValueRGB(FAppSettings.CustColor1, CustColor1);
-        SaveValueRGB(FAppSettings.CustColor2, CustColor2);
-        SaveValueRGB(FAppSettings.CustColor3, CustColor3);
-        SaveValueRGB(FAppSettings.CustColor4, CustColor4);
-        SaveValueRGB(FAppSettings.CustColor5, CustColor5);
-        SaveValueRGB(FAppSettings.CustColor6, CustColor6);
-        SaveValueRGB(FAppSettings.CustColor7, CustColor7);
-        SaveValueRGB(FAppSettings.CustColor8, CustColor8);
-        SaveValueRGB(FAppSettings.CustColor9, CustColor9);
-        SaveValueRGB(FAppSettings.CustColor10, CustColor10);
-        SaveValueRGB(FAppSettings.CustColor11, CustColor11);
-        SaveValueRGB(FAppSettings.CustColor12, CustColor12);
-      end;
+        SaveValueBoolean(FAppSettings.AppIntroMsg, AppIntroMsg);
+        SaveValueBoolean(FAppSettings.SaveAsMsg, SaveAsMsg);
+        SaveValueBoolean(FAppSettings.SaveMsg, SaveMsg);
+        SaveValueBoolean(FAppSettings.MultiplayMsg, MultiplayMsg);
+        SaveValueBoolean(FAppSettings.SpeedMsg, SpeedMsg);
+        SaveValueBoolean(FAppSettings.CopyMacroMsg, CopyMacroMsg);
+        SaveValueBoolean(FAppSettings.ResetKeyMsg, ResetKeyMsg);
+        SaveValueBoolean(FAppSettings.AppCheckFirmMsg, AppCheckFirmMsg);
 
-      SaveFile(sFilePath, fileContent, true, result);
+        if (GApplication in [APPL_RGB, APPL_TKO]) then
+        begin
+          SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
+          SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
+          SaveValueBoolean(FAppSettings.WindowsComboMsg, WindowsComboMsg);
+          SaveValueRGB(FAppSettings.CustColor1, CustColor1);
+          SaveValueRGB(FAppSettings.CustColor2, CustColor2);
+          SaveValueRGB(FAppSettings.CustColor3, CustColor3);
+          SaveValueRGB(FAppSettings.CustColor4, CustColor4);
+          SaveValueRGB(FAppSettings.CustColor5, CustColor5);
+          SaveValueRGB(FAppSettings.CustColor6, CustColor6);
+          SaveValueRGB(FAppSettings.CustColor7, CustColor7);
+          SaveValueRGB(FAppSettings.CustColor8, CustColor8);
+          SaveValueRGB(FAppSettings.CustColor9, CustColor9);
+          SaveValueRGB(FAppSettings.CustColor10, CustColor10);
+          SaveValueRGB(FAppSettings.CustColor11, CustColor11);
+          SaveValueRGB(FAppSettings.CustColor12, CustColor12);
+        end;
+
+        SaveFile(sFilePath, fileContent, true, result);
+      end;
     end;
   finally
     if (fileContent <> nil) then
@@ -1089,7 +1131,7 @@ begin
     //Firmware
     aAllContent.Add(aDevice.VersionFile);
     aAllContent.Add('--------------');
-    errorMsg := LoadFile(IncludeTrailingBackslash(GApplicationPath + aDevice.VersionFolder) + aDevice.VersionFile, aFileContent, false);
+    errorMsg := LoadFile(IncludeTrailingBackslash(aDevice.RootFolder + aDevice.VersionFolder) + aDevice.VersionFile, aFileContent, false);
     if (errorMsg = '') then
       aAllContent.AddStrings(aFileContent)
     else
@@ -1097,9 +1139,9 @@ begin
     aAllContent.Add('');
 
     //Keyboard settings
-    aAllContent.Add(KB_SETTINGS_FILE);
+    aAllContent.Add(aDevice.SettingsFile);
     aAllContent.Add('--------------');
-    errorMsg := LoadFile(GSettingsFilePath + KB_SETTINGS_FILE, aFileContent, false);
+    errorMsg := LoadFile(IncludeTrailingBackslash(aDevice.RootFolder + aDevice.SettingsFolder) + aDevice.SettingsFile, aFileContent, false);
     if (errorMsg = '') then
       aAllContent.AddStrings(aFileContent)
     else
@@ -1109,9 +1151,9 @@ begin
     //App settings
     aAllContent.Add(APP_SETTINGS_FILE);
     aAllContent.Add('--------------');
-    if (CheckIfFileExists(GSettingsFilePath + APP_SETTINGS_FILE)) then
+    if (CheckIfFileExists(IncludeTrailingBackslash(aDevice.RootFolder + aDevice.SettingsFolder) + APP_SETTINGS_FILE)) then
     begin
-      errorMsg := LoadFile(GSettingsFilePath + APP_SETTINGS_FILE, aFileContent, false);
+      errorMsg := LoadFile(IncludeTrailingBackslash(aDevice.RootFolder + aDevice.SettingsFolder) + APP_SETTINGS_FILE, aFileContent, false);
       if (errorMsg = '') then
         aAllContent.AddStrings(aFileContent)
       else
@@ -1287,10 +1329,7 @@ begin
   begin
     fileContent := nil;
     try
-      if (aDevice.DeviceNumber = APPL_ADV2) then
-        sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'active') + ADV2_STATE_FILE
-      else
-        sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + 'settings') + KB_SETTINGS_FILE;
+      sFilePath := IncludeTrailingBackslash(aDevice.RootFolder + aDevice.SettingsFolder) + aDevice.SettingsFile;
       fileExists := CheckIfFileExists(sFilePath);
       if (fileExists) then
       begin

@@ -101,6 +101,7 @@ var
   procedure RemoveSpeakKey(key: integer);
   procedure RemoveKeyDown(key: integer);
   procedure ClearAllKeyDowKeyUp;
+  function GetImageByName(container: TWinControl; imageName: string): TImage;
 
 const
   PARAM_COLOR = 1;
@@ -293,8 +294,8 @@ end;
 
 function GetKeyShiftActiveLayer: integer;
 begin
-  if (keyService.ActiveLayer.LayerIndex = LAYER_DEFAULT_360) then
-     result := VK_DEF_LAYER_SHIFT
+  if (keyService.ActiveLayer.LayerIndex = LAYER_TOP_360) then
+     result := VK_TOP_LAYER_SHIFT
   else if (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
     result := VK_KP_LAYER_SHIFT
   else if (keyService.ActiveLayer.LayerIndex = LAYER_FN1_360) then
@@ -372,6 +373,30 @@ begin
   keyDownList.Clear;
   keyUpList.Clear;
   speakList.Clear;
+end;
+
+function GetImageByName(container: TWinControl; imageName: string): TImage;
+var
+  i: integer;
+  image: TImage;
+  controlName: string;
+begin
+  result := nil;
+  for i := 0 to container.ControlCount - 1 do
+  begin
+    controlName := container.Controls[i].Name;
+    if (container.Controls[i] is TImage) then
+    begin
+      image := (container.Controls[i] as TImage);
+      if (UpperCase(image.Name) = UpperCase(imageName)) then
+      begin
+        result := image;
+        break;
+      end
+      else if (container.Controls[i] is TPanel) then
+        GetImageByName(container.Controls[i] as TPanel, imageName);
+    end;
+  end;
 end;
 
 end.

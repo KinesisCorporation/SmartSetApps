@@ -97,7 +97,7 @@ begin
   Result := False;
   loadingSettings := true;
 
-  errorMsg := fileService.LoadStateSettings;
+  errorMsg := fileService.LoadStateSettings(GActiveDevice);
 
   if (errorMsg = '') then
   begin
@@ -272,7 +272,7 @@ begin
       fileService.SetStatusPlaySpeed(Round(sliderStatusReport.Position));
     fileService.SetGameMode(swGameMode.Checked);
     fileService.SetStartupFileNumber(Round(sliderActiveProfile.Position));
-    if (fileService.SaveStateSettings = '') then
+    if (fileService.SaveStateSettings(GActiveDevice) = '') then
     begin
       settingsChanged := false;
 

@@ -96,9 +96,29 @@ type
     FEdgeLoopRightGif: TGif;
     FEdgeReboundGif: TGif;
 
+    //For Adv360 RGB leds
+    FInd1Color: TColor;
+    FInd2Color: TColor;
+    FInd3Color: TColor;
+    FInd4Color: TColor;
+    FInd5Color: TColor;
+    FInd6Color: TColor;
+    FInd1FnToken: TIndFunction;
+    FInd2FnToken: TIndFunction;
+    FInd3FnToken: TIndFunction;
+    FInd4FnToken: TIndFunction;
+    FInd5FnToken: TIndFunction;
+    FInd6FnToken: TIndFunction;
+    FInd1FnLayer: integer;
+    FInd2FnLayer: integer;
+    FInd3FnLayer: integer;
+    FInd4FnLayer: integer;
+    FInd5FnLayer: integer;
+    FInd6FnLayer: integer;
+
     //List of supported keyboard layouts
     //FKeyboardLayouts: TKeyboardLayoutList;
-    function GetDefaultLayerAdv360: TKBLayer;
+    function GetTopLayerAdv360: TKBLayer;
     function GetEdgeKey(key: word; layerIdx: integer): TKBKey;
     function GetFN1LayerAdv360: TKBLayer;
     function GetFN2LayerAdv360: TKBLayer;
@@ -195,6 +215,7 @@ type
     function ConvertLedToTextFileFmt: TStringList;
     function ConvertEdgeToTextFileFmt: TStringList;
     procedure ConvertLedFromTextFileFmt(aLedContent: TStringList);
+    procedure ConvertLedFromTextFileFmtAdv360(aLedContent: TStringList);
     procedure ConvertEdgeFromTextFileFmt(aEdgeContent: TStringList);
     function ExtractEdgeFromTextFile(var aLedContent: TStringList): TStringList;
     function ConvertToTextFileFmt: TStringList;
@@ -231,6 +252,7 @@ type
     function GetModifierValues(aKey: TKey): string;
     procedure SetAllKeyColor(keyColor: TColor; layerIdx: integer);
     procedure SetAllKeyColorEdge(keyColor: TColor; layerIdx: integer);
+    procedure SetAllIndColor(keyColor: TColor);
     function GetKeyWithModifier(iKey: word; modifiers: string): TKey;
     function CountAllKeystrokes: integer;
 
@@ -279,6 +301,24 @@ type
     property EdgeLoopLeftGif: TGif read FEdgeLoopLeftGif write FEdgeLoopLeftGif;
     property EdgeLoopRightGif: TGif read FEdgeLoopRightGif write FEdgeLoopRightGif;
     property EdgeReboundGif: TGif read FEdgeReboundGif write FEdgeReboundGif;
+    property Ind1Color: TColor read FInd1Color write FInd1Color;
+    property Ind2Color: TColor read FInd2Color write FInd2Color;
+    property Ind3Color: TColor read FInd3Color write FInd3Color;
+    property Ind4Color: TColor read FInd4Color write FInd4Color;
+    property Ind5Color: TColor read FInd5Color write FInd5Color;
+    property Ind6Color: TColor read FInd6Color write FInd6Color;
+    property Ind1FnToken: TIndFunction read FInd1FnToken write FInd1FnToken;
+    property Ind2FnToken: TIndFunction read FInd2FnToken write FInd2FnToken;
+    property Ind3FnToken: TIndFunction read FInd3FnToken write FInd3FnToken;
+    property Ind4FnToken: TIndFunction read FInd4FnToken write FInd4FnToken;
+    property Ind5FnToken: TIndFunction read FInd5FnToken write FInd5FnToken;
+    property Ind6FnToken: TIndFunction read FInd6FnToken write FInd6FnToken;
+    property Ind1FnLayer: integer read FInd1FnLayer write FInd1FnLayer;
+    property Ind2FnLayer: integer read FInd2FnLayer write FInd2FnLayer;
+    property Ind3FnLayer: integer read FInd3FnLayer write FInd3FnLayer;
+    property Ind4FnLayer: integer read FInd4FnLayer write FInd4FnLayer;
+    property Ind5FnLayer: integer read FInd5FnLayer write FInd5FnLayer;
+    property Ind6FnLayer: integer read FInd6FnLayer write FInd6FnLayer;
   end;
 
 implementation
@@ -1771,14 +1811,14 @@ begin
 
 end;
 
-function TBaseKeyService.GetDefaultLayerAdv360: TKBLayer;
+function TBaseKeyService.GetTopLayerAdv360: TKBLayer;
 var
   aKBLayer: TKBLayer;
 begin
   aKBLayer := TKBLayer.Create;
-  aKBLayer.LayerIndex := LAYER_DEFAULT_360;
-  aKBLayer.LayerName := 'Default';
-  aKBLayer.LayerType := LAYER_DEFAULT_360;
+  aKBLayer.LayerIndex := LAYER_TOP_360;
+  aKBLayer.LayerName := 'Top';
+  aKBLayer.LayerType := LAYER_TOP_360;
 
   //Put Keys in order needed...
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_EQUAL), 0));
@@ -1848,7 +1888,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -1884,7 +1924,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_3), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_4), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_5), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_TOGGLE), 6, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_6), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMLOCK), 9));
@@ -1936,7 +1976,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPADENTER), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_TOGGLE), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -1945,7 +1985,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DECIMAL), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_TOGGLE), 63, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -2033,7 +2073,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2042,7 +2082,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 63, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -2130,7 +2170,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2139,7 +2179,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 63, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -2227,7 +2267,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2236,7 +2276,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DEF_LAYER_SHIFT), 63, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -2294,7 +2334,7 @@ begin
   end
   ELSE IF (GApplication = APPL_ADV360) then
   begin
-    FKBLayers.Add(GetDefaultLayerAdv360);
+    FKBLayers.Add(GetTopLayerAdv360);
     FKBLayers.Add(GetKPLayerAdv360);
     FKBLayers.Add(GetFN1LayerAdv360);
     FKBLayers.Add(GetFN2LayerAdv360);
@@ -3173,8 +3213,11 @@ var
   aCoTriggers: TKeyList;
   activeMacro: TKeyList;
   tempInt: integer;
+  curLayerIdx: integer;
+  tempText: string;
 begin
   lastKey := 0;
+  curLayerIdx := 0;
   aCoTriggers := TKeyList.Create;
 
   ResetLayout;
@@ -3192,15 +3235,36 @@ begin
       activeMacro := nil;
       ClearModifiers;
 
-      //Detect and remove fn text first
-      isKeypadLayer := Pos(KEYPAD_KEY_EDGE, currentLine) <> 0;
-      if (isKeypadLayer) then
+      if (IsGen2Device(GApplication)) then
       begin
-        layerIdx := BOTLAYER_IDX;
-        Delete(currentLine, 1, length(KEYPAD_KEY_EDGE)); //removes fn text
+        if (UpperCase(currentLine).StartsWith(LAYER_PREFIX)) then
+        begin
+          tempText := UpperCase(Copy(currentLine, Length(LAYER_PREFIX) + 1, Length(currentLine)));
+          if (tempText = TEXT_LAYER_DEFAULT) then
+            curLayerIdx := LAYER_TOP_360
+          else if (tempText = TEXT_LAYER_KP) then
+            curLayerIdx := LAYER_KEYPAD_360
+          else if (tempText = TEXT_LAYER_FN1) then
+            curLayerIdx := LAYER_FN1_360
+          else if (tempText = TEXT_LAYER_FN2) then
+            curLayerIdx := LAYER_FN2_360
+          else if (tempText = TEXT_LAYER_FN3) then
+            curLayerIdx := LAYER_FN3_360;
+        end;
+        layerIdx := curLayerIdx;
       end
       else
-        layerIdx := TOPLAYER_IDX;
+      begin
+        //Detect and remove fn text first
+        isKeypadLayer := Pos(KEYPAD_KEY_EDGE, currentLine) <> 0;
+        if (isKeypadLayer) then
+        begin
+          layerIdx := BOTLAYER_IDX;
+          Delete(currentLine, 1, length(KEYPAD_KEY_EDGE)); //removes fn text
+        end
+        else
+          layerIdx := TOPLAYER_IDX;
+      end;
 
       posSep := Pos('>', currentLine);
       isSingleKey := Copy(currentLine, 1, 1) = SK_START;
@@ -3324,8 +3388,8 @@ begin
             if (aCoTriggers.Count >= 1) then
               activeMacro.CoTrigger1 := aCoTriggers[0].CopyKey;
 
-            activeMacro.MacroSpeed := 0;
-            activeMacro.MacroRptFreq := 0;
+            activeMacro.MacroSpeed := -1;
+            activeMacro.MacroRptFreq := -1;
 
             //Get Macro text
             while (valueText <> '') do
@@ -3859,6 +3923,16 @@ begin
   end;
 end;
 
+procedure TBaseKeyService.SetAllIndColor(keyColor: TColor);
+begin
+  Ind1Color := keyColor;
+  Ind2Color := keyColor;
+  Ind3Color := keyColor;
+  Ind4Color := keyColor;
+  Ind5Color := keyColor;
+  Ind6Color := keyColor;
+end;
+
 function TBaseKeyService.GetKeyWithModifier(iKey: word; modifiers: string): TKey;
 var
   aKey: TKey;
@@ -3971,6 +4045,24 @@ begin
   FLedSpeedFn := DEFAULT_LED_SPEED;
   FLedDirection := DEFAULT_LED_DIR_INT;
   FLedDirectionFn := DEFAULT_LED_DIR_INT;
+  FInd1Color := DEFAULT_LED_COLOR_BASE;
+  FInd2Color := DEFAULT_LED_COLOR_BASE;
+  FInd3Color := DEFAULT_LED_COLOR_BASE;
+  FInd4Color := DEFAULT_LED_COLOR_BASE;
+  FInd5Color := DEFAULT_LED_COLOR_BASE;
+  FInd6Color := DEFAULT_LED_COLOR_BASE;
+  FInd1FnToken := ifDisable;
+  FInd2FnToken := ifDisable;
+  FInd3FnToken := ifDisable;
+  FInd4FnToken := ifDisable;
+  FInd5FnToken := ifDisable;
+  FInd6FnToken := ifDisable;
+  FInd1FnLayer := -1;
+  FInd2FnLayer := -1;
+  FInd3FnLayer := -1;
+  FInd4FnLayer := -1;
+  FInd5FnLayer := -1;
+  FInd6FnLayer := -1;
 end;
 
 procedure TBaseKeyService.ResetEdgeOptions;
@@ -4464,6 +4556,147 @@ begin
       FreeAndNil(aLedTopLayer);
     if (aLedBotLayer <> nil) then
       FreeAndNil(aLedBotLayer);
+  end;
+end;
+
+procedure TBaseKeyService.ConvertLedFromTextFileFmtAdv360(aLedContent: TStringList);
+var
+  aKey: TKey;
+  sKey: string;
+  keyStart, keyEnd: integer;
+  i: integer;
+  currentLine: string;
+  secondLine: string;
+  posSep: integer;
+  isSingleKey: boolean;
+  configText: string;
+  valueText: string;
+  aKBKey: TKBKey;
+  aKBKeyBotLayer: TKBKey;
+  lineCount: integer;
+  isKeypadLayer: boolean;
+  aLedMode: TLedMode;
+  layerIdx: integer;
+  aColor: TColor;
+  aLedTopLayer: TStringList;
+  aLedBotLayer: TStringList;
+  keyExcept: TKey;
+
+  procedure GetFunctionToken(var valueText: string; var fnToken: TIndFunction; var fnLayer: integer);
+  begin
+    fnToken := ifDisable;
+    fnLayer := -1;
+
+    if (pos('[nkro]', valueText) <> 0) then
+    begin
+      fnToken := ifNKRO;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[game]', valueText) <> 0) then
+    begin
+      fnToken := ifGameMode;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[prof]', valueText) <> 0) then
+    begin
+      fnToken := ifProfile;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[caps]', valueText) <> 0) then
+    begin
+      fnToken := ifCaps;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[nmlk]', valueText) <> 0) then
+    begin
+      fnToken := ifNumLock;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[sclk]', valueText) <> 0) then
+    begin
+      fnToken := ifScrollLock;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[batt]', valueText) <> 0) then
+    begin
+      fnToken := ifBattery;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[null]', valueText) <> 0) then
+    begin
+      fnToken := ifDisable;
+      Delete(valueText, 1, 6);
+    end
+    else if (pos('[lay', valueText) <> 0) then
+    begin
+      fnToken := ifLayer;
+      if (pos('[layd]', valueText) <> 0) then
+        fnLayer := LAYER_TOP_360
+      else if (pos('[layk]', valueText) <> 0) then
+        fnLayer := LAYER_KEYPAD_360
+      else if (pos('[lay1]', valueText) <> 0) then
+        fnLayer := LAYER_FN1_360
+      else if (pos('[lay2]', valueText) <> 0) then
+        fnLayer := LAYER_FN2_360
+      else if (pos('[lay3]', valueText) <> 0) then
+        fnLayer := LAYER_FN3_360;
+      Delete(valueText, 1, 6);
+    end;
+  end;
+begin
+  ResetLedOptions;
+
+  try
+    lineCount := aLedContent.Count;
+
+    for i := 0 to lineCount - 1 do
+    begin
+      if (aLedContent.Count > i) then
+      begin
+        currentLine := AnsiLowerCase(aLedContent.Strings[i]);
+        posSep := Pos('>', currentLine);
+
+        //Check if it's a valid line
+        if (posSep <> 0) then
+        begin
+          configText := Copy(currentLine, 1, posSep - 1);
+          valueText := Copy(currentLine, posSep + 1, Length(currentLine));
+
+          if (pos('ind1', configText) <> 0) then
+          begin
+            GetFunctionToken(valueText, FInd1FnToken, FInd1FnLayer);
+            FInd1Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
+          end
+          else if (pos('ind2', configText) <> 0) then
+          begin
+            GetFunctionToken(valueText, FInd2FnToken, FInd2FnLayer);
+            FInd2Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
+          end
+          else if (pos('ind3', configText) <> 0) then
+          begin
+            GetFunctionToken(valueText, FInd3FnToken, FInd3FnLayer);
+            FInd3Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
+          end
+          else if (pos('ind4', configText) <> 0) then
+          begin
+            GetFunctionToken(valueText, FInd4FnToken, FInd4FnLayer);
+            FInd4Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
+          end
+          else if (pos('ind5', configText) <> 0) then
+          begin
+            GetFunctionToken(valueText, FInd5FnToken, FInd5FnLayer);
+            FInd5Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
+          end
+          else if (pos('ind6', configText) <> 0) then
+          begin
+            GetFunctionToken(valueText, FInd6FnToken, FInd6FnLayer);
+            FInd6Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
+          end;
+        end;
+      end;
+    end;
+  finally
+
   end;
 end;
 
@@ -9075,14 +9308,43 @@ var
   prevModifiers: string;
   curKeyModifiers: TKeyList;
   prevKeyModifiers: TKeyList;
+  lastLayer: integer;
+  layerHeader: string;
+
+  function GetLayerHeader(idx: integer): string;
+  begin
+    if (idx = LAYER_TOP_360) then
+      result := LAYER_PREFIX + TEXT_LAYER_DEFAULT
+    else if (idx = LAYER_KEYPAD_360) then
+      result := LAYER_PREFIX + TEXT_LAYER_KP
+    else if (idx = LAYER_FN1_360) then
+      result := LAYER_PREFIX + TEXT_LAYER_FN1
+    else if (idx = LAYER_FN2_360) then
+      result := LAYER_PREFIX + TEXT_LAYER_FN2
+    else if (idx = LAYER_FN3_360) then
+      result := LAYER_PREFIX + TEXT_LAYER_FN3
+    else
+      result := '';
+  end;
+
 begin
   layoutContent := TStringList.Create;
+  lastLayer := -1;
 
   for lIdx := 0 to FKBLayers.Count - 1 do
   begin
+    //Add layer header for Gen2 devices
+    if (IsGen2Device(GApplication) and (lastLayer <> lIdx)) then
+    begin
+      layerHeader := GetLayerHeader(lIdx);
+      if (layerHeader <> '') then
+        layoutContent.Add(layerHeader);
+    end;
+
+    lastLayer := lIdx;
     layerPrefix := '';
     aLayer := FKBLayers[lIdx];
-    if (aLayer.LayerIndex = BOTLAYER_IDX) then
+    if (not IsGen2Device(GApplication)) and (aLayer.LayerIndex = BOTLAYER_IDX) then
       layerPrefix := KEYPAD_KEY_EDGE;
 
     for kIdx := 0 to aLayer.KBKeyList.Count - 1 do
@@ -9139,12 +9401,12 @@ begin
           //Add the character separating config and value keys
           lineText := lineText + '>';
 
-          if (aMacro.MacroSpeed >= 1) and (aMacro.MacroSpeed <= MACRO_SPEED_MAX_RGB) then
+          if (aMacro.MacroSpeed >= 0) and (aMacro.MacroSpeed <= MACRO_SPEED_MAX_RGB) then
           begin
             lineText := lineText + '{' + MACRO_SPEED_TEXT_EDGE + IntToStr(aMacro.MacroSpeed) + '}';
           end;
 
-          if (aMacro.MacroRptFreq >= 1) and (aMacro.MacroRptFreq <= MACRO_FREQ_MAX_RGB) then
+          if (aMacro.MacroRptFreq >= 0) and (aMacro.MacroRptFreq <= MACRO_FREQ_MAX_RGB) then
           begin
             lineText := lineText + '{' + MACRO_REPEAT_EDGE + IntToStr(aMacro.MacroRptFreq) + '}';
           end;

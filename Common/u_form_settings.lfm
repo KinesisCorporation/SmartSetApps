@@ -472,9 +472,9 @@ inherited FormSettings: TFormSettings
   end
   object chkDisableSpeed: TCheckBox[14]
     Left = 552
-    Height = 33
+    Height = 35
     Top = 64
-    Width = 34
+    Width = 36
     OnClick = chkDisableSpeedClick
     TabOrder = 4
   end
@@ -600,9 +600,9 @@ inherited FormSettings: TFormSettings
   end
   object chkDisableStatus: TCheckBox[19]
     Left = 872
-    Height = 33
+    Height = 35
     Top = 64
-    Width = 34
+    Width = 36
     OnClick = chkDisableStatusClick
     TabOrder = 5
   end

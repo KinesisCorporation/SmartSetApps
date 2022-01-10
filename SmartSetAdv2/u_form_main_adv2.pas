@@ -2605,7 +2605,7 @@ begin
   Result := False;
   loadingSettings := true;
 
-  errorMsg := fileService.LoadStateSettings;
+  errorMsg := fileService.LoadStateSettings(GActiveDevice);
 
   if (errorMsg = '') then
   begin
@@ -2637,7 +2637,7 @@ var
 const
   TitleStateFile = 'Save State.txt File';
 begin
-  errorMsg := fileService.SaveStateSettings;
+  errorMsg := fileService.SaveStateSettings(GActiveDevice);
 
   if (errorMsg <> '') then
     ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2);

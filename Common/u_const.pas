@@ -56,6 +56,8 @@ type
                     maWaveEdge, maFrozenWaveEdge, maSpectrumEdge, maLoopEdge, maReboundEdge,
                     maPulseEdge, maDisableEdge);
 
+  TIndFunction = (ifDisable, ifNKRO, ifGameMode, ifProfile, ifCaps, ifLayer, ifNumLock, ifScrollLock, ifBattery);
+
   TTransitionState = (tsPressed, tsReleased); //KeySate Down or Up
   TExtendedState = (esNormal, esExtended);
   //Extended key, Normal or Extended (ex: Alt or Left Alt)
@@ -103,6 +105,7 @@ type
     GameMode: boolean;
     ProgramKeyLock: boolean;
     LedMode: string;
+    Country: string;
   end;
 
   TAppSettings = record
@@ -141,9 +144,13 @@ type
   TFirmwareInfo = record
     ModelName: string;
     VersionKBD: string;
+    VersionKBD_L: string;
     MajorKBD: integer;
     MinorKBD: integer;
     RevisionKBD: integer;
+    MajorKBD_L: integer;
+    MinorKBD_L: integer;
+    RevisionKBD_L: integer;
     VersionLED: string;
     MajorLED: integer;
     MinorLED: integer;
@@ -205,6 +212,7 @@ var
   KINESIS_LIGHT_GRAY_ADV360: TColor;
   KINESIS_DARK_GRAY_ADV360: TColor;
   KINESIS_GREEN_OFFICE: TColor;
+  KINESIS_GRAY_BACKCOLOR: TColor;
 
 function MapShiftToVirutalKey(sShift: TShiftStateEnum): word;
 function IsModifier(Key: word): boolean;
@@ -428,8 +436,8 @@ const
   VK_MOUSE_MOVE_DOWN = 11160;
   VK_LED_PLUS = 11161;
   VK_LED_MINUS = 11162;
-  VK_DEF_LAYER_SHIFT = 11163;
-  VK_DEF_LAYER_TOGGLE = 11164;
+  VK_TOP_LAYER_SHIFT = 11163;
+  VK_TOP_LAYER_TOGGLE = 11164;
   VK_KP_LAYER_SHIFT = 11165;
   VK_KP_LAYER_TOGGLE = 11166;
   VK_FN1_LAYER_SHIFT = 11167;
@@ -449,6 +457,13 @@ const
   VK_PROFILE_7 = 11181;
   VK_PROFILE_8 = 11182;
   VK_PROFILE_9 = 11183;
+  VK_LED_PROFILE = 11184;
+  VK_LED_LAYER = 11185;
+  VK_LED_CAPS_LOCK = 11186;
+  VK_LED_NUM_LOCK = 11187;
+  VK_LED_SCROLL_LOCK = 11188;
+  VK_LED_NKRO_MODE = 11189;
+  VK_LED_GAME_MODE = 11190;
   //END OF VIRTUAL KEY OPTIONS
 
   MAPVK_VK_TO_VSC = 0;
@@ -543,6 +558,12 @@ const
   KEYPAD_KEY = 'kp-';
   KEYPAD_KEY_EDGE = 'fn ';
   KP_PREFIX_LENGTH = 3;
+  LAYER_PREFIX = 'LAYER=';
+  TEXT_LAYER_DEFAULT = 'DEFAULT';
+  TEXT_LAYER_KP = 'KEYPAD';
+  TEXT_LAYER_FN1 = 'FN1';
+  TEXT_LAYER_FN2 = 'FN2';
+  TEXT_LAYER_FN3 = 'FN3';
 
   //Various constants
   DIFF_PRESS_REL_TEXT = '{ }';
@@ -553,6 +574,7 @@ const
   MACRO_FREQ_MIN_ADV2 = 0;
   MACRO_FREQ_MIN_FS = 0;
   MACRO_FREQ_MIN_RGB = 1;
+  MACRO_FREQ_MIN_ADV360 = 0;
   MACRO_FREQ_MAX_FS = 9;
   MACRO_FREQ_MAX_RGB = 9;
   DEFAULT_MACRO_FREQ_ADV2 = 0;
@@ -561,6 +583,7 @@ const
   MACRO_SPEED_MIN_ADV2 = 0;
   MACRO_SPEED_MIN_FS = 0;
   MACRO_SPEED_MIN_RGB = 1;
+  MACRO_SPEED_MIN_ADV360 = 0;
   MACRO_SPEED_MAX_ADV2 = 9;
   MACRO_SPEED_MAX_FS = 9;
   MACRO_SPEED_MAX_RGB = 9;
@@ -601,7 +624,7 @@ const
   BOTLAYER_IDX = 1;
   LAYER_QWERTY = 0;
   LAYER_DVORAK = 1;
-  LAYER_DEFAULT_360 = 0;
+  LAYER_TOP_360 = 0;
   LAYER_KEYPAD_360 = 1;
   LAYER_FN1_360 = 2;
   LAYER_FN2_360 = 3;
@@ -659,6 +682,7 @@ const
   USER_MANUAL_FSEDGE = 'User Manual-SmartSet App.pdf';
   USER_MANUAL_ADV2 = 'SmartSet App Help.pdf';
   KB_SETTINGS_FILE = 'kbd_settings.txt';
+  ADV360_SETTINGS_FILE = 'settings.txt';
   APP_SETTINGS_FILE = 'app_settings.txt';
   ADV2_STATE_FILE = 'state.txt';
   VERSION_FILE = 'version.txt';
@@ -1681,6 +1705,7 @@ begin
     ConfigKeys.Add(TKey.Create(VK_MEDIA_PAUSE, 'cpau', UnicodeToUTF8(9208), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
     ConfigKeys.Add(TKey.Create(VK_MEDIA_EJECT, 'ejct', UnicodeToUTF8(9167), '', '', '', false, false, '', true, false, 0, UNICODE_FONT));
     ConfigKeys.Add(TKey.Create(VK_MEDIA_RECORD, 'recr', UnicodeToUTF8(9210), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
+    ConfigKeys.Add(TKey.Create(VK_NULL, 'null', UnicodeToUTF8(8855), '', '', '', false, false, '', true, false, 0, UNICODE_FONT));
 
     if IsGen2Device(GApplication) then
     begin
@@ -1719,12 +1744,14 @@ begin
 
     if IsGen2Device(GApplication) then
     begin
+      ConfigKeys.Add(TKey.Create(VK_NULL, 'null', 'NUL'));
       ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY, 'play',  'Play'));
       ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'plpa', 'Play' + #10 + 'Pause'));
       ConfigKeys.Add(TKey.Create(VK_LED, 'ledt', 'LED'))
     end
     else
     begin
+      ConfigKeys.Add(TKey.Create(VK_NULL, 'null', ' '));
       ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'play', 'Play' + #10 + 'Pause'));
       ConfigKeys.Add(TKey.Create(VK_LED, 'LED', 'LED'));
     end;
@@ -1740,8 +1767,7 @@ begin
   ConfigKeys.Add(TKey.Create(VK_DIF_PRESS_REL, '{ }', '', ' '));
   ConfigKeys.Add(TKey.Create(VK_PROGRAM, '', 'Pro-' + #10 + 'gram', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FUNCTION, 'Fn', 'Fn'));
-  ConfigKeys.Add(TKey.Create(VK_NULL, 'null', ' '));
-  ConfigKeys.Add(TKey.Create(VK_SMARTSET, 'ss', ' '));
+  ConfigKeys.Add(TKey.Create(VK_SMARTSET, 'ss', ' ', '', '', '', false, false, '', true, false, 0, '', '', 'imgSmartSet'));
   ConfigKeys.Add(TKey.Create(VK_LPEDAL, 'lp-tab', 'Tab'));
   ConfigKeys.Add(TKey.Create(VK_MPEDAL, 'mp-kpshf', 'Kp' + #10 + 'Shift'));
   ConfigKeys.Add(TKey.Create(VK_RPEDAL, 'rp-kpent', 'Kp' + #10 + 'Enter'));
@@ -1751,10 +1777,10 @@ begin
   ConfigKeys.Add(TKey.Create(VK_KEYPAD, '', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_SHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_DEF_LAYER_SHIFT, 'defs', 'Default' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_DEF_LAYER_TOGGLE, 'deft', 'Default' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Keypad' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'keyt', 'Keypad' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_TOP_LAYER_SHIFT, 'defs', 'Top' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_TOP_LAYER_TOGGLE, 'deft', 'Top' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'keyt', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_SHIFT, 'fn1s', 'Fn1' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_TOGGLE, 'fn1t', 'Fn1' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FN2_LAYER_SHIFT, 'fn2s', 'Fn2' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
@@ -2263,6 +2289,7 @@ initialization
   KINESIS_LIGHT_GRAY_ADV360 := RGB(195, 205, 210);
   KINESIS_DARK_GRAY_ADV360 := RGB(170, 180, 190);
   KINESIS_GREEN_OFFICE := RGB(105, 199, 157);
+  KINESIS_GRAY_BACKCOLOR := RGB(175, 175, 175);
   GApplicationTitle := 'SmartSet App';
   GDesktopMode := false;
   GDemoMode := false;

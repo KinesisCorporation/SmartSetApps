@@ -28,6 +28,7 @@ type
     FTransparency: integer;
     FLabelShape: TLabelShape;
     FGradientFill: boolean;
+    FBitmap: TBitmap;
     FShapeX1: integer;
     FShapeY1: integer;
     FShapeX2: integer;
@@ -36,6 +37,7 @@ type
     FShapeY3: integer;
     FShapeX4: integer;
     FShapeY4: integer;
+    FNumberOfDots: integer;
     procedure DrawOpacityBrush(ACanvas: TCanvas; X, Y: Integer; AColor: TColor;
       ASize: Integer; Opacity: Byte);
   protected
@@ -65,6 +67,8 @@ type
     property ShapeY3: integer read FShapeY3 write FShapeY3 default 0;
     property ShapeX4: integer read FShapeX4 write FShapeX4 default 0;
     property ShapeY4: integer read FShapeY4 write FShapeY4 default 0;
+    property Bitmap: TBitmap read FBitmap write FBitmap;
+    property NumberOfDots: integer read FNumberOfDots write FNumberOfDots default 0;
   end;
 
 procedure Register;
@@ -81,6 +85,7 @@ end;
 constructor TLabelBox.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  FBitmap := nil;
 end;
 
 procedure TLabelBox.Paint;
@@ -90,9 +95,51 @@ var
     imgBackColor: TBGRAPixel;
     imgNextColor: TBGRAPixel;
     pt1, pt2, pt3, pt4 : TPointF;
+
+    procedure DrawDots;
+    var
+      dots: integer;
+    const
+      dotSize = 5;
+      space = 2;
+    begin
+      if (FNumberOfDots > 0) then
+      begin
+        for dots := 0 to FNumberOfDots - 1 do
+        begin
+          Canvas.Brush.Color:= Font.Color;
+          Canvas.Ellipse((dots * dotSize), 0, (dots + 1) * dotSize, dotSize);
+        end;
+      end;
+    end;
 begin
   inherited Paint;
-  if (FBackColor <> clNone) then
+
+  if (FBitmap <> nil) then
+  begin
+    image := TBGRABitmap.Create(Width,Height,BGRAPixelTransparent);
+
+    hh := 0;
+    ww := 0;
+    if (FBitmap.Height < Height) then
+      hh := (Height - FBitmap.Height) div 2;
+    if (FBitmap.Width < Width) then
+      ww := (Width - FBitmap.Width) div 2;
+
+    //BackColor
+    if (FBackColor <> clNone) then
+    begin
+      imgBackColor := ColorToBGRA(ColorToRGB(FBackColor));
+      image.FillRoundRectAntialias(0,0,FBitmap.Width,FBitmap.Height,FCornerSize,FCornerSize, imgBackColor);
+      image.Draw(Canvas,ww,hh, false);
+    end;
+
+     //Bitmap
+    image.Assign(FBitmap);
+    image.Draw(Canvas,ww,hh, false);
+    image.Free;
+  end
+  else if (FBackColor <> clNone) then
   begin
     image := TBGRABitmap.Create(Width,Height,BGRAPixelTransparent);
     pt1.x := FShapeX1;
@@ -142,6 +189,7 @@ begin
       begin
         image.FillQuadLinearColorAntialias(pt1, pt2, pt3, pt4, imgBackColor, imgBackColor, imgBackColor, imgBackColor);
       end;
+
       image.Draw(Canvas,0,0, false);
       image.Free;
     end;
@@ -156,6 +204,7 @@ begin
     //image.Draw(Canvas,0,0,false);
     //image.free;
   end;
+
   if (BorderStyle = bsSingle) then
   begin
     image := TBGRABitmap.Create(Width,Height,BGRAPixelTransparent);
@@ -165,7 +214,10 @@ begin
     //Canvas.Pen.Color := FBorderColor;
     //Canvas.Pen.Width := FBorderWidth;
     //Canvas.RoundRect (0, 0, ClientWidth, ClientHeight, FCornerSize, FCornerSize);
-  end
+  end;
+
+  DrawDots;
+
   //if (BorderStyle = bsSingle) then
   //begin
   //  if (FBackColor <> clNone) then

@@ -31,7 +31,12 @@ type
     btnWatchTutorial2: TColorSpeedButtonCS;
     btnWatchTutorial3: TColorSpeedButtonCS;
     btnWatchTutorial4: TColorSpeedButtonCS;
+    imgEject1: TImage;
     imgClose: TImage;
+    imgEject2: TImage;
+    imgEject3: TImage;
+    imgEject4: TImage;
+    imgListButtons: TImageList;
     imgMaximize: TImage;
     imgMinimize: TImage;
     imgBackgroundTop: TImage;
@@ -80,6 +85,12 @@ type
     tmrLoadForms: TTimer;
     procedure btnCheckUpdatesConnectedClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
+    procedure btnEjectMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure btnEjectMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure btnEjectMouseEnter(Sender: TObject);
+    procedure btnEjectMouseLeave(Sender: TObject);
     procedure btnEjectClick(Sender: TObject);
     procedure btnMaximizeClick(Sender: TObject);
     procedure btnMinimizeClick(Sender: TObject);
@@ -122,12 +133,13 @@ type
     procedure EnablePaintImages(value: boolean);
     procedure GetAppObjects(idx: integer; var appNameLabel: TLabel;
       var appConnLabel: TLabel; var appProfileLabel: TLabel;  var appCheckUpdBtn: TColorSpeedButtonCS;
-      var appEjectBtn: TColorSpeedButtonCS; var appWatchTutoBtn: TColorSpeedButtonCS; var appOpenBtn: TColorSpeedButtonCS);
+      var appEjectBtn: TImage; var appWatchTutoBtn: TColorSpeedButtonCS; var appOpenBtn: TColorSpeedButtonCS);
     procedure Init;
+    procedure LoadButtonImage(obj: TObject; imgList: TImageList; idx: integer);
     procedure Maximize;
     procedure RepaintForm(fullRepaint: boolean);
     procedure RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButtonCS;
-      btnEject: TColorSpeedButtonCS; btnWatchTutorial: TColorSpeedButtonCS);
+      imgEject: TImage; btnWatchTutorial: TColorSpeedButtonCS);
     procedure SetFormBorder(formBorder: TFormBorderStyle);
     procedure SetSelectedMenu(menuLabel: TLabel);
     procedure UpdateDevices;
@@ -268,21 +280,21 @@ end;
 
 procedure TFormDashboard.FormResize(Sender: TObject);
 begin
-  RepositionItems(pnlApp1, btnCheckUpdatesConnected1, btnEject1, btnWatchTutorial1);
-  RepositionItems(pnlApp2, btnCheckUpdatesConnected2, btnEject2, btnWatchTutorial2);
-  RepositionItems(pnlApp3, btnCheckUpdatesConnected3, btnEject3, btnWatchTutorial3);
-  RepositionItems(pnlApp4, btnCheckUpdatesConnected4, btnEject4, btnWatchTutorial4);
+  RepositionItems(pnlApp1, btnCheckUpdatesConnected1, imgEject1, btnWatchTutorial1);
+  RepositionItems(pnlApp2, btnCheckUpdatesConnected2, imgEject2, btnWatchTutorial2);
+  RepositionItems(pnlApp3, btnCheckUpdatesConnected3, imgEject3, btnWatchTutorial3);
+  RepositionItems(pnlApp4, btnCheckUpdatesConnected4, imgEject4, btnWatchTutorial4);
 end;
 
-procedure TFormDashboard.RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButtonCS; btnEject: TColorSpeedButtonCS;
+procedure TFormDashboard.RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButtonCS; imgEject: TImage;
   btnWatchTutorial: TColorSpeedButtonCS);
 begin
   btnCheckUpdates.Left := pnlApp.Left;
   btnCheckUpdates.Top := pnlApp.Top + pnlApp.Height + 10;
   btnWatchTutorial.Left := (pnlApp.Left + pnlApp.Width) - btnWatchTutorial.Width;
   btnWatchTutorial.Top := btnCheckUpdates.Top;
-  btnEject.Left := (pnlApp.Left + (pnlApp.Width div 2) - (btnEject.Width div 2));
-  btnEject.Top :=  btnCheckUpdates.Top;
+  imgEject.Left := (pnlApp.Left + (pnlApp.Width div 2) - (imgEject.Width div 2));
+  imgEject.Top :=  btnCheckUpdates.Top;
 end;
 
 procedure TFormDashboard.Init;
@@ -338,6 +350,7 @@ begin
   aDevice.TutorialUrl := ADV360_TUTORIAL;
   aDevice.VersionFile := VERSION_FILE_ADV360;
   aDevice.VersionFolder := VERSION_FOLDER_ADV360;
+  aDevice.SettingsFile := ADV360_SETTINGS_FILE;
   //todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
   deviceList.Add(aDevice);
 
@@ -364,6 +377,8 @@ begin
   //aDevice.VDriveName := ADV2_DRIVE;
   //aDevice.TutorialUrl := ADV2_TUTORIAL;
   //aDevice.VersionFolder := VERSION_FOLDER_ADV2;
+  //aDevice.SettingsFolder := VERSION_FOLDER_ADV2;
+  //aDevice.SettingsFile := ADV2_STATE_FILE;
   ////todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
   //deviceList.Add(aDevice);
 end;
@@ -393,7 +408,7 @@ var
   appConnLabel: TLabel;
   appProfileLabel: TLabel;
   appCheckUpdBtn: TColorSpeedButtonCS;
-  appEjectBtn: TColorSpeedButtonCS;
+  appEjectBtn: TImage;
   appOpenBtn: TColorSpeedButtonCS;
   appWatchTutoBtn: TColorSpeedButtonCS;
   idx: integer;
@@ -475,7 +490,7 @@ end;
 
 procedure TFormDashboard.GetAppObjects(idx: integer; var appNameLabel: TLabel;
   var appConnLabel: TLabel; var appProfileLabel: TLabel; var appCheckUpdBtn: TColorSpeedButtonCS;
-  var appEjectBtn: TColorSpeedButtonCS; var appWatchTutoBtn: TColorSpeedButtonCS; var appOpenBtn: TColorSpeedButtonCS);
+  var appEjectBtn: TImage; var appWatchTutoBtn: TColorSpeedButtonCS; var appOpenBtn: TColorSpeedButtonCS);
 begin
   if (idx = 1) then
   begin
@@ -483,7 +498,7 @@ begin
     appConnLabel := lblConnApp1;
     appProfileLabel := lblProfileApp1;
     appCheckUpdBtn := btnCheckUpdatesConnected1;
-    appEjectBtn := btnEject1;
+    appEjectBtn := imgEject1;
     appWatchTutoBtn := btnWatchTutorial1;
     appOpenBtn := btnOpenApp1;
   end
@@ -493,7 +508,7 @@ begin
     appConnLabel := lblConnApp2;
     appProfileLabel := lblProfileApp2;
     appCheckUpdBtn := btnCheckUpdatesConnected2;
-    appEjectBtn := btnEject2;
+    appEjectBtn := imgEject2;
     appWatchTutoBtn := btnWatchTutorial2;
     appOpenBtn := btnOpenApp2;
   end
@@ -503,7 +518,7 @@ begin
     appConnLabel := lblConnApp3;
     appProfileLabel := lblProfileApp3;
     appCheckUpdBtn := btnCheckUpdatesConnected3;
-    appEjectBtn := btnEject3;
+    appEjectBtn := imgEject3;
     appWatchTutoBtn := btnWatchTutorial3;
     appOpenBtn := btnOpenApp3;
   end
@@ -513,7 +528,7 @@ begin
     appConnLabel := lblConnApp4;
     appProfileLabel := lblProfileApp4;
     appCheckUpdBtn := btnCheckUpdatesConnected4;
-    appEjectBtn := btnEject4;
+    appEjectBtn := imgEject4;
     appWatchTutoBtn := btnWatchTutorial4;
     appOpenBtn := btnOpenApp4;
   end;
@@ -524,26 +539,48 @@ begin
   Close;
 end;
 
+procedure TFormDashboard.btnEjectMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  LoadButtonImage(sender, imgListButtons, 1);
+end;
+
+procedure TFormDashboard.btnEjectMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  LoadButtonImage(sender, imgListButtons, 1);
+end;
+
+procedure TFormDashboard.btnEjectMouseEnter(Sender: TObject);
+begin
+  LoadButtonImage(sender, imgListButtons, 1);
+end;
+
+procedure TFormDashboard.btnEjectMouseLeave(Sender: TObject);
+begin
+  LoadButtonImage(sender, imgListButtons, 0);
+end;
+
 procedure TFormDashboard.btnEjectClick(Sender: TObject);
 var
   idx: integer;
   device: TDevice;
-  button: TColorSpeedButtonCS;
+  button: TImage;
 begin
   idx := 0;
-  button := (sender as TColorSpeedButtonCS);
+  button := (sender as TImage);
 
   try
     Screen.Cursor := crHourGlass;
     button.Enabled := false;
 
-    if (button = btnEject1) then
+    if (button = imgEject1) then
       idx := 1
-    else if (button = btnEject2) then
+    else if (button = imgEject2) then
       idx := 2
-    else if (button = btnEject3) then
+    else if (button = imgEject3) then
       idx := 3
-    else if (button = btnEject4) then
+    else if (button = imgEject4) then
       idx := 4;
 
     if (idx > 0) and (deviceList.Count >= 1) then
@@ -555,6 +592,7 @@ begin
   finally
     button.Enabled := true;
     Screen.Cursor := crDefault;
+    LoadButtonImage(sender, imgListButtons, 0);
   end;
 end;
 
@@ -1066,6 +1104,25 @@ begin
     menuLabel.Font.Color := KINESIS_GREEN_OFFICE;
     menuLabel.Font.Style := [fsUnderline, fsBold];
   end;
+end;
+
+procedure TFormDashboard.LoadButtonImage(obj: TObject; imgList: TImageList; idx: integer);
+begin
+  if (obj is TColorSpeedButtonCS) then
+  begin
+    if (idx = -1) then
+      (obj as TColorSpeedButtonCS).Glyph.Clear
+    else
+      imgList.GetBitmap(idx, (obj as TColorSpeedButtonCS).Glyph)
+  end
+  else if (obj is TImage) then
+  begin
+    if (idx = -1) then
+      (obj as TImage).Picture.Clear
+    else
+      imgList.GetBitmap(idx, (obj as TImage).Picture.Bitmap);
+  end;
+  (obj as TControl).Repaint;
 end;
 
 initialization
