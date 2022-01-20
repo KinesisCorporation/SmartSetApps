@@ -18,8 +18,8 @@ type
     btnAccept: TColorSpeedButtonCS;
     eCustomDelay: TEdit;
     imgListTiming: TImageList;
-    Label1: TLabel;
-    Label2: TLabel;
+    lblRandom: TLabel;
+    lblCustom: TLabel;
     rbRandom: TRadioButton;
     procedure btnAcceptMouseExit(Sender: TObject);
     procedure btnAcceptMouseMove(Sender: TObject; Shift: TShiftState; X,
@@ -33,7 +33,7 @@ type
     procedure eCustomDelayKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
-    procedure Label1Click(Sender: TObject);
+    procedure lblRandomClick(Sender: TObject);
   private
     timingDelay: integer;
   public
@@ -42,13 +42,13 @@ type
 
 var
   FormTimingDelays: TFormTimingDelays;
-  function ShowTimingDelays: integer;
+  function ShowTimingDelays(backColor: TColor; fontColor: TColor): integer;
 
 implementation
 
 {$R *.lfm}
 
-function ShowTimingDelays: integer;
+function ShowTimingDelays(backColor: TColor; fontColor: TColor): integer;
 begin
   //Close the dialog if opened
   if FormTimingDelays <> nil then
@@ -56,6 +56,18 @@ begin
 
   //Creates the dialog form
   Application.CreateForm(TFormTimingDelays, FormTimingDelays);
+
+  //Loads colors
+  FormTimingDelays.Color := backColor;
+  FormTimingDelays.Font.Color := fontColor;
+  FormTimingDelays.lblRandom.Font.Color := fontColor;
+  FormTimingDelays.lblCustom.Font.Color := fontColor;
+  FormTimingDelays.lblTitle.Font.Color := fontColor;
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+  begin
+    LoadButtonImage(FormTimingDelays.btnCancel, FormTimingDelays.imgListTiming, 4);
+    LoadButtonImage(FormTimingDelays.btnAccept, FormTimingDelays.imgListTiming, 6);
+  end;
 
   //Shows dialog and returns value
   if FormTimingDelays.ShowModal = mrOK then
@@ -79,7 +91,7 @@ begin
   lblTitle.Caption := 'Macro Timing Delays';
 end;
 
-procedure TFormTimingDelays.Label1Click(Sender: TObject);
+procedure TFormTimingDelays.lblRandomClick(Sender: TObject);
 begin
   rbRandom.Checked:=true;
 end;
@@ -87,31 +99,50 @@ end;
 procedure TFormTimingDelays.btnCancelClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
-  LoadButtonImage(sender, imgListTiming, 0);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 4)
+  else
+    LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormTimingDelays.btnAcceptMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
-    LoadButtonImage(sender, imgListTiming, 2);
+  begin
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+      LoadButtonImage(sender, imgListTiming, 6)
+    else
+      LoadButtonImage(sender, imgListTiming, 2);
+  end;
 end;
 
 procedure TFormTimingDelays.btnAcceptMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  LoadButtonImage(sender, imgListTiming, 3);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 7)
+  else
+    LoadButtonImage(sender, imgListTiming, 3);
 end;
 
 procedure TFormTimingDelays.btnCancelMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
-    LoadButtonImage(sender, imgListTiming, 0);
+  begin
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+      LoadButtonImage(sender, imgListTiming, 4)
+    else
+      LoadButtonImage(sender, imgListTiming, 0);
+  end;
 end;
 
 procedure TFormTimingDelays.btnCancelMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  LoadButtonImage(sender, imgListTiming, 1);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 5)
+  else
+    LoadButtonImage(sender, imgListTiming, 1);
 end;
 
 procedure TFormTimingDelays.btnAcceptClick(Sender: TObject);
@@ -120,7 +151,11 @@ begin
     ModalResult := mrOK
   else
     ShowDialog('Timing Delays', 'Please select a timing delay between 1ms and 999ms. To achieve a longer delay, insert multiple delays back-to-back.', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
-  LoadButtonImage(sender, imgListTiming, 2);
+
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 6)
+  else
+    LoadButtonImage(sender, imgListTiming, 2);
   NeedInput := true;
 end;
 

@@ -97,13 +97,15 @@ begin
     formDialog.Width := dialogWidth;
 
   //Loads colors
-  if (GApplication in [APPL_ADV2, APPL_FSPRO, APPL_PEDAL]) and not(IsDarkTheme) then
+  if (GMasterAppId = APPL_MASTER_OFFICE) and not(IsDarkTheme) then
   begin
-    formDialog.Color := clWhite;
-    formDialog.Font.Color := clBlack;
-    formDialog.lblMessage.Color := clWhite;
-    formDialog.lblMessage.Font.Color := clBlack;
-    formDialog.lblCheckBox.Font.Color := clBlack;
+    formDialog.Color := KINESIS_LIGHT_GRAY_ADV360; //clWhite;
+    formDialog.Font.Color := KINESIS_DARK_GRAY_RGB;//clBlack;
+
+    formDialog.lblTitle.Font.Color := formDialog.Font.Color;
+    formDialog.lblMessage.Color := formDialog.Color;
+    formDialog.lblMessage.Font.Color := formDialog.Font.Color ;
+    formDialog.lblCheckBox.Font.Color := formDialog.Font.Color ;
   end;
 
   {$ifdef Darwin}
@@ -195,6 +197,7 @@ end;
 
 procedure TFormUserDialog.FormCreate(Sender: TObject);
 begin
+  inherited;
   //Windows
   {$ifdef Win32}
   SetFont(self, 'Tahoma');

@@ -12,7 +12,7 @@ inherited FormAbout: TFormAbout
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   inherited btnClose: TColorSpeedButtonCS
-    Left = 390
+    Left = 387
   end
   inherited lineBorderTop: TLineObj
     Width = 419
@@ -28,7 +28,7 @@ inherited FormAbout: TFormAbout
     Left = 417
     Height = 317
   end
-  object lblFirmware: TLabel[6]
+  object lblFirmware: TLabel[7]
     Left = -1
     Height = 36
     Top = 50
@@ -40,7 +40,7 @@ inherited FormAbout: TFormAbout
     ParentColor = False
     WordWrap = True
   end
-  object lblAppTitle: TLabel[7]
+  object lblAppTitle: TLabel[8]
     Left = 43
     Height = 17
     Top = 16
@@ -56,7 +56,7 @@ inherited FormAbout: TFormAbout
     ParentColor = False
     ParentFont = False
   end
-  object lblVersion: TLabel[8]
+  object lblVersion: TLabel[9]
     Left = 18
     Height = 17
     Top = 32
@@ -67,7 +67,7 @@ inherited FormAbout: TFormAbout
     Caption = 'lblVersion'
     ParentColor = False
   end
-  object btnReadManual: TColorSpeedButtonCS[9]
+  object btnReadManual: TColorSpeedButtonCS[10]
     Left = 16
     Height = 32
     Top = 280
@@ -104,7 +104,7 @@ inherited FormAbout: TFormAbout
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnWatchTutorial: TColorSpeedButtonCS[10]
+  object btnWatchTutorial: TColorSpeedButtonCS[11]
     Left = 295
     Height = 32
     Top = 280
@@ -141,7 +141,7 @@ inherited FormAbout: TFormAbout
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnRequestSupport: TColorSpeedButtonCS[11]
+  object btnRequestSupport: TColorSpeedButtonCS[12]
     Left = 136
     Height = 32
     Top = 280
@@ -178,7 +178,7 @@ inherited FormAbout: TFormAbout
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object imgKinesis: TImage[12]
+  object imgKinesis: TImage[13]
     Cursor = crHandPoint
     Left = 64
     Height = 175
@@ -402,8 +402,8 @@ inherited FormAbout: TFormAbout
       0000000049454E44AE426082
     }
   end
-  object MainMenu1: TMainMenu[13]
-    left = 328
-    top = 40
+  object MainMenu1: TMainMenu[14]
+    Left = 328
+    Top = 40
   end
 end

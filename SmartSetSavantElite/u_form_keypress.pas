@@ -143,12 +143,14 @@ type
     closing: boolean;
     pedalFilePath: string;
     pedalFolderPath: string;
+    parentForm: TForm;
 
     procedure AddSpecialActions;
     function CheckVDrive: boolean;
-    procedure InitApp(scanVDrive: boolean = false);
+    function InitApp(scanVDrive: boolean = false): boolean;
     procedure LaunchDemoMode;
     procedure openTroubleshootingTipsClick(Sender: TObject);
+    procedure ReturnToHome;
     procedure ScanVDrive(init: boolean);
     procedure SetEditMode(Value: boolean; pedal: TPedal);
     procedure SetEditButton(isEditMode: boolean; button: TObject);
@@ -174,7 +176,7 @@ type
     procedure UpdateStateSettings;
   public
     { public declarations }
-    procedure InitForm(mdiParent: TForm);
+    function InitForm(mdiParent: TForm): boolean;
     procedure Maximize;
   end;
 
@@ -202,6 +204,8 @@ var
   procedure SetKeyPress(Key: word; Modifiers: string);
 
 implementation
+
+uses u_form_dashboard;
 
 {$R *.lfm}
 
@@ -397,9 +401,12 @@ begin
 
 end;
 
-procedure TFormMainSE2.InitForm(mdiParent: TForm);
+function TFormMainSE2.InitForm(mdiParent: TForm): boolean;
 begin
+  result := false;
+
   fromMasterApp := mdiParent <> nil;
+  parentForm := mdiParent;
 
   //Sets Height and Width of form according to screen resolution
   self.Width := pnlLeft.Width + pnlRight.Width + 20;
@@ -454,17 +461,16 @@ begin
   memoOriginalColor := memoLeft.Color;
   self.BorderStyle := bsNone;
 
-  InitApp;
+  result := InitApp;
 end;
 
-procedure TFormMainSE2.InitApp(scanVDrive: boolean);
+function TFormMainSE2.InitApp(scanVDrive: boolean = false): boolean;
 var
   customBtns: TCustomButtons;
-  canShowApp: boolean;
 begin
-  canShowApp := GDemoMode or CheckVDrive;
+  result := GDemoMode or CheckVDrive;
 
-  if (canShowApp) then
+  if (result) then
   begin
     SetKeyboardHook;
 
@@ -490,7 +496,7 @@ begin
     CheckKeyboardLayout;
   end;
 
-  if not canShowApp then
+  if not result then
   begin
     if (GDesktopMode) then
     begin
@@ -498,7 +504,10 @@ begin
       begin
         appError := true;
         Close;
-      end;
+        ReturnToHome;
+      end
+      else
+        result := true;
     end
     else
     begin
@@ -507,6 +516,7 @@ begin
         mtWarning, [], DEFAULT_DIAG_HEIGHT_PEDAL, customBtns);
       appError := true;
       Close;
+      ReturnToHome;
     end;
   end;
 end;
@@ -537,7 +547,7 @@ begin
   if init then
   begin
     title := 'Pedal not detected';
-      resultTroubleshoot := ShowTroubleshoot(title, init, backColor, fontColor);
+      resultTroubleshoot := ShowTroubleshoot(title, backColor, fontColor);
     if (resultTroubleshoot = 1) then
       ScanVDrive(init)
     else if (resultTroubleshoot = 2) then
@@ -1991,6 +2001,11 @@ begin
       aMemo.SetRangeColor(aPedalsPos[i].iStart, aPedalsPos[i].iEnd - aPedalsPos[i].iStart, clRed);
     end;
   end;
+end;
+
+procedure TFormMainSE2.ReturnToHome;
+begin
+  (parentForm as TFormDashboard).ResetToHome;
 end;
 
 //initialization

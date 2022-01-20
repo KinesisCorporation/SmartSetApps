@@ -99,6 +99,7 @@ end;
 
 procedure TFormLoad.FormCreate(Sender: TObject);
 begin
+  inherited;
   settingsChanged := false;
   knobPosition.Image := MainForm.imageKnob.Picture.Bitmap;
 end;
@@ -109,6 +110,7 @@ var
   i: integer;
   fileName: string;
 begin
+  inherited;
   if (configMode = CONFIG_LAYOUT) then
   begin
     lblPosition.Caption := 'Load Layout';

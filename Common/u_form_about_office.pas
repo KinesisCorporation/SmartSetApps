@@ -6,18 +6,17 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-  StdCtrls, VersionSupport, lclintf, u_const, UserDialog,
+  StdCtrls, VersionSupport, lclintf, u_const, UserDialog, u_base_form,
   ColorSpeedButtonCS;
 
 type
 
   { TFormAboutOffice }
 
-  TFormAboutOffice = class(TForm)
+  TFormAboutOffice = class(TBaseForm)
     btnReadManual: TColorSpeedButtonCS;
-    btnWatchTutorial: TColorSpeedButtonCS;
     btnRequestSupport: TColorSpeedButtonCS;
-    lblTitle: TLabel;
+    btnWatchTutorial: TColorSpeedButtonCS;
     lblCompany: TLabel;
     lblFirmware: TLabel;
     lblWebsite: TLabel;
@@ -34,19 +33,67 @@ type
     { private declarations }
     function FindFirstNumberPos(value: string): integer;
     procedure OpenHelpFile;
+    procedure SetFirmwareVersion(firmwareVersion: string; firmwareAlt: string);
   public
     { public declarations }
-    procedure SetFirmwareVersion(firmwareVersion: string);
   end;
 
 var
   FormAboutOffice: TFormAboutOffice;
+  procedure ShowHelpOffice(backColor: TColor; fontColor: TColor; firmwareVersion: string; firmwareAlt: string = '');
 
 implementation
 
 {$R *.lfm}
 
+procedure ShowHelpOffice(backColor: TColor; fontColor: TColor; firmwareVersion: string; firmwareAlt: string = '');
+begin
+  //Close the dialog if opened
+  if FormAboutOffice <> nil then
+    FreeAndNil(FormAboutOffice);
+
+  //Creates the dialog form
+  Application.CreateForm(TFormAboutOffice, FormAboutOffice);
+
+  FormAboutOffice.SetFirmwareVersion(firmwareVersion, firmwareAlt);
+
+  //Loads colors
+  FormAboutOffice.Color := backColor;
+  FormAboutOffice.lblTitle.Font.Color := fontColor;
+  FormAboutOffice.lblVersion.Font.Color := fontColor;
+  FormAboutOffice.lblFirmware.Font.Color := fontColor;
+  FormAboutOffice.lblCompany.Font.Color := fontColor;
+
+  FormAboutOffice.ShowModal;
+end;
+
 { TFormAboutOffice }
+
+procedure TFormAboutOffice.FormCreate(Sender: TObject);
+begin
+  inherited;
+  SetFont(self, 'Segoe UI');
+  lblTitle.Caption := HELP_TITLE_OFFICE;
+  lblVersion.Caption := 'App Version : ' + GetFileVersion;
+  if (GApplication = APPL_FSEDGE) then
+  begin
+    lblCompany.Caption := 'Kinesis Gaming';
+    lblWebsite.Caption := 'www.KinesisGaming.com';
+  end
+  else
+  begin
+    lblCompany.Caption := 'Kinesis Corporation';
+    lblWebsite.Caption := 'www.Kinesis-Ergo.com';
+  end;
+end;
+ 
+procedure TFormAboutOffice.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  if CloseAction = caFree then
+  begin
+    FormAboutOffice := nil;
+  end;
+end;
 
 procedure TFormAboutOffice.bOkClick(Sender: TObject);
 begin
@@ -64,8 +111,12 @@ begin
     OpenUrl(ADV2_SUPPORT)
   else if (GApplication = APPL_FSPRO) then
     OpenUrl(FSPRO_SUPPORT)
-  else
-    OpenUrl(FSEDGE_SUPPORT);
+  else if (GApplication = APPL_FSEDGE) then
+    OpenUrl(FSEDGE_SUPPORT)
+  else if (GApplication = APPL_ADV360) then
+    OpenUrl(ADV360_SUPPORT)
+  else if (GApplication = APPL_PEDAL) then
+    OpenUrl(PEDAL_SUPPORT);
 end;
 
 procedure TFormAboutOffice.btnWatchTutorialClick(Sender: TObject);
@@ -74,42 +125,12 @@ begin
     OpenUrl(ADV2_TUTORIAL)
   else if (GApplication = APPL_FSPRO) then
     OpenUrl(FSPRO_TUTORIAL)
-  else
-    OpenUrl(FSEDGE_TUTORIAL);
-end;
-
-procedure TFormAboutOffice.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  if CloseAction = caFree then
-  begin
-    FormAboutOffice := nil;
-  end;
-end;
-
-procedure TFormAboutOffice.FormCreate(Sender: TObject);
-begin
-  SetFont(self, 'Segoe UI');
-  lblTitle.Caption := GApplicationName;
-  lblVersion.Caption := 'App Version : ' + GetFileVersion;
-  if (GApplication = APPL_FSEDGE) then
-  begin
-    self.Color := KINESIS_DARK_GRAY_FS;
-    lblCompany.Caption := 'Kinesis Gaming';
-    lblWebsite.Caption := 'www.KinesisGaming.com';
-  end
-  else if (GApplication = APPL_FSPRO) or (GApplication = APPL_ADV2) then
-  begin
-    if (not IsDarkTheme) then
-    begin
-      Self.Color := clWhite;
-      SetFontColor(self, clBlack);
-    end;
-    lblCompany.Caption := 'Kinesis Corporation';
-    lblWebsite.Caption := 'www.Kinesis-Ergo.com';
-  end;
-  lblWebsite.Font.Color := clHighlight;
-  btnReadManual.Font.Color := clWhite;
-  btnWatchTutorial.Font.Color := clWhite;
+  else if (GApplication = APPL_FSEDGE) then
+    OpenUrl(FSEDGE_TUTORIAL)
+  else if (GApplication = APPL_ADV360) then
+    OpenUrl(ADV360_TUTORIAL)
+  else if (GApplication = APPL_PEDAL) then
+    OpenUrl(PEDAL_TUTORIAL);
 end;
 
 procedure TFormAboutOffice.lblEmailClick(Sender: TObject);
@@ -143,31 +164,36 @@ begin
   end;
 end;
 
-procedure TFormAboutOffice.SetFirmwareVersion(firmwareVersion: string);
+procedure TFormAboutOffice.SetFirmwareVersion(firmwareVersion: string; firmwareAlt: string);
 begin
   if (firmwareVersion <> '') then
+  begin
+  if (GApplication = APPL_ADV360) then
+  begin
+    lblFirmware.Caption := 'Keyboard Firmware (left): ' + firmwareVersion + #10 +
+      'Keyboard Firmware (right): ' + firmwareAlt;
+  end
+  else
+  begin
     lblFirmware.Caption := 'Keyboard Firmware: v' + firmwareVersion
+  end;
+  end
   else
     lblFirmware.Caption := 'Keyboard Firmware : not found';
 end;
 
 procedure TFormAboutOffice.OpenHelpFile;
-//var
-//  filePath: string;
 begin
   if (GApplication = APPL_ADV2) then
     OpenUrl(ADV2_MANUAL)
   else if (GApplication = APPL_FSPRO) then
     OpenUrl(FSPRO_MANUAL)
-  else
-    OpenUrl(FSEDGE_MANUAL);
-//  filePath := GApplicationPath + '\help\' + USER_MANUAL_FSEDGE;
-//  {$ifdef Darwin}filePath := GApplicationPath + '/help/' + USER_MANUAL_FSEDGE;{$endif}
-
-//  if FileExists(filePath) then
-//    OpenDocument(filePath)
-//  else
-//    ShowDialog('Help file', 'Help file not found!', mtError, [mbOK], DEFAULT_DIAG_HEIGHT, KINESIS_DARK_GRAY_FS, clWhite);
+  else if (GApplication = APPL_FSEDGE) then
+    OpenUrl(FSEDGE_MANUAL)
+  else if (GApplication = APPL_ADV360) then
+    OpenUrl(ADV360_MANUAL)
+  else if (GApplication = APPL_PEDAL) then
+    OpenUrl(PEDAL_MANUAL);
 end;
 
 end.

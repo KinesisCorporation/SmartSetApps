@@ -37,11 +37,11 @@ type
 
 var
   FormIntro: TFormIntro;
-  procedure ShowIntro;
+  procedure ShowIntroRGB;
 
 implementation
 
-procedure ShowIntro;
+procedure ShowIntroRGB;
 begin
   NeedInput := true;
   if FormIntro <> nil then
@@ -105,7 +105,7 @@ end;
 
 procedure TFormIntro.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware(GActiveDevice);
+  ShowFirmware(GActiveDevice, clNone, clNone);
 end;
 
 procedure TFormIntro.btnWatchTutorialClick(Sender: TObject);

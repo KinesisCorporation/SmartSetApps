@@ -12,39 +12,52 @@ inherited FormUserDialog: TFormUserDialog
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
-  inherited btnClose: TColorSpeedButtonCS
-    Left = 550
-    OnClick = btnCloseClick
+  inherited lineBorderLeft: TLineObj
+    Height = 170
   end
-  inherited lineBorderTop: TLineObj
+  inherited pnlTop: TPanel
     Width = 581
+    ClientWidth = 581
+    TabOrder = 1
+    inherited lblTitle: TLabel
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 577
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 546
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 524
+      OnClick = btnCloseClick
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 581
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 579
+    end
   end
   inherited lineBorderBottom: TLineObj
     Top = 205
     Width = 581
   end
-  inherited lineBorderLeft: TLineObj
-    Height = 203
-  end
   inherited lineBorderRight: TLineObj
     Left = 579
-    Height = 203
+    Height = 170
   end
-  inherited lblTitle: TLabel
-    Height = 25
-    Top = 3
-  end
-  object chkCheckBox: TCheckBox[6]
+  object chkCheckBox: TCheckBox[4]
     Left = 16
-    Height = 33
-    Top = 155
-    Width = 34
+    Height = 35
+    Top = 153
+    Width = 36
     Anchors = [akLeft, akBottom]
     Color = clWhite
     ParentColor = False
     TabOrder = 0
   end
-  object lblCheckBox: TLabel[7]
+  object lblCheckBox: TLabel[5]
     Left = 48
     Height = 19
     Top = 165
@@ -54,7 +67,7 @@ inherited FormUserDialog: TFormUserDialog
     ParentColor = False
     OnClick = lblCheckBoxClick
   end
-  object imgDialog: TImage[8]
+  object imgDialog: TImage[6]
     Left = 0
     Height = 127
     Top = 34
@@ -62,7 +75,7 @@ inherited FormUserDialog: TFormUserDialog
     Anchors = [akTop, akLeft, akBottom]
     Center = True
   end
-  object lblMessage: TLabel[9]
+  object lblMessage: TLabel[7]
     Left = 88
     Height = 126
     Top = 34
@@ -78,11 +91,11 @@ inherited FormUserDialog: TFormUserDialog
     ParentFont = False
     WordWrap = True
   end
-  object ilDialog: TImageList[10]
+  object ilDialog: TImageList[8]
     Height = 32
     Width = 32
-    left = 32
-    top = 64
+    Left = 32
+    Top = 64
     Bitmap = {
       4C69060000002000000020000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

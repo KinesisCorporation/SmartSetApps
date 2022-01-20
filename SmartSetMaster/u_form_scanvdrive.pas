@@ -86,7 +86,7 @@ end;
 
 procedure TFormScanVDrive.btnTroubleshootingTipsClick(Sender: TObject);
 begin
-  OpenUrl(MASTER_SUPPORT);
+  OpenUrl(MASTER_GAMING_SUPPORT);
 end;
 
 

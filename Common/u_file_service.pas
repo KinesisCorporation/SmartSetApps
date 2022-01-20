@@ -45,6 +45,7 @@ type
     function CheckFileValid: boolean;
     function GetPedalText(aPedal: TPedalText; aPedalType: TPedal): string;
     function GetExpansion2Pack(fileNo: integer): TStringList;
+    procedure SetDefaultAppSettings;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -100,6 +101,7 @@ type
     function CheckReadWriteAccess(aDevice: TDevice): boolean;
     function UnzipFile(inputFile: string; outputPath: string): string;
     function DownloadFile(url: string; destFolder: string): boolean;
+    function FactoryReset(aDevice: TDevice): string;
 
     property FileIsValid: boolean read CheckFileValid;
     property FilePath: string read FFilePath write FFilePath;
@@ -631,6 +633,26 @@ begin
   end;
 end;
 
+function TFileService.FactoryReset(aDevice: TDevice): string;
+begin
+  result := '';
+
+  try
+    if (DirectoryExists(GApplicationPath + aDevice.VersionFolder)) then
+       DeleteDirectory(GApplicationPath + aDevice.VersionFolder, true);
+    if (DirectoryExists(GLayoutFilePath)) then
+      DeleteDirectory(GLayoutFilePath, true);
+    if (DirectoryExists(GLedFilePath)) then
+      DeleteDirectory(GLedFilePath, true);
+  except
+    on E: Exception do
+    begin
+      Result := 'Error with factory reset: ' + E.Message;
+      HandleExcept(E, False, Result);
+    end;
+  end;
+end;
+
 function TFileService.LoadVersionInfo(aDevice: TDevice): string;
 var
   fileExists: boolean;
@@ -794,19 +816,19 @@ begin
           SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
           SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
           SaveValueBoolean(FAppSettings.WindowsComboMsg, WindowsComboMsg);
-          SaveValueRGB(FAppSettings.CustColor1, CustColor1);
-          SaveValueRGB(FAppSettings.CustColor2, CustColor2);
-          SaveValueRGB(FAppSettings.CustColor3, CustColor3);
-          SaveValueRGB(FAppSettings.CustColor4, CustColor4);
-          SaveValueRGB(FAppSettings.CustColor5, CustColor5);
-          SaveValueRGB(FAppSettings.CustColor6, CustColor6);
-          SaveValueRGB(FAppSettings.CustColor7, CustColor7);
-          SaveValueRGB(FAppSettings.CustColor8, CustColor8);
-          SaveValueRGB(FAppSettings.CustColor9, CustColor9);
-          SaveValueRGB(FAppSettings.CustColor10, CustColor10);
-          SaveValueRGB(FAppSettings.CustColor11, CustColor11);
-          SaveValueRGB(FAppSettings.CustColor12, CustColor12);
         end;
+        SaveValueRGB(FAppSettings.CustColor1, CustColor1);
+        SaveValueRGB(FAppSettings.CustColor2, CustColor2);
+        SaveValueRGB(FAppSettings.CustColor3, CustColor3);
+        SaveValueRGB(FAppSettings.CustColor4, CustColor4);
+        SaveValueRGB(FAppSettings.CustColor5, CustColor5);
+        SaveValueRGB(FAppSettings.CustColor6, CustColor6);
+        SaveValueRGB(FAppSettings.CustColor7, CustColor7);
+        SaveValueRGB(FAppSettings.CustColor8, CustColor8);
+        SaveValueRGB(FAppSettings.CustColor9, CustColor9);
+        SaveValueRGB(FAppSettings.CustColor10, CustColor10);
+        SaveValueRGB(FAppSettings.CustColor11, CustColor11);
+        SaveValueRGB(FAppSettings.CustColor12, CustColor12);
 
         SaveFile(sFilePath, fileContent, true, result);
       end;
@@ -815,6 +837,22 @@ begin
     if (fileContent <> nil) then
       FreeAndNil(fileContent);
   end;
+end;
+
+procedure TFileService.SetDefaultAppSettings;
+begin
+  FAppSettings.CustColor1 := clNone;
+  FAppSettings.CustColor2 := clNone;
+  FAppSettings.CustColor3 := clNone;
+  FAppSettings.CustColor4 := clNone;
+  FAppSettings.CustColor5 := clNone;
+  FAppSettings.CustColor6 := clNone;
+  FAppSettings.CustColor7 := clNone;
+  FAppSettings.CustColor8 := clNone;
+  FAppSettings.CustColor9 := clNone;
+  FAppSettings.CustColor10 := clNone;
+  FAppSettings.CustColor11 := clNone;
+  FAppSettings.CustColor12 := clNone;
 end;
 
 function TFileService.LoadAppSettings(aFileName: string): string;
@@ -830,6 +868,7 @@ begin
 
   try
     result := '';
+    SetDefaultAppSettings;
 
     sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
     fileExists := CheckIfFileExists(sFilePath);

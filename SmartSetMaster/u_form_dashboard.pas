@@ -114,6 +114,7 @@ type
     cusWindowState: TCusWinState;
     deviceList: TDeviceList;
     closing: boolean;
+    returningToHome: boolean;
     procedure AddDevices;
     procedure EnablePaintImages(value: boolean);
     procedure GetAppObjects(idx: integer; var appNameLabel: TLabel;
@@ -130,9 +131,8 @@ type
     procedure OpenDeviceForm(device: TDevice);
     procedure LoadAppForms;
     procedure CloseActiveForms;
-    procedure ResetToHome;
   public
-
+    procedure ResetToHome;
   end;
 
 var
@@ -174,6 +174,7 @@ procedure TFormDashboard.FormCreate(Sender: TObject);
 //  vFnt : THandle;
 begin
   closing := false;
+  returningToHome := false;
 
   SetFormBorder(bsNone);
   self.Width := NORMAL_WIDTH;
@@ -227,13 +228,16 @@ end;
 procedure TFormDashboard.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  if (not returningToHome) then
   begin
-    FormMainRGB.FormKeyDown(sender, key, shift);
-  end
-  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-  begin
-    FormMainTKO.FormKeyDown(sender, key, shift);
+    if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+    begin
+      FormMainRGB.FormKeyDown(sender, key, shift);
+    end
+    else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+    begin
+      FormMainTKO.FormKeyDown(sender, key, shift);
+    end;
   end;
 end;
 
@@ -245,13 +249,16 @@ end;
 procedure TFormDashboard.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+  if (not returningToHome) then
   begin
-    FormMainRGB.FormKeyUp(sender, key, shift);
-  end
-  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-  begin
-    FormMainTKO.FormKeyUp(sender, key, shift);
+    if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+    begin
+      FormMainRGB.FormKeyUp(sender, key, shift);
+    end
+    else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+    begin
+      FormMainTKO.FormKeyUp(sender, key, shift);
+    end;
   end;
 end;
 
@@ -577,7 +584,7 @@ begin
       device := deviceList.Items[idx - 1];
       if (device.Connected) and (device.ReadWriteAccess) then
       begin
-        ShowFirmware(device);
+        ShowFirmware(device, backColor, fontColor);
       end
       else
       begin
@@ -704,13 +711,13 @@ begin
     begin
       try
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading FREESTYLE EDGE RGB...');
+        ShowLoading('Loading...', 'Loading FREESTYLE EDGE RGB...', backColor, fontColor);
         {$ifdef darwin}
         Application.CreateForm(TFormMainRGB, FormMainRGB);
         {$endif};
         FormMainRGB.Parent := pnlMain;
-        FormMainRGB.InitForm(self);
-        FormMainRGB.Show;
+        if (FormMainRGB.InitForm(self)) then
+          FormMainRGB.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo1.Visible := true;
       finally
@@ -721,13 +728,13 @@ begin
     begin
       try
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading TKO...');
+        ShowLoading('Loading...', 'Loading TKO...', backColor, fontColor);
         {$ifdef darwin}
         Application.CreateForm(TFormMainTKO, FormMainTKO);
         {$endif};
         FormMainTKO.Parent := pnlMain;
-        FormMainTKO.InitForm(self);
-        FormMainTKO.Show;
+        if (FormMainTKO.InitForm(self)) then
+          FormMainTKO.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogo2.Visible := true;
       finally
@@ -760,10 +767,13 @@ begin
     cusWindowState := cwMaximized;
   end;
 
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
-     FormMainRGB.Maximize;
-  if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-     FormMainTKO.Maximize;
+  if (not returningToHome) then
+  begin
+    if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+       FormMainRGB.Maximize;
+    if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+       FormMainTKO.Maximize;
+  end;
 
   UpdateStateSettings;
 end;
@@ -826,19 +836,25 @@ end;
 procedure TFormDashboard.ResetToHome;
 begin
   //Hide logos
-  imgAppLogo1.Visible := false;
-  imgAppLogo2.Visible := false;
+  try
+    returningToHome := true;
 
-  lblDemoMode.Visible := false;
-  lblVDriveOk.Visible := false;
-  lblVDriveError.Visible := false;
-  CloseActiveForms;
-  if (not GDemoMode) then
-    EjectDevice(GActiveDevice);
-  GActiveDevice := nil;
-  tmrLoadForms.Enabled := true;
+    imgAppLogo1.Visible := false;
+    imgAppLogo2.Visible := false;
 
-  UpdateDevices;
+    lblDemoMode.Visible := false;
+    lblVDriveOk.Visible := false;
+    lblVDriveError.Visible := false;
+    CloseActiveForms;
+    if (not GDemoMode) then
+      EjectDevice(GActiveDevice);
+    GActiveDevice := nil;
+    tmrLoadForms.Enabled := true;
+
+    UpdateDevices;
+  finally
+    returningToHome := false;
+  end;
 end;
 
 procedure TFormDashboard.lblHelpClick(Sender: TObject);
@@ -857,9 +873,7 @@ procedure TFormDashboard.lblSettingsClick(Sender: TObject);
 begin
     try
     NeedInput := true;
-    Application.CreateForm(TFormSettingsMaster, FormSettingsMaster);
-    FormSettingsMaster.ShowModal;
-    FreeAndNil(FormSettingsMaster);
+    ShowMasterSettings(backColor, fontColor);
   finally
     NeedInput := false;
   end;
@@ -953,10 +967,13 @@ end;
 
 procedure TFormDashboard.FormActivate(Sender: TObject);
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
-    FormMainRGB.SetFocus
-  else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
-    FormMainTKO.SetFocus;
+  if (not returningToHome) then
+  begin
+    if (FormMainRGB <> nil) and (FormMainRGB.Visible) then
+      FormMainRGB.SetFocus
+    else if (FormMainTKO <> nil) and (FormMainTKO.Visible) then
+      FormMainTKO.SetFocus;
+  end;
 end;
 
 initialization

@@ -69,7 +69,7 @@
         <PackageName Value="LCL"/>
       </Item10>
     </RequiredPackages>
-    <Units Count="22">
+    <Units Count="16">
       <Unit0>
         <Filename Value="SmartSetFSEdge.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -126,74 +126,32 @@
         <ResourceBaseClass Value="Form"/>
       </Unit10>
       <Unit11>
-        <Filename Value="u_form_settings.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormSettings"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
         <Filename Value="..\Components\animatedgif\animatedgif.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AnimatedGif"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\Components\animatedgif\membitmap.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="..\Components\animatedgif\membitmap.pas"/>
+        <Filename Value="..\Common\u_file_service.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="u_form_timingdelays.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormTimingDelays"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="u_form_intro.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormIntro"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit15>
-      <Unit16>
-        <Filename Value="u_form_export.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormExport"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="u_form_diagnostics.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormDiagnostics"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="u_form_troubleshoot.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormTroubleshoot"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit18>
-      <Unit19>
-        <Filename Value="..\Common\u_file_service.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit19>
-      <Unit20>
         <Filename Value="u_form_main_rgb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMainRGB"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit20>
-      <Unit21>
+      </Unit14>
+      <Unit15>
         <Filename Value="u_form_expansion.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormExpansion"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit21>
+      </Unit15>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -204,7 +162,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src;..\SmartSetMaster;..\SmartSetTKO"/>
+      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src;..\SmartSetMaster;..\SmartSetTKO;..\Components\synapse40\source\lib"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

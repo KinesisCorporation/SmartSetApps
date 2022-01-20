@@ -31,17 +31,22 @@ type
 
 var
   FormScanVDrive: TFormScanVDrive;
-  function ShowScanVDrive(device: TDevice): integer;
+  function ShowScanVDrive(device: TDevice; backColor: TColor; fontColor: TColor): integer;
 
 implementation
 
-function ShowScanVDrive(device: TDevice): integer;
+function ShowScanVDrive(device: TDevice; backColor: TColor; fontColor: TColor): integer;
 begin
   if FormScanVDrive <> nil then
     FreeAndNil(FormScanVDrive);
 
   //Creates the dialog form
   Application.CreateForm(TFormScanVDrive, FormScanVDrive);
+
+  FormScanVDrive.Color := backColor;
+  FormScanVDrive.Font.Color := fontColor;
+  FormScanVDrive.lblTitle.Font.Color := fontColor;
+  FormScanVDrive.lblFSMessage.Font.Color := fontColor;
 
   if (device.DeviceNumber = APPL_RGB) then
     FormScanVDrive.lblRGBMessage.Visible := true
@@ -89,7 +94,10 @@ end;
 
 procedure TFormScanVDrive.btnTroubleshootingTipsClick(Sender: TObject);
 begin
-  OpenUrl(MASTER_SUPPORT);
+  if (GMasterAppId = APPL_MASTER_GAMING) then
+    OpenUrl(MASTER_GAMING_SUPPORT)
+  else
+    OpenUrl(MASTER_OFFICE_SUPPORT);
 end;
 
 

@@ -391,10 +391,12 @@ type
     defaultWidth: integer;
     defaultHeight: integer;
     fromMasterApp: boolean;
+    parentForm: TForm;
 
     function CheckVDrive: boolean;
-    procedure InitApp(scanVDrive: boolean = false);
+    function InitApp(scanVDrive: boolean = false): boolean;
     procedure LaunchDemoMode;
+    procedure ReturnToHome;
     procedure ScanVDrive(init: boolean);
     procedure scanVDriveClick(Sender: TObject);
     procedure ShowIntroduction;
@@ -461,7 +463,7 @@ type
     blueColor: TColor;
     fontColor: TColor;
     backColor: TColor;
-    procedure InitForm(mdiParent: TForm);
+    function InitForm(mdiParent: TForm): boolean;
     procedure Maximize;
   end;
 
@@ -480,6 +482,8 @@ var
   {$endif}
 
 implementation
+
+uses u_form_dashboard;
 
 {$R *.lfm}
 
@@ -707,9 +711,12 @@ begin
 
 end;
 
-procedure TFormMainAdv2.InitForm(mdiParent: TForm);
+function TFormMainAdv2.InitForm(mdiParent: TForm): boolean;
 begin
+  result := false;
+
   fromMasterApp := mdiParent <> nil;
+  parentForm := mdiParent;
 
   //Sets Height and Width of form according to screen resolution
   self.Width := 1100;
@@ -821,19 +828,18 @@ begin
   //Check for v-drive
   SetBaseDirectory(true);
 
-  InitApp;
+  result := InitApp;
 end;
 
-procedure TFormMainAdv2.InitApp(scanVDrive: boolean);
+function TFormMainAdv2.InitApp(scanVDrive: boolean = false): boolean;
 var
   customBtns: TCustomButtons;
-  canShowApp: boolean;
   hint2MB: string;
 begin
-  canShowApp := GDemoMode or CheckVDrive;
+  result := GDemoMode or CheckVDrive;
   hint2MB := 'Modifying Settings is not supported on 2MB keyboards';
 
-  if (canShowApp) then
+  if (result) then
   begin
     SetFontColor(self, fontColor);
     self.Color := backColor;
@@ -906,11 +912,11 @@ begin
         CheckVDriveTmr.Enabled := true;
       end
       else
-        canShowApp := false;
+        result := false;
     end;
   end;
 
-  if not canShowApp then
+  if not result then
   begin
     if (GDesktopMode) then
     begin
@@ -918,7 +924,10 @@ begin
       begin
         appError := true;
         Close;
-      end;
+        ReturnToHome;
+      end
+      else
+        result := true;
     end
     else
     begin
@@ -927,6 +936,7 @@ begin
         mtFSEdge, [], DEFAULT_DIAG_HEIGHT_ADV2, customBtns);
       appError := true;
       Close;
+      ReturnToHome;
     end;
   end;
 end;
@@ -951,7 +961,7 @@ begin
   if init then
   begin
     title := 'Keyboard not detected';
-      resultTroubleshoot := ShowTroubleshoot(title, init, backColor, fontColor);
+      resultTroubleshoot := ShowTroubleshoot(title, backColor, fontColor);
     if (resultTroubleshoot = 1) then
       ScanVDrive(init)
     else if (resultTroubleshoot = 2) then
@@ -2278,9 +2288,7 @@ end;
 
 procedure TFormMainAdv2.btnHelpIconClick(Sender: TObject);
 begin
-  Application.CreateForm(TFormAboutOffice, FormAboutOffice);
-  FormAboutOffice.SetFirmwareVersion(fileService.FirmwareVersionKBD);
-  FormAboutOffice.ShowModal;
+  ShowHelpOffice(backColor, fontColor, fileService.FirmwareVersionKBD);
 end;
 
 function TFormMainAdv2.GetCoTriggerKey(button: TObject): TKey;
@@ -2400,7 +2408,7 @@ begin
       end
       else
       begin
-        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
+        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
         begin
           KeyModified := true;
           SetSaveState(ssModified);
@@ -3310,6 +3318,11 @@ begin
   end;
   //else
   //  ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK]);
+end;
+
+procedure TFormMainAdv2.ReturnToHome;
+begin
+  (parentForm as TFormDashboard).ResetToHome;
 end;
 
 

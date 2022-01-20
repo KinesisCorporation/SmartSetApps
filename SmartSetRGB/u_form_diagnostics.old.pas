@@ -67,7 +67,7 @@ begin
   begin
     try
       Cursor := crHourGlass;
-      fileContent := fileService.GetDiagnosticInfo;
+      fileContent := fileService.GetDiagnosticInfo(GActiveDevice);
 
       diagnosticFileCreated := (fileService.SaveFile(GetDesktopDirectory + Trim(eSerial.Text) + '.txt', fileContent, true, errorMsg));
 

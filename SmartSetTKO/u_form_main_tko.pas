@@ -638,7 +638,7 @@ type
     procedure GetRBGEditBaseColor;
     procedure GetRBGEditColor;
     procedure ImageMenuClick(Sender: TObject);
-    procedure InitApp(scanVDrive: boolean = false);
+    function InitApp(scanVDrive: boolean = false): boolean;
     procedure InitKeyButtons(container: TWinControl);
     function IsKeyLoaded: boolean;
     procedure KeyButtonClick(Sender: TObject);
@@ -689,6 +689,7 @@ type
     procedure ResetProfileMenu;
     procedure ResetSingleKey;
     procedure ResetWave;
+    procedure ReturnToHome;
     function SaveAll(isNew: boolean=false; showSaveDialog: boolean=true): boolean;
     procedure SaveAsAll(profileNumber: string; isNew: boolean=false);
     procedure SaveStateSettings;
@@ -763,7 +764,7 @@ type
     copiedMacro: TKeyList;
     MacroModified: boolean;
     procedure Maximize;
-    procedure InitForm(mdiParent: TForm);
+    function InitForm(mdiParent: TForm): boolean;
   end;
 
 var
@@ -996,8 +997,10 @@ end;
 
 { TFormMainTKO }
 
-procedure TFormMainTKO.InitForm(mdiParent: TForm);
+function TFormMainTKO.InitForm(mdiParent: TForm): boolean;
 begin
+  result := false;
+
   fromMasterApp := mdiParent <> nil;
   parentForm := mdiParent;
 
@@ -1106,7 +1109,7 @@ begin
   SetBaseDirectory(true);
 
   //Init app
-  InitApp;
+  result := InitApp;
 end;
 
 {Set the keyboard hook so we  can intercept keyboard input}
@@ -1147,18 +1150,17 @@ begin
   ShowIntroDialogs;
 end;
 
-procedure TFormMainTKO.InitApp(scanVDrive: boolean);
+function TFormMainTKO.InitApp(scanVDrive: boolean = false): boolean;
 var
   customBtns: TCustomButtons;
-  canShowApp: boolean;
   aListDrives: TStringList;
   drives: string;
   i: integer;
   titleError: string;
 begin
-  canShowApp := GDemoMode or CheckVDrive;
+  result := GDemoMode or CheckVDrive;
 
-  if (canShowApp) then
+  if (result) then
   begin
     //Load config keys depending on app version
     keyService.LoadConfigKeys;
@@ -1206,11 +1208,11 @@ begin
           ShowMessage('LoadAppSettingsAndLayout-end');
       end
       else
-        canShowApp := false;
+        result := false;
     end;
   end;
 
-  if not canShowApp then
+  if not result then
   begin
     if (GDesktopMode) then
     begin
@@ -1230,7 +1232,10 @@ begin
       begin
         appError := true;
         Close;
-      end;
+        ReturnToHome;
+      end
+      else
+        result := true;
     end
     else
     begin
@@ -1239,6 +1244,7 @@ begin
         mtFSEdge, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
       appError := true;
       Close;
+      ReturnToHome;
     end;
   end;
   if (GDebugMode) then
@@ -2066,7 +2072,7 @@ var
 begin
   Result := False;
 
-  errorMsg := fileService.LoadVersionInfo;
+  errorMsg := fileService.LoadVersionInfo(GActiveDevice);
 
   if (errorMsg = '') then
   begin
@@ -2111,7 +2117,7 @@ begin
 
   try
     loadingSettings := true;
-    errorMsg := fileService.LoadStateSettings;
+    errorMsg := fileService.LoadStateSettings(GActiveDevice);
 
     if (errorMsg = '') then
     begin
@@ -2738,7 +2744,7 @@ begin
   if init then
   begin
     title := 'Keyboard not detected';
-      resultTroubleshoot := ShowTroubleshoot(title, init);
+      resultTroubleshoot := ShowTroubleshoot(title, backColor, fontColor);
     if (resultTroubleshoot = 1) then
       ScanVDrive(init)
     else if (resultTroubleshoot = 2) then
@@ -2811,7 +2817,7 @@ end;
 
 procedure TFormMainTKO.LoadKeyButtonRows;
 begin
-  //Rows
+  //Columns
   SetLength(kbArrayCol1, 6);
   kbArrayCol1[0] := lbRow1_1;
   kbArrayCol1[1] := lbRow2_1;
@@ -2904,7 +2910,7 @@ begin
   kbArrayCol14[3] := lbRow4_12;
   kbArrayCol14[4] := lbRow5_10;
 
-  //Columns
+  //Row
   SetLength(kbArrayRow1, 14);
   kbArrayRow1[0] := lbRow1_1;
   kbArrayRow1[1] := lbRow1_2;
@@ -3683,7 +3689,7 @@ var
 const
   TitleStateFile = 'Save State.txt File';
 begin
-  errorMsg := fileService.SaveStateSettings;
+  errorMsg := fileService.SaveStateSettings(GActiveDevice);
 
   if (errorMsg <> '') then
     ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
@@ -4879,7 +4885,7 @@ end;
 
 procedure TFormMainTKO.btnExportClick(Sender: TObject);
 begin
-  ShowExport(currentLayoutFile, currentLedFile);
+  ShowExport(currentLayoutFile, currentLedFile, backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -5398,7 +5404,7 @@ end;
 
 procedure TFormMainTKO.btnDiagnosticClick(Sender: TObject);
 begin
-  ShowDiagnostics;
+  ShowDiagnostics(backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 //var
@@ -5452,7 +5458,7 @@ end;
 
 procedure TFormMainTKO.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware(GActiveDevice);
+  ShowFirmware(GActiveDevice, backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -5524,7 +5530,7 @@ begin
 
     if (IsKeyLoaded) then
     begin
-      timingDelay := ShowTimingDelays;
+      timingDelay := ShowTimingDelays(backColor, fontColor);
       if (timingDelay = 0) then
       begin
         SetModifiedKey(VK_RAND_DELAY, '', true);
@@ -6073,7 +6079,7 @@ begin
     end
     else
     begin
-      if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
+      if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
       begin
         KeyModified := true;
         SetSaveState(ssModified);
@@ -8225,6 +8231,11 @@ begin
 end;
 
 //End macro section
+
+procedure TFormMainTKO.ReturnToHome;
+begin
+  (parentForm as TFormDashboard).ResetToHome;
+end;
 
 initialization
 

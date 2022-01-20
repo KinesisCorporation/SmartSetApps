@@ -54,13 +54,13 @@ type
 
 var
   FormTapAndHold: TFormTapAndHold;
-  function ShowTapAndHold(aKeyService: TBaseKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer): boolean;
+  function ShowTapAndHold(aKeyService: TBaseKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
 
 implementation
 
 {$R *.lfm}
 
-function ShowTapAndHold(aKeyService: TBaseKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer): boolean;
+function ShowTapAndHold(aKeyService: TBaseKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
 const
   DefaultDelay = 250;
 begin
@@ -77,17 +77,16 @@ begin
     iTimingDelay := DefaultDelay;
 
   //Loads colors
-  if (GApplication in [APPL_ADV2, APPL_FSPRO, APPL_PEDAL]) and not(IsDarkTheme) then
+  FormTapAndHold.Color := backColor;
+  FormTapAndHold.Font.Color := fontColor;
+  FormTapAndHold.lblTapAction.Font.Color := fontColor;
+  FormTapAndHold.lblHoldAction.Font.Color := fontColor;
+  FormTapAndHold.lblDelay.Font.Color := fontColor;
+  FormTapAndHold.lblTitle.Font.Color := fontColor;
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
   begin
-    FormTapAndHold.Color := clWhite;
-    FormTapAndHold.Font.Color := clBlack;
-    FormTapAndHold.lblTapAction.Font.Color := clWhite;
-    FormTapAndHold.lblHoldAction.Font.Color := clBlack;
-    FormTapAndHold.lblDelay.Font.Color := clBlack;
-    FormTapAndHold.btnAccept.Visible := false;
-    FormTapAndHold.btnCancel.Visible := false;
-    FormTapAndHold.btnAccept1.Visible := true;
-    FormTapAndHold.btnCancel1.Visible := true;
+    LoadButtonImage(FormTapAndHold.btnCancel, FormTapAndHold.imgListTiming, 4);
+    LoadButtonImage(FormTapAndHold.btnAccept, FormTapAndHold.imgListTiming, 6);
   end;
 
   FormTapAndHold.keyService := aKeyService;
@@ -118,6 +117,7 @@ end;
 
 procedure TFormTapAndHold.FormShow(Sender: TObject);
 begin
+  inherited;
   eTapAction.SetFocus;
   eTapAction.SelStart := 0;
   //Duplicates value
@@ -128,31 +128,50 @@ end;
 procedure TFormTapAndHold.btnCancelClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
-  LoadButtonImage(sender, imgListTiming, 0);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 4)
+  else
+    LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormTapAndHold.btnAcceptMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
-    LoadButtonImage(sender, imgListTiming, 2);
+  begin
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+      LoadButtonImage(sender, imgListTiming, 6)
+    else
+      LoadButtonImage(sender, imgListTiming, 2);
+  end;
 end;
 
 procedure TFormTapAndHold.btnAcceptMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  LoadButtonImage(sender, imgListTiming, 3);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 7)
+  else
+    LoadButtonImage(sender, imgListTiming, 3);
 end;
 
 procedure TFormTapAndHold.btnCancelMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
-    LoadButtonImage(sender, imgListTiming, 0);
+  begin
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+      LoadButtonImage(sender, imgListTiming, 4)
+    else
+      LoadButtonImage(sender, imgListTiming, 0);
+  end;
 end;
 
 procedure TFormTapAndHold.btnCancelMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  LoadButtonImage(sender, imgListTiming, 1);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 5)
+  else
+    LoadButtonImage(sender, imgListTiming, 1);
 end;
 
 function TFormTapAndHold.Validate: boolean;
@@ -172,7 +191,10 @@ procedure TFormTapAndHold.btnAcceptClick(Sender: TObject);
 begin
   if (Validate) then
     ModalResult := mrOK;
-  LoadButtonImage(sender, imgListTiming, 2);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 6)
+  else
+    LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormTapAndHold.eHoldActionKeyDown(Sender: TObject; var Key: Word;

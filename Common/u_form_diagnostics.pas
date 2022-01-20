@@ -17,8 +17,8 @@ type
     eSerial: TEdit;
     btnCreateDiagnosticFile: TColorSpeedButtonCS;
     btnContactTechSupport: TColorSpeedButtonCS;
-    Label1: TLabel;
-    Label3: TLabel;
+    lblStep1: TLabel;
+    lblStep2: TLabel;
     procedure btnContactTechSupportClick(Sender: TObject);
     procedure btnCreateDiagnosticFileClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -31,13 +31,13 @@ type
 
 var
   FormDiagnostics: TFormDiagnostics;
-  procedure ShowDiagnostics;
+  procedure ShowDiagnostics(backColor: TColor; fontColor: TColor);
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowDiagnostics;
+procedure ShowDiagnostics(backColor: TColor; fontColor: TColor);
 begin
   try
     NeedInput := true;
@@ -48,6 +48,13 @@ begin
 
     //Creates the dialog form
     Application.CreateForm(TFormDiagnostics, FormDiagnostics);
+
+    //Set colors
+    FormDiagnostics.Color := backColor;
+    FormDiagnostics.Font.Color := fontColor;
+    FormDiagnostics.lblTitle.Font.Color := fontColor;
+    FormDiagnostics.lblStep1.Font.Color := fontColor;
+    FormDiagnostics.lblStep2.Font.Color := fontColor;
 
     //Shows dialog
     FormDiagnostics.ShowModal;
@@ -101,7 +108,10 @@ end;
 
 procedure TFormDiagnostics.btnContactTechSupportClick(Sender: TObject);
 begin
-  OpenUrl(MASTER_SUPPORT);
+  if (GMasterAppId = APPL_MASTER_GAMING) then
+    OpenUrl(MASTER_GAMING_SUPPORT)
+  else
+    OpenUrl(MASTER_OFFICE_SUPPORT);
 end;
 
 

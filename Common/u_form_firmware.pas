@@ -15,9 +15,9 @@ type
   { TFormFirmware }
 
   TFormFirmware = class(TBaseForm)
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
+    lblKeyboard: TLabel;
+    lblLightning: TLabel;
+    lblApp: TLabel;
     pnlKBFirware: TPanel;
     pnlLightningFirmware: TPanel;
     pnlApp: TPanel;
@@ -45,13 +45,13 @@ type
 
 var
   FormFirmware: TFormFirmware;
-  procedure ShowFirmware(device: TDevice);
+  procedure ShowFirmware(device: TDevice; backColor: TColor; fontColor: TColor);
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowFirmware(device: TDevice);
+procedure ShowFirmware(device: TDevice; backColor: TColor; fontColor: TColor);
 begin
   if (device <> nil) and (device.Connected) then
   begin
@@ -65,6 +65,17 @@ begin
       //Creates the dialog form
       Application.CreateForm(TFormFirmware, FormFirmware);
       FormFirmware.aDevice := device;
+
+      //Set colors
+      FormFirmware.Color := backColor;
+      FormFirmware.Font.Color := fontColor;
+      FormFirmware.lblTitle.Font.Color := fontColor;
+      FormFirmware.lblKeyboard.Font.Color := fontColor;
+      FormFirmware.lblLightning.Font.Color := fontColor;
+      FormFirmware.lblApp.Font.Color := fontColor;
+      FormFirmware.pnlKBFirware.Font.Color := fontColor;
+      FormFirmware.pnlLightningFirmware.Font.Color := fontColor;
+      FormFirmware.pnlApp.Font.Color := fontColor;
 
       //Shows dialog
       FormFirmware.ShowModal;
@@ -97,6 +108,7 @@ end;
 
 procedure TFormFirmware.FormShow(Sender: TObject);
 begin
+  inherited;
   tmrCheck.Enabled := true;
 end;
 
@@ -107,7 +119,9 @@ begin
     if (aDevice.DeviceNumber = APPL_RGB) then
       OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#smartset')
     else if (aDevice.DeviceNumber = APPL_TKO) then
-      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#smartset');
+      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#smartset')
+    else if (aDevice.DeviceNumber = APPL_ADV360) then
+      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#smartset');
   end;
 end;
 
@@ -121,6 +135,10 @@ begin
     begin
       //DonwloadAndUnzip('https://gaming.kinesis-ergo.com/wp-content/uploads/2020/12/TKO_Keyboard_1.0.1_UPDATE.zip');
       OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware');
+    end
+    else if (aDevice.DeviceNumber = APPL_TKO) then
+    begin
+      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
     end;
   end;
 end;
@@ -154,7 +172,9 @@ begin
     if (aDevice.DeviceNumber = APPL_RGB) then
       OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#firmware')
     else if (aDevice.DeviceNumber = APPL_TKO) then
-      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware');
+      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware')
+    else if (aDevice.DeviceNumber = APPL_TKO) then
+      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
   end;
 end;
 

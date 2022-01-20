@@ -294,8 +294,8 @@ end;
 
 function GetKeyShiftActiveLayer: integer;
 begin
-  if (keyService.ActiveLayer.LayerIndex = LAYER_TOP_360) then
-     result := VK_TOP_LAYER_SHIFT
+  if (keyService.ActiveLayer.LayerIndex = LAYER_BASE_360) then
+     result := VK_BASE_LAYER_SHIFT
   else if (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
     result := VK_KP_LAYER_SHIFT
   else if (keyService.ActiveLayer.LayerIndex = LAYER_FN1_360) then

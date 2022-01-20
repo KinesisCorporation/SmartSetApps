@@ -9,35 +9,46 @@ inherited FormDiagnostics: TFormDiagnostics
   KeyPreview = True
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  inherited btnClose: TColorSpeedButtonCS
-    Left = 791
+  inherited lineBorderLeft: TLineObj
+    Height = 204
   end
-  inherited lineBorderTop: TLineObj
+  inherited pnlTop: TPanel
     Width = 823
+    ClientWidth = 823
+    TabOrder = 1
+    inherited lblTitle: TLabel
+      Width = 984
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 788
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 1007
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 823
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 821
+    end
   end
   inherited lineBorderBottom: TLineObj
     Top = 239
     Width = 823
   end
-  inherited lineBorderLeft: TLineObj
-    Height = 237
-  end
   inherited lineBorderRight: TLineObj
     Left = 821
-    Height = 237
+    Height = 204
   end
-  inherited lblTitle: TLabel
-    Width = 768
-  end
-  object Label1: TLabel[6]
+  object lblStep1: TLabel[4]
     Left = 30
     Height = 16
     Top = 48
-    Width = 733
+    Width = 729
     Caption = 'Step 1: Please enter the keyboard’s serial number which found on the underside of the right key module (eg 97BRNUSAA0000).'
     ParentColor = False
   end
-  object btnCreateDiagnosticFile: TColorSpeedButtonCS[7]
+  object btnCreateDiagnosticFile: TColorSpeedButtonCS[5]
     Left = 30
     Height = 34
     Top = 112
@@ -71,9 +82,9 @@ inherited FormDiagnostics: TFormDiagnostics
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object eSerial: TEdit[8]
+  object eSerial: TEdit[6]
     Left = 32
-    Height = 25
+    Height = 24
     Top = 80
     Width = 162
     Font.Color = clBlack
@@ -82,7 +93,7 @@ inherited FormDiagnostics: TFormDiagnostics
     ParentFont = False
     TabOrder = 0
   end
-  object Label3: TLabel[9]
+  object lblStep2: TLabel[7]
     Left = 30
     Height = 50
     Top = 160
@@ -92,7 +103,7 @@ inherited FormDiagnostics: TFormDiagnostics
     ParentColor = False
     WordWrap = True
   end
-  object btnContactTechSupport: TColorSpeedButtonCS[10]
+  object btnContactTechSupport: TColorSpeedButtonCS[8]
     Left = 30
     Height = 34
     Top = 192

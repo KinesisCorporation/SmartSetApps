@@ -64,7 +64,7 @@ end;
 
 procedure TFormAbout.btnRequestSupportClick(Sender: TObject);
 begin
-  OpenUrl(MASTER_SUPPORT);
+  OpenUrl(MASTER_GAMING_SUPPORT);
 end;
 
 procedure TFormAbout.btnWatchTutorialClick(Sender: TObject);
@@ -85,6 +85,7 @@ end;
 
 procedure TFormAbout.FormCreate(Sender: TObject);
 begin
+  inherited;
   lblTitle.Visible := false;
   SetFont(self, 'Tahoma');
   lblAppTitle.Caption := HELP_TITLE_GAMING;

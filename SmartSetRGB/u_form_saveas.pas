@@ -105,12 +105,14 @@ end;
 
 procedure TFormSaveAs.FormCreate(Sender: TObject);
 begin
+  inherited;
   knobPosition.Image := MainForm.imageKnob.Picture.Bitmap;
   settingsChanged := false;
 end;
 
 procedure TFormSaveAs.FormShow(Sender: TObject);
 begin
+  inherited;
   lblCheckBox.Caption := 'Load Profile to Keyboard' + #10 + 'when v-Drive is closed';
   lblCustom.Caption := 'Save as Backup Profile';
 end;

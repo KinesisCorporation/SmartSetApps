@@ -14,7 +14,7 @@ uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
   {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
-  internetaccess, LazFileUtils, u_kinesis_device, registry, ExtCtrls;
+  internetaccess, LazFileUtils, u_kinesis_device, registry, ExtCtrls, u_led_ind;
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -55,8 +55,6 @@ type
                     maDisableLed, maFreestyleEdge, maMonochromeEdge, maBreatheEdge,
                     maWaveEdge, maFrozenWaveEdge, maSpectrumEdge, maLoopEdge, maReboundEdge,
                     maPulseEdge, maDisableEdge);
-
-  TIndFunction = (ifDisable, ifNKRO, ifGameMode, ifProfile, ifCaps, ifLayer, ifNumLock, ifScrollLock, ifBattery);
 
   TTransitionState = (tsPressed, tsReleased); //KeySate Down or Up
   TExtendedState = (esNormal, esExtended);
@@ -266,6 +264,7 @@ function SaveToRegistry(keyName: string; value: string): boolean;
 function ReadFromRegistry(keyName: string): string;
 function ShowNotification(hideNotif: boolean): boolean;
 function IsGen2Device(device: integer): boolean;
+function CheckMultimodifier(value: string): boolean;
 
 const
   //START OF VIRTUAL KEY OPTIONS
@@ -436,8 +435,8 @@ const
   VK_MOUSE_MOVE_DOWN = 11160;
   VK_LED_PLUS = 11161;
   VK_LED_MINUS = 11162;
-  VK_TOP_LAYER_SHIFT = 11163;
-  VK_TOP_LAYER_TOGGLE = 11164;
+  VK_BASE_LAYER_SHIFT = 11163;
+  VK_BASE_LAYER_TOGGLE = 11164;
   VK_KP_LAYER_SHIFT = 11165;
   VK_KP_LAYER_TOGGLE = 11166;
   VK_FN1_LAYER_SHIFT = 11167;
@@ -464,6 +463,16 @@ const
   VK_LED_SCROLL_LOCK = 11188;
   VK_LED_NKRO_MODE = 11189;
   VK_LED_GAME_MODE = 11190;
+  VK_LED_DISABLE = 11191;
+  VK_MACRO_SPEED_1 = 11192;
+  VK_MACRO_SPEED_2 = 11193;
+  VK_MACRO_SPEED_3 = 11194;
+  VK_MACRO_SPEED_4 = 11195;
+  VK_MACRO_SPEED_5 = 11196;
+  VK_MACRO_SPEED_6 = 11197;
+  VK_MACRO_SPEED_7 = 11198;
+  VK_MACRO_SPEED_8 = 11199;
+  VK_MACRO_SPEED_9 = 11200;
   //END OF VIRTUAL KEY OPTIONS
 
   MAPVK_VK_TO_VSC = 0;
@@ -624,7 +633,7 @@ const
   BOTLAYER_IDX = 1;
   LAYER_QWERTY = 0;
   LAYER_DVORAK = 1;
-  LAYER_TOP_360 = 0;
+  LAYER_BASE_360 = 0;
   LAYER_KEYPAD_360 = 1;
   LAYER_FN1_360 = 2;
   LAYER_FN2_360 = 3;
@@ -715,14 +724,16 @@ const
   ADV360_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0b_TJAf6qlHX97A-vnne2-N';
   RGB_HELP = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_HELP = 'https://gaming.kinesis-ergo.com/tko-support/';
-  MASTER_HELP = 'https://gaming.kinesis-ergo.com/support/#support-for-my-device';
+  ADV360_HELP = 'https://kinesis-ergo.com/support/advantage360/';
+  MASTER_GAMING_HELP = 'https://gaming.kinesis-ergo.com/support/#support-for-my-device';
+  MASTER_OFFICE_HELP = 'https://kinesis-ergo.com/support/#support-for-my-device';
   FSEDGE_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-support/#manuals';
   FSPRO_MANUAL = 'https://kinesis-ergo.com/support/freestyle-pro/#manuals';
   ADV2_MANUAL = 'https://kinesis-ergo.com/support/advantage2/#manuals';
   RGB_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#manuals';
   TKO_MANUAL = 'https://gaming.kinesis-ergo.com/tko-support/#manuals';
   PEDAL_MANUAL = 'https://kinesis-ergo.com/support/savant-elite2/#manuals';
-  ADV360_MANUAL = 'https://kinesis-ergo.com/support/adv360/#manuals';
+  ADV360_MANUAL = 'https://kinesis-ergo.com/support/advantage360/#manuals';
   FSPRO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0Z7Gx0T5N7TTzceorPHXJr5';
   ADV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0aNmELoR6kakcNf7AInoEfW';
   PEDAL_TUTORIAL = 'https://www.youtube.com/';
@@ -731,14 +742,18 @@ const
   RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/tko-support/';
   ADV2_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage2/';
+  ADV360_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage360/';
   PEDAL_TROUBLESHOOT = 'https://kinesis-ergo.com/support/savant-elite2/';
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
   ADV2_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
-  MASTER_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
+  ADV360_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
+  PEDAL_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
+  MASTER_GAMING_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
+  MASTER_OFFICE_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   RGB_FIRMWARE = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#firmware';
   TKO_FIRMWARE = 'https://gaming.kinesis-ergo.com/tko-support/#firmware';
-  ADV360_FIRMWARE = 'https://kinesis-ergo.com/adv360/#firmware';
+  ADV360_FIRMWARE = 'https://kinesis-ergo.com/advantage360/#firmware';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -1253,6 +1268,23 @@ begin
   result := (device in [APPL_ADV360]);
 end;
 
+function CheckMultimodifier(value: string): boolean;
+begin
+  value := value.ToLower;
+
+  result := value.Contains('[caws]') or
+    value.Contains('[cawx]') or
+    value.Contains('[cxws]') or
+    value.Contains('[caxs]') or
+    value.Contains('[xaws]') or
+    value.Contains('[caxx]') or
+    value.Contains('[cxwx]') or
+    value.Contains('[cxxs]') or
+    value.Contains('[xawx]') or
+    value.Contains('[xaxs]') or
+    value.Contains('[xxws]');
+end;
+
 function GetKeyModifierText(iKey: integer): string;
 begin
   Result := '';
@@ -1663,6 +1695,15 @@ begin
   ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', 'speed1', '', '', false, false, '', False));
   ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', 'speed3', '', '', false, false, '', False));
   ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', 'speed5', '', '', false, false, '', False));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_1, 's1'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_2, 's2'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_3, 's3'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_4, 's4'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_5, 's5'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_6, 's6'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_7, 's7'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_8, 's8'));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_9, 's9'));
   if not(GApplication in [APPL_RGB, APPL_TKO]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False));
@@ -1777,8 +1818,8 @@ begin
   ConfigKeys.Add(TKey.Create(VK_KEYPAD, '', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_SHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_TOP_LAYER_SHIFT, 'defs', 'Top' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_TOP_LAYER_TOGGLE, 'deft', 'Top' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_SHIFT, 'defs', 'Base' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_TOGGLE, 'deft', 'Base' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'keyt', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_SHIFT, 'fn1s', 'Fn1' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));

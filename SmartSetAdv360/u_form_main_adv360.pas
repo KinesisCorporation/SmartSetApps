@@ -10,9 +10,10 @@ uses
   LabelBox, RichMemo, HSLRingPicker, mbColorPreview, ueled, uEKnob, u_form_tapandhold, contnrs,
   u_key_layer, u_key_service, u_file_service, u_common_ui, U_Keys, UserDialog,
   FileUtil, u_form_troubleshoot, u_form_settings, u_gif, LCLIntf,
-  u_form_export, Types, u_form_about, buttons, u_form_diagnostics,
+  u_form_export, Types, u_form_about_office, buttons, u_form_diagnostics,
   u_form_firmware, u_form_timingdelays, LResources, lcltype, BGRABitmap,
-  BGRABitmapTypes, BGRAGradients, BGRAGradientScanner, u_form_intro
+  BGRABitmapTypes, BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
+  u_form_multimodifiers, u_form_color, InfoDialog
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -21,8 +22,10 @@ type
 
   TFormMainAdv360 = class(TForm)
     btnAltLayouts: TColorSpeedButtonCS;
+    btnFactoryReset: TColorSpeedButtonCS;
     btnMultimediaMacro: TColorSpeedButtonCS;
-    btnTopLayer: TColorSpeedButtonCS;
+    btnBaselayer: TColorSpeedButtonCS;
+    btnSpeedMacro: TColorSpeedButtonCS;
     btnRightLED1: TColorSpeedButtonCS;
     btnProfile: TColorSpeedButtonCS;
     btnKpLayer: TColorSpeedButtonCS;
@@ -40,9 +43,66 @@ type
     btnTapAndHold: TColorSpeedButtonCS;
     btnMacroOff: TColorSpeedButtonCS;
     btnLeftLED1: TColorSpeedButtonCS;
+    colorPreviewFn1: TmbColorPreview;
+    colorPreviewFn2: TmbColorPreview;
+    colorPreviewFn3: TmbColorPreview;
+    custColor2_3: TmbColorPreview;
+    custColor3_3: TmbColorPreview;
+    custColor6_3: TmbColorPreview;
+    custColor5_3: TmbColorPreview;
+    custColor4_3: TmbColorPreview;
+    custColor1_3: TmbColorPreview;
+    custColor2_4: TmbColorPreview;
+    custColor3_4: TmbColorPreview;
+    custColor6_4: TmbColorPreview;
+    custColor5_4: TmbColorPreview;
+    custColor4_4: TmbColorPreview;
+    custColor1_4: TmbColorPreview;
+    custColor2_5: TmbColorPreview;
+    custColor3_5: TmbColorPreview;
+    custColor6_5: TmbColorPreview;
+    custColor5_5: TmbColorPreview;
+    custColor4_5: TmbColorPreview;
+    custColor1_5: TmbColorPreview;
+    eBlueFn1: TEdit;
+    eBlueFn2: TEdit;
+    eBlueFn3: TEdit;
+    eGreenFn1: TEdit;
+    eGreenFn2: TEdit;
+    eGreenFn3: TEdit;
+    eHTMLFn1: TEdit;
+    eHTMLFn2: TEdit;
+    eHTMLFn3: TEdit;
+    eRedFn1: TEdit;
+    eRedFn2: TEdit;
+    eRedFn3: TEdit;
     imgSmartSet: TImage;
     imgListSave: TImageList;
+    lblBColorFn2: TLabel;
+    lblBColorFn3: TLabel;
+    lblCustomColors3: TLabel;
+    lblCustomColors4: TLabel;
+    lblGColorFn2: TLabel;
+    lblGColorFn3: TLabel;
+    lblLayerText: TLabel;
+    lblBColorFn1: TLabel;
+    lblCustomColors2: TLabel;
+    lblGColorFn1: TLabel;
     lblLayerSelect: TLabel;
+    lblLayerText1: TLabel;
+    lblLayerText2: TLabel;
+    lblLeftLed1Info: TLabel;
+    lblLeftLed2Info: TLabel;
+    lblLeftLed3Info: TLabel;
+    lblPreMixedColorsFn1: TLabel;
+    lblPreMixedColorsFn2: TLabel;
+    lblPreMixedColorsFn3: TLabel;
+    lblRColorFn1: TLabel;
+    lblRColorFn2: TLabel;
+    lblRColorFn3: TLabel;
+    lblRightLed1Info: TLabel;
+    lblRightLed2Info: TLabel;
+    lblRightLed3Info: TLabel;
     lbRow5_6: TLabelBox;
     lbRow5_7: TLabelBox;
     lbRow5_8: TLabelBox;
@@ -56,6 +116,9 @@ type
     lbRow7_6: TLabelBox;
     lbRow8_1: TLabelBox;
     lbRow8_2: TLabelBox;
+    pnlFn1Layer: TPanel;
+    pnlFn2Layer: TPanel;
+    pnlFn3Layer: TPanel;
     pnlLayerSelect: TPanel;
     btnBackspaceMacro: TColorSpeedButtonCS;
     btnCancel: TColorSpeedButtonCS;
@@ -101,17 +164,17 @@ type
     colorPreview: TmbColorPreview;
     colorPreviewKp: TmbColorPreview;
     custColor1: TmbColorPreview;
-    custColor10: TmbColorPreview;
-    custColor11: TmbColorPreview;
-    custColor12: TmbColorPreview;
+    custColor4_2: TmbColorPreview;
+    custColor5_2: TmbColorPreview;
+    custColor6_2: TmbColorPreview;
     custColor2: TmbColorPreview;
     custColor3: TmbColorPreview;
     custColor4: TmbColorPreview;
     custColor5: TmbColorPreview;
     custColor6: TmbColorPreview;
-    custColor7: TmbColorPreview;
-    custColor8: TmbColorPreview;
-    custColor9: TmbColorPreview;
+    custColor1_2: TmbColorPreview;
+    custColor2_2: TmbColorPreview;
+    custColor3_2: TmbColorPreview;
     eBlue: TEdit;
     eBlueKp: TEdit;
     eGreen: TEdit;
@@ -243,7 +306,7 @@ type
     pmColorPreview: TPopupMenu;
     pnlAssignMacro: TPanel;
     pnlKpLayer: TPanel;
-    pnlTopLayer: TPanel;
+    pnlBaseLayer: TPanel;
     pnlLayout: TPanel;
     pnlLayoutBtn: TPanel;
     pnlLightingBtn: TPanel;
@@ -269,9 +332,39 @@ type
     preMixedColor19: TmbColorPreview;
     preMixedColor2: TmbColorPreview;
     preMixedColor20: TmbColorPreview;
+    preMixedColor21: TmbColorPreview;
+    preMixedColor22: TmbColorPreview;
+    preMixedColor23: TmbColorPreview;
+    preMixedColor24: TmbColorPreview;
+    preMixedColor25: TmbColorPreview;
+    preMixedColor26: TmbColorPreview;
+    preMixedColor27: TmbColorPreview;
+    preMixedColor28: TmbColorPreview;
+    preMixedColor29: TmbColorPreview;
     preMixedColor3: TmbColorPreview;
+    preMixedColor30: TmbColorPreview;
+    preMixedColor31: TmbColorPreview;
+    preMixedColor32: TmbColorPreview;
+    preMixedColor33: TmbColorPreview;
+    preMixedColor34: TmbColorPreview;
+    preMixedColor35: TmbColorPreview;
+    preMixedColor36: TmbColorPreview;
+    preMixedColor37: TmbColorPreview;
+    preMixedColor38: TmbColorPreview;
+    preMixedColor39: TmbColorPreview;
     preMixedColor4: TmbColorPreview;
+    preMixedColor40: TmbColorPreview;
+    preMixedColor41: TmbColorPreview;
+    preMixedColor42: TmbColorPreview;
+    preMixedColor43: TmbColorPreview;
+    preMixedColor44: TmbColorPreview;
+    preMixedColor45: TmbColorPreview;
+    preMixedColor46: TmbColorPreview;
+    preMixedColor47: TmbColorPreview;
+    preMixedColor48: TmbColorPreview;
+    preMixedColor49: TmbColorPreview;
     preMixedColor5: TmbColorPreview;
+    preMixedColor50: TmbColorPreview;
     preMixedColor6: TmbColorPreview;
     preMixedColor7: TmbColorPreview;
     preMixedColor8: TmbColorPreview;
@@ -279,8 +372,11 @@ type
     rgMacro1: TRadioButton;
     rgMacro2: TRadioButton;
     rgMacro3: TRadioButton;
-    ringPickerTop: THSLRingPicker;
+    ringPickerBase: THSLRingPicker;
+    ringPickerFn2: THSLRingPicker;
+    ringPickerFn3: THSLRingPicker;
     ringPickerKp: THSLRingPicker;
+    ringPickerFn1: THSLRingPicker;
     SaveDialog: TSaveDialog;
     shpInd1: TShape;
     shpInd2: TShape;
@@ -295,15 +391,24 @@ type
     procedure btnBacklightClick(Sender: TObject);
     procedure btnDisableKeyClick(Sender: TObject);
     procedure btnEjectClick(Sender: TObject);
+    procedure btnFactoryResetClick(Sender: TObject);
     procedure btnFunctionMacroClick(Sender: TObject);
+    procedure btnLeftLED1Click(Sender: TObject);
+    procedure btnLeftLED2Click(Sender: TObject);
+    procedure btnLeftLED3Click(Sender: TObject);
     procedure btnLeftMenuClick(Sender: TObject);
     procedure btnMacModifiersClick(Sender: TObject);
     procedure btnMacroClick(Sender: TObject);
     procedure btnMultimediaMacroClick(Sender: TObject);
+    procedure btnMultimodifiersClick(Sender: TObject);
     procedure btnProfileMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure btnRightLED1Click(Sender: TObject);
+    procedure btnRightLED2Click(Sender: TObject);
+    procedure btnRightLED3Click(Sender: TObject);
     procedure btnSaveAsMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure btnSpeedMacroClick(Sender: TObject);
     procedure btnTapAndHoldClick(Sender: TObject);
     procedure CheckVDriveTmrTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -319,6 +424,7 @@ type
     procedure imgKeyboardLightingClick(Sender: TObject);
     procedure imgProfileClick(Sender: TObject);
     procedure bCoTriggerClick(Sender: TObject);
+    procedure lblLedIndInfoClick(Sender: TObject);
     //procedure lblMacroInfoMouseEnter(Sender: TObject);
     //procedure lblMacroInfoMouseLeave(Sender: TObject);
     procedure memoMacroKeyDown(Sender: TObject; var Key: Word;
@@ -341,6 +447,10 @@ type
     procedure btnResetKeyClick(Sender: TObject);
     procedure chkGlobalSpeedClick(Sender: TObject);
     procedure chkRepeatMultiplayClick(Sender: TObject);
+    procedure pnlLightingClick(Sender: TObject);
+    procedure ringPickerFn1Change(Sender: TObject);
+    procedure ringPickerFn2Change(Sender: TObject);
+    procedure ringPickerFn3Change(Sender: TObject);
     procedure sliderMacroSpeedChange(Sender: TObject);
     procedure sliderMacroSpeedMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -405,6 +515,18 @@ type
     procedure LayerClick(Sender: TObject);
     procedure TopMenuClick(Sender: TObject);
     procedure ResetLayers;
+    procedure colorPreMixedFn1Click(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure colorPreMixedFn2Click(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure colorPreMixedFn3Click(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure custColorFn1Click(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure custColorFn2Click(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure custColorFn3Click(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     closing: boolean;
     MacroMode: boolean;
@@ -481,7 +603,10 @@ type
     popCommonShortcuts: TPopupMenu;
     popMultimediaMacro: TPopupMenu;
     popFunctionKeysMacro: TPopupMenu;
+    popMacroSpeed: TPopupMenu;
+    popLedIndicator: TPopupMenu;
     showingVDriveErrorDlg: boolean;
+    function GetActiveLedIndicator: integer;
     function GetControlUnderMouse: string;
     function AcceptMacro: boolean;
     procedure ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
@@ -508,19 +633,22 @@ type
     function GetCoTriggerKey(Sender: TObject): TKey;
     function GetCursorNextKey(cursorPos: integer): integer;
     function GetCursorPrevKey(cursorPos: integer): integer;
+    function GetFnToken(mnuAction: integer): TIndFunction;
     function GetKeyButtonUnderMouse(btnList: TObjectList; x: integer; y: integer): TLabelBox;
     function GetLedMode: TLedMode;
     function GetMenuActionByType(actionType: TMenuActionType): TMenuAction;
     function GetMenuActionByButton(buttonName: string): TMenuAction;
     procedure GetRBGEditColor(layerIdx: integer);
     procedure ImageMenuClick(Sender: TObject);
-    procedure InitApp(scanVDrive: boolean = false);
+    function InitApp(scanVDrive: boolean = false): boolean;
     procedure InitKeyButtons(container: TWinControl);
     function IsKeyLoaded: boolean;
     procedure KeyButtonClick(Sender: TObject);
     procedure KeyButtonMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure KeyButtonsBringToFront;
+    procedure ResetLedIndicators;
+    procedure SetLedPopup(btnLedInd: TColorSpeedButtonCS; lblLedInd: TLabel);
     procedure ShapeColorSendToBack;
     procedure LaunchDemoMode;
     procedure LoadAppSettings;
@@ -542,10 +670,12 @@ type
     procedure openFirwareWebsite(Sender: TObject);
     procedure OpenMacroEditor;
     procedure OpenTapAndHold;
+    procedure OpenMultimodifiers;
     procedure openTroubleshootingTipsClick(Sender: TObject);
     procedure PositionMenuItems;
     procedure readManualClick(Sender: TObject);
     procedure RefreshRemapInfo;
+    procedure RefreshLedInfo;
     procedure ReloadKeyButtons;
     procedure ReloadKeyButtonsColor(reset: boolean = false; repainForm: boolean = true);
     procedure RemoveCoTrigger(key: word);
@@ -600,6 +730,8 @@ type
     procedure ShowIntroDialogs;
     function ShowTroubleshootingDialog(init: boolean): boolean;
     procedure UnselectActiveKey;
+    procedure SetCustomColor(iTag: integer; custColor: TColor);
+    procedure UpdateColors;
     procedure UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox;
       unselectKey: boolean=false; fullLoad: boolean=false);
     procedure UpdateMenu;
@@ -608,9 +740,11 @@ type
     function ValidateBeforeDone: boolean;
     function ValidateBeforeSave: boolean;
     procedure watchTutorialClick(Sender: TObject);
-    procedure ColorChange(newColor: TColor; layerIdx: integer);
+    procedure ColorChange(newColor: TColor; indIdx: integer; layerIdx: integer);
     procedure InitPopupMenus;
     procedure AddMenuItem(var popMenu: TPopupMenu; itemName: string; keyCode: integer);
+    procedure AddMenuItemLed(var popMenu: TPopupMenu; itemName: string; keyCode: integer);
+    procedure ReturnToHome;
   public
     currentLayoutFile: string;
     currentLedFile: string;
@@ -624,7 +758,7 @@ type
     copiedMacro: TKeyList;
     MacroModified: boolean;
     procedure Maximize;
-    procedure InitForm(mdiParent: TForm);
+    function InitForm(mdiParent: TForm): boolean;
   end;
 
 var
@@ -857,8 +991,10 @@ end;
 
 { TFormMainAdv360 }
 
-procedure TFormMainAdv360.InitForm(mdiParent: TForm);
+function TFormMainAdv360.InitForm(mdiParent: TForm): boolean;
 begin
+  result := false;
+
   fromMasterApp := mdiParent <> nil;
   parentForm := mdiParent;
 
@@ -893,7 +1029,7 @@ begin
   oldWindowState := wsNormal;
   SetFormBorder(bsNone);
 
-  pnlMacro.Top := pnlTopLayer.Top;
+  pnlMacro.Top := pnlBaseLayer.Top;
 
   //Set default variables
   closing := false;
@@ -921,7 +1057,7 @@ begin
   appError := false;
   activeMacroMenu := '';
   oldWindowState := wsNormal;
-  ringPickerTop.SquarePickerHintFormat:='Adjust the brightness of your color using the color square';
+  ringPickerBase.SquarePickerHintFormat:='Adjust the brightness of your color using the color square';
   InitKeyButtons(pnlMain);
   Application.OnDeactivate := @AppDeactivate;
   CloseMacroEditor;
@@ -953,7 +1089,7 @@ begin
   SetBaseDirectory(true);
 
   //Init app
-  InitApp;
+  result := InitApp;
 end;
 
 {Set the keyboard hook so we  can intercept keyboard input}
@@ -994,23 +1130,23 @@ begin
   ShowIntroDialogs;
 end;
 
-procedure TFormMainAdv360.InitApp(scanVDrive: boolean);
+function TFormMainAdv360.InitApp(scanVDrive: boolean = false): boolean;
 var
   customBtns: TCustomButtons;
-  canShowApp: boolean;
   aListDrives: TStringList;
   drives: string;
   i: integer;
   titleError: string;
 begin
-  canShowApp := GDemoMode or CheckVDrive;
+  result := GDemoMode or CheckVDrive;
 
-  if (canShowApp) then
+  if (result) then
   begin
     //Load config keys depending on app version
     keyService.LoadConfigKeys;
 
     RefreshRemapInfo;
+    RefreshLedInfo;
 
     keyService.LoadLayerList;
 
@@ -1031,7 +1167,8 @@ begin
       btnExport.Visible := false;
       btnFirmware.Visible := false;
       btnDiagnostic.Visible := false;
-      SetActiveLayer(LAYER_TOP_360);
+      btnFactoryReset.Visible := false;
+      SetActiveLayer(LAYER_BASE_360);
       SetActiveKeyButton(nil);
       SetConfigMode(CONFIG_LAYOUT, true);
     end
@@ -1051,11 +1188,11 @@ begin
           ShowMessage('LoadAppSettingsAndLayout-end');
       end
       else
-        canShowApp := false;
+        result := false;
     end;
   end;
 
-  if not canShowApp then
+  if not result then
   begin
     if (GDesktopMode) then
     begin
@@ -1075,7 +1212,10 @@ begin
       begin
         appError := true;
         Close;
-      end;
+        ReturnToHome;
+      end
+      else
+        result := true;
     end
     else
     begin
@@ -1084,6 +1224,7 @@ begin
         mtFSEdge, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
       appError := true;
       Close;
+      ReturnToHome;
     end;
   end;
   if (GDebugMode) then
@@ -1150,11 +1291,11 @@ end;
 procedure TFormMainAdv360.FormDestroy(Sender: TObject);
 begin
   RemoveKeyboardHook;
-  FreeAndNil(keyBtnList);// := nil;
+  FreeAndNil(keyBtnList);
   FreeAndNil(keyService);
   FreeAndNil(fileService);
   FreeAndNil(menuActionList);
-  FreeAndNil(hoveredList);// := nil;
+  FreeAndNil(hoveredList);
 end;
 
 procedure TFormMainAdv360.Maximize;
@@ -1287,6 +1428,7 @@ begin
   hoveredList.Add(THoveredObj.Create(btnDiagnostic, imgListSettings, 8, 9));
   hoveredList.Add(THoveredObj.Create(btnHelp, imgListSettings, 10, 11));
   hoveredList.Add(THoveredObj.Create(btnEject, imgListSettings, 12, 13));
+  hoveredList.Add(THoveredObj.Create(btnFactoryReset, imgListSettings, 14, 15));
 
   //Save profile section
   hoveredList.Add(THoveredObj.Create(btnSave, imgListSave, 0, 1));
@@ -1309,6 +1451,7 @@ begin
   hoveredList.Add(THoveredObj.Create(btnWindowsCombos, imgListMacroActions, 14, 15));
   hoveredList.Add(THoveredObj.Create(btnMultimediaMacro, imgListMacroActions, 16, 17));
   hoveredList.Add(THoveredObj.Create(btnFunctionMacro, imgListMacroActions, 18, 19));
+  hoveredList.Add(THoveredObj.Create(btnSpeedMacro, imgListMacroActions, 20, 21));
 
   //Macro buttons
   hoveredList.Add(THoveredObj.Create(btnCancelMacro, imgListMacro, 0, 1));
@@ -1439,7 +1582,7 @@ begin
   //Laying Shifting
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, 'Top Shift', VK_TOP_LAYER_SHIFT);
+  AddMenuItem(popMenu, 'Base Shift', VK_BASE_LAYER_SHIFT);
   AddMenuItem(popMenu, 'Kp Shift', VK_KP_LAYER_SHIFT);
   AddMenuItem(popMenu, 'Fn1 Shift', VK_FN1_LAYER_SHIFT);
   AddMenuItem(popMenu, 'Fn2 Shift', VK_FN2_LAYER_SHIFT);
@@ -1449,7 +1592,7 @@ begin
   //Layer Toggling
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, 'Top Toggle', VK_TOP_LAYER_TOGGLE);
+  AddMenuItem(popMenu, 'Base Toggle', VK_BASE_LAYER_TOGGLE);
   AddMenuItem(popMenu, 'Kp Toggle', VK_KP_LAYER_TOGGLE);
   AddMenuItem(popMenu, 'Fn1 Toggle', VK_FN1_LAYER_TOGGLE);
   AddMenuItem(popMenu, 'Fn2 Toggle', VK_FN2_LAYER_TOGGLE);
@@ -1471,12 +1614,12 @@ begin
   AddMenuItem(popMenu, 'Workman', VK_WORKMAN);
   btnAltLayouts.PopupMenu := popMenu;
 
-  //Multimodifiers
-  popMenu := TPopupMenu.Create(self);
-  popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, 'Hyper', VK_HYPER);
-  AddMenuItem(popMenu, 'Meh', VK_Meh);
-  btnMultimodifiers.PopupMenu := popMenu;
+  ////Multimodifiers
+  //popMenu := TPopupMenu.Create(self);
+  //popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  //AddMenuItem(popMenu, 'Hyper', VK_HYPER);
+  //AddMenuItem(popMenu, 'Meh', VK_Meh);
+  //btnMultimodifiers.PopupMenu := popMenu;
 
   //Special actions
   popMenu := TPopupMenu.Create(self);
@@ -1497,17 +1640,72 @@ begin
   AddMenuItem(popMenu, 'System Power', VK_SHUTDOWN);
   btnSpecialActions.PopupMenu := popMenu;
 
-  //Alternate layouts
-  popMenu := TPopupMenu.Create(self);
-  popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
-  AddMenuItem(popMenu, 'Profile', VK_LED_PROFILE);
-  AddMenuItem(popMenu, 'Layer', VK_LED_LAYER);
-  AddMenuItem(popMenu, 'Caps Lock', VK_LED_CAPS_LOCK);
-  AddMenuItem(popMenu, 'Num Lock', VK_LED_NUM_LOCK);
-  AddMenuItem(popMenu, 'Scoll Lock', VK_LED_SCROLL_LOCK);
-  AddMenuItem(popMenu, 'NKRO Mode', VK_LED_NKRO_MODE);
-  AddMenuItem(popMenu, 'Game Mode', VK_LED_GAME_MODE);
-  btnLeftLED1.PopupMenu := popMenu;
+  //Leds
+  popLedIndicator := TPopupMenu.Create(self);
+  popLedIndicator.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  AddMenuItemLed(popLedIndicator, 'Profile', VK_LED_PROFILE);
+  AddMenuItemLed(popLedIndicator, 'Layer', VK_LED_LAYER);
+  AddMenuItemLed(popLedIndicator, 'Caps Lock', VK_LED_CAPS_LOCK);
+  AddMenuItemLed(popLedIndicator, 'Num Lock', VK_LED_NUM_LOCK);
+  AddMenuItemLed(popLedIndicator, 'Scoll Lock', VK_LED_SCROLL_LOCK);
+  AddMenuItemLed(popLedIndicator, 'NKRO Mode', VK_LED_NKRO_MODE);
+  AddMenuItemLed(popLedIndicator, 'Disable', VK_LED_DISABLE);
+  //btnLeftLED1.PopupMenu := popMenu;
+
+  //popMenu := TPopupMenu.Create(self);
+  //popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  //AddMenuItemLed(popMenu, 'Profile', VK_LED_PROFILE, 2);
+  //AddMenuItemLed(popMenu, 'Layer', VK_LED_LAYER, 2);
+  //AddMenuItemLed(popMenu, 'Caps Lock', VK_LED_CAPS_LOCK, 2);
+  //AddMenuItemLed(popMenu, 'Num Lock', VK_LED_NUM_LOCK, 2);
+  //AddMenuItemLed(popMenu, 'Scoll Lock', VK_LED_SCROLL_LOCK, 2);
+  //AddMenuItemLed(popMenu, 'NKRO Mode', VK_LED_NKRO_MODE, 2);
+  //AddMenuItemLed(popMenu, 'Disable', VK_LED_DISABLE, 2);
+  //btnLeftLED2.PopupMenu := popMenu;
+  //
+  //popMenu := TPopupMenu.Create(self);
+  //popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  //AddMenuItemLed(popMenu, 'Profile', VK_LED_PROFILE, 3);
+  //AddMenuItemLed(popMenu, 'Layer', VK_LED_LAYER, 3);
+  //AddMenuItemLed(popMenu, 'Caps Lock', VK_LED_CAPS_LOCK, 3);
+  //AddMenuItemLed(popMenu, 'Num Lock', VK_LED_NUM_LOCK, 3);
+  //AddMenuItemLed(popMenu, 'Scoll Lock', VK_LED_SCROLL_LOCK, 3);
+  //AddMenuItemLed(popMenu, 'NKRO Mode', VK_LED_NKRO_MODE, 3);
+  //AddMenuItemLed(popMenu, 'Disable', VK_LED_DISABLE, 3);
+  //btnLeftLED3.PopupMenu := popMenu;
+  //
+  //popMenu := TPopupMenu.Create(self);
+  //popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  //AddMenuItemLed(popMenu, 'Profile', VK_LED_PROFILE, 4);
+  //AddMenuItemLed(popMenu, 'Layer', VK_LED_LAYER, 4);
+  //AddMenuItemLed(popMenu, 'Caps Lock', VK_LED_CAPS_LOCK, 4);
+  //AddMenuItemLed(popMenu, 'Num Lock', VK_LED_NUM_LOCK, 4);
+  //AddMenuItemLed(popMenu, 'Scoll Lock', VK_LED_SCROLL_LOCK, 4);
+  //AddMenuItemLed(popMenu, 'NKRO Mode', VK_LED_NKRO_MODE, 4);
+  //AddMenuItemLed(popMenu, 'Disable', VK_LED_DISABLE, 4);
+  //btnRightLED1.PopupMenu := popMenu;
+  //
+  //popMenu := TPopupMenu.Create(self);
+  //popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  //AddMenuItemLed(popMenu, 'Profile', VK_LED_PROFILE, 5);
+  //AddMenuItemLed(popMenu, 'Layer', VK_LED_LAYER, 5);
+  //AddMenuItemLed(popMenu, 'Caps Lock', VK_LED_CAPS_LOCK, 5);
+  //AddMenuItemLed(popMenu, 'Num Lock', VK_LED_NUM_LOCK, 5);
+  //AddMenuItemLed(popMenu, 'Scoll Lock', VK_LED_SCROLL_LOCK, 5);
+  //AddMenuItemLed(popMenu, 'NKRO Mode', VK_LED_NKRO_MODE, 5);
+  //AddMenuItemLed(popMenu, 'Disable', VK_LED_DISABLE, 5);
+  //btnRightLED2.PopupMenu := popMenu;
+  //
+  //popMenu := TPopupMenu.Create(self);
+  //popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  //AddMenuItemLed(popMenu, 'Profile', VK_LED_PROFILE, 6);
+  //AddMenuItemLed(popMenu, 'Layer', VK_LED_LAYER, 6);
+  //AddMenuItemLed(popMenu, 'Caps Lock', VK_LED_CAPS_LOCK, 6);
+  //AddMenuItemLed(popMenu, 'Num Lock', VK_LED_NUM_LOCK, 6);
+  //AddMenuItemLed(popMenu, 'Scoll Lock', VK_LED_SCROLL_LOCK, 6);
+  //AddMenuItemLed(popMenu, 'NKRO Mode', VK_LED_NKRO_MODE, 6);
+  //AddMenuItemLed(popMenu, 'Disable', VK_LED_DISABLE, 6);
+  //btnRightLED3.PopupMenu := popMenu;
 
   //// MACRO menu
   //Macro mouse clicks
@@ -1592,6 +1790,19 @@ begin
   AddMacroMenuItem(popFunctionKeysMacro, 'F22', VK_F22);
   AddMacroMenuItem(popFunctionKeysMacro, 'F23', VK_F23);
   AddMacroMenuItem(popFunctionKeysMacro, 'F24', VK_F24);
+
+  //Macro speed sortcuts
+  popMacroSpeed := TPopupMenu.Create(self);
+  popMacroSpeed.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 1', VK_MACRO_SPEED_1);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 2', VK_MACRO_SPEED_2);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 3', VK_MACRO_SPEED_3);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 4', VK_MACRO_SPEED_4);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 5', VK_MACRO_SPEED_5);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 6', VK_MACRO_SPEED_6);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 7', VK_MACRO_SPEED_7);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 8', VK_MACRO_SPEED_8);
+  AddMacroMenuItem(popMacroSpeed, 'Speed 9', VK_MACRO_SPEED_9);
 end;
 
 procedure TFormMainAdv360.AddMenuItem(var popMenu: TPopupMenu; itemName: string; keyCode: integer);
@@ -1603,6 +1814,23 @@ begin
   menuItem.Tag := keyCode;
   menuItem.OnClick := @MenuItemClick;
   popMenu.Items.Add(menuItem);
+end;
+
+procedure TFormMainAdv360.AddMenuItemLed(var popMenu: TPopupMenu;
+  itemName: string; keyCode: integer);
+var
+  menuItem: TMenuItem;
+begin
+  menuItem := TMenuItem.Create(popMenu);
+  menuItem.Caption := itemName;
+  menuItem.Tag := keyCode;
+  menuItem.OnClick := @MenuItemClick;
+  popMenu.Items.Add(menuItem);
+end;
+
+procedure TFormMainAdv360.ReturnToHome;
+begin
+  (parentForm as TFormDashboard).ResetToHome;
 end;
 
 procedure TFormMainAdv360.AddMacroMenuItem(var popMenu: TPopupMenu; itemName: string; keyCode: integer);
@@ -1636,6 +1864,8 @@ var
   layoutName: string;
   aKbKeyOtherLayer: TKBKey;
   keyShiftActiveLayer: integer;
+  indIdx: integer;
+  indToken: TIndFunction;
 begin
   mnu := (sender as TMenuItem);
   mnuAction := mnu.Tag;
@@ -1664,14 +1894,14 @@ begin
       begin
         //todo ?
         //if (mnuAction = VK_DVORAK) then
-        //  SetDvorakKb(LAYER_TOP_360, false)
+        //  SetDvorakKb(LAYER_BASE_360, false)
         //else if (mnuAction = VK_COLEMAK) then
-        //  SetColemakKb(LAYER_TOP_360, false)
+        //  SetColemakKb(LAYER_BASE_360, false)
         //else if (mnuAction = VK_WORKMAN) then
-        //  SetWorkmanKb(LAYER_TOP_360, false);
+        //  SetWorkmanKb(LAYER_BASE_360, false);
       end;
     end
-    else if (mnuAction = VK_TOP_LAYER_SHIFT) or (mnuAction = VK_KP_LAYER_SHIFT) or (mnuAction = VK_FN1_LAYER_SHIFT) or
+    else if (mnuAction = VK_BASE_LAYER_SHIFT) or (mnuAction = VK_KP_LAYER_SHIFT) or (mnuAction = VK_FN1_LAYER_SHIFT) or
       (mnuAction = VK_FN2_LAYER_SHIFT) or (mnuAction = VK_FN3_LAYER_SHIFT) then
     begin
       KeyModified := true;
@@ -1680,8 +1910,8 @@ begin
       keyService.SetKBKey(activeKbKey, mnuAction, true);
       UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
 
-      if (mnuAction = VK_TOP_LAYER_SHIFT) then
-        aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_TOP_360, activeKeyBtn.Index)
+      if (mnuAction = VK_BASE_LAYER_SHIFT) then
+        aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_BASE_360, activeKeyBtn.Index)
       else if (mnuAction = VK_KP_LAYER_SHIFT) then
         aKbKeyOtherLayer := GetKeyByLayerIdx(keyService, LAYER_KEYPAD_360, activeKeyBtn.Index)
       else if (mnuAction = VK_FN1_LAYER_SHIFT) then
@@ -1727,11 +1957,57 @@ begin
       ResetPopupMenu;
       ResetSingleKey;
     end
-    else if (mnuAction = VK_LED_PROFILE) then
+    else if (mnuAction = VK_LED_PROFILE) or
+      (mnuAction = VK_LED_LAYER) or
+      (mnuAction = VK_LED_CAPS_LOCK) or
+      (mnuAction = VK_LED_NUM_LOCK) or
+      (mnuAction = VK_LED_SCROLL_LOCK) or
+      (mnuAction = VK_LED_NKRO_MODE) or
+      (mnuAction = VK_LED_DISABLE) or
+      (mnuAction = VK_LED_GAME_MODE) then
     begin
+      indIdx := GetActiveLedIndicator;
+      indToken := GetFnToken(mnuAction);
+      ShowHideParameters(PARAM_COLOR, false);
+      if (indIdx > 0) then
+      begin
+        if (indToken = ifLayer) then
+        begin
+          loadingLedSettings := true;
+          ColorChange(keyService.LedIndicators[indIdx - 1].IndColor[0], 0, LAYER_BASE_360);
+          ColorChange(keyService.LedIndicators[indIdx - 1].IndColor[1], 0, LAYER_KEYPAD_360);
+          ColorChange(keyService.LedIndicators[indIdx - 1].IndColor[2], 0, LAYER_FN1_360);
+          ColorChange(keyService.LedIndicators[indIdx - 1].IndColor[3], 0, LAYER_FN2_360);
+          ColorChange(keyService.LedIndicators[indIdx - 1].IndColor[4], 0, LAYER_FN3_360);
+          loadingLedSettings := false;
 
+          ShowHideParameters(PARAM_COLOR, true);
+          keyService.LedIndicators[indIdx - 1].FnToken := indToken;
+          SetSaveState(ssModified);
+        end
+        else if (indToken = ifDisable) then
+        begin
+          keyService.LedIndicators[indIdx - 1].IndColor[0] := clBlack;
+          keyService.LedIndicators[indIdx - 1].FnToken := indToken;
+          SetSaveState(ssModified);
+          ResetLedIndicators;
+        end
+        else
+        begin
+          if (ShowColorSelect(keyService.LedIndicators[indIdx - 1].IndColor[0], backColor, fontColor)) then
+          begin
+            keyService.LedIndicators[indIdx - 1].IndColor[0] := FormColorSelect.selectedColor;
+            keyService.LedIndicators[indIdx - 1].FnToken := indToken;
+            SetSaveState(ssModified);
+          end;
+          UpdateColors;
+          ResetLedIndicators;
+        end;
+      end;
       ResetPopupMenu;
       ResetSingleKey;
+      ReloadKeyButtonsColor;
+      RefreshLedInfo;
     end
     else
     begin
@@ -1744,6 +2020,45 @@ begin
       end;
     end;
   end;
+end;
+
+function TFormMainAdv360.GetActiveLedIndicator: integer;
+begin
+  result := 0;
+  if (btnLeftLED1.Down) then
+    result := 1
+  else if (btnLeftLED2.Down) then
+    result := 2
+  else if (btnLeftLED3.Down) then
+    result := 3
+  else if (btnRightLED1.Down) then
+    result := 4
+  else if (btnRightLED2.Down) then
+    result := 5
+  else if (btnRightLED3.Down) then
+    result := 6;
+end;
+
+function TFormMainAdv360.GetFnToken(mnuAction: integer): TIndFunction;
+begin
+  result := ifDisable;
+
+  if (mnuAction = VK_LED_PROFILE) then
+    result := ifProfile
+  else if (mnuAction = VK_LED_LAYER) then
+    result := ifLayer
+  else if (mnuAction = VK_LED_CAPS_LOCK) then
+    result := ifCaps
+  else if (mnuAction = VK_LED_NUM_LOCK) then
+    result := ifNumLock
+  else if (mnuAction = VK_LED_SCROLL_LOCK) then
+    result := ifScrollLock
+  else if (mnuAction = VK_LED_NKRO_MODE) then
+    result := ifNKRO
+  else if (mnuAction = VK_LED_DISABLE) then
+    result := ifDisable
+  else if (mnuAction = VK_LED_GAME_MODE) then
+    result := ifGameMode;
 end;
 
 procedure TFormMainAdv360.MacroMenuItemClick(Sender: TObject);
@@ -1933,30 +2248,35 @@ procedure TFormMainAdv360.LoadAppSettings;
 begin
   try
     loadingSettings := true;
-    ColorChange(clRed, LAYER_TOP_360);
-    ColorChange(clRed, LAYER_KEYPAD_360);
-    ColorChange(clRed, LAYER_FN1_360);
-    ColorChange(clRed, LAYER_FN2_360);
-    ColorChange(clRed, LAYER_FN3_360);
+    ColorChange(clRed, 0, LAYER_BASE_360);
+    ColorChange(clRed, 0, LAYER_KEYPAD_360);
+    ColorChange(clRed, 0, LAYER_FN1_360);
+    ColorChange(clRed, 0, LAYER_FN2_360);
+    ColorChange(clRed, 0, LAYER_FN3_360);
     AppSettingsLoaded := fileService.LoadAppSettings(GAppSettingsFile) = '';
     if (AppSettingsLoaded) then
     begin
-      custColor1.Color := fileService.AppSettings.CustColor1;
-      custColor2.Color := fileService.AppSettings.CustColor2;
-      custColor3.Color := fileService.AppSettings.CustColor3;
-      custColor4.Color := fileService.AppSettings.CustColor4;
-      custColor5.Color := fileService.AppSettings.CustColor5;
-      custColor6.Color := fileService.AppSettings.CustColor6;
-      custColor7.Color := fileService.AppSettings.CustColor7;
-      custColor8.Color := fileService.AppSettings.CustColor8;
-      custColor9.Color := fileService.AppSettings.CustColor9;
-      custColor10.Color := fileService.AppSettings.CustColor10;
-      custColor11.Color := fileService.AppSettings.CustColor11;
-      custColor12.Color := fileService.AppSettings.CustColor12;
+      UpdateColors;
     end;
   finally
     loadingSettings := false;
   end;
+end;
+
+procedure TFormMainAdv360.UpdateColors;
+begin
+  SetCustomColor(1, fileService.AppSettings.CustColor1);
+  SetCustomColor(2, fileService.AppSettings.CustColor2);
+  SetCustomColor(3, fileService.AppSettings.CustColor3);
+  SetCustomColor(4, fileService.AppSettings.CustColor4);
+  SetCustomColor(5, fileService.AppSettings.CustColor5);
+  SetCustomColor(6, fileService.AppSettings.CustColor6);
+  //custColor1.Color := fileService.AppSettings.CustColor1;
+  //custColor2.Color := fileService.AppSettings.CustColor2;
+  //custColor3.Color := fileService.AppSettings.CustColor3;
+  //custColor4.Color := fileService.AppSettings.CustColor4;
+  //custColor5.Color := fileService.AppSettings.CustColor5;
+  //custColor6.Color := fileService.AppSettings.CustColor6;
 end;
 
 function TFormMainAdv360.LoadStateSettings: boolean;
@@ -2021,7 +2341,7 @@ begin
       if (errorMsg = '') then
       begin
         keyService.ActiveLayer := nil;
-        ChangeActiveLayer(LAYER_TOP_360);
+        ChangeActiveLayer(LAYER_BASE_360);
         layoutFile := ExtractFileNameWithoutExt(ExtractFileName(layoutFile));
         keyService.ConvertFromTextFileFmt(layoutContent);
         btnProfile.Caption := 'PROFILE ' + IntToStr(currentProfileNumber) + ' ';
@@ -2032,7 +2352,7 @@ begin
         btnProfile.Caption := 'PROFILE ' + IntToStr(0) + ' ';
         ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
-      SetActiveLayer(LAYER_TOP_360);
+      SetActiveLayer(LAYER_BASE_360);
       SetActiveKeyButton(nil);
       RefreshRemapInfo;
     finally
@@ -2156,19 +2476,52 @@ begin
   //btnResetAll.Enabled := (remapCount > 0) or (macroCount > 0);
 end;
 
+procedure TFormMainAdv360.RefreshLedInfo;
+begin
+  lblLeftLed1Info.Caption := '';
+  lblLeftLed2Info.Caption := '';
+  lblLeftLed3Info.Caption := '';
+  lblRightLed1Info.Caption := '';
+  lblRightLed2Info.Caption := '';
+  lblRightLed3Info.Caption := '';
+
+  if (keyService.ConfigMode = CONFIG_LIGHTING) then
+  begin
+    lblLeftLed1Info.Caption := keyService.LedIndicators[0].FnTokenText;
+    lblLeftLed2Info.Caption := keyService.LedIndicators[1].FnTokenText;
+    lblLeftLed3Info.Caption := keyService.LedIndicators[2].FnTokenText;
+    lblRightLed1Info.Caption := keyService.LedIndicators[3].FnTokenText;
+    lblRightLed2Info.Caption := keyService.LedIndicators[4].FnTokenText;
+    lblRightLed3Info.Caption := keyService.LedIndicators[5].FnTokenText;
+  end;
+end;
+
 procedure TFormMainAdv360.ResetLayers;
 begin
-  btnTopLayer.Down := false;
+  btnBaselayer.Down := false;
   btnKpLayer.Down := false;
   btnFn1Layer.Down := false;
   btnFn2Layer.Down := false;
   btnFn3Layer.Down := false;
 end;
 
+procedure TFormMainAdv360.ResetLedIndicators;
+begin
+  btnLeftLED1.Down := false;
+  btnLeftLED2.Down := false;
+  btnLeftLED3.Down := false;
+  btnRightLED1.Down := false;
+  btnRightLED2.Down := false;
+  btnRightLED3.Down := false;
+
+  ShowHideParameters(PARAM_COLOR, false);
+  RefreshLedInfo;
+end;
+
 procedure TFormMainAdv360.LayerClick(Sender: TObject);
 begin
-  if (sender = btnTopLayer) then
-    SetActiveLayer(LAYER_TOP_360)
+  if (sender = btnBaselayer) then
+    SetActiveLayer(LAYER_BASE_360)
   else if (sender = btnKpLayer) then
     SetActiveLayer(LAYER_KEYPAD_360)
   else if (sender = btnFn1Layer) then
@@ -2184,8 +2537,8 @@ begin
   keyService.ActiveLayer := keyService.GetLayer(layerIdx);
 
   ResetLayers;
-  if (layerIdx = LAYER_TOP_360) then
-     btnTopLayer.Down := true
+  if (layerIdx = LAYER_BASE_360) then
+     btnBaselayer.Down := true
   else if (layerIdx = LAYER_KEYPAD_360) then
      btnKpLayer.Down := true
   else if (layerIdx = LAYER_FN1_360) then
@@ -2400,7 +2753,12 @@ begin
       //keyButton.Font.Style := [];
       keyButton.Bitmap := nil;
 
-      if (kbKey.TapAndHold) then
+      if (kbKey.Multimodifiers <> '') then
+      begin
+        keyButton.Caption := kbKey.Multimodifiers;
+        keyButton.Font.Color := blueColor;
+      end
+      else if (kbKey.TapAndHold) then
       begin
         keyButton.Caption := kbKey.TapAction.OtherDisplayText + #10 + kbKey.HoldAction.OtherDisplayText;
         keyButton.Font.Color := blueColor;
@@ -2479,6 +2837,7 @@ begin
   ShowHideKeyButtons(false);
   ShowHideShapeColor(false);
   ReloadKeyButtonsColor(true, false);
+  ResetLedIndicators;
   SetMenuEnabled;
 
   //Process messages to speed up processing
@@ -2594,7 +2953,7 @@ begin
   if init then
   begin
     title := 'Keyboard not detected';
-      resultTroubleshoot := ShowTroubleshoot(title, init, backColor, fontColor);
+      resultTroubleshoot := ShowTroubleshoot(title, backColor, fontColor);
     if (resultTroubleshoot = 1) then
       ScanVDrive(init)
     else if (resultTroubleshoot = 2) then
@@ -2607,9 +2966,8 @@ begin
     openPosition := poMainFormCenter;
     createCustomButton(customBtns, 'Scan for v-Drive', 200, @scanVDriveClick);
     title := 'Keyboard Connection Lost';
-    message := 'To save your changes you must use the onboard shortcut “SmartSet + F8” to open the v-Drive and re-establish the connection with the SmartSet App.';
+    message := 'To save your changes you must use the onboard shortcut “SmartSet + v-Drive” to open the v-Drive and re-establish the connection with the SmartSet App.';
     createCustomButton(customBtns, 'Troubleshooting Tips', 200, @openTroubleshootingTipsClick);
-
 
     if (ShowDialog(title, message, mtError, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns, '', openPosition, 700) = mrCancel) then
       result := false;
@@ -2848,6 +3206,16 @@ begin
   end;
 end;
 
+procedure TFormMainAdv360.btnSpeedMacroClick(Sender: TObject);
+var
+  pt: TPoint;
+begin
+  pt.x := Mouse.CursorPos.x;
+  pt.y := Mouse.CursorPos.y;
+  popMacroSpeed.PopUp(pt.x, pt.y);
+  SetHovered(sender, false, true);
+end;
+
 procedure TFormMainAdv360.btnProfileMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
@@ -2910,6 +3278,7 @@ begin
   ResetPopupMenu;
   ResetPopupMenuMacro;
   ResetSingleKey;
+  ResetLedIndicators;
   if IsKeyLoaded then
     SetActiveKeyButton(nil);
 end;
@@ -2987,7 +3356,7 @@ begin
     layoutContent := keyService.ConvertToTextFileFmt;
     if fileService.SaveFile(currentLayoutFile, layoutContent, true, errorMsg) then
     begin
-      ledContent := keyService.ConvertLedToTextFileFmt;
+      ledContent := keyService.ConvertLedToTextFileFmtAdv360;
       if fileService.SaveFile(currentLedFile, ledContent, true, errorMsg) then
       begin
         fileName := ExtractFileNameWithoutExt(ExtractFileName(currentLayoutFile));
@@ -3083,34 +3452,42 @@ procedure TFormMainAdv360.ReloadKeyButtonsColor(reset: boolean; repainForm: bool
 //  i: integer;
 //  keyButton: TLabelBox;
 //  aKbKey: TKBKey;
+var
+  ledColor: TColor;
 begin
-  if (keyService.Ind1Color <> clNone) and (keyService.Ind1Color <> clBlack) then
-     shpInd1.Brush.Color := keyService.Ind1Color
+  ledColor := keyService.LedIndicators[0].IndColor[0];
+  if (ledColor <> clNone) and (ledColor <> clBlack) then
+     shpInd1.Brush.Color := ledColor
   else
      shpInd1.Brush.Color := KINESIS_GRAY_BACKCOLOR;//.Style := bsClear;
 
-  if (keyService.Ind2Color <> clNone) and (keyService.Ind2Color <> clBlack) then
-     shpInd2.Brush.Color := keyService.Ind2Color
+  ledColor := keyService.LedIndicators[1].IndColor[0];
+  if (ledColor <> clNone) and (ledColor <> clBlack) then
+     shpInd2.Brush.Color := ledColor
   else
      shpInd2.Brush.Color := KINESIS_GRAY_BACKCOLOR;//.Style := bsClear;
 
-  if (keyService.Ind3Color <> clNone) and (keyService.Ind3Color <> clBlack) then
-     shpInd3.Brush.Color := keyService.Ind3Color
+  ledColor := keyService.LedIndicators[2].IndColor[0];
+  if (ledColor <> clNone) and (ledColor <> clBlack) then
+     shpInd3.Brush.Color := ledColor
   else
      shpInd3.Brush.Color := KINESIS_GRAY_BACKCOLOR;//.Style := bsClear;
 
-  if (keyService.Ind4Color <> clNone) and (keyService.Ind4Color <> clBlack) then
-     shpInd4.Brush.Color := keyService.Ind4Color
+  ledColor := keyService.LedIndicators[3].IndColor[0];
+  if (ledColor <> clNone) and (ledColor <> clBlack) then
+     shpInd4.Brush.Color := ledColor
   else
      shpInd4.Brush.Color := KINESIS_GRAY_BACKCOLOR;//.Style := bsClear;
 
-  if (keyService.Ind5Color <> clNone) and (keyService.Ind5Color <> clBlack) then
-     shpInd5.Brush.Color := keyService.Ind5Color
+  ledColor := keyService.LedIndicators[4].IndColor[0];
+  if (ledColor <> clNone) and (ledColor <> clBlack) then
+     shpInd5.Brush.Color := ledColor
   else
      shpInd5.Brush.Color := KINESIS_GRAY_BACKCOLOR;//.Style := bsClear;
 
-  if (keyService.Ind6Color <> clNone) and (keyService.Ind6Color <> clBlack) then
-     shpInd6.Brush.Color := keyService.Ind6Color
+  ledColor := keyService.LedIndicators[5].IndColor[0];
+  if (ledColor <> clNone) and (ledColor <> clBlack) then
+     shpInd6.Brush.Color := ledColor
   else
      shpInd6.Brush.Color := KINESIS_GRAY_BACKCOLOR;//.Style := bsClear;
 
@@ -3257,11 +3634,20 @@ begin
   case param of
     PARAM_COLOR:
     begin
-      pnlTopLayer.Visible := state;
-      pnlTopLayer.Repaint;
+      pnlBaseLayer.Visible := state;
+      pnlBaseLayer.Repaint;
 
       pnlKpLayer.Visible := state;
       pnlKpLayer.Repaint;
+
+      pnlFn1Layer.Visible := state;
+      pnlFn1Layer.Repaint;
+
+      pnlFn2Layer.Visible := state;
+      pnlFn2Layer.Repaint;
+
+      pnlFn3Layer.Visible := state;
+      pnlFn3Layer.Repaint;
     end;
   end;
 end;
@@ -3309,17 +3695,16 @@ begin
     loadingLedSettings := true;
     ShowHideKeyButtons(false);
 
-    ShowHideParameters(PARAM_COLOR, true);
+    //ShowHideParameters(PARAM_COLOR, true);
 
     imgKeyboardLighting.SendToBack;
     ShapeColorSendToBack;
     ShowHideShapeColor(true);
     imgBackground.SendToBack;
-    imgKeyboardLighting.Cursor := crHandPoint;
-
-    //todo ColorChange(keyService.
+    //imgKeyboardLighting.Cursor := crHandPoint;
 
     ReloadKeyButtonsColor;
+    RefreshLedInfo;
   finally
     loadingLedSettings := false;
   end;
@@ -3388,6 +3773,22 @@ begin
   end;
 end;
 
+procedure TFormMainAdv360.lblLedIndInfoClick(Sender: TObject);
+begin
+  if (sender = lblLeftLed1Info) then
+    btnLeftLED1.Click
+  else if (sender = lblLeftLed2Info) then
+    btnLeftLED2.Click
+  else if (sender = lblLeftLed3Info) then
+    btnLeftLED3.Click
+  else if (sender = lblRightLed1Info) then
+    btnRightLED1.Click
+  else if (sender = lblRightLed2Info) then
+    btnRightLED2.Click
+  else if (sender = lblRightLed3Info) then
+    btnRightLED3.Click;
+end;
+
 procedure TFormMainAdv360.imgProfileClick(Sender: TObject);
 begin
   //if (pnlSelectProfile.Visible) then
@@ -3433,17 +3834,17 @@ end;
 
 procedure TFormMainAdv360.btnExportClick(Sender: TObject);
 begin
-  ShowExport(currentLayoutFile, currentLedFile);
+  ShowExport(currentLayoutFile, currentLedFile, backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
 
 procedure TFormMainAdv360.btnHelpClick(Sender: TObject);
+var
+  firmwareVer: string;
 begin
   NeedInput := true;
-  Application.CreateForm(TFormAbout, FormAbout);
-  FormAbout.SetFirmwareVersion(fileService.FirmwareVersionKBD, fileService.FirmwareVersionLED);
-  FormAbout.ShowModal;
+  ShowHelpOffice(backColor, fontColor, fileService.FirmwareVersionKBD_L, fileService.FirmwareVersionKBD);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
   NeedInput := false;
@@ -3659,7 +4060,7 @@ end;
 
 procedure TFormMainAdv360.btnDiagnosticClick(Sender: TObject);
 begin
-  ShowDiagnostics;
+  ShowDiagnostics(backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 //var
@@ -3713,7 +4114,7 @@ end;
 
 procedure TFormMainAdv360.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware(GActiveDevice);
+  ShowFirmware(GActiveDevice, backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -3756,29 +4157,17 @@ begin
       SetSaveState(ssModified);
     end;
   end
-  else if (keyService.ConfigMode in [CONFIG_LIGHTING]) and (keyService.LedMode in [lmFreestyle, lmBreathe]) then
+  else if (keyService.ConfigMode in [CONFIG_LIGHTING]) then
   begin
     sMessage := 'Do you want to reset the current Lighting profile?' + #10 + 'All assigned colors will be lost.';
-    if (keyService.LedMode = lmFreestyle) then
-      sMessage := 'Do you want to erase color assignments for each key';
     if ShowDialog('Reset Lighting', sMessage,
           mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
-      keyService.SetAllIndColor(clBlack);
-      keyService.Ind1FnLayer := -1;
-      keyService.Ind2FnLayer := -1;
-      keyService.Ind3FnLayer := -1;
-      keyService.Ind4FnLayer := -1;
-      keyService.Ind5FnLayer := -1;
-      keyService.Ind6FnLayer := -1;
-      keyService.Ind1FnToken := ifDisable;
-      keyService.Ind2FnToken := ifDisable;
-      keyService.Ind3FnToken := ifDisable;
-      keyService.Ind4FnToken := ifDisable;
-      keyService.Ind5FnToken := ifDisable;
-      keyService.Ind6FnToken := ifDisable;
+      keyService.LedIndicators.ResetAll;
       ReloadKeyButtonsColor(true);
+      RefreshLedInfo;
       SetSaveState(ssModified);
+      ResetLedIndicators;
     end;
   end;
   SetHovered(sender, false, true);
@@ -3794,7 +4183,7 @@ begin
 
     if (IsKeyLoaded) then
     begin
-      timingDelay := ShowTimingDelays;
+      timingDelay := ShowTimingDelays(backColor, fontColor);
       if (timingDelay = 0) then
       begin
         SetModifiedKey(VK_RAND_DELAY, '', true);
@@ -3835,6 +4224,11 @@ begin
     MacroModified := true;
     sliderMultiplayChange(sender);
   end;
+end;
+
+procedure TFormMainAdv360.pnlLightingClick(Sender: TObject);
+begin
+  UnselectActiveKey;
 end;
 
 procedure TFormMainAdv360.MenuDrawItem(Sender: TObject; ACanvas: TCanvas;
@@ -4033,9 +4427,15 @@ begin
   begin
     edit := (Sender as TEdit);
     if (edit = eRed) or (edit = eGreen) or (edit = eBlue) then
-      GetRBGEditColor(LAYER_TOP_360)
+      GetRBGEditColor(LAYER_BASE_360)
     else if (edit = eRedKp) or (edit = eGreenKp) or (edit = eBlueKp) then
-      GetRBGEditColor(LAYER_KEYPAD_360);
+      GetRBGEditColor(LAYER_KEYPAD_360)
+    else if (edit = eRedFn1) or (edit = eGreenFn1) or (edit = eBlueFn1) then
+      GetRBGEditColor(LAYER_FN1_360)
+    else if (edit = eRedFn2) or (edit = eGreenFn2) or (edit = eBlueFn2) then
+      GetRBGEditColor(LAYER_FN2_360)
+    else if (edit = eRedFn3) or (edit = eGreenFn3) or (edit = eBlueFn3) then
+      GetRBGEditColor(LAYER_FN3_360);
   end;
 end;
 
@@ -4060,7 +4460,7 @@ begin
   eGreen.Text := IntToStr(iGreen);
   eBlue.Text := IntToStr(iBlue);
 
-  ColorChange(RGB(iRed, iGreen, iBlue), layerIdx);
+  ColorChange(RGB(iRed, iGreen, iBlue), GetActiveLedIndicator, layerIdx);
   AfterColorChange;
 end;
 
@@ -4075,9 +4475,15 @@ var
 begin
   edit := (Sender as TEdit);
   if (edit = eRed) or (edit = eGreen) or (edit = eBlue) then
-    GetRBGEditColor(LAYER_TOP_360)
+    GetRBGEditColor(LAYER_BASE_360)
   else if (edit = eRedKp) or (edit = eGreenKp) or (edit = eBlueKp) then
-    GetRBGEditColor(LAYER_KEYPAD_360)  ;
+    GetRBGEditColor(LAYER_KEYPAD_360)
+  else if (edit = eRedFn1) or (edit = eGreenFn1) or (edit = eBlueFn1) then
+    GetRBGEditColor(LAYER_FN1_360)
+  else if (edit = eRedFn2) or (edit = eGreenFn2) or (edit = eBlueFn2) then
+    GetRBGEditColor(LAYER_FN2_360)
+  else if (edit = eRedFn3) or (edit = eGreenFn3) or (edit = eBlueFn3) then
+    GetRBGEditColor(LAYER_FN3_360);
 end;
 
 procedure TFormMainAdv360.eHTMLExit(Sender: TObject);
@@ -4093,17 +4499,32 @@ begin
   begin
     if (Sender = eHTML) then
     begin
-      ColorChange(GetColorHTML(sHtml), LAYER_TOP_360);
+      ColorChange(GetColorHTML(sHtml), GetActiveLedIndicator, LAYER_BASE_360);
       AfterColorChange;
     end
     else if (Sender = eHTMLKp) then
     begin
-      ColorChange(GetColorHTML(sHtml), LAYER_KEYPAD_360);
+      ColorChange(GetColorHTML(sHtml), GetActiveLedIndicator, LAYER_KEYPAD_360);
+      AfterColorChange;
+    end
+    else if (Sender = eHTMLFn1) then
+    begin
+      ColorChange(GetColorHTML(sHtml), GetActiveLedIndicator, LAYER_FN1_360);
+      AfterColorChange;
+    end
+    else if (Sender = eHTMLFn2) then
+    begin
+      ColorChange(GetColorHTML(sHtml), GetActiveLedIndicator, LAYER_FN2_360);
+      AfterColorChange;
+    end
+    else if (Sender = eHTMLFn3) then
+    begin
+      ColorChange(GetColorHTML(sHtml), GetActiveLedIndicator, LAYER_FN3_360);
       AfterColorChange;
     end;
   end
   else
-    edit.Text := GetHTMLColor(ringPickerTop.SelectedColor);
+    edit.Text := GetHTMLColor(ringPickerBase.SelectedColor);
 end;
 
 procedure TFormMainAdv360.eHTMLKeyDown(Sender: TObject; var Key: Word;
@@ -4159,6 +4580,11 @@ begin
   SetHovered(sender, false, true);
 end;
 
+procedure TFormMainAdv360.btnMultimodifiersClick(Sender: TObject);
+begin
+  OpenMultimodifiers;
+end;
+
 procedure TFormMainAdv360.btnTapAndHoldClick(Sender: TObject);
 begin
   OpenTapAndHold;
@@ -4190,6 +4616,37 @@ begin
   SetHovered(sender, false, true);
 end;
 
+procedure TFormMainAdv360.btnFactoryResetClick(Sender: TObject);
+var
+  errorMsg: string;
+begin
+  if (ShowDialog('Factory Reset',
+    'Do you want to factory reset this keyboard?' + #10 + 'All files and folders on the v-drive will be deleted.' + #10#10 +
+    'When completed please unplug/replug the keyboard.',
+    mtConfirmation, [mbYes, mbNo]) = mrYes) then
+  begin
+    ShowInfoDialog('Factory Reset', 'Factory reset in progress...', fpBotRight, 60);
+    Application.ProcessMessages;
+
+    errorMsg := fileService.FactoryReset(GActiveDevice);
+    if (errorMsg = '') then
+    begin
+      CloseInfoDialog(mrOk);
+
+      //ShowDialog('Factory Reset', 'Factory reset completed! Please unplug and replug the keyboard.', mtConfirmation, [mbOk]);
+    end
+    else
+      ShowDialog('Factory Reset', errorMsg, mtError, [mbOK]);
+
+    ReturnToHome;
+  end
+  else
+  begin
+    (sender as TColorSpeedButtonCS).Down := false;
+    SetHovered(sender, false, true);
+  end;
+end;
+
 procedure TFormMainAdv360.btnFunctionMacroClick(Sender: TObject);
 var
   pt: TPoint;
@@ -4198,6 +4655,49 @@ begin
   pt.y := Mouse.CursorPos.y;
   popFunctionKeysMacro.PopUp(pt.x, pt.y);
   SetHovered(sender, false, true);
+end;
+
+procedure TFormMainAdv360.btnLeftLED1Click(Sender: TObject);
+begin
+  SetLedPopup(btnLeftLED1, lblLeftLed1Info);
+end;
+
+procedure TFormMainAdv360.btnLeftLED2Click(Sender: TObject);
+begin
+  SetLedPopup(btnLeftLED2, lblLeftLed2Info);
+end;
+
+procedure TFormMainAdv360.btnLeftLED3Click(Sender: TObject);
+begin
+  SetLedPopup(btnLeftLED3, lblLeftLed3Info);
+end;
+
+procedure TFormMainAdv360.btnRightLED1Click(Sender: TObject);
+begin
+  SetLedPopup(btnRightLED1, lblRightLed1Info);
+end;
+
+procedure TFormMainAdv360.btnRightLED2Click(Sender: TObject);
+begin
+  SetLedPopup(btnRightLED2, lblRightLed2Info);
+end;
+
+procedure TFormMainAdv360.btnRightLED3Click(Sender: TObject);
+begin
+  SetLedPopup(btnRightLED3, lblRightLed3Info);
+end;
+
+procedure TFormMainAdv360.SetLedPopup(btnLedInd: TColorSpeedButtonCS; lblLedInd: TLabel);
+var
+  pt: TPoint;
+begin
+  ResetLedIndicators;
+  btnLedInd.Down := true;
+  pt.x := 0;
+  pt.y := lblLedInd.Height;
+
+  pt := lblLedInd.ClientToScreen(pt);
+  popLedIndicator.PopUp(pt.x, pt.y);
 end;
 
 procedure TFormMainAdv360.btnBacklightClick(Sender: TObject);
@@ -4227,20 +4727,9 @@ begin
 end;
 
 procedure TFormMainAdv360.OpenTapAndHold;
-var
-  customBtns: TCustomButtons;
-  keyOtherLayer: TKBKey;
-  otherLayer: TKBLayer;
 begin
   if (IsKeyLoaded) then
   begin
-    //Check key other layer
-    if (keyService.ActiveLayer.LayerIndex = LAYER_TOP_360) then
-      otherLayer := keyService.GetLayer(LAYER_KEYPAD_360)
-    else
-      otherLayer := keyService.GetLayer(LAYER_TOP_360);
-    keyOtherLayer := keyService.GetKbKeyByIndex(otherLayer, activeKbKey.Index);
-
     if (activeKbKey.IsMacro) then
     begin
       ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to a macro trigger key.',
@@ -4248,7 +4737,7 @@ begin
     end
     else
     begin
-      if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
+      if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
       begin
         KeyModified := true;
         SetSaveState(ssModified);
@@ -4256,6 +4745,20 @@ begin
         UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
         RefreshRemapInfo;
       end;
+    end;
+  end;
+end;
+
+procedure TFormMainAdv360.OpenMultimodifiers;
+begin
+  if (IsKeyLoaded) then
+  begin
+    if (ShowMultimodifiers(keyService, activeKbKey, backColor, fontColor)) then
+    begin
+      KeyModified := true;
+      SetSaveState(ssModified);
+      UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
+      RefreshRemapInfo;
     end;
   end;
 end;
@@ -4320,31 +4823,40 @@ begin
     custColor5.Color := custColor
   else if (custColor6.Color = DEFAULT_CUST_COLOR) then
     custColor6.Color := custColor
-  else if (custColor7.Color = DEFAULT_CUST_COLOR) then
-    custColor7.Color := custColor
-  else if (custColor8.Color = DEFAULT_CUST_COLOR) then
-    custColor8.Color := custColor
-  else if (custColor9.Color = DEFAULT_CUST_COLOR) then
-    custColor9.Color := custColor
-  else if (custColor10.Color = DEFAULT_CUST_COLOR) then
-    custColor10.Color := custColor
-  else if (custColor11.Color = DEFAULT_CUST_COLOR) then
-    custColor11.Color := custColor
-  else if (custColor12.Color = DEFAULT_CUST_COLOR) then
-    custColor12.Color := custColor;
 end;
 
 procedure TFormMainAdv360.colorPreMixedClick(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  ColorChange((Sender as TmbColorPreview).Color, LAYER_TOP_360);
+  ColorChange((Sender as TmbColorPreview).Color, GetActiveLedIndicator, LAYER_BASE_360);
   AfterColorChange;
 end;
 
 procedure TFormMainAdv360.colorPreMixedKpClick(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-  ColorChange((Sender as TmbColorPreview).Color, LAYER_KEYPAD_360);
+  ColorChange((Sender as TmbColorPreview).Color, GetActiveLedIndicator, LAYER_KEYPAD_360);
+  AfterColorChange;
+end;
+
+procedure TFormMainAdv360.colorPreMixedFn1Click(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ColorChange((Sender as TmbColorPreview).Color, GetActiveLedIndicator, LAYER_FN1_360);
+  AfterColorChange;
+end;
+
+procedure TFormMainAdv360.colorPreMixedFn2Click(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ColorChange((Sender as TmbColorPreview).Color, GetActiveLedIndicator, LAYER_FN2_360);
+  AfterColorChange;
+end;
+
+procedure TFormMainAdv360.colorPreMixedFn3Click(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ColorChange((Sender as TmbColorPreview).Color, GetActiveLedIndicator, LAYER_FN3_360);
   AfterColorChange;
 end;
 
@@ -4356,7 +4868,7 @@ begin
   custColor := (Sender as TmbColorPreview).Color;
   if (custColor <> clNone) then
   begin
-    ColorChange(custColor, LAYER_TOP_360);
+    ColorChange(custColor, GetActiveLedIndicator, LAYER_BASE_360);
     AfterColorChange;
   end;
 end;
@@ -4369,7 +4881,46 @@ begin
   custColor := (Sender as TmbColorPreview).Color;
   if (custColor <> clNone) then
   begin
-    ColorChange(custColor, LAYER_KEYPAD_360);
+    ColorChange(custColor, GetActiveLedIndicator, LAYER_KEYPAD_360);
+    AfterColorChange;
+  end;
+end;
+
+procedure TFormMainAdv360.custColorFn1Click(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  custColor: TColor;
+begin
+  custColor := (Sender as TmbColorPreview).Color;
+  if (custColor <> clNone) then
+  begin
+    ColorChange(custColor, GetActiveLedIndicator, LAYER_FN1_360);
+    AfterColorChange;
+  end;
+end;
+
+procedure TFormMainAdv360.custColorFn2Click(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  custColor: TColor;
+begin
+  custColor := (Sender as TmbColorPreview).Color;
+  if (custColor <> clNone) then
+  begin
+    ColorChange(custColor, GetActiveLedIndicator, LAYER_FN2_360);
+    AfterColorChange;
+  end;
+end;
+
+procedure TFormMainAdv360.custColorFn3Click(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  custColor: TColor;
+begin
+  custColor := (Sender as TmbColorPreview).Color;
+  if (custColor <> clNone) then
+  begin
+    ColorChange(custColor, GetActiveLedIndicator, LAYER_FN3_360);
     AfterColorChange;
   end;
 end;
@@ -4384,12 +4935,6 @@ begin
     fileService.SetCustomColor(custColor4.Color, 4);
     fileService.SetCustomColor(custColor5.Color, 5);
     fileService.SetCustomColor(custColor6.Color, 6);
-    fileService.SetCustomColor(custColor7.Color, 7);
-    fileService.SetCustomColor(custColor8.Color, 8);
-    fileService.SetCustomColor(custColor9.Color, 9);
-    fileService.SetCustomColor(custColor10.Color, 10);
-    fileService.SetCustomColor(custColor11.Color, 11);
-    fileService.SetCustomColor(custColor12.Color, 12);
     fileService.SaveAppSettings;
   end;
 end;
@@ -4402,9 +4947,68 @@ begin
 end;
 
 procedure TFormMainAdv360.custColorDragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  iTag: integer;
 begin
   if (Source is TmbColorPreview) then
-    (Sender as TmbColorPreview).Color := (Source as TmbColorPreview).Color;
+  begin
+    iTag := (Sender as TmbColorPreview).Tag;
+    SetCustomColor(iTag, (Source as TmbColorPreview).Color);
+    custColorChange(sender);
+    //(Sender as TmbColorPreview).Color := (Source as TmbColorPreview).Color;
+  end;
+end;
+
+procedure TFormMainAdv360.SetCustomColor(iTag: integer; custColor: TColor);
+begin
+  if (iTag = 1) then
+  begin
+    custColor1.Color := custColor;
+    custColor1_2.Color := custColor;
+    custColor1_3.Color := custColor;
+    custColor1_4.Color := custColor;
+    custColor1_5.Color := custColor;
+  end
+  else if (iTag = 2) then
+  begin
+    custColor2.Color := custColor;
+    custColor2_2.Color := custColor;
+    custColor2_3.Color := custColor;
+    custColor2_4.Color := custColor;
+    custColor2_5.Color := custColor;
+  end
+  else if (iTag = 3) then
+  begin
+    custColor3.Color := custColor;
+    custColor3_2.Color := custColor;
+    custColor3_3.Color := custColor;
+    custColor3_4.Color := custColor;
+    custColor3_5.Color := custColor;
+  end
+  else if (iTag = 4) then
+  begin
+    custColor4.Color := custColor;
+    custColor4_2.Color := custColor;
+    custColor4_3.Color := custColor;
+    custColor4_4.Color := custColor;
+    custColor4_5.Color := custColor;
+  end
+  else if (iTag = 5) then
+  begin
+    custColor5.Color := custColor;
+    custColor5_2.Color := custColor;
+    custColor5_3.Color := custColor;
+    custColor5_4.Color := custColor;
+    custColor5_5.Color := custColor;
+  end
+  else if (iTag = 6) then
+  begin
+    custColor6.Color := custColor;
+    custColor6_2.Color := custColor;
+    custColor6_3.Color := custColor;
+    custColor6_4.Color := custColor;
+    custColor6_5.Color := custColor;
+  end;
 end;
 
 procedure TFormMainAdv360.custColorDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -4416,44 +5020,63 @@ end;
 
 procedure TFormMainAdv360.ringPickerKpChange(Sender: TObject);
 begin
-
-end;
-
-procedure TFormMainAdv360.ringPickerChange(Sender: TObject);
-var
-  layerIdx: integer;
-begin
   if (not loadingColor) then
   begin
-    layerIdx := -1;
-    if (sender = ringPickerTop) then
-       layerIdx := LAYER_TOP_360
-    else if (sender = ringPickerKp) then
-       layerIdx := LAYER_KEYPAD_360;
-
-    ColorChange(ringPickerTop.SelectedColor, layerIdx);
+    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_KEYPAD_360);
     AfterColorChange;
   end;
 end;
 
-procedure TFormMainAdv360.ColorChange(newColor: TColor; layerIdx: integer);
+procedure TFormMainAdv360.ringPickerChange(Sender: TObject);
+begin
+  if (not loadingColor) then
+  begin
+    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_BASE_360);
+    AfterColorChange;
+  end;
+end;
+
+
+procedure TFormMainAdv360.ringPickerFn1Change(Sender: TObject);
+begin
+  if (not loadingColor) then
+  begin
+    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_FN1_360);
+    AfterColorChange;
+  end;
+end;
+
+procedure TFormMainAdv360.ringPickerFn2Change(Sender: TObject);
+begin
+  if (not loadingColor) then
+  begin
+    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_FN2_360);
+    AfterColorChange;
+  end;
+end;
+
+procedure TFormMainAdv360.ringPickerFn3Change(Sender: TObject);
+begin
+  if (not loadingColor) then
+  begin
+    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_FN3_360);
+    AfterColorChange;
+  end;
+end;
+
+procedure TFormMainAdv360.ColorChange(newColor: TColor; indIdx: integer; layerIdx: integer);
 begin
   try
     loadingColor := true;
 
-    if (layerIdx = LAYER_TOP_360) then
+    if (layerIdx = LAYER_BASE_360) then
     begin
-      ringPickerTop.SelectedColor := newColor;
+      ringPickerBase.SelectedColor := newColor;
       colorPreview.Color := newColor;
       eRed.Text := IntToStr(GetRValue(newColor));
       eGreen.Text := IntToStr(GetGValue(newColor));
       eBlue.Text := IntToStr(GetBValue(newColor));
       eHTML.Text := GetHTMLColor(newColor);
-      if (not loadingSettings) and (not loadingLedSettings) then
-      begin
-        keyService.Ind1Color := newColor;
-        SetSaveState(ssModified);
-      end;
     end
     else if (layerIdx = LAYER_KEYPAD_360) then
     begin
@@ -4463,11 +5086,39 @@ begin
       eGreenKp.Text := IntToStr(GetGValue(newColor));
       eBlueKp.Text := IntToStr(GetBValue(newColor));
       eHTMLKp.Text := GetHTMLColor(newColor);
-      if (not loadingSettings) and (not loadingLedSettings) then
-      begin
-        keyService.Ind2Color := newColor;
-        SetSaveState(ssModified);
-      end;
+    end
+    else if (layerIdx = LAYER_FN1_360) then
+    begin
+      ringPickerFn1.SelectedColor := newColor;
+      colorPreviewFn1.Color := newColor;
+      eRedFn1.Text := IntToStr(GetRValue(newColor));
+      eGreenFn1.Text := IntToStr(GetGValue(newColor));
+      eBlueFn1.Text := IntToStr(GetBValue(newColor));
+      eHTMLFn1.Text := GetHTMLColor(newColor);
+    end
+    else if (layerIdx = LAYER_FN2_360) then
+    begin
+      ringPickerFn2.SelectedColor := newColor;
+      colorPreviewFn2.Color := newColor;
+      eRedFn2.Text := IntToStr(GetRValue(newColor));
+      eGreenFn2.Text := IntToStr(GetGValue(newColor));
+      eBlueFn2.Text := IntToStr(GetBValue(newColor));
+      eHTMLFn2.Text := GetHTMLColor(newColor);
+    end
+    else if (layerIdx = LAYER_FN3_360) then
+    begin
+      ringPickerFn3.SelectedColor := newColor;
+      colorPreviewFn3.Color := newColor;
+      eRedFn3.Text := IntToStr(GetRValue(newColor));
+      eGreenFn3.Text := IntToStr(GetGValue(newColor));
+      eBlueFn3.Text := IntToStr(GetBValue(newColor));
+      eHTMLFn3.Text := GetHTMLColor(newColor);
+    end;
+
+    if (indIdx > 0) and (not loadingSettings) and (not loadingLedSettings) then
+    begin
+      keyService.LedIndicators[indIdx - 1].IndColor[layerIdx] := newColor;
+      SetSaveState(ssModified);
     end;
   finally
     loadingColor := false;
@@ -4787,9 +5438,9 @@ var
 begin
   if CheckSaveKey then
   begin
-    sMessage := 'Are you sure you want to add the numeric keypad to the top layer?' + #10 + 'This will over-write basic alphanumeric key actions.';
+    sMessage := 'Are you sure you want to add the numeric keypad to the base layer?' + #10 + 'This will over-write basic alphanumeric key actions.';
 
-    if (keyService.ActiveLayer.LayerIndex <> LAYER_TOP_360) or (ShowDialog('Insert Numeric Keypad', sMessage,
+    if (keyService.ActiveLayer.LayerIndex <> LAYER_BASE_360) or (ShowDialog('Insert Numeric Keypad', sMessage,
       mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes) then
     begin
       aLayer := keyService.ActiveLayer;
@@ -4835,9 +5486,9 @@ var
 begin
   if CheckSaveKey then
   begin
-    sMessage := 'Are you sure you want to add the numeric keypad to the top layer?' + #10 + 'This will over-write basic alphanumeric key actions.';
+    sMessage := 'Are you sure you want to add the numeric keypad to the base layer?' + #10 + 'This will over-write basic alphanumeric key actions.';
 
-    if (keyService.ActiveLayer.LayerIndex <> LAYER_TOP_360) or (ShowDialog('Insert Numeric Keypad', sMessage,
+    if (keyService.ActiveLayer.LayerIndex <> LAYER_BASE_360) or (ShowDialog('Insert Numeric Keypad', sMessage,
       mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes) then
     begin
       aLayer := keyService.ActiveLayer;
@@ -5633,8 +6284,8 @@ begin
     else
       keyAssigned := activeKbKey.OriginalKey.OtherDisplayText;
   end;
-  if (keyAssigned <> '') and (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
-    keyAssigned := 'Fn Layer ' + keyAssigned;
+  //TODO ? if (keyAssigned <> '') and (keyService.ActiveLayer.LayerIndex = LAYER_KEYPAD_360) then
+  //  keyAssigned := 'Fn Layer ' + keyAssigned;
 
   if (keyAssigned <> '') then
     pnlAssignMacro.Caption := 'Assign to ' + keyAssigned

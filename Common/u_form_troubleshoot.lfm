@@ -1,67 +1,78 @@
 inherited FormTroubleshoot: TFormTroubleshoot
   Left = 427
-  Height = 172
+  Height = 212
   Top = 128
-  Width = 871
-  ClientHeight = 172
-  ClientWidth = 871
+  Width = 948
+  ClientHeight = 212
+  ClientWidth = 948
   Font.Height = -19
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   Position = poScreenCenter
-  inherited btnClose: TColorSpeedButtonCS
-    Left = 839
+  inherited lineBorderLeft: TLineObj
+    Height = 175
   end
-  inherited lineBorderTop: TLineObj
-    Width = 871
+  inherited pnlTop: TPanel
+    Width = 948
+    ClientWidth = 948
+    inherited lblTitle: TLabel
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 944
+      Caption = 'Keyboard not detected'
+      Font.Height = -19
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 913
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 1180
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 948
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 946
+    end
   end
   inherited lineBorderBottom: TLineObj
-    Top = 170
-    Width = 871
-  end
-  inherited lineBorderLeft: TLineObj
-    Height = 168
+    Top = 210
+    Width = 948
   end
   inherited lineBorderRight: TLineObj
-    Left = 869
-    Height = 168
+    Left = 946
+    Height = 175
   end
-  inherited lblTitle: TLabel
-    Height = 36
-    Top = 3
-    Width = 816
-    Caption = 'Keyboard not detected'
-    Font.Height = -19
-  end
-  object lblInitMessage: TLabel[6]
-    Left = 18
-    Height = 76
-    Top = 36
+  object lblInitGamingMessage: TLabel[4]
+    Left = 30
+    Height = 120
+    Top = 48
     Width = 832
     AutoSize = False
     Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by using the onboard shortcut      + F8. Please connect the v-Drive and then click the “Scan for v-Drive” button below.'
     Font.Color = clWhite
     Font.Height = -19
     Font.Name = 'Tahoma'
-    Layout = tlCenter
     ParentColor = False
     ParentFont = False
+    Visible = False
     WordWrap = True
   end
-  object btnTroubleshootingTips: TColorSpeedButtonCS[7]
-    Left = 448
+  object btnTroubleshootingTips: TColorSpeedButtonCS[5]
+    Left = 525
     Height = 32
-    Top = 123
+    Top = 163
     Width = 200
-    Alignment = taCenter
     Anchors = [akRight, akBottom]
     Caption = 'Troubleshooting Tips'
     Font.Color = clWhite
     Font.Height = -16
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
+    OnClick = btnTroubleshootingTipsClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
@@ -87,20 +98,19 @@ inherited FormTroubleshoot: TFormTroubleshoot
     StateDisabled.BorderWidth = 1
     StateDisabled.FontColor = clWhite
     TextPadding = 0
-    OnClick = btnTroubleshootingTipsClick
   end
-  object btnDemoMode: TColorSpeedButtonCS[8]
-    Left = 661
+  object btnDemoMode: TColorSpeedButtonCS[6]
+    Left = 738
     Height = 32
-    Top = 123
+    Top = 163
     Width = 200
-    Alignment = taCenter
     Anchors = [akRight, akBottom]
     Caption = 'Launch in Demo Mode'
     Font.Color = clWhite
     Font.Height = -16
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
+    OnClick = btnDemoModeClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
@@ -126,20 +136,19 @@ inherited FormTroubleshoot: TFormTroubleshoot
     StateDisabled.BorderWidth = 1
     StateDisabled.FontColor = clWhite
     TextPadding = 0
-    OnClick = btnDemoModeClick
   end
-  object btnScan: TColorSpeedButtonCS[9]
-    Left = 235
+  object btnScan: TColorSpeedButtonCS[7]
+    Left = 298
     Height = 32
-    Top = 123
+    Top = 163
     Width = 200
-    Alignment = taCenter
     Anchors = [akRight, akBottom]
     Caption = 'Scan for v-Drive'
     Font.Color = clWhite
     Font.Height = -16
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
+    OnClick = btnScanClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
@@ -165,13 +174,12 @@ inherited FormTroubleshoot: TFormTroubleshoot
     StateDisabled.BorderWidth = 1
     StateDisabled.FontColor = clWhite
     TextPadding = 0
-    OnClick = btnScanClick
   end
-  object imgSmartInit: TImage[10]
-    Left = 256
+  object imgSmartInit: TImage[8]
+    Left = 229
     Height = 23
-    Top = 64
-    Width = 23
+    Top = 56
+    Width = 100
     Anchors = [akLeft, akRight, akBottom]
     Center = True
     Picture.Data = {
@@ -197,51 +205,87 @@ inherited FormTroubleshoot: TFormTroubleshoot
       CECE12146A57A109E61597FA9F8481F5EB675C777376BE95D1FA7F9E7DF177FE
       00BA38C82BE9D21A9D0000000049454E44AE426082
     }
+    Visible = False
   end
-  object lblSaveMsg: TLabel[11]
-    Left = 18
-    Height = 76
-    Top = 36
-    Width = 832
+  object lblInitAdv2Fs: TLabel[9]
+    Left = 30
+    Height = 150
+    Top = 48
+    Width = 888
     AutoSize = False
-    Caption = 'To save your changes you must use the onboard shortcut      + F8 to open the v-Drive and re-establish the connection with the SmartSet App.'
+    Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by first enabling Power User Mode (if necessary) using the onboard shortcut Program + Shift + Esc, and then connecting the v-Drive using the shortcut Program + F1. Please connect the v-Drive and then click the “Scan for v-Drive” button below.'
     Font.Color = clWhite
     Font.Height = -19
     Font.Name = 'Tahoma'
-    Layout = tlCenter
     ParentColor = False
     ParentFont = False
+    Visible = False
     WordWrap = True
   end
-  object imgSmartSave: TImage[12]
-    Left = 509
+  object lblAdv360Message: TLabel[10]
+    Left = 30
+    Height = 120
+    Top = 48
+    Width = 832
+    AutoSize = False
+    Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by using the onboard shortcut      + v-Drive. Please connect the v-Drive and then click the “Scan for v-Drive” button below.'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    ParentColor = False
+    ParentFont = False
+    Visible = False
+    WordWrap = True
+  end
+  object imgSmartInitLight: TImage[11]
+    Left = 226
     Height = 23
-    Top = 52
-    Width = 23
+    Top = 73
+    Width = 100
     Anchors = [akLeft, akRight, akBottom]
     Center = True
     Picture.Data = {
-      1754506F727461626C654E6574776F726B477261706869637902000089504E47
+      1754506F727461626C654E6574776F726B47726170686963C604000089504E47
       0D0A1A0A0000000D4948445200000014000000130806000000908C2DB5000000
-      0774494D4507E3041A0F033497E532FC000000097048597300000AF000000AF0
-      0142AC34980000000467414D410000B18F0BFC6105000002084944415478DA8D
-      D4C14B554114C7F1F75EA949886690A084546E9410C2D0705560A21B2121C320
-      FA174282A840C985B50AC94DAB20288202458444298BA0AD4652B629AA5766D9
-      A24C49CCBC7D4FFE464E9777A50B1F6466CE3D6FEECC39A6A3284A253C65388D
-      5654633B7EE005467113F578805FE1A5748E84F9388B0B58C230A6F00DA5A843
-      1BF2F01D6730B8F1B625940CC6F01B4BE842815BF7DAB01CAD3FE37ECD07EDC2
-      9A82EE2624F23FDE8C4125AECA95D0F4E209EA63F32D18C1D11CC92B50932BE1
-      01A4DD381F0368C71DEDFC168EE19AD6436C13EEA3234C94E10376BAA093D1E6
-      4FA78B9DD2DCBC0DB6E291260EBA209BFF88559CD7175CD438ABF5107B45E73F
-      6C833E2C2AE171051CC6B4826EC4CEECB6E66DBDC1CD3FC6D50C95D3AD227D83
-      42555315F65B9D221BABD3ACE66D7D8F9B5FFE5BC3CA7E49E710C6DB70045FF0
-      16E5EE46DFE393BEC25FCC73F46494FD196A50EC7E6D0525A8C42B3CC50C76AB
-      637E2A26A5B1B5E76448F850FD78C27DC2825ACFD6E6D088594C60517D1D9E53
-      8A9DF0876DB5F50E456E6E87BAA25B97764EE3121763A536A79BFEA7B06D6116
-      F7B02576B379D8ABBFBEFD0AD4CBAFC346E26DD4A8121AD2EE927AB9D54A44A5
-      F215B549BD6C0EA970ED26FB3183CB6E57BD2A6EABC597BE8F93129A6215FC82
-      CECE12146A57A109E61597FA9F8481F5EB675C777376BE95D1FA7F9E7DF177FE
-      00BA38C82BE9D21A9D0000000049454E44AE426082
+      0774494D4507E3041812290869167AFB000000097048597300002C2400002C24
+      01BEFA5C4E0000000467414D410000B18F0BFC6105000004554944415478DA75
+      540B4C1B651CEF5DAF57FAA25006B4BC44297430594A1036604303BA0946304E
+      978C6C8B896E3E96E854A2189D64C4CD919898A98B2E8E6D8C3111748B06188B
+      B3C050188C5018C878AE2D8F949696BE1F77EDDDF97D4D8E00635FF2CFDDFFF7
+      7F7CFFE787300CC3D9EC986CBE84F681C5370726AD2F1ACC9E0C3F49490438D7
+      912C17FFB7431575B33437BE6E6AD195959D2AD3F0795C82B543D63A84FF5E82
+      125DEBD455B5DC3154468A71D3EEA763AE2BE3C3B5E230CCEEF20522A7169CD9
+      3D63E657DDBEA04C22E4598F9428ABF664C75D7BC42145D1DC0F7E1CEC1A9F73
+      1408F85CE7DBA5A995208A4B1817A536463F3061293A513FDC1AA018C1B627A4
+      3DDF1FCB2D646528FBB3E22663A03378495E7AF49F657989173673064F8E2A4A
+      F3CDD1ECE262B5FC0A88F899874657C6BA3459BAD8317DE2A3F3F76E4D2F3A33
+      D7E27DB38E57CEB4E9BBEECE3ACAD7E2906C2E42A633BA542CBF9AF2C4BC236B
+      6BA254CB5EE423694143DFD2B9D458A1E6FEBCEB35BDD95BFE64ACF0C6F644C9
+      6F9346CF0B87F215EF0971D407758767570A1B35BAAA22B5BC29E4D06CF7C7BD
+      73F6EE6063D52EA5808F79A1D25FE3B6B7DAB5E69F398F3925EAE8A37BB6C942
+      F2633F0CFCF300948B87A15E3410A479271B469AED9E80C2B8E24B660D0AD3A4
+      571014B1D20C872E50C9AA8F1425EE28504556D30C4343FC5955443DAB9BAB8A
+      6A87D5CB4C8EE8E1C6641FA8ED9FB0965134C303C5EE488A114D0D1A5C253F69
+      165BC90095909E20693C9C2F3F1E2DE12D66C489BA75167FBAC549E4F6CE380F
+      6C91E0637229AE57A7C87A404373E4910203F6EECBAA4F8142D282C5ABF41194
+      10DE687690693E22A84410841329E2CDAF4D15F21087728B3B9002A04E88F331
+      D41FA0681CE5A2081D21C29701598AB3E4CD5008D2A9AB28887B09A466D7EA9D
+      074D4E323EB43D4E326164CE5581021CC84BF352A4AB030D8252804530639051
+      C64B866E6B8D15418AE1F1302420E273DD388678298A1113341571A6553F09D2
+      1BB5B8C84C301B2250D7201FC84197430D04D10A678DEEAC7DBB93CE86061B0C
+      721B11A0C560A5CAD91BF9B06328878896F27B05386A0111EC040E9601DFC705
+      38907B585DCDF0D27E043425376DCBADD5013DFDCBE8C583B53D0FFC64308CC5
+      969CA4820CD25853BFE9F4F1AB134CCB3DD349C883D415AC8EDB1710EF3FD5AD
+      FBF6FAF877A1996605CB769FBCBCBAD3FC55E3FD7AB0D7C8DA6DF010946072C9
+      AB865F16A3689A130C52DC2F2E6B5BF6D5742DD8DD846C9D434843D3D6C2BD9F
+      DDF67C593FFCABD34B866F5C3396466657F2CFB74DD554D50DFD51F2F9DF8E31
+      BD2DE791D563CFA8CEB6B3A671B41944C92BCE525C1D79687B6E1778C20E3FFF
+      D4D750B7B9DBF0E1858E995A30B7586C4498AEFAD0F6D7C1CA0E6DFA1EB207D4
+      25BCA94B5F79A377FE7D309B525070AAFD5491B0EEE64CCDEFFFCE7D0C4C30B1
+      00B3367C52902A15E1B675C68F4B0B526BFFFC1BA0046E50D7CB2C4690411CBC
+      2E5BEF8C2E95194CEED48D36FF038C7FBA2A3EB887740000000049454E44AE42
+      6082
     }
+    Visible = False
   end
 end

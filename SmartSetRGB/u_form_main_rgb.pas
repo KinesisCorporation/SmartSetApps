@@ -291,6 +291,7 @@ type
     ringPickerBase: THSLRingPicker;
     sliderMacroSpeed: TECSlider;
     sliderMultiplay: TECSlider;
+    SpectrumTimer: TIdleTimer;
     swLayerSwitch: TECSwitch;
     textMacroInput: TStaticText;
     tmrAfterFormShown: TTimer;
@@ -625,6 +626,7 @@ type
     procedure sliderMacroSpeedChange(Sender: TObject);
     procedure sliderMacroSpeedMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure SpectrumTimerTimer(Sender: TObject);
     procedure swLayerSwitchClick(Sender: TObject);
     procedure tmrAfterFormShownTimer(Sender: TObject);
     procedure TopMenuClick(Sender: TObject);
@@ -669,20 +671,30 @@ type
     hoveredList: TObjectList;
     ConfigMode: integer;
     AppSettingsLoaded: boolean;
+    kbArrayCol1: array of TLabelBox;
+    kbArrayCol2: array of TLabelBox;
+    kbArrayCol3: array of TLabelBox;
+    kbArrayCol4: array of TLabelBox;
+    kbArrayCol5: array of TLabelBox;
+    kbArrayCol6: array of TLabelBox;
+    kbArrayCol7: array of TLabelBox;
+    kbArrayCol8: array of TLabelBox;
+    kbArrayCol9: array of TLabelBox;
+    kbArrayCol10: array of TLabelBox;
+    kbArrayCol11: array of TLabelBox;
+    kbArrayCol12: array of TLabelBox;
+    kbArrayCol13: array of TLabelBox;
+    kbArrayCol14: array of TLabelBox;
+    kbArrayCol15: array of TLabelBox;
+    kbArrayCol16: array of TLabelBox;
+    kbArrayCol17: array of TLabelBox;
+    kbArrayCol18: array of TLabelBox;
     kbArrayRow1: array of TLabelBox;
     kbArrayRow2: array of TLabelBox;
     kbArrayRow3: array of TLabelBox;
     kbArrayRow4: array of TLabelBox;
     kbArrayRow5: array of TLabelBox;
     kbArrayRow6: array of TLabelBox;
-    kbArrayRow7: array of TLabelBox;
-    kbArrayRow8: array of TLabelBox;
-    kbArrayRow9: array of TLabelBox;
-    kbArrayRow10: array of TLabelBox;
-    kbArrayRow11: array of TLabelBox;
-    kbArrayRow12: array of TLabelBox;
-    kbArrayRow13: array of TLabelBox;
-    kbArrayRow14: array of TLabelBox;
     currentGif: string;
     loadingMacro: boolean;
     breatheTransparency: integer;
@@ -702,6 +714,9 @@ type
     fromMasterApp: boolean;
     parentForm: TForm;
     showingVDriveErrorDlg: boolean;
+    waveCycle: integer;
+    spectrumCycle: integer;
+    spectrumColor: integer;
 
     procedure ActivateCoTrigger(keyButton: TLabelBox);
     Procedure ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
@@ -731,7 +746,7 @@ type
     function GetLedMode: TLedMode;
     procedure GetRBGEditColor;
     procedure GetRBGEditBaseColor;
-    procedure InitApp(scanVDrive: boolean = false);
+    function InitApp(scanVDrive: boolean = false): boolean;
     procedure KeyButtonClick(Sender: TObject);
     procedure KeyButtonMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -743,8 +758,13 @@ type
     procedure ResetBreathe;
     procedure ResetDirection;
     procedure ResetNewGif;
+    procedure ResetWave;
+    procedure ResetSpectrum;
+    procedure ReturnToHome;
     procedure ScanVDrive(init: boolean);
     procedure SendEmail;
+    procedure SetColorWave(arrayButton: array of TLabelBox; colorIdx: integer;
+      invertColors: boolean = false; gradient: boolean=false);
     procedure SetLayoutMenuColor;
     procedure SetMacroAssignTo;
     procedure ObjectMouseExit(Sender: TObject);
@@ -873,7 +893,7 @@ type
     procedure CancelMacro;
     procedure SetMousePosition(x, y: integer);
     procedure Maximize;
-    procedure InitForm(mdiParent: TForm);
+    function InitForm(mdiParent: TForm): boolean;
   end;
 
 var
@@ -1168,8 +1188,10 @@ begin
 
 end;
 
-procedure TFormMainRGB.InitForm(mdiParent: TForm);
+function TFormMainRGB.InitForm(mdiParent: TForm): boolean;
 begin
+  result := false;
+
   fromMasterApp := mdiParent <> nil;
   parentForm := mdiParent;
 
@@ -1240,13 +1262,15 @@ begin
   loadingMacro := false;
   ResetBreathe;
   ResetNewGif;
+  ResetWave;
+  ResetSpectrum;
   WindowsComboOn := false;
   appError := false;
   activeMacroMenu := '';
   oldWindowState := wsNormal;
   ringPicker.SquarePickerHintFormat:='Adjust the brightness of your color using the color square';
   InitKeyButtons(pnlMain);
-  //jm temp not used LoadKeyButtonRows;
+  LoadKeyButtonRows;
   //jm temp SetOtherPanelClick(self);
   Application.OnRestore := @OnRestore;
   Application.OnDeactivate := @AppDeactivate;
@@ -1299,13 +1323,12 @@ begin
   SetBaseDirectory(true);
 
   //Init app
-  InitApp;
+  result := InitApp;
 end;
 
-procedure TFormMainRGB.InitApp(scanVDrive: boolean);
+function TFormMainRGB.InitApp(scanVDrive: boolean = false): boolean;
 var
   customBtns: TCustomButtons;
-  canShowApp: boolean;
   aListDrives: TStringList;
   drives: string;
   i: integer;
@@ -1314,11 +1337,11 @@ begin
   if (GDebugMode) then
     ShowMessage('CheckVDrive-start');
   lblDemoMode.Visible := GDemoMode;
-  canShowApp := GDemoMode or CheckVDrive;
+  result := GDemoMode or CheckVDrive;
   if (GDebugMode) then
     ShowMessage('CheckVDrive-end');
 
-  if (canShowApp) then
+  if (result) then
   begin
     //Load config keys depending on app version
     keyService.LoadConfigKeys;
@@ -1338,6 +1361,8 @@ begin
     swLayerSwitch.Checked := true;
 
     keyService.LoadLayerList;
+
+    LoadKeyButtonRows;
 
     {$ifdef Darwin}
       btnEject.Visible := false;
@@ -1381,11 +1406,11 @@ begin
           ShowMessage('LoadAppSettingsAndLayout-end');
       end
       else
-        canShowApp := false;
+        result := false;
     end;
   end;
 
-  if not canShowApp then
+  if not result then
   begin
     if (GDesktopMode) then
     begin
@@ -1405,7 +1430,10 @@ begin
       begin
         appError := true;
         Close;
-      end;
+        ReturnToHome;
+      end
+      else
+        result := true;
     end
     else
     begin
@@ -1414,6 +1442,7 @@ begin
         mtFSEdge, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
       appError := true;
       Close;
+      ReturnToHome;
     end;
   end;
   if (GDebugMode) then
@@ -1462,11 +1491,11 @@ end;
 procedure TFormMainRGB.FormDestroy(Sender: TObject);
 begin
   RemoveKeyboardHook;
-  keyBtnList := nil;
+  FreeAndNil(keyBtnList);
   FreeAndNil(keyService);
   FreeAndNil(fileService);
-  menuActionList := nil;
-  hoveredList := nil;
+  FreeAndNil(menuActionList);
+  FreeAndNil(hoveredList);
   //RemoveFontResource('fonts/Exo2-Regular.ttf');
   //RemoveFontResource('fonts/Quantify Bold v2.6.ttf');
   //SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
@@ -1562,7 +1591,7 @@ procedure TFormMainRGB.ShowIntroDialogs;
 begin
   if (not closing) and (not infoMessageShown) and (ShowNotification(fileService.AppSettings.AppIntroMsg)) and (AppSettingsLoaded or GDemoMode) then
   begin
-    ShowIntro;
+    ShowIntro('Introduction', 'Welcome to the SmartSet App for the Freestyle Edge RGB. The SmartSet App lets you customize Layout and Lighting Effects for each of the 9 Profiles and adjust the Global Keyboard Settings.', backColor, fontColor);
   end;
   if (not closing) and (not infoMessageShown) and (ShowNotification(fileService.AppSettings.AppCheckFirmMsg)) and (AppSettingsLoaded) then
   begin
@@ -1585,7 +1614,7 @@ begin
   if init then
   begin
     title := 'Keyboard not detected';
-      resultTroubleshoot := ShowTroubleshoot(title, init);
+      resultTroubleshoot := ShowTroubleshoot(title, backColor, fontColor);
     if (resultTroubleshoot = 1) then
       ScanVDrive(init)
     else if (resultTroubleshoot = 2) then
@@ -1629,7 +1658,7 @@ end;
 
 procedure TFormMainRGB.FillMenuActionList;
 begin
-  menuActionList := TObjectList.Create(false);
+  menuActionList := TObjectList.Create(true);
   //menuActionList.Add(TMenuAction.Create(btnRemap, lblRemap, nil, CONFIG_LAYOUT, false));
   menuActionList.Add(TMenuAction.Create(maMacro, nil, lblMacro, imgMacro, CONFIG_LAYOUT, lmNone, false, false, false));
   menuActionList.Add(TMenuAction.Create(maMultimedia, nil, lblMedia, imgMedia, CONFIG_LAYOUT, lmNone, true, false, true));
@@ -1705,7 +1734,7 @@ var
   i: integer;
   obj: TObject;
 begin
-  hoveredList := TObjectList.Create(false);
+  hoveredList := TObjectList.Create(true);
 
   //Settings top right
   hoveredList.Add(THoveredObj.Create(btnSettings, imgListSettings, 0, 1));
@@ -1826,128 +1855,315 @@ end;
 
 procedure TFormMainRGB.LoadKeyButtonRows;
 begin
-  SetLength(kbArrayRow1, 6);
+  //Cols
+   SetLength(kbArrayCol1, 6);
+  kbArrayCol1[0] := lbRow1_1;
+  kbArrayCol1[1] := lbRow1_2;
+  kbArrayCol1[2] := lbRow1_3;
+  kbArrayCol1[3] := lbRow1_4;
+  kbArrayCol1[4] := lbRow1_5;
+  kbArrayCol1[5] := lbRow1_6;
+  //
+  SetLength(kbArrayCol2, 5);
+  kbArrayCol2[0] := lbRow2_1;
+  kbArrayCol2[1] := lbRow2_2;
+  kbArrayCol2[2] := lbRow2_3;
+  kbArrayCol2[3] := lbRow2_4;
+  kbArrayCol2[4] := lbRow2_5;
+  //
+  SetLength(kbArrayCol3, 6);
+  kbArrayCol3[0] := lbRow3_1;
+  kbArrayCol3[1] := lbRow3_2;
+  kbArrayCol3[2] := lbRow3_3;
+  kbArrayCol3[3] := lbRow3_4;
+  kbArrayCol3[4] := lbRow3_5;
+  kbArrayCol3[5] := lbRow3_6;
+  //
+  SetLength(kbArrayCol4, 5);
+  kbArrayCol4[0] := lbRow4_1;
+  kbArrayCol4[1] := lbRow4_3;
+  kbArrayCol4[2] := lbRow4_5;
+  kbArrayCol4[3] := lbRow4_6;
+  kbArrayCol4[4] := lbRow4_8;
+  //
+  SetLength(kbArrayCol5, 4);
+  kbArrayCol5[0] := lbRow4_2;
+  kbArrayCol5[1] := lbRow4_4;
+  kbArrayCol5[2] := lbRow4_7;
+  kbArrayCol5[3] := lbRow5_6;
+  //
+  SetLength(kbArrayCol6, 5);
+  kbArrayCol6[0] := lbRow5_1;
+  kbArrayCol6[1] := lbRow5_2;
+  kbArrayCol6[2] := lbRow5_3;
+  kbArrayCol6[3] := lbRow5_4;
+  kbArrayCol6[4] := lbRow5_5;
+  //
+  SetLength(kbArrayCol7, 5);
+  kbArrayCol7[0] := lbRow6_1;
+  kbArrayCol7[1] := lbRow6_3;
+  kbArrayCol7[2] := lbRow6_5;
+  kbArrayCol7[3] := lbRow6_7;
+  kbArrayCol7[4] := lbRow6_9;
+  //
+  SetLength(kbArrayCol8, 6);
+  kbArrayCol8[0] := lbRow6_2;
+  kbArrayCol8[1] := lbRow6_4;
+  kbArrayCol8[2] := lbRow6_6;
+  kbArrayCol8[3] := lbRow6_8;
+  kbArrayCol8[4] := lbRow6_10;
+  kbArrayCol8[5] := lbRow6_11;
+  //
+  SetLength(kbArrayCol9, 5);
+  kbArrayCol9[0] := lbRow7_1;
+  kbArrayCol9[1] := lbRow7_2;
+  kbArrayCol9[2] := lbRow7_3;
+  kbArrayCol9[3] := lbRow7_4;
+  kbArrayCol9[4] := lbRow7_5;
+  //
+  SetLength(kbArrayCol10, 5);
+  kbArrayCol10[0] := lbRow8_1;
+  kbArrayCol10[1] := lbRow8_2;
+  kbArrayCol10[2] := lbRow8_3;
+  kbArrayCol10[3] := lbRow8_5;
+  kbArrayCol10[4] := lbRow8_6;
+  //
+  SetLength(kbArrayCol11, 6);
+  kbArrayCol11[0] := lbRow9_1;
+  kbArrayCol11[1] := lbRow9_3;
+  kbArrayCol11[2] := lbRow8_4;
+  kbArrayCol11[3] := lbRow9_7;
+  kbArrayCol11[4] := lbRow9_9;
+  kbArrayCol11[5] := lbRow8_7;
+  //
+  SetLength(kbArrayCol12, 5);
+  kbArrayCol12[0] := lbRow9_2;
+  kbArrayCol12[1] := lbRow9_4;
+  kbArrayCol12[2] := lbRow9_5;
+  kbArrayCol12[3] := lbRow9_8;
+  kbArrayCol12[4] := lbRow9_10;
+  //
+  SetLength(kbArrayCol13, 6);
+  kbArrayCol13[0] := lbRow10_1;
+  kbArrayCol13[1] := lbRow10_2;
+  kbArrayCol13[2] := lbRow9_6;
+  kbArrayCol13[3] := lbRow10_4;
+  kbArrayCol13[4] := lbRow10_5;
+  kbArrayCol13[5] := lbRow10_6;
+  //
+  SetLength(kbArrayCol14, 5);
+  kbArrayCol14[0] := lbRow11_1;
+  kbArrayCol14[1] := lbRow11_2;
+  kbArrayCol14[2] := lbRow10_3;
+  kbArrayCol14[3] := lbRow11_4;
+  kbArrayCol14[4] := lbRow11_6;
+  //
+  SetLength(kbArrayCol15, 5);
+  kbArrayCol15[0] := lbRow12_1;
+  kbArrayCol15[1] := lbRow12_2;
+  kbArrayCol15[2] := lbRow11_3;
+  kbArrayCol15[3] := lbRow11_5;
+  kbArrayCol15[4] := lbRow11_7;
+  //
+  SetLength(kbArrayCol16, 6);
+  kbArrayCol16[0] := lbRow13_1;
+  kbArrayCol16[1] := lbRow13_3;
+  kbArrayCol16[2] := lbRow12_3;
+  kbArrayCol16[3] := lbRow12_4;
+  kbArrayCol16[4] := lbRow12_5;
+  kbArrayCol16[5] := lbRow12_6;
+  //
+  SetLength(kbArrayCol17, 4);
+  kbArrayCol17[0] := lbRow13_2;
+  kbArrayCol17[1] := lbRow13_4;
+  kbArrayCol17[2] := lbRow13_5;
+  kbArrayCol17[3] := lbRow13_6;
+  //
+  SetLength(kbArrayCol18, 6);
+  kbArrayCol18[0] := lbRow14_1;
+  kbArrayCol18[1] := lbRow14_2;
+  kbArrayCol18[2] := lbRow14_3;
+  kbArrayCol18[3] := lbRow14_4;
+  kbArrayCol18[4] := lbRow14_5;
+  kbArrayCol18[5] := lbRow14_6;
+
+  //Rows
+  SetLength(kbArrayRow1, 17);
   kbArrayRow1[0] := lbRow1_1;
-  kbArrayRow1[1] := lbRow1_2;
-  kbArrayRow1[2] := lbRow1_3;
-  kbArrayRow1[3] := lbRow1_4;
-  kbArrayRow1[4] := lbRow1_5;
-  kbArrayRow1[5] := lbRow1_6;
+  kbArrayRow1[1] := lbRow3_1;
+  kbArrayRow1[2] := lbRow4_1;
+  kbArrayRow1[3] := lbRow4_2;
+  kbArrayRow1[4] := lbRow5_1;
+  kbArrayRow1[5] := lbRow6_1;
+  kbArrayRow1[6] := lbRow6_2;
+  kbArrayRow1[7] := lbRow7_1;
+  kbArrayRow1[8] := lbRow8_1;
+  kbArrayRow1[9] := lbRow9_1;
+  kbArrayRow1[10] := lbRow9_2;
+  kbArrayRow1[11] := lbRow10_1;
+  kbArrayRow1[12] := lbRow11_1;
+  kbArrayRow1[13] := lbRow12_1;
+  kbArrayRow1[14] := lbRow13_1;
+  kbArrayRow1[15] := lbRow13_2;
+  kbArrayRow1[16] := lbRow14_1;
 
-  SetLength(kbArrayRow2, 5);
-  kbArrayRow2[0] := lbRow2_1;
-  kbArrayRow2[1] := lbRow2_2;
-  kbArrayRow2[2] := lbRow2_3;
-  kbArrayRow2[3] := lbRow2_4;
-  kbArrayRow2[4] := lbRow2_5;
+  SetLength(kbArrayRow2, 17);
+  kbArrayRow2[0] := lbRow1_2;
+  kbArrayRow2[1] := lbRow2_1;
+  kbArrayRow2[2] := lbRow3_2;
+  kbArrayRow2[3] := lbRow4_3;
+  kbArrayRow2[4] := lbRow4_4;
+  kbArrayRow2[5] := lbRow5_2;
+  kbArrayRow2[6] := lbRow6_3;
+  kbArrayRow2[7] := lbRow6_4;
+  kbArrayRow2[8] := lbRow7_2;
+  kbArrayRow2[9] := lbRow8_2;
+  kbArrayRow2[10] := lbRow9_3;
+  kbArrayRow2[11] := lbRow9_4;
+  kbArrayRow2[12] := lbRow10_2;
+  kbArrayRow2[13] := lbRow11_2;
+  kbArrayRow2[14] := lbRow12_2;
+  kbArrayRow2[15] := lbRow13_3;
+  kbArrayRow2[16] := lbRow14_2;
 
-  SetLength(kbArrayRow3, 6);
-  kbArrayRow3[0] := lbRow3_1;
-  kbArrayRow3[1] := lbRow3_2;
+
+  SetLength(kbArrayRow3, 17);
+  kbArrayRow3[0] := lbRow1_3;
+  kbArrayRow3[1] := lbRow2_2;
   kbArrayRow3[2] := lbRow3_3;
-  kbArrayRow3[3] := lbRow3_4;
-  kbArrayRow3[4] := lbRow3_5;
-  kbArrayRow3[5] := lbRow3_6;
+  kbArrayRow3[3] := lbRow4_5;
+  kbArrayRow3[4] := lbRow5_3;
+  kbArrayRow3[5] := lbRow6_5;
+  kbArrayRow3[6] := lbRow6_6;
+  kbArrayRow3[7] := lbRow7_3;
+  kbArrayRow3[8] := lbRow8_3;
+  kbArrayRow3[9] := lbRow8_4;
+  kbArrayRow3[10] := lbRow9_5;
+  kbArrayRow3[11] := lbRow9_6;
+  kbArrayRow3[12] := lbRow10_3;
+  kbArrayRow3[13] := lbRow11_3;
+  kbArrayRow3[14] := lbRow12_3;
+  kbArrayRow3[15] := lbRow13_4;
+  kbArrayRow3[16] := lbRow14_3;
 
-  SetLength(kbArrayRow4, 8);
-  kbArrayRow4[0] := lbRow4_1;
-  kbArrayRow4[1] := lbRow4_2;
-  kbArrayRow4[2] := lbRow4_3;
-  kbArrayRow4[3] := lbRow4_4;
-  kbArrayRow4[4] := lbRow4_5;
-  kbArrayRow4[5] := lbRow4_6;
-  kbArrayRow4[6] := lbRow4_7;
-  kbArrayRow4[7] := lbRow4_8;
+  SetLength(kbArrayRow4, 16);
+  kbArrayRow4[0] := lbRow1_4;
+  kbArrayRow4[1] := lbRow2_3;
+  kbArrayRow4[2] := lbRow3_4;
+  kbArrayRow4[3] := lbRow4_6;
+  kbArrayRow4[4] := lbRow5_4;
+  kbArrayRow4[5] := lbRow6_7;
+  kbArrayRow4[6] := lbRow6_8;
+  kbArrayRow4[7] := lbRow7_4;
+  kbArrayRow4[8] := lbRow8_5;
+  kbArrayRow4[9] := lbRow9_7;
+  kbArrayRow4[10] := lbRow9_8;
+  kbArrayRow4[11] := lbRow10_4;
+  kbArrayRow4[12] := lbRow11_4;
+  kbArrayRow4[13] := lbRow11_5;
+  kbArrayRow4[14] := lbRow12_4;
+  kbArrayRow4[15] := lbRow14_4;
 
-  SetLength(kbArrayRow5, 6);
-  kbArrayRow5[0] := lbRow5_1;
-  kbArrayRow5[1] := lbRow5_2;
-  kbArrayRow5[2] := lbRow5_3;
-  kbArrayRow5[3] := lbRow5_4;
+  SetLength(kbArrayRow5, 16);
+  kbArrayRow5[0] := lbRow1_5;
+  kbArrayRow5[1] := lbRow2_4;
+  kbArrayRow5[2] := lbRow3_5;
+  kbArrayRow5[3] := lbRow4_7;
   kbArrayRow5[4] := lbRow5_5;
-  kbArrayRow5[5] := lbRow5_6;
+  kbArrayRow5[5] := lbRow6_9;
+  kbArrayRow5[6] := lbRow6_10;
+  kbArrayRow5[7] := lbRow7_5;
+  kbArrayRow5[8] := lbRow8_6;
+  kbArrayRow5[9] := lbRow9_9;
+  kbArrayRow5[10] := lbRow9_10;
+  kbArrayRow5[11] := lbRow10_5;
+  kbArrayRow5[12] := lbRow11_6;
+  kbArrayRow5[13] := lbRow12_5;
+  kbArrayRow5[14] := lbRow13_5;
+  kbArrayRow5[15] := lbRow14_5;
 
-  SetLength(kbArrayRow6, 11);
-  kbArrayRow6[0] := lbRow6_1;
-  kbArrayRow6[1] := lbRow6_2;
-  kbArrayRow6[2] := lbRow6_3;
-  kbArrayRow6[3] := lbRow6_4;
-  kbArrayRow6[4] := lbRow6_5;
-  kbArrayRow6[5] := lbRow6_6;
-  kbArrayRow6[6] := lbRow6_7;
-  kbArrayRow6[7] := lbRow6_8;
-  kbArrayRow6[8] := lbRow6_9;
-  kbArrayRow6[9] := lbRow6_10;
-  kbArrayRow6[10] := lbRow6_11;
+  SetLength(kbArrayRow6, 12);
+  kbArrayRow6[0] := lbRow1_6;
+  kbArrayRow6[1] := lbRow2_5;
+  kbArrayRow6[2] := lbRow3_6;
+  kbArrayRow6[3] := lbRow4_8;
+  kbArrayRow6[4] := lbRow5_6;
+  kbArrayRow6[5] := lbRow6_11;
+  kbArrayRow6[6] := lbRow8_7;
+  kbArrayRow6[7] := lbRow10_6;
+  kbArrayRow6[8] := lbRow11_7;
+  kbArrayRow6[9] := lbRow12_6;
+  kbArrayRow6[10] := lbRow13_6;
+  kbArrayRow6[11] := lbRow14_6;
 
-  SetLength(kbArrayRow7, 5);
-  kbArrayRow7[0] := lbRow7_1;
-  kbArrayRow7[1] := lbRow7_2;
-  kbArrayRow7[2] := lbRow7_3;
-  kbArrayRow7[3] := lbRow7_4;
-  kbArrayRow7[4] := lbRow7_5;
-
-  SetLength(kbArrayRow8, 7);
-  kbArrayRow8[0] := lbRow8_1;
-  kbArrayRow8[1] := lbRow8_2;
-  kbArrayRow8[2] := lbRow8_3;
-  kbArrayRow8[3] := lbRow8_4;
-  kbArrayRow8[4] := lbRow8_5;
-  kbArrayRow8[5] := lbRow8_6;
-  kbArrayRow8[6] := lbRow8_7;
-
-  SetLength(kbArrayRow9, 10);
-  kbArrayRow9[0] := lbRow9_1;
-  kbArrayRow9[1] := lbRow9_2;
-  kbArrayRow9[2] := lbRow9_3;
-  kbArrayRow9[3] := lbRow9_4;
-  kbArrayRow9[4] := lbRow9_5;
-  kbArrayRow9[5] := lbRow9_6;
-  kbArrayRow9[6] := lbRow9_7;
-  kbArrayRow9[7] := lbRow9_8;
-  kbArrayRow9[8] := lbRow9_9;
-  kbArrayRow9[9] := lbRow9_10;
-
-  SetLength(kbArrayRow10, 6);
-  kbArrayRow10[0] := lbRow10_1;
-  kbArrayRow10[1] := lbRow10_2;
-  kbArrayRow10[2] := lbRow10_3;
-  kbArrayRow10[3] := lbRow10_4;
-  kbArrayRow10[4] := lbRow10_5;
-  kbArrayRow10[5] := lbRow10_6;
-
-  SetLength(kbArrayRow11, 7);
-  kbArrayRow11[0] := lbRow11_1;
-  kbArrayRow11[1] := lbRow11_2;
-  kbArrayRow11[2] := lbRow11_3;
-  kbArrayRow11[3] := lbRow11_4;
-  kbArrayRow11[4] := lbRow11_5;
-  kbArrayRow11[5] := lbRow11_6;
-  kbArrayRow11[6] := lbRow11_7;
-
-  SetLength(kbArrayRow12, 6);
-  kbArrayRow12[0] := lbRow12_1;
-  kbArrayRow12[1] := lbRow12_2;
-  kbArrayRow12[2] := lbRow12_3;
-  kbArrayRow12[3] := lbRow12_4;
-  kbArrayRow12[4] := lbRow12_5;
-  kbArrayRow12[5] := lbRow12_6;
-
-  SetLength(kbArrayRow13, 6);
-  kbArrayRow13[0] := lbRow13_1;
-  kbArrayRow13[1] := lbRow13_2;
-  kbArrayRow13[2] := lbRow13_3;
-  kbArrayRow13[3] := lbRow13_4;
-  kbArrayRow13[4] := lbRow13_5;
-  kbArrayRow13[5] := lbRow13_6;
-
-  SetLength(kbArrayRow14, 6);
-  kbArrayRow14[0] := lbRow14_1;
-  kbArrayRow14[1] := lbRow14_2;
-  kbArrayRow14[2] := lbRow14_3;
-  kbArrayRow14[3] := lbRow14_4;
-  kbArrayRow14[4] := lbRow14_5;
-  kbArrayRow14[5] := lbRow14_6;
+  //SetLength(kbArrayRow7, 5);
+  //kbArrayRow7[0] := lbRow7_1;
+  //kbArrayRow7[1] := lbRow7_2;
+  //kbArrayRow7[2] := lbRow7_3;
+  //kbArrayRow7[3] := lbRow7_4;
+  //kbArrayRow7[4] := lbRow7_5;
+  //
+  //SetLength(kbArrayRow8, 7);
+  //kbArrayRow8[0] := lbRow8_1;
+  //kbArrayRow8[1] := lbRow8_2;
+  //kbArrayRow8[2] := lbRow8_3;
+  //kbArrayRow8[3] := lbRow8_4;
+  //kbArrayRow8[4] := lbRow8_5;
+  //kbArrayRow8[5] := lbRow8_6;
+  //kbArrayRow8[6] := lbRow8_7;
+  //
+  //SetLength(kbArrayRow9, 10);
+  //kbArrayRow9[0] := lbRow9_1;
+  //kbArrayRow9[1] := lbRow9_2;
+  //kbArrayRow9[2] := lbRow9_3;
+  //kbArrayRow9[3] := lbRow9_4;
+  //kbArrayRow9[4] := lbRow9_5;
+  //kbArrayRow9[5] := lbRow9_6;
+  //kbArrayRow9[6] := lbRow9_7;
+  //kbArrayRow9[7] := lbRow9_8;
+  //kbArrayRow9[8] := lbRow9_9;
+  //kbArrayRow9[9] := lbRow9_10;
+  //
+  //SetLength(kbArrayRow10, 6);
+  //kbArrayRow10[0] := lbRow10_1;
+  //kbArrayRow10[1] := lbRow10_2;
+  //kbArrayRow10[2] := lbRow10_3;
+  //kbArrayRow10[3] := lbRow10_4;
+  //kbArrayRow10[4] := lbRow10_5;
+  //kbArrayRow10[5] := lbRow10_6;
+  //
+  //SetLength(kbArrayRow11, 7);
+  //kbArrayRow11[0] := lbRow11_1;
+  //kbArrayRow11[1] := lbRow11_2;
+  //kbArrayRow11[2] := lbRow11_3;
+  //kbArrayRow11[3] := lbRow11_4;
+  //kbArrayRow11[4] := lbRow11_5;
+  //kbArrayRow11[5] := lbRow11_6;
+  //kbArrayRow11[6] := lbRow11_7;
+  //
+  //SetLength(kbArrayRow12, 6);
+  //kbArrayRow12[0] := lbRow12_1;
+  //kbArrayRow12[1] := lbRow12_2;
+  //kbArrayRow12[2] := lbRow12_3;
+  //kbArrayRow12[3] := lbRow12_4;
+  //kbArrayRow12[4] := lbRow12_5;
+  //kbArrayRow12[5] := lbRow12_6;
+  //
+  //SetLength(kbArrayRow13, 6);
+  //kbArrayRow13[0] := lbRow13_1;
+  //kbArrayRow13[1] := lbRow13_2;
+  //kbArrayRow13[2] := lbRow13_3;
+  //kbArrayRow13[3] := lbRow13_4;
+  //kbArrayRow13[4] := lbRow13_5;
+  //kbArrayRow13[5] := lbRow13_6;
+  //
+  //SetLength(kbArrayRow14, 6);
+  //kbArrayRow14[0] := lbRow14_1;
+  //kbArrayRow14[1] := lbRow14_2;
+  //kbArrayRow14[2] := lbRow14_3;
+  //kbArrayRow14[3] := lbRow14_4;
+  //kbArrayRow14[4] := lbRow14_5;
+  //kbArrayRow14[5] := lbRow14_6;
 end;
 
 procedure TFormMainRGB.LoadAppSettings;
@@ -1983,7 +2199,7 @@ var
 begin
   Result := False;
 
-  errorMsg := fileService.LoadVersionInfo;
+  errorMsg := fileService.LoadVersionInfo(GActiveDevice);
 
   if (errorMsg = '') then
   begin
@@ -2018,7 +2234,7 @@ begin
 
   try
     loadingSettings := true;
-    errorMsg := fileService.LoadStateSettings;
+    errorMsg := fileService.LoadStateSettings(GActiveDevice);
 
     if (errorMsg = '') then
     begin
@@ -2488,6 +2704,8 @@ begin
       begin
           keyButton.BackColor := aKbKey.KeyColor;
       end
+      else if (keyService.LedMode in [lmSpectrum]) then
+        keyButton.BackColor := spectrumColor
       else if (keyService.LedMode in [lmPulse]) then
         keyButton.BackColor := pulseColor
       else if (keyService.LedMode in [lmMonochrome]) then
@@ -2719,7 +2937,7 @@ var
 const
   TitleStateFile = 'Save State.txt File';
 begin
-  errorMsg := fileService.SaveStateSettings;
+  errorMsg := fileService.SaveStateSettings(GActiveDevice);
 
   if (errorMsg <> '') then
     ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
@@ -2928,6 +3146,7 @@ begin
   BreatheTimer.Enabled := false;
   LoadGifTimer.Enabled := false;
   NewGifTimer.Enabled := false;
+  WaveTimer.Enabled := false;
   gifViewer.Visible := false;
   ShowHideKeyButtons(false);
   ReloadKeyButtonsColor(true, false);
@@ -3177,6 +3396,17 @@ begin
   gifFrameIdx := 0;
 end;
 
+procedure TFormMainRGB.ResetWave;
+begin
+  waveCycle := 0;
+end;
+
+procedure TFormMainRGB.ResetSpectrum;
+begin
+  spectrumCycle := 0;
+  spectrumColor := clNone;
+end;
+
 procedure TFormMainRGB.SetLedMode(ledMode: TLedMode);
 const
   colorEnabled = clWhite;
@@ -3195,6 +3425,8 @@ begin
     ResetDirection;
     ResetBreathe;
     ResetNewGif;
+    ResetWave;
+    ResetSpectrum;
 
     ShowHideParameters(PARAM_COLOR, ledMode, ledMode in [lmFreestyle, lmMonochrome, lmBreathe, lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]);
     ShowHideParameters(PARAM_BASECOLOR, ledMode, ledMode in [lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]);
@@ -3248,21 +3480,23 @@ begin
     begin
       SetCurrentMenuAction(maSpectrum, nil);
       imgKeyboardLighting.SendToBack;
-      gifViewer.SendToBack;
       KeyButtonsSendToBack;
+      gifViewer.SendToBack;
       imgKeyboardBack.SendToBack;
       imgBackground.SendToBack;
       knobSpeed.Position := keyService.LedSpeed;
+      ShowHideKeyButtons(true);
     end
     else if (ledMode in [lmWave]) then
     begin
       SetCurrentMenuAction(maWave, nil);
       imgKeyboardLighting.SendToBack;
-      gifViewer.SendToBack;
       KeyButtonsSendToBack;
+      gifViewer.SendToBack;
       imgKeyboardBack.SendToBack;
       imgBackground.SendToBack;
       knobSpeed.Position := keyService.LedSpeed;
+      ShowHideKeyButtons(true);
       SetDirection(keyService.LedDirection, keyService.LedMode);
     end
     else if (ledMode  in [lmReactive, lmRipple, lmFireball, lmStarlight, lmRebound, lmLoop, lmRain]) then
@@ -3356,6 +3590,10 @@ begin
       BreatheTimer.Enabled := true
     else if (ledMode in [lmRain, lmReactive, lmRipple, lmFireball, lmLoop, lmRebound, lmStarlight]) then
       NewGifTimer.Enabled := true
+    else if (ledMode in [lmWave]) then
+      WaveTimer.Enabled := true
+    else if (ledMode in [lmSpectrum]) then
+      SpectrumTimer.Enabled := true
     else
       LoadGifTimer.Enabled := true;
   finally
@@ -3780,7 +4018,7 @@ end;
 
 procedure TFormMainRGB.btnExportClick(Sender: TObject);
 begin
-  ShowExport(currentLayoutFile, currentLedFile);
+  ShowExport(currentLayoutFile, currentLedFile, backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -4121,14 +4359,14 @@ begin
   begin
     //gifToLoad := imagePath + 'Wave_Spd' + IntToStr(speed) + '.gif';
   //  WaveTimer.Enabled := true;
-    gifToLoad := 'WAVE';
-    case direction of
-      LED_DIR_DOWN_INT: gifToLoad := gifToLoad + 'DOWN-';
-      LED_DIR_LEFT_INT: gifToLoad := gifToLoad + 'LEFT-';
-      LED_DIR_UP_INT: gifToLoad := gifToLoad + 'UP-';
-      LED_DIR_RIGHT_INT: gifToLoad := gifToLoad + 'RIGHT-';
-    end;
-    gifToLoad := gifToLoad + 'SPD' + IntToStr(speed);
+    //gifToLoad := 'WAVE';
+    //case direction of
+    //  LED_DIR_DOWN_INT: gifToLoad := gifToLoad + 'DOWN-';
+    //  LED_DIR_LEFT_INT: gifToLoad := gifToLoad + 'LEFT-';
+    //  LED_DIR_UP_INT: gifToLoad := gifToLoad + 'UP-';
+    //  LED_DIR_RIGHT_INT: gifToLoad := gifToLoad + 'RIGHT-';
+    //end;
+    //gifToLoad := gifToLoad + 'SPD' + IntToStr(speed);
   end
   else if (keyService.LedMode = lmLoop) then
   begin
@@ -4143,7 +4381,7 @@ begin
   end
   else if (keyService.LedMode = lmSpectrum) then
   begin
-    gifToLoad := 'SPECTRUM-SPD' +  IntToStr(speed);
+    //gifToLoad := 'SPECTRUM-SPD' +  IntToStr(speed);
     //gifToLoad := imagePath + 'Spectrum-Spd' + IntToStr(speed) + '.gif';
   end
   //else if (keyService.LedMode = lmReactive) then
@@ -4202,28 +4440,107 @@ end;
 var
   tick: integer = 0;
 procedure TFormMainRGB.WaveTimerTimer(Sender: TObject);
+const
+  MaxCycle = 19;
 begin
   WaveTimer.Enabled := false;
-  inc(tick);
-  SetColorRow(kbArrayRow14, tick);
-  SetColorRow(kbArrayRow13, (tick + 1) Mod 12);
-  SetColorRow(kbArrayRow12, (tick + 2) Mod 12);
-  SetColorRow(kbArrayRow11, (tick + 3) Mod 12);
-  SetColorRow(kbArrayRow10, (tick + 4) Mod 12);
-  SetColorRow(kbArrayRow9, (tick + 5) Mod 12);
-  SetColorRow(kbArrayRow8, (tick + 6) Mod 12);
-  SetColorRow(kbArrayRow7, (tick + 7) Mod 12);
-  SetColorRow(kbArrayRow6, (tick + 8) Mod 12);
-  SetColorRow(kbArrayRow5, (tick + 9) Mod 12);
-  SetColorRow(kbArrayRow4, (tick + 10) Mod 12);
-  SetColorRow(kbArrayRow3, (tick + 11) Mod 12);
-  SetColorRow(kbArrayRow2, (tick + 12) Mod 12);
-  SetColorRow(kbArrayRow1, (tick + 13) Mod 12);
+  inc(waveCycle);
 
-  if (tick = 12) then
-    tick := 0;
+  if (keyService.LedDirection in [LED_DIR_LEFT_INT, LED_DIR_RIGHT_INT]) then
+  begin
+    case keyService.LedSpeed of
+      1: WaveTimer.Interval := 1000;
+      2: WaveTimer.Interval := 800;
+      3: WaveTimer.Interval := 700;
+      4: WaveTimer.Interval := 600;
+      5: WaveTimer.Interval := 500;
+      6: WaveTimer.Interval := 400;
+      7: WaveTimer.Interval := 300;
+      8: WaveTimer.Interval := 200;
+      9: WaveTimer.Interval := 100;
+    end;
+  end
+  else
+  begin
+    case keyService.LedSpeed of
+      1: WaveTimer.Interval := 450;
+      2: WaveTimer.Interval := 400;
+      3: WaveTimer.Interval := 350;
+      4: WaveTimer.Interval := 300;
+      5: WaveTimer.Interval := 250;
+      6: WaveTimer.Interval := 200;
+      7: WaveTimer.Interval := 150;
+      8: WaveTimer.Interval := 100;
+      9: WaveTimer.Interval := 50;
+    end;
+  end;
 
-  Refresh;
+  if (keyService.LedDirection = LED_DIR_LEFT_INT) then
+  begin
+    SetColorWave(kbArrayCol1, waveCycle);
+    SetColorWave(kbArrayCol2, (waveCycle + 1) Mod MaxCycle);
+    SetColorWave(kbArrayCol3, (waveCycle + 2) Mod MaxCycle);
+    SetColorWave(kbArrayCol4, (waveCycle + 3) Mod MaxCycle);
+    SetColorWave(kbArrayCol5, (waveCycle + 4) Mod MaxCycle);
+    SetColorWave(kbArrayCol6, (waveCycle + 5) Mod MaxCycle);
+    SetColorWave(kbArrayCol7, (waveCycle + 6) Mod MaxCycle);
+    SetColorWave(kbArrayCol8, (waveCycle + 7) Mod MaxCycle);
+    SetColorWave(kbArrayCol9, (waveCycle + 8) Mod MaxCycle);
+    SetColorWave(kbArrayCol10, (waveCycle + 9) Mod MaxCycle);
+    SetColorWave(kbArrayCol11, (waveCycle + 10) Mod MaxCycle);
+    SetColorWave(kbArrayCol12, (waveCycle + 11) Mod MaxCycle);
+    SetColorWave(kbArrayCol13, (waveCycle + 12) Mod MaxCycle);
+    SetColorWave(kbArrayCol14, (waveCycle + 13) Mod MaxCycle);
+    SetColorWave(kbArrayCol15, (waveCycle + 14) Mod MaxCycle);
+    SetColorWave(kbArrayCol16, (waveCycle + 15) Mod MaxCycle);
+    SetColorWave(kbArrayCol17, (waveCycle + 16) Mod MaxCycle);
+    SetColorWave(kbArrayCol18, (waveCycle + 17) Mod MaxCycle);
+  end
+  else if (keyService.LedDirection = LED_DIR_RIGHT_INT) then
+  begin
+    SetColorWave(kbArrayCol18, waveCycle, true);
+    SetColorWave(kbArrayCol17, (waveCycle + 1) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol16, (waveCycle + 2) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol15, (waveCycle + 3) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol14, (waveCycle + 4) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol13, (waveCycle + 5) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol12, (waveCycle + 6) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol11, (waveCycle + 7) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol10, (waveCycle + 8) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol9, (waveCycle + 9) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol8, (waveCycle + 10) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol7, (waveCycle + 11) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol6, (waveCycle + 12) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol5, (waveCycle + 13) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol4, (waveCycle + 14) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol3, (waveCycle + 15) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol2, (waveCycle + 16) Mod MaxCycle, true);
+    SetColorWave(kbArrayCol1, (waveCycle + 17) Mod MaxCycle, true);
+  end
+  else if (keyService.LedDirection = LED_DIR_DOWN_INT) then
+  begin
+    SetColorWave(kbArrayRow6, waveCycle, true);
+    SetColorWave(kbArrayRow5, (waveCycle + 1) Mod MaxCycle, true);
+    SetColorWave(kbArrayRow4, (waveCycle + 2) Mod MaxCycle, true);
+    SetColorWave(kbArrayRow3, (waveCycle + 3) Mod MaxCycle, true);
+    SetColorWave(kbArrayRow2, (waveCycle + 4) Mod MaxCycle, true);
+    SetColorWave(kbArrayRow1, (waveCycle + 5) Mod MaxCycle, true);
+  end
+  else if (keyService.LedDirection = LED_DIR_UP_INT) then
+  begin
+    SetColorWave(kbArrayRow1, waveCycle);
+    SetColorWave(kbArrayRow2, (waveCycle + 1) Mod MaxCycle);
+    SetColorWave(kbArrayRow3, (waveCycle + 2) Mod MaxCycle);
+    SetColorWave(kbArrayRow4, (waveCycle + 3) Mod MaxCycle);
+    SetColorWave(kbArrayRow5, (waveCycle + 4) Mod MaxCycle);
+    SetColorWave(kbArrayRow6, (waveCycle + 5) Mod MaxCycle);
+  end;
+
+  RepaintForm(false);
+
+  if (waveCycle = MaxCycle) then
+    waveCycle := 0;
+
   WaveTimer.Enabled := true;
 end;
 
@@ -4262,6 +4579,96 @@ begin
     for i := 0 to Length(arrayButton) - 1 do
     begin
       arrayButton[i].BackColor := keyColor;
+      //arrayButton[i].Repaint;
+    end;
+  end;
+end;
+
+procedure TFormMainRGB.SetColorWave(arrayButton: array of TLabelBox; colorIdx: integer;
+  invertColors: boolean = false; gradient: boolean = false);
+var
+  i: integer;
+  pass: integer;
+  keyColor: TColor;
+  baseColor: TColor;
+begin
+  for pass := 1 to 2 do
+  begin
+    if (invertColors) then
+    begin
+      if (pass = 2) then
+      begin
+       colorIdx := colorIdx - 1;
+       if (colorIdx < 0) then
+         colorIdx := 19;
+      end;
+      case colorIdx of
+        19: keyColor := RGB(0, 255, 255); //Turquoise
+        18: keyColor := RGB(0, 200, 255); //Powder blue
+        17: keyColor := RGB(0, 128, 255); //Paler blue
+        16: keyColor := RGB(0, 70, 255); //Pale blue
+        15: keyColor := RGB(0, 0, 255); //Blue
+        14: keyColor := RGB(75, 0, 255); //Bluish
+        13: keyColor := RGB(128, 0, 255); //Purple-blue
+        12: keyColor := RGB(200, 0, 255); //Purple
+        11: keyColor := RGB(255, 0, 144); //Pink
+        10: keyColor := RGB(255, 0, 128); //Red-Purple
+        9: keyColor := RGB(255, 0, 0); //Red
+        8: keyColor := RGB(255, 75, 0); //Orange-Red
+        7: keyColor := RGB(255, 128, 0); //Orange
+        6: keyColor := RGB(255, 200, 0); //Yellow-orange
+        5: keyColor := RGB(255, 255, 0); //Yellow
+        4: keyColor := RGB(210, 255, 0); //Yellow-green
+        3: keyColor := RGB(128, 255, 0); //Pale Green
+        2: keyColor := RGB(0, 255, 0); //Green
+        1: keyColor := RGB(0, 255, 128); //Greenish
+        0: keyColor := RGB(0, 255, 200); //Teal
+      end;
+    end
+    else
+    begin
+      if (pass = 2) then
+      begin
+       colorIdx := colorIdx + 1;
+       if (colorIdx > 19) then
+         colorIdx := 0;
+      end;
+      case colorIdx of
+        0: keyColor := RGB(0, 255, 255); //Turquoise
+        1: keyColor := RGB(0, 200, 255); //Powder blue
+        2: keyColor := RGB(0, 128, 255); //Paler blue
+        3: keyColor := RGB(0, 70, 255); //Pale blue
+        4: keyColor := RGB(0, 0, 255); //Blue
+        5: keyColor := RGB(75, 0, 255); //Bluish
+        6: keyColor := RGB(128, 0, 255); //Purple-blue
+        7: keyColor := RGB(200, 0, 255); //Purple
+        8: keyColor := RGB(255, 0, 144); //Pink
+        9: keyColor := RGB(255, 0, 128); //Red-Purple
+        10: keyColor := RGB(255, 0, 0); //Red
+        11: keyColor := RGB(255, 75, 0); //Orange-Red
+        12: keyColor := RGB(255, 128, 0); //Orange
+        13: keyColor := RGB(255, 200, 0); //Yellow-orange
+        14: keyColor := RGB(255, 255, 0); //Yellow
+        15: keyColor := RGB(210, 255, 0); //Yellow-green
+        16: keyColor := RGB(128, 255, 0); //Pale Green
+        17: keyColor := RGB(0, 255, 0); //Green
+        18: keyColor := RGB(0, 255, 128); //Greenish
+        19: keyColor := RGB(0, 255, 200); //Teal
+      end;
+    end;
+    if (pass = 1) then
+      baseColor := keyColor;
+  end;
+
+  if Length(arrayButton) > 0 then
+  begin
+    for i := 0 to Length(arrayButton) - 1 do
+    begin
+      arrayButton[i].GradientFill := gradient;
+      arrayButton[i].Opaque := true;
+      arrayButton[i].BackColor := baseColor;
+      if (gradient) then
+        arrayButton[i].NextColor := keyColor;
       //arrayButton[i].Repaint;
     end;
   end;
@@ -4774,7 +5181,7 @@ end;
 
 procedure TFormMainRGB.btnDiagnosticClick(Sender: TObject);
 begin
-  ShowDiagnostics;
+  ShowDiagnostics(backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 //var
@@ -4835,7 +5242,7 @@ end;
 
 procedure TFormMainRGB.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware(GActiveDevice);
+  ShowFirmware(GActiveDevice, backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -4902,7 +5309,7 @@ begin
 
     if (IsKeyLoaded) then
     begin
-      timingDelay := ShowTimingDelays;
+      timingDelay := ShowTimingDelays(backColor, fontColor);
       if (timingDelay = 0) then
       begin
         SetModifiedKey(VK_RAND_DELAY, '', true);
@@ -5215,6 +5622,54 @@ begin
   end;
 end;
 
+procedure TFormMainRGB.SpectrumTimerTimer(Sender: TObject);
+begin
+  SpectrumTimer.Enabled := false;
+
+  case keyService.LedSpeed of
+    1: SpectrumTimer.Interval := 1900;
+    2: SpectrumTimer.Interval := 1700;
+    3: SpectrumTimer.Interval := 1600;
+    4: SpectrumTimer.Interval := 1500;
+    5: SpectrumTimer.Interval := 1400;
+    6: SpectrumTimer.Interval := 1300;
+    7: SpectrumTimer.Interval := 1200;
+    8: SpectrumTimer.Interval := 1100;
+    9: SpectrumTimer.Interval := 150;
+  end;
+
+  inc(spectrumCycle);
+  if (spectrumCycle > 20) then
+    spectrumCycle := 1;
+
+  case spectrumCycle of
+    1: spectrumColor := RGB(255, 0, 128);
+    2: spectrumColor := RGB(255, 0, 255);
+    3: spectrumColor := RGB(200, 0, 255);
+    4: spectrumColor := RGB(128, 0, 255);
+    5: spectrumColor := RGB(75, 0, 255);
+    6: spectrumColor := RGB(0, 0, 255);
+    7: spectrumColor := RGB(0, 70, 255);
+    8: spectrumColor := RGB(0, 128, 255);
+    9: spectrumColor := RGB(0, 200, 255);
+    10: spectrumColor := RGB(0, 255, 255);
+    11: spectrumColor := RGB(0, 255, 200);
+    12: spectrumColor := RGB(0, 255, 128);
+    13: spectrumColor := RGB(0, 255, 0);
+    14: spectrumColor := RGB(128, 255, 0);
+    15: spectrumColor := RGB(210, 255, 0);
+    16: spectrumColor := RGB(255, 255, 0);
+    17: spectrumColor := RGB(255, 200, 0);
+    18: spectrumColor := RGB(255, 128, 0);
+    19: spectrumColor := RGB(255, 75, 0);
+    20: spectrumColor := RGB(255, 0, 0);
+  end;
+
+  ReloadKeyButtonsColor;
+
+  SpectrumTimer.Enabled := true;
+end;
+
 procedure TFormMainRGB.rgbChange(Sender: TObject);
 begin
 end;
@@ -5520,7 +5975,7 @@ begin
       end
       else
       begin
-        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
+        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
         begin
           KeyModified := true;
           SetSaveState(ssModified, SaveStateLighting);
@@ -5691,6 +6146,8 @@ begin
       LoadGifTimer.Enabled := false;
       BreatheTimer.Enabled := false;
       NewGifTimer.Enabled := false;
+      WaveTimer.Enabled := false;
+      SpectrumTimer.Enabled := false;
       if (keyService.LedMode in [lmBreathe, lmPulse]) then
       begin
         ResetBreathe;
@@ -5700,6 +6157,16 @@ begin
       begin
         ResetNewGif;
         NewGifTimer.Enabled := true;
+      end
+      else if (keyService.LedMode in [lmWave]) then
+      begin
+        ResetWave;
+        WaveTimer.Enabled := true;
+      end
+      else if (keyService.LedMode in [lmSpectrum]) then
+      begin
+        ResetSpectrum;
+        SpectrumTimer.Enabled := true;
       end
       else
       begin
@@ -8219,10 +8686,15 @@ end;
 
 //End macro section
 
+procedure TFormMainRGB.ReturnToHome;
+begin
+  (parentForm as TFormDashboard).ResetToHome;
+end;
+
 initialization
-  {$I waveRes.lrs}
+  //{$I waveRes.lrs}
   //{$I reactiveRes.lrs}
-  {$I spectrumRes.lrs}
+  //{$I spectrumRes.lrs}
   //{$I startlightRes.lrs}
   //{$I reboundRes.lrs}
   //{$I loopRes.lrs}

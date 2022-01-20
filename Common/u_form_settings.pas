@@ -85,6 +85,7 @@ end;
 
 procedure TFormSettings.FormCreate(Sender: TObject);
 begin
+  inherited;
   lblTitle.Visible := false;
   LoadStateSettings;
   settingsChanged := false;

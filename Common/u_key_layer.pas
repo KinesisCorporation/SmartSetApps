@@ -30,6 +30,7 @@ type
     FMacro3: TKeyList;
     FActiveMacro: TKeyList;
     FTapAndHold: boolean;
+    FMultimodifiers: string;
     procedure Init;
   protected
     //function CopyKey: TKBKey;
@@ -62,6 +63,7 @@ type
     property Macro3: TKeyList read FMacro3 write FMacro3;
     property ActiveMacro: TKeyList read GetActiveMacro write SetActiveMacro;
     property KeyColor: TColor read FKeyColor write FKeyColor;
+    property Multimodifiers: string read FMultimodifiers write FMultimodifiers;
   end;
 
   { TKBKeyList }
@@ -197,6 +199,7 @@ begin
   FHoldAction := nil;
   FIsModified := false;
   FTapAndHold := false;
+  FMultimodifiers := '';
   ResetMacro;
   SetActiveMacro(FMacro1);
 end;
@@ -225,6 +228,7 @@ begin
       self.FCanEdit := aKbKey.CanEdit;
       self.FCanAssignMacro := aKbKey.CanAssignMacro;
       self.FKeyColor := aKbKey.KeyColor;
+      self.FMultimodifiers := aKbKey.Multimodifiers;
     end;
     if (restoreType in [rtAll, rtMacro]) then
     begin
@@ -271,6 +275,7 @@ begin
   FMacro2.MacroIdx := 2;
   FMacro3.MultiKey := true;
   FMacro3.MacroIdx := 3;
+  FMultimodifiers := '';
   SetActiveMacro(FMacro1);
 end;
 

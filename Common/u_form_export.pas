@@ -45,13 +45,13 @@ type
 
 var
   FormExport: TFormExport;
-  procedure ShowExport(curLayoutFile: string; curLedFile: string);
+  procedure ShowExport(curLayoutFile: string; curLedFile: string; backColor: TColor; fontColor: TColor);
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowExport(curLayoutFile: string; curLedFile: string);
+procedure ShowExport(curLayoutFile: string; curLedFile: string; backColor: TColor; fontColor: TColor);
 begin
   try
     NeedInput := true;
@@ -64,6 +64,20 @@ begin
     Application.CreateForm(TFormExport, FormExport);
     FormExport.currentLayoutFile := curLayoutFile;
     FormExport.currentLedFile := curLedFile;
+
+    //Set colors
+    FormExport.Color := backColor;
+    FormExport.Font.Color := fontColor;
+    FormExport.lblTitle.Font.Color := fontColor;
+    FormExport.lblBoth.Font.Color := fontColor;
+    FormExport.lblLayout.Font.Color := fontColor;
+    FormExport.lblLighting.Font.Color := fontColor;
+
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+    begin
+      LoadButtonImage(FormExport.btnCancel, FormExport.imgListTiming, 4);
+      LoadButtonImage(FormExport.btnAccept, FormExport.imgListTiming, 6);
+    end;
 
     //Shows dialog
     FormExport.ShowModal;
@@ -109,31 +123,51 @@ end;
 procedure TFormExport.btnCancelClick(Sender: TObject);
 begin
   ModalResult := mrCancel;
-  LoadButtonImage(sender, imgListTiming, 0);
+
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 4)
+  else
+    LoadButtonImage(sender, imgListTiming, 0);
 end;
 
 procedure TFormExport.btnAcceptMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
+  begin
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 6)
+  else
     LoadButtonImage(sender, imgListTiming, 2);
+  end;
 end;
 
 procedure TFormExport.btnAcceptMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  LoadButtonImage(sender, imgListTiming, 3);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 7)
+  else
+    LoadButtonImage(sender, imgListTiming, 3);
 end;
 
 procedure TFormExport.btnCancelMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
-    LoadButtonImage(sender, imgListTiming, 0);
+  begin
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+      LoadButtonImage(sender, imgListTiming, 4)
+    else
+      LoadButtonImage(sender, imgListTiming, 0);
+  end;
 end;
 
 procedure TFormExport.btnCancelMouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
-  LoadButtonImage(sender, imgListTiming, 1);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 5)
+  else
+    LoadButtonImage(sender, imgListTiming, 1);
 end;
 
 procedure TFormExport.btnAcceptClick(Sender: TObject);
@@ -172,7 +206,10 @@ begin
         FreeAndNil(ledContent);
     end;
   end;
-  LoadButtonImage(sender, imgListTiming, 2);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgListTiming, 6)
+  else
+    LoadButtonImage(sender, imgListTiming, 2);
 end;
 
 procedure TFormExport.checkBoxClick(Sender: TObject);

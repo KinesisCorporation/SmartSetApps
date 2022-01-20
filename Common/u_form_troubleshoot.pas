@@ -18,9 +18,10 @@ type
     btnDemoMode: TColorSpeedButtonCS;
     btnScan: TColorSpeedButtonCS;
     imgSmartInit: TImage;
-    imgSmartSave: TImage;
-    lblInitMessage: TLabel;
-    lblSaveMsg: TLabel;
+    imgSmartInitLight: TImage;
+    lblInitGamingMessage: TLabel;
+    lblInitAdv2Fs: TLabel;
+    lblAdv360Message: TLabel;
     procedure btnDemoModeClick(Sender: TObject);
     procedure btnScanClick(Sender: TObject);
     procedure btnTroubleshootingTipsClick(Sender: TObject);
@@ -35,13 +36,11 @@ type
 
 var
   FormTroubleshoot: TFormTroubleshoot;
-  function ShowTroubleshoot(title: string; init: boolean): integer;
+  function ShowTroubleshoot(title: string; backColor: TColor; fontColor: TColor): integer;
 
 implementation
 
-uses u_form_main_rgb;
-
-function ShowTroubleshoot(title: string; init: boolean): integer;
+function ShowTroubleshoot(title: string; backColor: TColor; fontColor: TColor): integer;
 begin
   if FormTroubleshoot <> nil then
     FreeAndNil(FormTroubleshoot);
@@ -49,12 +48,30 @@ begin
   //Creates the dialog form
   Application.CreateForm(TFormTroubleshoot, FormTroubleshoot);
   FormTroubleshoot.lblTitle.Caption := title;
-  FormTroubleshoot.lblInitMessage.Visible := init;
-  FormTroubleshoot.lblSaveMsg.Visible := not init;
-  FormTroubleshoot.imgSmartInit.Visible := init;
-  FormTroubleshoot.imgSmartSave.Visible := not init;
+
+  //Loads colors
+  FormTroubleshoot.Color := backColor;
+  FormTroubleshoot.lblTitle.Font.Color := fontColor;
+  FormTroubleshoot.lblInitGamingMessage.Font.Color := fontColor;
+  FormTroubleshoot.lblInitAdv2Fs.Font.Color := fontColor;
+  FormTroubleshoot.lblAdv360Message.Font.Color := fontColor;
+  if (GApplication in [APPL_ADV2, APPL_FSPRO, APPL_FSEDGE, APPL_PEDAL]) then
+  begin
+    FormTroubleshoot.lblInitAdv2Fs.Visible := true;
+  end
+  else if (GApplication in [APPL_RGB, APPL_TKO]) then
+  begin
+    FormTroubleshoot.lblInitGamingMessage.Visible := true;
+    FormTroubleshoot.imgSmartInit.Visible := true;
+  end
+  else if (GApplication in [APPL_ADV360]) then
+  begin
+    FormTroubleshoot.lblAdv360Message.Visible := true;
+    FormTroubleshoot.imgSmartInitLight.Visible := true;
+  end;
 
   FormTroubleshoot.ShowModal;
+
   if (FormTroubleshoot.scanVDrive) then
     result := 1
   else if (FormTroubleshoot.demoMode) then
@@ -64,11 +81,6 @@ begin
   end
   else
     result := 0;
-end;
-
-function MainForm: TFormMainRGB;
-begin
-  result := (Application.MainForm as TFormMainRGB);
 end;
 
 {$R *.lfm}
@@ -110,7 +122,20 @@ end;
 
 procedure TFormTroubleshoot.btnTroubleshootingTipsClick(Sender: TObject);
 begin
-  OpenUrl(RGB_TROUBLESHOOT);
+  if (GApplication in [APPL_RGB]) then
+    OpenUrl(RGB_TROUBLESHOOT)
+  else if (GApplication in [APPL_TKO]) then
+    OpenUrl(TKO_TROUBLESHOOT)
+  else if (GApplication in [APPL_FSEDGE]) then
+    OpenUrl(FSEDGE_TROUBLESHOOT)
+  else if (GApplication in [APPL_FSPRO]) then
+    OpenUrl(FSPRO_TROUBLESHOOT)
+  else if (GApplication in [APPL_ADV2]) then
+    OpenUrl(ADV2_TROUBLESHOOT)
+  else if (GApplication in [APPL_ADV360]) then
+    OpenUrl(ADV360_TROUBLESHOOT)
+  else if (GApplication in [APPL_PEDAL]) then
+    OpenUrl(PEDAL_TROUBLESHOOT);
 end;
 
 

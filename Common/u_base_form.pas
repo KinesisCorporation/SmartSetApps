@@ -14,14 +14,19 @@ type
 
   TBaseForm = class(TForm)
     btnClose: TColorSpeedButtonCS;
+    btnCloseLight: TColorSpeedButtonCS;
     lblTitle: TLabel;
     lineBorderBottom: TLineObj;
     lineBorderLeft: TLineObj;
+    lineBorderLeft1: TLineObj;
     lineBorderRight: TLineObj;
+    lineBorderRight1: TLineObj;
     lineBorderTop: TLineObj;
+    pnlTop: TPanel;
     procedure btnCloseClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { private declarations }
   public
@@ -32,6 +37,8 @@ var
   BaseForm: TBaseForm;
 
 implementation
+
+uses u_const;
 
 {$R *.lfm}
 
@@ -44,13 +51,29 @@ end;
 
 procedure TBaseForm.FormCreate(Sender: TObject);
 begin
-
+  if (GMasterAppId = APPL_MASTER_OFFICE) and not(IsDarkTheme) then
+  begin
+    btnClose.Visible := false;
+    btnCloseLight.Visible := true;
+  end;
 end;
 
 procedure TBaseForm.FormResize(Sender: TObject);
 begin
   lblTitle.Width := self.Width - (btnClose.Width * 2);
   lblTitle.Left := btnClose.Width;
+  btnClose.Left := self.Width - btnClose.Width;
+  btnClose.Top := 0;
+end;
+
+procedure TBaseForm.FormShow(Sender: TObject);
+begin
+  btnCloseLight.StateNormal.Color := self.Color;
+  btnCloseLight.StateActive.Color := self.Color;
+  btnCloseLight.StateDisabled.Color := self.Color;
+  btnCloseLight.StateHover.Color := self.Color;
+  btnCloseLight.Left := btnClose.Left;
+  btnCloseLight.Top := btnClose.Top;
 end;
 
 

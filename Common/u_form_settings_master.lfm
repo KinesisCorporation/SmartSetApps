@@ -1,157 +1,92 @@
-object FormSettingsMaster: TFormSettingsMaster
+inherited FormSettingsMaster: TFormSettingsMaster
   Left = 1482
   Height = 159
   Top = 596
   Width = 347
-  BorderStyle = bsNone
   ClientHeight = 159
   ClientWidth = 347
-  Color = 1644825
-  DesignTimePPI = 144
-  Font.Color = clWhite
   Font.Height = -20
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  Position = poMainFormCenter
-  LCLVersion = '2.0.8.0'
-  Scaled = False
-  object pnlMain: TPanel
-    Left = 0
-    Height = 159
-    Top = 0
+  inherited lineBorderLeft: TLineObj
+    Height = 122
+  end
+  inherited pnlTop: TPanel
     Width = 347
+    ClientWidth = 347
+    TabOrder = 1
+    inherited lblTitle: TLabel
+      Width = 292
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 312
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 312
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 347
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 345
+    end
+  end
+  inherited lineBorderBottom: TLineObj
+    Top = 157
+    Width = 347
+  end
+  inherited lineBorderRight: TLineObj
+    Left = 345
+    Height = 122
+  end
+  object pnlMain: TPanel[4]
+    Left = 2
+    Height = 122
+    Top = 35
+    Width = 343
     Align = alClient
     BevelOuter = bvNone
-    BorderStyle = bsSingle
-    ClientHeight = 155
+    ClientHeight = 122
     ClientWidth = 343
     TabOrder = 0
-    object chkHideAllNotifs: TCheckBox
-      Left = 35
-      Height = 29
-      Top = 61
-      Width = 22
-      AutoSize = False
-      OnClick = chkHideAllNotifsClick
-      TabOrder = 0
-    end
     object lblHideAllNotifs: TLabel
       Cursor = crHandPoint
       Left = 64
-      Height = 28
-      Top = 62
+      Height = 24
+      Top = 25
       Width = 245
       Caption = 'Hide all in-App notifications'
       ParentColor = False
       OnClick = lblHideAllNotifsClick
     end
-    object lblTitle: TLabel
-      Left = 0
-      Height = 41
-      Top = 0
-      Width = 343
-      Align = alTop
-      Alignment = taCenter
-      AutoSize = False
-      Caption = 'SmartSet App Settings'
-      Font.Color = clWhite
-      Font.Height = -19
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsBold]
-      Layout = tlCenter
-      ParentColor = False
-      ParentFont = False
-    end
-    object chkShowNotifs: TCheckBox
-      Left = 35
-      Height = 29
-      Top = 88
-      Width = 30
-      AutoSize = False
-      OnClick = chkShowNotifsClick
-      TabOrder = 1
-    end
     object lblShowNotifs: TLabel
       Cursor = crHandPoint
       Left = 66
-      Height = 28
-      Top = 89
+      Height = 24
+      Top = 62
       Width = 252
       Caption = 'Show all in-App notifications'
       ParentColor = False
       OnClick = lblShowNotifsClick
     end
-    object btnClose: TColorSpeedButtonCS
-      Left = 311
-      Height = 32
-      Hint = 'Close'
-      Top = 0
-      Width = 32
-      Anchors = [akTop, akRight]
-      Font.Color = clBlack
-      Glyph.Data = {
-        36040000424D3604000000000000360000002800000010000000100000000100
-        200000000000000400006400000064000000000000000000000000000000FFFF
-        FF04FFFFFFA1FFFFFF4C00000000000000000000000000000000000000000000
-        00000000000000000000FFFFFF4CFFFFFFA1FFFFFF0400000000FFFFFF04FFFF
-        FFA7FFFFFFFFFFFFFFF9FFFFFF4C000000000000000000000000000000000000
-        000000000000FFFFFF4CFFFFFFF9FFFFFFFFFFFFFFA7FFFFFF04FFFFFFA1FFFF
-        FFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFF4C0000000000000000000000000000
-        0000FFFFFF4CFFFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA3FFFFFF54FFFF
-        FFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFF4E0000000000000000FFFF
-        FF4EFFFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFF5400000000FFFF
-        FF54FFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFF50FFFFFF50FFFF
-        FFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFF5400000000000000000000
-        0000FFFFFF54FFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFBFFFF
-        FFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFF540000000000000000000000000000
-        000000000000FFFFFF54FFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFFFFFFFFFFBFFFFFF54000000000000000000000000000000000000
-        00000000000000000000FFFFFF54FFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFFBFFFFFF5400000000000000000000000000000000000000000000
-        00000000000000000000FFFFFF4CFFFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFF9FFFFFF4C00000000000000000000000000000000000000000000
-        000000000000FFFFFF4CFFFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-        FFFFFFFFFFFFFFFFFFF9FFFFFF4C000000000000000000000000000000000000
-        0000FFFFFF4CFFFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFBFFFF
-        FFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFF4C000000000000000000000000FFFF
-        FF4CFFFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFF54FFFFFF54FFFF
-        FFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFF4C00000000FFFFFF4CFFFF
-        FFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFF540000000000000000FFFF
-        FF54FFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFF4CFFFFFF9FFFFF
-        FFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFF540000000000000000000000000000
-        0000FFFFFF54FFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA1FFFFFF04FFFF
-        FFA7FFFFFFFFFFFFFFFBFFFFFF54000000000000000000000000000000000000
-        000000000000FFFFFF54FFFFFFFBFFFFFFFFFFFFFFA7FFFFFF0400000000FFFF
-        FF04FFFFFF9FFFFFFF5200000000000000000000000000000000000000000000
-        00000000000000000000FFFFFF54FFFFFFA1FFFFFF0400000000
-      }
-      OnClick = btnCloseClick
-      ShowHint = True
-      ParentFont = False
-      ParentShowHint = False
-      Alignment = taCenter
-      TextAutoSize = True
-      Toggle = False
-      Pressed = False
-      PopupMode = False
-      StateNormal.Color = 1644825
-      StateNormal.BorderColor = 1644825
-      StateNormal.BorderWidth = 0
-      StateNormal.FontColor = clBlack
-      StateHover.Color = 3355443
-      StateHover.BorderColor = 3355443
-      StateHover.BorderWidth = 1
-      StateHover.FontColor = clBlack
-      StateActive.Color = 4934475
-      StateActive.BorderColor = 3355443
-      StateActive.BorderWidth = 1
-      StateActive.FontColor = clBlack
-      StateDisabled.Color = 2500134
-      StateDisabled.BorderColor = 1644825
-      StateDisabled.BorderWidth = 0
-      StateDisabled.FontColor = clBlack
-      TextPadding = 0
+    object chkShowNotifs: TCheckBox
+      Left = 28
+      Height = 29
+      Top = 61
+      Width = 30
+      AutoSize = False
+      OnClick = chkShowNotifsClick
+      TabOrder = 0
+    end
+    object chkHideAllNotifs: TCheckBox
+      Left = 28
+      Height = 29
+      Top = 24
+      Width = 30
+      AutoSize = False
+      OnClick = chkHideAllNotifsClick
+      TabOrder = 1
     end
   end
 end

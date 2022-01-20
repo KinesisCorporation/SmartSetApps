@@ -57,7 +57,7 @@ implementation
 procedure TFormAboutMaster.FormCreate(Sender: TObject);
 begin
   SetFont(self, 'Tahoma');
-  lblAppTitle.Caption := HELP_TITLE;
+  lblAppTitle.Caption := HELP_TITLE_GAMING;
   lblVersion.Caption := 'App Version : ' + GetFileVersion;
   btnReadManual.Font.Color := clWhite;
 end;

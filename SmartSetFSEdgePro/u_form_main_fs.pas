@@ -481,13 +481,15 @@ type
     defaultWidth: integer;
     defaultHeight: integer;
     fromMasterApp: boolean;
+    parentForm: TForm;
 
     function CheckVDrive: boolean;
     function DoneKey: boolean;
     function DoneMacro: boolean;
-    procedure InitApp(scanVDrive: boolean = false);
+    function InitApp(scanVDrive: boolean = false): boolean;
     procedure LaunchDemoMode;
     procedure OpenTapAndHold;
+    procedure ReturnToHome;
     procedure ScanVDrive(init: boolean);
     procedure scanVDriveClick(Sender: TObject);
     procedure SetConfigOS;
@@ -550,7 +552,7 @@ type
     { public declarations }
     keyService: TKeyService;
     fileService: TFileService;
-    procedure InitForm(mdiParent: TForm);
+    function InitForm(mdiParent: TForm): boolean;
     procedure Maximize;
   end;
 
@@ -569,6 +571,8 @@ var
   {$endif}
 
 implementation
+
+uses u_form_dashboard;
 
 {$R *.lfm}
 
@@ -773,12 +777,14 @@ begin
 
 end;
 
-procedure TFormMainFS.InitForm(mdiParent: TForm);
+function TFormMainFS.InitForm(mdiParent: TForm): boolean;
 var
   customBtns: TCustomButtons;
   canShowApp: boolean;
 begin
+  result := false;
   fromMasterApp := mdiParent <> nil;
+  parentForm := mdiParent;
 
   //Sets Height and Width of form according to screen resolution
   self.Width := 1100;
@@ -856,21 +862,20 @@ begin
   //Check for v-drive
   SetBaseDirectory(true);
 
-  InitApp;
+  result := InitApp;
 end;
 
-procedure TFormMainFS.InitApp(scanVDrive: boolean);
+function TFormMainFS.InitApp(scanVDrive: boolean): boolean;
 var
   customBtns: TCustomButtons;
-  canShowApp: boolean;
   aListDrives: TStringList;
   drives: string;
   i: integer;
   titleError: string;
 begin
-  canShowApp := GDemoMode or CheckVDrive;
+  result := GDemoMode or CheckVDrive;
 
-  if (canShowApp) then
+  if (result) then
   begin
     //Set UI elements according to keyboard version
     if (GApplication = APPL_FSPRO) then
@@ -1044,11 +1049,11 @@ begin
         CheckVDriveTmr.Enabled := true;
       end
       else
-        canShowApp := false;
+        result := false;
     end;
   end;
 
-  if not canShowApp then
+  if not result then
   begin
     if (GDesktopMode) then
     begin
@@ -1056,7 +1061,10 @@ begin
       begin
         appError := true;
         Close;
-      end;
+        ReturnToHome;
+      end
+      else
+        result := true;
     end
     else
     begin
@@ -1066,6 +1074,7 @@ begin
         mtFSEdge, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
       appError := true;
       Close;
+      ReturnToHome;
     end;
   end;
 end;
@@ -2984,9 +2993,7 @@ end;
 
 procedure TFormMainFS.btnHelpIconClick(Sender: TObject);
 begin
-  Application.CreateForm(TFormAboutOffice, FormAboutOffice);
-  FormAboutOffice.SetFirmwareVersion(fileService.FirmwareVersionKBD);
-  FormAboutOffice.ShowModal;
+  ShowHelpOffice(backColor, fontColor, fileService.FirmwareVersionKBD);
 end;
 
 function TFormMainFS.GetCoTriggerKey(Sender: TObject): TKey;
@@ -4315,7 +4322,7 @@ begin
       end
       else
       begin
-        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay)) then
+        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
         begin
           KeyModified := true;
           SetSaveState(ssModified);
@@ -4333,6 +4340,12 @@ begin
         mtWarning, [], DEFAULT_DIAG_HEIGHT_FS, customBtns);
     end;
   end;
+end;
+
+
+procedure TFormMainFS.ReturnToHome;
+begin
+  (parentForm as TFormDashboard).ResetToHome;
 end;
 
 end.

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, u_keys, LCLType, u_const, u_key_layer, character, LCLIntf,
-  Graphics, u_gif;
+  Graphics, u_gif, u_led_ind;
 
 type
   { TBaseKeyService }
@@ -97,28 +97,11 @@ type
     FEdgeReboundGif: TGif;
 
     //For Adv360 RGB leds
-    FInd1Color: TColor;
-    FInd2Color: TColor;
-    FInd3Color: TColor;
-    FInd4Color: TColor;
-    FInd5Color: TColor;
-    FInd6Color: TColor;
-    FInd1FnToken: TIndFunction;
-    FInd2FnToken: TIndFunction;
-    FInd3FnToken: TIndFunction;
-    FInd4FnToken: TIndFunction;
-    FInd5FnToken: TIndFunction;
-    FInd6FnToken: TIndFunction;
-    FInd1FnLayer: integer;
-    FInd2FnLayer: integer;
-    FInd3FnLayer: integer;
-    FInd4FnLayer: integer;
-    FInd5FnLayer: integer;
-    FInd6FnLayer: integer;
+    FLedIndicators: TLedIndList;
 
     //List of supported keyboard layouts
     //FKeyboardLayouts: TKeyboardLayoutList;
-    function GetTopLayerAdv360: TKBLayer;
+    function GetBaseLayerAdv360: TKBLayer;
     function GetEdgeKey(key: word; layerIdx: integer): TKBKey;
     function GetFN1LayerAdv360: TKBLayer;
     function GetFN2LayerAdv360: TKBLayer;
@@ -213,6 +196,7 @@ type
     function ConvertToTextFileFmtFS: TStringList;
     procedure ConvertFromTextFileFmt(aLayoutContent: TStringList);
     function ConvertLedToTextFileFmt: TStringList;
+    function ConvertLedToTextFileFmtAdv360: TStringList;
     function ConvertEdgeToTextFileFmt: TStringList;
     procedure ConvertLedFromTextFileFmt(aLedContent: TStringList);
     procedure ConvertLedFromTextFileFmtAdv360(aLedContent: TStringList);
@@ -252,7 +236,7 @@ type
     function GetModifierValues(aKey: TKey): string;
     procedure SetAllKeyColor(keyColor: TColor; layerIdx: integer);
     procedure SetAllKeyColorEdge(keyColor: TColor; layerIdx: integer);
-    procedure SetAllIndColor(keyColor: TColor);
+    procedure SetAllIndColor(indIdx: integer; keyColor: TColor);
     function GetKeyWithModifier(iKey: word; modifiers: string): TKey;
     function CountAllKeystrokes: integer;
 
@@ -301,24 +285,7 @@ type
     property EdgeLoopLeftGif: TGif read FEdgeLoopLeftGif write FEdgeLoopLeftGif;
     property EdgeLoopRightGif: TGif read FEdgeLoopRightGif write FEdgeLoopRightGif;
     property EdgeReboundGif: TGif read FEdgeReboundGif write FEdgeReboundGif;
-    property Ind1Color: TColor read FInd1Color write FInd1Color;
-    property Ind2Color: TColor read FInd2Color write FInd2Color;
-    property Ind3Color: TColor read FInd3Color write FInd3Color;
-    property Ind4Color: TColor read FInd4Color write FInd4Color;
-    property Ind5Color: TColor read FInd5Color write FInd5Color;
-    property Ind6Color: TColor read FInd6Color write FInd6Color;
-    property Ind1FnToken: TIndFunction read FInd1FnToken write FInd1FnToken;
-    property Ind2FnToken: TIndFunction read FInd2FnToken write FInd2FnToken;
-    property Ind3FnToken: TIndFunction read FInd3FnToken write FInd3FnToken;
-    property Ind4FnToken: TIndFunction read FInd4FnToken write FInd4FnToken;
-    property Ind5FnToken: TIndFunction read FInd5FnToken write FInd5FnToken;
-    property Ind6FnToken: TIndFunction read FInd6FnToken write FInd6FnToken;
-    property Ind1FnLayer: integer read FInd1FnLayer write FInd1FnLayer;
-    property Ind2FnLayer: integer read FInd2FnLayer write FInd2FnLayer;
-    property Ind3FnLayer: integer read FInd3FnLayer write FInd3FnLayer;
-    property Ind4FnLayer: integer read FInd4FnLayer write FInd4FnLayer;
-    property Ind5FnLayer: integer read FInd5FnLayer write FInd5FnLayer;
-    property Ind6FnLayer: integer read FInd6FnLayer write FInd6FnLayer;
+    property LedIndicators: TLedIndList read FLedIndicators write FLedIndicators;
   end;
 
 implementation
@@ -338,6 +305,7 @@ begin
   FActiveModifiers := TKeyList.Create;
   FBackupKey := TKBKey.Create;
   FBackupMacro := TKBKey.Create;
+  LedIndicators := TLedIndList.Create(6);
   //KeyboardLayouts := TKeyboardLayoutList.Create;
 
   ResetLedOptions;
@@ -375,6 +343,7 @@ begin
   FreeAndNil(FReboundHorGif);
   FreeAndNil(FReboundVerGif);
   FreeAndNil(FstarlightGif);
+  FreeAndNil(FLedIndicators);
   if (FEdgeLoopLeftGif <> nil) then
      FreeAndNil(FEdgeLoopLeftGif);
   if (FEdgeLoopRightGif <> nil) then
@@ -1811,14 +1780,14 @@ begin
 
 end;
 
-function TBaseKeyService.GetTopLayerAdv360: TKBLayer;
+function TBaseKeyService.GetBaseLayerAdv360: TKBLayer;
 var
   aKBLayer: TKBLayer;
 begin
   aKBLayer := TKBLayer.Create;
-  aKBLayer.LayerIndex := LAYER_TOP_360;
-  aKBLayer.LayerName := 'Top';
-  aKBLayer.LayerType := LAYER_TOP_360;
+  aKBLayer.LayerIndex := LAYER_BASE_360;
+  aKBLayer.LayerName := 'Base';
+  aKBLayer.LayerType := LAYER_BASE_360;
 
   //Put Keys in order needed...
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_EQUAL), 0));
@@ -1924,7 +1893,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_3), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_4), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_5), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_TOGGLE), 6, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_6), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMLOCK), 9));
@@ -2073,7 +2042,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2082,7 +2051,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 63));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -2170,7 +2139,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2179,7 +2148,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 63));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -2267,7 +2236,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2276,7 +2245,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TOP_LAYER_SHIFT), 63));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
@@ -2334,7 +2303,7 @@ begin
   end
   ELSE IF (GApplication = APPL_ADV360) then
   begin
-    FKBLayers.Add(GetTopLayerAdv360);
+    FKBLayers.Add(GetBaseLayerAdv360);
     FKBLayers.Add(GetKPLayerAdv360);
     FKBLayers.Add(GetFN1LayerAdv360);
     FKBLayers.Add(GetFN2LayerAdv360);
@@ -2725,6 +2694,7 @@ var
   isSingleKey: boolean;
   isMacro: boolean;
   isTapHold: boolean;
+  isMultimodifier: boolean;
   isKeypadLayer: boolean;
   configText: string;
   valueText: string;
@@ -2772,6 +2742,7 @@ begin
       begin
         configText := Copy(currentLine, 1, posSep - 1);
         valueText := Copy(currentLine, posSep + 1, Length(currentLine));
+        isMultimodifier := isSingleKey and CheckMultimodifier(valueText);
 
         if (isTapHold) then
         begin
@@ -2837,10 +2808,17 @@ begin
             keyEnd := Pos(SK_END, valueText);
             sKey := Copy(valueText, keyStart + 1, keyEnd - 2);
 
-            //Sets modified key
-            aKey := FindKeyConfig(sKey);
-            if aKey <> nil then
-              SetKBKey(aKBKey, aKey.Key, false);
+            if (isMultimodifier) then
+            begin
+              aKBKey.Multimodifiers := sKey;
+            end
+            else
+            begin
+              //Sets modified key
+              aKey := FindKeyConfig(sKey);
+              if aKey <> nil then
+                SetKBKey(aKBKey, aKey.Key, false);
+            end;
           end;
         end
         else if (isMacro) then
@@ -3205,6 +3183,7 @@ var
   isSingleKey: boolean;
   isMacro: boolean;
   isTapHold: boolean;
+  isMultimodifier: boolean;
   isKeypadLayer: boolean;
   configText: string;
   valueText: string;
@@ -3241,7 +3220,7 @@ begin
         begin
           tempText := UpperCase(Copy(currentLine, Length(LAYER_PREFIX) + 1, Length(currentLine)));
           if (tempText = TEXT_LAYER_DEFAULT) then
-            curLayerIdx := LAYER_TOP_360
+            curLayerIdx := LAYER_BASE_360
           else if (tempText = TEXT_LAYER_KP) then
             curLayerIdx := LAYER_KEYPAD_360
           else if (tempText = TEXT_LAYER_FN1) then
@@ -3276,6 +3255,7 @@ begin
       begin
         configText := Copy(currentLine, 1, posSep - 1);
         valueText := Copy(currentLine, posSep + 1, Length(currentLine));
+        isMultimodifier := isSingleKey and CheckMultimodifier(valueText);
 
         if (isTapHold) then
         begin
@@ -3341,10 +3321,17 @@ begin
             keyEnd := Pos(SK_END, valueText);
             sKey := Copy(valueText, keyStart + 1, keyEnd - 2);
 
-            //Sets modified key
-            aKey := FindKeyConfig(sKey);
-            if aKey <> nil then
-              SetKBKey(aKBKey, aKey.Key, false);
+            if (isMultimodifier) then
+            begin
+              aKBKey.Multimodifiers := sKey;
+            end
+            else
+            begin
+              //Sets modified key
+              aKey := FindKeyConfig(sKey);
+              if aKey <> nil then
+                SetKBKey(aKBKey, aKey.Key, false);
+            end;
           end;
         end
         else if (isMacro) then
@@ -3705,6 +3692,48 @@ begin
   Result := layoutContent;
 end;
 
+function TBaseKeyService.ConvertLedToTextFileFmtAdv360: TStringList;
+var
+  indIdx: integer;
+  layoutContent: TStringList;
+  ledInd: TLedInd;
+  indStr: string;
+begin
+  layoutContent := TStringList.Create;
+
+  for indIdx := 0 to FLedIndicators.Count - 1 do
+  begin
+    ledInd := FLedIndicators[indIdx];
+    indStr := '[IND' + IntToStr(indIdx + 1) + ']>';
+    if (ledInd.FnToken = ifGameMode) then
+      layoutContent.Add(indStr + '[game]' + RGBColorToString(ledInd.IndColor[0], true))
+    else if (ledInd.FnToken = ifNKRO) then
+      layoutContent.Add(indStr + '[nkro]' + RGBColorToString(ledInd.IndColor[0], true))
+    else if (ledInd.FnToken = ifScrollLock) then
+      layoutContent.Add(indStr + '[sclk]' + RGBColorToString(ledInd.IndColor[0], true))
+    else if (ledInd.FnToken = ifNumLock) then
+      layoutContent.Add(indStr + '[nmlk]' + RGBColorToString(ledInd.IndColor[0], true))
+    else if (ledInd.FnToken = ifCaps) then
+      layoutContent.Add(indStr + '[caps]' + RGBColorToString(ledInd.IndColor[0], true))
+    else if (ledInd.FnToken = ifLayer) then
+    begin
+      layoutContent.Add(indStr + '[layd]' + RGBColorToString(ledInd.IndColor[0], true));
+      layoutContent.Add(indStr + '[layk]' + RGBColorToString(ledInd.IndColor[1], true));
+      layoutContent.Add(indStr + '[lay1]' + RGBColorToString(ledInd.IndColor[2], true));
+      layoutContent.Add(indStr + '[lay2]' + RGBColorToString(ledInd.IndColor[3], true));
+      layoutContent.Add(indStr + '[lay3]' + RGBColorToString(ledInd.IndColor[4], true));
+    end
+    else if (ledInd.FnToken = ifProfile) then
+      layoutContent.Add(indStr + '[prof]' + RGBColorToString(ledInd.IndColor[0], true))
+    else if (ledInd.FnToken = ifBattery) then
+      layoutContent.Add(indStr + '[batt]')
+    else if (ledInd.FnToken = ifDisable) then
+      layoutContent.Add(indStr + '[null]');
+  end;
+
+  Result := layoutContent;
+end;
+
 function TBaseKeyService.ConvertEdgeToTextFileFmt: TStringList;
 var
   kIdx: integer;
@@ -3923,14 +3952,9 @@ begin
   end;
 end;
 
-procedure TBaseKeyService.SetAllIndColor(keyColor: TColor);
+procedure TBaseKeyService.SetAllIndColor(indIdx: integer; keyColor: TColor);
 begin
-  Ind1Color := keyColor;
-  Ind2Color := keyColor;
-  Ind3Color := keyColor;
-  Ind4Color := keyColor;
-  Ind5Color := keyColor;
-  Ind6Color := keyColor;
+  FLedIndicators[indIdx].SetAllColor(keyColor);
 end;
 
 function TBaseKeyService.GetKeyWithModifier(iKey: word; modifiers: string): TKey;
@@ -4006,6 +4030,8 @@ begin
 end;
 
 procedure TBaseKeyService.ResetLedOptions;
+var
+  i: integer;
 begin
   SetAllKeyColor(clNone, TOPLAYER_IDX);
   SetAllKeyColor(clNone, BOTLAYER_IDX);
@@ -4045,24 +4071,7 @@ begin
   FLedSpeedFn := DEFAULT_LED_SPEED;
   FLedDirection := DEFAULT_LED_DIR_INT;
   FLedDirectionFn := DEFAULT_LED_DIR_INT;
-  FInd1Color := DEFAULT_LED_COLOR_BASE;
-  FInd2Color := DEFAULT_LED_COLOR_BASE;
-  FInd3Color := DEFAULT_LED_COLOR_BASE;
-  FInd4Color := DEFAULT_LED_COLOR_BASE;
-  FInd5Color := DEFAULT_LED_COLOR_BASE;
-  FInd6Color := DEFAULT_LED_COLOR_BASE;
-  FInd1FnToken := ifDisable;
-  FInd2FnToken := ifDisable;
-  FInd3FnToken := ifDisable;
-  FInd4FnToken := ifDisable;
-  FInd5FnToken := ifDisable;
-  FInd6FnToken := ifDisable;
-  FInd1FnLayer := -1;
-  FInd2FnLayer := -1;
-  FInd3FnLayer := -1;
-  FInd4FnLayer := -1;
-  FInd5FnLayer := -1;
-  FInd6FnLayer := -1;
+  FLedIndicators.ResetAll;
 end;
 
 procedure TBaseKeyService.ResetEdgeOptions;
@@ -4561,85 +4570,72 @@ end;
 
 procedure TBaseKeyService.ConvertLedFromTextFileFmtAdv360(aLedContent: TStringList);
 var
-  aKey: TKey;
-  sKey: string;
-  keyStart, keyEnd: integer;
   i: integer;
   currentLine: string;
-  secondLine: string;
   posSep: integer;
-  isSingleKey: boolean;
   configText: string;
   valueText: string;
-  aKBKey: TKBKey;
-  aKBKeyBotLayer: TKBKey;
   lineCount: integer;
-  isKeypadLayer: boolean;
-  aLedMode: TLedMode;
-  layerIdx: integer;
-  aColor: TColor;
-  aLedTopLayer: TStringList;
-  aLedBotLayer: TStringList;
-  keyExcept: TKey;
+  ledInd: TLedInd;
 
-  procedure GetFunctionToken(var valueText: string; var fnToken: TIndFunction; var fnLayer: integer);
+  procedure GetFunctionToken(var valueText: string);
   begin
-    fnToken := ifDisable;
-    fnLayer := -1;
+    ledInd.FnToken := ifDisable;
+    ledInd.LayerIdx := 0;
 
     if (pos('[nkro]', valueText) <> 0) then
     begin
-      fnToken := ifNKRO;
+      ledInd.FnToken := ifNKRO;
       Delete(valueText, 1, 6);
     end
     else if (pos('[game]', valueText) <> 0) then
     begin
-      fnToken := ifGameMode;
+      ledInd.FnToken := ifGameMode;
       Delete(valueText, 1, 6);
     end
     else if (pos('[prof]', valueText) <> 0) then
     begin
-      fnToken := ifProfile;
+      ledInd.FnToken := ifProfile;
       Delete(valueText, 1, 6);
     end
     else if (pos('[caps]', valueText) <> 0) then
     begin
-      fnToken := ifCaps;
+      ledInd.FnToken := ifCaps;
       Delete(valueText, 1, 6);
     end
     else if (pos('[nmlk]', valueText) <> 0) then
     begin
-      fnToken := ifNumLock;
+      ledInd.FnToken := ifNumLock;
       Delete(valueText, 1, 6);
     end
     else if (pos('[sclk]', valueText) <> 0) then
     begin
-      fnToken := ifScrollLock;
+      ledInd.FnToken := ifScrollLock;
       Delete(valueText, 1, 6);
     end
     else if (pos('[batt]', valueText) <> 0) then
     begin
-      fnToken := ifBattery;
+      ledInd.FnToken := ifBattery;
       Delete(valueText, 1, 6);
     end
     else if (pos('[null]', valueText) <> 0) then
     begin
-      fnToken := ifDisable;
+      ledInd.FnToken := ifDisable;
       Delete(valueText, 1, 6);
     end
     else if (pos('[lay', valueText) <> 0) then
     begin
-      fnToken := ifLayer;
+      ledInd.FnToken := ifLayer;
       if (pos('[layd]', valueText) <> 0) then
-        fnLayer := LAYER_TOP_360
+        ledInd.LayerIdx := LAYER_BASE_360
       else if (pos('[layk]', valueText) <> 0) then
-        fnLayer := LAYER_KEYPAD_360
+        ledInd.LayerIdx := LAYER_KEYPAD_360
       else if (pos('[lay1]', valueText) <> 0) then
-        fnLayer := LAYER_FN1_360
+        ledInd.LayerIdx := LAYER_FN1_360
       else if (pos('[lay2]', valueText) <> 0) then
-        fnLayer := LAYER_FN2_360
+        ledInd.LayerIdx := LAYER_FN2_360
       else if (pos('[lay3]', valueText) <> 0) then
-        fnLayer := LAYER_FN3_360;
+        ledInd.LayerIdx := LAYER_FN3_360;
       Delete(valueText, 1, 6);
     end;
   end;
@@ -4661,36 +4657,26 @@ begin
         begin
           configText := Copy(currentLine, 1, posSep - 1);
           valueText := Copy(currentLine, posSep + 1, Length(currentLine));
+          ledInd := nil;
 
           if (pos('ind1', configText) <> 0) then
-          begin
-            GetFunctionToken(valueText, FInd1FnToken, FInd1FnLayer);
-            FInd1Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
-          end
+            ledInd := FLedIndicators[0]
           else if (pos('ind2', configText) <> 0) then
-          begin
-            GetFunctionToken(valueText, FInd2FnToken, FInd2FnLayer);
-            FInd2Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
-          end
+            ledInd := FLedIndicators[1]
           else if (pos('ind3', configText) <> 0) then
-          begin
-            GetFunctionToken(valueText, FInd3FnToken, FInd3FnLayer);
-            FInd3Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
-          end
+            ledInd := FLedIndicators[2]
           else if (pos('ind4', configText) <> 0) then
-          begin
-            GetFunctionToken(valueText, FInd4FnToken, FInd4FnLayer);
-            FInd4Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
-          end
+            ledInd := FLedIndicators[3]
           else if (pos('ind5', configText) <> 0) then
-          begin
-            GetFunctionToken(valueText, FInd5FnToken, FInd5FnLayer);
-            FInd5Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
-          end
+            ledInd := FLedIndicators[4]
           else if (pos('ind6', configText) <> 0) then
+            ledInd := FLedIndicators[5];
+
+          if (ledInd <> nil) then
           begin
-            GetFunctionToken(valueText, FInd6FnToken, FInd6FnLayer);
-            FInd6Color := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
+            GetFunctionToken(valueText);
+            if (ledInd.FnToken <> ifDisable) and (ledInd.FnToken <> ifBattery) then
+               ledInd.IndColor[ledInd.LayerIdx] := RGBStringToColor(valueText, DEFAULT_LED_COLOR_BASE);
           end;
         end;
       end;
@@ -9313,7 +9299,7 @@ var
 
   function GetLayerHeader(idx: integer): string;
   begin
-    if (idx = LAYER_TOP_360) then
+    if (idx = LAYER_BASE_360) then
       result := LAYER_PREFIX + TEXT_LAYER_DEFAULT
     else if (idx = LAYER_KEYPAD_360) then
       result := LAYER_PREFIX + TEXT_LAYER_KP
@@ -9357,6 +9343,11 @@ begin
       begin
         lineText := layerPrefix + '[' + aKbKey.OriginalKey.SaveValue + ']>[' + aKbKey.TapAction.SaveValue + ']' +
           '[' + TAP_AND_HOLD + IntToStr(aKbKey.TimingDelay) + ']' + '[' + aKbKey.HoldAction.SaveValue + ']';
+        layoutContent.Add(lineText);
+      end
+      else if (aKbKey.Multimodifiers <> '') then
+      begin
+        lineText := layerPrefix + '[' + aKbKey.OriginalKey.SaveValue + ']>[' + aKbKey.Multimodifiers + ']';
         layoutContent.Add(lineText);
       end
       //If key is modified / remapped

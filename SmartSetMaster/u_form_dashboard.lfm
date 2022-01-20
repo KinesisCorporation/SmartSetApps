@@ -6,7 +6,7 @@ object FormDashboard: TFormDashboard
   Caption = 'Dashboard'
   ClientHeight = 826
   ClientWidth = 1595
-  DesignTimePPI = 168
+  DesignTimePPI = 192
   Font.Color = clWhite
   Font.Height = -24
   Font.Name = 'Tahoma'
@@ -22,7 +22,7 @@ object FormDashboard: TFormDashboard
   OnResize = FormResize
   OnWindowStateChange = FormWindowStateChange
   Position = poScreenCenter
-  LCLVersion = '2.0.8.0'
+  LCLVersion = '2.0.12.0'
   Scaled = False
   object pnlTop: TPanel
     Left = 0
@@ -21948,8 +21948,8 @@ object FormDashboard: TFormDashboard
   end
   object imgListMenu: TImageList
     DrawingStyle = dsTransparent
-    left = 1192
-    top = 72
+    Left = 1192
+    Top = 72
     Bitmap = {
       4C690A0000001000000010000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -22278,14 +22278,14 @@ object FormDashboard: TFormDashboard
     Enabled = False
     Interval = 30000
     OnTimer = tmrCheckConnectedTimer
-    left = 584
-    top = 462
+    Left = 584
+    Top = 462
   end
   object tmrLoadForms: TTimer
     Enabled = False
     Interval = 50
     OnTimer = tmrLoadFormsTimer
-    left = 612
-    top = 490
+    Left = 612
+    Top = 490
   end
 end

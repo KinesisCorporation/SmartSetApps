@@ -11,29 +11,43 @@ inherited FormIntro: TFormIntro
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  inherited btnClose: TColorSpeedButtonCS
-    Left = 839
+  inherited lineBorderLeft: TLineObj
+    Height = 135
   end
-  inherited lineBorderTop: TLineObj
+  inherited pnlTop: TPanel
     Width = 871
+    ClientWidth = 871
+    TabOrder = 1
+    inherited lblTitle: TLabel
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 867
+      Caption = 'Introduction'
+      Font.Height = -19
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 836
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 1103
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 871
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 869
+    end
   end
   inherited lineBorderBottom: TLineObj
     Top = 170
     Width = 871
   end
-  inherited lineBorderLeft: TLineObj
-    Height = 168
-  end
   inherited lineBorderRight: TLineObj
     Left = 869
-    Height = 168
+    Height = 135
   end
-  inherited lblTitle: TLabel
-    Width = 816
-    Caption = 'Introduction'
-    Font.Height = -19
-  end
-  object Label1: TLabel[6]
+  object Label1: TLabel[4]
     Left = 18
     Height = 76
     Top = 36
@@ -48,7 +62,7 @@ inherited FormIntro: TFormIntro
     ParentFont = False
     WordWrap = True
   end
-  object btnContinue: TColorSpeedButtonCS[7]
+  object btnContinue: TColorSpeedButtonCS[5]
     Left = 694
     Height = 32
     Top = 128
@@ -85,7 +99,7 @@ inherited FormIntro: TFormIntro
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnWatchTutorial: TColorSpeedButtonCS[8]
+  object btnWatchTutorial: TColorSpeedButtonCS[6]
     Left = 354
     Height = 32
     Top = 128
@@ -122,7 +136,7 @@ inherited FormIntro: TFormIntro
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnReadManual: TColorSpeedButtonCS[9]
+  object btnReadManual: TColorSpeedButtonCS[7]
     Left = 524
     Height = 32
     Top = 128
@@ -159,18 +173,18 @@ inherited FormIntro: TFormIntro
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object chkCheckBox: TCheckBox[10]
+  object chkCheckBox: TCheckBox[8]
     Left = 21
-    Height = 33
-    Top = 118
-    Width = 34
+    Height = 35
+    Top = 116
+    Width = 36
     Anchors = [akLeft, akBottom]
     Color = clWhite
     ParentColor = False
     TabOrder = 0
     TabStop = False
   end
-  object lblCheckBox: TLabel[11]
+  object lblCheckBox: TLabel[9]
     Left = 37
     Height = 16
     Top = 134
@@ -186,7 +200,7 @@ inherited FormIntro: TFormIntro
     ParentFont = False
     OnClick = lblCheckBoxClick
   end
-  object btnFirmware: TColorSpeedButtonCS[12]
+  object btnFirmware: TColorSpeedButtonCS[10]
     Left = 184
     Height = 32
     Top = 128

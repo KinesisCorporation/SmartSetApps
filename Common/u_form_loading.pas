@@ -22,14 +22,14 @@ type
 
 var
   FormLoading: TFormLoading;
-  procedure ShowLoading(title: string; message: string);
+  procedure ShowLoading(title: string; message: string; backColor: TColor; fontColor: TColor);
   procedure CloseLoading;
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowLoading(title: string; message: string);
+procedure ShowLoading(title: string; message: string; backColor: TColor; fontColor: TColor);
 begin
   if FormLoading <> nil then
     FreeAndNil(FormLoading);
@@ -38,6 +38,10 @@ begin
   Application.CreateForm(TFormLoading, FormLoading);
   FormLoading.Caption := title;
   FormLoading.lblMessage.Caption := message;
+
+  FormLoading.Color := backColor;
+  FormLoading.Font.Color := fontColor;
+  FormLoading.lblMessage.Font.Color := fontColor;
 
   FormLoading.Show;
   FormLoading.Refresh;

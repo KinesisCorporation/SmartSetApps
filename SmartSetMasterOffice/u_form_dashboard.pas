@@ -129,6 +129,7 @@ type
     cusWindowState: TCusWinState;
     deviceList: TDeviceList;
     closing: boolean;
+    returningToHome: boolean;
     procedure AddDevices;
     procedure EnablePaintImages(value: boolean);
     procedure GetAppObjects(idx: integer; var appNameLabel: TLabel;
@@ -148,9 +149,8 @@ type
     procedure OpenDeviceForm(device: TDevice);
     procedure LoadAppForms;
     procedure CloseActiveForms;
-    procedure ResetToHome;
   public
-
+    procedure ResetToHome;
   end;
 
 var
@@ -192,6 +192,7 @@ procedure TFormDashboard.FormCreate(Sender: TObject);
 //  vFnt : THandle;
 begin
   closing := false;
+  returningToHome := false;
 
   SetFormBorder(bsNone);
   self.Width := NORMAL_WIDTH;
@@ -234,21 +235,24 @@ end;
 procedure TFormDashboard.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+  if (not returningToHome) then
   begin
-    FormMainAdv360.FormKeyDown(sender, key, shift);
-  end
-  else if (FormMainFS <> nil) and (FormMainFS.Visible) then
-  begin
-    FormMainFS.FormKeyDown(sender, key, shift);
-  end
-  else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
-  begin
-    FormMainAdv2.FormKeyDown(sender, key, shift);
-  end
-  else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
-  begin
-    FormMainSE2.FormKeyDown(sender, key, shift);
+    if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+    begin
+      FormMainAdv360.FormKeyDown(sender, key, shift);
+    end
+    else if (FormMainFS <> nil) and (FormMainFS.Visible) then
+    begin
+      FormMainFS.FormKeyDown(sender, key, shift);
+    end
+    else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
+    begin
+      FormMainAdv2.FormKeyDown(sender, key, shift);
+    end
+    else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+    begin
+      FormMainSE2.FormKeyDown(sender, key, shift);
+    end;
   end;
 end;
 
@@ -260,21 +264,24 @@ end;
 procedure TFormDashboard.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+  if (not returningToHome) then
   begin
-    FormMainAdv360.FormKeyUp(sender, key, shift);
-  end
-  else if (FormMainFS <> nil) and (FormMainFS.Visible) then
-  begin
-    FormMainFS.FormKeyUp(sender, key, shift);
-  end
-  else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
-  begin
-    FormMainAdv2.FormKeyUp(sender, key, shift);
-  end
-  else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
-  begin
-    FormMainSE2.FormKeyUp(sender, key, shift);
+    if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+    begin
+      FormMainAdv360.FormKeyUp(sender, key, shift);
+    end
+    else if (FormMainFS <> nil) and (FormMainFS.Visible) then
+    begin
+      FormMainFS.FormKeyUp(sender, key, shift);
+    end
+    else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
+    begin
+      FormMainAdv2.FormKeyUp(sender, key, shift);
+    end
+    else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+    begin
+      FormMainSE2.FormKeyUp(sender, key, shift);
+    end;
   end;
 end;
 
@@ -308,8 +315,8 @@ begin
   end
   else
   begin
-    fontColor := clBlack;
-    backColor := clWhite;
+    fontColor := KINESIS_DARK_GRAY_RGB;
+    backColor := KINESIS_LIGHT_GRAY_ADV360;
 
     pnlTop.Color := backColor;
     //btnMinimize.Color := backColor;
@@ -623,13 +630,13 @@ begin
       device := deviceList.Items[idx - 1];
       if (device.Connected) and (device.ReadWriteAccess) then
       begin
-        ShowFirmware(device);
+        ShowFirmware(device, backColor, fontColor);
       end
       else
       begin
         UpdateDevice(device);
 
-        while not(device.Connected) and (ShowScanVDrive(device) = 1) do
+        while not(device.Connected) and (ShowScanVDrive(device, backColor, fontColor) = 1) do
         begin
           UpdateDevice(device);
         end;
@@ -765,13 +772,13 @@ begin
       try
         SetSelectedMenu(nil);
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading Advantage 360...');
+        ShowLoading('Loading...', 'Loading Advantage 360...', backColor, fontColor);
         {$ifdef darwin}
         Application.CreateForm(TFormMainAdv360, FormMainAdv360);
         {$endif};
         FormMainAdv360.Parent := pnlMain;
-        FormMainAdv360.InitForm(self);
-        FormMainAdv360.Show;
+        if (FormMainAdv360.InitForm(self)) then
+           FormMainAdv360.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogoAdv360.Visible := true;
       finally
@@ -783,13 +790,13 @@ begin
       try
         SetSelectedMenu(nil);
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading FREESTYLE PRO...');
+        ShowLoading('Loading...', 'Loading FREESTYLE PRO...', backColor, fontColor);
         {$ifdef darwin}
         Application.CreateForm(TFormMainFS, FormMainFS);
         {$endif};
         FormMainFS.Parent := pnlMain;
-        FormMainFS.InitForm(self);
-        FormMainFS.Show;
+        if (FormMainFS.InitForm(self)) then
+           FormMainFS.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogoFsPro.Visible := true;
       finally
@@ -801,13 +808,13 @@ begin
       try
         SetSelectedMenu(nil);
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading ADVANTAGE 2...');
+        ShowLoading('Loading...', 'Loading ADVANTAGE 2...', backColor, fontColor);
         {$ifdef darwin}
         Application.CreateForm(TFormMainAdv2, FormMainAdv2);
         {$endif};
         FormMainAdv2.Parent := pnlMain;
-        FormMainAdv2.InitForm(self);
-        FormMainAdv2.Show;
+        if (FormMainAdv2.InitForm(self)) then
+           FormMainAdv2.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogoFsPro.Visible := true;
       finally
@@ -819,13 +826,13 @@ begin
       try
         SetSelectedMenu(nil);
         GActiveDevice := device;
-        ShowLoading('Loading...', 'Loading SAVANT ELITE 2...');
+        ShowLoading('Loading...', 'Loading SAVANT ELITE 2...', backColor, fontColor);
         {$ifdef darwin}
         Application.CreateForm(TFormMainSE2, FormMainSE2);
         {$endif};
         FormMainSE2.Parent := pnlMain;
-        FormMainSE2.InitForm(self);
-        FormMainSE2.Show;
+        if (FormMainSE2.InitForm(self)) then
+           FormMainSE2.Show;
         lblDemoMode.Visible := GDemoMode;
         imgAppLogoFsPro.Visible := true;
       finally
@@ -868,14 +875,17 @@ begin
     cusWindowState := cwMaximized;
   end;
 
-  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
-     FormMainAdv360.Maximize;
-  if (FormMainFS <> nil) and (FormMainFS.Visible) then
-     FormMainFS.Maximize;
-  if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
-     FormMainAdv2.Maximize;
-  if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
-     FormMainSE2.Maximize;
+  if (not returningToHome) then
+  begin
+    if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+       FormMainAdv360.Maximize;
+    if (FormMainFS <> nil) and (FormMainFS.Visible) then
+       FormMainFS.Maximize;
+    if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
+       FormMainAdv2.Maximize;
+    if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+       FormMainSE2.Maximize;
+  end;
 
   UpdateStateSettings;
 end;
@@ -949,31 +959,33 @@ procedure TFormDashboard.ResetToHome;
 begin
   //Hide logos
   //imgAppLogoAdv360.Visible := false;
-  imgAppLogoFsPro.Visible := false;
+  try
+    returningToHome := true;
 
-  SetSelectedMenu(lblHome);
-  lblDemoMode.Visible := false;
-  lblVDriveOk.Visible := false;
-  lblVDriveError.Visible := false;
-  CloseActiveForms;
-  if (not GDemoMode) then
-    EjectDevice(GActiveDevice);
-  GActiveDevice := nil;
-  tmrLoadForms.Enabled := true;
+    imgAppLogoFsPro.Visible := false;
 
-  UpdateDevices;
+    SetSelectedMenu(lblHome);
+    lblDemoMode.Visible := false;
+    lblVDriveOk.Visible := false;
+    lblVDriveError.Visible := false;
+    CloseActiveForms;
+    if (not GDemoMode) then
+      EjectDevice(GActiveDevice);
+    GActiveDevice := nil;
+    tmrLoadForms.Enabled := true;
+
+    UpdateDevices;
+  finally
+    returningToHome := false;
+  end;
 end;
 
 procedure TFormDashboard.lblHelpClick(Sender: TObject);
 begin
   try
     SetSelectedMenu(lblHelp);
-    NeedInput := true;
-    Application.CreateForm(TFormAboutMaster, FormAboutMaster);
-    FormAboutMaster.ShowModal;
-    FreeAndNil(FormAboutMaster);
+    ShowHelpMaster(backColor, fontColor);
   finally
-    NeedInput := false;
     SetSelectedMenu(lblHome);
   end;
 end;
@@ -982,13 +994,9 @@ procedure TFormDashboard.lblSettingsClick(Sender: TObject);
 begin
   try
     SetSelectedMenu(lblSettings);
-    NeedInput := true;
-    Application.CreateForm(TFormSettingsMaster, FormSettingsMaster);
-    FormSettingsMaster.ShowModal;
-    FreeAndNil(FormSettingsMaster);
+    ShowMasterSettings(backColor, fontColor);
   finally
     SetSelectedMenu(lblHome);
-    NeedInput := false;
   end;
 end;
 
@@ -1080,14 +1088,17 @@ end;
 
 procedure TFormDashboard.FormActivate(Sender: TObject);
 begin
-  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
-    FormMainAdv360.SetFocus
-  else if (FormMainFS <> nil) and (FormMainFS.Visible) then
-    FormMainFS.SetFocus
-  else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
-    FormMainAdv2.SetFocus
-  else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
-    FormMainSE2.SetFocus;
+  if (not returningToHome) then
+  begin
+    if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible) then
+      FormMainAdv360.SetFocus
+    else if (FormMainFS <> nil) and (FormMainFS.Visible) then
+      FormMainFS.SetFocus
+    else if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible) then
+      FormMainAdv2.SetFocus
+    else if (FormMainSE2 <> nil) and (FormMainSE2.Visible) then
+      FormMainSE2.SetFocus;
+  end;
 end;
 
 procedure TFormDashboard.SetSelectedMenu(menuLabel: TLabel);

@@ -14,6 +14,7 @@ type
 
   TFormInfoDialog = class(TForm)
     btnClose: TColorSpeedButtonCS;
+    btnCloseLight: TColorSpeedButtonCS;
     lblMessage: TLabel;
     lblTitle: TLabel;
     tmrClose: TTimer;
@@ -63,6 +64,17 @@ begin
         left := aRect.Width - formDialog.Width;
         top := aRect.Height - formDialog.Height;
       end;
+    end;
+
+    //Loads colors
+    if (GMasterAppId = APPL_MASTER_OFFICE) and not(IsDarkTheme) then
+    begin
+      formDialog.Color := clWhite;
+      formDialog.Font.Color := clBlack;
+      formDialog.lblTitle.Font.Color := clWhite;
+      formDialog.lblMessage.Font.Color := clBlack;
+      formDialog.btnClose.Visible := false;
+      formDialog.btnCloseLight.Visible := true;
     end;
 
     formDialog.Show;

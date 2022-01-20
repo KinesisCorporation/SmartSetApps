@@ -1,126 +1,109 @@
 inherited FormFirmware: TFormFirmware
-  Left = 430
-  Height = 216
-  Top = 130
-  Width = 511
-  ClientHeight = 216
-  ClientWidth = 511
-  Font.Height = -13
+  Left = 709
+  Height = 335
+  Top = 287
+  Width = 839
+  ClientHeight = 335
+  ClientWidth = 839
+  Font.Height = -26
   KeyPreview = True
   OnActivate = FormActivate
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
-  inherited btnClose: TColorSpeedButtonCS
-    Left = 479
+  inherited lineBorderLeft: TLineObj
+    Height = 298
   end
-  inherited lineBorderTop: TLineObj
-    Width = 511
+  inherited pnlTop: TPanel
+    Width = 839
+    ClientWidth = 839
+    TabOrder = 3
+    inherited lblTitle: TLabel
+      Width = 784
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 804
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 804
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 839
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 837
+    end
   end
   inherited lineBorderBottom: TLineObj
-    Top = 214
-    Width = 511
-  end
-  inherited lineBorderLeft: TLineObj
-    Height = 212
+    Top = 333
+    Width = 839
   end
   inherited lineBorderRight: TLineObj
-    Left = 509
-    Height = 212
+    Left = 837
+    Height = 298
   end
-  inherited lblTitle: TLabel
-    Width = 456
-  end
-  object Label3: TLabel[6]
-    Left = 24
-    Height = 23
-    Top = 56
-    Width = 176
+  object lblKeyboard: TLabel[4]
+    Left = 48
+    Height = 31
+    Top = 112
+    Width = 239
     Caption = 'Keyboard Firmware :'
-    Font.Color = clWhite
-    Font.Height = -19
-    Font.Name = 'Tahoma'
     ParentColor = False
-    ParentFont = False
     WordWrap = True
   end
-  object Label4: TLabel[7]
-    Left = 24
-    Height = 23
-    Top = 104
-    Width = 164
+  object lblLightning: TLabel[5]
+    Left = 48
+    Height = 31
+    Top = 184
+    Width = 224
     Caption = 'Lighting Firmware :'
-    Font.Color = clWhite
-    Font.Height = -19
-    Font.Name = 'Tahoma'
     ParentColor = False
-    ParentFont = False
     WordWrap = True
   end
-  object Label5: TLabel[8]
-    Left = 24
-    Height = 23
-    Top = 152
-    Width = 129
+  object lblApp: TLabel[6]
+    Left = 48
+    Height = 31
+    Top = 248
+    Width = 174
     Caption = 'SmartSet App :'
-    Font.Color = clWhite
-    Font.Height = -19
-    Font.Name = 'Tahoma'
     ParentColor = False
-    ParentFont = False
     WordWrap = True
   end
-  object pnlKBFirware: TPanel[9]
-    Left = 208
-    Height = 42
-    Top = 48
-    Width = 280
+  object pnlKBFirware: TPanel[7]
+    Left = 311
+    Height = 84
+    Top = 88
+    Width = 518
     BevelOuter = bvNone
     Caption = 'Checking for update...'
-    Color = 1644825
-    Font.Color = clWhite
-    Font.Height = -19
-    Font.Name = 'Tahoma'
-    ParentColor = False
-    ParentFont = False
     TabOrder = 0
     OnClick = pnlKBFirwareClick
   end
-  object pnlLightningFirmware: TPanel[10]
-    Left = 208
-    Height = 42
-    Top = 96
-    Width = 280
+  object pnlLightningFirmware: TPanel[8]
+    Left = 311
+    Height = 84
+    Top = 160
+    Width = 518
     BevelOuter = bvNone
     Caption = 'Checking for update...'
-    Color = 1644825
-    Font.Color = clWhite
-    Font.Height = -19
-    Font.Name = 'Tahoma'
-    ParentColor = False
-    ParentFont = False
     TabOrder = 1
     OnClick = pnlLightningFirmwareClick
   end
-  object pnlApp: TPanel[11]
-    Left = 208
-    Height = 42
-    Top = 144
-    Width = 280
+  object pnlApp: TPanel[9]
+    Left = 311
+    Height = 84
+    Top = 224
+    Width = 518
     BevelOuter = bvNone
     Caption = 'Checking for update...'
-    Font.Color = clWhite
-    Font.Height = -19
-    Font.Name = 'Tahoma'
-    ParentFont = False
     TabOrder = 2
     OnClick = pnlAppClick
   end
-  object tmrCheck: TTimer[12]
+  object tmrCheck: TTimer[10]
     Enabled = False
     Interval = 200
     OnTimer = tmrCheckTimer
-    left = 203
-    top = 159
+    Left = 712
+    Top = 112
   end
 end

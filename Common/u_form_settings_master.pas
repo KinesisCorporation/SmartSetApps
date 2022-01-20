@@ -6,20 +6,18 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-  StdCtrls, lclintf, ExtCtrls, u_const,
-  LCLType, ColorSpeedButtonCS, VersionSupport;
+  StdCtrls, lclintf, ExtCtrls, u_const, u_base_form,
+  LCLType, ColorSpeedButtonCS, LineObj, VersionSupport;
 
 type
 
   { TFormSettingsMaster }
 
-  TFormSettingsMaster = class(TForm)
-    btnClose: TColorSpeedButtonCS;
+  TFormSettingsMaster = class(TBaseForm)
     chkHideAllNotifs: TCheckBox;
     chkShowNotifs: TCheckBox;
     lblHideAllNotifs: TLabel;
     lblShowNotifs: TLabel;
-    lblTitle: TLabel;
     lblTitlet: TLabel;
     pnlMain: TPanel;
     procedure btnCloseClick(Sender: TObject);
@@ -38,6 +36,7 @@ type
 
 var
   FormSettingsMaster: TFormSettingsMaster;
+  procedure ShowMasterSettings(backColor: TColor; fontColor: TColor);
 
 const
   HideAllNotifsGaming = 'HideAllNotifs';
@@ -49,11 +48,31 @@ implementation
 
 {$R *.lfm}
 
+procedure ShowMasterSettings(backColor: TColor; fontColor: TColor);
+begin
+  //Close the dialog if opened
+  if FormSettingsMaster <> nil then
+    FreeAndNil(FormSettingsMaster);
+
+  //Creates the dialog form
+  Application.CreateForm(TFormSettingsMaster, FormSettingsMaster);
+
+  //Loads colors
+  FormSettingsMaster.Color := backColor;
+  FormSettingsMaster.lblTitle.Font.Color := fontColor;
+  FormSettingsMaster.lblHideAllNotifs.Font.Color := fontColor;
+  FormSettingsMaster.lblShowNotifs.Font.Color := fontColor;
+
+  FormSettingsMaster.ShowModal;
+end;
+
 { TFormSettingsMaster }
 
 procedure TFormSettingsMaster.FormCreate(Sender: TObject);
 begin
+  inherited;
   SetFont(self, 'Tahoma');
+  self.lblTitle.Caption := 'SmartSet App Settings';
 
   chkHideAllNotifs.Checked := GHideAllNotifs;
   chkShowNotifs.Checked := GShowAllNotifs;

@@ -35,7 +35,7 @@ inherited FormScanVDrive: TFormScanVDrive
     Caption = 'v-Drive not detected'
     Font.Height = -19
   end
-  object lblTKOMessage: TLabel[6]
+  object lblTKOMessage: TLabel[7]
     Left = 18
     Height = 76
     Top = 36
@@ -51,7 +51,7 @@ inherited FormScanVDrive: TFormScanVDrive
     Visible = False
     WordWrap = True
   end
-  object btnTroubleshootingTips: TColorSpeedButtonCS[7]
+  object btnTroubleshootingTips: TColorSpeedButtonCS[8]
     Left = 704
     Height = 32
     Top = 123
@@ -89,7 +89,7 @@ inherited FormScanVDrive: TFormScanVDrive
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnScan: TColorSpeedButtonCS[8]
+  object btnScan: TColorSpeedButtonCS[9]
     Left = 536
     Height = 32
     Top = 123
@@ -127,7 +127,7 @@ inherited FormScanVDrive: TFormScanVDrive
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object lblRGBMessage: TLabel[9]
+  object lblRGBMessage: TLabel[10]
     Left = 18
     Height = 76
     Top = 36
@@ -143,7 +143,7 @@ inherited FormScanVDrive: TFormScanVDrive
     Visible = False
     WordWrap = True
   end
-  object lblFSMessage: TLabel[10]
+  object lblFSMessage: TLabel[11]
     Left = 18
     Height = 76
     Top = 36
