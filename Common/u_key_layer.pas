@@ -28,6 +28,8 @@ type
     FMacro1: TKeyList;
     FMacro2: TKeyList;
     FMacro3: TKeyList;
+    FMacro4: TKeyList;
+    FMacro5: TKeyList;
     FActiveMacro: TKeyList;
     FTapAndHold: boolean;
     FMultimodifiers: string;
@@ -61,6 +63,8 @@ type
     property Macro1: TKeyList read FMacro1 write FMacro1;
     property Macro2: TKeyList read FMacro2 write FMacro2;
     property Macro3: TKeyList read FMacro3 write FMacro3;
+    property Macro4: TKeyList read FMacro4 write FMacro4;
+    property Macro5: TKeyList read FMacro5 write FMacro5;
     property ActiveMacro: TKeyList read GetActiveMacro write SetActiveMacro;
     property KeyColor: TColor read FKeyColor write FKeyColor;
     property Multimodifiers: string read FMultimodifiers write FMultimodifiers;
@@ -210,6 +214,8 @@ begin
   FMacro1.Clear;
   FMacro2.Clear;
   FMacro3.Clear;
+  FMacro4.Clear;
+  FMacro5.Clear;
 end;
 
 procedure TKBKey.Assign(aKbKey: TKBKey; restoreType: TRestoreType);
@@ -236,6 +242,8 @@ begin
       self.FMacro1.Assign(aKbKey.Macro1);
       self.FMacro2.Assign(aKbKey.Macro2);
       self.FMacro3.Assign(aKbKey.Macro3);
+      self.FMacro4.Assign(aKbKey.Macro4);
+      self.FMacro5.Assign(aKbKey.Macro5);
     end;
   end;
 end;
@@ -248,6 +256,10 @@ begin
   if (Macro2.Count > 0) then
     inc(result);
   if (Macro3.Count > 0) then
+    inc(result);
+  if (Macro4.Count > 0) then
+    inc(result);
+  if (Macro5.Count > 0) then
     inc(result);
 end;
 
@@ -269,12 +281,18 @@ begin
   FMacro1 := TKeyList.Create;
   FMacro2 := TKeyList.Create;
   FMacro3 := TKeyList.Create;
+  FMacro4 := TKeyList.Create;
+  FMacro5 := TKeyList.Create;
   FMacro1.MultiKey := true;
   FMacro1.MacroIdx := 1;
   FMacro2.MultiKey := true;
   FMacro2.MacroIdx := 2;
   FMacro3.MultiKey := true;
   FMacro3.MacroIdx := 3;
+  FMacro4.MultiKey := true;
+  FMacro4.MacroIdx := 4;
+  FMacro5.MultiKey := true;
+  FMacro5.MacroIdx := 5;
   FMultimodifiers := '';
   SetActiveMacro(FMacro1);
 end;
@@ -284,6 +302,8 @@ begin
   FreeAndNil(FMacro1);
   FreeAndNil(FMacro2);
   FreeAndNil(FMacro3);
+  FreeAndNil(FMacro4);
+  FreeAndNil(FMacro5);
   if (FModifiedKey <> nil) then
     FreeAndNil(FModifiedKey);
   if (FOriginalKey <> nil) then

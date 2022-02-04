@@ -102,6 +102,7 @@ var
   procedure RemoveKeyDown(key: integer);
   procedure ClearAllKeyDowKeyUp;
   function GetImageByName(container: TWinControl; imageName: string): TImage;
+  procedure SetColorButtonColor(btn: TColorSpeedButtonCS; backColor: TColor; fontColor: TColor; borderColor: TColor);
 
 const
   PARAM_COLOR = 1;
@@ -397,6 +398,34 @@ begin
         GetImageByName(container.Controls[i] as TPanel, imageName);
     end;
   end;
+end;
+
+procedure SetColorButtonColor(btn: TColorSpeedButtonCS; backColor: TColor;
+  fontColor: TColor; borderColor: TColor);
+begin
+  btn.StateActive.Color := backColor;
+  btn.StateActive.FontColor := fontColor;
+  btn.StateActive.BorderColor := borderColor;
+  if (borderColor <> clNone) then
+    btn.StateActive.BorderWidth := 1;
+
+  btn.StateDisabled.Color := backColor;
+  btn.StateDisabled.FontColor := fontColor;
+  btn.StateDisabled.BorderColor := borderColor;
+  if (borderColor <> clNone) then
+    btn.StateDisabled.BorderWidth := 1;
+
+  btn.StateHover.Color := backColor;
+  btn.StateHover.FontColor := fontColor;
+  btn.StateHover.BorderColor := borderColor;
+  if (borderColor <> clNone) then
+    btn.StateHover.BorderWidth := 1;
+
+  btn.StateNormal.Color := backColor;
+  btn.StateNormal.FontColor := fontColor;
+  btn.StateNormal.BorderColor := borderColor;
+  if (borderColor <> clNone) then
+    btn.StateNormal.BorderWidth := 1;
 end;
 
 end.

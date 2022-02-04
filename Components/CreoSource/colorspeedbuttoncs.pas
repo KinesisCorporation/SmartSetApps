@@ -66,6 +66,7 @@ type
     FTextAutoSize: boolean;
     FToggle: boolean;
     FTextPadding: integer;
+    FDisabled: boolean; //Instead of using Enabled, does not change image color when disabled
     procedure SetFPopupMode(AValue: boolean);
     procedure SetFPressed(AValue: boolean);
     procedure SetFStateActive(AValue: TColorState);
@@ -102,6 +103,7 @@ type
     property StateActive: TColorState read FStateActive write SetFStateActive;
     property StateDisabled: TColorState read FStateDisabled write SetFStateDisabled;
     property TextPadding: integer read FTextPadding write SetTextPadding default 5;
+    property Disabled: boolean read FDisabled write FDisabled default false;
   end;
 
 {$IFDEF FPC}procedure Register;{$ENDIF}
@@ -638,7 +640,10 @@ begin
   if Toggle then
     Pressed := not Pressed;
 
-  if PopupMode then
+  if Disabled then
+    exit;
+
+  if (PopupMode and Down) then
   begin
     p := Parent.ClientToScreen(Point(Left, Top));
     PopupMenu.PopUp(p.x, p.y + Height);

@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, u_base_form, u_const, UserDialog, lcltype,
-  lclintf, LineObj, jsonparser, fpjson, u_kinesis_device, versionSupport,
+  StdCtrls, u_base_form, u_const, UserDialog, lcltype, lclintf, LineObj,
+  ColorSpeedButtonCS, jsonparser, fpjson, u_kinesis_device, versionSupport,
   u_common_ui;
 
 type
@@ -15,20 +15,20 @@ type
   { TFormFirmware }
 
   TFormFirmware = class(TBaseForm)
+    firmwareBtn1: TColorSpeedButtonCS;
+    firmwareBtn2: TColorSpeedButtonCS;
+    firmwareBtn3: TColorSpeedButtonCS;
     lblKeyboard: TLabel;
     lblLightning: TLabel;
     lblApp: TLabel;
-    pnlKBFirware: TPanel;
-    pnlLightningFirmware: TPanel;
-    pnlApp: TPanel;
     tmrCheck: TTimer;
+    procedure firmwareBtn1Click(Sender: TObject);
+    procedure firmwareBtn2Click(Sender: TObject);
+    procedure firmwareBtn3Click(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
-    procedure pnlAppClick(Sender: TObject);
-    procedure pnlKBFirwareClick(Sender: TObject);
-    procedure pnlLightningFirmwareClick(Sender: TObject);
     procedure tmrCheckTimer(Sender: TObject);
   private
     kbMustUpdate: boolean;
@@ -37,21 +37,23 @@ type
     firmChecked: boolean;
     aDevice: TDevice;
     firmwareInfo: TFirmwareInfo;
+    activeColor: TColor;
     procedure CheckFirmware;
     procedure DonwloadAndUnzip(url: string);
+    procedure SetButtonColor;
   public
 
   end;
 
 var
   FormFirmware: TFormFirmware;
-  procedure ShowFirmware(device: TDevice; backColor: TColor; fontColor: TColor);
+  procedure ShowFirmware(device: TDevice; backColor: TColor; fontColor: TColor; activeColor: TColor);
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowFirmware(device: TDevice; backColor: TColor; fontColor: TColor);
+procedure ShowFirmware(device: TDevice; backColor: TColor; fontColor: TColor; activeColor: TColor);
 begin
   if (device <> nil) and (device.Connected) then
   begin
@@ -65,6 +67,7 @@ begin
       //Creates the dialog form
       Application.CreateForm(TFormFirmware, FormFirmware);
       FormFirmware.aDevice := device;
+      FormFirmware.activeColor := activeColor;
 
       //Set colors
       FormFirmware.Color := backColor;
@@ -73,9 +76,13 @@ begin
       FormFirmware.lblKeyboard.Font.Color := fontColor;
       FormFirmware.lblLightning.Font.Color := fontColor;
       FormFirmware.lblApp.Font.Color := fontColor;
-      FormFirmware.pnlKBFirware.Font.Color := fontColor;
-      FormFirmware.pnlLightningFirmware.Font.Color := fontColor;
-      FormFirmware.pnlApp.Font.Color := fontColor;
+      FormFirmware.SetButtonColor;
+
+      if (device.DeviceNumber = APPL_ADV360) then
+      begin
+        FormFirmware.lblKeyboard.Caption := 'Left Module Firmware :';
+        FormFirmware.lblLightning.Caption := 'Right Module Firmware :';
+      end;
 
       //Shows dialog
       FormFirmware.ShowModal;
@@ -94,6 +101,16 @@ begin
   firmChecked := false;
 end;
 
+procedure TFormFirmware.SetButtonColor;
+begin
+  if (GMasterAppId = APPL_MASTER_OFFICE) and not(IsDarkTheme) then
+  begin
+    SetColorButtonColor(firmwareBtn1, KINESIS_BUTTON_ADV360, clWhite, clNone);
+    SetColorButtonColor(firmwareBtn2, KINESIS_BUTTON_ADV360, clWhite, clNone);
+    SetColorButtonColor(firmwareBtn3, KINESIS_BUTTON_ADV360, clWhite, clNone);
+  end;
+end;
+
 procedure TFormFirmware.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -106,13 +123,38 @@ begin
 
 end;
 
-procedure TFormFirmware.FormShow(Sender: TObject);
+procedure TFormFirmware.firmwareBtn1Click(Sender: TObject);
 begin
-  inherited;
-  tmrCheck.Enabled := true;
+    if (kbMustUpdate) then
+  begin
+    if (aDevice.DeviceNumber = APPL_RGB) then
+      OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#firmware')
+    else if (aDevice.DeviceNumber = APPL_TKO) then
+    begin
+      //DonwloadAndUnzip('https://gaming.kinesis-ergo.com/wp-content/uploads/2020/12/TKO_Keyboard_1.0.1_UPDATE.zip');
+      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware');
+    end
+    else if (aDevice.DeviceNumber = APPL_ADV360) then
+    begin
+      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
+    end;
+  end;
 end;
 
-procedure TFormFirmware.pnlAppClick(Sender: TObject);
+procedure TFormFirmware.firmwareBtn2Click(Sender: TObject);
+begin
+  if (ledMustUpdate) then
+  begin
+    if (aDevice.DeviceNumber = APPL_RGB) then
+      OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#firmware')
+    else if (aDevice.DeviceNumber = APPL_TKO) then
+      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware')
+    else if (aDevice.DeviceNumber = APPL_ADV360) then
+      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
+  end;
+end;
+
+procedure TFormFirmware.firmwareBtn3Click(Sender: TObject);
 begin
   if (appMustUpdate) then
   begin
@@ -125,22 +167,10 @@ begin
   end;
 end;
 
-procedure TFormFirmware.pnlKBFirwareClick(Sender: TObject);
+procedure TFormFirmware.FormShow(Sender: TObject);
 begin
-  if (kbMustUpdate) then
-  begin
-    if (aDevice.DeviceNumber = APPL_RGB) then
-      OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#firmware')
-    else if (aDevice.DeviceNumber = APPL_TKO) then
-    begin
-      //DonwloadAndUnzip('https://gaming.kinesis-ergo.com/wp-content/uploads/2020/12/TKO_Keyboard_1.0.1_UPDATE.zip');
-      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware');
-    end
-    else if (aDevice.DeviceNumber = APPL_TKO) then
-    begin
-      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
-    end;
-  end;
+  inherited;
+  tmrCheck.Enabled := true;
 end;
 
 procedure TFormFirmware.DonwloadAndUnzip(url: string);
@@ -162,19 +192,6 @@ begin
       if (RenameFile(outputPath + unzippedFile, outputPath + 'update.upd')) then
          ShowMessage('Ready to update!');
     end;
-  end;
-end;
-
-procedure TFormFirmware.pnlLightningFirmwareClick(Sender: TObject);
-begin
-  if (ledMustUpdate) then
-  begin
-    if (aDevice.DeviceNumber = APPL_RGB) then
-      OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#firmware')
-    else if (aDevice.DeviceNumber = APPL_TKO) then
-      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware')
-    else if (aDevice.DeviceNumber = APPL_TKO) then
-      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
   end;
 end;
 
@@ -250,17 +267,19 @@ begin
             if (IsVersionSmaller(firmwareInfo.MajorKBD, firmwareInfo.MinorKBD, firmwareInfo.RevisionKBD, majorVer, minorVer, revVer)) then
             begin
               kbMustUpdate := true;
-              pnlKBFirware.BevelOuter := bvRaised;
-              pnlKBFirware.BevelColor := clSilver;
-              pnlKBFirware.Caption := 'Update Now';
-              pnlKBFirware.Cursor := crHandPoint;
+              firmwareBtn1.StateNormal.FontColor := activeColor;
+              firmwareBtn1.StateActive.FontColor := activeColor;
+              firmwareBtn1.StateHover.FontColor := activeColor;
+              firmwareBtn1.StateDisabled.FontColor := activeColor;
+              firmwareBtn1.Caption := 'Update Now';
+              firmwareBtn1.Cursor := crHandPoint;
             end
             else
-              pnlKBFirware.Caption := 'No update available';
+              firmwareBtn1.Caption := 'No update available';
           end
           else
-            pnlKBFirware.Caption := 'Error fetching keyboard firmware';
-          pnlKBFirware.Visible := true;
+            firmwareBtn1.Caption := 'Error fetching keyboard firmware';
+          firmwareBtn1.Visible := true;
 
           //Compare lighting version
           if (lightingVer <> '') then
@@ -269,17 +288,19 @@ begin
             if (IsVersionSmaller(firmwareInfo.MajorLED, firmwareInfo.MinorLED, firmwareInfo.RevisionLED, majorVer, minorVer, revVer)) then
             begin
               ledMustUpdate := true;
-              pnlLightningFirmware.BevelOuter := bvRaised;
-              pnlLightningFirmware.BevelColor := clSilver;
-              pnlLightningFirmware.Caption := 'Update Now';
-              pnlLightningFirmware.Cursor := crHandPoint;
+              firmwareBtn2.StateNormal.FontColor := activeColor;
+              firmwareBtn2.StateActive.FontColor := activeColor;
+              firmwareBtn2.StateHover.FontColor := activeColor;
+              firmwareBtn2.StateDisabled.FontColor := activeColor;
+              firmwareBtn2.Caption := 'Update Now';
+              firmwareBtn2.Cursor := crHandPoint;
             end
             else
-              pnlLightningFirmware.Caption := 'No update available';
+              firmwareBtn2.Caption := 'No update available';
           end
           else
-            pnlLightningFirmware.Caption := 'Error fetching lighting firmware';
-          pnlLightningFirmware.Visible := true;
+            firmwareBtn2.Caption := 'Error fetching lighting firmware';
+          firmwareBtn2.Visible := true;
 
           //Compare app version
           if (appVer <> '') then
@@ -288,24 +309,26 @@ begin
             if (IsVersionSmaller(appMarjoVer, appMinorVer, appRevVer, majorVer, minorVer, revVer)) then
             begin
               appMustUpdate := true;
-              pnlApp.BevelOuter := bvRaised;
-              pnlApp.BevelColor := clSilver;
-              pnlApp.Caption := 'Update Now';
-              pnlApp.Cursor := crHandPoint;
+              firmwareBtn3.StateNormal.FontColor := activeColor;
+              firmwareBtn3.StateActive.FontColor := activeColor;
+              firmwareBtn3.StateHover.FontColor := activeColor;
+              firmwareBtn3.StateDisabled.FontColor := activeColor;
+              firmwareBtn3.Caption := 'Update Now';
+              firmwareBtn3.Cursor := crHandPoint;
             end
             else
-              pnlApp.Caption := 'No update available';
+              firmwareBtn3.Caption := 'No update available';
           end
           else
-            pnlApp.Caption := 'Error fetching app version';
-          pnlApp.Visible := true;
+            firmwareBtn3.Caption := 'Error fetching app version';
+          firmwareBtn3.Visible := true;
         end;
       except
         on E: Exception do
         begin
-          pnlKBFirware.Caption := 'Check connection';
-          pnlLightningFirmware.Caption := 'Check connection';
-          pnlApp.Caption := 'Check connection';
+          firmwareBtn1.Caption := 'Check connection';
+          firmwareBtn2.Caption := 'Check connection';
+          firmwareBtn3.Caption := 'Check connection';
           ShowDialog('Firmware', 'Error accessing internet or firmware website: ' + #10 + e.Message, mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
         end;
       end;
@@ -315,9 +338,9 @@ begin
   end
   else
   begin
-    pnlKBFirware.Caption := 'Error reading version.txt file';
-    pnlLightningFirmware.Caption := 'Error reading version.txt file';
-    pnlApp.Caption := 'Error reading version.txt file';
+    firmwareBtn1.Caption := 'Error reading firmware file';
+    firmwareBtn2.Caption := 'Error reading firmware file';
+    firmwareBtn3.Caption := 'Error reading firmware file';
   end;
 end;
 

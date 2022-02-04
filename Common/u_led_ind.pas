@@ -135,9 +135,9 @@ end;
 function TLedInd.GetFnTokenText: string;
 begin
   result := '';
-  if (FnToken = ifGameMode) then
-    result := 'Game Mode'
-  else if (FnToken = ifNKRO) then
+  //if (FnToken = ifGameMode) then
+  //  result := 'Game Mode'
+  if (FnToken = ifNKRO) then
     result := 'NKRO Mode'
   else if (FnToken = ifScrollLock) then
     result := 'Scroll Lock'

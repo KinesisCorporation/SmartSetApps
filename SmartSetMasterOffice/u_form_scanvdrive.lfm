@@ -11,31 +11,42 @@ inherited FormScanVDrive: TFormScanVDrive
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   Position = poScreenCenter
-  inherited btnClose: TColorSpeedButtonCS
-    Left = 839
+  inherited lineBorderLeft: TLineObj
+    Height = 135
   end
-  inherited lineBorderTop: TLineObj
+  inherited pnlTop: TPanel
     Width = 871
+    ClientWidth = 871
+    inherited lblTitle: TLabel
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 867
+      Caption = 'v-Drive not detected'
+      Font.Height = -19
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 836
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 1103
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 871
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 869
+    end
   end
   inherited lineBorderBottom: TLineObj
     Top = 170
     Width = 871
   end
-  inherited lineBorderLeft: TLineObj
-    Height = 168
-  end
   inherited lineBorderRight: TLineObj
     Left = 869
-    Height = 168
+    Height = 135
   end
-  inherited lblTitle: TLabel
-    Height = 36
-    Top = 3
-    Width = 816
-    Caption = 'v-Drive not detected'
-    Font.Height = -19
-  end
-  object lblTKOMessage: TLabel[7]
+  object lblTKOMessage: TLabel[4]
     Left = 18
     Height = 76
     Top = 36
@@ -51,7 +62,7 @@ inherited FormScanVDrive: TFormScanVDrive
     Visible = False
     WordWrap = True
   end
-  object btnTroubleshootingTips: TColorSpeedButtonCS[8]
+  object btnTroubleshootingTips: TColorSpeedButtonCS[5]
     Left = 704
     Height = 32
     Top = 123
@@ -89,7 +100,7 @@ inherited FormScanVDrive: TFormScanVDrive
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnScan: TColorSpeedButtonCS[9]
+  object btnScan: TColorSpeedButtonCS[6]
     Left = 536
     Height = 32
     Top = 123
@@ -127,7 +138,7 @@ inherited FormScanVDrive: TFormScanVDrive
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object lblRGBMessage: TLabel[10]
+  object lblRGBMessage: TLabel[7]
     Left = 18
     Height = 76
     Top = 36
@@ -143,7 +154,7 @@ inherited FormScanVDrive: TFormScanVDrive
     Visible = False
     WordWrap = True
   end
-  object lblFSMessage: TLabel[11]
+  object lblFSMessage: TLabel[8]
     Left = 18
     Height = 76
     Top = 36
@@ -156,6 +167,23 @@ inherited FormScanVDrive: TFormScanVDrive
     Layout = tlCenter
     ParentColor = False
     ParentFont = False
+    Visible = False
+    WordWrap = True
+  end
+  object lblAdv360Message: TLabel[9]
+    Left = 18
+    Height = 76
+    Top = 36
+    Width = 832
+    AutoSize = False
+    Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by using the onboard shortcut SmartSet + v-Drive. Please connect the v-Drive and then click the “Scan Again” button below.'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+    Visible = False
     WordWrap = True
   end
 end

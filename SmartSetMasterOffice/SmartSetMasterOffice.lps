@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="52">
+    <Units Count="80">
       <Unit0>
         <Filename Value="SmartSetMasterOffice.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -19,8 +19,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="31"/>
-        <CursorPos X="79" Y="57"/>
+        <TopLine Value="37"/>
+        <CursorPos X="26" Y="60"/>
         <UsageCount Value="226"/>
       </Unit1>
       <Unit2>
@@ -29,9 +29,8 @@
         <ComponentName Value="FormDashboard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="38"/>
-        <CursorPos X="32" Y="45"/>
+        <TopLine Value="991"/>
+        <CursorPos X="20" Y="993"/>
         <UsageCount Value="226"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -42,18 +41,23 @@
         <ComponentName Value="FormScanVDrive"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="40"/>
-        <CursorPos X="84" Y="50"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="45"/>
+        <CursorPos X="34" Y="53"/>
         <UsageCount Value="226"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\Common\u_const.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="438"/>
-        <CursorPos X="19" Y="465"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="706"/>
+        <CursorPos X="43" Y="725"/>
         <UsageCount Value="224"/>
+        <Bookmarks Count="1">
+          <Item0 X="35" Y="1344" ID="9"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
@@ -63,67 +67,81 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="1482"/>
-        <CursorPos X="17" Y="1488"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="4775"/>
+        <CursorPos X="53" Y="4788"/>
         <UsageCount Value="227"/>
-        <Bookmarks Count="8">
-          <Item0 X="8" Y="2186" ID="3"/>
-          <Item1 X="26" Y="2161" ID="4"/>
-          <Item2 Y="4141" ID="1"/>
-          <Item3 X="22" Y="3140" ID="2"/>
-          <Item4 Y="4153" ID="7"/>
-          <Item5 X="11" Y="1549" ID="6"/>
-          <Item6 X="17" Y="1502" ID="5"/>
-          <Item7 X="5" Y="1732" ID="9"/>
+        <Bookmarks Count="7">
+          <Item0 X="3" Y="1687" ID="8"/>
+          <Item1 X="52" Y="6241" ID="1"/>
+          <Item2 X="5" Y="4763" ID="2"/>
+          <Item3 X="16" Y="1582" ID="3"/>
+          <Item4 X="33" Y="607" ID="4"/>
+          <Item5 X="3" Y="4974" ID="5"/>
+          <Item6 X="51" Y="1444" ID="6"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit5>
       <Unit6>
+        <Filename Value="..\Common\u_led_ind.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="43"/>
+        <CursorPos Y="61"/>
+        <UsageCount Value="96"/>
+      </Unit6>
+      <Unit7>
         <Filename Value="u_form_settings_master.pas"/>
         <HasResources Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="91"/>
         <CursorPos X="39" Y="124"/>
-        <UsageCount Value="8"/>
-      </Unit6>
-      <Unit7>
+        <UsageCount Value="2"/>
+      </Unit7>
+      <Unit8>
         <Filename Value="..\SmartSetAdv2\u_form_main_adv2.pas"/>
         <ComponentName Value="FormMainAdv2"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="2614"/>
-        <CursorPos X="59" Y="2640"/>
-        <UsageCount Value="63"/>
-      </Unit7>
-      <Unit8>
+        <EditorIndex Value="8"/>
+        <TopLine Value="2863"/>
+        <CursorPos X="60" Y="2892"/>
+        <UsageCount Value="76"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit8>
+      <Unit9>
         <Filename Value="..\SmartSetFSEdgePro\u_form_main_fs.pas"/>
         <ComponentName Value="FormMainFS"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="3436"/>
-        <CursorPos X="59" Y="3454"/>
-        <UsageCount Value="41"/>
-      </Unit8>
-      <Unit9>
+        <TopLine Value="1035"/>
+        <CursorPos X="63" Y="1044"/>
+        <UsageCount Value="44"/>
+      </Unit9>
+      <Unit10>
         <Filename Value="..\SmartSetAdv2\u_form_troubleshoot.pas"/>
         <ComponentName Value="FormTroubleshoot"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="1"/>
-      </Unit9>
-      <Unit10>
+        <TopLine Value="79"/>
+        <CursorPos X="36" Y="88"/>
+        <UsageCount Value="7"/>
+      </Unit10>
+      <Unit11>
         <Filename Value="..\Common\u_form_about.pas"/>
         <ComponentName Value="FormAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="1"/>
-      </Unit10>
-      <Unit11>
+        <TopLine Value="69"/>
+        <CursorPos X="12" Y="88"/>
+        <UsageCount Value="8"/>
+      </Unit11>
+      <Unit12>
         <Filename Value="..\SmartSetFSEdgePro\u_form_timingdelays.pas"/>
         <ComponentName Value="FormTimingDelays"/>
         <HasResources Value="True"/>
@@ -131,451 +149,684 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="58" Y="39"/>
-        <UsageCount Value="8"/>
-      </Unit11>
-      <Unit12>
+        <UsageCount Value="2"/>
+      </Unit12>
+      <Unit13>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
         <ComponentName Value="FormMainTKO"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="3877"/>
-        <CursorPos X="29" Y="3905"/>
-        <UsageCount Value="60"/>
+        <EditorIndex Value="19"/>
+        <TopLine Value="1206"/>
+        <CursorPos X="56" Y="1229"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
-      </Unit12>
-      <Unit13>
+      </Unit13>
+      <Unit14>
         <Filename Value="..\SmartSetSavantElite\u_form_keypress.pas"/>
         <ComponentName Value="FormMainSE2"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1438"/>
-        <CursorPos X="40" Y="1456"/>
-        <UsageCount Value="6"/>
-      </Unit13>
-      <Unit14>
-        <Filename Value="..\Common\u_base_key_service.pas"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="4667"/>
-        <CursorPos X="60" Y="4685"/>
-        <UsageCount Value="101"/>
-        <Bookmarks Count="1">
-          <Item0 X="26" Y="4278" ID="8"/>
-        </Bookmarks>
-        <Loaded Value="True"/>
+        <TopLine Value="484"/>
+        <CursorPos X="25" Y="510"/>
+        <UsageCount Value="14"/>
       </Unit14>
       <Unit15>
-        <Filename Value="..\Common\u_keys.pas"/>
-        <UnitName Value="U_Keys"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="26"/>
-        <CursorPos X="17" Y="43"/>
-        <UsageCount Value="70"/>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <EditorIndex Value="14"/>
+        <TopLine Value="9409"/>
+        <CursorPos X="32" Y="9426"/>
+        <UsageCount Value="100"/>
+        <Bookmarks Count="1">
+          <Item0 X="34" Y="4679" ID="7"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
       </Unit15>
       <Unit16>
+        <Filename Value="..\Common\u_keys.pas"/>
+        <UnitName Value="U_Keys"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="195"/>
+        <CursorPos X="17" Y="205"/>
+        <UsageCount Value="78"/>
+        <Loaded Value="True"/>
+      </Unit16>
+      <Unit17>
         <Filename Value="..\SmartSetSavantElite\u_file_service_se2.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="100"/>
         <CursorPos X="116" Y="129"/>
-        <UsageCount Value="3"/>
-      </Unit16>
-      <Unit17>
+        <UsageCount Value="7"/>
+      </Unit17>
+      <Unit18>
         <Filename Value="..\Common\u_form_firmware.pas"/>
         <ComponentName Value="FormFirmware"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="1"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="..\SmartSetAdv2\u_key_service.pas"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos Y="4"/>
-        <UsageCount Value="16"/>
+        <EditorIndex Value="10"/>
+        <UsageCount Value="26"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="..\Common\u_file_service.pas"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="110"/>
-        <CursorPos X="5" Y="128"/>
-        <UsageCount Value="78"/>
-        <Loaded Value="True"/>
+        <Filename Value="..\SmartSetAdv2\u_key_service.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="72" Y="5"/>
+        <UsageCount Value="18"/>
       </Unit19>
       <Unit20>
-        <Filename Value="..\Common\u_kinesis_device.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="103"/>
-        <CursorPos X="14" Y="124"/>
-        <UsageCount Value="41"/>
+        <Filename Value="..\Common\u_file_service.pas"/>
+        <EditorIndex Value="13"/>
+        <CursorPos X="50" Y="279"/>
+        <UsageCount Value="100"/>
+        <Loaded Value="True"/>
       </Unit20>
       <Unit21>
+        <Filename Value="..\Common\u_kinesis_device.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="100"/>
+        <CursorPos X="25" Y="132"/>
+        <UsageCount Value="49"/>
+        <Loaded Value="True"/>
+      </Unit21>
+      <Unit22>
         <Filename Value="..\Common\u_form_settings.pas"/>
         <ComponentName Value="FormSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="257"/>
-        <CursorPos X="53" Y="275"/>
-        <UsageCount Value="70"/>
-      </Unit21>
-      <Unit22>
+        <TopLine Value="13"/>
+        <CursorPos X="47" Y="16"/>
+        <UsageCount Value="66"/>
+      </Unit22>
+      <Unit23>
         <Filename Value="..\Common\u_form_export.pas"/>
         <ComponentName Value="FormExport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="37"/>
-      </Unit22>
-      <Unit23>
-        <Filename Value="..\Common\u_key_layer.pas"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="17" Y="42"/>
-        <UsageCount Value="4"/>
+        <TopLine Value="46"/>
+        <CursorPos X="32" Y="33"/>
+        <UsageCount Value="31"/>
       </Unit23>
       <Unit24>
+        <Filename Value="..\Common\u_key_layer.pas"/>
+        <EditorIndex Value="15"/>
+        <TopLine Value="250"/>
+        <CursorPos X="3" Y="253"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit24>
+      <Unit25>
         <Filename Value="..\Common\u_form_intro.pas"/>
         <ComponentName Value="FormIntro"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="37"/>
-        <CursorPos X="53" Y="64"/>
+        <TopLine Value="11"/>
+        <CursorPos X="24" Y="11"/>
         <UsageCount Value="9"/>
-      </Unit24>
-      <Unit25>
+      </Unit25>
+      <Unit26>
         <Filename Value="C:\lazarus\lcl\graphics.pp"/>
         <UnitName Value="Graphics"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="550"/>
         <CursorPos X="55" Y="555"/>
-        <UsageCount Value="8"/>
-      </Unit25>
-      <Unit26>
+        <UsageCount Value="2"/>
+      </Unit26>
+      <Unit27>
         <Filename Value="..\Common\u_form_diagnostics.pas"/>
         <ComponentName Value="FormDiagnostics"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="1"/>
-      </Unit26>
-      <Unit27>
-        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\wininc\defines.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="4923"/>
-        <CursorPos X="13" Y="4940"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="34"/>
+        <CursorPos X="37" Y="40"/>
+        <UsageCount Value="8"/>
       </Unit27>
       <Unit28>
-        <Filename Value="C:\lazarus\lcl\lcltype.pp"/>
-        <UnitName Value="LCLType"/>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\wininc\defines.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="460"/>
-        <CursorPos X="3" Y="477"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="4249"/>
+        <CursorPos X="15" Y="4278"/>
+        <UsageCount Value="5"/>
       </Unit28>
       <Unit29>
+        <Filename Value="C:\lazarus\lcl\lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="419"/>
+        <CursorPos X="3" Y="437"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit29>
+      <Unit30>
         <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\sysutils.pp"/>
         <UnitName Value="SysUtils"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="38"/>
         <CursorPos X="18" Y="64"/>
-        <UsageCount Value="7"/>
-      </Unit29>
-      <Unit30>
-        <Filename Value="..\Common\u_common_ui.pas"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="94"/>
-        <CursorPos X="23" Y="112"/>
-        <UsageCount Value="65"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="1"/>
       </Unit30>
       <Unit31>
+        <Filename Value="..\Common\u_common_ui.pas"/>
+        <EditorIndex Value="11"/>
+        <CursorPos X="4" Y="24"/>
+        <UsageCount Value="93"/>
+        <Loaded Value="True"/>
+      </Unit31>
+      <Unit32>
         <Filename Value="C:\lazarus\lcl\stdctrls.pp"/>
         <UnitName Value="StdCtrls"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1574"/>
         <CursorPos X="14" Y="1588"/>
-        <UsageCount Value="7"/>
-      </Unit31>
-      <Unit32>
+        <UsageCount Value="1"/>
+      </Unit32>
+      <Unit33>
         <Filename Value="..\Components\CreoSource\labelbox.pas"/>
         <UnitName Value="LabelBox"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="103"/>
         <CursorPos X="43" Y="110"/>
-        <UsageCount Value="55"/>
-      </Unit32>
-      <Unit33>
+        <UsageCount Value="49"/>
+      </Unit33>
+      <Unit34>
         <Filename Value="C:\lazarus\lcl\include\picture.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="389"/>
         <CursorPos Y="407"/>
-        <UsageCount Value="7"/>
-      </Unit33>
-      <Unit34>
+        <UsageCount Value="1"/>
+      </Unit34>
+      <Unit35>
         <Filename Value="C:\lazarus\lcl\extctrls.pp"/>
         <UnitName Value="ExtCtrls"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="479"/>
         <CursorPos X="39" Y="497"/>
-        <UsageCount Value="7"/>
-      </Unit34>
-      <Unit35>
+        <UsageCount Value="1"/>
+      </Unit35>
+      <Unit36>
         <Filename Value="C:\lazarus\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1975"/>
         <CursorPos X="20" Y="1992"/>
-        <UsageCount Value="7"/>
-      </Unit35>
-      <Unit36>
+        <UsageCount Value="1"/>
+      </Unit36>
+      <Unit37>
         <Filename Value="C:\lazarus\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="137"/>
-        <CursorPos X="3" Y="155"/>
-        <UsageCount Value="7"/>
-      </Unit36>
-      <Unit37>
-        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\classes\classesh.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="205"/>
-        <CursorPos X="3" Y="217"/>
+        <TopLine Value="2014"/>
+        <CursorPos X="38" Y="2035"/>
         <UsageCount Value="7"/>
       </Unit37>
       <Unit38>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="311"/>
+        <CursorPos X="15" Y="328"/>
+        <UsageCount Value="8"/>
+      </Unit38>
+      <Unit39>
         <Filename Value="..\Components\bgrabitmap-master\bgrabitmap\unibitmapgeneric.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="17" Y="24"/>
-        <UsageCount Value="7"/>
-      </Unit38>
-      <Unit39>
+        <UsageCount Value="1"/>
+      </Unit39>
+      <Unit40>
         <Filename Value="..\Components\bgrabitmap-master\bgrabitmap\bgrawinbitmap.pas"/>
         <UnitName Value="BGRAWinBitmap"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="196"/>
         <CursorPos X="15" Y="42"/>
-        <UsageCount Value="9"/>
-      </Unit39>
-      <Unit40>
+        <UsageCount Value="3"/>
+      </Unit40>
+      <Unit41>
         <Filename Value="..\Components\bgrabitmap-master\bgrabitmap\bgradefaultbitmap.pas"/>
         <UnitName Value="BGRADefaultBitmap"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="306"/>
         <CursorPos X="15" Y="363"/>
-        <UsageCount Value="9"/>
-      </Unit40>
-      <Unit41>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1552"/>
-        <CursorPos X="55" Y="1563"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="3"/>
       </Unit41>
       <Unit42>
+        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1381"/>
+        <CursorPos X="25" Y="1413"/>
+        <UsageCount Value="7"/>
+      </Unit42>
+      <Unit43>
         <Filename Value="..\SmartSetRGB\u_form_intro.pas"/>
         <ComponentName Value="FormIntro"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="70"/>
-        <CursorPos X="25" Y="90"/>
-        <UsageCount Value="52"/>
-      </Unit42>
-      <Unit43>
+        <CursorPos X="54" Y="5"/>
+        <UsageCount Value="46"/>
+      </Unit43>
+      <Unit44>
         <Filename Value="..\Common\u_form_timingdelays.pas"/>
         <ComponentName Value="FormTimingDelays"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="1"/>
-      </Unit43>
-      <Unit44>
+        <TopLine Value="49"/>
+        <CursorPos X="39" Y="86"/>
+        <UsageCount Value="11"/>
+      </Unit44>
+      <Unit45>
         <Filename Value="..\Common\u_form_tapandhold.pas"/>
         <ComponentName Value="FormTapAndHold"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="1"/>
-      </Unit44>
-      <Unit45>
+        <TopLine Value="89"/>
+        <CursorPos X="35" Y="118"/>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
         <Filename Value="C:\lazarus\lcl\include\customimage.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="28"/>
         <CursorPos Y="46"/>
-        <UsageCount Value="7"/>
-      </Unit45>
-      <Unit46>
-        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="2160"/>
-        <CursorPos Y="2178"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="1"/>
       </Unit46>
       <Unit47>
+        <Filename Value="C:\lazarus\lcl\include\customform.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="663"/>
+        <CursorPos Y="681"/>
+        <UsageCount Value="7"/>
+      </Unit47>
+      <Unit48>
         <Filename Value="..\SmartSetFSEdgePro\u_file_service.pas.old.pas"/>
         <UnitName Value="u_file_service"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="147"/>
         <CursorPos X="40" Y="159"/>
-        <UsageCount Value="7"/>
-      </Unit47>
-      <Unit48>
-        <Filename Value="..\Components\CreoSource\colorspeedbuttoncs.pas"/>
-        <UnitName Value="ColorSpeedButtonCS"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="49"/>
-        <CursorPos X="24" Y="199"/>
-        <UsageCount Value="9"/>
-        <Bookmarks Count="1">
-          <Item0 X="20" Y="549" ID="9"/>
-        </Bookmarks>
+        <UsageCount Value="1"/>
       </Unit48>
       <Unit49>
+        <Filename Value="..\Components\CreoSource\colorspeedbuttoncs.pas"/>
+        <UnitName Value="ColorSpeedButtonCS"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="628"/>
+        <CursorPos X="14" Y="649"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit49>
+      <Unit50>
         <Filename Value="..\Components\bgracontrols-master\bgraspeedbutton.pas"/>
         <UnitName Value="BGRASpeedButton"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="61"/>
-        <CursorPos X="22" Y="90"/>
-        <UsageCount Value="9"/>
+        <TopLine Value="17"/>
+        <CursorPos X="50" Y="24"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit49>
-      <Unit50>
+      </Unit50>
+      <Unit51>
         <Filename Value="C:\lazarus\lcl\buttons.pp"/>
         <UnitName Value="Buttons"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="458"/>
-        <CursorPos X="3" Y="413"/>
+        <TopLine Value="32"/>
+        <CursorPos X="3" Y="51"/>
         <UsageCount Value="7"/>
-      </Unit50>
-      <Unit51>
+      </Unit51>
+      <Unit52>
         <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\objpas.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="313"/>
         <CursorPos Y="331"/>
-        <UsageCount Value="10"/>
-      </Unit51>
+        <UsageCount Value="4"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="..\Common\u_form_multimodifiers.pas"/>
+        <ComponentName Value="FormMultimodifiers"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="80"/>
+        <CursorPos X="3" Y="54"/>
+        <UsageCount Value="16"/>
+        <Loaded Value="True"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="..\Common\u_base_form.pas"/>
+        <ComponentName Value="BaseForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="30" Y="6"/>
+        <UsageCount Value="7"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="..\Common\userdialog.pas"/>
+        <ComponentName Value="FormUserDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="UserDialog"/>
+        <EditorIndex Value="17"/>
+        <TopLine Value="86"/>
+        <CursorPos Y="99"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="..\Common\infodialog.pas"/>
+        <ComponentName Value="FormInfoDialog"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="InfoDialog"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="15"/>
+        <CursorPos X="13" Y="33"/>
+        <UsageCount Value="7"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="..\Common\eject_usb.pas"/>
+        <UnitName Value="Eject_USB"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="5"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="..\SmartSetMaster\u_form_scanvdrive.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="41" Y="9"/>
+        <UsageCount Value="6"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="..\SmartSetRGB\u_form_diagnostics.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="36" Y="8"/>
+        <UsageCount Value="6"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="..\SmartSetRGB\u_form_expansion.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="68" Y="5"/>
+        <UsageCount Value="6"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="..\SmartSetRGB\u_form_load.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="78"/>
+        <CursorPos X="29" Y="107"/>
+        <UsageCount Value="6"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="..\SmartSetRGB\u_form_macro.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="47" Y="12"/>
+        <UsageCount Value="6"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="..\SmartSetRGB\u_form_saveas.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="84"/>
+        <CursorPos X="13" Y="115"/>
+        <UsageCount Value="6"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="..\SmartSetRGB\u_form_troubleshoot.pas"/>
+        <ComponentName Value="FormTroubleshoot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="40" Y="14"/>
+        <UsageCount Value="6"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="..\Common\u_form_color.pas"/>
+        <ComponentName Value="FormColorSelect"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="118"/>
+        <CursorPos X="52" Y="141"/>
+        <UsageCount Value="17"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\win\wininc\base.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="34"/>
+        <UsageCount Value="6"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="C:\lazarus\lcl\menus.pp"/>
+        <UnitName Value="Menus"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="411"/>
+        <CursorPos X="15" Y="430"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="C:\lazarus\lcl\include\canvas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1580"/>
+        <CursorPos X="96" Y="1590"/>
+        <UsageCount Value="6"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="C:\lazarus\lcl\include\wincontrol.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6504"/>
+        <CursorPos Y="6522"/>
+        <UsageCount Value="6"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="..\Common\u_form_about_office.pas"/>
+        <ComponentName Value="FormAboutOffice"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="34"/>
+        <CursorPos Y="60"/>
+        <UsageCount Value="31"/>
+        <Loaded Value="True"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="..\Common\u_form_loading.pas"/>
+        <ComponentName Value="FormLoading"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos X="43" Y="38"/>
+        <UsageCount Value="7"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="..\Common\u_form_settings_master.pas"/>
+        <ComponentName Value="FormSettingsMaster"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="98" Y="14"/>
+        <UsageCount Value="7"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="..\Common\u_form_troubleshoot.pas"/>
+        <ComponentName Value="FormTroubleshoot"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="16"/>
+        <TopLine Value="36"/>
+        <CursorPos X="6" Y="65"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="..\SmartSetAdv360\u_form_settings_adv360.pas"/>
+        <ComponentName Value="FormSettingsAdv360"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="39" Y="6"/>
+        <UsageCount Value="12"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
+        <UnitName Value="Dialogs"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="31"/>
+        <CursorPos X="3" Y="49"/>
+        <UsageCount Value="7"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="C:\lazarus\lcl\include\speedbutton.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1194"/>
+        <CursorPos X="17" Y="1188"/>
+        <UsageCount Value="7"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\classes\lists.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="731"/>
+        <CursorPos X="3" Y="734"/>
+        <UsageCount Value="8"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\objpas\sysutils\sysstrh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="220"/>
+        <CursorPos X="10" Y="238"/>
+        <UsageCount Value="9"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="C:\lazarus\fpc\3.2.0\source\rtl\inc\ustringh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="126"/>
+        <CursorPos X="10" Y="150"/>
+        <UsageCount Value="11"/>
+      </Unit79>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="4147" Column="3" TopLine="4144"/>
+        <Caret Line="510" Column="15" TopLine="493"/>
       </Position1>
       <Position2>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="4175" Column="34" TopLine="4146"/>
+        <Caret Line="2079" Column="20" TopLine="2067"/>
       </Position2>
       <Position3>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
+        <Caret Line="689" Column="15" TopLine="672"/>
       </Position3>
       <Position4>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="23" Column="18"/>
+        <Caret Line="4969" Column="3" TopLine="4963"/>
       </Position4>
       <Position5>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1269" Column="68" TopLine="1240"/>
       </Position5>
       <Position6>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1506" Column="6" TopLine="1477"/>
+        <Caret Line="47" Column="12" TopLine="17"/>
       </Position6>
       <Position7>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="4163" Column="24" TopLine="4156"/>
+        <Caret Line="1454" Column="17" TopLine="1424"/>
       </Position7>
       <Position8>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
+        <Caret Line="6231" Column="52" TopLine="6214"/>
       </Position8>
       <Position9>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="23" Column="18"/>
+        <Caret Line="4763" Column="5" TopLine="4744"/>
       </Position9>
       <Position10>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1269" Column="68" TopLine="1240"/>
+        <Caret Line="1582" Column="16" TopLine="1565"/>
       </Position10>
       <Position11>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1502" Column="45" TopLine="1495"/>
+        <Caret Line="607" Column="33" TopLine="590"/>
       </Position11>
       <Position12>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="398" Column="15" TopLine="381"/>
+        <Caret Line="4971" Column="25" TopLine="4950"/>
       </Position12>
       <Position13>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="3842" Column="50" TopLine="3833"/>
+        <Caret Line="567" Column="19" TopLine="551"/>
       </Position13>
       <Position14>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="4135" TopLine="4117"/>
+        <Caret Line="632" Column="33" TopLine="604"/>
       </Position14>
       <Position15>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="23" Column="18" TopLine="5"/>
+        <Caret Line="1080" Column="21" TopLine="1051"/>
       </Position15>
       <Position16>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1269" Column="68" TopLine="1240"/>
+        <Caret Line="1338" Column="28" TopLine="1308"/>
       </Position16>
       <Position17>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1504" Column="14" TopLine="1486"/>
+        <Caret Line="1440" Column="45" TopLine="1410"/>
       </Position17>
       <Position18>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="613" Column="15" TopLine="597"/>
+        <Caret Line="1444" Column="33" TopLine="1418"/>
       </Position18>
       <Position19>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1604" Column="28" TopLine="1595"/>
+        <Caret Line="6236" Column="52" TopLine="6219"/>
       </Position19>
       <Position20>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="400" Column="15" TopLine="383"/>
+        <Caret Line="4973" Column="21" TopLine="4952"/>
       </Position20>
       <Position21>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1640" Column="3" TopLine="1705"/>
+        <Caret Line="4969" Column="49" TopLine="4952"/>
       </Position21>
       <Position22>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="4135" TopLine="4117"/>
+        <Caret Line="4971" Column="31" TopLine="4952"/>
       </Position22>
       <Position23>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1503" Column="49" TopLine="1485"/>
       </Position23>
       <Position24>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="613" Column="15" TopLine="597"/>
+        <Caret Line="567" Column="19" TopLine="539"/>
       </Position24>
       <Position25>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1604" Column="31" TopLine="1595"/>
+        <Caret Line="632" Column="33" TopLine="604"/>
       </Position25>
       <Position26>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="400" Column="46" TopLine="383"/>
+        <Caret Line="1080" Column="21" TopLine="1051"/>
       </Position26>
       <Position27>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1729" Column="22" TopLine="1706"/>
+        <Caret Line="1338" Column="28" TopLine="1308"/>
       </Position27>
       <Position28>
-        <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="1510" Column="14" TopLine="1485"/>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="993" Column="20" TopLine="991"/>
       </Position28>
       <Position29>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="2642" Column="14" TopLine="2613"/>
+        <Caret Line="4970" Column="44" TopLine="4953"/>
       </Position29>
       <Position30>
         <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <Caret Line="42" Column="16" TopLine="25"/>
+        <Caret Line="4783" TopLine="4780"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -589,8 +840,8 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="..\Common\u_file_service.pas"/>
-        <Line Value="548"/>
+        <Source Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
+        <Line Value="5600"/>
       </Item1>
     </BreakPoints>
     <Watches Count="1">

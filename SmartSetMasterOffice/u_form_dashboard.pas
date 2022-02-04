@@ -18,9 +18,12 @@ type
   { TFormDashboard }
 
   TFormDashboard = class(TForm)
+    btnGetHelpAdv360Pro: TColorSpeedButtonCS;
     btnCheckUpdatesConnected2: TColorSpeedButtonCS;
     btnCheckUpdatesConnected3: TColorSpeedButtonCS;
     btnCheckUpdatesConnected4: TColorSpeedButtonCS;
+    btnCheckUpdatesConnected5: TColorSpeedButtonCS;
+    btnCheckUpdatesConnected6: TColorSpeedButtonCS;
     btnEject2: TColorSpeedButtonCS;
     btnEject3: TColorSpeedButtonCS;
     btnEject4: TColorSpeedButtonCS;
@@ -28,14 +31,23 @@ type
     btnOpenApp2: TColorSpeedButtonCS;
     btnOpenApp3: TColorSpeedButtonCS;
     btnOpenApp4: TColorSpeedButtonCS;
+    btnOpenApp5: TColorSpeedButtonCS;
+    btnOpenApp6: TColorSpeedButtonCS;
+    btnAccessWebsite: TColorSpeedButtonCS;
     btnWatchTutorial2: TColorSpeedButtonCS;
     btnWatchTutorial3: TColorSpeedButtonCS;
     btnWatchTutorial4: TColorSpeedButtonCS;
+    btnWatchTutorial5: TColorSpeedButtonCS;
+    btnWatchTutorial6: TColorSpeedButtonCS;
+    imgApp5: TImage;
+    imgApp6: TImage;
     imgEject1: TImage;
     imgClose: TImage;
     imgEject2: TImage;
     imgEject3: TImage;
     imgEject4: TImage;
+    imgEject5: TImage;
+    imgEject6: TImage;
     imgListButtons: TImageList;
     imgMaximize: TImage;
     imgMinimize: TImage;
@@ -45,9 +57,13 @@ type
     lblAppName2: TLabel;
     lblAppName3: TLabel;
     lblAppName4: TLabel;
+    lblAppName5: TLabel;
+    lblAppName6: TLabel;
     lblConnApp2: TLabel;
     lblConnApp3: TLabel;
     lblConnApp4: TLabel;
+    lblConnApp5: TLabel;
+    lblConnApp6: TLabel;
     lblDemoMode: TLabel;
     lblHelp: TLabel;
     btnEject1: TColorSpeedButtonCS;
@@ -68,6 +84,8 @@ type
     lblProfileApp2: TLabel;
     lblProfileApp3: TLabel;
     lblProfileApp4: TLabel;
+    lblProfileApp5: TLabel;
+    lblProfileApp6: TLabel;
     lblSettings: TLabel;
     Label3: TLabel;
     lblAppName1: TLabel;
@@ -79,10 +97,13 @@ type
     pnlApp2: TPanel;
     pnlApp3: TPanel;
     pnlApp4: TPanel;
+    pnlApp5: TPanel;
+    pnlApp6: TPanel;
     pnlMain: TPanel;
     pnlTop: TPanel;
     tmrCheckConnected: TTimer;
     tmrLoadForms: TTimer;
+    procedure btnAccessWebsiteClick(Sender: TObject);
     procedure btnCheckUpdatesConnectedClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure btnEjectMouseDown(Sender: TObject; Button: TMouseButton;
@@ -92,6 +113,7 @@ type
     procedure btnEjectMouseEnter(Sender: TObject);
     procedure btnEjectMouseLeave(Sender: TObject);
     procedure btnEjectClick(Sender: TObject);
+    procedure btnGetHelpAdv360ProClick(Sender: TObject);
     procedure btnMaximizeClick(Sender: TObject);
     procedure btnMinimizeClick(Sender: TObject);
     procedure btnOpenAppClick(Sender: TObject);
@@ -125,7 +147,7 @@ type
   private
     fontColor: TColor;
     backColor: TColor;
-    blueColor: TColor;
+    activeColor: TColor;
     cusWindowState: TCusWinState;
     deviceList: TDeviceList;
     closing: boolean;
@@ -159,7 +181,7 @@ var
   procedure SetVDriveState(state: boolean);
 
 const
-  MAX_DEVICES = 1;
+  MAX_DEVICES = 2;
   MM_MAX_NUMAXES = 16;
   NORMAL_HEIGHT = 850;
   NORMAL_WIDTH = 1550;
@@ -307,7 +329,7 @@ end;
 procedure TFormDashboard.Init;
 begin
   //Set colors also check if DarkTheme is enabled on OS
-  blueColor := KINESIS_BLUE;
+  activeColor := KINESIS_GREEN_OFFICE;
   if (IsDarkTheme) then
   begin
     fontColor := clWhite;
@@ -359,6 +381,12 @@ begin
   aDevice.VersionFolder := VERSION_FOLDER_ADV360;
   aDevice.SettingsFile := ADV360_SETTINGS_FILE;
   //todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
+  deviceList.Add(aDevice);
+
+  aDevice := TDevice.Create;
+  aDevice.DeviceName := 'ADVANTAGE360 PROFESSIONAL';
+  aDevice.DeviceNumber := APPL_ADV360PRO;
+  aDevice.Programmable := false;
   deviceList.Add(aDevice);
 
   //aDevice := TDevice.Create;
@@ -449,16 +477,25 @@ begin
       appProfileLabel.Caption := '';
       appOpenBtn.Caption := 'Demo Mode';
       appEjectBtn.Visible := false;
+      appOpenBtn.Visible := true;
       appCheckUpdBtn.Caption := 'Scan for v-Drive';
       appCheckUpdBtn.Hint := aDevice.ScanVDriveHint;
 
       if (aDevice <> nil) then
       begin
         //Gets device info
-        GetDeviceInformation(aDevice);
+        if (aDevice.Programmable) then
+          GetDeviceInformation(aDevice);
 
         appNameLabel.Caption := aDevice.DeviceName;
-        if (aDevice.FutureDevice) then
+        if (not aDevice.Programmable) then
+        begin
+          appOpenBtn.Visible := false;
+          appCheckUpdBtn.Visible := false;
+          appEjectBtn.Visible := false;
+          appWatchTutoBtn.Visible := false;
+        end
+        else if (aDevice.FutureDevice) then
         begin
           appOpenBtn.Caption := 'Learn More';
           appConnLabel.Caption := 'Coming Soon';
@@ -630,7 +667,7 @@ begin
       device := deviceList.Items[idx - 1];
       if (device.Connected) and (device.ReadWriteAccess) then
       begin
-        ShowFirmware(device, backColor, fontColor);
+        ShowFirmware(device, backColor, fontColor, activeColor);
       end
       else
       begin
@@ -646,6 +683,17 @@ begin
     button.Enabled := true;
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure TFormDashboard.btnAccessWebsiteClick(Sender: TObject);
+begin
+  OpenUrl('https://polarityworks.github.io/keymap-editor/');
+end;
+
+
+procedure TFormDashboard.btnGetHelpAdv360ProClick(Sender: TObject);
+begin
+  OpenUrl('https://kinesis-ergo.com/support/advantage360-pro');
 end;
 
 procedure TFormDashboard.LoadAppForms;
@@ -957,11 +1005,11 @@ end;
 
 procedure TFormDashboard.ResetToHome;
 begin
-  //Hide logos
-  //imgAppLogoAdv360.Visible := false;
   try
     returningToHome := true;
 
+    //Hide logos
+    imgAppLogoAdv360.Visible := false;
     imgAppLogoFsPro.Visible := false;
 
     SetSelectedMenu(lblHome);
@@ -1072,18 +1120,18 @@ end;
 
 procedure TFormDashboard.ButtonMouseEnter(Sender: TObject);
 begin
-// (Sender as TColorSpeedButtonCS).Font.Color := blueColor;
+// (Sender as TColorSpeedButtonCS).Font.Color := activeColor;
 end;
 
 procedure TFormDashboard.ButtonMouseLeave(Sender: TObject);
 begin
-//     (Sender as TColorSpeedButtonCS).Font.Color := fontColor;
+//     (Sender as TColorSpeedButtonCS).Font.Color := activeColor;
 end;
 
 procedure TFormDashboard.ButtonMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
-//     (Sender as TColorSpeedButtonCS).Font.Color := blueColor;
+//     (Sender as TColorSpeedButtonCS).Font.Color := activeColor;
 end;
 
 procedure TFormDashboard.FormActivate(Sender: TObject);

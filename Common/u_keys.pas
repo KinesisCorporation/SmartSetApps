@@ -69,11 +69,13 @@ type
     FCoTrigger1: TKey;
     FCoTrigger2: TKey;
     FCoTrigger3: TKey;
+    FCoTrigger4: TKey;
     FMacroSpeed: integer;
     FMacroRptFreq: integer;
   protected
     function GetItem(index: integer): TKey;
     procedure SetItem(Index: integer; AObject: TKey);
+    function GetCountCoTriggers: integer;
   public
     constructor Create;
     destructor Destroy; override;
@@ -88,8 +90,10 @@ type
     property CoTrigger1: TKey read FCoTrigger1 write FCoTrigger1;
     property CoTrigger2: TKey read FCoTrigger2 write FCoTrigger2;
     property CoTrigger3: TKey read FCoTrigger3 write FCoTrigger3;
+    property CoTrigger4: TKey read FCoTrigger4 write FCoTrigger4;
     property MacroSpeed: integer read FMacroSpeed write FMacroSpeed;
     property MacroRptFreq: integer read FMacroRptFreq write FMacroRptFreq;
+    property CountCoTriggers: integer read GetCountCoTriggers;
   end;
 
 implementation
@@ -189,6 +193,19 @@ begin
   end;
 end;
 
+function TKeyList.GetCountCoTriggers: integer;
+begin
+  result := 0;
+  if (CoTrigger1 <> nil) then
+    inc(result);
+  if (CoTrigger2 <> nil) then
+    inc(result);
+  if (CoTrigger3 <> nil) then
+    inc(result);
+  if (CoTrigger4 <> nil) then
+    inc(result);
+end;
+
 constructor TKeyList.Create;
 begin
   inherited Create;
@@ -216,6 +233,8 @@ begin
     FreeAndNil(FCoTrigger2);
   if (FCoTrigger3 <> nil) then
     FreeAndNil(FCoTrigger3);
+  if (FCoTrigger4 <> nil) then
+    FreeAndNil(FCoTrigger4);
   inherited Destroy;
 end;
 
@@ -241,6 +260,7 @@ begin
     self.FCoTrigger1 := aKeyList.FCoTrigger1.CopyKey;
     self.FCoTrigger2 := aKeyList.FCoTrigger2.CopyKey;
     self.FCoTrigger3 := aKeyList.FCoTrigger3.CopyKey;
+    self.FCoTrigger4 := aKeyList.FCoTrigger4.CopyKey;
     self.FMacroIdx := aKeyList.FMacroIdx;
     self.FMacroSpeed := aKeyList.FMacroSpeed;
     self.FMacroRptFreq := aKeyList.FMacroRptFreq;

@@ -1796,7 +1796,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_3), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_4), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_5), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_6), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_7), 9));
@@ -1835,7 +1835,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SEMI_COMMA), 40));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
@@ -1846,9 +1846,9 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 50));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 51));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 54));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -1859,10 +1859,10 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
@@ -1893,7 +1893,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_3), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_4), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_5), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_TOGGLE), 6));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_6), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMLOCK), 9));
@@ -1932,7 +1932,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_ADD), 40));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
@@ -1943,9 +1943,9 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD2), 50));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD3), 51));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPADENTER), 52));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 54));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -1956,10 +1956,10 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
@@ -1990,7 +1990,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9));
@@ -2029,7 +2029,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SEMI_COMMA), 40));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
@@ -2040,9 +2040,9 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 50));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 51));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2053,10 +2053,10 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
@@ -2087,7 +2087,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9));
@@ -2126,7 +2126,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SEMI_COMMA), 40));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
@@ -2137,9 +2137,9 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 50));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 51));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2150,10 +2150,10 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
@@ -2184,7 +2184,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9));
@@ -2223,7 +2223,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SEMI_COMMA), 40));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_QUOTE), 41));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LSHIFT), 42));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_Z), 43));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_X), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_C), 45));
@@ -2234,9 +2234,9 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_COMMA), 50));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_POINT), 51));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_SLASH), 52));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RSHIFT), 53));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54, false, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 54));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_TILDE), 55));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 56));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LEFT), 57));
@@ -2247,10 +2247,10 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63));
 
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65, true, false));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66, true, false)); //Right win ?
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67, true, false));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LMENU), 65));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 66)); //Right win ?
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RCONTROL), 67));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BACK), 68));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DELETE), 69));
@@ -2843,7 +2843,7 @@ begin
             end;
           end;
 
-          //Loads active Macro (max of 3)
+          //Loads active Macro
           if (aKBKey <> nil) then
           begin
             if (aKBKey.Macro1.Count = 0) then
@@ -2851,7 +2851,11 @@ begin
             else if (aKBKey.Macro2.Count = 0) then
               activeMacro := aKBKey.Macro2
             else if (aKBKey.Macro3.Count = 0) then
-              activeMacro := aKBKey.Macro3;
+              activeMacro := aKBKey.Macro3
+            else if (aKBKey.Macro4.Count = 0) then
+              activeMacro := aKBKey.Macro4
+            else if (aKBKey.Macro5.Count = 0) then
+              activeMacro := aKBKey.Macro5;
           end;
 
           //If kbKey and activeMacro, load values
@@ -3024,8 +3028,12 @@ begin
             aMacro := aKbKey.Macro1
           else if (mIdx = 2) then
             aMacro := aKbKey.Macro2
+          else if (mIdx = 3) then
+            aMacro := aKbKey.Macro3
+          else if (mIdx = 4) then
+            aMacro := aKbKey.Macro4
           else
-            aMacro := aKbKey.Macro3;
+            aMacro := aKbKey.Macro5;
 
           //Skip if macro has no keys
           if (aMacro.Count <= 0) then
@@ -3216,18 +3224,18 @@ begin
 
       if (IsGen2Device(GApplication)) then
       begin
-        if (UpperCase(currentLine).StartsWith(LAYER_PREFIX)) then
+        if (currentLine.StartsWith(ADV360_LAYER_PREFIX) and currentLine.EndsWith(ADV360_LAYER_SUFFIX)) then
         begin
-          tempText := UpperCase(Copy(currentLine, Length(LAYER_PREFIX) + 1, Length(currentLine)));
-          if (tempText = TEXT_LAYER_DEFAULT) then
+          //tempText := UpperCase(Copy(currentLine, Length(LAYER_PREFIX) + 1, Length(currentLine)));
+          if (currentLine = TEXT_LAYER_DEFAULT) then
             curLayerIdx := LAYER_BASE_360
-          else if (tempText = TEXT_LAYER_KP) then
+          else if (currentLine = TEXT_LAYER_KP) then
             curLayerIdx := LAYER_KEYPAD_360
-          else if (tempText = TEXT_LAYER_FN1) then
+          else if (currentLine = TEXT_LAYER_FN1) then
             curLayerIdx := LAYER_FN1_360
-          else if (tempText = TEXT_LAYER_FN2) then
+          else if (currentLine = TEXT_LAYER_FN2) then
             curLayerIdx := LAYER_FN2_360
-          else if (tempText = TEXT_LAYER_FN3) then
+          else if (currentLine = TEXT_LAYER_FN3) then
             curLayerIdx := LAYER_FN3_360;
         end;
         layerIdx := curLayerIdx;
@@ -3356,7 +3364,7 @@ begin
             end;
           end;
 
-          //Loads active Macro (max of 3)
+          //Loads active Macro
           if (aKBKey <> nil) then
           begin
             if (aKBKey.Macro1.Count = 0) then
@@ -3364,7 +3372,11 @@ begin
             else if (aKBKey.Macro2.Count = 0) then
               activeMacro := aKBKey.Macro2
             else if (aKBKey.Macro3.Count = 0) then
-              activeMacro := aKBKey.Macro3;
+              activeMacro := aKBKey.Macro3
+            else if (aKBKey.Macro4.Count = 0) then
+              activeMacro := aKBKey.Macro4
+            else if (aKBKey.Macro5.Count = 0) then
+              activeMacro := aKBKey.Macro5;
           end;
 
           //If kbKey and activeMacro, load values
@@ -3374,6 +3386,12 @@ begin
 
             if (aCoTriggers.Count >= 1) then
               activeMacro.CoTrigger1 := aCoTriggers[0].CopyKey;
+            if (aCoTriggers.Count >= 2) then
+              activeMacro.CoTrigger2 := aCoTriggers[1].CopyKey;
+            if (aCoTriggers.Count >= 3) then
+              activeMacro.CoTrigger3 := aCoTriggers[2].CopyKey;
+            if (aCoTriggers.Count >= 4) then
+              activeMacro.CoTrigger4 := aCoTriggers[3].CopyKey;
 
             activeMacro.MacroSpeed := -1;
             activeMacro.MacroRptFreq := -1;
@@ -3405,6 +3423,13 @@ begin
                   activeMacro.MacroSpeed := tempInt
                 else
                   activeMacro.MacroSpeed := DEFAULT_MACRO_SPEED_RGB;
+
+                //Check minimum multiplay for each device
+                if (GActiveDevice.DeviceNumber = APPL_ADV360) then
+                begin
+                  if (activeMacro.MacroSpeed < MACRO_SPEED_MIN_ADV360) then
+                    activeMacro.MacroSpeed := MACRO_SPEED_MIN_ADV360;
+                end;
               end
               else if (activeMacro.Count = 0) and
                 (Length(sKey) > 1) and
@@ -3416,6 +3441,13 @@ begin
                   activeMacro.MacroRptFreq := tempInt
                 else
                   activeMacro.MacroRptFreq := DEFAULT_MACRO_FREQ_RGB;
+
+                //Check minimum multiplay for each device
+                if (GActiveDevice.DeviceNumber = APPL_ADV360) then
+                begin
+                  if (activeMacro.MacroRptFreq < MACRO_FREQ_MIN_ADV360) then
+                    activeMacro.MacroRptFreq := MACRO_FREQ_MIN_ADV360;
+                end;
               end
               else
               begin
@@ -3705,9 +3737,9 @@ begin
   begin
     ledInd := FLedIndicators[indIdx];
     indStr := '[IND' + IntToStr(indIdx + 1) + ']>';
-    if (ledInd.FnToken = ifGameMode) then
-      layoutContent.Add(indStr + '[game]' + RGBColorToString(ledInd.IndColor[0], true))
-    else if (ledInd.FnToken = ifNKRO) then
+    //if (ledInd.FnToken = ifGameMode) then
+    //  layoutContent.Add(indStr + '[game]' + RGBColorToString(ledInd.IndColor[0], true))
+    if (ledInd.FnToken = ifNKRO) then
       layoutContent.Add(indStr + '[nkro]' + RGBColorToString(ledInd.IndColor[0], true))
     else if (ledInd.FnToken = ifScrollLock) then
       layoutContent.Add(indStr + '[sclk]' + RGBColorToString(ledInd.IndColor[0], true))
@@ -4588,11 +4620,11 @@ var
       ledInd.FnToken := ifNKRO;
       Delete(valueText, 1, 6);
     end
-    else if (pos('[game]', valueText) <> 0) then
-    begin
-      ledInd.FnToken := ifGameMode;
-      Delete(valueText, 1, 6);
-    end
+    //else if (pos('[game]', valueText) <> 0) then
+    //begin
+    //  ledInd.FnToken := ifGameMode;
+    //  Delete(valueText, 1, 6);
+    //end
     else if (pos('[prof]', valueText) <> 0) then
     begin
       ledInd.FnToken := ifProfile;
@@ -9169,7 +9201,7 @@ begin
             end;
           end;
 
-          //Loads active Macro (max of 3)
+          //Loads active Macro
           if (aKBKey <> nil) then
           begin
             if (aKBKey.Macro1.Count = 0) then
@@ -9177,7 +9209,11 @@ begin
             else if (aKBKey.Macro2.Count = 0) then
               activeMacro := aKBKey.Macro2
             else if (aKBKey.Macro3.Count = 0) then
-              activeMacro := aKBKey.Macro3;
+              activeMacro := aKBKey.Macro3
+            else if (aKBKey.Macro4.Count = 0) then
+              activeMacro := aKBKey.Macro4
+            else if (aKBKey.Macro5.Count = 0) then
+              activeMacro := aKBKey.Macro5;
           end;
 
           //If kbKey and activeMacro, load values
@@ -9300,15 +9336,15 @@ var
   function GetLayerHeader(idx: integer): string;
   begin
     if (idx = LAYER_BASE_360) then
-      result := LAYER_PREFIX + TEXT_LAYER_DEFAULT
+      result := TEXT_LAYER_DEFAULT
     else if (idx = LAYER_KEYPAD_360) then
-      result := LAYER_PREFIX + TEXT_LAYER_KP
+      result := TEXT_LAYER_KP
     else if (idx = LAYER_FN1_360) then
-      result := LAYER_PREFIX + TEXT_LAYER_FN1
+      result := TEXT_LAYER_FN1
     else if (idx = LAYER_FN2_360) then
-      result := LAYER_PREFIX + TEXT_LAYER_FN2
+      result := TEXT_LAYER_FN2
     else if (idx = LAYER_FN3_360) then
-      result := LAYER_PREFIX + TEXT_LAYER_FN3
+      result := TEXT_LAYER_FN3
     else
       result := '';
   end;
@@ -9372,8 +9408,12 @@ begin
             aMacro := aKbKey.Macro1
           else if (mIdx = 2) then
             aMacro := aKbKey.Macro2
+          else if (mIdx = 3) then
+            aMacro := aKbKey.Macro3
+          else if (mIdx = 4) then
+            aMacro := aKbKey.Macro4
           else
-            aMacro := aKbKey.Macro3;
+            aMacro := aKbKey.Macro5;
 
           //Skip if macro has no keys
           if (aMacro.Count <= 0) then
@@ -9385,6 +9425,12 @@ begin
           //Add the co-triggers first
           if (aMacro.CoTrigger1 <> nil) then
             lineText := lineText + '{' + aMacro.CoTrigger1.SaveValue + '}';
+          if (aMacro.CoTrigger2 <> nil) then
+            lineText := lineText + '{' + aMacro.CoTrigger2.SaveValue + '}';
+          if (aMacro.CoTrigger3 <> nil) then
+            lineText := lineText + '{' + aMacro.CoTrigger3.SaveValue + '}';
+          if (aMacro.CoTrigger4 <> nil) then
+            lineText := lineText + '{' + aMacro.CoTrigger4.SaveValue + '}';
 
           //Add the modified key
           lineText := lineText + '{' + aKbKey.OriginalKey.SaveValue + '}';
@@ -9546,8 +9592,12 @@ begin
             aMacro := aKbKey.Macro1
           else if (mIdx = 2) then
             aMacro := aKbKey.Macro2
+          else if (mIdx = 3) then
+            aMacro := aKbKey.Macro3
+          else if (mIdx = 4) then
+            aMacro := aKbKey.Macro4
           else
-            aMacro := aKbKey.Macro3;
+            aMacro := aKbKey.Macro5;
 
           //Skip if macro has no keys
           if (aMacro.Count <= 0) then
@@ -9977,13 +10027,16 @@ var
   begin
     result := false;
 
-    for i := 1 to 3 do
+    for i := 1 to 4 do
     begin
       case i of
        1 : if (aKeyList.CoTrigger1 <> nil) then result := key1 = aKeyList.CoTrigger1.Key;
        2 : if (aKeyList.CoTrigger2 <> nil) then result := key1 = aKeyList.CoTrigger2.Key;
        3 : if (aKeyList.CoTrigger3 <> nil) then result := key1 = aKeyList.CoTrigger3.Key;
+       4 : if (aKeyList.CoTrigger4 <> nil) then result := key1 = aKeyList.CoTrigger4.Key;
       end;
+      if (result) then
+         break;
     end;
   end;
 
@@ -9995,19 +10048,25 @@ var
 
     if (aKeyList1.Count > 0) and (aKeyList2.Count > 0) then
     begin
-      for i := 1 to 3 do
+      //First check if all co-triggers from list one are in list 2
+      for i := 1 to 4 do
       begin
         case i of
          1 : if (aKeyList1.CoTrigger1 <> nil) then result := CompareKey(aKeyList1.CoTrigger1.Key, aKeyList2);
          2 : if (aKeyList1.CoTrigger2 <> nil) then result := CompareKey(aKeyList1.CoTrigger2.Key, aKeyList2);
          3 : if (aKeyList1.CoTrigger3 <> nil) then result := CompareKey(aKeyList1.CoTrigger3.Key, aKeyList2);
+         4 : if (aKeyList1.CoTrigger4 <> nil) then result := CompareKey(aKeyList1.CoTrigger4.Key, aKeyList2);
         end;
       end;
 
+      //If true, check they are the same amount of co-triggers
+      if (result) then
+        result := (aKeyList1.CountCoTriggers = aKeyList2.CountCoTriggers);
+
+      //Finally, check if both have 0 co-triggers
       if (not result) then
       begin
-        result := (aKeyList1.CoTrigger1 = nil) and (aKeyList1.CoTrigger2 = nil) and (aKeyList1.CoTrigger3 = nil) and
-          (aKeyList2.CoTrigger1 = nil) and (aKeyList2.CoTrigger2 = nil) and (aKeyList2.CoTrigger3 = nil);
+        result := (aKeyList1.CountCoTriggers = 0) and (aKeyList2.CountCoTriggers = 0);
       end;
     end;
   end;
@@ -10020,7 +10079,14 @@ begin
   begin
     coTriggersOk := (not CompareTriggers(aKey.Macro1, aKey.Macro2)) and
       (not CompareTriggers(aKey.Macro1, aKey.Macro3)) and
-      (not CompareTriggers(aKey.Macro2, aKey.Macro3));
+      (not CompareTriggers(aKey.Macro1, aKey.Macro4)) and
+      (not CompareTriggers(aKey.Macro1, aKey.Macro5)) and
+      (not CompareTriggers(aKey.Macro2, aKey.Macro3)) and
+      (not CompareTriggers(aKey.Macro2, aKey.Macro4)) and
+      (not CompareTriggers(aKey.Macro2, aKey.Macro5)) and
+      (not CompareTriggers(aKey.Macro3, aKey.Macro4)) and
+      (not CompareTriggers(aKey.Macro3, aKey.Macro5)) and
+      (not CompareTriggers(aKey.Macro4, aKey.Macro5));
 
     if (not coTriggersOk) then
     begin
@@ -10108,6 +10174,8 @@ begin
         keystrokes += CountKeystrokes(aKbKey.Macro1);
         keystrokes += CountKeystrokes(aKbKey.Macro2);
         keystrokes += CountKeystrokes(aKbKey.Macro3);
+        keystrokes += CountKeystrokes(aKbKey.Macro4);
+        keystrokes += CountKeystrokes(aKbKey.Macro5);
       end;
     end;
   end;

@@ -17,7 +17,10 @@ inherited FormSettingsMaster: TFormSettingsMaster
     ClientWidth = 347
     TabOrder = 1
     inherited lblTitle: TLabel
-      Width = 292
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 343
     end
     inherited btnCloseLight: TColorSpeedButtonCS
       Left = 312
@@ -62,7 +65,7 @@ inherited FormSettingsMaster: TFormSettingsMaster
     end
     object lblShowNotifs: TLabel
       Cursor = crHandPoint
-      Left = 66
+      Left = 64
       Height = 24
       Top = 62
       Width = 252

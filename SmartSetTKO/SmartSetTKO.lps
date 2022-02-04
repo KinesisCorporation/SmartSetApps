@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="16">
+    <Units Count="17">
       <Unit0>
         <Filename Value="SmartSetTKO.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -20,8 +20,9 @@
         <ComponentName Value="FormMainTKO"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="629"/>
-        <CursorPos X="16" Y="666"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="763"/>
+        <CursorPos X="6" Y="780"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit1>
@@ -41,10 +42,10 @@
       </Unit3>
       <Unit4>
         <Filename Value="..\Common\u_common_ui.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="79"/>
-        <CursorPos X="36" Y="96"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="9" Y="12"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\Common\infodialog.pas"/>
@@ -108,11 +109,9 @@
       </Unit13>
       <Unit14>
         <Filename Value="u_form_diagnostics.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="23" Y="10"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="u_form_timingdelays.pas"/>
@@ -124,8 +123,15 @@
         <CursorPos X="27" Y="50"/>
         <UsageCount Value="10"/>
       </Unit15>
+      <Unit16>
+        <Filename Value="..\SmartSetMaster\u_form_dashboard.pas"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="40" Y="7"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit16>
     </Units>
-    <JumpHistory Count="5" HistoryIndex="4">
+    <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
         <Filename Value="u_form_main_tko.pas"/>
         <Caret Line="16" Column="47"/>
@@ -145,6 +151,22 @@
       <Position5>
         <Filename Value="u_form_main_tko.pas"/>
       </Position5>
+      <Position6>
+        <Filename Value="u_form_main_tko.pas"/>
+        <Caret Line="666" Column="16" TopLine="629"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\Common\u_common_ui.pas"/>
+        <Caret Line="9" Column="41"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\Common\u_common_ui.pas"/>
+        <Caret Line="12" Column="9"/>
+      </Position8>
+      <Position9>
+        <Filename Value="u_form_main_tko.pas"/>
+        <Caret Line="780" Column="6" TopLine="763"/>
+      </Position9>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -64,6 +64,7 @@ type
     procedure SetMacroSpeed(value: integer);
     procedure SetVDriveStatus(value: boolean);
     procedure SetGameMode(value: boolean);
+    procedure SetProgramLock(value: boolean);
     procedure SetLedMode(value: string); //diff
     procedure SetAppIntroMsg(value: boolean);
     procedure SetAppCheckFirmMsg(value: boolean);
@@ -124,16 +125,19 @@ type
     Profile = 'profile';
     MacroSpeed = 'macro_speed';
     StatusPlaySpeed = 'status_play_speed';
+    StatusPlaySpeedAdv360 = 'status';
     VDriveStartup = 'v_drive';
     GameMode = 'game_mode';
-    ProgramKeyLock = 'program_key_lock';
+    //ProgramKeyLock = 'program_key_lock';
     LedMode = 'led_mode';
+    LedBrightness = 'led';
     Country = 'country';
     ThumbMode = 'thumb_mode';
     KeyClickTone = 'key_click_tone';
     ToggleTone = 'toggle_tone';
     MacroDisable = 'macro_disable';
     PowerUser = 'power_user';
+    ProgramLock = 'lock';
     VDriveStartupAdv2 = 'v_drive_open_on_startup';
 
     //App settings
@@ -181,6 +185,7 @@ begin
   FAllowEditSettings := true;
   if (GApplication = APPL_ADV2) then
     FAllowEditSettings := false;
+  SetDefaultAppSettings;
 end;
 
 destructor TFileService.Destroy;
@@ -291,8 +296,16 @@ begin
           if (Copy(currentLine, 1, length(MacroDisable)) = MacroDisable) then
             FStateSettings.MacroDisable := Copy(currentLine, length(MacroDisable) + 2, length(currentLine)) = 'on';
 
-          if (Copy(currentLine, 1, length(StatusPlaySpeed)) = StatusPlaySpeed) then
-            FStateSettings.StatusPlaySpeed := ConvertToInt(Copy(currentLine, length(StatusPlaySpeed) + 2, length(currentLine)));
+          if (aDevice.DeviceNumber = APPL_ADV360) then
+          begin
+            if (Copy(currentLine, 1, length(StatusPlaySpeedAdv360)) = StatusPlaySpeedAdv360) then
+               FStateSettings.StatusPlaySpeed := ConvertToInt(Copy(currentLine, length(StatusPlaySpeedAdv360) + 2, length(currentLine)));
+          end
+          else
+          begin
+            if (Copy(currentLine, 1, length(StatusPlaySpeed)) = StatusPlaySpeed) then
+               FStateSettings.StatusPlaySpeed := ConvertToInt(Copy(currentLine, length(StatusPlaySpeed) + 2, length(currentLine)));
+          end;
 
           if (Copy(currentLine, 1, length(MacroSpeed)) = MacroSpeed) then
             FStateSettings.MacroSpeed := ConvertToInt(Copy(currentLine, length(MacroSpeed) + 2, length(currentLine)));
@@ -306,8 +319,16 @@ begin
           if (Copy(currentLine, 1, length(GameMode)) = GameMode) then
             FStateSettings.GameMode := Copy(currentLine, length(GameMode) + 2, length(currentLine)) = 'on';
 
-          if (Copy(currentLine, 1, length(ProgramKeyLock)) = ProgramKeyLock) then
-            FStateSettings.ProgramKeyLock := Copy(currentLine, length(ProgramKeyLock) + 2, length(currentLine)) = 'on';
+          if (aDevice.DeviceNumber = APPL_ADV360) then
+          begin
+            if (Copy(currentLine, 1, length(ProgramLock)) = ProgramLock) then
+              FStateSettings.ProgramLock := Copy(currentLine, length(ProgramLock) + 2, length(currentLine)) = 'on';
+          end;
+          //else
+          //begin
+          //if (Copy(currentLine, 1, length(ProgramKeyLock)) = ProgramKeyLock) then
+          //  FStateSettings.ProgramKeyLock := Copy(currentLine, length(ProgramKeyLock) + 2, length(currentLine)) = 'on';
+          //end;
 
           if (Copy(currentLine, 1, length(LedMode)) = LedMode) then
             FStateSettings.LedMode := Copy(currentLine, length(LedMode) + 2, length(currentLine));
@@ -366,25 +387,94 @@ begin
             fileContent.Insert(0, LedMode + '=' + valueToSave)
           else
             fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
-        end;
 
-        //Save Status Play speed
-        valueToSave := IntToStr(FStateSettings.StatusPlaySpeed);
-        idxSetting := GetIndexOfString(StatusPlaySpeed, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Insert(0, StatusPlaySpeed + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := StatusPlaySpeed + '=' + valueToSave;
+          //Save Status Play speed
+          valueToSave := IntToStr(FStateSettings.StatusPlaySpeed);
+          idxSetting := GetIndexOfString(StatusPlaySpeed, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, StatusPlaySpeed + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := StatusPlaySpeed + '=' + valueToSave;
 
-        //Save Macro speed
-        valueToSave := IntToStr(FStateSettings.MacroSpeed);
-        idxSetting := GetIndexOfString(MacroSpeed, fileContent);
-        if (idxSetting = -1) then
-          fileContent.Insert(0, MacroSpeed + '=' + valueToSave)
-        else
-          fileContent.Strings[idxSetting] := MacroSpeed + '=' + valueToSave;
+          //Save Macro speed
+          valueToSave := IntToStr(FStateSettings.MacroSpeed);
+          idxSetting := GetIndexOfString(MacroSpeed, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, MacroSpeed + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := MacroSpeed + '=' + valueToSave;
 
-        if (GApplication = APPL_ADV2) then
+          //Save Game Mode
+          if (FStateSettings.GameMode) then
+            valueToSave := 'ON'
+          else
+            valueToSave := 'OFF';
+          idxSetting := GetIndexOfString(GameMode, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(GameMode + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := GameMode + '=' + valueToSave;
+
+          //Save V-Drive startup
+          if (FStateSettings.VDriveStartup) then
+            valueToSave := 'auto'
+          else
+            valueToSave := 'manual';
+          idxSetting := GetIndexOfString(VDriveStartup, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(VDriveStartup + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := VDriveStartup + '=' + valueToSave;
+        end
+        else if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
+        begin
+          //Save Status Play speed
+          valueToSave := IntToStr(FStateSettings.StatusPlaySpeed);
+          idxSetting := GetIndexOfString(StatusPlaySpeed, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, StatusPlaySpeed + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := StatusPlaySpeed + '=' + valueToSave;
+
+          //Save Macro speed
+          valueToSave := IntToStr(FStateSettings.MacroSpeed);
+          idxSetting := GetIndexOfString(MacroSpeed, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, MacroSpeed + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := MacroSpeed + '=' + valueToSave;
+
+          //Save Game Mode
+          if (FStateSettings.GameMode) then
+            valueToSave := 'ON'
+          else
+            valueToSave := 'OFF';
+          idxSetting := GetIndexOfString(GameMode, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(GameMode + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := GameMode + '=' + valueToSave;
+
+          //Save V-Drive startup
+          if (FStateSettings.VDriveStartup) then
+            valueToSave := 'auto'
+          else
+            valueToSave := 'manual';
+          idxSetting := GetIndexOfString(VDriveStartup, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(VDriveStartup + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := VDriveStartup + '=' + valueToSave;
+
+          //Led Mode
+          valueToSave := FStateSettings.LedMode;
+          idxSetting := GetIndexOfString(LedMode, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Append(LedMode + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
+        end
+        else if (GApplication = APPL_ADV2) then
         begin
           //Save V-Drive startup
           if (FStateSettings.VDriveStartup) then
@@ -418,51 +508,66 @@ begin
             fileContent.Append(ToggleTone + '=' + valueToSave)
           else
             fileContent.Strings[idxSetting] := ToggleTone + '=' + valueToSave;
-        end
-        else
-        begin
-          //Save V-Drive startup
-          if (FStateSettings.VDriveStartup) then
-            valueToSave := 'auto'
-          else
-            valueToSave := 'manual';
-          idxSetting := GetIndexOfString(VDriveStartup, fileContent);
-          if (idxSetting = -1) then
-            fileContent.Append(VDriveStartup + '=' + valueToSave)
-          else
-            fileContent.Strings[idxSetting] := VDriveStartup + '=' + valueToSave;
-        end;
 
-        if (GApplication in [APPL_FSEDGE, APPL_FSPRO, APPL_RGB, APPL_TKO]) then
+          //Save Status Play speed
+          valueToSave := IntToStr(FStateSettings.StatusPlaySpeed);
+          idxSetting := GetIndexOfString(StatusPlaySpeed, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, StatusPlaySpeed + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := StatusPlaySpeed + '=' + valueToSave;
+
+          //Save Macro speed
+          valueToSave := IntToStr(FStateSettings.MacroSpeed);
+          idxSetting := GetIndexOfString(MacroSpeed, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, MacroSpeed + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := MacroSpeed + '=' + valueToSave;
+        end
+        else if (GApplication in [APPL_ADV360]) then
         begin
-          //Save Game Mode
-          if (FStateSettings.GameMode) then
+          //Save profile number
+          valueToSave := IntToStr(FStateSettings.StartupFileNumber);
+          idxSetting := GetIndexOfString(Profile, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, Profile + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := Profile + '=' + valueToSave;
+
+          ////Save led brightness
+          //valueToSave := ;
+          //idxSetting := GetIndexOfString(LedBrightness, fileContent);
+          //if (idxSetting = -1) then
+          //  fileContent.Insert(0, LedBrightness + '=' + valueToSave)
+          //else
+          //  fileContent.Strings[idxSetting] := LedBrightness + '=' + valueToSave;
+
+          //Save Status Play speed
+          valueToSave := IntToStr(FStateSettings.StatusPlaySpeed);
+          idxSetting := GetIndexOfString(StatusPlaySpeedAdv360, fileContent);
+          if (idxSetting = -1) then
+            fileContent.Insert(0, StatusPlaySpeedAdv360 + '=' + valueToSave)
+          else
+            fileContent.Strings[idxSetting] := StatusPlaySpeedAdv360 + '=' + valueToSave;
+
+          //Save Program Lock
+          if (FStateSettings.ProgramLock) then
             valueToSave := 'ON'
           else
             valueToSave := 'OFF';
-          idxSetting := GetIndexOfString(GameMode, fileContent);
+          idxSetting := GetIndexOfString(ProgramLock, fileContent);
           if (idxSetting = -1) then
-            fileContent.Append(GameMode + '=' + valueToSave)
+            fileContent.Append(ProgramLock + '=' + valueToSave)
           else
-            fileContent.Strings[idxSetting] := GameMode + '=' + valueToSave;
-        end;
-
-        if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
-        begin
-          //Led Mode
-          valueToSave := FStateSettings.LedMode;
-          idxSetting := GetIndexOfString(LedMode, fileContent);
-          if (idxSetting = -1) then
-            fileContent.Append(LedMode + '=' + valueToSave)
-          else
-            fileContent.Strings[idxSetting] := LedMode + '=' + valueToSave;
+            fileContent.Strings[idxSetting] := ProgramLock + '=' + valueToSave;
         end;
 
         SaveFile(sFilePath, fileContent, false, result);
       end;
     end
     else
-      result := 'State.txt configuration file not found';
+      result := aDevice.SettingsFile + ' file not found';
   finally
     if (fileContent <> nil) then
       FreeAndNil(fileContent);
@@ -482,8 +587,7 @@ var
   FirmwareTextLED: string;
   FirmwareTextKBD_L: string;
   firmwareInfo: TFirmwareInfo;
-const
-  ModelNameText = 'model name';
+  ModelNameText: string;
 begin
   fileContent := nil;
   firmwareInfo.ModelName := '';
@@ -498,16 +602,18 @@ begin
   firmwareInfo.RevisionLED := -1;
 
   try
+    ModelNameText := 'model name';
     if (aDevice.DeviceNumber in [APPL_RGB, APPL_TKO]) then
     begin
       FirmwareTextKBD := 'kbd firmware';
       FirmwareTextLED := 'led firmware';
     end
-    else if (aDevice.DeviceNumber in [APPL_RGB, APPL_TKO]) then
+    else if (aDevice.DeviceNumber in [APPL_ADV360]) then
     begin
       FirmwareTextKBD := 'kbd_fw_r';
       FirmwareTextKBD_L := 'kbd_fw_l';
       FirmwareTextLED := '';
+      ModelNameText := 'model';
     end
     else
     begin
@@ -665,12 +771,12 @@ var
   FirmwareTextKBD: string;
   FirmwareTextKBD_L: string;
   FirmwareTextLED: string;
-const
-  ModelNameText = 'model name';
+  ModelNameText: string;
 begin
   fileContent := nil;
   try
     result := '';
+    ModelNameText := 'model name';
     if (GApplication in [APPL_RGB, APPL_TKO]) then
     begin
       FirmwareTextKBD := 'kbd firmware';
@@ -681,6 +787,7 @@ begin
       FirmwareTextKBD := 'kbd_fw_r';
       FirmwareTextKBD_L := 'kbd_fw_l';
       FirmwareTextLED := '';
+      ModelNameText := 'model';
     end
     else
     begin
@@ -868,7 +975,6 @@ begin
 
   try
     result := '';
-    SetDefaultAppSettings;
 
     sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
     fileExists := CheckIfFileExists(sFilePath);
@@ -988,6 +1094,11 @@ end;
 procedure TFileService.SetGameMode(value: boolean);
 begin
   FStateSettings.GameMode := value;
+end;
+
+procedure TFileService.SetProgramLock(value: boolean);
+begin
+  FStateSettings.ProgramLock := value;
 end;
 
 procedure TFileService.SetLedMode(value: string);
@@ -1384,6 +1495,10 @@ begin
             if (Copy(currentLine, 1, length(StartupFile)) = StartupFile) then
             begin
               result := IntToStr(GetFileNumber(Copy(currentLine, length(StartupFile) + 2, length(currentLine))));
+            end
+            else if  (Copy(currentLine, 1, length(Profile)) = Profile) then
+            begin
+              result := IntToStr(GetFileNumber(Copy(currentLine, length(Profile) + 2, length(currentLine))));
             end;
           end;
         end;

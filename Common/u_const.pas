@@ -54,7 +54,7 @@ type
                     maStarlight, maRebound, maLoop, maPulse, maRain,
                     maDisableLed, maFreestyleEdge, maMonochromeEdge, maBreatheEdge,
                     maWaveEdge, maFrozenWaveEdge, maSpectrumEdge, maLoopEdge, maReboundEdge,
-                    maPulseEdge, maDisableEdge);
+                    maPulseEdge, maDisableEdge, maLetters, maNumbers, maNavKeys, maPunctuation, maModifiers);
 
   TTransitionState = (tsPressed, tsReleased); //KeySate Down or Up
   TExtendedState = (esNormal, esExtended);
@@ -101,7 +101,7 @@ type
     PowerUser: boolean;
     VDriveStartup: boolean;
     GameMode: boolean;
-    ProgramKeyLock: boolean;
+    ProgramLock: boolean;
     LedMode: string;
     Country: string;
   end;
@@ -211,6 +211,7 @@ var
   KINESIS_DARK_GRAY_ADV360: TColor;
   KINESIS_GREEN_OFFICE: TColor;
   KINESIS_GRAY_BACKCOLOR: TColor;
+  KINESIS_BUTTON_ADV360: TColor;
 
 function MapShiftToVirutalKey(sShift: TShiftStateEnum): word;
 function IsModifier(Key: word): boolean;
@@ -462,7 +463,7 @@ const
   VK_LED_NUM_LOCK = 11187;
   VK_LED_SCROLL_LOCK = 11188;
   VK_LED_NKRO_MODE = 11189;
-  VK_LED_GAME_MODE = 11190;
+  VK_LED_GAME_MODE = 11190;  //Not used anymore
   VK_LED_DISABLE = 11191;
   VK_MACRO_SPEED_1 = 11192;
   VK_MACRO_SPEED_2 = 11193;
@@ -568,11 +569,13 @@ const
   KEYPAD_KEY_EDGE = 'fn ';
   KP_PREFIX_LENGTH = 3;
   LAYER_PREFIX = 'LAYER=';
-  TEXT_LAYER_DEFAULT = 'DEFAULT';
-  TEXT_LAYER_KP = 'KEYPAD';
-  TEXT_LAYER_FN1 = 'FN1';
-  TEXT_LAYER_FN2 = 'FN2';
-  TEXT_LAYER_FN3 = 'FN3';
+  ADV360_LAYER_PREFIX = '<';
+  ADV360_LAYER_SUFFIX = '>';
+  TEXT_LAYER_DEFAULT = '<base>';
+  TEXT_LAYER_KP = '<keypad>';
+  TEXT_LAYER_FN1 = '<function1>';
+  TEXT_LAYER_FN2 = '<function2>';
+  TEXT_LAYER_FN3 = '<function3>';
 
   //Various constants
   DIFF_PRESS_REL_TEXT = '{ }';
@@ -583,19 +586,21 @@ const
   MACRO_FREQ_MIN_ADV2 = 0;
   MACRO_FREQ_MIN_FS = 0;
   MACRO_FREQ_MIN_RGB = 1;
-  MACRO_FREQ_MIN_ADV360 = 0;
+  MACRO_FREQ_MIN_ADV360 = 1;
   MACRO_FREQ_MAX_FS = 9;
   MACRO_FREQ_MAX_RGB = 9;
   DEFAULT_MACRO_FREQ_ADV2 = 0;
   DEFAULT_MACRO_FREQ_FS = 0;
   DEFAULT_MACRO_FREQ_RGB = 1;
+  DEFAULT_MACRO_FREQ_ADV360 = 1;
   MACRO_SPEED_MIN_ADV2 = 0;
   MACRO_SPEED_MIN_FS = 0;
   MACRO_SPEED_MIN_RGB = 1;
-  MACRO_SPEED_MIN_ADV360 = 0;
+  MACRO_SPEED_MIN_ADV360 = 1;
   MACRO_SPEED_MAX_ADV2 = 9;
   MACRO_SPEED_MAX_FS = 9;
   MACRO_SPEED_MAX_RGB = 9;
+  MACRO_SPEED_MAX_ADV360 = 9;
   LED_SPEED_MIN = 1;
   LED_SPEED_MAX = 9;
   DEFAULT_MACRO_SPEED_ADV2 = 0;
@@ -653,6 +658,7 @@ const
   APPL_CROSSKP = 5;
   APPL_TKO = 6;
   APPL_ADV360 = 7;
+  APPL_ADV360PRO = 8;
 
   //Master app ID
   APPL_MASTER_GAMING = 100;
@@ -716,7 +722,7 @@ const
   FILE_LED = 'led';
   PITCH_BLACK = 'P';
   BREATHE = 'B';
-  KINESIS_URL = 'https://kinesis.com/';
+  KINESIS_URL = 'https://kinesis-ergo.com/';
   KINESIS_GAMING_URL = 'https://gaming.kinesis-ergo.com/';
   FSEDGE_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOcHFihFhnZhJGb854SRy7Z';
   RGB_TUTORIAL = 'https://www.youtube.com/playlist?list=PLJql6LYXw-uOjCXMkLf7Ur3Jm9Dsqf_KD';
@@ -2331,6 +2337,7 @@ initialization
   KINESIS_DARK_GRAY_ADV360 := RGB(170, 180, 190);
   KINESIS_GREEN_OFFICE := RGB(105, 199, 157);
   KINESIS_GRAY_BACKCOLOR := RGB(175, 175, 175);
+  KINESIS_BUTTON_ADV360 := RGB(100, 110, 120);
   GApplicationTitle := 'SmartSet App';
   GDesktopMode := false;
   GDemoMode := false;

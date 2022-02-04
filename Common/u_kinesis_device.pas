@@ -28,6 +28,7 @@ type
     FVersionFolder: string;
     FSettingsFile: string;
     FSettingsFolder: string;
+    FProgrammable: boolean;
   public
     constructor Create;
     destructor Destroy;
@@ -47,6 +48,7 @@ type
     property VersionFile: string read FVersionFile write FVersionFile;
     property SettingsFolder: string read FSettingsFolder write FSettingsFolder;
     property SettingsFile: string read FSettingsFile write FSettingsFile;
+    property Programmable: boolean read FProgrammable write FProgrammable;
   end;
 
   { TKeyList }
@@ -127,6 +129,7 @@ begin
   FSettingsFile := 'kbd_settings.txt';
   FVersionFolder := 'firmware';
   FSettingsFolder := 'settings';
+  FProgrammable := true;
 end;
 
 destructor TDevice.Destroy;
