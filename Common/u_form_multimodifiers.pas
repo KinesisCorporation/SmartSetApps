@@ -137,10 +137,10 @@ procedure TFormMultimodifiers.btnAcceptMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
   begin
-  if (GMasterAppId = APPL_MASTER_OFFICE) then
-    LoadButtonImage(sender, imgListTiming, 6)
-  else
-    LoadButtonImage(sender, imgListTiming, 2);
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+      LoadButtonImage(sender, imgListTiming, 6)
+    else
+      LoadButtonImage(sender, imgListTiming, 2);
   end;
 end;
 

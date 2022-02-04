@@ -13,7 +13,7 @@ uses
   u_form_export, u_form_about_office, buttons, u_form_diagnostics,
   u_form_firmware, u_form_timingdelays, LResources, lcltype, BGRABitmap,
   BGRABitmapTypes, BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
-  u_form_multimodifiers, u_form_color, InfoDialog
+  u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -648,6 +648,7 @@ type
     procedure KeyButtonMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure KeyButtonsBringToFront;
+    procedure ResetAltLayoutKeys(aLayer: TKBLayer);
     procedure ResetLedIndicators;
     procedure ResetMacro;
     procedure SetLedPopup(btnLedInd: TColorSpeedButtonCS; lblLedInd: TLabel);
@@ -1987,6 +1988,7 @@ var
   keyShiftActiveLayer: integer;
   indIdx: integer;
   indToken: TIndFunction;
+  layerIdx: integer;
 begin
   mnu := (sender as TMenuItem);
   mnuAction := mnu.Tag;
@@ -2008,18 +2010,26 @@ begin
         layoutName := 'Workman';
       end;
 
-      if (ShowDialog('Alternate Layout',
-        'Would you like to apply the ' + layoutName + ' alternate layout?' + #10#10 +
+      layerIdx := keyService.ActiveLayer.LayerIndex;
+      if (ShowAltLayoutDialog('Would you like to apply the ' + layoutName + ' alternate layout?' + #10#10 +
         'Note: Implementing this layout may overwrite existing remaps.',
-        mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes) then
+        layerIdx, backColor, fontColor)) then
+      //if (ShowDialog('Alternate Layout',
+      //  'Would you like to apply the ' + layoutName + ' alternate layout?' + #10#10 +
+      //  'Note: Implementing this layout may overwrite existing remaps.',
+      //  mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes) then
       begin
-        //todo ?
-        //if (mnuAction = VK_DVORAK) then
-        //  SetDvorakKb(LAYER_BASE_360, false)
-        //else if (mnuAction = VK_COLEMAK) then
-        //  SetColemakKb(LAYER_BASE_360, false)
-        //else if (mnuAction = VK_WORKMAN) then
-        //  SetWorkmanKb(LAYER_BASE_360, false);
+        if (mnuAction = VK_DVORAK) then
+          SetDvorakKb(layerIdx, false)
+        else if (mnuAction = VK_COLEMAK) then
+          SetColemakKb(layerIdx, false)
+        else if (mnuAction = VK_WORKMAN) then
+          SetWorkmanKb(layerIdx, false);
+      end
+      else
+      begin
+        ResetPopupMenu;
+        ResetSingleKey;
       end;
     end
     else if (mnuAction = VK_BASE_LAYER_SHIFT) or (mnuAction = VK_KP_LAYER_SHIFT) or (mnuAction = VK_FN1_LAYER_SHIFT) or
@@ -5923,6 +5933,42 @@ begin
   end;
 end;
 
+procedure TFormMainAdv360.ResetAltLayoutKeys(aLayer: TKBLayer);
+begin
+  //Reset keys from other alternate layouts
+  keyService.ResetKey(aLayer, 15);
+  keyService.ResetKey(aLayer, 16);
+  keyService.ResetKey(aLayer, 17);
+  keyService.ResetKey(aLayer, 18);
+  keyService.ResetKey(aLayer, 19);
+  keyService.ResetKey(aLayer, 22);
+  keyService.ResetKey(aLayer, 23);
+  keyService.ResetKey(aLayer, 24);
+  keyService.ResetKey(aLayer, 25);
+  keyService.ResetKey(aLayer, 26);
+  keyService.ResetKey(aLayer, 27);
+  keyService.ResetKey(aLayer, 30);
+  keyService.ResetKey(aLayer, 31);
+  keyService.ResetKey(aLayer, 32);
+  keyService.ResetKey(aLayer, 33);
+  keyService.ResetKey(aLayer, 36);
+  keyService.ResetKey(aLayer, 37);
+  keyService.ResetKey(aLayer, 38);
+  keyService.ResetKey(aLayer, 39);
+  keyService.ResetKey(aLayer, 40);
+  keyService.ResetKey(aLayer, 41);
+  keyService.ResetKey(aLayer, 43);
+  keyService.ResetKey(aLayer, 44);
+  keyService.ResetKey(aLayer, 45);
+  keyService.ResetKey(aLayer, 46);
+  keyService.ResetKey(aLayer, 47);
+  keyService.ResetKey(aLayer, 48);
+  keyService.ResetKey(aLayer, 49);
+  keyService.ResetKey(aLayer, 50);
+  keyService.ResetKey(aLayer, 51);
+  keyService.ResetKey(aLayer, 52);
+end;
+
 procedure TFormMainAdv360.SetWorkmanKb(layerIdx: integer; bothLayers: boolean);
 var
   aLayer: TKBLayer;
@@ -5940,42 +5986,30 @@ begin
         KeyModified := true;
         SetSaveState(ssModified);
 
-        //Reset keys from other alternate layouts
-        keyService.ResetKey(aLayer, 11);
-        keyService.ResetKey(aLayer, 12);
-        keyService.ResetKey(aLayer, 15);
-        keyService.ResetKey(aLayer, 25);
-        keyService.ResetKey(aLayer, 26);
-        keyService.ResetKey(aLayer, 30);
-        keyService.ResetKey(aLayer, 33);
-        keyService.ResetKey(aLayer, 39);
-        keyService.ResetKey(aLayer, 42);
-        keyService.ResetKey(aLayer, 43);
-        keyService.ResetKey(aLayer, 49);
-        keyService.ResetKey(aLayer, 50);
-        keyService.ResetKey(aLayer, 51);
+        ResetAltLayoutKeys(aLayer);
 
         keyService.SetKBKeyIdx(aLayer, 16, VK_D);  //Replace w
         keyService.SetKBKeyIdx(aLayer, 17, VK_R);  //Replace e
         keyService.SetKBKeyIdx(aLayer, 18, VK_W);  //Replace r
         keyService.SetKBKeyIdx(aLayer, 19, VK_B);  //Replace t
-        keyService.SetKBKeyIdx(aLayer, 20, VK_J); //Replace y
-        keyService.SetKBKeyIdx(aLayer, 21, VK_F); //Replace u
-        keyService.SetKBKeyIdx(aLayer, 22, VK_U); //Replace i
-        keyService.SetKBKeyIdx(aLayer, 23, VK_P); //Replace o
-        keyService.SetKBKeyIdx(aLayer, 24, VK_LCL_SEMI_COMMA); //Replace P
+        keyService.SetKBKeyIdx(aLayer, 22, VK_J); //Replace y
+        keyService.SetKBKeyIdx(aLayer, 23, VK_F); //Replace u
+        keyService.SetKBKeyIdx(aLayer, 24, VK_U); //Replace i
+        keyService.SetKBKeyIdx(aLayer, 25, VK_P); //Replace o
+        keyService.SetKBKeyIdx(aLayer, 26, VK_LCL_SEMI_COMMA); //Replace P
         keyService.SetKBKeyIdx(aLayer, 31, VK_H); //Replace D
         keyService.SetKBKeyIdx(aLayer, 32, VK_T); //Replace F
-        keyService.SetKBKeyIdx(aLayer, 34, VK_Y); //Replace H
-        keyService.SetKBKeyIdx(aLayer, 35, VK_N); //Replace J
-        keyService.SetKBKeyIdx(aLayer, 36, VK_E);  //Replace K
-        keyService.SetKBKeyIdx(aLayer, 37, VK_O);  //Replace L
-        keyService.SetKBKeyIdx(aLayer, 38, VK_I);  //Replace COLON
-        keyService.SetKBKeyIdx(aLayer, 44, VK_M);  //Replace C
-        keyService.SetKBKeyIdx(aLayer, 45, VK_C);  //Replace V
-        keyService.SetKBKeyIdx(aLayer, 46, VK_V);  //Replace B
-        keyService.SetKBKeyIdx(aLayer, 47, VK_K);  //Replace N
-        keyService.SetKBKeyIdx(aLayer, 48, VK_L);  //Replace M
+        keyService.SetKBKeyIdx(aLayer, 36, VK_Y); //Replace H
+        keyService.SetKBKeyIdx(aLayer, 37, VK_N); //Replace J
+        keyService.SetKBKeyIdx(aLayer, 38, VK_E);  //Replace K
+        keyService.SetKBKeyIdx(aLayer, 39, VK_O);  //Replace L
+
+        keyService.SetKBKeyIdx(aLayer, 40, VK_I);  //Replace COLON
+        keyService.SetKBKeyIdx(aLayer, 45, VK_M);  //Replace C
+        keyService.SetKBKeyIdx(aLayer, 46, VK_C);  //Replace V
+        keyService.SetKBKeyIdx(aLayer, 47, VK_V);  //Replace B
+        keyService.SetKBKeyIdx(aLayer, 48, VK_K);  //Replace N
+        keyService.SetKBKeyIdx(aLayer, 49, VK_L);  //Replace M
       end;
     end;
 
@@ -6009,44 +6043,41 @@ begin
         SetSaveState(ssModified);
 
         //Reset keys from other alternate layouts
-        keyService.ResetKey(aLayer, 48);
+        ResetAltLayoutKeys(aLayer);
 
-        keyService.SetKBKeyIdx(aLayer, 11, VK_LCL_OPEN_BRAKET);  //Replace -
-        keyService.SetKBKeyIdx(aLayer, 12, VK_LCL_CLOSE_BRAKET);  //Replace =
         keyService.SetKBKeyIdx(aLayer, 15, VK_LCL_QUOTE);  //Replace q
         keyService.SetKBKeyIdx(aLayer, 16, VK_LCL_COMMA);  //Replace w
         keyService.SetKBKeyIdx(aLayer, 17, VK_LCL_POINT); //Replace e
 
         keyService.SetKBKeyIdx(aLayer, 18, VK_P); //Replace r
         keyService.SetKBKeyIdx(aLayer, 19, VK_Y); //Replace t
-        keyService.SetKBKeyIdx(aLayer, 20, VK_F); //Replace y
-        keyService.SetKBKeyIdx(aLayer, 21, VK_G); //Replace u
-        keyService.SetKBKeyIdx(aLayer, 22, VK_C); //Replace i
-        keyService.SetKBKeyIdx(aLayer, 23, VK_R); //Replace o
-        keyService.SetKBKeyIdx(aLayer, 24, VK_L); //Replace p
+        keyService.SetKBKeyIdx(aLayer, 22, VK_F); //Replace y
+        keyService.SetKBKeyIdx(aLayer, 23, VK_G); //Replace u
+        keyService.SetKBKeyIdx(aLayer, 24, VK_C); //Replace i
+        keyService.SetKBKeyIdx(aLayer, 25, VK_R); //Replace o
+        keyService.SetKBKeyIdx(aLayer, 26, VK_L); //Replace p
 
-        keyService.SetKBKeyIdx(aLayer, 25, VK_LCL_SLASH);  //Replace [
-        keyService.SetKBKeyIdx(aLayer, 26, VK_LCL_EQUAL);  //Replace ]
+        keyService.SetKBKeyIdx(aLayer, 27, VK_LCL_SLASH);  //Replace \
         keyService.SetKBKeyIdx(aLayer, 30, VK_O);  //Replace s
         keyService.SetKBKeyIdx(aLayer, 31, VK_E);  //Replace d
         keyService.SetKBKeyIdx(aLayer, 32, VK_U);  //Replace f
         keyService.SetKBKeyIdx(aLayer, 33, VK_I);  //Replace g
-        keyService.SetKBKeyIdx(aLayer, 34, VK_D);  //Replace h
-        keyService.SetKBKeyIdx(aLayer, 35, VK_H);  //Replace j
-        keyService.SetKBKeyIdx(aLayer, 36, VK_T);  //Replace k
-        keyService.SetKBKeyIdx(aLayer, 37, VK_N);  //Replace l
+        keyService.SetKBKeyIdx(aLayer, 36, VK_D);  //Replace h
+        keyService.SetKBKeyIdx(aLayer, 37, VK_H);  //Replace j
+        keyService.SetKBKeyIdx(aLayer, 38, VK_T);  //Replace k
+        keyService.SetKBKeyIdx(aLayer, 39, VK_N);  //Replace l
 
-        keyService.SetKBKeyIdx(aLayer, 38, VK_S);  //Replace colon
-        keyService.SetKBKeyIdx(aLayer, 39, VK_LCL_MINUS);  //Replace apos
-        keyService.SetKBKeyIdx(aLayer, 42, VK_LCL_SEMI_COMMA);  //Replace z
-        keyService.SetKBKeyIdx(aLayer, 43, VK_Q);  //Replace x
-        keyService.SetKBKeyIdx(aLayer, 44, VK_J);  //Replace c
-        keyService.SetKBKeyIdx(aLayer, 45, VK_K);  //Replace v
-        keyService.SetKBKeyIdx(aLayer, 46, VK_X);  //Replace b
-        keyService.SetKBKeyIdx(aLayer, 47, VK_B);  //Replace n
-        keyService.SetKBKeyIdx(aLayer, 49, VK_W);  //Replace comma
-        keyService.SetKBKeyIdx(aLayer, 50, VK_V);  //Replace period
-        keyService.SetKBKeyIdx(aLayer, 51, VK_Z);  //Replace /
+        keyService.SetKBKeyIdx(aLayer, 40, VK_S);  //Replace semi comma
+        keyService.SetKBKeyIdx(aLayer, 41, VK_LCL_BACKSLASH);  //Replace apos
+        keyService.SetKBKeyIdx(aLayer, 43, VK_LCL_SEMI_COMMA);  //Replace z
+        keyService.SetKBKeyIdx(aLayer, 44, VK_Q);  //Replace x
+        keyService.SetKBKeyIdx(aLayer, 45, VK_J);  //Replace c
+        keyService.SetKBKeyIdx(aLayer, 46, VK_K);  //Replace v
+        keyService.SetKBKeyIdx(aLayer, 47, VK_X);  //Replace b
+        keyService.SetKBKeyIdx(aLayer, 48, VK_B);  //Replace n
+        keyService.SetKBKeyIdx(aLayer, 50, VK_W);  //Replace comma
+        keyService.SetKBKeyIdx(aLayer, 51, VK_V);  //Replace period
+        keyService.SetKBKeyIdx(aLayer, 52, VK_Z);  //Replace /
       end;
     end;
 
@@ -6080,40 +6111,25 @@ begin
         SetSaveState(ssModified);
 
         //Reset keys from other alternate layouts
-        keyService.ResetKey(aLayer, 11);
-        keyService.ResetKey(aLayer, 12);
-        keyService.ResetKey(aLayer, 15);
-        keyService.ResetKey(aLayer, 16);
-        keyService.ResetKey(aLayer, 25);
-        keyService.ResetKey(aLayer, 26);
-        keyService.ResetKey(aLayer, 34);
-        keyService.ResetKey(aLayer, 39);
-        keyService.ResetKey(aLayer, 42);
-        keyService.ResetKey(aLayer, 43);
-        keyService.ResetKey(aLayer, 44);
-        keyService.ResetKey(aLayer, 45);
-        keyService.ResetKey(aLayer, 46);
-        keyService.ResetKey(aLayer, 49);
-        keyService.ResetKey(aLayer, 50);
-        keyService.ResetKey(aLayer, 51);
+        ResetAltLayoutKeys(aLayer);
 
         keyService.SetKBKeyIdx(aLayer, 17, VK_F);  //Replace e
         keyService.SetKBKeyIdx(aLayer, 18, VK_P);  //Replace r
         keyService.SetKBKeyIdx(aLayer, 19, VK_G);  //Replace t
-        keyService.SetKBKeyIdx(aLayer, 20, VK_J);  //Replace y
-        keyService.SetKBKeyIdx(aLayer, 21, VK_L); //Replace u
-        keyService.SetKBKeyIdx(aLayer, 22, VK_U); //Replace i
-        keyService.SetKBKeyIdx(aLayer, 23, VK_Y); //Replace o
-        keyService.SetKBKeyIdx(aLayer, 24, VK_LCL_SEMI_COMMA); //Replace p
+        keyService.SetKBKeyIdx(aLayer, 22, VK_J);  //Replace y
+        keyService.SetKBKeyIdx(aLayer, 23, VK_L); //Replace u
+        keyService.SetKBKeyIdx(aLayer, 24, VK_U); //Replace i
+        keyService.SetKBKeyIdx(aLayer, 25, VK_Y); //Replace o
+        keyService.SetKBKeyIdx(aLayer, 26, VK_LCL_SEMI_COMMA); //Replace p
         keyService.SetKBKeyIdx(aLayer, 30, VK_R); //Replace s
         keyService.SetKBKeyIdx(aLayer, 31, VK_S); //Replace d
         keyService.SetKBKeyIdx(aLayer, 32, VK_T); //Replace f
         keyService.SetKBKeyIdx(aLayer, 33, VK_D); //Replace g
-        keyService.SetKBKeyIdx(aLayer, 35, VK_N);  //Replace j
-        keyService.SetKBKeyIdx(aLayer, 36, VK_E);  //Replace k
-        keyService.SetKBKeyIdx(aLayer, 37, VK_I);  //Replace l
-        keyService.SetKBKeyIdx(aLayer, 38, VK_O);  //Replace colon
-        keyService.SetKBKeyIdx(aLayer, 47, VK_K);  //Replace n
+        keyService.SetKBKeyIdx(aLayer, 37, VK_N);  //Replace j
+        keyService.SetKBKeyIdx(aLayer, 38, VK_E);  //Replace k
+        keyService.SetKBKeyIdx(aLayer, 39, VK_I);  //Replace l
+        keyService.SetKBKeyIdx(aLayer, 40, VK_O);  //Replace semi colon
+        keyService.SetKBKeyIdx(aLayer, 48, VK_K);  //Replace n
       end;
     end;
 
