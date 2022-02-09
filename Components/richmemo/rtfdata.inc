@@ -335,6 +335,7 @@ const
     rtfBackColor            = 21;
     rtfGray                 = 22;
     rtfHighlight            = 23;
+    rtfNoSuperSub           = 24;
 
   rtfPictAttr     = 13;
     rtfMacQD                = 0;
@@ -469,7 +470,7 @@ type
   ---------------------------------------------------------------------}
 
 const
-  rtfKey : Array [0..284] of TRTFKey =
+  rtfKey : Array [0..287] of TRTFKey =
   (
     ( rtfKMajor: RTFSPECIALCHAR; rtfKMinor : rtfCURHEADPICT; rtfKStr  : 'chpict'; rtfKhash :        0),
     ( rtfKMajor: rtfSpecialChar; rtfKMinor:         rtfCurHeadDate; rtfKstr : 'chdate'; rtfkHash : 0),
@@ -529,6 +530,9 @@ const
     ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfNoUnderline; rtfKstr : 'ulnone'; rtfkHash : 0),
     ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfSuperScript; rtfKstr : 'up'; rtfkHash : 0),
     ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfSubScript; rtfKstr : 'dn'; rtfkHash : 0),
+    ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfSuperScript; rtfKstr : 'super'; rtfkHash : 0),
+    ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfSubScript; rtfKstr : 'sub'; rtfkHash : 0),
+    ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfNoSuperSub; rtfKstr : 'nosupersub'; rtfkHash : 0),
     ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfRevised; rtfKstr : 'revised'; rtfkHash : 0),
     ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfForeColor; rtfKstr : 'cf'; rtfkHash : 0),
     ( rtfKMajor: rtfCharAttr; rtfKMinor:    rtfBackColor; rtfKstr : 'cb'; rtfkHash : 0),

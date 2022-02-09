@@ -64,6 +64,7 @@ inherited FormAltLayout: TFormAltLayout
     Caption = 'Would you like to apply the '' + layoutName + '' alternate layout?'#13#10'Note: Implementing this layout may overwrite existing remaps.'
     Color = 13815235
     Layout = tlCenter
+    ParentColor = False
     Transparent = False
     WordWrap = True
   end
@@ -89,7 +90,7 @@ inherited FormAltLayout: TFormAltLayout
       Font.Color = clWhite
       Font.Height = -19
       Font.Style = [fsBold]
-      GroupIndex = 75
+      GroupIndex = 79
       OnClick = btnLayerClick
       ShowHint = True
       ParentFont = False
@@ -127,7 +128,7 @@ inherited FormAltLayout: TFormAltLayout
       Font.Color = clWhite
       Font.Height = -19
       Font.Style = [fsBold]
-      GroupIndex = 75
+      GroupIndex = 78
       OnClick = btnLayerClick
       ShowHint = True
       ParentFont = False
@@ -165,7 +166,7 @@ inherited FormAltLayout: TFormAltLayout
       Font.Color = clWhite
       Font.Height = -19
       Font.Style = [fsBold]
-      GroupIndex = 75
+      GroupIndex = 77
       OnClick = btnLayerClick
       ShowHint = True
       ParentFont = False
@@ -203,7 +204,7 @@ inherited FormAltLayout: TFormAltLayout
       Font.Color = clWhite
       Font.Height = -19
       Font.Style = [fsBold]
-      GroupIndex = 75
+      GroupIndex = 76
       OnClick = btnLayerClick
       ShowHint = True
       ParentFont = False
@@ -280,6 +281,7 @@ inherited FormAltLayout: TFormAltLayout
       Font.Height = -19
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
+      ParentColor = False
       ParentFont = False
       Transparent = False
     end

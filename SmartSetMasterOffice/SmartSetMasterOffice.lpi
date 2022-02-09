@@ -14,7 +14,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="2"/>
-      <RevisionNr Value="1"/>
+      <RevisionNr Value="4"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -57,7 +57,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="7">
+    <Units Count="6">
       <Unit0>
         <Filename Value="SmartSetMasterOffice.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -88,16 +88,9 @@
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\SmartSetAdv360\u_form_main_adv360.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FormMainAdv360"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit5>
-      <Unit6>
         <Filename Value="..\Common\u_led_ind.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit6>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -108,7 +101,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\Common;..\Components\internettools\data;..\Components\internettools\system;..\Components\internettools\internet;..\Components\nsunits-src;..\Components\synapse40\source\lib;..\SmartSetAdv2;..\SmartSetSavantElite;..\SmartSetFSEdgePro;..\SmartSetAdv360"/>
+      <OtherUnitFiles Value="..\Common;..\Components\nsunits-src;..\Components\internettools\internet;..\Components\internettools\system;..\Components\internettools\data;..\SmartSetAdv2;..\SmartSetAdv360;..\SmartSetFSEdgePro;..\SmartSetSavantElite"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -124,6 +117,7 @@
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="False"/>
+        <DebugInfoType Value="dsDwarf3"/>
         <UseHeaptrc Value="True"/>
         <StripSymbols Value="True"/>
       </Debugging>

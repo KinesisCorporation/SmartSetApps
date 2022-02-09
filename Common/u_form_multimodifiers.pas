@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, u_base_form, u_const, UserDialog, lcltype,
-  u_keys, u_common_ui, u_base_key_service, ColorSpeedButtonCS, LineObj,
+  u_keys, u_common_ui, u_key_service, ColorSpeedButtonCS, LineObj,
   u_key_layer;
 
 type
@@ -36,18 +36,18 @@ type
   private
     function Validate: boolean;
   public
-    keyService: TBaseKeyService;
+    keyService: TKeyService;
   end;
 
 var
   FormMultimodifiers: TFormMultimodifiers;
-  function ShowMultimodifiers(aKeyService: TBaseKeyService; aKbKey: TKBKey; backColor: TColor; fontColor: TColor): boolean;
+  function ShowMultimodifiers(aKeyService: TKeyService; aKbKey: TKBKey; backColor: TColor; fontColor: TColor): boolean;
 
 implementation
 
 {$R *.lfm}
 
-function ShowMultimodifiers(aKeyService: TBaseKeyService; aKbKey: TKBKey; backColor: TColor; fontColor: TColor): boolean;
+function ShowMultimodifiers(aKeyService: TKeyService; aKbKey: TKBKey; backColor: TColor; fontColor: TColor): boolean;
 var
   multimodifiers: string;
 begin

@@ -142,13 +142,9 @@ type
   TFirmwareInfo = record
     ModelName: string;
     VersionKBD: string;
-    VersionKBD_L: string;
     MajorKBD: integer;
     MinorKBD: integer;
     RevisionKBD: integer;
-    MajorKBD_L: integer;
-    MinorKBD_L: integer;
-    RevisionKBD_L: integer;
     VersionLED: string;
     MajorLED: integer;
     MinorLED: integer;
@@ -208,6 +204,7 @@ var
   KINESIS_MED_GRAY_RGB: TColor; //Kinesis medium gray color for RGB app
   KINESIS_FONT_COLOR_RGB: TColor; //Kinesis font color for RGB app
   KINESIS_LIGHT_GRAY_ADV360: TColor;
+  KINESIS_LIGHTER_GRAY_ADV360: TColor;
   KINESIS_DARK_GRAY_ADV360: TColor;
   KINESIS_GREEN_OFFICE: TColor;
   KINESIS_GRAY_BACKCOLOR: TColor;
@@ -474,6 +471,8 @@ const
   VK_MACRO_SPEED_7 = 11198;
   VK_MACRO_SPEED_8 = 11199;
   VK_MACRO_SPEED_9 = 11200;
+  VK_LFN_LAYER_SHIFT = 11201;
+  VK_RFN_LAYER_SHIFT = 11202;
   //END OF VIRTUAL KEY OPTIONS
 
   MAPVK_VK_TO_VSC = 0;
@@ -730,7 +729,7 @@ const
   ADV360_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0b_TJAf6qlHX97A-vnne2-N';
   RGB_HELP = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_HELP = 'https://gaming.kinesis-ergo.com/tko-support/';
-  ADV360_HELP = 'https://kinesis-ergo.com/support/advantage360/';
+  ADV360_HELP = 'https://kinesis-ergo.com/support/adv360/';
   MASTER_GAMING_HELP = 'https://gaming.kinesis-ergo.com/support/#support-for-my-device';
   MASTER_OFFICE_HELP = 'https://kinesis-ergo.com/support/#support-for-my-device';
   FSEDGE_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-support/#manuals';
@@ -739,7 +738,7 @@ const
   RGB_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#manuals';
   TKO_MANUAL = 'https://gaming.kinesis-ergo.com/tko-support/#manuals';
   PEDAL_MANUAL = 'https://kinesis-ergo.com/support/savant-elite2/#manuals';
-  ADV360_MANUAL = 'https://kinesis-ergo.com/support/advantage360/#manuals';
+  ADV360_MANUAL = 'https://kinesis-ergo.com/support/adv360/#manuals';
   FSPRO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0Z7Gx0T5N7TTzceorPHXJr5';
   ADV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0aNmELoR6kakcNf7AInoEfW';
   PEDAL_TUTORIAL = 'https://www.youtube.com/';
@@ -748,7 +747,7 @@ const
   RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/tko-support/';
   ADV2_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage2/';
-  ADV360_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage360/';
+  ADV360_TROUBLESHOOT = 'https://kinesis-ergo.com/support/adv360/';
   PEDAL_TROUBLESHOOT = 'https://kinesis-ergo.com/support/savant-elite2/';
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
@@ -759,7 +758,7 @@ const
   MASTER_OFFICE_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   RGB_FIRMWARE = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#firmware';
   TKO_FIRMWARE = 'https://gaming.kinesis-ergo.com/tko-support/#firmware';
-  ADV360_FIRMWARE = 'https://kinesis-ergo.com/advantage360/#firmware';
+  ADV360_FIRMWARE = 'https://kinesis-ergo.com/support/adv360/#firmware-updates';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -1827,7 +1826,9 @@ begin
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_SHIFT, 'defs', 'Base' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_TOGGLE, 'deft', 'Base' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'keyt', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'kp', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_LFN_LAYER_SHIFT, 'lfn', 'Left Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_RFN_LAYER_SHIFT, 'rfn', 'Right Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_SHIFT, 'fn1s', 'Fn1' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_TOGGLE, 'fn1t', 'Fn1' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_FN2_LAYER_SHIFT, 'fn2s', 'Fn2' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
@@ -2334,6 +2335,7 @@ initialization
   KINESIS_MED_GRAY_RGB := RGB(50, 50, 50);
   KINESIS_FONT_COLOR_RGB := RGB(210, 210, 210);
   KINESIS_LIGHT_GRAY_ADV360 := RGB(195, 205, 210);
+  KINESIS_LIGHTER_GRAY_ADV360 := RGB(184, 184, 184);
   KINESIS_DARK_GRAY_ADV360 := RGB(170, 180, 190);
   KINESIS_GREEN_OFFICE := RGB(105, 199, 157);
   KINESIS_GRAY_BACKCOLOR := RGB(175, 175, 175);

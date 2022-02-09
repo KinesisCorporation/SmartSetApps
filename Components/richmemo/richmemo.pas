@@ -182,6 +182,7 @@ type
     fOnPrintAction      : TPrintActionEvent;
     fOnLinkAction       : TLinkActionEvent;
     fZoomFactor         : Double;
+    fTransparent        : Boolean;
   private
     procedure InlineInvalidate(handler: TRichMemoInline);
 
@@ -198,6 +199,7 @@ type
     procedure SetSelText(const SelTextUTF8: string); override;
     function GetZoomFactor: Double; virtual;
     procedure SetZoomFactor(AValue: Double); virtual;
+    procedure SetTransparent(AValue: Boolean); virtual;
 
     procedure DoPrintAction(PrintJobEvent: TPrintAction;
       PrintCanvas: TCanvas;
@@ -206,6 +208,7 @@ type
       LinkStart, LinkEnd: Integer);
     function GetCanRedo: Boolean; virtual;
 
+    function isValidCharOfs(TextStart: integer): Boolean;
   public
     constructor Create(AOwner: TComponent); override;
     procedure CopyToClipboard; override;
@@ -267,6 +270,7 @@ type
     property OnPrintAction: TPrintActionEvent read fOnPrintAction write fOnPrintAction;
     property OnLinkAction: TLinkActionEvent read fOnLinkAction write fOnLinkAction;
     property CanRedo: Boolean read GetCanRedo;
+    property Transparent: Boolean read fTransparent write SetTransparent default false;
   end;
   
   { TRichMemo }
@@ -612,6 +616,14 @@ begin
     TWSCustomRichMemoClass(WidgetSetClass).SetZoomFactor(Self, AValue);
 end;
 
+procedure TCustomRichMemo.SetTransparent(AValue: Boolean);
+begin
+  if AValue = fTransparent then Exit;
+  fTransparent := AValue;
+  if HandleAllocated then
+    TWSCustomRichMemoClass(WidgetSetClass).SetTransparentBackground(Self, fTransparent);
+end;
+
 procedure TCustomRichMemo.DoPrintAction(PrintJobEvent: TPrintAction;
   PrintCanvas: TCanvas; CurrentPage: Integer; var AbortPrint: Boolean);
 begin
@@ -656,6 +668,7 @@ begin
   if not HandleAllocated then Exit;
   TWSCustomRichMemoClass(WidgetSetClass).SetHideSelection(Self, fHideSelection);
   TWSCustomRichMemoClass(WidgetSetClass).SetZoomFactor(Self, fZoomFactor);
+  TWSCustomRichMemoClass(WidgetSetClass).SetTransparentBackground(Self, fTransparent);
 end;
 
 procedure TCustomRichMemo.SetTextAttributes(TextStart, TextLen: Integer;  
@@ -677,7 +690,8 @@ function TCustomRichMemo.GetTextAttributes(TextStart: Integer; var TextParams: T
 begin
   if not HandleAllocated then HandleNeeded;
   if HandleAllocated then
-    Result := TWSCustomRichMemoClass(WidgetSetClass).GetTextAttributes(Self, TextStart, TextParams)
+    Result := isValidCharOfs(TextStart)
+              and TWSCustomRichMemoClass(WidgetSetClass).GetTextAttributes(Self, TextStart, TextParams)
   else
     Result := false;
 end;
@@ -686,7 +700,7 @@ function TCustomRichMemo.GetStyleRange(CharOfs: Integer; var RangeStart,
   RangeLen: Integer): Boolean;
 begin
   if HandleAllocated then begin
-    Result := TWSCustomRichMemoClass(WidgetSetClass).GetStyleRange(Self, CharOfs, RangeStart, RangeLen);
+    Result := isValidCharOfs(CharOfs) and TWSCustomRichMemoClass(WidgetSetClass).GetStyleRange(Self, CharOfs, RangeStart, RangeLen);
     if Result and (RangeLen = 0) then RangeLen := 1;
   end else begin
     RangeStart := -1;
@@ -698,8 +712,9 @@ end;
 function TCustomRichMemo.GetParaAlignment(TextStart: Integer;
   var AAlign: TParaAlignment): Boolean;
 begin
-  Result := HandleAllocated and
-    TWSCustomRichMemoClass(WidgetSetClass).GetParaAlignment(Self, TextStart, AAlign);
+  Result := HandleAllocated
+    and isValidCharOfs(TextStart)
+    and TWSCustomRichMemoClass(WidgetSetClass).GetParaAlignment(Self, TextStart, AAlign);
 end;
 
 function TCustomRichMemo.GetParaAlignment(TextStart: Integer): TParaAlignment;
@@ -718,7 +733,8 @@ function TCustomRichMemo.GetParaMetric(TextStart: Integer;
   var AMetric: TParaMetric): Boolean;
 begin
   if HandleAllocated then
-    Result := TWSCustomRichMemoClass(WidgetSetClass).GetParaMetric(Self, TextStart, AMetric)
+    Result := isValidCharOfs(TextStart)
+      and TWSCustomRichMemoClass(WidgetSetClass).GetParaMetric(Self, TextStart, AMetric)
   else
     Result := false;
 end;
@@ -752,7 +768,8 @@ begin
   Result:=false;
   if not HandleAllocated then HandleNeeded;
   if HandleAllocated then
-    Result:=TWSCustomRichMemoClass(WidgetSetClass).GetParaRange(Self, CharOfs, ParaRange);
+    Result:=isValidCharOfs(CharOfs)
+            and TWSCustomRichMemoClass(WidgetSetClass).GetParaRange(Self, CharOfs, ParaRange);
 end;
 
 function TCustomRichMemo.GetParaRange(CharOfs: Integer; var TextStart,
@@ -777,7 +794,8 @@ begin
   Result:=false;
   if not HandleAllocated then HandleNeeded;
   if HandleAllocated then
-    Result:=TWSCustomRichMemoClass(WidgetSetClass).GetParaTabs(Self, CharOfs, AStopList);
+    Result:= isValidCharOfs(CharOfs)
+      and TWSCustomRichMemoClass(WidgetSetClass).GetParaTabs(Self, CharOfs, AStopList);
 end;
 
 function TCustomRichMemo.GetContStyleLength(TextStart: Integer): Integer;
@@ -1086,6 +1104,7 @@ begin
       // depending on the language and search options (to be done)
       // mostly for Arabi and Hebrew languages
       ATextLength:=UTF8Length(ANiddle);
+      Result := (ATextStart >= 0);
     end else begin
       Result:=TWSCustomRichMemoClass(WidgetSetClass).SearchEx(Self, ANiddle, so, ATextStart, ATextLength);
     end;
@@ -1116,6 +1135,14 @@ begin
     Result:=TWSCustomRichMemoClass(WidgetSetClass).GetCanRedo(Self)
   else
     Result:=false;
+end;
+
+function TCustomRichMemo.isValidCharOfs(TextStart: integer): Boolean;
+begin
+  // TextStart, where TextStart = GetTextLen, is a location at the end of the text
+  // it's technically a valid character offset (position)
+  // Because it's where the entry should occur
+  Result := (TextStart >= 0) and (TextStart <= GetTextLen);
 end;
 
 function TCustomRichMemo.PrintMeasure(const params: TPrintParams; var est: TPrintMeasure): Boolean;

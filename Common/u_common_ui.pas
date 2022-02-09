@@ -6,8 +6,8 @@ interface
 
 uses
   Forms, Classes, SysUtils, StdCtrls, graphics, controls, buttons, extctrls, dialogs,
-  u_kinesis_device, eject_USB, u_const, u_key_service, ColorSpeedButtonCS,
-  LabelBox, U_Keys, u_key_layer, contnrs, u_file_service, u_base_key_service, BCButton;
+  u_kinesis_device, eject_USB, u_const, ColorSpeedButtonCS,
+  LabelBox, U_Keys, u_key_layer, contnrs, u_file_service, u_key_service, BCButton;
 
 type
 { TMenuAction }
@@ -80,7 +80,7 @@ end;
 var
   com_ui:integer;
   NeedInput: boolean;
-  keyService: TBaseKeyService;
+  keyService: TKeyService;
   fileService: TFileService;
   keyDownList: TList;
   keyUpList: TList;

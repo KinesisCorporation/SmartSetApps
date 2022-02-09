@@ -81,7 +81,7 @@ Install all the following 3rd party controls (no need to rebuild after each inst
 * \Components\HSButton0.9\HSButton\installpkg.lpk
 * \Components\mbColorLib-2.2.1\mbColorLib\mbcolorliblaz.lpk
 * \Components\mdsliderbarslaz-2\package\mdsliderbarslaz.lpk
-* \Components\richmemo\richmemopackage.lpk
+* \Components\richmemo\ide\richmemo_design.lpk
 * \Components\ueControls_v6.0\uecontrols.lpk
 * \Components\CreoSource\creosource.lpk
 

@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, u_base_form, u_const, UserDialog, lcltype,
-  u_keys, u_common_ui, u_base_key_service, ColorSpeedButtonCS, LineObj;
+  u_keys, u_common_ui, u_key_service, ColorSpeedButtonCS, LineObj;
 
 type
 
@@ -48,19 +48,19 @@ type
     tapAction: word;
     holdAction: word;
     timingDelay: integer;
-    keyService: TBaseKeyService;
+    keyService: TKeyService;
     procedure SetKeyPress(key: word; edit: TEdit = nil);
   end;
 
 var
   FormTapAndHold: TFormTapAndHold;
-  function ShowTapAndHold(aKeyService: TBaseKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
+  function ShowTapAndHold(aKeyService: TKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
 
 implementation
 
 {$R *.lfm}
 
-function ShowTapAndHold(aKeyService: TBaseKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
+function ShowTapAndHold(aKeyService: TKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
 const
   DefaultDelay = 250;
 begin

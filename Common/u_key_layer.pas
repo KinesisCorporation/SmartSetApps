@@ -15,6 +15,7 @@ type
   private
     FOriginalKey: TKey;
     FModifiedKey: TKey;
+    FPositionKey: TKey;
     FTapAction: TKey;
     FHoldAction: TKey;
     FTimingDelay: integer;
@@ -42,7 +43,7 @@ type
   public
     destructor Destroy; override;
     constructor Create;
-    constructor Create(oOriginalKey: TKey; iIndex: integer; bCanEdit: boolean = true; bCanAssignMacro: boolean = true);
+    constructor Create(oOriginalKey: TKey; iIndex: integer; bCanEdit: boolean = true; bCanAssignMacro: boolean = true; oPositionKey: TKey = nil);
     procedure ResetKey;
     procedure ResetMacro;
     procedure Assign(aKbKey: TKBKey; restoreType: TRestoreType);
@@ -50,6 +51,7 @@ type
 
     property OriginalKey: TKey read FOriginalKey write FOriginalKey;
     property ModifiedKey: TKey read FModifiedKey write FModifiedKey;
+    property PositionKey: TKey read FPositionKey write FPositionKey;
     property TapAction: TKey read FTapAction write FTapAction;
     property HoldAction: TKey read FHoldAction write FHoldAction;
     property TimingDelay: integer read FTimingDelay write FTimingDelay;
@@ -226,6 +228,7 @@ begin
     begin
       self.FOriginalKey := aKbKey.OriginalKey.CopyKey;
       self.FModifiedKey := aKbKey.ModifiedKey.CopyKey;
+      self.FPositionKey := aKbKey.FPositionKey.CopyKey;
       self.FTapAction := aKbKey.TapAction.CopyKey;
       self.FHoldAction := aKbKey.HoldAction.CopyKey;
       self.FIndex := aKbKey.Index;
@@ -272,6 +275,7 @@ procedure TKBKey.Init;
 begin
   FOriginalKey := nil;
   FModifiedKey := nil;
+  FPositionKey := nil;
   FTapAction := nil;
   FHoldAction := nil;
   FTimingDelay := 0;
@@ -306,6 +310,8 @@ begin
   FreeAndNil(FMacro5);
   if (FModifiedKey <> nil) then
     FreeAndNil(FModifiedKey);
+  if (FPositionKey <> nil) and (FPositionKey <> FOriginalKey)  then
+    FreeAndNil(FPositionKey);
   if (FOriginalKey <> nil) then
     FreeAndNil(FOriginalKey);
   if (FTapAction <> nil) then
@@ -315,10 +321,14 @@ begin
   inherited Destroy;
 end;
 
-constructor TKBKey.Create(oOriginalKey: TKey; iIndex: integer; bCanEdit: boolean; bCanAssignMacro: boolean);
+constructor TKBKey.Create(oOriginalKey: TKey; iIndex: integer; bCanEdit: boolean; bCanAssignMacro: boolean; oPositionKey: TKey = nil);
 begin
   Init;
   FOriginalKey := oOriginalKey;
+  if (oPositionKey <> nil) then
+    FPositionKey := oPositionKey
+  else
+    FPositionKey := oOriginalKey;
   FIndex := iIndex;
   FCanEdit := bCanEdit;
   FCanAssignMacro := bCanAssignMacro;

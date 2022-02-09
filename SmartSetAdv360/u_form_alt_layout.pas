@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, ColorSpeedButtonCS, LineObj, u_base_form, LCLIntf, u_const, LCLType,
-  u_form_firmware, u_common_ui;
+  StdCtrls, ColorSpeedButtonCS, u_base_form, LCLIntf, u_const, LCLType,
+  u_common_ui, UserDialog;
 
 type
 
@@ -39,17 +39,17 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     procedure SetLayer(curLayerIdx: integer);
+    function Validate: boolean;
   public
-    layerIdx: integer;
   end;
 
 var
   FormAltLayout: TFormAltLayout;
-  function ShowAltLayoutDialog(messageText: string; var curLayerIdx: integer; backColor: TColor; fontColor: TColor): boolean;
+  function ShowAltLayoutDialog(messageText: string; var selLayers: TStringList; backColor: TColor; fontColor: TColor): boolean;
 
 implementation
 
-function ShowAltLayoutDialog(messageText: string; var curLayerIdx: integer; backColor: TColor; fontColor: TColor): boolean;
+function ShowAltLayoutDialog(messageText: string; var selLayers: TStringList; backColor: TColor; fontColor: TColor): boolean;
 begin
   result := false;
   if FormAltLayout <> nil then
@@ -58,7 +58,7 @@ begin
   //Creates the dialog form
   Application.CreateForm(TFormAltLayout, FormAltLayout);
   FormAltLayout.lblMessage.Caption := messageText;
-  FormAltLayout.SetLayer(curLayerIdx);
+  //FormAltLayout.SetLayer(curLayerIdx);
 
   //Loads colors
   FormAltLayout.Color := backColor;
@@ -73,8 +73,18 @@ begin
 
   if FormAltLayout.ShowModal = mrOK then
   begin
+    if (FormAltLayout.btnBaseLayer.Down) then
+      selLayers.Add(IntToStr(LAYER_BASE_360));
+    if (FormAltLayout.btnKpLayer.Down) then
+      selLayers.Add(IntToStr(LAYER_KEYPAD_360));
+    if (FormAltLayout.btnFn1Layer.Down) then
+      selLayers.Add(IntToStr(LAYER_FN1_360));
+    if (FormAltLayout.btnFn2Layer.Down) then
+      selLayers.Add(IntToStr(LAYER_FN2_360));
+    if (FormAltLayout.btnFn3Layer.Down) then
+      selLayers.Add(IntToStr(LAYER_FN3_360));
     result := true;
-    curLayerIdx := FormAltLayout.layerIdx;
+    //curLayerIdx := FormAltLayout.layerIdx;
   end;
 end;
 
@@ -85,7 +95,8 @@ end;
 procedure TFormAltLayout.FormCreate(Sender: TObject);
 begin
   inherited;
-  layerIdx := -1;
+  //layerIdx := -1;
+  //selLayers := TStringList.Create;
 end;
 
 procedure TFormAltLayout.FormKeyDown(Sender: TObject; var Key: Word;
@@ -99,17 +110,17 @@ end;
 
 procedure TFormAltLayout.SetLayer(curLayerIdx: integer);
 begin
-  layerIdx := curLayerIdx;
-  if (curLayerIdx = LAYER_BASE_360) then
-    btnBaseLayer.Down := true
-  else if (curLayerIdx = LAYER_KEYPAD_360) then
-    btnKpLayer.Down := true
-  else if (curLayerIdx = LAYER_FN1_360) then
-    btnFn1Layer.Down := true
-  else if (curLayerIdx = LAYER_FN2_360) then
-    btnFn2Layer.Down := true
-  else if (curLayerIdx = LAYER_FN3_360) then
-    btnFn3Layer.Down := true;
+  //layerIdx := curLayerIdx;
+  //if (curLayerIdx = LAYER_BASE_360) then
+  //  btnBaseLayer.Down := true
+  //else if (curLayerIdx = LAYER_KEYPAD_360) then
+  //  btnKpLayer.Down := true
+  //else if (curLayerIdx = LAYER_FN1_360) then
+  //  btnFn1Layer.Down := true
+  //else if (curLayerIdx = LAYER_FN2_360) then
+  //  btnFn2Layer.Down := true
+  //else if (curLayerIdx = LAYER_FN3_360) then
+  //  btnFn3Layer.Down := true;
 end;
 
 procedure TFormAltLayout.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -148,9 +159,33 @@ begin
   end;
 end;
 
+function TFormAltLayout.Validate: boolean;
+var
+  countDown: integer;
+begin
+  result := false;
+  countDown := 0;
+  if (btnBaseLayer.Down) then
+    inc(countDown);
+  if (btnKpLayer.Down) then
+    inc(countDown);
+  if (btnFn1Layer.Down) then
+    inc(countDown);
+  if (btnFn2Layer.Down) then
+    inc(countDown);
+  if (btnFn3Layer.Down) then
+    inc(countDown);
+
+  if (countDown = 0) then
+    ShowDialog('Alternate Layouts', 'You must select at least one layer', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB)
+  else
+    result := true;
+end;
+
 procedure TFormAltLayout.btnAcceptClick(Sender: TObject);
 begin
-  ModalResult := mrOK;
+  if (Validate) then
+    ModalResult := mrOK;
 
   if (GMasterAppId = APPL_MASTER_OFFICE) then
     LoadButtonImage(sender, imgList, 6)
@@ -169,16 +204,16 @@ end;
 
 procedure TFormAltLayout.btnLayerClick(Sender: TObject);
 begin
-  if (btnBaseLayer.Down) then
-    layerIdx := LAYER_BASE_360
-  else if (btnKpLayer.Down) then
-    layerIdx := LAYER_KEYPAD_360
-  else if (btnFn1Layer.Down) then
-    layerIdx := LAYER_FN1_360
-  else if (btnFn2Layer.Down) then
-    layerIdx := LAYER_FN2_360
-  else if (btnFn3Layer.Down) then
-    layerIdx := LAYER_FN3_360;
+  //if (btnBaseLayer.Down) then
+  //  layerIdx := LAYER_BASE_360
+  //else if (btnKpLayer.Down) then
+  //  layerIdx := LAYER_KEYPAD_360
+  //else if (btnFn1Layer.Down) then
+  //  layerIdx := LAYER_FN1_360
+  //else if (btnFn2Layer.Down) then
+  //  layerIdx := LAYER_FN2_360
+  //else if (btnFn3Layer.Down) then
+  //  layerIdx := LAYER_FN3_360;
 end;
 
 procedure TFormAltLayout.btnCancelClick(Sender: TObject);

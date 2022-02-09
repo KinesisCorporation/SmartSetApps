@@ -2,13 +2,13 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Default"/>
     <Units Count="58">
       <Unit0>
         <Filename Value="SmartSetMaster.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <CursorPos Y="29"/>
         <UsageCount Value="231"/>
         <Loaded Value="True"/>
@@ -19,8 +19,8 @@
         <ComponentName Value="FormDashboard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="38"/>
-        <CursorPos X="66" Y="65"/>
+        <TopLine Value="935"/>
+        <CursorPos X="65" Y="965"/>
         <UsageCount Value="231"/>
         <Bookmarks Count="1">
           <Item0 X="37" Y="741" ID="9"/>
@@ -54,8 +54,7 @@
       <Unit5>
         <Filename Value="..\Common\u_base_key_service.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="318"/>
         <CursorPos X="30" Y="346"/>
         <UsageCount Value="214"/>
@@ -111,8 +110,10 @@
         <ComponentName Value="FormMainRGB"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="51" Y="4"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="5227"/>
+        <CursorPos X="64" Y="5245"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="1">
           <Item0 X="5" Y="2049" ID="1"/>
@@ -177,9 +178,9 @@
         <ComponentName Value="FormMainTKO"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="1425"/>
-        <CursorPos X="42" Y="1455"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="5443"/>
+        <CursorPos X="64" Y="5461"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="7">
           <Item0 X="34" Y="3978" ID="4"/>
@@ -284,10 +285,11 @@
         <ComponentName Value="FormFirmware"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="113"/>
-        <CursorPos X="83" Y="144"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="32"/>
+        <CursorPos X="90" Y="56"/>
         <UsageCount Value="113"/>
+        <Loaded Value="True"/>
       </Unit27>
       <Unit28>
         <Filename Value="..\Components\HSButton0.9\HSButton\HSSpeedButton.pas"/>
@@ -445,7 +447,7 @@
         <ComponentName Value="FormExport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="41"/>
         <CursorPos X="37" Y="48"/>
         <UsageCount Value="15"/>
@@ -504,7 +506,7 @@
         <ComponentName Value="FormAboutMaster"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="56"/>
         <CursorPos X="47" Y="79"/>
         <UsageCount Value="15"/>
@@ -512,7 +514,7 @@
       </Unit54>
       <Unit55>
         <Filename Value="..\Common\u_form_troubleshoot.pas"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="23"/>
         <CursorPos X="10" Y="41"/>
         <UsageCount Value="15"/>
@@ -523,7 +525,7 @@
         <ComponentName Value="FormIntro"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="13"/>
         <CursorPos X="22" Y="38"/>
         <UsageCount Value="15"/>
@@ -532,7 +534,7 @@
       </Unit56>
       <Unit57>
         <Filename Value="..\SmartSetRGB\u_key_service.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <CursorPos X="105" Y="12"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -540,168 +542,169 @@
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="1317" Column="18" TopLine="1288"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="1483" Column="75" TopLine="1478"/>
       </Position1>
       <Position2>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="1498" Column="25" TopLine="1468"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
       </Position2>
       <Position3>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="1732" Column="39" TopLine="1714"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="533" Column="19" TopLine="505"/>
       </Position3>
       <Position4>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="4481" Column="65" TopLine="4473"/>
+        <Caret Line="630" Column="33" TopLine="602"/>
       </Position4>
       <Position5>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="1101" Column="21" TopLine="1072"/>
       </Position5>
       <Position6>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="534" Column="16" TopLine="506"/>
+        <Caret Line="1324" Column="28" TopLine="1294"/>
       </Position6>
       <Position7>
-        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="629" Column="30" TopLine="601"/>
+        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
+        <Caret Line="1661" Column="54" TopLine="1657"/>
       </Position7>
       <Position8>
-        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="1102" Column="18" TopLine="1073"/>
+        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
+        <Caret Line="4" Column="51"/>
       </Position8>
       <Position9>
-        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="1325" Column="25" TopLine="1295"/>
+        <Filename Value="..\SmartSetRGB\u_key_service.pas"/>
+        <Caret Line="12" Column="105"/>
       </Position9>
       <Position10>
-        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="1502" Column="39" TopLine="1472"/>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
       </Position10>
       <Position11>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="1737" Column="41" TopLine="1714"/>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <Caret Line="308" Column="16" TopLine="290"/>
       </Position11>
       <Position12>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <Caret Line="3703" Column="36" TopLine="3682"/>
       </Position12>
       <Position13>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="671" Column="16" TopLine="642"/>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <Caret Line="3705" Column="29" TopLine="3682"/>
       </Position13>
       <Position14>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="838" Column="30" TopLine="810"/>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <Caret Line="3954" Column="61" TopLine="3938"/>
       </Position14>
       <Position15>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="1316" Column="14" TopLine="1288"/>
+        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <Caret Line="346" Column="30" TopLine="318"/>
       </Position15>
       <Position16>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="837" Column="15" TopLine="820"/>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="587" Column="50" TopLine="569"/>
       </Position16>
       <Position17>
-        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="1483" Column="75" TopLine="1478"/>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="24" Column="45"/>
       </Position17>
       <Position18>
-        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="112" Column="16" TopLine="83"/>
       </Position18>
       <Position19>
-        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="533" Column="19" TopLine="505"/>
+        <Filename Value="u_form_dashboard.pas"/>
+        <Caret Line="965" Column="65" TopLine="935"/>
       </Position19>
       <Position20>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="630" Column="33" TopLine="602"/>
+        <Caret Line="5457" Column="65" TopLine="5443"/>
       </Position20>
       <Position21>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="1101" Column="21" TopLine="1072"/>
       </Position21>
       <Position22>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
-        <Caret Line="1324" Column="28" TopLine="1294"/>
+        <Caret Line="7858" Column="31" TopLine="7828"/>
       </Position22>
       <Position23>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="1661" Column="54" TopLine="1657"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="761" Column="16" TopLine="744"/>
       </Position23>
       <Position24>
-        <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
-        <Caret Line="4" Column="51"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="1087" Column="14" TopLine="1058"/>
       </Position24>
       <Position25>
-        <Filename Value="..\SmartSetRGB\u_key_service.pas"/>
-        <Caret Line="12" Column="105"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="2531" Column="44" TopLine="2501"/>
       </Position25>
       <Position26>
-        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="2538" Column="44" TopLine="2508"/>
       </Position26>
       <Position27>
-        <Filename Value="..\Common\u_base_key_service.pas"/>
-        <Caret Line="308" Column="16" TopLine="290"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="2549" Column="45" TopLine="2520"/>
       </Position27>
       <Position28>
-        <Filename Value="..\Common\u_base_key_service.pas"/>
-        <Caret Line="3703" Column="36" TopLine="3682"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="7798" Column="42" TopLine="7769"/>
       </Position28>
       <Position29>
-        <Filename Value="..\Common\u_base_key_service.pas"/>
-        <Caret Line="3705" Column="29" TopLine="3682"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="7805" Column="42" TopLine="7776"/>
       </Position29>
       <Position30>
-        <Filename Value="..\Common\u_base_key_service.pas"/>
-        <Caret Line="3954" Column="61" TopLine="3938"/>
+        <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
+        <Caret Line="5461" Column="64" TopLine="5443"/>
       </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode=""/>
+      <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="4">
-      <Item1>
+    <BreakPoints>
+      <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="..\Common\usbdriveflush.pas"/>
         <Line Value="72"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="..\Common\usbdriveflush.pas"/>
         <Line Value="73"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="C:\lazarus\lcl\stdctrls.pp"/>
         <Line Value="1672"/>
-      </Item3>
-      <Item4>
+      </Item>
+      <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="C:\usr\local\share\fpcsrc\3.2.0\rtl\objpas\classes\lists.inc"/>
         <Line Value="656"/>
-      </Item4>
+      </Item>
     </BreakPoints>
-    <Watches Count="3">
-      <Item1>
+    <Watches>
+      <Item>
         <Expression Value="self.name"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Expression Value="IsMainForm"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <Expression Value="hoveredObj"/>
-      </Item3>
+      </Item>
     </Watches>
   </Debugging>
 </CONFIG>

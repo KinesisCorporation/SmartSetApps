@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, u_const, u_debug, graphics, VersionSupport,
-  u_kinesis_device, dialogs, LazFileUtils, Zipper, HTTPSend, ssl_openssl;
+  u_kinesis_device, dialogs, LazFileUtils, Zipper;//, HTTPSend, ssl_openssl;
 
 type
   //FileService contains all logic for file management
@@ -22,13 +22,9 @@ type
     FStateSettings: TStateSettings;
     FAppSettings: TAppSettings;
     FFirmwareVersionKBD: string;
-    FFirmwareVersionKBD_L: string;
     FFirmwareMajorKBD: integer;
     FFirmwareMinorKBD: integer;
     FFirmwareRevisionKBD: integer;
-    FFirmwareMajorKBD_L: integer;
-    FFirmwareMinorKBD_L: integer;
-    FFirmwareRevisionKBD_L: integer;
     FFirmwareVersionLED: string;
     FFirmwareMajorLED: integer;
     FFirmwareMinorLED: integer;
@@ -114,7 +110,6 @@ type
     property ModelName: string read FModelName;
     property LayoutContent: TStringList read FLayoutContent;
     property FirmwareVersionKBD: string read FFirmwareVersionKBD;
-    property FirmwareVersionKBD_L: string read FFirmwareVersionKBD_L;
     property FirmwareVersionLED: string read FFirmwareVersionLED;
     property AllowEditSettings: boolean read FAllowEditSettings;
     property AppVersion: string read FAppVersion;
@@ -585,14 +580,12 @@ var
   sVersion: string;
   FirmwareTextKBD: string;
   FirmwareTextLED: string;
-  FirmwareTextKBD_L: string;
   firmwareInfo: TFirmwareInfo;
   ModelNameText: string;
 begin
   fileContent := nil;
   firmwareInfo.ModelName := '';
   firmwareInfo.VersionKBD := '';
-  firmwareInfo.VersionKBD_L := '';
   firmwareInfo.MajorKBD := -1;
   firmwareInfo.MinorKBD := -1;
   firmwareInfo.RevisionKBD := -1;
@@ -611,7 +604,6 @@ begin
     else if (aDevice.DeviceNumber in [APPL_ADV360]) then
     begin
       FirmwareTextKBD := 'kbd_fw_r';
-      FirmwareTextKBD_L := 'kbd_fw_l';
       FirmwareTextLED := '';
       ModelNameText := 'model';
     end
@@ -643,12 +635,7 @@ begin
           begin
             firmwareInfo.VersionLED := Trim(Copy(currentLine, length(FirmwareTextLED) + 2, length(currentLine)));
             GetVersionNumbers(firmwareInfo.VersionLED, firmwareInfo.MajorLED, firmwareInfo.MinorLED, firmwareInfo.RevisionLED);
-          end
-          else if (Copy(currentLine, 1, length(FirmwareTextKBD_L)) = FirmwareTextKBD_L) then
-          begin
-            firmwareInfo.VersionKBD_L := Trim(Copy(currentLine, length(FirmwareTextKBD_L) + 2, length(currentLine)));
-            GetVersionNumbers(firmwareInfo.VersionKBD_L, firmwareInfo.MajorKBD_L, firmwareInfo.MinorKBD_L, firmwareInfo.RevisionKBD_L);
-          end
+          end;
         end;
       end;
     end;
@@ -702,41 +689,42 @@ begin
 end;
 
 function TFileService.DownloadFile(url: string; destFolder: string): boolean;
-var
-  HTTP: THTTPSend;
-  Redirected: boolean;
-  sFileName: String;
-  i: integer;
+//var
+//  HTTP: THTTPSend;
+//  Redirected: boolean;
+//  sFileName: String;
+//  i: integer;
 begin
   result := false;
-  HTTP := THTTPSend.Create;
-  try
-    repeat
-      Redirected := False;
-      HTTP.HTTPMethod('GET', Url);
-      case HTTP.Resultcode of
-        301, 302, 307:
-        begin
-          for i := 0 to HTTP.Headers.Count - 1 do
-            if (Pos('location: ', lowercase(HTTP.Headers.Strings[i])) = 1) then
-            begin
-              Url := StringReplace(HTTP.Headers.Strings[i], 'location: ', '', []);
-              HTTP.Clear;
-              Redirected := True;
-              break;
-            end;
-        end;
-      end;
-    until not Redirected;
-
-    sFileName := ExtractFileName(url);
-
-    HTTP.Document.SaveToFile(IncludeTrailingBackslash(destFolder) + sFileName);
-
-    result := true;
-  finally
-    HTTP.Free;
-  end;
+  //result := false;
+  //HTTP := THTTPSend.Create;
+  //try
+  //  repeat
+  //    Redirected := False;
+  //    HTTP.HTTPMethod('GET', Url);
+  //    case HTTP.Resultcode of
+  //      301, 302, 307:
+  //      begin
+  //        for i := 0 to HTTP.Headers.Count - 1 do
+  //          if (Pos('location: ', lowercase(HTTP.Headers.Strings[i])) = 1) then
+  //          begin
+  //            Url := StringReplace(HTTP.Headers.Strings[i], 'location: ', '', []);
+  //            HTTP.Clear;
+  //            Redirected := True;
+  //            break;
+  //          end;
+  //      end;
+  //    end;
+  //  until not Redirected;
+  //
+  //  sFileName := ExtractFileName(url);
+  //
+  //  HTTP.Document.SaveToFile(IncludeTrailingBackslash(destFolder) + sFileName);
+  //
+  //  result := true;
+  //finally
+  //  HTTP.Free;
+  //end;
 end;
 
 function TFileService.FactoryReset(aDevice: TDevice): string;
@@ -769,7 +757,6 @@ var
   sTemp: string;
   sVersion: string;
   FirmwareTextKBD: string;
-  FirmwareTextKBD_L: string;
   FirmwareTextLED: string;
   ModelNameText: string;
 begin
@@ -785,7 +772,6 @@ begin
     else if (aDevice.DeviceNumber in [APPL_ADV360]) then
     begin
       FirmwareTextKBD := 'kbd_fw_r';
-      FirmwareTextKBD_L := 'kbd_fw_l';
       FirmwareTextLED := '';
       ModelNameText := 'model';
     end
@@ -820,11 +806,6 @@ begin
           begin
             FFirmwareVersionKBD := Trim(Copy(currentLine, length(FirmwareTextKBD) + 2, length(currentLine)));
             GetVersionNumbers(FFirmwareVersionKBD, FFirmwareMajorKBD, FFirmwareMinorKBD, FFirmwareRevisionKBD);
-          end
-          else if (Copy(currentLine, 1, length(FirmwareTextKBD_L)) = FirmwareTextKBD_L) then
-          begin
-            FFirmwareVersionKBD_L := Trim(Copy(currentLine, length(FirmwareTextKBD_L) + 2, length(currentLine)));
-            GetVersionNumbers(FFirmwareVersionKBD_L, FFirmwareMajorKBD_L, FFirmwareMinorKBD_L, FFirmwareRevisionKBD_L);
           end
           else if (Copy(currentLine, 1, length(FirmwareTextLED)) = FirmwareTextLED) then
           begin

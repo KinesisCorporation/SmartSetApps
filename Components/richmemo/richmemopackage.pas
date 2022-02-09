@@ -4,19 +4,13 @@
 
 unit richmemopackage;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  RichMemoFactory, richmemoregister, RichMemoRTF, RichMemoUtils, 
-  RichMemoHelpers, RTFParsPre211, RtfEditPropDialog, LazarusPackageIntf;
+  RichMemoFactory, RichMemo, RichMemoRTF, RichMemoUtils, RichMemoHelpers, 
+  RTFParsPre211;
 
 implementation
 
-procedure Register;
-begin
-  RegisterUnit('richmemoregister', @richmemoregister.Register);
-end;
-
-initialization
-  RegisterPackage('richmemopackage', @Register);
 end.

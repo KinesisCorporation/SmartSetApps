@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, u_form_dashboard, u_const, u_form_main_adv360, uecontrols;
+  Forms, u_form_dashboard, u_const;
 
 {$R *.res}
 
@@ -21,7 +21,6 @@ begin
     UseHeapTrace := false;
   {$endif}
   RequireDerivedFormResource:=True;
-  Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TFormDashboard, FormDashboard);
   Application.Run;

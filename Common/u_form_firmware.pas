@@ -80,8 +80,11 @@ begin
 
       if (device.DeviceNumber = APPL_ADV360) then
       begin
-        FormFirmware.lblKeyboard.Caption := 'Left Module Firmware :';
-        FormFirmware.lblLightning.Caption := 'Right Module Firmware :';
+        FormFirmware.lblLightning.Visible := false;
+        FormFirmware.firmwareBtn2.Visible := false;
+        FormFirmware.lblApp.Top := FormFirmware.lblLightning.Top;
+        FormFirmware.firmwareBtn3.Top := FormFirmware.firmwareBtn2.Top;
+        FormFirmware.Height := FormFirmware.Height - FormFirmware.firmwareBtn3.Height;
       end;
 
       //Shows dialog
@@ -136,7 +139,7 @@ begin
     end
     else if (aDevice.DeviceNumber = APPL_ADV360) then
     begin
-      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
+      OpenURL(ADV360_FIRMWARE);
     end;
   end;
 end;
@@ -150,7 +153,7 @@ begin
     else if (aDevice.DeviceNumber = APPL_TKO) then
       OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#firmware')
     else if (aDevice.DeviceNumber = APPL_ADV360) then
-      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#firmware');
+      OpenURL(ADV360_FIRMWARE);
   end;
 end;
 
@@ -159,11 +162,11 @@ begin
   if (appMustUpdate) then
   begin
     if (aDevice.DeviceNumber = APPL_RGB) then
-      OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#smartset')
+      OpenURL(IncludeTrailingBackslash(RGB_HELP) + '#smartset-app')
     else if (aDevice.DeviceNumber = APPL_TKO) then
-      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#smartset')
+      OpenURL(IncludeTrailingBackslash(TKO_HELP) + '#smartset-app')
     else if (aDevice.DeviceNumber = APPL_ADV360) then
-      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#smartset');
+      OpenURL(IncludeTrailingBackslash(ADV360_HELP) + '#smartset-app');
   end;
 end;
 
@@ -229,7 +232,10 @@ begin
         Screen.Cursor := crHourGlass;
 
         //Get file info, should return as: {"keyboard_ver":"1.0.0","lighting_ver":"1.0.0","app_ver":"2.0.20", "mac_app_ver":"2.1.3"}
-        verInfo := ReadURLGet('https://gaming.kinesis-ergo.com/wp-json/ksv/v1/get_versions');
+        if (GMasterAppId = APPL_MASTER_GAMING) then
+          verInfo := ReadURLGet('https://gaming.kinesis-ergo.com/wp-json/ksv/v1/get_versions')
+        else
+          verInfo := ReadURLGet('https://kinesis-ergo.com/wp-json/ksv/v1/get_versions');
 
         //Debug firmware show version info
         if (GDebugFirmware) then
@@ -248,16 +254,27 @@ begin
             keyboardVer := jObject.Get('tko_keyboard_version');
             lightingVer := jObject.Get('tko_lighting_version');
           end
-          else
+          else if (aDevice.DeviceNumber = APPL_RGB) then
           begin
             keyboardVer := jObject.Get('keyboard_ver');
             lightingVer := jObject.Get('lighting_ver');
+          end
+          else if (aDevice.DeviceNumber = APPL_ADV360) then
+          begin
+            keyboardVer := jObject.Get('kb360_version');
+            lightingVer := jObject.Get('kb360_version');
           end;
           {$ifdef Win32}
-          appVer := jObject.Get('app_ver');
+          if (GMasterAppId = APPL_MASTER_GAMING) then
+            appVer := jObject.Get('app_ver')
+          else
+            appVer := jObject.Get('pc_app_version');
           {$endif}
           {$ifdef Darwin}
-          appVer := jObject.Get('mac_app_ver');
+          if (GMasterAppId = APPL_MASTER_GAMING) then
+            appVer := jObject.Get('mac_app_ver')
+          else
+            appVer := jObject.Get('mac_app_version');
           {$endif}
 
           //Compare keyboard version

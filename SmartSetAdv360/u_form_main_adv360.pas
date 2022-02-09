@@ -637,6 +637,7 @@ type
     function GetIndColor(indIdx: integer): TColor;
     function GetKeyButtonUnderMouse(btnList: TObjectList; x: integer; y: integer): TLabelBox;
     function GetLedMode: TLedMode;
+    function GetMacroDots(curKbKey: TKBKey): integer;
     function GetMenuActionByType(actionType: TMenuActionType): TMenuAction;
     function GetMenuActionByButton(buttonName: string): TMenuAction;
     procedure GetRBGEditColor(layerIdx: integer);
@@ -699,11 +700,11 @@ type
     procedure scanVDriveInitClick(Sender: TObject);
     procedure SetActiveKeyButton(keyButton: TLabelBox);
     procedure SetActiveLayer(layerIdx: integer);
-    procedure SetColemakKb(layerIdx: integer; bothLayers: boolean);
+    procedure SetColemakKb(selLayers: TStringList);
     procedure SetConfigMode(mode: integer; init: boolean = false);
     procedure SetCoTrigger(aKey: TKey);
     procedure SetCurrentMenuAction(aType: TMenuActionType; aButton: TColorSpeedButtonCS);
-    procedure SetDvorakKb(layerIdx: integer; bothLayers: boolean);
+    procedure SetDvorakKb(selLayers: TStringList);
     procedure SetFnNumericKpLeft;
     procedure SetFnNumericKpRight;
     procedure SetFormBorder(formBorder: TFormBorderStyle);
@@ -726,7 +727,7 @@ type
     procedure SetRemapMode(value: boolean);
     procedure SetSaveState(aSaveState: TSaveState);
     procedure SetWindowsCombo(value: boolean);
-    procedure SetWorkmanKb(layerIdx: integer; bothLayers: boolean);
+    procedure SetWorkmanKb(selLayers: TStringList);
     procedure ShowHideKeyButtons(value: boolean);
     procedure ShowHideShapeColor(value: boolean);
     procedure ShowHideParameters(param: integer; state: boolean);
@@ -1680,7 +1681,7 @@ begin
   AddMenuItem(popMenu, 'International Key', VK_OEM_102);
   AddMenuItem(popMenu, 'Disable Key', VK_NULL);
   AddMenuItem(popMenu, 'SmartSet Key', VK_SMARTSET);
-  AddMenuItem(popMenu, 'Stop Macro', VK_STOP_MACRO_PLAYBACK);
+  //Not implemented AddMenuItem(popMenu, 'Stop Macro', VK_STOP_MACRO_PLAYBACK);
   AddMenuItem(popMenu, 'Application', VK_APPS);
   AddMenuItem(popMenu, 'System Power', VK_SHUTDOWN);
   btnSpecialActions.PopupMenu := popMenu;
@@ -1988,7 +1989,7 @@ var
   keyShiftActiveLayer: integer;
   indIdx: integer;
   indToken: TIndFunction;
-  layerIdx: integer;
+  selLayers: TStringList;
 begin
   mnu := (sender as TMenuItem);
   mnuAction := mnu.Tag;
@@ -2010,26 +2011,26 @@ begin
         layoutName := 'Workman';
       end;
 
-      layerIdx := keyService.ActiveLayer.LayerIndex;
-      if (ShowAltLayoutDialog('Would you like to apply the ' + layoutName + ' alternate layout?' + #10#10 +
-        'Note: Implementing this layout may overwrite existing remaps.',
-        layerIdx, backColor, fontColor)) then
-      //if (ShowDialog('Alternate Layout',
-      //  'Would you like to apply the ' + layoutName + ' alternate layout?' + #10#10 +
-      //  'Note: Implementing this layout may overwrite existing remaps.',
-      //  mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes) then
-      begin
-        if (mnuAction = VK_DVORAK) then
-          SetDvorakKb(layerIdx, false)
-        else if (mnuAction = VK_COLEMAK) then
-          SetColemakKb(layerIdx, false)
-        else if (mnuAction = VK_WORKMAN) then
-          SetWorkmanKb(layerIdx, false);
-      end
-      else
-      begin
-        ResetPopupMenu;
-        ResetSingleKey;
+      selLayers := TStringList.Create;
+      try
+        if (ShowAltLayoutDialog('Which layers would you like to implement the ' + layoutName + ' layout?' + #10#10 +
+          'Note: Implementing this layout will overwrite any existing remaps.',
+          selLayers, backColor, fontColor)) then
+        begin
+          if (mnuAction = VK_DVORAK) then
+            SetDvorakKb(selLayers)
+          else if (mnuAction = VK_COLEMAK) then
+            SetColemakKb(selLayers)
+          else if (mnuAction = VK_WORKMAN) then
+            SetWorkmanKb(selLayers);
+        end
+        else
+        begin
+          ResetPopupMenu;
+          ResetSingleKey;
+        end;
+      finally
+        FreeAndNil(selLayers);
       end;
     end
     else if (mnuAction = VK_BASE_LAYER_SHIFT) or (mnuAction = VK_KP_LAYER_SHIFT) or (mnuAction = VK_FN1_LAYER_SHIFT) or
@@ -2057,6 +2058,8 @@ begin
         keyShiftActiveLayer := GetKeyShiftActiveLayer;
         keyService.SetKBKey(aKbKeyOtherLayer, keyShiftActiveLayer, true);
       end;
+      ResetPopupMenu;
+      ResetSingleKey;
     end
     else if (mnuAction  = VK_NUMERIC_RIGHT) then
     begin
@@ -2959,6 +2962,23 @@ begin
 
     if not(fullLoad) then
       keyButton.Invalidate; //Repaint;
+  end;
+end;
+
+function TFormMainAdv360.GetMacroDots(curKbKey: TKBKey): integer;
+var
+  i:integer;
+  kbKey: TKBKey;
+begin
+  result := curKbKey.MacroCount;
+  for i := 0 to keyService.ActiveLayer.KBKeyList.Count - 1 do
+  begin
+    kbKey := keyService.ActiveLayer.KBKeyList[i];
+    if (kbKey <> curKbKey) then
+    begin
+      if (kbKey.ModifiedKey <> nil) and (curKbKey.ModifiedKey <> nil) and (kbKey.ModifiedKey.Key = curKbKey.ModifiedKey.Key) then
+        result := result + kbKey.MacroCount;
+    end;
   end;
 end;
 
@@ -3871,19 +3891,19 @@ var
   customBtns: TCustomButtons;
   hideNotif: integer;
 begin
-  if (fileService.VersionIsEqualKBD(1, 0, 0)) then
-  begin
-    //createCustomButton(customBtns, 'OK', 100, nil, bkOK);
-    createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
-    hideNotif := ShowDialog('Firmware', 'Attention macro users: Update your firmware now for full functionality.',
-      mtWarning, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns, 'Hide this notification?');
-
-    if (hideNotif >= DISABLE_NOTIF) then
-    begin
-      fileService.SetAppCheckFirmMsg(true);
-      fileService.SaveAppSettings;
-    end;
-  end;
+  //if (fileService.VersionIsEqualKBD(1, 0, 0)) then
+  //begin
+  //  //createCustomButton(customBtns, 'OK', 100, nil, bkOK);
+  //  createCustomButton(customBtns, 'Upgrade Firmware', 175, @openFirwareWebsite);
+  //  hideNotif := ShowDialog('Firmware', 'Attention macro users: Update your firmware now for full functionality.',
+  //    mtWarning, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns, 'Hide this notification?');
+  //
+  //  if (hideNotif >= DISABLE_NOTIF) then
+  //  begin
+  //    fileService.SetAppCheckFirmMsg(true);
+  //    fileService.SaveAppSettings;
+  //  end;
+  //end;
 end;
 
 procedure TFormMainAdv360.SetMenuEnabled;
@@ -4049,7 +4069,7 @@ var
   firmwareVer: string;
 begin
   NeedInput := true;
-  ShowHelpOffice(backColor, fontColor, fileService.FirmwareVersionKBD_L, fileService.FirmwareVersionKBD);
+  ShowHelpOffice(backColor, fontColor, fileService.FirmwareVersionKBD);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
   NeedInput := false;
@@ -4450,8 +4470,33 @@ begin
   else
     aCanvas.font.color := fontColor;
   aCanvas.Font.Name := self.Font.Name;
+  aCanvas.Font.Size := 13;
 
-    aCanvas.Font.Size := 13;
+  //Disable menu items based on active layer
+  if (mnu.Tag = VK_BASE_LAYER_SHIFT) or (mnu.Tag = VK_BASE_LAYER_TOGGLE) then
+  begin
+    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_BASE_360);
+  end
+  else if (mnu.Tag = VK_KP_LAYER_SHIFT) or (mnu.Tag = VK_KP_LAYER_TOGGLE) then
+  begin
+    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_KEYPAD_360);
+  end
+  else if (mnu.Tag = VK_FN1_LAYER_SHIFT) or (mnu.Tag = VK_FN1_LAYER_TOGGLE) then
+  begin
+    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN1_360);
+  end
+  else if (mnu.Tag = VK_FN2_LAYER_SHIFT) or (mnu.Tag = VK_FN2_LAYER_TOGGLE) then
+  begin
+    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN2_360);
+  end
+  else if (mnu.Tag = VK_FN3_LAYER_SHIFT) or (mnu.Tag = VK_FN3_LAYER_TOGGLE) then
+  begin
+    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN3_360);
+  end;
+
+  if (not mnu.Enabled) then
+    aCanvas.font.color := KINESIS_LIGHTER_GRAY_ADV360;
+
   aCanvas.fillrect( aRect );
   acanvas.textrect( aRect, arect.left+4, arect.top+2, mnu.caption );
 end;
@@ -5969,7 +6014,7 @@ begin
   keyService.ResetKey(aLayer, 52);
 end;
 
-procedure TFormMainAdv360.SetWorkmanKb(layerIdx: integer; bothLayers: boolean);
+procedure TFormMainAdv360.SetWorkmanKb(selLayers: TStringList);
 var
   aLayer: TKBLayer;
   i: integer;
@@ -5978,10 +6023,10 @@ begin
   begin
     CloseDialog(mrOk);
 
-    for i := 0 to keyService.KBLayers.Count - 1 do
+    for i := 0 to selLayers.Count - 1 do
     begin
-      aLayer := keyService.KBLayers[i];
-      if (aLayer <> nil) and (bothLayers or (layerIdx = i)) then
+      aLayer := keyService.GetLayer(StrToInt(selLayers[i]));
+      if (aLayer <> nil) then
       begin
         KeyModified := true;
         SetSaveState(ssModified);
@@ -6013,19 +6058,14 @@ begin
       end;
     end;
 
-    if (not bothLayers) then
-    begin
-      SetActiveLayer(layerIdx);
-    end
-    else
-      LoadLayer(keyService.ActiveLayer);
+    LoadLayer(keyService.ActiveLayer);
     RefreshRemapInfo;
     ResetPopupMenu;
     ResetSingleKey;
   end;
 end;
 
-procedure TFormMainAdv360.SetDvorakKb(layerIdx: integer; bothLayers: boolean);
+procedure TFormMainAdv360.SetDvorakKb(selLayers: TStringList);
 var
   aLayer: TKBLayer;
   i: integer;
@@ -6034,10 +6074,10 @@ begin
   begin
     CloseDialog(mrOk);
 
-    for i := 0 to keyService.KBLayers.Count - 1 do
+    for i := 0 to selLayers.Count - 1 do
     begin
-      aLayer := keyService.KBLayers[i];
-      if (aLayer <> nil) and (bothLayers or (layerIdx = i)) then
+      aLayer := keyService.GetLayer(StrToInt(selLayers[i]));
+      if (aLayer <> nil) then
       begin
         KeyModified := true;
         SetSaveState(ssModified);
@@ -6081,19 +6121,14 @@ begin
       end;
     end;
 
-    if (not bothLayers) then
-    begin
-      SetActiveLayer(layerIdx);
-    end
-    else
-      LoadLayer(keyService.ActiveLayer);
+    LoadLayer(keyService.ActiveLayer);
     RefreshRemapInfo;
     ResetPopupMenu;
     ResetSingleKey;
   end;
 end;
 
-procedure TFormMainAdv360.SetColemakKb(layerIdx: integer; bothLayers: boolean);
+procedure TFormMainAdv360.SetColemakKb(selLayers: TStringList);
 var
   aLayer: TKBLayer;
   i: integer;
@@ -6102,10 +6137,10 @@ begin
   begin
     CloseDialog(mrOk);
 
-    for i := 0 to keyService.KBLayers.Count - 1 do
+    for i := 0 to selLayers.Count - 1 do
     begin
-      aLayer := keyService.KBLayers[i];
-      if (aLayer <> nil) and (bothLayers or (layerIdx = i)) then
+      aLayer := keyService.GetLayer(StrToInt(selLayers[i]));
+      if (aLayer <> nil) then
       begin
         KeyModified := true;
         SetSaveState(ssModified);
@@ -6133,12 +6168,7 @@ begin
       end;
     end;
 
-    if (not bothLayers) then
-    begin
-      SetActiveLayer(layerIdx);
-    end
-    else
-      LoadLayer(keyService.ActiveLayer);
+    LoadLayer(keyService.ActiveLayer);
     RefreshRemapInfo;
     ResetPopupMenu;
     ResetSingleKey;

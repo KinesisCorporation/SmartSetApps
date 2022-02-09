@@ -17,7 +17,10 @@ inherited FormAboutOffice: TFormAboutOffice
     Width = 416
     ClientWidth = 416
     inherited lblTitle: TLabel
-      Width = 361
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 412
     end
     inherited btnCloseLight: TColorSpeedButtonCS
       Left = 381

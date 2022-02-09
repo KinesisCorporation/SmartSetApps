@@ -783,10 +783,14 @@ begin
 
   // add border for memo
   gtk_scrolled_window_set_shadow_type(PGtkScrolledWindow(Widget),
-    BorderStyleShadowMap[TCustomControl(AWinControl).BorderStyle]);
+    BorderStyleShadowMap[TCustomMemo(AWinControl).BorderStyle]);
 
   SetMainWidget(Widget, TempWidget);
+  {$ifdef RMLCLTRUNK}
+  GetWidgetInfo(Widget)^.CoreWidget := TempWidget;
+  {$else}
   GetWidgetInfo(Widget, True)^.CoreWidget := TempWidget;
+  {$endif}
 
   gtk_text_view_set_editable(PGtkTextView(TempWidget), not TCustomMemo(AWinControl).ReadOnly);
   gtk_text_view_set_justification(PGtkTextView(TempWidget), aGtkJustification[TCustomMemo(AWinControl).Alignment]);
@@ -867,7 +871,11 @@ class function TGtk2WSCustomRichMemo.GetStrings(const ACustomMemo: TCustomMemo
 var
   TextView: PGtkTextView;
 begin
+  {$ifdef RMLCLTRUNK}
+  TextView := PGtkTextView(GetWidgetInfo({%H-}Pointer(ACustomMemo.Handle))^.CoreWidget);
+  {$else}
   TextView := PGtkTextView(GetWidgetInfo({%H-}Pointer(ACustomMemo.Handle), False)^.CoreWidget);
+  {$endif}
   Result := TGtk2RichMemoStrings.Create(TextView, ACustomMemo);
 end;
 

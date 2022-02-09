@@ -33,20 +33,20 @@ type
     { private declarations }
     function FindFirstNumberPos(value: string): integer;
     procedure OpenHelpFile;
-    procedure SetFirmwareVersion(firmwareVersion: string; firmwareAlt: string);
+    procedure SetFirmwareVersion(firmwareVersion: string);
   public
     { public declarations }
   end;
 
 var
   FormAboutOffice: TFormAboutOffice;
-  procedure ShowHelpOffice(backColor: TColor; fontColor: TColor; firmwareVersion: string; firmwareAlt: string = '');
+  procedure ShowHelpOffice(backColor: TColor; fontColor: TColor; firmwareVersion: string);
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowHelpOffice(backColor: TColor; fontColor: TColor; firmwareVersion: string; firmwareAlt: string = '');
+procedure ShowHelpOffice(backColor: TColor; fontColor: TColor; firmwareVersion: string);
 begin
   //Close the dialog if opened
   if FormAboutOffice <> nil then
@@ -55,7 +55,7 @@ begin
   //Creates the dialog form
   Application.CreateForm(TFormAboutOffice, FormAboutOffice);
 
-  FormAboutOffice.SetFirmwareVersion(firmwareVersion, firmwareAlt);
+  FormAboutOffice.SetFirmwareVersion(firmwareVersion);
 
   //Loads colors
   FormAboutOffice.Color := backColor;
@@ -164,19 +164,11 @@ begin
   end;
 end;
 
-procedure TFormAboutOffice.SetFirmwareVersion(firmwareVersion: string; firmwareAlt: string);
+procedure TFormAboutOffice.SetFirmwareVersion(firmwareVersion: string);
 begin
   if (firmwareVersion <> '') then
   begin
-  if (GApplication = APPL_ADV360) then
-  begin
-    lblFirmware.Caption := 'Keyboard Firmware (left): ' + firmwareVersion + #10 +
-      'Keyboard Firmware (right): ' + firmwareAlt;
-  end
-  else
-  begin
     lblFirmware.Caption := 'Keyboard Firmware: v' + firmwareVersion
-  end;
   end
   else
     lblFirmware.Caption := 'Keyboard Firmware : not found';

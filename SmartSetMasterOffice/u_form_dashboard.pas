@@ -6,11 +6,12 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  LineObj, ColorSpeedButtonCS, BCImageButton, BCButton, u_form_main_adv2,
-  u_form_main_fs, u_form_keypress, u_const, LResources, FileUtil,
+  ColorSpeedButtonCS, UserDialog,
+  u_form_main_adv2, u_form_main_fs, u_form_keypress,
+  u_form_main_adv360,
+  u_const, LResources, FileUtil,
   u_kinesis_device, LCLIntf, Buttons, u_form_loading, u_form_about_master,
-  u_form_settings_master, u_form_firmware, u_common_ui, u_form_scanvdrive,
-  UserDialog, u_form_main_adv360
+  u_form_settings_master, u_form_firmware, u_common_ui, u_form_scanvdrive
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -24,9 +25,6 @@ type
     btnCheckUpdatesConnected4: TColorSpeedButtonCS;
     btnCheckUpdatesConnected5: TColorSpeedButtonCS;
     btnCheckUpdatesConnected6: TColorSpeedButtonCS;
-    btnEject2: TColorSpeedButtonCS;
-    btnEject3: TColorSpeedButtonCS;
-    btnEject4: TColorSpeedButtonCS;
     btnOpenApp1: TColorSpeedButtonCS;
     btnOpenApp2: TColorSpeedButtonCS;
     btnOpenApp3: TColorSpeedButtonCS;
@@ -66,7 +64,6 @@ type
     lblConnApp6: TLabel;
     lblDemoMode: TLabel;
     lblHelp: TLabel;
-    btnEject1: TColorSpeedButtonCS;
     btnWatchTutorial1: TColorSpeedButtonCS;
     btnClose: TColorSpeedButtonCS;
     btnMaximize: TColorSpeedButtonCS;
@@ -130,6 +127,7 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure FormWindowStateChange(Sender: TObject);
     procedure imgCloseClick(Sender: TObject);
     procedure imgLogoClick(Sender: TObject);
@@ -161,6 +159,7 @@ type
     procedure LoadButtonImage(obj: TObject; imgList: TImageList; idx: integer);
     procedure Maximize;
     procedure RepaintForm(fullRepaint: boolean);
+    procedure RepositionAll;
     procedure RepositionItems(pnlApp: TPanel; btnCheckUpdates: TColorSpeedButtonCS;
       imgEject: TImage; btnWatchTutorial: TColorSpeedButtonCS);
     procedure SetFormBorder(formBorder: TFormBorderStyle);
@@ -183,7 +182,7 @@ var
 const
   MAX_DEVICES = 2;
   MM_MAX_NUMAXES = 16;
-  NORMAL_HEIGHT = 850;
+  NORMAL_HEIGHT = 830;
   NORMAL_WIDTH = 1550;
   MAX_HEIGHT = 1000;
   MAX_WIDTH = 1875;
@@ -309,6 +308,16 @@ end;
 
 procedure TFormDashboard.FormResize(Sender: TObject);
 begin
+  RepositionAll;
+end;
+
+procedure TFormDashboard.FormShow(Sender: TObject);
+begin
+  RepositionAll;
+end;
+
+procedure TFormDashboard.RepositionAll;
+begin
   RepositionItems(pnlApp1, btnCheckUpdatesConnected1, imgEject1, btnWatchTutorial1);
   RepositionItems(pnlApp2, btnCheckUpdatesConnected2, imgEject2, btnWatchTutorial2);
   RepositionItems(pnlApp3, btnCheckUpdatesConnected3, imgEject3, btnWatchTutorial3);
@@ -380,7 +389,7 @@ begin
   aDevice.VersionFile := VERSION_FILE_ADV360;
   aDevice.VersionFolder := VERSION_FOLDER_ADV360;
   aDevice.SettingsFile := ADV360_SETTINGS_FILE;
-  //todo aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + F8';
+  aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + v-Drive';
   deviceList.Add(aDevice);
 
   aDevice := TDevice.Create;
@@ -851,7 +860,8 @@ begin
         CloseLoading;
       end;
     end
-    else if (device.DeviceNumber = APPL_ADV2) then
+    else
+    if (device.DeviceNumber = APPL_ADV2) then
     begin
       try
         SetSelectedMenu(nil);
@@ -904,7 +914,7 @@ procedure TFormDashboard.Maximize;
 var
   aRect: TRect;
 begin
-  aRect := Screen.PrimaryMonitor.WorkareaRect;
+  aRect := Screen.MonitorFromWindow(self.Handle).WorkareaRect;
 
   if (cusWindowState = cwMaximized) then
   begin

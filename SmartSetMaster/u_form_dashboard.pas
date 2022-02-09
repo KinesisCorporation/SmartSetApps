@@ -109,7 +109,7 @@ type
   private
     fontColor: TColor;
     backColor: TColor;
-    blueColor: TColor;
+    activeColor: TColor;
     gamingMode: boolean;
     cusWindowState: TCusWinState;
     deviceList: TDeviceList;
@@ -284,7 +284,7 @@ end;
 procedure TFormDashboard.Init;
 begin
   //Set colors also check if DarkTheme is enabled on OS
-  blueColor := KINESIS_BLUE;
+  activeColor := KINESIS_BLUE;
   if (gamingMode or IsDarkTheme) then
   begin
     fontColor := clWhite;
@@ -584,7 +584,7 @@ begin
       device := deviceList.Items[idx - 1];
       if (device.Connected) and (device.ReadWriteAccess) then
       begin
-        ShowFirmware(device, backColor, fontColor);
+        ShowFirmware(device, backColor, fontColor, activeColor);
       end
       else
       begin
@@ -951,7 +951,7 @@ end;
 
 procedure TFormDashboard.ButtonMouseEnter(Sender: TObject);
 begin
-// (Sender as TColorSpeedButtonCS).Font.Color := blueColor;
+// (Sender as TColorSpeedButtonCS).Font.Color := activeColor;
 end;
 
 procedure TFormDashboard.ButtonMouseLeave(Sender: TObject);
@@ -962,7 +962,7 @@ end;
 procedure TFormDashboard.ButtonMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
-//     (Sender as TColorSpeedButtonCS).Font.Color := blueColor;
+//     (Sender as TColorSpeedButtonCS).Font.Color := activeColor;
 end;
 
 procedure TFormDashboard.FormActivate(Sender: TObject);

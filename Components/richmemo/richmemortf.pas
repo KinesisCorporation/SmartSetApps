@@ -69,7 +69,10 @@ type
     fnum : Integer; // font index in the font table
 
     prev : TRTFParams;
+    tabs : TTabStopList;
     constructor Create(aprev: TRTFParams);
+    procedure ResetDefault;
+    procedure AddTab(AOffset: double; ta: TTabAlignment);
   end;
 
   TRTFMemoParser = class(TRTFParser)
@@ -82,6 +85,16 @@ type
     prm       : TRTFParams;
     lang      : Integer;
     langproc  : TEncConvProc;
+    deflang   : integer;
+
+    skipNextCh: Boolean; // For a Unicode escape the control word \u is used,
+                         // followed by a 16-bit signed decimal integer giving
+                         // the Unicode UTF-16 code unit number. For the benefit
+                         // of programs without Unicode support, this must be followed
+                         // by the nearest representation of this character in the specified code page.
+                         // For example, \u1576? would give the Arabic letter bāʼ ب, specifying that
+                         // older programs which do not have Unicode support should render it as a
+                         // question mark instead.
 
     procedure AddText(const atext: string);
   protected
@@ -92,14 +105,18 @@ type
     procedure classEof;
     procedure doChangePara(aminor, aparam: Integer);
 
+    procedure doDestination(aminor, aparam: Integer);
     procedure doSpecialChar;
     procedure doChangeCharAttr(aminor, aparam: Integer);
+
+    procedure SetLanguage(AlangCode: integer);
 
     function DefaultTextColor: TColor;
     procedure PushText;
   public
     Memo  : TCustomRichMemo;
     constructor Create(AMemo: TCustomRichMemo; AStream: TStream);
+    destructor Destroy; override;
     procedure StartReading;
   end;
 
@@ -257,6 +274,31 @@ begin
   end;
 end;
 
+procedure TRTFParams.ResetDefault;
+begin
+  // default values are taken from RTF specs
+  // see section "Paragraph Formatting Properties"
+  pa:=paLeft;
+  pm.FirstLine:=0;
+  pm.HeadIndent:=0;
+  pm.TailIndent:=0;
+  pm.SpaceBefore:=0;
+  pm.SpaceAfter:=0;
+  pm.LineSpacing:=0;
+  tabs.Count:=0;
+end;
+
+procedure TRTFParams.AddTab(AOffset: double; ta: TTabAlignment);
+begin
+  if tabs.Count=length(tabs.Tabs) then begin
+    if tabs.Count=0 then SetLength(tabs.Tabs, 4)
+    else SetLength(tabs.Tabs, tabs.Count*2);
+  end;
+  tabs.Tabs[tabs.Count].Offset:=AOffset;
+  tabs.Tabs[tabs.Count].Align:=ta;
+  inc(tabs.Count);
+end;
+
 { TRTFMemoParserr }
 
 procedure TRTFMemoParser.AddText(const atext: string);
@@ -292,6 +334,7 @@ begin
     SetLength(Ws,1);
     ws[1]:=UnicodeChar(rtfParam);
     AddText( UTF8Encode(ws) );
+    skipNextCh:=true;
   end; 
 end;
 
@@ -315,6 +358,10 @@ var
   bt  : Char;
 begin
   if not Assigned(prm) then exit;
+  if skipNextCh then begin
+    skipNextCh:=false;
+    Exit;
+  end;
 
   txt:=Self.GetRtfText;
 
@@ -324,6 +371,8 @@ begin
 
       AddText( langproc(bt) );
     end;
+  end else if (length(txt)=2) and (txt[1]='\') and (txt[2] in ['\','{','}']) then begin
+    AddText(txt[2]);
   end else begin
     AddText(txt);
   end;
@@ -338,6 +387,7 @@ begin
   end;
   //writeln('ctrl: ', rtfClass,' ', rtfMajor, ' ', Self.GetRtfText, ' ',rtfMinor,' ', rtfParam);
   case rtfMajor of
+    rtfDestination: doDestination(rtfMinor, rtfParam);
     rtfSpecialChar: doSpecialChar;
     rtfCharAttr: doChangeCharAttr(rtfMinor, rtfParam);
     rtfParAttr: doChangePara(rtfMinor, rtfParam);
@@ -350,20 +400,19 @@ var
 begin
   if not Assigned(prm) then exit;
 
-  //todo:
-  Exit;
   case rtfMajor of
     rtfBeginGroup: begin
       t:=TRTFParams.Create(prm);
       prm:=t;
     end;
     rtfEndGroup: begin
-      t:=prm.prev;
-      prm.Free;
-      prm:=t;
+      if Assigned(prm) then begin
+        t:=prm.prev;
+        prm.Free;
+        prm:=t;
+      end;
     end;
   end;
-  //writeln('group:  ', rtfMajor, ' ',rtfMinor,' ', rtfParam, ' ', GetRtfText);
 end;
 
 procedure TRTFMemoParser.classEof;
@@ -371,12 +420,21 @@ begin
   PushText;
 end;
 
-procedure TRTFMemoParser.doChangePara(aminor, aparam: Integer);
+procedure TRTFMemoParser.doDestination(aminor, aparam: Integer);
 begin
   case aminor of
-    rtfParDef:begin
-      prm.pa:=paLeft;
-    end;
+    rtfDefaultLanguage:
+      deflang:=aparam;
+  end;
+end;
+
+procedure TRTFMemoParser.doChangePara(aminor, aparam: Integer);
+const
+  TabAl : array [rtfTabPos..rtfTabDecimal] of TTabAlignment = (
+    tabLeft, tabRight, tabCenter, tabDecimal);
+begin
+  case aminor of
+    rtfParDef:      prm.ResetDefault; // reset clear formatting
     rtfQuadLeft:    prm.pa:=paLeft;
     rtfQuadRight:   prm.pa:=paRight;
     rtfQuadJust:    prm.pa:=paJustify;
@@ -394,10 +452,13 @@ begin
       // \slN - surprise! the "line spacing" is actually a multiplier based on the FONT size, not linesize
       // where linesize = fontsize * 1.2
     rtfLanguage: begin
-      lang:=rtfParam;
-      langproc:=nil;
-      LangConvGet(lang, langproc);
+      SetLanguage(rtfParam);
     end;
+    rtfTabPos,//; rtfKstr : 'tx'; rtfkHash : 0),
+    rtfTabRight, // rtfKstr : 'tqr'; rtfkHash : 0),
+    rtfTabCenter, //; rtfKstr : 'tqc'; rtfkHash : 0),
+    rtfTabDecimal: //; rtfKstr : 'tqdec'; rtfkHash : 0),
+      prm.AddTab(aparam / 20, TabAl[aminor]);
   end;
 end;
 
@@ -414,7 +475,11 @@ begin
   case rtfMinor of
     rtfOptDest: SkipGroup;
     rtfLine: AddText(CharLine);
-    rtfPar:  AddText(CharPara);
+    rtfPar:  begin
+      AddText(CharPara);
+      if deflang<>0 then
+        SetLanguage(deflang);
+    end;
     rtfTab:  AddText(CharTab);
   end;
 end;
@@ -451,6 +516,11 @@ begin
     rtfFontSize: prm.fnt.Size:=round(aparam/2);
     rtfUnderline: if aparam=0 then Exclude(prm.fnt.Style,fsUnderline)  else Include(prm.fnt.Style, fsUnderline);
     rtfNoUnderline: Exclude(prm.fnt.Style, fsUnderline);
+
+    rtfSuperScript: prm.fnt.VScriptPos:=vpSuperscript;
+    rtfSubScript  : prm.fnt.VScriptPos:=vpSubScript;
+    rtfNoSuperSub : prm.fnt.VScriptPos:=vpNormal;
+
     rtfHighlight: begin
       prm.fnt.HasBkClr := (aparam>0) and (aparam<=high(HColor));
       if prm.fnt.HasBkClr then begin
@@ -472,6 +542,13 @@ begin
         prm.fnt.Color:=RGBToColor(p^.rtfCRed, p^.rtfCGreen, p^.rtfCBlue);
     end;
   end;
+end;
+
+procedure TRTFMemoParser.SetLanguage(AlangCode: integer);
+begin
+  lang:=AlangCode;
+  langproc:=nil;
+  LangConvGet(lang, langproc);
 end;
 
 function TRTFMemoParser.DefaultTextColor:TColor;
@@ -514,12 +591,14 @@ begin
     prm.pm.FirstLine:=prm.pm.FirstLine-prm.pm.HeadIndent;
 
     Memo.SetParaAlignment(selst, 1, prm.pa );
+
+    if prm.tabs.Count>0 then
+      Memo.SetParaTabs(selst, 1, prm.tabs);
   end;
 
 //  Memo.GetTextAttributes(selst, font);
   pf:=Fonts[prm.fnum];
-  if Assigned(pf) then
-    prm.fnt.Name:=pf^.rtfFName;
+  if Assigned(pf) then prm.fnt.Name:=pf^.rtfFName;
   //prm.fnt.Size:=round(fsz);
   //prm.fnt.Style:=fst;
   //prm.fnt.Color:=ColorToRGB(fColor);
@@ -539,6 +618,19 @@ begin
   ClassCallBacks[rtfEof]:=@classEof;
 end;
 
+destructor TRTFMemoParser.Destroy;
+var
+  t: TRTFParams;
+begin
+  // cleanup
+  while Assigned(prm) do begin
+    t:=prm;
+    prm:=prm.prev;
+    t.Free;
+  end;
+  inherited Destroy;
+end;
+
 procedure TRTFMemoParser.StartReading;
 var
   t : TRTFParams;
@@ -549,6 +641,7 @@ begin
     prm:=TRTFParams.Create(nil);
     prm.fnt.Size:=12; //\fsN Font size in half-points (the default is 24).
     prm.fnum:=0;
+    prm.ResetDefault;
 
     inherited StartReading;
     PushText;
@@ -684,6 +777,8 @@ begin
   isNewPara:=false;
   while i<=length(u) do begin
     if u[i]='\' then Result:=Result+'\\'
+    else if u[i]='{' then Result:=Result+'\{'
+    else if u[i]='}' then Result:=Result+'\}'
     else if u[i]=#10 then begin
       Result:=Result+'\par ';
       isNewPara:=true;
@@ -695,7 +790,7 @@ begin
       inc(i);
       Break;
     end else if u[i]<#127 then Result:=Result+char(byte(u[i]))
-    else Result:=Result+'\u'+IntToStr(word(u[i]))+' ';
+    else Result:=Result+'\u'+IntToStr(word(u[i]))+'  '; // adding a blank "space" character replacement
     inc(i);
   end;
   idx:=i;
@@ -720,6 +815,7 @@ var
   isbold    : Boolean;
   isitalic  : Boolean;
   isuline   : Boolean;
+  issupersub: Boolean;
   isColor   : integer;
 
   pm : TParaMetric;
@@ -796,11 +892,10 @@ begin
     rng:=root;
     isbold:=false;
     isitalic:=false;
+    issupersub:=false;
     iscolor:=0;
     while Assigned(rng) do begin
-      ARich.SelStart:=rng.textStart;
-      ARich.SelLength:=rng.textLength;
-      u:=UTF8Decode(ARich.SelText);
+      u:=ARich.GetUText(rng.textStart, rng.textLength);
       RtfOut('\f'+IntToStr(rng.fontId));
       RtfOut('\fs'+IntToStr(rng.font.Size*2));
       if (fsBold in rng.font.Style) then begin
@@ -828,6 +923,20 @@ begin
         if isitalic then RtfOut('\i0');
         isitalic:=false;
       end;
+
+      if rng.font.VScriptPos=vpSuperScript then begin
+        RtfOut('\super');
+        issupersub:=true;
+      end;
+      if rng.font.VScriptPos=vpSubScript then begin
+        RtfOut('\sub');
+        issupersub:=true;
+      end;
+      if rng.font.VScriptPos=vpNormal then begin
+        if issupersub then RtfOut('\nosupersub');
+        issupersub:=false;
+      end;
+
       RtfOut(' ');
 
       i:=1;

@@ -758,7 +758,7 @@ type
     currentProfileNumber: integer;
     lastKeyDown: word;
     lastKeyPressed: word;
-    blueColor: TColor;
+    activeColor: TColor;
     fontColor: TColor;
     backColor: TColor;
     copiedMacro: TKeyList;
@@ -1084,7 +1084,7 @@ begin
   lblMacroEditor.Hint := 'Each layout can store ' + IntToStr(maxKeystrokes) +
       ' total macro characters and up to ' + IntToStr(maxMacros) + ' macros';
 
-  blueColor := KINESIS_BLUE_EDGE;
+  activeColor := KINESIS_BLUE_EDGE;
   fontColor := clWhite;
   backColor := KINESIS_DARK_GRAY_RGB;
 
@@ -2528,14 +2528,14 @@ begin
       if (kbKey.TapAndHold) then
       begin
         keyButton.Caption := kbKey.TapAction.OtherDisplayText + #10 + kbKey.HoldAction.OtherDisplayText;
-        keyButton.Font.Color := blueColor;
+        keyButton.Font.Color := activeColor;
       end
       else if (kbKey.IsModified) then
       begin
         keyButton.Caption := kbKey.ModifiedKey.DisplayText;
         fontSize := kbKey.ModifiedKey.DisplaySize;
         fontName := kbKey.ModifiedKey.FontName;
-        keyButton.Font.Color := blueColor;
+        keyButton.Font.Color := activeColor;
       end
       else
       begin
@@ -2546,7 +2546,7 @@ begin
 
       if (kbKey.IsMacro) then
       begin
-        keyButton.BorderColor := blueColor;
+        keyButton.BorderColor := activeColor;
         keyButton.BorderStyle := bsSingle;
         if (kbKey.MacroCount > 1) then
         begin
@@ -5458,7 +5458,7 @@ end;
 
 procedure TFormMainTKO.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware(GActiveDevice, backColor, fontColor);
+  ShowFirmware(GActiveDevice, backColor, fontColor, activeColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -7795,21 +7795,21 @@ begin
     sliderMultiplayChange(self);
 
     if activeKbKey.Macro1.Count > 0 then
-      lblMacro1.Font.Color := blueColor
+      lblMacro1.Font.Color := activeColor
     else
     begin
       lblMacro1.Font.Color := fontColor;
       activeKbKey.Macro1.CoTrigger1 := nil;
     end;
     if activeKbKey.Macro2.Count > 0 then
-      lblMacro2.Font.Color := blueColor
+      lblMacro2.Font.Color := activeColor
     else
     begin
       lblMacro2.Font.Color := fontColor;
       activeKbKey.Macro2.CoTrigger1 := nil;
     end;
     if activeKbKey.Macro3.Count > 0 then
-      lblMacro3.Font.Color := blueColor
+      lblMacro3.Font.Color := activeColor
     else
     begin
       lblMacro3.Font.Color := fontColor;
@@ -7855,7 +7855,7 @@ end;
 procedure TFormMainTKO.ActivateCoTrigger(keyButton: TLabelBox);
 begin
   keyButton.BorderWidth := 1;
-  keyButton.BorderColor := blueColor;
+  keyButton.BorderColor := activeColor;
   keyButton.BorderStyle := bsSingle;
   keyButton.Repaint;
 end;

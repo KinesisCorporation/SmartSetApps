@@ -878,7 +878,7 @@ type
     activeKbKey: TKBKey;
     lastKeyDown: word;
     lastKeyPressed: word;
-    blueColor: TColor;
+    activeColor: TColor;
     fontColor: TColor;
     backColor: TColor;
     copiedMacro: TKeyList;
@@ -1292,7 +1292,7 @@ begin
   //btnMaximize.Visible := false;
   {$endif}
 
-  blueColor := KINESIS_BLUE_EDGE;
+  activeColor := KINESIS_BLUE_EDGE;
   fontColor := clWhite;
   backColor := KINESIS_DARK_GRAY_FS;
 
@@ -4917,14 +4917,14 @@ begin
       if (kbKey.TapAndHold) then
       begin
         keyButton.Caption := kbKey.TapAction.OtherDisplayText + #10 + kbKey.HoldAction.OtherDisplayText;
-        keyButton.Font.Color := blueColor;
+        keyButton.Font.Color := activeColor;
       end
       else if (kbKey.IsModified) then
       begin
         keyButton.Caption := kbKey.ModifiedKey.DisplayText;
         fontSize := kbKey.ModifiedKey.DisplaySize;
         fontName := kbKey.ModifiedKey.FontName;
-        keyButton.Font.Color := blueColor;
+        keyButton.Font.Color := activeColor;
       end
       else
       begin
@@ -4935,7 +4935,7 @@ begin
 
       if (kbKey.IsMacro) then
       begin
-        keyButton.BorderColor := blueColor;
+        keyButton.BorderColor := activeColor;
         keyButton.BorderStyle := bsSingle;
         if (kbKey.MacroCount > 1) then
         begin
@@ -4950,7 +4950,7 @@ begin
 //        fontSize := kbKey.ModifiedKey.DisplaySize;
 //        fontName := kbKey.ModifiedKey.FontName;
 //        keyButton.BorderStyle := bsNone;
-//        keyButton.Font.Color := blueColor;
+//        keyButton.Font.Color := activeColor;
 //        keyButton.BorderWidth := 1;
 //        keyButton.CornerSize := 10;
 //      end
@@ -4959,7 +4959,7 @@ begin
 //        keyButton.Caption := kbKey.OriginalKey.DisplayText;
 //        fontSize := kbKey.OriginalKey.DisplaySize;
 //        fontName := kbKey.OriginalKey.FontName;
-//        keyButton.BorderColor := blueColor;
+//        keyButton.BorderColor := activeColor;
 //        keyButton.BorderStyle := bsSingle;
 //        keyButton.Font.Color := clWhite;
 //        if (kbKey.MacroCount > 1) then
@@ -4978,11 +4978,11 @@ begin
 //        keyButton.Caption := kbKey.ModifiedKey.DisplayText;
 //        fontSize := kbKey.ModifiedKey.DisplaySize;
 //        fontName := kbKey.ModifiedKey.FontName;
-//        keyButton.BorderColor := blueColor;
+//        keyButton.BorderColor := activeColor;
 //        keyButton.BorderStyle := bsSingle;
 //        keyButton.BorderWidth := 1;
 //        keyButton.CornerSize := 10;
-//        keyButton.Font.Color := blueColor;
+//        keyButton.Font.Color := activeColor;
 //        if (kbKey.MacroCount > 1) then
 //        begin
 //          keyButton.BorderWidth := 3;
@@ -5242,7 +5242,7 @@ end;
 
 procedure TFormMainRGB.btnFirmwareClick(Sender: TObject);
 begin
-  ShowFirmware(GActiveDevice, backColor, fontColor);
+  ShowFirmware(GActiveDevice, backColor, fontColor, activeColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -8105,21 +8105,21 @@ begin
     sliderMultiplayChange(self);
 
     if activeKbKey.Macro1.Count > 0 then
-      lblMacro1.Font.Color := blueColor
+      lblMacro1.Font.Color := activeColor
     else
     begin
       lblMacro1.Font.Color := fontColor;
       activeKbKey.Macro1.CoTrigger1 := nil;
     end;
     if activeKbKey.Macro2.Count > 0 then
-      lblMacro2.Font.Color := blueColor
+      lblMacro2.Font.Color := activeColor
     else
     begin
       lblMacro2.Font.Color := fontColor;
       activeKbKey.Macro2.CoTrigger1 := nil;
     end;
     if activeKbKey.Macro3.Count > 0 then
-      lblMacro3.Font.Color := blueColor
+      lblMacro3.Font.Color := activeColor
     else
     begin
       lblMacro3.Font.Color := fontColor;
@@ -8180,7 +8180,7 @@ end;
 procedure TFormMainRGB.ActivateCoTrigger(keyButton: TLabelBox);
 begin
   keyButton.BorderWidth := 1;
-  keyButton.BorderColor := blueColor;
+  keyButton.BorderColor := activeColor;
   keyButton.BorderStyle := bsSingle;
   keyButton.Repaint;
 end;
@@ -8190,7 +8190,7 @@ begin
   //coTriggerBtn.Down := true;
   coTriggerBtn.HelpKeyword := 'DOWN';
   //coTriggerBtn.Font.Bold := true;
-  //coTriggerBtn.Font.Color := blueColor;
+  //coTriggerBtn.Font.Color := activeColor;
   SetHovered(coTriggerBtn, true);
   SetMacroAssignTo;
 end;
