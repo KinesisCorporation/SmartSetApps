@@ -14,7 +14,7 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MinorVersionNr Value="2"/>
-      <RevisionNr Value="4"/>
+      <RevisionNr Value="8"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -116,7 +116,6 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <GenerateDebugInfo Value="False"/>
         <DebugInfoType Value="dsDwarf3"/>
         <UseHeaptrc Value="True"/>
         <StripSymbols Value="True"/>

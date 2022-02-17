@@ -64,6 +64,9 @@ type
 
   TKeyList = class(TObjectList)
   private
+    FGuid: TGuid;
+    FTriggerKey: integer;
+    FLayerIdx: integer;
     FMacroIdx: integer;
     FMultiKey: boolean;
     FCoTrigger1: TKey;
@@ -72,6 +75,7 @@ type
     FCoTrigger4: TKey;
     FMacroSpeed: integer;
     FMacroRptFreq: integer;
+    FIsNew: boolean;
   protected
     function GetItem(index: integer): TKey;
     procedure SetItem(Index: integer; AObject: TKey);
@@ -85,6 +89,9 @@ type
     function Compare(aKeyList: TKeyList): boolean;
     function ContrainsKey(aKey: TKey): boolean;
     property Items[index: integer]: TKey read GetItem write SetItem; default;
+    property Guid: TGuid read FGuid;
+    property TriggerKey: integer read FTriggerKey write FTriggerKey;
+    property LayerIdx: integer read FLayerIdx write FLayerIdx;
     property MultiKey: boolean read FMultiKey write FMultiKey;
     property MacroIdx: integer read FMacroIdx write FMacroIdx;
     property CoTrigger1: TKey read FCoTrigger1 write FCoTrigger1;
@@ -94,6 +101,7 @@ type
     property MacroSpeed: integer read FMacroSpeed write FMacroSpeed;
     property MacroRptFreq: integer read FMacroRptFreq write FMacroRptFreq;
     property CountCoTriggers: integer read GetCountCoTriggers;
+    property IsNew: boolean read FIsNew write FIsNew;
   end;
 
 implementation
@@ -210,7 +218,11 @@ constructor TKeyList.Create;
 begin
   inherited Create;
   OwnsObjects := True;
+  FTriggerKey := -1;
+  LayerIdx := -1;
   FMultiKey := False;
+  FIsNew := false;
+  CreateGUID(FGuid);
   if (GApplication in [APPL_FSEDGE, APPL_FSPRO]) then
   begin
     FMacroSpeed := DEFAULT_MACRO_SPEED_FS;
@@ -256,6 +268,8 @@ begin
   if (self <> nil) and (aKeyList <> nil) then
   begin
     self.Clear;
+    self.FTriggerKey := aKeyList.FTriggerKey;
+    self.FLayerIdx := aKeyList.FLayerIdx;
     self.FMultiKey := aKeyList.FMultiKey;
     self.FCoTrigger1 := aKeyList.FCoTrigger1.CopyKey;
     self.FCoTrigger2 := aKeyList.FCoTrigger2.CopyKey;

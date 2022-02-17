@@ -23,6 +23,8 @@ type
 
   TSaveState = (ssNone, ssModified);
 
+  TMacroState = (msNone, msEdit, msEditTrigger, msNew);
+
   TModifiers = (moShift, moAlt, moCtrl, moWin);
 
   TMouseEvent = (meNone, meLeftClick, meMiddleClick, meRightClick);
@@ -1821,20 +1823,20 @@ begin
 
   //Layer shift/toggle keys
   ConfigKeys.Add(TKey.Create(VK_KEYPAD, '', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KEYPAD_SHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_SHIFT, 'defs', 'Base' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_TOGGLE, 'deft', 'Base' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'kp', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_LFN_LAYER_SHIFT, 'lfn', 'Left Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_RFN_LAYER_SHIFT, 'rfn', 'Right Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_SHIFT, 'fn1s', 'Fn1' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_TOGGLE, 'fn1t', 'Fn1' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_FN2_LAYER_SHIFT, 'fn2s', 'Fn2' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_FN2_LAYER_TOGGLE, 'fn2t', 'Fn2' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_FN3_LAYER_SHIFT, 'fn3s', 'Fn3' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_FN3_LAYER_TOGGLE, 'fn3t', 'Fn3' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_KEYPAD_SHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Shift'));
+  ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize, '', 'Keypad'));
+  ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_SHIFT, 'defs', 'Base' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Shift'));
+  ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_TOGGLE, 'deft', 'Base' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Toggle'));
+  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Shift'));
+  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'kp', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Toggle'));
+  ConfigKeys.Add(TKey.Create(VK_LFN_LAYER_SHIFT, 'lfn', 'Left Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Left Fn Shift'));
+  ConfigKeys.Add(TKey.Create(VK_RFN_LAYER_SHIFT, 'rfn', 'Right Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Right Fn Shift'));
+  ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_SHIFT, 'fn1s', 'Fn1' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn1 Shift'));
+  ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_TOGGLE, 'fn1t', 'Fn1' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn1 Toggle'));
+  ConfigKeys.Add(TKey.Create(VK_FN2_LAYER_SHIFT, 'fn2s', 'Fn2' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn2 Shift'));
+  ConfigKeys.Add(TKey.Create(VK_FN2_LAYER_TOGGLE, 'fn2t', 'Fn2' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn2 Toggle'));
+  ConfigKeys.Add(TKey.Create(VK_FN3_LAYER_SHIFT, 'fn3s', 'Fn3' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn3 Shift'));
+  ConfigKeys.Add(TKey.Create(VK_FN3_LAYER_TOGGLE, 'fn3t', 'Fn3' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn3 Toggle'));
 
   //Profile keys
   ConfigKeys.Add(TKey.Create(VK_PROFILE_0, 'pro0', 'Profile 0'));

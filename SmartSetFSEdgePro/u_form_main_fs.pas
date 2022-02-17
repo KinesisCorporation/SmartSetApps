@@ -1670,7 +1670,7 @@ begin
   begin
     KeyModified := false;
     MacroModified := false;
-    keyService.RestoreMacro(activeKbKey); //Returns to previous values for Macro
+    keyService.RestoreMacroKey(activeKbKey); //Returns to previous values for Macro
     keyService.RestoreKbKey(activeKbKey); //Returns to previous values for Key
     SetActiveKeyButton(nil);
     RefreshRemapInfo;
@@ -1681,7 +1681,7 @@ procedure TFormMainFS.btnCancelMacroClick(Sender: TObject);
 begin
   KeyModified := false;
   MacroModified := false;
-  keyService.RestoreMacro(activeKbKey); //Returns to previous values
+  keyService.RestoreMacroKey(activeKbKey); //Returns to previous values
   activeKbKey.IsMacro := (activeKbKey.Macro1.Count > 0) or (activeKbKey.Macro2.Count > 0) or (activeKbKey.Macro3.Count > 0) ;
   SetMacroMode(true);
   UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
@@ -3243,7 +3243,7 @@ begin
   end;
 
   if (MacroMode) then
-    keyService.BackupMacro(activeKbKey);
+    keyService.BackupMacroKey(activeKbKey);
 
   if reset then
     rgMacro1.Checked := true;

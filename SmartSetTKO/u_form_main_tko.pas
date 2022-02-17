@@ -5343,7 +5343,7 @@ begin
   SetWindowsCombo(false);
   if (IsKeyLoaded) then
   begin
-    keyService.RestoreMacro(activeKbKey); //Returns to previous values
+    keyService.RestoreMacroKey(activeKbKey); //Returns to previous values
     activeKbKey.IsMacro := (activeKbKey.Macro1.Count > 0) or (activeKbKey.Macro2.Count > 0) or (activeKbKey.Macro3.Count > 0) ;
     UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
     SetActiveKeyButton(nil);
@@ -5474,7 +5474,7 @@ begin
   begin
     KeyModified := false;
     MacroModified := false;
-    keyService.RestoreMacro(activeKbKey); //Returns to previous values for Macro
+    keyService.RestoreMacroKey(activeKbKey); //Returns to previous values for Macro
     keyService.RestoreKbKey(activeKbKey); //Returns to previous values for Key
     SetActiveKeyButton(nil);
     RefreshRemapInfo;
@@ -7731,7 +7731,7 @@ begin
     if (IsKeyLoaded) and not(activeKbKey.TapAndHold) then
       memoMacro.SetFocus;
   end;
-  keyService.BackupMacro(activeKbKey);
+  keyService.BackupMacroKey(activeKbKey);
 
   rgMacro1.Checked := true;
   memoMacro.Text := '';

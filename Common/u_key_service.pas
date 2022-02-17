@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, u_keys, LCLType, u_const, u_key_layer, character, LCLIntf,
-  Graphics, u_gif, u_led_ind;
+  Graphics, u_gif, u_led_ind, Contnrs;
 
 type
   { TKeyService }
@@ -76,7 +76,9 @@ type
     FConfigKeys: TKeyList;
     FActiveModifiers: TKeyList;
     FBackupKey: TKBKey;
-    FBackupMacro: TKBKey;
+    FBackupMacro: TKeyList;
+    FBackupMacroKey: TKBKey;
+    FMacros: TObjectList;
 
     //Gifs using programming
     FRainGif: TGif;
@@ -101,6 +103,8 @@ type
 
     //List of supported keyboard layouts
     //FKeyboardLayouts: TKeyboardLayoutList;
+    function CompareKey(key1: word; aKeyList: TKeyList): boolean;
+    function CompareTriggers(aKeyList1: TKeyList; aKeyList2: TKeyList): boolean;
     function GetBaseLayerAdv360: TKBLayer;
     function GetEdgeKey(key: word; layerIdx: integer): TKBKey;
     function GetFN1LayerAdv360: TKBLayer;
@@ -111,6 +115,8 @@ type
     function GetKPLayerAdv360: TKBLayer;
     function GetLedDirectionFile(var sDirection: string): integer;
     function GetLedSpeedFile(var sSpeed: string): integer;
+    function GetTextMacro(aKey: TKey; macro: TKeyList; layerPrefix: string
+      ): string;
     function GetTopLayerRGB: TKBLayer;
     function GetBotLayerRGB: TKBLayer;
     function GetTopLayerTKO: TKBLayer;
@@ -186,8 +192,10 @@ type
     function AddKey(kbKey: TKBKey; iKey: word; modifiers: string; insertAtPos: integer): TKey;
     function RemoveKey(kbKey: TKBKey; index: integer): boolean;
     function GetModifierText: string;
-    function BackupMacro(aKbKey: TKbKey): boolean;
-    function RestoreMacro(aKbKey: TKbKey): boolean;
+    function BackupMacroKey(aKbKey: TKbKey): boolean;
+    function BackupMacro(aMacro: TKeyList): boolean;
+    function RestoreMacro(aMacro: TKeyList): boolean;
+    function RestoreMacroKey(aKbKey: TKbKey): boolean;
     function BackupKbKey(aKbKey: TKbKey): boolean;
     function RestoreKbKey(aKbKey: TKbKey): boolean;
     function GetMacroText(aKeyList: TKeyList; var aKeysPos: TKeysPos): string;
@@ -231,6 +239,7 @@ type
     function CopyMacro(aMacro: TKeyList): TKeyList;
     function GetSingleKeyText(aKey: TKey; var isLongKey: boolean): string;
     function ValidateMacros(aKey: TKbKey; var errorMsg: string; var errorMsgTitle: string): boolean;
+    function ValidateMacros(aMacro: TKeyList; var errorMsg: string; var errorMsgTitle: string): boolean;
     function CountModifiers(modifiers: string): integer;
     function CountKeystrokes(aKeyList: TKeyList): integer;
     procedure LoadConfigKeys;
@@ -240,12 +249,22 @@ type
     procedure SetAllIndColor(indIdx: integer; keyColor: TColor);
     function GetKeyWithModifier(iKey: word; modifiers: string): TKey;
     function CountAllKeystrokes: integer;
+    function AddMacro(key: word; layerIdx: integer): integer;
+    function AddCopiedMacro(copiedMacro: TKeyList; key: word; layerIdx: integer): integer;
+    function GetMacro(keyIdx: integer): TKeyList;
+    function RemoveLastMacro: TKeyList;
+    function AddKeyMacro(macro: TKeyList; iKey: word; modifiers: string; insertAtPos: integer): TKey;
+    procedure RemoveMacro(macro: TKeyList);
+    procedure RemoveAllMacros;
+    function RemoveKeyMacro(macro: TKeyList; index: integer): boolean;
+    function GetMacroCount: integer;
 
     property ConfigMode: integer read FConfigMode write FConfigMode;
     property ActiveKbKey: TKBKey read FActiveKbKey write FActiveKbKey;
 
     property ConfigKeys: TKeyList read FConfigKeys write FConfigKeys;
     property ActiveModifiers: TKeyList read FActiveModifiers write FActiveModifiers;
+    property Macros: TObjectList read FMacros write FMacros;
     //property BackupKey: TKBKey read FBackupKey write FBackupKey;
     //property KeyboardLayouts: TKeyboardLayoutList read FKeyboardLayouts write FKeyboardLayouts;
 
@@ -304,8 +323,10 @@ begin
   FCurrentKBLayout := '';
   FConfigKeys := nil;
   FActiveModifiers := TKeyList.Create;
+  FMacros := TObjectList.Create;
   FBackupKey := TKBKey.Create;
-  FBackupMacro := TKBKey.Create;
+  FBackupMacro := TKeyList.Create;
+  FBackupMacroKey := TKBKey.Create;
   LedIndicators := TLedIndList.Create(6);
   //KeyboardLayouts := TKeyboardLayoutList.Create;
 
@@ -327,8 +348,10 @@ begin
   FreeAndNil(FConfigKeys);
   FreeAndNil(FActiveModifiers);
   FreeAndNil(FKBLayers);
+  FreeAndNil(FMacros);
   FreeAndNil(FBackupKey);
   FreeAndNil(FBackupMacro);
+  FreeAndNil(FBackupMacroKey);
   FreeAndNil(FRainGif);
   FreeAndNil(FReactiveGif);
   FreeAndNil(FRippleGif);
@@ -2584,6 +2607,28 @@ begin
   end;
 end;
 
+function TKeyService.AddKeyMacro(macro: TKeyList; iKey: word; modifiers: string; insertAtPos: integer): TKey;
+var
+  aKey: TKey;
+begin
+  Result := nil;
+  if (macro <> nil) then
+  begin
+    aKey := GetKeyWithModifier(iKey, modifiers);
+    if (aKey <> nil) then
+    begin
+      //Add keypress to active pedal
+      if (insertAtPos >= 0) then
+        macro.Insert(insertAtPos, aKey)
+      else
+        macro.Add(aKey);
+
+      //Returns complet output text
+      Result := aKey;
+    end;
+  end;
+end;
+
 function TKeyService.RemoveKey(kbKey: TKBKey; index: integer): boolean;
 begin
   Result := false;
@@ -2593,6 +2638,57 @@ begin
     begin;
       kbKey.ActiveMacro.Remove(kbKey.ActiveMacro.Items[index]);
       result := true;
+    end;
+  end;
+end;
+
+function TKeyService.RemoveKeyMacro(macro: TKeyList; index: integer): boolean;
+begin
+  Result := false;
+  if (macro <> nil) then
+  begin
+    if (macro.Count >= index) and (index >= 0) then
+    begin;
+      macro.Remove(macro.Items[index]);
+      result := true;
+    end;
+  end;
+end;
+
+function TKeyService.GetMacroCount: integer;
+var
+  i, j:integer;
+  aLayer: TKBLayer;
+  aKbKey: TKBKey;
+begin
+  result := 0;
+  if IsGen2Device(GApplication) then
+  begin
+    result := FMacros.Count;
+  end
+  else
+  begin
+    for i := 0 to FKBLayers.Count - 1 do
+    begin
+      aLayer := KBLayers[i];
+      for j := 0 to aLayer.KBKeyList.Count - 1 do
+      begin
+        aKbKey := aLayer.KBKeyList[j];
+
+        if (aKbKey.IsMacro) then
+        begin
+          if (aKbKey.Macro1.Count > 0) then
+            inc(result);
+          if (aKbKey.Macro2.Count > 0) then
+            inc(result);
+          if (aKbKey.Macro3.Count > 0) then
+            inc(result);
+          if (aKbKey.Macro4.Count > 0) then
+            inc(result);
+          if (aKbKey.Macro5.Count > 0) then
+            inc(result);
+        end;
+      end;
     end;
   end;
 end;
@@ -2610,25 +2706,48 @@ begin
   end;
 end;
 
-function TKeyService.BackupMacro(aKbKey: TKbKey): boolean;
+function TKeyService.BackupMacroKey(aKbKey: TKbKey): boolean;
 begin
   result := false;
   if (aKbKey <> nil) then
   begin
-    if (FBackupMacro <> nil) then
-      FreeAndNil(FBackupMacro);
-    FBackupMacro := TKBKey.Create;
-    FBackupMacro.Assign(aKbKey, rtAll);
+    if (FBackupMacroKey <> nil) then
+      FreeAndNil(FBackupMacroKey);
+    FBackupMacroKey := TKBKey.Create;
+    FBackupMacroKey.Assign(aKbKey, rtAll);
     result := true;
   end;
 end;
 
-function TKeyService.RestoreMacro(aKbKey: TKbKey): boolean;
+function TKeyService.BackupMacro(aMacro: TKeyList): boolean;
 begin
   result := false;
-  if (aKbKey <> nil) and (FBackupMacro <> nil) then
+  if (aMacro <> nil) then
   begin
-    aKbKey.Assign(FBackupMacro, rtMacro);
+    if (FBackupMacro <> nil) then
+      FreeAndNil(FBackupMacro);
+    FBackupMacro := TKeyList.Create;
+    FBackupMacro.Assign(aMacro);
+    result := true;
+  end;
+end;
+
+function TKeyService.RestoreMacro(aMacro: TKeyList): boolean;
+begin
+  result := false;
+  if (aMacro <> nil) and (FBackupMacro <> nil) then
+  begin
+    aMacro.Assign(FBackupMacro);
+    result := true;
+  end;
+end;
+
+function TKeyService.RestoreMacroKey(aKbKey: TKbKey): boolean;
+begin
+  result := false;
+  if (aKbKey <> nil) and (FBackupMacroKey <> nil) then
+  begin
+    aKbKey.Assign(FBackupMacroKey, rtMacro);
     result := true;
   end;
 end;
@@ -3365,25 +3484,35 @@ begin
             end;
           end;
 
-          //Loads active Macro
-          if (aKBKey <> nil) then
+          if IsGen2Device(GApplication) then
           begin
-            if (aKBKey.Macro1.Count = 0) then
-              activeMacro := aKBKey.Macro1
-            else if (aKBKey.Macro2.Count = 0) then
-              activeMacro := aKBKey.Macro2
-            else if (aKBKey.Macro3.Count = 0) then
-              activeMacro := aKBKey.Macro3
-            else if (aKBKey.Macro4.Count = 0) then
-              activeMacro := aKBKey.Macro4
-            else if (aKBKey.Macro5.Count = 0) then
-              activeMacro := aKBKey.Macro5;
+            activeMacro := TKeyList.Create;
+            activeMacro.TriggerKey := aKBKey.PositionKey.Key;
+            activeMacro.LayerIdx := layerIdx;
+          end
+          else
+          begin
+            //Loads active Macro
+            if (aKBKey <> nil) then
+            begin
+              if (aKBKey.Macro1.Count = 0) then
+                activeMacro := aKBKey.Macro1
+              else if (aKBKey.Macro2.Count = 0) then
+                activeMacro := aKBKey.Macro2
+              else if (aKBKey.Macro3.Count = 0) then
+                activeMacro := aKBKey.Macro3
+              else if (aKBKey.Macro4.Count = 0) then
+                activeMacro := aKBKey.Macro4
+              else if (aKBKey.Macro5.Count = 0) then
+                activeMacro := aKBKey.Macro5;
+            end;
           end;
 
           //If kbKey and activeMacro, load values
           if (aKBKey <> nil) and (activeMacro <> nil) and (aKBKey.CanAssignMacro) then
           begin
-            aKBKey.IsMacro := true;
+            if not IsGen2Device(GApplication) then
+              aKBKey.IsMacro := true;
 
             if (aCoTriggers.Count >= 1) then
               activeMacro.CoTrigger1 := aCoTriggers[0].CopyKey;
@@ -3501,6 +3630,12 @@ begin
                 lastKey := aKey.Key;
               end;
             end; //end while loop valueText
+
+            //Gen2 device add to macro list
+            if IsGen2Device(GApplication) and (activeMacro <> nil) then
+            begin
+              FMacros.Add(activeMacro);
+            end;
           end;
         end;
       end;
@@ -9316,6 +9451,117 @@ begin
   ClearModifiers;
 end;
 
+function TKeyService.GetTextMacro(aKey: TKey; macro: TKeyList; layerPrefix: string): string;
+var
+  i, j: integer;
+  prevModifiers: string;
+  saveValue: string;
+  curKeyModifiers: TKeyList;
+  prevKeyModifiers: TKeyList;
+begin
+  result := '';
+
+  if (macro.Count > 0) then
+  begin
+    curKeyModifiers := TKeyList.Create;
+    prevKeyModifiers := TKeyList.Create;
+
+    //Add layer prefix if there
+    result := result + layerPrefix;
+
+    //Add the co-triggers first
+    if (macro.CoTrigger1 <> nil) then
+      result := result + '{' + macro.CoTrigger1.SaveValue + '}';
+    if (macro.CoTrigger2 <> nil) then
+      result := result + '{' + macro.CoTrigger2.SaveValue + '}';
+    if (macro.CoTrigger3 <> nil) then
+      result := result + '{' + macro.CoTrigger3.SaveValue + '}';
+    if (macro.CoTrigger4 <> nil) then
+      result := result + '{' + macro.CoTrigger4.SaveValue + '}';
+
+    //Add the modified key
+    result := result + '{' + aKey.SaveValue + '}';
+
+    //Add the character separating config and value keys
+    result := result + '>';
+
+    if (macro.MacroSpeed >= 0) and (macro.MacroSpeed <= MACRO_SPEED_MAX_RGB) then
+    begin
+      result := result + '{' + MACRO_SPEED_TEXT_EDGE + IntToStr(macro.MacroSpeed) + '}';
+    end;
+
+    if (macro.MacroRptFreq >= 0) and (macro.MacroRptFreq <= MACRO_FREQ_MAX_RGB) then
+    begin
+      result := result + '{' + MACRO_REPEAT_EDGE + IntToStr(macro.MacroRptFreq) + '}';
+    end;
+
+    for i := 0 to macro.Count - 1 do
+    begin
+      prevModifiers := '';
+      curKeyModifiers.Clear;
+      prevKeyModifiers.Clear;;
+
+      aKey := macro[i];
+
+      //Gets the key save value
+      saveValue := aKey.SaveValue;
+
+      //Fills list of modifiers
+      if not IsModifier(aKey.Key) then
+        FillModifiersFromValues(curKeyModifiers, aKey.Modifiers);
+
+      //Loads previous key modifiers
+      if (i >= 1) and not(IsModifier(macro[i - 1].Key)) then
+      begin
+        prevModifiers := macro[i - 1].Modifiers;
+        FillModifiersFromValues(prevKeyModifiers, prevModifiers);
+      end;
+
+      //Checks any change in modifiers (add or remove any)
+      if (prevModifiers <> aKey.Modifiers) then
+      begin
+        //Add text + when modifier is released
+        for j := 0 to prevKeyModifiers.Count - 1 do
+        begin
+          if not curKeyModifiers.ContrainsKey(prevKeyModifiers[j]) then
+            result := result + '{+' + prevKeyModifiers.Items[j].SaveValue + '}';
+        end;
+
+        //Add text - when modifier is pressed
+        for j := 0 to curKeyModifiers.Count - 1 do
+        begin
+          if not prevKeyModifiers.ContrainsKey(curKeyModifiers[j]) then
+            result := result + '{-' + curKeyModifiers.Items[j].SaveValue + '}';
+        end;
+      end;
+
+      //If different press & release with combination, write using the old method with up and down value
+      if (aKey.DiffPressRel) then
+      begin
+        //Writes the key - and + if WriteDownUp is enabled, else writes only the value
+        if aKey.WriteDownUp then
+          result := result + '{-' + saveValue + '}' + DIFF_PRESS_REL_TEXT + '{+' + saveValue + '}'
+        else
+          result := result + '{' + saveValue + '}';
+      end
+      else  //Write the key value, only need the - / + for modifiers
+        result := result + '{' + saveValue + '}';
+
+      //If last key set modifiers +
+      if (i = macro.Count - 1) then
+      begin
+        for j := 0 to curKeyModifiers.Count - 1 do
+          result := result + '{+' + curKeyModifiers[j].SaveValue + '}';
+      end;
+    end;
+
+    if (curKeyModifiers <> nil) then
+      FreeAndNil(curKeyModifiers);
+    if (prevKeyModifiers <> nil) then
+      FreeAndNil(prevKeyModifiers);
+  end;
+end;
+
 function TKeyService.ConvertToTextFileFmt: TStringList;
 var
   i, j: integer;
@@ -9328,9 +9574,6 @@ var
   aKey: TKey;
   aMacro: TKeyList;
   layerPrefix: string;
-  prevModifiers: string;
-  curKeyModifiers: TKeyList;
-  prevKeyModifiers: TKeyList;
   lastLayer: integer;
   layerHeader: string;
 
@@ -9349,7 +9592,6 @@ var
     else
       result := '';
   end;
-
 begin
   layoutContent := TStringList.Create;
   lastLayer := -1;
@@ -9394,16 +9636,11 @@ begin
         layoutContent.Add(lineText);
       end;
 
-      if (aKbKey.IsMacro) then
+      if (aKbKey.IsMacro) and (not IsGen2Device(GApplication)) then
       begin
-        curKeyModifiers := TKeyList.Create;
-        prevKeyModifiers := TKeyList.Create;
-
         //Loop through the 3 macros
-        for mIdx := 1 to 3 do
+        for mIdx := 1 to 5 do
         begin
-          lineText := '';
-
           //Select the correct macro
           if (mIdx = 1) then
             aMacro := aKbKey.Macro1
@@ -9416,105 +9653,37 @@ begin
           else
             aMacro := aKbKey.Macro5;
 
-          //Skip if macro has no keys
-          if (aMacro.Count <= 0) then
-            continue;
+          ////Skip if macro has no keys
+          //if (aMacro.Count <= 0) then
+          //  continue;
 
-          //Add layer prefix if there
-          lineText := lineText + layerPrefix;
-
-          //Add the co-triggers first
-          if (aMacro.CoTrigger1 <> nil) then
-            lineText := lineText + '{' + aMacro.CoTrigger1.SaveValue + '}';
-          if (aMacro.CoTrigger2 <> nil) then
-            lineText := lineText + '{' + aMacro.CoTrigger2.SaveValue + '}';
-          if (aMacro.CoTrigger3 <> nil) then
-            lineText := lineText + '{' + aMacro.CoTrigger3.SaveValue + '}';
-          if (aMacro.CoTrigger4 <> nil) then
-            lineText := lineText + '{' + aMacro.CoTrigger4.SaveValue + '}';
-
-          //Add the modified key
-          lineText := lineText + '{' + aKbKey.PositionKey.SaveValue + '}';
-
-          //Add the character separating config and value keys
-          lineText := lineText + '>';
-
-          if (aMacro.MacroSpeed >= 0) and (aMacro.MacroSpeed <= MACRO_SPEED_MAX_RGB) then
-          begin
-            lineText := lineText + '{' + MACRO_SPEED_TEXT_EDGE + IntToStr(aMacro.MacroSpeed) + '}';
-          end;
-
-          if (aMacro.MacroRptFreq >= 0) and (aMacro.MacroRptFreq <= MACRO_FREQ_MAX_RGB) then
-          begin
-            lineText := lineText + '{' + MACRO_REPEAT_EDGE + IntToStr(aMacro.MacroRptFreq) + '}';
-          end;
-
-          for i := 0 to aMacro.Count - 1 do
-          begin
-            prevModifiers := '';
-            curKeyModifiers.Clear;
-            prevKeyModifiers.Clear;;
-
-            aKey := aMacro[i];
-
-            //Gets the key save value
-            saveValue := aKey.SaveValue;
-
-            //Fills list of modifiers
-            if not IsModifier(aKey.Key) then
-              FillModifiersFromValues(curKeyModifiers, aKey.Modifiers);
-
-            //Loads previous key modifiers
-            if (i >= 1) and not(IsModifier(aMacro[i - 1].Key)) then
-            begin
-              prevModifiers := aMacro[i - 1].Modifiers;
-              FillModifiersFromValues(prevKeyModifiers, prevModifiers);
-            end;
-
-            //Checks any change in modifiers (add or remove any)
-            if (prevModifiers <> aKey.Modifiers) then
-            begin
-              //Add text + when modifier is released
-              for j := 0 to prevKeyModifiers.Count - 1 do
-              begin
-                if not curKeyModifiers.ContrainsKey(prevKeyModifiers[j]) then
-                  lineText := lineText + '{+' + prevKeyModifiers.Items[j].SaveValue + '}';
-              end;
-
-              //Add text - when modifier is pressed
-              for j := 0 to curKeyModifiers.Count - 1 do
-              begin
-                if not prevKeyModifiers.ContrainsKey(curKeyModifiers[j]) then
-                  lineText := lineText + '{-' + curKeyModifiers.Items[j].SaveValue + '}';
-              end;
-            end;
-
-            //If different press & release with combination, write using the old method with up and down value
-            if (aKey.DiffPressRel) then
-            begin
-              //Writes the key - and + if WriteDownUp is enabled, else writes only the value
-              if aKey.WriteDownUp then
-                lineText := lineText + '{-' + saveValue + '}' + DIFF_PRESS_REL_TEXT + '{+' + saveValue + '}'
-              else
-                lineText := lineText + '{' + saveValue + '}';
-            end
-            else  //Write the key value, only need the - / + for modifiers
-              lineText := lineText + '{' + saveValue + '}';
-
-            //If last key set modifiers +
-            if (i = aMacro.Count - 1) then
-            begin
-              for j := 0 to curKeyModifiers.Count - 1 do
-                lineText := lineText + '{+' + curKeyModifiers[j].SaveValue + '}';
-            end;
-          end;
+          //Get macro text
+          lineText := GetTextMacro(aKbKey.PositionKey, aMacro, layerPrefix);
 
           //Add line to text file
-          layoutContent.Add(lineText);
+          if (lineText <> '') then
+            layoutContent.Add(lineText);
         end;
+      end;
+    end;
 
-        FreeAndNil(curKeyModifiers);
-        FreeAndNil(prevKeyModifiers);
+    //Save macros for gen2 devices
+    if IsGen2Device(GApplication) then
+    begin
+      for mIdx := 0 to FMacros.Count - 1 do
+      begin
+        aMacro := TKeyList(FMacros[mIdx]);
+        if (aMacro.LayerIdx = lIdx) then
+        begin
+          aKey := FindKeyConfig(aMacro.TriggerKey);
+
+          //Get macro text
+          lineText := GetTextMacro(aKey, aMacro, layerPrefix);
+
+          //Add line to text file
+          if (lineText <> '') then
+            layoutContent.Add(lineText);
+        end;
       end;
     end;
   end;
@@ -10038,63 +10207,62 @@ begin
   end;
 end;
 
+function TKeyService.CompareKey(key1: word; aKeyList: TKeyList): boolean;
+var
+  i: integer;
+begin
+  result := false;
+
+  for i := 1 to 4 do
+  begin
+    case i of
+     1 : if (aKeyList.CoTrigger1 <> nil) then result := key1 = aKeyList.CoTrigger1.Key;
+     2 : if (aKeyList.CoTrigger2 <> nil) then result := key1 = aKeyList.CoTrigger2.Key;
+     3 : if (aKeyList.CoTrigger3 <> nil) then result := key1 = aKeyList.CoTrigger3.Key;
+     4 : if (aKeyList.CoTrigger4 <> nil) then result := key1 = aKeyList.CoTrigger4.Key;
+    end;
+    if (result) then
+       break;
+  end;
+end;
+
+function TKeyService.CompareTriggers(aKeyList1: TKeyList; aKeyList2: TKeyList): boolean;
+var
+  i: integer;
+begin
+  result := false;
+
+  if (aKeyList1.Count > 0) and (aKeyList2.Count > 0) then
+  begin
+    //First check if all co-triggers from list one are in list 2
+    for i := 1 to 4 do
+    begin
+      case i of
+       1 : if (aKeyList1.CoTrigger1 <> nil) then result := CompareKey(aKeyList1.CoTrigger1.Key, aKeyList2);
+       2 : if (aKeyList1.CoTrigger2 <> nil) then result := CompareKey(aKeyList1.CoTrigger2.Key, aKeyList2);
+       3 : if (aKeyList1.CoTrigger3 <> nil) then result := CompareKey(aKeyList1.CoTrigger3.Key, aKeyList2);
+       4 : if (aKeyList1.CoTrigger4 <> nil) then result := CompareKey(aKeyList1.CoTrigger4.Key, aKeyList2);
+      end;
+    end;
+
+    //If true, check they are the same amount of co-triggers
+    if (result) then
+      result := (aKeyList1.CountCoTriggers = aKeyList2.CountCoTriggers);
+
+    //Finally, check if both have 0 co-triggers
+    if (not result) then
+    begin
+      result := (aKeyList1.CountCoTriggers = 0) and (aKeyList2.CountCoTriggers = 0);
+    end;
+  end;
+end;
+
 //Validate if Macros are ok, not same co-trigger for all macros
 function TKeyService.ValidateMacros(aKey: TKbKey; var errorMsg: string;
   var errorMsgTitle: string): boolean;
 var
   i:integer;
   coTriggersOk: boolean;
-
-  function CompareKey(key1: word; aKeyList: TKeyList): boolean;
-  var
-    i: integer;
-  begin
-    result := false;
-
-    for i := 1 to 4 do
-    begin
-      case i of
-       1 : if (aKeyList.CoTrigger1 <> nil) then result := key1 = aKeyList.CoTrigger1.Key;
-       2 : if (aKeyList.CoTrigger2 <> nil) then result := key1 = aKeyList.CoTrigger2.Key;
-       3 : if (aKeyList.CoTrigger3 <> nil) then result := key1 = aKeyList.CoTrigger3.Key;
-       4 : if (aKeyList.CoTrigger4 <> nil) then result := key1 = aKeyList.CoTrigger4.Key;
-      end;
-      if (result) then
-         break;
-    end;
-  end;
-
-  function CompareTriggers(aKeyList1: TKeyList; aKeyList2: TKeyList): boolean;
-  var
-    i: integer;
-  begin
-    result := false;
-
-    if (aKeyList1.Count > 0) and (aKeyList2.Count > 0) then
-    begin
-      //First check if all co-triggers from list one are in list 2
-      for i := 1 to 4 do
-      begin
-        case i of
-         1 : if (aKeyList1.CoTrigger1 <> nil) then result := CompareKey(aKeyList1.CoTrigger1.Key, aKeyList2);
-         2 : if (aKeyList1.CoTrigger2 <> nil) then result := CompareKey(aKeyList1.CoTrigger2.Key, aKeyList2);
-         3 : if (aKeyList1.CoTrigger3 <> nil) then result := CompareKey(aKeyList1.CoTrigger3.Key, aKeyList2);
-         4 : if (aKeyList1.CoTrigger4 <> nil) then result := CompareKey(aKeyList1.CoTrigger4.Key, aKeyList2);
-        end;
-      end;
-
-      //If true, check they are the same amount of co-triggers
-      if (result) then
-        result := (aKeyList1.CountCoTriggers = aKeyList2.CountCoTriggers);
-
-      //Finally, check if both have 0 co-triggers
-      if (not result) then
-      begin
-        result := (aKeyList1.CountCoTriggers = 0) and (aKeyList2.CountCoTriggers = 0);
-      end;
-    end;
-  end;
-
 begin
   errorMsg := '';
   errorMsgTitle := '';
@@ -10127,6 +10295,55 @@ begin
   end;
 
   result := coTriggersOk; // and maxMacroOk;
+end;
+
+//Gen2 devices
+function TKeyService.ValidateMacros(aMacro: TKeyList; var errorMsg: string;
+  var errorMsgTitle: string): boolean;
+var
+  i:integer;
+  tempMacro: TKeyList;
+begin
+  result := true;
+  errorMsg := '';
+  errorMsgTitle := '';
+
+  if (aMacro <> nil) then
+  begin
+    if (aMacro.Count <= 0) then
+    begin
+      errorMsg := 'You macro is empty';
+      errorMsgTitle := 'Macro';
+      result := false;
+    end;
+
+    if (result) and (aMacro.LayerIdx < 0) then
+    begin
+      errorMsg := 'You must select a layer for this macro';
+      errorMsgTitle := 'Macro';
+      result := false;
+    end;
+
+    if (result) then
+    begin
+      for i := 0 to FMacros.Count - 1 do
+      begin
+        tempMacro := TKeyList(FMacros[i]);
+
+        //Same trigger key, same layer and different Guid (not same macro)
+        if (tempMacro.TriggerKey = aMacro.TriggerKey) and (tempMacro.LayerIdx = aMacro.LayerIdx) and (not IsEqualGUID(tempMacro.Guid, aMacro.Guid)) then
+        begin
+          result := not(CompareTriggers(aMacro, tempMacro));
+          if (not result) then
+          begin
+            errorMsg := 'You cannot assign two different macros to the same trigger key combination. Choose a co-trigger that is not already in use.';
+            errorMsgTitle := 'Duplicate Macro Trigger';
+            break;
+          end;
+        end;
+      end;
+    end;
+  end;
 end;
 
 function TKeyService.CountModifiers(modifiers: string): integer;
@@ -10183,27 +10400,84 @@ end;
 
 function TKeyService.CountAllKeystrokes: integer;
 var
-  layerIdx, keyIdx:integer;
+  layerIdx, keyIdx, i:integer;
   keystrokes: integer;
   aKbKey: TKBKey;
 begin
   keystrokes := 0;
-  for layerIdx := 0 to FKBLayers.Count - 1 do
+  if IsGen2Device(GApplication) then
   begin
-    for keyIdx := 0 to FKBLayers[layerIdx].KBKeyList.Count - 1 do
+    for i := 0 to FMacros.Count - 1 do
+      keystrokes += CountKeystrokes(TKeyList(FMacros[i]));
+  end
+  else
+  begin
+    for layerIdx := 0 to FKBLayers.Count - 1 do
     begin
-      aKbKey := FKBLayers[layerIdx].KBKeyList[keyIdx];
-      if (aKbKey.IsMacro) then
+      for keyIdx := 0 to FKBLayers[layerIdx].KBKeyList.Count - 1 do
       begin
-        keystrokes += CountKeystrokes(aKbKey.Macro1);
-        keystrokes += CountKeystrokes(aKbKey.Macro2);
-        keystrokes += CountKeystrokes(aKbKey.Macro3);
-        keystrokes += CountKeystrokes(aKbKey.Macro4);
-        keystrokes += CountKeystrokes(aKbKey.Macro5);
+        aKbKey := FKBLayers[layerIdx].KBKeyList[keyIdx];
+        if (aKbKey.IsMacro) then
+        begin
+          keystrokes += CountKeystrokes(aKbKey.Macro1);
+          keystrokes += CountKeystrokes(aKbKey.Macro2);
+          keystrokes += CountKeystrokes(aKbKey.Macro3);
+          keystrokes += CountKeystrokes(aKbKey.Macro4);
+          keystrokes += CountKeystrokes(aKbKey.Macro5);
+        end;
       end;
     end;
   end;
   result := keystrokes;
+end;
+
+function TKeyService.AddMacro(key: word; layerIdx: integer): integer;
+var
+  aMacro: TKeyList;
+begin
+  aMacro := TKeyList.Create;
+  aMacro.TriggerKey := key;
+  aMacro.LayerIdx := layerIdx;
+  aMacro.IsNew := true;
+  FMacros.Add(aMacro);
+
+  //Return Index of macro
+  result := FMacros.Count - 1;
+end;
+
+function TKeyService.AddCopiedMacro(copiedMacro: TKeyList; key: word; layerIdx: integer): integer;
+begin
+  copiedMacro.TriggerKey := key;
+  copiedMacro.LayerIdx := layerIdx;
+  copiedMacro.IsNew := true;
+  FMacros.Add(copiedMacro);
+
+  //Return Index of macro
+  result := FMacros.Count - 1;
+end;
+
+function TKeyService.GetMacro(keyIdx: integer): TKeyList;
+begin
+  if (FMacros.Count > keyIdx) then
+    result := TKeyList(FMacros[keyIdx])
+  else
+    result := nil;
+end;
+
+function TKeyService.RemoveLastMacro: TKeyList;
+begin
+  if (FMacros.Count > 0) then
+    FMacros.Delete(FMacros.Count - 1);
+end;
+
+procedure TKeyService.RemoveMacro(macro: TKeyList);
+begin
+  FMacros.Remove(macro);
+end;
+
+procedure TKeyService.RemoveAllMacros;
+begin
+  FMacros.Clear;
 end;
 
 procedure TKeyService.LoadConfigKeys;

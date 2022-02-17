@@ -60,7 +60,7 @@
         <PackageName Value="LCL"/>
       </Item9>
     </RequiredPackages>
-    <Units Count="20">
+    <Units Count="19">
       <Unit0>
         <Filename Value="SmartSetMaster.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -85,91 +85,87 @@
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\Common\u_base_key_service.pas"/>
+        <Filename Value="..\Common\u_file_service.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="..\Common\u_file_service.pas"/>
+        <Filename Value="..\Common\u_gif.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\Common\u_gif.pas"/>
+        <Filename Value="..\Common\u_key_layer.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="..\Common\u_key_layer.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
         <Filename Value="..\Common\u_keys.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="U_Keys"/>
-      </Unit9>
-      <Unit10>
+      </Unit8>
+      <Unit9>
         <Filename Value="..\Common\versionsupport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="VersionSupport"/>
-      </Unit10>
-      <Unit11>
+      </Unit9>
+      <Unit10>
         <Filename Value="..\SmartSetRGB\u_form_main_rgb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMainRGB"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit11>
-      <Unit12>
+      </Unit10>
+      <Unit11>
         <Filename Value="..\Common\u_form_loading.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormLoading"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
+      </Unit11>
+      <Unit12>
         <Filename Value="..\Common\u_common_ui.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit13>
-      <Unit14>
+      </Unit12>
+      <Unit13>
         <Filename Value="..\Common\u_base_form.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="BaseForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit14>
-      <Unit15>
+      </Unit13>
+      <Unit14>
         <Filename Value="..\Common\eject_usb.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Eject_USB"/>
-      </Unit15>
-      <Unit16>
+      </Unit14>
+      <Unit15>
         <Filename Value="..\Common\infodialog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormInfoDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="InfoDialog"/>
-      </Unit16>
-      <Unit17>
+      </Unit15>
+      <Unit16>
         <Filename Value="..\SmartSetTKO\u_form_main_tko.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMainTKO"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
+      </Unit16>
+      <Unit17>
         <Filename Value="..\Common\userdialog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormUserDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="UserDialog"/>
-      </Unit18>
-      <Unit19>
+      </Unit17>
+      <Unit18>
         <Filename Value="u_form_scanvdrive.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormScanVDrive"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit19>
+      </Unit18>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
