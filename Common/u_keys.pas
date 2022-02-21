@@ -10,10 +10,12 @@ uses
   Classes, SysUtils, contnrs;
 
 type
+
+  TKeyState = (ksNone, ksDown, ksUp);
+
   //class representing a key
 
   { TKey }
-
   TKey = class
   private
     FKey: word;
@@ -24,6 +26,7 @@ type
     FShowShiftedValue: boolean; //Whether or not to show shifted value
     FMultiValue: string; //Value when multiple keys and not with modifier
     FModifiers: string;
+    FUpDown: TKeyState;
     FWriteDownUp: boolean; //In macro mode, write - for down and + for up, when disabled only write once
     FDiffPressRel: boolean; //In macro mode, does it have different press & release
     FConvertToUnicode: boolean; //Convert key to unicode
@@ -38,7 +41,7 @@ type
     constructor Create(iKey: word; sValue: string; sDisplayText: string = ''; sSaveValue: string = ''; sMultiValue: string = ''; sShiftedValue: string = '';
       bConvertToUnicode: boolean = false; bShowShiftedValue: boolean = false;
       sModifiers: string = ''; WriteDownUp: boolean = True; DiffPressRel: boolean = False; iDisplaySize: integer = 0; sFontName: string = '';
-      sOtherDisplayText: string = ''; ImageName: string = '');
+      sOtherDisplayText: string = ''; ImageName: string = ''; UpDown: TKeyState = ksNone);
     function CopyKey: TKey;
     function Compare(aKey: TKey): boolean;
     property Key: word read FKey;
@@ -56,6 +59,7 @@ type
     property DisplaySize: integer read FDisplaySize write FDisplaySize;
     property OtherDisplayText: string read FOtherDisplayText write FOtherDisplayText;
     property ImageName: string read FImageName write FImageName;
+    property UpDown: TKeyState read FUpDown write FUpDown;
   end;
 
   //List of Keys
@@ -113,7 +117,7 @@ uses u_const;
 constructor TKey.Create(iKey: word; sValue: string; sDisplayText: string; sSaveValue: string; sMultiValue: string;
   sShiftedValue: string; bConvertToUnicode: boolean; bShowShiftedValue: boolean; sModifiers: string;
   WriteDownUp: boolean; DiffPressRel: boolean; iDisplaySize: integer; sFontName: string; sOtherDisplayText: string;
-  ImageName: string = '');
+  ImageName: string = ''; UpDown: TKeyState = ksNone);
 begin
   inherited Create;
   FKey := iKey;
@@ -141,6 +145,7 @@ begin
   else
     FOtherDisplayText := sOtherDisplayText;
   FImageName := ImageName;
+  FUpDown := UpDown;
 end;
 
 //Creates a new key from the current key
@@ -150,7 +155,7 @@ begin
   if self <> nil then
     Result := TKey.Create(self.Key, self.Value, self.DisplayText, self.SaveValue, self.MultiValue, self.ShiftedValue,
       self.ConvertToUnicode, self.ShowShiftedValue, self.Modifiers, self.WriteDownUp,
-      self.DiffPressRel, self.DisplaySize, self.FontName, self.OtherDisplayText, self.ImageName);
+      self.DiffPressRel, self.DisplaySize, self.FontName, self.OtherDisplayText, self.ImageName, self.FUpDown);
 end;
 
 //Compares current key to key passed in parameter
@@ -174,7 +179,8 @@ begin
       (self.FontName = aKey.FontName) and
       (self.DisplaySize = aKey.DisplaySize) and
       (self.OtherDisplayText = aKey.OtherDisplayText) and
-      (self.ImageName = aKey.ImageName);
+      (self.ImageName = aKey.ImageName) and
+      (self.UpDown = aKey.UpDown);
   end;
 end;
 

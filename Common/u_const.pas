@@ -19,8 +19,6 @@ uses
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
 
-  TKeyState = (ksNone, ksDown, ksUp);
-
   TSaveState = (ssNone, ssModified);
 
   TMacroState = (msNone, msEdit, msEditTrigger, msNew);
@@ -475,6 +473,8 @@ const
   VK_MACRO_SPEED_9 = 11200;
   VK_LFN_LAYER_SHIFT = 11201;
   VK_RFN_LAYER_SHIFT = 11202;
+  VK_UP_KEYSTROKE = 11203;
+  VK_DOWN_KEYSTROKE = 11204;
   //END OF VIRTUAL KEY OPTIONS
 
   MAPVK_VK_TO_VSC = 0;

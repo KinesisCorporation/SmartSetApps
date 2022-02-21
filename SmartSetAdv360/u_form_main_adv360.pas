@@ -37,6 +37,7 @@ type
     btnFn2LayerMacro: TColorSpeedButtonCS;
     btnFn3LayerMacro: TColorSpeedButtonCS;
     btnFunctionMacro: TColorSpeedButtonCS;
+    btnUpDown: TColorSpeedButtonCS;
     btnKpLayerMacro: TColorSpeedButtonCS;
     btnLeftAlt: TColorSpeedButtonCS;
     btnLeftCtrl: TColorSpeedButtonCS;
@@ -420,6 +421,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure btnSpeedMacroClick(Sender: TObject);
     procedure btnTapAndHoldClick(Sender: TObject);
+    procedure btnUpDownClick(Sender: TObject);
     procedure CheckVDriveTmrTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -566,6 +568,7 @@ type
     //keyService: TKeyService;
     //fileService: TFileService;
     WindowsComboOn: boolean;
+    UpDownKeystroke: TKeyState;
     appError: boolean;
     activeMacroMenu: string;
     macroCount: integer;
@@ -608,6 +611,7 @@ type
     popFunctionKeysMacro: TPopupMenu;
     popMacroSpeed: TPopupMenu;
     popLedIndicator: TPopupMenu;
+    popUpDownKS: TPopupMenu;
     showingVDriveErrorDlg: boolean;
     macroRepoList: TObjectList;
     copyMacro: boolean;
@@ -738,6 +742,7 @@ type
     procedure SetSaveState(aSaveState: TSaveState);
     procedure SetMacroState(aMacroState: TMacroState);
     procedure SetWindowsCombo(value: boolean);
+    procedure SetUpDownKeystroke(value: TKeyState);
     procedure SetWorkmanKb(selLayers: TStringList);
     procedure ShowHideKeyButtons(value: boolean);
     procedure ShowHideShapeColor(value: boolean);
@@ -1072,6 +1077,7 @@ begin
   RemapMode := false;
   loadingMacro := false;
   WindowsComboOn := false;
+  UpDownKeystroke := ksNone;
   appError := false;
   activeMacroMenu := '';
   oldWindowState := wsNormal;
@@ -1427,6 +1433,7 @@ procedure TFormMainAdv360.SetMacroState(aMacroState: TMacroState);
 begin
   MacroState := aMacroState;
 
+  SetUpDownKeystroke(ksNone);
   btnAssignMacro.Font.Color := clWhite;//fontColor;
   btnAssignMacro.Font.Size := 16;
   btnAssignMacro.Down := (MacroState in [msNew, msEditTrigger]);
@@ -1476,6 +1483,7 @@ begin
   btnMultimediaMacro.Disabled := MacroState <> msEdit;
   btnFunctionMacro.Disabled := MacroState <> msEdit;
   btnSpeedMacro.Disabled := MacroState <> msEdit;
+  btnUpDown.Disabled := MacroState <> msEdit;
 end;
 
 procedure TFormMainAdv360.InitKeyButtons(container: TWinControl);
@@ -1580,6 +1588,7 @@ begin
   hoveredList.Add(THoveredObj.Create(btnMultimediaMacro, imgListMacroActions, 16, 17));
   hoveredList.Add(THoveredObj.Create(btnFunctionMacro, imgListMacroActions, 18, 19));
   hoveredList.Add(THoveredObj.Create(btnSpeedMacro, imgListMacroActions, 20, 21));
+  hoveredList.Add(THoveredObj.Create(btnUpDown, imgListMacroActions, 22, 23));
 
   //Macro buttons
   hoveredList.Add(THoveredObj.Create(btnCancelMacro, imgListMacro, 0, 1));
@@ -2006,6 +2015,15 @@ begin
   AddMacroMenuItem(popMacroSpeed, 'Speed 7', VK_MACRO_SPEED_7);
   AddMacroMenuItem(popMacroSpeed, 'Speed 8', VK_MACRO_SPEED_8);
   AddMacroMenuItem(popMacroSpeed, 'Speed 9', VK_MACRO_SPEED_9);
+
+
+  //Up/Down Keystroke sortcuts
+  popUpDownKS := TPopupMenu.Create(self);
+  popUpDownKS.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  AddMacroMenuItem(popUpDownKS, 'Up Keystroke', VK_UP_KEYSTROKE);
+  AddMacroMenuItem(popUpDownKS, 'Down Keystroke', VK_DOWN_KEYSTROKE);
+  btnUpDown.PopupMode := true;
+  btnUpDown.PopupMenu := popUpDownKS;
 end;
 
 procedure TFormMainAdv360.AddMenuItem(var popMenu: TPopupMenu; itemName: string; keyCode: integer);
@@ -2374,6 +2392,14 @@ begin
       SetModifiedKey(VK_MOUSE_LEFT, '', true);
       SetModifiedKey(VK_MIN_DELAY + 124, '', true);
       SetModifiedKey(VK_MOUSE_LEFT, '', true);
+    end
+    else if (mnuAction = VK_UP_KEYSTROKE) then
+    begin
+      SetUpDownKeystroke(ksUp);
+    end
+    else if (mnuAction = VK_DOWN_KEYSTROKE) then
+    begin
+      SetUpDownKeystroke(ksDown);
     end
     else
     begin
@@ -5004,6 +5030,19 @@ begin
   (sender as TColorSpeedButtonCS).Down := false;
 end;
 
+procedure TFormMainAdv360.btnUpDownClick(Sender: TObject);
+begin
+//var
+//  pt: TPoint;
+//begin
+//  btnUpDown.Down := true;
+//
+//  pt.x := Mouse.CursorPos.x;
+//  pt.y := Mouse.CursorPos.y;
+//  popUpDownKS.PopUp(pt.x, pt.y);
+//  SetHovered(sender, false, true);
+end;
+
 procedure TFormMainAdv360.btnMacModifiersClick(Sender: TObject);
 begin
   SetMacModifiersHotkeys;
@@ -6492,7 +6531,7 @@ begin
             keyIdx := keyService.GetKeyAtPosition(activeMacro, cursorNext + 1)
           else
             keyIdx := keyService.GetKeyAtPosition(activeMacro, cursorPos + 1);
-          keyAdded := keyService.AddKeyMacro(activeMacro, key, Modifiers, keyIdx);
+          keyAdded := keyService.AddKeyMacro(activeMacro, key, Modifiers, keyIdx, UpDownKeystroke);
           if (keyAdded <> nil) then
           begin
             textKey := keyService.GetSingleKeyText(keyAdded, isLongKey);
@@ -6534,6 +6573,9 @@ begin
               memoMacro.SetRangeColor(cursorPos, LengthUTF8(textKey), clDefault);
 
             textMacroInput.Visible := activeMacro.Count = 0;
+
+            //Reset Up/Down keystroke
+            SetUpDownKeystroke(ksNone);
           end;
         end;
       end;
@@ -7322,6 +7364,25 @@ begin
     end;
 
     memoMacro.SetFocus;
+  end;
+end;
+
+procedure TFormMainAdv360.SetUpDownKeystroke(value: TKeyState);
+begin
+  UpDownKeystroke := value;
+  if (MacroMode) then
+  begin
+    if (UpDownKeystroke = ksNone) then
+    begin
+      btnUpDown.Down := false;
+      SetHovered(btnUpDown, false, true);
+    end
+    else
+    begin
+      btnUpDown.Down := true;
+      SetHovered(btnUpDown, true, true);
+      memoMacro.SetFocus;
+    end;
   end;
 end;
 

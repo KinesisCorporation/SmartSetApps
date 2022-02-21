@@ -105,6 +105,7 @@ type
     //FKeyboardLayouts: TKeyboardLayoutList;
     function CompareKey(key1: word; aKeyList: TKeyList): boolean;
     function CompareTriggers(aKeyList1: TKeyList; aKeyList2: TKeyList): boolean;
+    function CheckUpDownKS(aKeyList: TKeyList): boolean;
     function GetBaseLayerAdv360: TKBLayer;
     function GetEdgeKey(key: word; layerIdx: integer): TKBKey;
     function GetFN1LayerAdv360: TKBLayer;
@@ -142,6 +143,7 @@ type
     procedure InitGifsRGB;
     procedure InitGifsTKO;
     function GetLedMode: TLedMode;
+    function ModifierExits(key: word): boolean;
     procedure ResetLedOptions;
     procedure ResetEdgeOptions;
     procedure SetLedMode(aLedMode: TLedMode);
@@ -253,7 +255,7 @@ type
     function AddCopiedMacro(copiedMacro: TKeyList; key: word; layerIdx: integer): integer;
     function GetMacro(keyIdx: integer): TKeyList;
     function RemoveLastMacro: TKeyList;
-    function AddKeyMacro(macro: TKeyList; iKey: word; modifiers: string; insertAtPos: integer): TKey;
+    function AddKeyMacro(macro: TKeyList; iKey: word; modifiers: string; insertAtPos: integer; upDown: TKeyState = ksNone): TKey;
     procedure RemoveMacro(macro: TKeyList);
     procedure RemoveAllMacros;
     function RemoveKeyMacro(macro: TKeyList; index: integer): boolean;
@@ -2404,6 +2406,10 @@ else if (defaultValue <> '') then
 else
   result := aKey.Value;
 {$endif}
+if (aKey.UpDown = ksUp) then
+  result := '+' + result
+else if (aKey.UpDown = ksDown) then
+  result := '-' + result;
 end;
 
 //Checks if AltGr pressed (Ctrl + Alt)
@@ -2520,29 +2526,37 @@ begin
   end;
 end;
 
-//Adds modifier to list of active modifiers
-procedure TKeyService.AddModifier(key: word);
+//Checks if modifier is already in list
+function TKeyService.ModifierExits(key: word): boolean;
 var
   i: integer;
   found: boolean;
+begin
+  found := False;
+
+  for i := 0 to ActiveModifiers.Count - 1 do
+  begin
+    if ActiveModifiers[i] <> nil then
+      if ActiveModifiers[i].Key = key then
+      begin
+        found := True; //already exists
+        break;
+      end;
+  end;
+
+  result := found;
+end;
+
+//Adds modifier to list of active modifiers
+procedure TKeyService.AddModifier(key: word);
+var
   aKey: TKey;
   newKey: TKey;
 begin
-  found := False;
-  aKey := FindKeyConfig(key);
-  if aKey <> nil then
+  if (not ModifierExits(key)) then
   begin
-    for i := 0 to ActiveModifiers.Count - 1 do
-    begin
-      if ActiveModifiers[i] <> nil then
-        if ActiveModifiers[i].Key = aKey.Key then
-        begin
-          found := True; //already exists
-          break;
-        end;
-    end;
-
-    if not (found) then
+    aKey := FindKeyConfig(key);
+    if aKey <> nil then
     begin
       newKey := aKey.CopyKey;
       ActiveModifiers.Add(newKey);
@@ -2607,7 +2621,7 @@ begin
   end;
 end;
 
-function TKeyService.AddKeyMacro(macro: TKeyList; iKey: word; modifiers: string; insertAtPos: integer): TKey;
+function TKeyService.AddKeyMacro(macro: TKeyList; iKey: word; modifiers: string; insertAtPos: integer; upDown: TKeyState = ksNone): TKey;
 var
   aKey: TKey;
 begin
@@ -2617,6 +2631,10 @@ begin
     aKey := GetKeyWithModifier(iKey, modifiers);
     if (aKey <> nil) then
     begin
+      //Set Up/Down KS (only without modifiers)
+      if (aKey.Modifiers = '') or (IsModifier(aKey.Key)) then
+        aKey.UpDown := upDown;
+
       //Add keypress to active pedal
       if (insertAtPos >= 0) then
         macro.Insert(insertAtPos, aKey)
@@ -3299,6 +3317,7 @@ var
   aKey, newKey: TKey;
   sKey: string;
   keyState: TKeyState;
+  lastKeyState: TKeyState;
   keyStart, keyEnd: integer;
   lastKey: integer;
   previousKey: TKey;
@@ -3324,6 +3343,7 @@ var
   tempText: string;
 begin
   lastKey := 0;
+  lastKeyState := ksNone;
   curLayerIdx := 0;
   aCoTriggers := TKeyList.Create;
 
@@ -3596,38 +3616,62 @@ begin
               begin
                 if IsModifier(aKey.Key) then
                 begin
-                  //Adds to list of active modifiers
                   if (keyState = ksDown) then
-                    AddModifier(aKey.key)
+                  begin
+                    //Adds to list of active modifiers
+                    AddModifier(aKey.key);
+                  end
                   else if (keyState = ksUp) then
                   begin
-                    //If last key is the same key, then adds modifier as single key down
-                    if lastKey = aKey.Key then
-                      activeMacro.Add(aKey.CopyKey);
+                    //If last key is the same key or just key up, then adds modifier as single key down
+                    if (lastKey = aKey.Key) or not(ModifierExits(aKey.Key)) then
+                    begin
+                      newKey := akey.CopyKey;
+                      //Gen2 device, mark as UP only if last key was different or if last key was the same and not DOWN
+                      if (IsGen2Device(GApplication)) and ((lastKey <> aKey.Key) or (lastKeyState <> ksDown))  then
+                        newKey.UpDown := keyState;
+                      activeMacro.Add(newKey);
+                    end;
                     RemoveModifier(aKey.Key);
                   end
                   else //if no keyState (+ or -) and modifier add as single key
                     activeMacro.Add(aKey.CopyKey);
                 end
-                else if (keyState in [ksNone, ksDown]) then //Only add key on key down or key none
+                else
                 begin
-                  //Get the previous key
-                  if activeMacro.Count > 0 then
-                    previousKey := activeMacro.Items[activeMacro.Count - 1];
-
-                  //If there are modifiers and we find Different Press and Release, we assign it to previous key
-                  if (ActiveModifiers.Count > 0) and (aKey.Key = VK_DIF_PRESS_REL) and (previousKey <> nil) then
+                  if (GApplication = APPL_PEDAL) then
                   begin
-                    previousKey.DiffPressRel := true;
+                    //Only add key on key down or key none
+                    if (keyState in [ksNone, ksDown]) then
+                    begin
+                      //Get the previous key
+                      if activeMacro.Count > 0 then
+                        previousKey := activeMacro.Items[activeMacro.Count - 1];
+
+                      //If there are modifiers and we find Different Press and Release, we assign it to previous key
+                      if (ActiveModifiers.Count > 0) and (aKey.Key = VK_DIF_PRESS_REL) and (previousKey <> nil) then
+                      begin
+                        previousKey.DiffPressRel := true;
+                      end
+                      else //Add the key
+                      begin
+                        newKey := akey.CopyKey;
+                        newKey.UpDown := keyState;
+                        newKey.Modifiers := GetModifierText; //Gets modifier values
+                        activeMacro.Add(newKey); //Adds key
+                      end;
+                    end;
                   end
-                  else //Add the key
+                  else
                   begin
                     newKey := akey.CopyKey;
+                    newKey.UpDown := keyState;
                     newKey.Modifiers := GetModifierText; //Gets modifier values
                     activeMacro.Add(newKey); //Adds key
                   end;
                 end;
                 lastKey := aKey.Key;
+                lastKeyState := keyState;
               end;
             end; //end while loop valueText
 
@@ -4135,7 +4179,8 @@ begin
   if (aKey <> nil) then
   begin
     newKey := aKey.CopyKey;
-    newKey.Modifiers := modifiers;
+    if not(IsModifier(iKey)) then
+      newKey.Modifiers := modifiers;
 
     Result := newKey;
   end;
@@ -9536,7 +9581,7 @@ begin
       end;
 
       //If different press & release with combination, write using the old method with up and down value
-      if (aKey.DiffPressRel) then
+      if (GApplication = APPL_PEDAL) and (aKey.DiffPressRel) then
       begin
         //Writes the key - and + if WriteDownUp is enabled, else writes only the value
         if aKey.WriteDownUp then
@@ -9545,7 +9590,14 @@ begin
           result := result + '{' + saveValue + '}';
       end
       else  //Write the key value, only need the - / + for modifiers
-        result := result + '{' + saveValue + '}';
+      begin
+        if (aKey.UpDown = ksNone) then
+          result := result + '{' + saveValue + '}'
+        else if (aKey.UpDown = ksUp) then
+          result := result + '{+' + saveValue + '}'
+        else if (aKey.UpDown = ksDown) then
+          result := result + '{-' + saveValue + '}';
+      end;
 
       //If last key set modifiers +
       if (i = macro.Count - 1) then
@@ -9878,7 +9930,7 @@ var
 begin
   result := '';
   {$ifdef Win32}
-  if (FCurrentKBLayout <> ENGLISH_US_LAYOUT_NAME) then
+  if (GApplication = APPL_PEDAL) and (FCurrentKBLayout <> ENGLISH_US_LAYOUT_NAME) then
   begin
     if (saving) then
       returnKey := ConvertToEnUS(aKey)
@@ -9889,7 +9941,6 @@ begin
       result := key.SaveValue;
   end;
   {$endif}
-
 end;
 
 procedure TKeyService.ResetLayout;
@@ -10257,6 +10308,70 @@ begin
   end;
 end;
 
+function TKeyService.CheckUpDownKS(aKeyList: TKeyList): boolean;
+var
+  i, j: integer;
+  aKey, aKey2: TKey;
+  hasUp: boolean;
+  upList: array of integer;
+  isValid: boolean;
+
+  procedure AddToList(value: integer);
+  begin
+    SetLength(upList, Length(upList) + 1);
+    upList[High(upList)] := value;
+  end;
+
+  function AlreadyInList(value: integer): boolean;
+  var
+    idx: integer;
+  begin
+    idx := 0;
+    result := false;
+
+    while (idx < Length(upList)) and (result = false) do
+    begin
+      if (upList[idx] = value) then
+        result := true;
+
+      inc(idx);
+    end;
+  end;
+
+begin
+  isValid := true;
+  SetLength(upList, 0);
+
+  i := 0;
+  While (i < aKeyList.Count) and (isValid) do
+  begin
+    aKey := aKeyList[i];
+    if (aKey.UpDown = ksDown) then
+    begin
+      hasUp := false;
+
+      j := i + 1;
+      While (j < aKeyList.Count) and (not hasUp) do
+      begin
+        aKey2 := aKeyList[j];
+        if (aKey2.Key = aKey.Key) and (aKey2.UpDown = ksUp) and not(AlreadyInList(j)) then
+        begin
+          hasUp := true;
+          AddToList(j);
+        end;
+        inc(j);
+      end;
+
+      if (not hasUp) then
+        isValid := false;
+    end;
+
+    inc(i);
+  end;
+
+  result := isValid;
+end;
+
 //Validate if Macros are ok, not same co-trigger for all macros
 function TKeyService.ValidateMacros(aKey: TKbKey; var errorMsg: string;
   var errorMsgTitle: string): boolean;
@@ -10303,8 +10418,9 @@ function TKeyService.ValidateMacros(aMacro: TKeyList; var errorMsg: string;
 var
   i:integer;
   tempMacro: TKeyList;
+  valid: boolean;
 begin
-  result := true;
+  valid := true;
   errorMsg := '';
   errorMsgTitle := '';
 
@@ -10314,17 +10430,17 @@ begin
     begin
       errorMsg := 'You macro is empty';
       errorMsgTitle := 'Macro';
-      result := false;
+      valid := false;
     end;
 
-    if (result) and (aMacro.LayerIdx < 0) then
+    if (valid) and (aMacro.LayerIdx < 0) then
     begin
       errorMsg := 'You must select a layer for this macro';
       errorMsgTitle := 'Macro';
-      result := false;
+      valid := false;
     end;
 
-    if (result) then
+    if (valid) then
     begin
       for i := 0 to FMacros.Count - 1 do
       begin
@@ -10333,17 +10449,31 @@ begin
         //Same trigger key, same layer and different Guid (not same macro)
         if (tempMacro.TriggerKey = aMacro.TriggerKey) and (tempMacro.LayerIdx = aMacro.LayerIdx) and (not IsEqualGUID(tempMacro.Guid, aMacro.Guid)) then
         begin
-          result := not(CompareTriggers(aMacro, tempMacro));
-          if (not result) then
+          valid := not(CompareTriggers(aMacro, tempMacro));
+          if (not valid) then
           begin
             errorMsg := 'You cannot assign two different macros to the same trigger key combination. Choose a co-trigger that is not already in use.';
             errorMsgTitle := 'Duplicate Macro Trigger';
             break;
           end;
         end;
+
+        //Check hanging downstroke
+        if (valid) then
+        begin
+          valid := CheckUpDownKS(aMacro);
+          if (not valid) then
+          begin
+            errorMsg := 'Your new macro has a hanging downstroke which is likely to result in a stuck key. All down strokes should be followed by a corresponding upstroke in the macro.';
+            errorMsgTitle := 'Up/Down Keystroke';
+            break;
+          end;
+        end;
       end;
     end;
   end;
+
+  result := valid;
 end;
 
 function TKeyService.CountModifiers(modifiers: string): integer;
