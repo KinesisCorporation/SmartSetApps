@@ -14,7 +14,10 @@ inherited FormTimingDelays: TFormTimingDelays
     ClientWidth = 352
     TabOrder = 2
     inherited lblTitle: TLabel
-      Width = 42
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 348
     end
     inherited btnCloseLight: TColorSpeedButtonCS
       Left = 317
@@ -39,9 +42,9 @@ inherited FormTimingDelays: TFormTimingDelays
   end
   object rbRandom: TRadioButton[4]
     Left = 286
-    Height = 35
+    Height = 18
     Top = 48
-    Width = 36
+    Width = 22
     TabOrder = 0
   end
   object lblRandom: TLabel[5]
@@ -59,9 +62,9 @@ inherited FormTimingDelays: TFormTimingDelays
   end
   object lblCustom: TLabel[6]
     Left = 30
-    Height = 24
+    Height = 16
     Top = 80
-    Width = 223
+    Width = 143
     Caption = 'Custom Delay (1-999ms)'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -70,7 +73,7 @@ inherited FormTimingDelays: TFormTimingDelays
   end
   object eCustomDelay: TEdit[7]
     Left = 265
-    Height = 32
+    Height = 25
     Top = 77
     Width = 56
     Alignment = taCenter
@@ -85,7 +88,7 @@ inherited FormTimingDelays: TFormTimingDelays
   object btnAccept: TColorSpeedButtonCS[8]
     Left = 296
     Height = 46
-    Top = 121
+    Top = 120
     Width = 46
     AllowAllUp = True
     Font.Color = clWhite

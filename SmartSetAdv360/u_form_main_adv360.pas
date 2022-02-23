@@ -144,7 +144,7 @@ type
     lblLeftLed1Info: TLabel;
     lblLeftLed2Info: TLabel;
     lblLeftLed3Info: TLabel;
-    lblMacroEditor1: TLabel;
+    lblMacroRepository: TLabel;
     lblPreMixedColorsFn1: TLabel;
     lblPreMixedColorsFn2: TLabel;
     lblPreMixedColorsFn3: TLabel;
@@ -796,6 +796,32 @@ uses u_form_dashboard;
 
 {$R *.lfm}
 
+function InputFocused: boolean;
+begin
+  result := (NeedInput) or
+    (FormMainAdv360.eRed.Focused) or
+    (FormMainAdv360.eRedKp.Focused) or
+    (FormMainAdv360.eRedFn1.Focused) or
+    (FormMainAdv360.eRedFn2.Focused) or
+    (FormMainAdv360.eRedFn3.Focused) or
+    (FormMainAdv360.eGreen.Focused) or
+    (FormMainAdv360.eGreenKp.Focused) or
+    (FormMainAdv360.eGreenFn1.Focused) or
+    (FormMainAdv360.eGreenFn2.Focused) or
+    (FormMainAdv360.eGreenFn3.Focused) or
+    (FormMainAdv360.eBlue.Focused) or
+    (FormMainAdv360.eBlueKp.Focused) or
+    (FormMainAdv360.eBlueFn1.Focused) or
+    (FormMainAdv360.eBlueFn2.Focused) or
+    (FormMainAdv360.eBlueFn3.Focused) or
+    (FormMainAdv360.eHTML.Focused) or
+    (FormMainAdv360.eHTMLKp.Focused) or
+    (FormMainAdv360.eHTMLFn1.Focused) or
+    (FormMainAdv360.eHTMLFn2.Focused) or
+    (FormMainAdv360.eHTMLFn3.Focused) or
+    ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused);
+end;
+
 { Key Hook }
 
 {$ifdef Win32}
@@ -810,16 +836,7 @@ var
   scanCode: longint;
 begin
   //If we need keyboard input (ex: file prompt) allow key presses
-  if (NeedInput) or
-    (FormMainAdv360.eRed.Focused) or
-    (FormMainAdv360.eRedKp.Focused) or
-    (FormMainAdv360.eGreen.Focused) or
-    (FormMainAdv360.eGreenKp.Focused) or
-    (FormMainAdv360.eBlue.Focused) or
-    (FormMainAdv360.eBlueKp.Focused) or
-    (FormMainAdv360.eHTML.Focused) or
-    (FormMainAdv360.eHTMLKp.Focused) or
-    ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused) then
+  if InputFocused then
   begin
     Result := CallNextHookEx(WH_KEYBOARD, Code, wParam, lParam);
     exit;
@@ -928,16 +945,7 @@ procedure TFormMainAdv360.FormKeyDown(Sender: TObject; var Key: Word;
 begin
   {$ifdef Darwin}
   //If we need keyboard input (ex: file prompt) allow key presses
-  if (NeedInput) or
-    (FormMainAdv360.eRed.Focused) or
-    (FormMainAdv360.eRedBase.Focused) or
-    (FormMainAdv360.eGreen.Focused) or
-    (FormMainAdv360.eGreenBase.Focused) or
-    (FormMainAdv360.eBlue.Focused) or
-    (FormMainAdv360.eBlueBase.Focused) or
-    (FormMainAdv360.eHTML.Focused) or
-    (FormMainAdv360.eHTMLBase.Focused) or
-    ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused) then
+  if InputFocused then
   begin
     exit;
   end;
@@ -1096,6 +1104,11 @@ begin
   activeColor := KINESIS_GREEN_OFFICE;
   fontColor := KINESIS_DARK_GRAY_RGB;
   backColor := KINESIS_LIGHT_GRAY_ADV360;
+  if (IsDarkTheme) then
+  begin
+    fontColor := clWhite;
+    backColor := KINESIS_DARK_GRAY_RGB;
+  end;
   selKeyColor := clRed;
 
   //Set correct z-order for images
@@ -1158,10 +1171,6 @@ end;
 function TFormMainAdv360.InitApp(scanVDrive: boolean = false): boolean;
 var
   customBtns: TCustomButtons;
-  aListDrives: TStringList;
-  drives: string;
-  i: integer;
-  titleError: string;
 begin
   result := GDemoMode or CheckVDrive;
 
@@ -1179,6 +1188,7 @@ begin
 
     {$ifdef Darwin}
     btnEject.Visible := false;
+    btnFactoryReset.Left := btnEject.Left;
     {$endif};
 
     if (GDemoMode) then
@@ -1271,17 +1281,8 @@ begin
   {$ifdef Darwin}
   self.AutoScroll := false; //No scroll bars OSX, does not work well
   self.KeyPreview := true; //traps key presses at form level
-  rgMacro1.Left := rgMacro1.Left - 25;
-  rgMacro1.Top := rgMacro1.Top - 4;
-  rgMacro2.Left := rgMacro2.Left - 25;
-  rgMacro2.Top := rgMacro2.Top - 4;
-  rgMacro3.Left := rgMacro3.Left - 25;
-  rgMacro3.Top := rgMacro3.Top - 4;
-  rgMacro4.Left := rgMacro4.Left - 25;
-  rgMacro4.Top := rgMacro4.Top - 4;
-  rgMacro5.Left := rgMacro5.Left - 25;
-  rgMacro5.Top := rgMacro5.Top - 4;
   btnWindowsCombos.Visible := false;
+  btnUpDown.Top := btnWindowsCombos.Top;
   imgSmartSet1.Left := imgSmartSet1.Left - 4;
 
   //Change Macro co-trigger images
@@ -1434,7 +1435,7 @@ begin
   MacroState := aMacroState;
 
   SetUpDownKeystroke(ksNone);
-  btnAssignMacro.Font.Color := clWhite;//fontColor;
+  btnAssignMacro.Font.Color := clWhite;
   btnAssignMacro.Font.Size := 16;
   btnAssignMacro.Down := (MacroState in [msNew, msEditTrigger]);
   //btnAssignMacro.Enabled := (MacroState <> msEdit);
@@ -2750,8 +2751,7 @@ begin
   else
     pnl := (Sender as TLabel).Parent as TPanel;
 
-  pnl.Color := KINESIS_GREEN_OFFICE;//KINESIS_DARK_GRAY_ADV360;
-  pnl.Font.Color := fontColor;//activeColor;
+  pnl.Color := KINESIS_GREEN_OFFICE;
 end;
 
 procedure TFormMainAdv360.MacroRepoMouseLeave(Sender: TObject);
@@ -2766,7 +2766,6 @@ begin
   if (pnl <> activeMacroPanel) then
   begin
     pnl.Color := KINESIS_LIGHT_GRAY_ADV360;
-    pnl.Font.Color := fontColor;
   end;
 end;
 
@@ -3176,6 +3175,8 @@ begin
     //Process messages to speed up processing
     pnlProfile.Repaint;
     Application.ProcessMessages;
+    //Issue with pnlLayerSelect items not showing on Mac OSX
+    pnlLayerSelect.Refresh;
 
     if (keyService.ConfigMode = CONFIG_LIGHTING) then
     begin
@@ -3590,7 +3591,7 @@ end;
 
 procedure TFormMainAdv360.btnSettingsClick(Sender: TObject);
 begin
-  ShowSettingsAdv360;
+  ShowSettingsAdv360(backColor, fontColor);
   (sender as TColorSpeedButtonCS).Down := false;
   SetHovered(sender, false, true);
 end;
@@ -4321,8 +4322,7 @@ begin
     pnl := (Sender as TLabel).Parent as TPanel;
 
   activeMacroPanel := pnl;
-  activeMacroPanel.Font.Color := fontColor;//activeColor;
-  activeMacroPanel.Color := KINESIS_GREEN_OFFICE;//KINESIS_DARK_GRAY_ADV360;
+  activeMacroPanel.Color := KINESIS_GREEN_OFFICE;
 
   SetActiveMacro(activeMacroPanel.Tag);
 end;
@@ -4613,7 +4613,7 @@ begin
     ResetPopupMenuMacro;
     NeedInput := True;
 
-    if (IsKeyLoaded) then
+    if (IsMacroLoaded) then
     begin
       timingDelay := ShowTimingDelays(backColor, fontColor);
       if (timingDelay = 0) then
@@ -6687,7 +6687,7 @@ begin
     pnl.BevelOuter := bvNone;
     pnl.Color := scrollMacroRepo.Color;
     pnl.Font.Size := fontSize;
-    pnl.Font.Color := fontColor;
+    pnl.Font.Color := lblMacroRepository.Font.Color;
     pnl.Font.Name := self.Font.Name;
     pnl.Font.Style := [fsBold];
     pnl.OnClick := @SelectMacroClick;

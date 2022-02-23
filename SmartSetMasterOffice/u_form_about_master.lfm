@@ -19,7 +19,10 @@ inherited FormAboutMaster: TFormAboutMaster
     ClientWidth = 427
     TabOrder = 1
     inherited lblTitle: TLabel
-      Width = 372
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 423
     end
     inherited btnCloseLight: TColorSpeedButtonCS
       Left = 392
@@ -56,7 +59,7 @@ inherited FormAboutMaster: TFormAboutMaster
     OnClick = pnlMainClick
     object lblVersion: TLabel
       Left = 0
-      Height = 17
+      Height = 16
       Top = 0
       Width = 423
       Align = alTop
@@ -71,7 +74,7 @@ inherited FormAboutMaster: TFormAboutMaster
       Cursor = crHandPoint
       Left = 0
       Height = 212
-      Top = 229
+      Top = 228
       Width = 423
       Align = alTop
       Center = True
@@ -376,7 +379,7 @@ inherited FormAboutMaster: TFormAboutMaster
       Cursor = crHandPoint
       Left = 0
       Height = 212
-      Top = 17
+      Top = 16
       Width = 423
       Align = alTop
       Center = True

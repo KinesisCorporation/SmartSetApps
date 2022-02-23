@@ -1,11 +1,10 @@
 inherited FormAltLayout: TFormAltLayout
-  Left = 1011
+  Left = 585
   Height = 212
-  Top = 669
+  Top = 374
   Width = 637
   ClientHeight = 212
   ClientWidth = 637
-  Color = 13815235
   Font.Color = 1644825
   Font.Height = -19
   KeyPreview = True
@@ -26,8 +25,7 @@ inherited FormAltLayout: TFormAltLayout
       Top = 2
       Width = 633
       Caption = 'Alternate Layout'
-      Color = 13815235
-      Font.Color = 1644825
+      Color = clDefault
       ParentColor = True
       Transparent = False
     end
@@ -62,10 +60,12 @@ inherited FormAltLayout: TFormAltLayout
     Alignment = taCenter
     AutoSize = False
     Caption = 'Would you like to apply the '' + layoutName + '' alternate layout?'#13#10'Note: Implementing this layout may overwrite existing remaps.'
-    Color = 13815235
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
     Layout = tlCenter
     ParentColor = False
-    Transparent = False
+    ParentFont = False
     WordWrap = True
   end
   object pnlLayerSelect: TPanel[5]
@@ -274,16 +274,14 @@ inherited FormAltLayout: TFormAltLayout
       Left = 120
       Height = 23
       Top = 8
-      Width = 116
+      Width = 117
       Caption = 'Layer Select'
-      Color = 13815235
-      Font.Color = 1644825
+      Font.Color = clWhite
       Font.Height = -19
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
-      Transparent = False
     end
   end
   object btnAccept: TColorSpeedButtonCS[6]

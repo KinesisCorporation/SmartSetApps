@@ -7,32 +7,46 @@ inherited FormTapAndHold: TFormTapAndHold
   ClientWidth = 389
   OnCreate = FormCreate
   OnShow = FormShow
-  inherited btnClose: TColorSpeedButtonCS
-    Left = 357
+  inherited lineBorderLeft: TLineObj
+    Height = 189
   end
-  inherited lineBorderTop: TLineObj
+  inherited pnlTop: TPanel
     Width = 389
+    ClientWidth = 389
+    TabOrder = 3
+    inherited lblTitle: TLabel
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 385
+    end
+    inherited btnCloseLight: TColorSpeedButtonCS
+      Left = 354
+    end
+    inherited btnClose: TColorSpeedButtonCS
+      Left = 139
+    end
+    inherited lineBorderTop: TLineObj
+      Width = 389
+    end
+    inherited lineBorderRight1: TLineObj
+      Left = 387
+    end
   end
   inherited lineBorderBottom: TLineObj
     Top = 224
     Width = 389
   end
-  inherited lineBorderLeft: TLineObj
-    Height = 222
-  end
   inherited lineBorderRight: TLineObj
     Left = 387
-    Height = 222
+    Height = 189
   end
-  inherited lblTitle: TLabel
-    Width = 334
-  end
-  object lblHoldAction: TLabel[7]
+  object lblHoldAction: TLabel[4]
     Left = 30
-    Height = 24
+    Height = 16
     Hint = 'Designate the action sent when the key is held longer than the delay'
     Top = 89
-    Width = 102
+    Width = 65
     Caption = 'Hold Action'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -41,9 +55,9 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentShowHint = False
     ShowHint = True
   end
-  object eHoldAction: TEdit[8]
+  object eHoldAction: TEdit[5]
     Left = 238
-    Height = 32
+    Height = 25
     Top = 86
     Width = 136
     Alignment = taCenter
@@ -54,10 +68,10 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentFont = False
     TabOrder = 1
   end
-  object btnAccept: TColorSpeedButtonCS[9]
+  object btnAccept: TColorSpeedButtonCS[6]
     Left = 328
     Height = 46
-    Top = 169
+    Top = 168
     Width = 46
     AllowAllUp = True
     Font.Color = clWhite
@@ -359,7 +373,7 @@ inherited FormTapAndHold: TFormTapAndHold
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnCancel: TColorSpeedButtonCS[10]
+  object btnCancel: TColorSpeedButtonCS[7]
     Left = 272
     Height = 46
     Top = 168
@@ -664,12 +678,12 @@ inherited FormTapAndHold: TFormTapAndHold
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object lblTapAction: TLabel[11]
+  object lblTapAction: TLabel[8]
     Left = 30
-    Height = 24
+    Height = 16
     Hint = 'Designate the action sent when the key is tapped and released faster than the delay'
     Top = 55
-    Width = 95
+    Width = 60
     Caption = 'Tap Action'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -678,12 +692,12 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentShowHint = False
     ShowHint = True
   end
-  object lblDelay: TLabel[12]
+  object lblDelay: TLabel[9]
     Left = 30
-    Height = 24
+    Height = 16
     Hint = 'Designate the time interval used to differentiate between the Tap and Hold actions'
     Top = 122
-    Width = 150
+    Width = 96
     Caption = 'Delay (1-999ms)'
     Font.Color = clWhite
     Font.Name = 'Tahoma'
@@ -692,9 +706,9 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentShowHint = False
     ShowHint = True
   end
-  object eTimingDelay: TEdit[13]
+  object eTimingDelay: TEdit[10]
     Left = 238
-    Height = 32
+    Height = 25
     Top = 119
     Width = 136
     Alignment = taCenter
@@ -708,9 +722,9 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentFont = False
     TabOrder = 2
   end
-  object eTapAction: TEdit[14]
+  object eTapAction: TEdit[11]
     Left = 238
-    Height = 32
+    Height = 25
     Top = 52
     Width = 136
     Alignment = taCenter
@@ -721,7 +735,7 @@ inherited FormTapAndHold: TFormTapAndHold
     ParentFont = False
     TabOrder = 0
   end
-  object btnAccept1: TColorSpeedButtonCS[15]
+  object btnAccept1: TColorSpeedButtonCS[12]
     Left = 216
     Height = 32
     Top = 176
@@ -759,7 +773,7 @@ inherited FormTapAndHold: TFormTapAndHold
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object btnCancel1: TColorSpeedButtonCS[16]
+  object btnCancel1: TColorSpeedButtonCS[13]
     Left = 300
     Height = 32
     Top = 176
@@ -797,7 +811,7 @@ inherited FormTapAndHold: TFormTapAndHold
     StateDisabled.FontColor = clWhite
     TextPadding = 0
   end
-  object imgListTiming: TImageList[17]
+  object imgListTiming: TImageList[14]
     DrawingStyle = dsTransparent
     Height = 46
     Width = 46

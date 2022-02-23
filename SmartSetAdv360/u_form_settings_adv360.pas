@@ -20,10 +20,10 @@ type
     imgList: TImageList;
     lblDisableStatus: TLabel;
     lblActiveProfile: TLabel;
-    lblSliderText3: TLabel;
+    lblProgramLock: TLabel;
     lblStatusReport: TLabel;
-    lblSliderText: TLabel;
-    lblSliderText2: TLabel;
+    lblProfile: TLabel;
+    lblStatus: TLabel;
     sliderActiveProfile: TECSlider;
     sliderStatusReport: TECSlider;
     swProgLock: TECSwitch;
@@ -53,17 +53,39 @@ type
 
 var
   FormSettingsAdv360: TFormSettingsAdv360;
-  function ShowSettingsAdv360: boolean;
+  function ShowSettingsAdv360(backColor: TColor; fontColor: TColor): boolean;
 
 implementation
 
 {$R *.lfm}
 
-function ShowSettingsAdv360: boolean;
+function ShowSettingsAdv360(backColor: TColor; fontColor: TColor): boolean;
 begin
   if FormSettingsAdv360 <> nil then
     FreeAndNil(FormSettingsAdv360);
   Application.CreateForm(TFormSettingsAdv360, FormSettingsAdv360);
+
+  //Loads colors
+  FormSettingsAdv360.Color := backColor;
+  FormSettingsAdv360.Font.Color := fontColor;
+  FormSettingsAdv360.lblTitle.Font.Color := fontColor;
+  FormSettingsAdv360.lblStatus.Font.Color := fontColor;
+  FormSettingsAdv360.lblProfile.Font.Color := fontColor;
+  FormSettingsAdv360.lblProgramLock.Font.Color := fontColor;
+  FormSettingsAdv360.lblDisableStatus.Font.Color := fontColor;
+
+  if (IsDarkTheme) then
+  begin
+    FormSettingsAdv360.sliderActiveProfile.Color := backColor;
+    FormSettingsAdv360.sliderStatusReport.Color := backColor;
+    FormSettingsAdv360.swProgLock.Color := backColor;
+  end;
+
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+  begin
+    LoadButtonImage(FormSettingsAdv360.btnSave, FormSettingsAdv360.imgList, 2);
+  end;
+
   FormSettingsAdv360.ShowModal;
   FormSettingsAdv360 := nil;
   result := true;
@@ -223,19 +245,30 @@ begin
       Close;
     end;
   end;
-  LoadButtonImage(sender, imgList, 0);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgList, 2)
+  else
+    LoadButtonImage(sender, imgList, 0);
 end;
 
 procedure TFormSettingsAdv360.btnSaveMouseExit(Sender: TObject);
 begin
   if (not (sender as TColorSpeedButtonCS).Down) then
-    LoadButtonImage(sender, imgList, 0);
+  begin
+    if (GMasterAppId = APPL_MASTER_OFFICE) then
+      LoadButtonImage(sender, imgList, 2)
+    else
+      LoadButtonImage(sender, imgList, 0);
+  end;
 end;
 
 procedure TFormSettingsAdv360.btnSaveMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
-  LoadButtonImage(sender, imgList, 1);
+  if (GMasterAppId = APPL_MASTER_OFFICE) then
+    LoadButtonImage(sender, imgList, 3)
+  else
+    LoadButtonImage(sender, imgList, 1);
 end;
 
 procedure TFormSettingsAdv360.lblDisableStatusClick(Sender: TObject);

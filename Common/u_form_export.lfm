@@ -45,7 +45,7 @@ inherited FormExport: TFormExport
   object btnAccept: TColorSpeedButtonCS[4]
     Left = 256
     Height = 46
-    Top = 137
+    Top = 136
     Width = 46
     AllowAllUp = True
     Font.Color = clBlack
@@ -667,17 +667,17 @@ inherited FormExport: TFormExport
   end
   object chkBoth: TCheckBox[7]
     Left = 26
-    Height = 35
+    Height = 18
     Top = 48
-    Width = 36
+    Width = 22
     OnClick = checkBoxClick
     TabOrder = 0
   end
   object chkLayout: TCheckBox[8]
     Left = 26
-    Height = 35
+    Height = 18
     Top = 76
-    Width = 36
+    Width = 22
     OnClick = checkBoxClick
     TabOrder = 1
   end
@@ -696,9 +696,9 @@ inherited FormExport: TFormExport
   end
   object chkLighting: TCheckBox[10]
     Left = 26
-    Height = 35
+    Height = 18
     Top = 104
-    Width = 36
+    Width = 22
     OnClick = checkBoxClick
     TabOrder = 2
   end

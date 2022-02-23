@@ -122,3 +122,31 @@ List of known issues, settings that work with Mac Lazarus.
 * In Tools->Options that "Compiler Executable" is set to "/usr/local/bin/fpc" to get 64 bit apps.
 * Lazarus 2.0.8 on Mac OSX error: cocoascrollers.pas(53,15) Error: There is no method in an ancestor class to be overridden: "setDocumentView(id);"
   * See solution here: https://wiki.freepascal.org/Installing_Lazarus_on_macOS, scroll down to Installing Lazarus 2.0.8 with FPC 3.2.0 for macOS 10.11+
+* Lazarus 2.0.12 on Mac OSX (cocoa): issue with RichMemo GetTextLength.  You need to edit the following file: /Applications/Lazarus/lcl/interfaces/cocoa/cocoawscommon.pas, and change GetTextLength procedure as follows (note you might need to have Read/Write access to edit) : 
+class function TCocoaWSWinControl.GetTextLen(const AWinControl: TWinControl; var ALength: Integer): Boolean;
+var
+  obj: NSObject;
+  s: NSString;
+begin
+  Result := AWinControl.HandleAllocated;
+  if not Result then
+    Exit;
+
+  obj := NSObject(AWinControl.Handle);
+
+  if obj.isKindOfClass_(NSControl) then
+    s := NSControl(obj).stringValue
+  else          // DRB, not all (Lazarus) controls are (Apple) NSControls.
+     // Note that TListBox is also a NSScrollView but still does not work here.
+     if obj.isKindOfClass_(NSScrollView) and        // maybe 'NSView' is better ??
+        (AWinControl.classnameis('TMemo') or AWinControl.ClassNameIs('TRichMemo')) then
+            S := NSTextView(NSScrollView(AWinControl.Handle).documentView).string_
+     else exit(False);
+
+  if Assigned(s) then
+    ALength := s.length
+  else begin
+    ALength := 0;
+    Result := False;
+  end;
+end; 

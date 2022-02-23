@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, u_base_form, u_const,lcltype, u_common_ui,
-  ColorSpeedButtonCS, HSLRingPicker,
+  ColorSpeedButtonCS, HSLRingPicker, LCLIntf,
   mbColorPreview
   {$ifdef Win32},Windows{$endif};
 

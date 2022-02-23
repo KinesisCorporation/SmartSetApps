@@ -65,6 +65,7 @@ begin
   FormAltLayout.Font.Color := fontColor;
   FormAltLayout.lblTitle.Font.Color := fontColor;
   FormAltLayout.lblMessage.Font.Color := fontColor;
+  FormAltLayout.lblLayerSelect.Font.Color := fontColor;
   if (GMasterAppId = APPL_MASTER_OFFICE) then
   begin
     LoadButtonImage(FormAltLayout.btnCancel, FormAltLayout.imgList, 4);

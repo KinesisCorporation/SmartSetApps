@@ -1233,9 +1233,9 @@ begin
        2: kbDrive := driveName2;
        3: kbDrive := driveName3;
       end;
-      if (kbDrive != '') then
+      if (kbDrive <> '') then
       begin
-        driveLetter := '';
+
         driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
         dirFirmware := IncludeTrailingBackslash(driveName + firmwareFolder);
 
@@ -1334,7 +1334,11 @@ begin
   else
   begin
     smallFontSize := 8;
-    {$ifdef Darwin}smallFontSize := 9;{$endif}
+    {$ifdef Darwin}
+    smallFontSize := 9;
+    if (GApplication in [APPL_ADV360]) then
+      smallFontSize := 7;
+    {$endif}
   end;
 
   //Clear all keys
@@ -2243,7 +2247,7 @@ begin
      2: kbDrive := driveName2;
      3: kbDrive := driveName3;
     end;
-    if (kbDrive != '') then
+    if (kbDrive <> '') then
     begin
       driveLetter := '';
       driveName := IncludeTrailingBackslash('/VOLUMES/' + kbDrive);
@@ -2258,7 +2262,8 @@ begin
         result := true;
       end;
     end;
-   {$endif}
+  end;
+  {$endif}
 end;
 
 function LoadFontFromRes(FontName: string):THandle;

@@ -80,8 +80,6 @@ begin
   else
   begin
     lblTitle.Caption := HELP_TITLE_OFFICE;
-    btnClose.Visible := false;
-    btnCloseLight.Visible := true;
     imgKinesis.Visible := true;
     imgKinesisGaming.Visible := false;
   end;
