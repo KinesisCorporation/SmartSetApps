@@ -22,6 +22,7 @@ type
     eTimingDelay: TEdit;
     eTapAction: TEdit;
     imgListTiming: TImageList;
+    lblNote: TLabel;
     lblTapAction: TLabel;
     lblHoldAction: TLabel;
     lblDelay: TLabel;
@@ -61,16 +62,22 @@ implementation
 {$R *.lfm}
 
 function ShowTapAndHold(aKeyService: TKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
-const
-  DefaultDelay = 250;
+var
+  DefaultDelay: integer;
 begin
   result := false;
+  DefaultDelay := 250;
+
   //Close the dialog if opened
   if FormTapAndHold <> nil then
     FreeAndNil(FormTapAndHold);
 
   //Creates the dialog form
   Application.CreateForm(TFormTapAndHold, FormTapAndHold);
+
+  //Set defautl delay per application
+  if (GApplication in [APPL_ADV360]) then
+    DefaultDelay := 150;
 
   //FormTapAndHold.timingDelay := iTimingDelay;
   if (iTimingDelay <= 0) then

@@ -124,9 +124,8 @@ inherited FormSettingsAdv360: TFormSettingsAdv360
     Height = 18
     Hint = 'Profile currently loaded to the keyboard'
     Top = 64
-    Width = 100
+    Width = 102
     Caption = 'Active Profile'
-    Color = clDefault
     Font.Color = clWhite
     Font.Height = -15
     Font.Name = 'Tahoma'
@@ -135,7 +134,6 @@ inherited FormSettingsAdv360: TFormSettingsAdv360
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
-    Transparent = False
   end
   object sliderStatusReport: TECSlider[8]
     Left = 320
@@ -187,9 +185,8 @@ inherited FormSettingsAdv360: TFormSettingsAdv360
     Height = 18
     Hint = 'Slow down the playback speed of the Status Report if the output is garbled by your PC'
     Top = 63
-    Width = 226
+    Width = 225
     Caption = 'Status Report Playback Speed'
-    Color = clDefault
     Font.Color = clWhite
     Font.Height = -15
     Font.Name = 'Tahoma'
@@ -198,13 +195,12 @@ inherited FormSettingsAdv360: TFormSettingsAdv360
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
-    Transparent = False
   end
   object chkDisableStatus: TCheckBox[10]
     Left = 552
-    Height = 18
+    Height = 35
     Top = 63
-    Width = 22
+    Width = 36
     OnClick = chkDisableStatusClick
     TabOrder = 3
   end
@@ -267,9 +263,8 @@ inherited FormSettingsAdv360: TFormSettingsAdv360
     Left = 632
     Height = 18
     Top = 63
-    Width = 104
+    Width = 103
     Caption = 'Program Lock'
-    Color = clDefault
     Font.Color = clWhite
     Font.Height = -15
     Font.Name = 'Tahoma'
@@ -278,7 +273,6 @@ inherited FormSettingsAdv360: TFormSettingsAdv360
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
-    Transparent = False
   end
   object btnSave: TColorSpeedButtonCS[14]
     Left = 792

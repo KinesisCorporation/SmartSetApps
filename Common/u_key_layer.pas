@@ -47,6 +47,7 @@ type
     procedure ResetKey;
     procedure ResetMacro;
     procedure Assign(aKbKey: TKBKey; restoreType: TRestoreType);
+    function GetTriggerKey: TKey;
     function MacroCount: integer;
 
     property OriginalKey: TKey read FOriginalKey write FOriginalKey;
@@ -70,6 +71,7 @@ type
     property ActiveMacro: TKeyList read GetActiveMacro write SetActiveMacro;
     property KeyColor: TColor read FKeyColor write FKeyColor;
     property Multimodifiers: string read FMultimodifiers write FMultimodifiers;
+    property TriggerKey: TKey read GetTriggerKey;
   end;
 
   { TKBKeyList }
@@ -249,6 +251,14 @@ begin
       self.FMacro5.Assign(aKbKey.Macro5);
     end;
   end;
+end;
+
+function TKBKey.GetTriggerKey: TKey;
+begin
+  if (OriginalKey.Key = VK_FN1_LAYER_SHIFT) or (OriginalKey.Key = VK_KP_LAYER_TOGGLE) then
+    result := OriginalKey
+  else
+    result := PositionKey;
 end;
 
 function TKBKey.MacroCount: integer;

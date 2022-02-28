@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Menus, ECSwitch, ECSlider, u_const, ColorSpeedButtonCS, LineObj,
-  LabelBox, RichMemo, HSLRingPicker, mbColorPreview, ueled, u_form_tapandhold, contnrs,
+  Menus, ECSwitch, ECSlider, u_const, ColorSpeedButtonCS,
+  LabelBox, RichMemo, HSLRingPicker, mbColorPreview, u_form_tapandhold, contnrs,
   u_key_layer, u_key_service, u_file_service, u_common_ui, U_Keys, UserDialog,
   FileUtil, u_form_troubleshoot, u_form_settings_adv360, LCLIntf,
   u_form_export, u_form_about_office, buttons, u_form_diagnostics,
@@ -36,7 +36,10 @@ type
     btnFn1LayerMacro: TColorSpeedButtonCS;
     btnFn2LayerMacro: TColorSpeedButtonCS;
     btnFn3LayerMacro: TColorSpeedButtonCS;
+    btnLeftCommand: TColorSpeedButtonCS;
+    btnQuickThumbKeys: TColorSpeedButtonCS;
     btnFunctionMacro: TColorSpeedButtonCS;
+    btnRightCommand: TColorSpeedButtonCS;
     btnUpDown: TColorSpeedButtonCS;
     btnKpLayerMacro: TColorSpeedButtonCS;
     btnLeftAlt: TColorSpeedButtonCS;
@@ -121,6 +124,7 @@ type
     lblGlobal: TLabel;
     lblLayerRepo: TLabel;
     lblLayerSelect1: TLabel;
+    lblMacOsWarning: TLabel;
     lblMacroSpeedText: TLabel;
     lblMultiplay: TLabel;
     lblMultiplayText: TLabel;
@@ -170,7 +174,6 @@ type
     lbRow8_2: TLabelBox;
     MainMenu1: TMainMenu;
     memoMacro: TRichMemo;
-    pnlAssignMacro: TPanel;
     pnlMacroRepoBot: TPanel;
     pnlFn1Layer: TPanel;
     pnlFn2Layer: TPanel;
@@ -406,7 +409,6 @@ type
     procedure btnLeftLED1Click(Sender: TObject);
     procedure btnLeftLED2Click(Sender: TObject);
     procedure btnLeftLED3Click(Sender: TObject);
-    procedure btnMacModifiersClick(Sender: TObject);
     procedure btnMacroClick(Sender: TObject);
     procedure btnMultimediaMacroClick(Sender: TObject);
     procedure btnMultimodifiersClick(Sender: TObject);
@@ -729,7 +731,8 @@ type
     procedure SetKeyButtonText(keybutton: TLabelBox; btnText: string);
     procedure SetMenuEnabled;
     procedure SetLedMode();
-    procedure SetMacModifiersHotkeys;
+    procedure SetMacMode;
+    procedure SetLinuxMode;
     procedure SetMacroAssignTo;
     procedure SetMacroMenuItems(button: TColorSpeedButtonCS);
     procedure SetMacroMode(value: boolean);
@@ -1275,6 +1278,9 @@ begin
 
   //Windows
   {$ifdef Win32}
+  lblMacOsWarning.Visible := false;
+  btnLeftCommand.Visible := false;
+  btnRightCommand.Visible := false;
   {$endif}
 
   //MacOS
@@ -1284,12 +1290,17 @@ begin
   btnWindowsCombos.Visible := false;
   btnUpDown.Top := btnWindowsCombos.Top;
   imgSmartSet1.Left := imgSmartSet1.Left - 4;
+  lblMacOsWarning.Visible := true;
 
   //Change Macro co-trigger images
-  btnLeftCtrl.Caption := 'Left Control';
+  //btnLeftCtrl.Caption := 'Left Control';
   btnRightCtrl.Caption := 'Right Control';
   btnLeftAlt.Caption := 'Left Option';
-  btnRightAlt.Caption := 'Right Option';
+  //btnRightAlt.Caption := 'Right Option';
+  btnLeftCtrl.Visible := false;
+  btnRightAlt.Visible := false;
+  btnLeftCommand.Visible := true;
+  btnRightCommand.Visible := true;
 
   //Hide special actions for Mac
   //miRightWin.Visible := false;
@@ -1316,7 +1327,7 @@ end;
 
 procedure TFormMainAdv360.CheckProfileNo;
 begin
-  btnSave.Disabled := (currentProfileNumber = 0);
+  //btnSave.Disabled := (currentProfileNumber = 0);
   btnImport.Disabled := (currentProfileNumber = 0);
   btnExport.Disabled := (currentProfileNumber = 0);
 
@@ -1459,10 +1470,12 @@ begin
   sliderMultiplay.Enabled := MacroState = msEdit;
   chkRepeatMultiplay.Enabled := MacroState = msEdit;
   btnLeftCtrl.Enabled := MacroState = msEdit;
+  btnLeftCommand.Enabled := MacroState = msEdit;
   btnLeftAlt.Enabled := MacroState = msEdit;
   btnLeftShift.Enabled := MacroState = msEdit;
   btnRightCtrl.Enabled := MacroState = msEdit;
   btnRightAlt.Enabled := MacroState = msEdit;
+  btnRightCommand.Enabled := MacroState = msEdit;
   btnRightShift.Enabled := MacroState = msEdit;
   btnBaseLayerMacro.Enabled := MacroState = msEdit;
   btnKpLayerMacro.Enabled := MacroState = msEdit;
@@ -1542,6 +1555,7 @@ begin
   menuActionList.Add(TMenuAction.Create(maNavKeys, btnNavKeys, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
   menuActionList.Add(TMenuAction.Create(maPunctuation, btnPunctuation, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
   menuActionList.Add(TMenuAction.Create(maModifiers, btnModifiers, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
+  menuActionList.Add(TMenuAction.Create(maQuickThumbKeys, btnQuickThumbKeys, nil, nil, CONFIG_LAYOUT, lmNone, true, false, true));
 end;
 
 procedure TFormMainAdv360.FillHoveredList;
@@ -1852,6 +1866,13 @@ begin
   AddMenuItem(popMenu, 'Left Ctrl', VK_LCONTROL);
   AddMenuItem(popMenu, 'Right Ctrl', VK_RCONTROL);
   btnModifiers.PopupMenu := popMenu;
+
+  //Quick Thumb Keys
+  popMenu := TPopupMenu.Create(self);
+  popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  AddMenuItem(popMenu, 'Mac Mode', VK_QTK_MAC_MODE);
+  AddMenuItem(popMenu, 'Linux Mode', VK_QTK_LINUX_MODE);
+  btnQuickThumbKeys.PopupMenu := popMenu;
 
   //Leds
   popLedIndicator := TPopupMenu.Create(self);
@@ -2184,9 +2205,15 @@ begin
       ResetPopupMenu;
       ResetSingleKey;
     end
-    else if (mnuAction = VK_MAC_MODIFIERS) then
+    else if (mnuAction = VK_QTK_MAC_MODE) then
     begin
-      SetMacModifiersHotkeys;
+      SetMacMode;
+      ResetPopupMenu;
+      ResetSingleKey;
+    end
+    else if (mnuAction = VK_QTK_LINUX_MODE) then
+    begin
+      SetLinuxMode;
       ResetPopupMenu;
       ResetSingleKey;
     end
@@ -3255,6 +3282,7 @@ end;
 procedure TFormMainAdv360.PositionMenuItems;
 begin
   //Position layout menu (last first)
+  btnQuickThumbKeys.Top := 0;
   btnSpecialActions.Top := 0;
   btnMultimodifiers.Top := 0;
   btnTapAndHold.Top := 0;
@@ -3457,7 +3485,11 @@ end;
 
 procedure TFormMainAdv360.btnSaveClick(Sender: TObject);
 begin
-  SaveAll;
+  if (currentProfileNumber <> 0) then
+    SaveAll
+  else
+    ShowDialog('Save', 'You cannot save to Profile 0, please use "Save As" to save to a new profile position.', mtWarning, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
+
   SetHovered(sender, false, true);
 end;
 
@@ -4304,7 +4336,9 @@ begin
   begin
     kbKey := keyService.GetKbKeyByIndex(keyService.ActiveLayer, (sender as TLabelBox).Index);
     if (kbKey <> nil) then
-      SetModifiedKey(kbKey.PositionKey.Key, '', true);
+    begin
+      SetModifiedKey(kbKey.TriggerKey.Key, '', true);
+    end;
   end
   else if (not MacroMode) then
     SetActiveKeyButton(sender as TLabelBox);
@@ -5005,7 +5039,10 @@ begin
   if (MacroMode) then
     CloseMacroEditor
   else
+  begin
+    SetActiveKeyButton(nil);
     OpenMacroEditor;
+  end;
 end;
 
 procedure TFormMainAdv360.btnMultimediaMacroClick(Sender: TObject);
@@ -5041,11 +5078,6 @@ begin
 //  pt.y := Mouse.CursorPos.y;
 //  popUpDownKS.PopUp(pt.x, pt.y);
 //  SetHovered(sender, false, true);
-end;
-
-procedure TFormMainAdv360.btnMacModifiersClick(Sender: TObject);
-begin
-  SetMacModifiersHotkeys;
 end;
 
 procedure TFormMainAdv360.btnDisableKeyClick(Sender: TObject);
@@ -6020,14 +6052,14 @@ begin
   end;
 end;
 
-procedure TFormMainAdv360.SetMacModifiersHotkeys;
+procedure TFormMainAdv360.SetMacMode;
 var
   i:integer;
   aLayer: TKBLayer;
 begin
   if CheckSaveKey then
   begin
-    if ShowDialog('Mac Modifiers', 'Insert Mac Modifiers?' + #10#10 + 'Note: Implementing this layout may overwrite existing macros/remaps.',
+    if ShowDialog('Quick Thumb Key', 'Insert "Mac Mode" Quick Thumb Keys?' + #10#10 + 'Note: Implementing this layout may overwrite existing remaps.',
       mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
       KeyModified := true;
@@ -6037,22 +6069,56 @@ begin
       begin
         aLayer := keyService.KBLayers[i];
 
-        //LWIN - ALT
-        keyService.SetKBKeyIdx(aLayer, 54, VK_MENU);
+        keyService.ResetKey(aLayer, 64);
+        keyService.ResetKey(aLayer, 66);
+        keyService.ResetKey(aLayer, 67);
 
-        //LALT - LWIN
-        keyService.SetKBKeyIdx(aLayer, 55, VK_LWIN);
+        //LCTRL - LWIN
+        keyService.SetKBKeyIdx(aLayer, 64, VK_LWIN);
 
-        //RALT - LWIN
-        keyService.SetKBKeyIdx(aLayer, 59, VK_LWIN);
+        //RWIN - RCTRL
+        keyService.SetKBKeyIdx(aLayer, 66, VK_RCONTROL);
 
-        //RCTRL - ALT
-        keyService.SetKBKeyIdx(aLayer, 62, VK_MENU);
+        //RCTRL - RWIN
+        keyService.SetKBKeyIdx(aLayer, 67, VK_RWIN);
       end;
+
       ReloadKeyButtons;
       RefreshRemapInfo;
     end;
   end;
+end;
+
+procedure TFormMainAdv360.SetLinuxMode;
+var
+  i:integer;
+  aLayer: TKBLayer;
+begin
+  if CheckSaveKey then
+  begin
+    if ShowDialog('Quick Thumb Key', 'Insert "Linux Mode" Quick Thumb Keys?' + #10#10 + 'Note: Implementing this layout may overwrite existing remaps.',
+      mtWarning, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
+    begin
+      KeyModified := true;
+      SetSaveState(ssModified);
+
+      for i := 0 to keyService.KBLayers.Count - 1 do
+      begin
+        aLayer := keyService.KBLayers[i];
+
+        keyService.ResetKey(aLayer, 64);
+        keyService.ResetKey(aLayer, 66);
+        keyService.ResetKey(aLayer, 67);
+
+        //RWIN - RALT
+        keyService.SetKBKeyIdx(aLayer, 66, VK_RMENU);
+      end;
+
+      ReloadKeyButtons;
+      RefreshRemapInfo;
+    end;
+  end;
+
 end;
 
 procedure TFormMainAdv360.SetFreestyle2Hotkeys;
@@ -6941,6 +7007,8 @@ begin
       ActivateCoTrigger(btnLeftShift);
     if (aKey.Key = VK_LCONTROL) then
       ActivateCoTrigger(btnLeftCtrl);
+    if (aKey.Key = VK_LWIN) then
+      ActivateCoTrigger(btnLeftCommand);
     if (aKey.Key = VK_LMENU) then
       ActivateCoTrigger(btnLeftAlt);
     if (aKey.Key = VK_RSHIFT) then
@@ -6949,6 +7017,8 @@ begin
       ActivateCoTrigger(btnRightCtrl);
     if (aKey.Key = VK_RMENU) then
       ActivateCoTrigger(btnRightAlt);
+    if (aKey.Key = VK_RWIN) then
+      ActivateCoTrigger(btnRightCommand);
   end;
 end;
 
@@ -7090,6 +7160,8 @@ begin
   ResetCoTrigger(btnRightAlt);
   ResetCoTrigger(btnLeftCtrl);
   ResetCoTrigger(btnRightCtrl);
+  ResetCoTrigger(btnLeftCommand);
+  ResetCoTrigger(btnRightCommand);
 end;
 
 procedure TFormMainAdv360.ResetCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
@@ -7108,12 +7180,16 @@ begin
     result := keyService.FindKeyConfig(VK_RSHIFT)
   else if (Sender = btnLeftCtrl) then
     result := keyService.FindKeyConfig(VK_LCONTROL)
+  else if (Sender = btnLeftCommand) then
+    result := keyService.FindKeyConfig(VK_LWIN)
   else if (Sender = btnRightCtrl) then
     result := keyService.FindKeyConfig(VK_RCONTROL)
   else if (Sender = btnLeftAlt) then
     result := keyService.FindKeyConfig(VK_LMENU)
   else if (Sender = btnRightAlt) then
     result := keyService.FindKeyConfig(VK_RMENU)
+  else if (Sender = btnRightCommand) then
+    result := keyService.FindKeyConfig(VK_RWIN)
   else
     result := nil;
 end;

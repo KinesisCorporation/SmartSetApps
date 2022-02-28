@@ -59,6 +59,11 @@ begin
   //Creates the dialog form
   Application.CreateForm(TFormMultimodifiers, FormMultimodifiers);
 
+  {$ifdef Darwin}
+  FormMultimodifiers.btnWindows.Caption := 'Command';
+  FormMultimodifiers.btnAlt.Caption := 'Option';
+  {$endif}
+
   //Loads colors
   FormMultimodifiers.Color := backColor;
   FormMultimodifiers.Font.Color := fontColor;

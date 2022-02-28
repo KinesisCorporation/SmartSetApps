@@ -54,7 +54,8 @@ type
                     maStarlight, maRebound, maLoop, maPulse, maRain,
                     maDisableLed, maFreestyleEdge, maMonochromeEdge, maBreatheEdge,
                     maWaveEdge, maFrozenWaveEdge, maSpectrumEdge, maLoopEdge, maReboundEdge,
-                    maPulseEdge, maDisableEdge, maLetters, maNumbers, maNavKeys, maPunctuation, maModifiers);
+                    maPulseEdge, maDisableEdge, maLetters, maNumbers, maNavKeys, maPunctuation,
+                    maModifiers, maQuickThumbKeys);
 
   TTransitionState = (tsPressed, tsReleased); //KeySate Down or Up
   TExtendedState = (esNormal, esExtended);
@@ -475,6 +476,8 @@ const
   VK_RFN_LAYER_SHIFT = 11202;
   VK_UP_KEYSTROKE = 11203;
   VK_DOWN_KEYSTROKE = 11204;
+  VK_QTK_MAC_MODE = 11205;
+  VK_QTK_LINUX_MODE = 11206;
   //END OF VIRTUAL KEY OPTIONS
 
   MAPVK_VK_TO_VSC = 0;
@@ -731,7 +734,7 @@ const
   ADV360_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0b_TJAf6qlHX97A-vnne2-N';
   RGB_HELP = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_HELP = 'https://gaming.kinesis-ergo.com/tko-support/';
-  ADV360_HELP = 'https://kinesis-ergo.com/support/adv360/';
+  ADV360_HELP = 'https://kinesis-ergo.com/support/kb360/';
   MASTER_GAMING_HELP = 'https://gaming.kinesis-ergo.com/support/#support-for-my-device';
   MASTER_OFFICE_HELP = 'https://kinesis-ergo.com/support/#support-for-my-device';
   FSEDGE_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-support/#manuals';
@@ -740,7 +743,7 @@ const
   RGB_MANUAL = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#manuals';
   TKO_MANUAL = 'https://gaming.kinesis-ergo.com/tko-support/#manuals';
   PEDAL_MANUAL = 'https://kinesis-ergo.com/support/savant-elite2/#manuals';
-  ADV360_MANUAL = 'https://kinesis-ergo.com/support/adv360/#manuals';
+  ADV360_MANUAL = ADV360_HELP + '#manuals';
   FSPRO_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0Z7Gx0T5N7TTzceorPHXJr5';
   ADV2_TUTORIAL = 'https://www.youtube.com/playlist?list=PLcsFMh_3_h0aNmELoR6kakcNf7AInoEfW';
   PEDAL_TUTORIAL = 'https://www.youtube.com/';
@@ -749,7 +752,7 @@ const
   RGB_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/';
   TKO_TROUBLESHOOT = 'https://gaming.kinesis-ergo.com/tko-support/';
   ADV2_TROUBLESHOOT = 'https://kinesis-ergo.com/support/advantage2/';
-  ADV360_TROUBLESHOOT = 'https://kinesis-ergo.com/support/adv360/';
+  ADV360_TROUBLESHOOT = ADV360_HELP;
   PEDAL_TROUBLESHOOT = 'https://kinesis-ergo.com/support/savant-elite2/';
   FSPRO_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   FSEDGE_SUPPORT = 'https://gaming.kinesis-ergo.com/contact-tech-support/';
@@ -760,7 +763,7 @@ const
   MASTER_OFFICE_SUPPORT = 'https://kinesis-ergo.com/support/contact-a-technician/';
   RGB_FIRMWARE = 'https://gaming.kinesis-ergo.com/fs-edge-rgb-support/#firmware';
   TKO_FIRMWARE = 'https://gaming.kinesis-ergo.com/tko-support/#firmware';
-  ADV360_FIRMWARE = 'https://kinesis-ergo.com/support/adv360/#firmware-updates';
+  ADV360_FIRMWARE = ADV360_HELP + '#firmware-updates';
   MODEL_NAME_FSPRO = 'FS PRO';
   MODEL_NAME_FSEDGE = 'FS EDGE';
   ADV2_2MB = '2MB';
@@ -1832,7 +1835,7 @@ begin
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_SHIFT, 'defs', 'Base' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Shift'));
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_TOGGLE, 'deft', 'Base' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Toggle'));
   ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Shift'));
-  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'kp', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Toggle'));
+  ConfigKeys.Add(TKey.Create(VK_KP_LAYER_TOGGLE, 'keyt', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Keypad Toggle'));
   ConfigKeys.Add(TKey.Create(VK_LFN_LAYER_SHIFT, 'lfn', 'Left Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Left Fn Shift'));
   ConfigKeys.Add(TKey.Create(VK_RFN_LAYER_SHIFT, 'rfn', 'Right Fn'+ #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Right Fn Shift'));
   ConfigKeys.Add(TKey.Create(VK_FN1_LAYER_SHIFT, 'fn1s', 'Fn1' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn1 Shift'));

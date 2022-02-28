@@ -235,7 +235,7 @@ type
     procedure SetKeyMacroIdx(aLayer: TKBLayer; index: integer; aMacro: TKeyList;
       resetMacro: boolean = true);
     function GetKBKey(key: word; layerIdx: integer): TKBKey;
-    function GetPositionKBKey(key: word; layerIdx: integer): TKBKey;
+    function GetPositionKBKey(key: word; layerIdx: integer; isMacro: boolean = false): TKBKey;
     function GetKbKeyByIndex(aLayer: TKBLayer; index: integer): TKBKey;
     function GetEdgeKeyByIndex(aLayer: TKBLayer; index: integer): TKBKey;
     function CopyMacro(aMacro: TKeyList): TKeyList;
@@ -2977,7 +2977,7 @@ begin
               if (IsModifier(aKey.Key)) and (configText <> '') then
                 aCoTriggers.Add(aKey.CopyKey)
               else
-                aKBKey := GetPositionKBKey(aKey.Key, layerIdx);
+                aKBKey := GetPositionKBKey(aKey.Key, layerIdx, true);
             end;
           end;
 
@@ -3500,14 +3500,14 @@ begin
               if (IsModifier(aKey.Key)) and (configText <> '') then
                 aCoTriggers.Add(aKey.CopyKey)
               else
-                aKBKey := GetPositionKBKey(aKey.Key, layerIdx);
+                aKBKey := GetPositionKBKey(aKey.Key, layerIdx, true);
             end;
           end;
 
           if IsGen2Device(GApplication) then
           begin
             activeMacro := TKeyList.Create;
-            activeMacro.TriggerKey := aKBKey.PositionKey.Key;
+            activeMacro.TriggerKey := aKBKey.TriggerKey.Key;
             activeMacro.LayerIdx := layerIdx;
           end
           else
@@ -9378,7 +9378,7 @@ begin
               if (IsModifier(aKey.Key)) and (configText <> '') then
                 aCoTriggers.Add(aKey.CopyKey)
               else
-                aKBKey := GetPositionKBKey(aKey.Key, layerIdx);
+                aKBKey := GetPositionKBKey(aKey.Key, layerIdx, true);
             end;
           end;
 
@@ -10105,7 +10105,7 @@ begin
 end;
 
 //Get KB Key based on position token
-function TKeyService.GetPositionKBKey(key: word; layerIdx: integer): TKBKey;
+function TKeyService.GetPositionKBKey(key: word; layerIdx: integer; isMacro: boolean = false): TKBKey;
 var
   keyIdx: integer;
   aLayer: TKBLayer;
@@ -10119,7 +10119,12 @@ begin
     for keyIdx := 0 to aLayer.KBKeyList.Count - 1 do
     begin
       aKey := aLayer.KBKeyList[keyIdx];
-      if (aKey.PositionKey.Key = key) then
+      if (isMacro) and (aKey.TriggerKey.Key = key) then
+      begin
+        result := aKey;
+        break;
+      end
+      else if (aKey.PositionKey.Key = key) then
       begin
         result := aKey;
         break;
@@ -10466,6 +10471,18 @@ begin
           begin
             errorMsg := 'Your new macro has a hanging downstroke which is likely to result in a stuck key. All down strokes should be followed by a corresponding upstroke in the macro.';
             errorMsgTitle := 'Up/Down Keystroke';
+            break;
+          end;
+        end;
+
+        //Check hanging downstroke
+        if (valid) then
+        begin
+          valid := not(((aMacro.TriggerKey = VK_FN1_LAYER_SHIFT) or (aMacro.TriggerKey = VK_KP_LAYER_TOGGLE)) and (aMacro.CountCoTriggers = 0));
+          if (not valid) then
+          begin
+            errorMsg := 'You must select at least 1 co-trigger for this key.';
+            errorMsgTitle := 'Co-Trigger';
             break;
           end;
         end;
