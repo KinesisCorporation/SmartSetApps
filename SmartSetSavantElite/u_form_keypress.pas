@@ -1355,7 +1355,7 @@ begin
   begin
     memoConfig.Text := keyService.GetOutputText(keyService.ActivePedal, aPedalsPos);
     //Replace empty space with special space character
-    memoConfig.Text := StringReplace(memoConfig.Text, ' ', AnsiToUtf8(#$e2#$90#$a3), [rfReplaceAll]);
+    memoConfig.Text := StringReplace(memoConfig.Text, ' ', UnicodeString(#$e2#$90#$a3), [rfReplaceAll]);
     SetMemoTextColor(memoConfig, aPedalsPos);
     memoConfig.SelStart := Length(memoConfig.Text);
     memoConfig.SelLength := 1; //1.0.5 to show the cursor

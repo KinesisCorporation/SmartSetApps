@@ -277,10 +277,10 @@ begin
     self.FTriggerKey := aKeyList.FTriggerKey;
     self.FLayerIdx := aKeyList.FLayerIdx;
     self.FMultiKey := aKeyList.FMultiKey;
-    self.FCoTrigger1 := aKeyList.FCoTrigger1.CopyKey;
-    self.FCoTrigger2 := aKeyList.FCoTrigger2.CopyKey;
-    self.FCoTrigger3 := aKeyList.FCoTrigger3.CopyKey;
-    self.FCoTrigger4 := aKeyList.FCoTrigger4.CopyKey;
+    //self.FCoTrigger1 := aKeyList.FCoTrigger1.CopyKey;
+    //self.FCoTrigger2 := aKeyList.FCoTrigger2.CopyKey;
+    //self.FCoTrigger3 := aKeyList.FCoTrigger3.CopyKey;
+    //self.FCoTrigger4 := aKeyList.FCoTrigger4.CopyKey;
     self.FMacroIdx := aKeyList.FMacroIdx;
     self.FMacroSpeed := aKeyList.FMacroSpeed;
     self.FMacroRptFreq := aKeyList.FMacroRptFreq;

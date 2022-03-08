@@ -7809,7 +7809,7 @@ begin
           if (keyAdded <> nil) then
           begin
             textKey := keyService.GetSingleKeyText(keyAdded, isLongKey);
-            textKey := StringReplace(textKey, ' ', AnsiToUtf8(#$e2#$90#$a3), [rfReplaceAll]);
+            textKey := StringReplace(textKey, ' ', UnicodeString(#$e2#$90#$a3), [rfReplaceAll]);
             MacroModified := true;
 
             //Insert key in memo
@@ -8533,7 +8533,7 @@ begin
     memoMacro.Text := keyService.GetMacroText(activeKbKey.ActiveMacro, aKeysPos);
 
     //Replace empty space with special space character
-    memoMacro.Text := StringReplace(memoMacro.Text, ' ', AnsiToUtf8(#$e2#$90#$a3), [rfReplaceAll]);
+    memoMacro.Text := StringReplace(memoMacro.Text, ' ', UnicodeString(#$e2#$90#$a3), [rfReplaceAll]);
     SetMemoTextColor(memoMacro, aKeysPos);
 
     //To show the cursor at the end

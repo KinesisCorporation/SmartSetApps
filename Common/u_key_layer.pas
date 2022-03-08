@@ -40,6 +40,8 @@ type
     //function Compare(aKey: TKBKey): boolean;
     function GetActiveMacro: TKeyList;
     procedure SetActiveMacro(macro: TKeyList);
+    function GetTriggerKey: TKey;
+    function GetModifiedOrOriginalKey: TKey;
   public
     destructor Destroy; override;
     constructor Create;
@@ -47,7 +49,6 @@ type
     procedure ResetKey;
     procedure ResetMacro;
     procedure Assign(aKbKey: TKBKey; restoreType: TRestoreType);
-    function GetTriggerKey: TKey;
     function MacroCount: integer;
 
     property OriginalKey: TKey read FOriginalKey write FOriginalKey;
@@ -72,6 +73,7 @@ type
     property KeyColor: TColor read FKeyColor write FKeyColor;
     property Multimodifiers: string read FMultimodifiers write FMultimodifiers;
     property TriggerKey: TKey read GetTriggerKey;
+    property ModifiedOrOriginalKey: TKey read GetModifiedOrOriginalKey;
   end;
 
   { TKBKeyList }
@@ -259,6 +261,14 @@ begin
     result := OriginalKey
   else
     result := PositionKey;
+end;
+
+function TKBKey.GetModifiedOrOriginalKey: TKey;
+begin
+  if not(IsModified) or (OriginalKey.Key = VK_FN1_LAYER_SHIFT) or (OriginalKey.Key = VK_KP_LAYER_TOGGLE) then
+    result := OriginalKey
+  else
+    result := ModifiedKey;
 end;
 
 function TKBKey.MacroCount: integer;

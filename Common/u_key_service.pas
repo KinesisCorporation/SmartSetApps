@@ -241,7 +241,7 @@ type
     function CopyMacro(aMacro: TKeyList): TKeyList;
     function GetSingleKeyText(aKey: TKey; var isLongKey: boolean): string;
     function ValidateMacros(aKey: TKbKey; var errorMsg: string; var errorMsgTitle: string): boolean;
-    function ValidateMacros(aMacro: TKeyList; var errorMsg: string; var errorMsgTitle: string): boolean;
+    function ValidateMacros(aMacro: TKeyList; var errorMsg: string; var errorMsgTitle: string; var errorNumber: integer): boolean;
     function CountModifiers(modifiers: string): integer;
     function CountKeystrokes(aKeyList: TKeyList): integer;
     procedure LoadConfigKeys;
@@ -260,6 +260,7 @@ type
     procedure RemoveAllMacros;
     function RemoveKeyMacro(macro: TKeyList; index: integer): boolean;
     function GetMacroCount: integer;
+    function RemoveDuplicateMacro(aMacro: TKeyList): boolean;
 
     property ConfigMode: integer read FConfigMode write FConfigMode;
     property ActiveKbKey: TKBKey read FActiveKbKey write FActiveKbKey;
@@ -2669,6 +2670,32 @@ begin
     begin;
       macro.Remove(macro.Items[index]);
       result := true;
+    end;
+  end;
+end;
+
+function TKeyService.RemoveDuplicateMacro(aMacro: TKeyList): boolean;
+var
+  i: integer;
+  tempMacro: TKeyList;
+begin
+  Result := false;
+
+  if (aMacro <> nil) then
+  begin
+    for i := 0 to FMacros.Count - 1 do
+    begin
+      tempMacro := TKeyList(FMacros[i]);
+
+      if (tempMacro.TriggerKey = aMacro.TriggerKey) and (tempMacro.LayerIdx = aMacro.LayerIdx) and (not IsEqualGUID(tempMacro.Guid, aMacro.Guid)) then
+      begin
+        if (CompareTriggers(aMacro, tempMacro)) then
+        begin
+          FMacros.Delete(i);
+          result := true;
+          break;
+        end;
+      end;
     end;
   end;
 end;
@@ -10261,6 +10288,9 @@ begin
     if not(IsAlphaKey(aKey)) and not(IsNumericKey(aKey)) then
       isLongKey := true;
   end;
+
+  if (aKey.UpDown <> ksNone) then
+    isLongKey := true;
 end;
 
 function TKeyService.CompareKey(key1: word; aKeyList: TKeyList): boolean;
@@ -10419,7 +10449,7 @@ end;
 
 //Gen2 devices
 function TKeyService.ValidateMacros(aMacro: TKeyList; var errorMsg: string;
-  var errorMsgTitle: string): boolean;
+  var errorMsgTitle: string; var errorNumber: integer): boolean;
 var
   i:integer;
   tempMacro: TKeyList;
@@ -10428,20 +10458,23 @@ begin
   valid := true;
   errorMsg := '';
   errorMsgTitle := '';
+  errorNumber := 0;
 
   if (aMacro <> nil) then
   begin
     if (aMacro.Count <= 0) then
     begin
-      errorMsg := 'You macro is empty';
+      errorMsg := 'You macro is empty.';
       errorMsgTitle := 'Macro';
+      errorNumber := 1;
       valid := false;
     end;
 
     if (valid) and (aMacro.LayerIdx < 0) then
     begin
-      errorMsg := 'You must select a layer for this macro';
+      errorMsg := 'You must select a layer for this macro.';
       errorMsgTitle := 'Macro';
+      errorNumber := 2;
       valid := false;
     end;
 
@@ -10451,18 +10484,6 @@ begin
       begin
         tempMacro := TKeyList(FMacros[i]);
 
-        //Same trigger key, same layer and different Guid (not same macro)
-        if (tempMacro.TriggerKey = aMacro.TriggerKey) and (tempMacro.LayerIdx = aMacro.LayerIdx) and (not IsEqualGUID(tempMacro.Guid, aMacro.Guid)) then
-        begin
-          valid := not(CompareTriggers(aMacro, tempMacro));
-          if (not valid) then
-          begin
-            errorMsg := 'You cannot assign two different macros to the same trigger key combination. Choose a co-trigger that is not already in use.';
-            errorMsgTitle := 'Duplicate Macro Trigger';
-            break;
-          end;
-        end;
-
         //Check hanging downstroke
         if (valid) then
         begin
@@ -10471,11 +10492,12 @@ begin
           begin
             errorMsg := 'Your new macro has a hanging downstroke which is likely to result in a stuck key. All down strokes should be followed by a corresponding upstroke in the macro.';
             errorMsgTitle := 'Up/Down Keystroke';
+            errorNumber := 3;
             break;
           end;
         end;
 
-        //Check hanging downstroke
+        //Check at least 1 trigger key for certain keys
         if (valid) then
         begin
           valid := not(((aMacro.TriggerKey = VK_FN1_LAYER_SHIFT) or (aMacro.TriggerKey = VK_KP_LAYER_TOGGLE)) and (aMacro.CountCoTriggers = 0));
@@ -10483,6 +10505,20 @@ begin
           begin
             errorMsg := 'You must select at least 1 co-trigger for this key.';
             errorMsgTitle := 'Co-Trigger';
+            errorNumber := 4;
+            break;
+          end;
+        end;
+
+        //CHECK LAST FOR REPLACE - Same trigger key, same layer and different Guid (not same macro)
+        if (tempMacro.TriggerKey = aMacro.TriggerKey) and (tempMacro.LayerIdx = aMacro.LayerIdx) and (not IsEqualGUID(tempMacro.Guid, aMacro.Guid)) then
+        begin
+          valid := not(CompareTriggers(aMacro, tempMacro));
+          if (not valid) then
+          begin
+            errorMsg := 'You cannot assign two different macros to the same trigger key combination. Choose a different trigger key, co-trigger, or layer.';
+            errorMsgTitle := 'Duplicate Macro Trigger';
+            errorNumber := 5;
             break;
           end;
         end;

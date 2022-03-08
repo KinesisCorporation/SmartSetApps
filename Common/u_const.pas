@@ -21,7 +21,7 @@ type
 
   TSaveState = (ssNone, ssModified);
 
-  TMacroState = (msNone, msEdit, msEditTrigger, msNew);
+  TMacroState = (mstNone, mstEdit, mstEditTrigger, mstNew);
 
   TModifiers = (moShift, moAlt, moCtrl, moWin);
 
@@ -118,6 +118,7 @@ type
     CopyMacroMsg: boolean;
     ResetKeyMsg: boolean;
     WindowsComboMsg: boolean;
+    UpDownKeystrokeMsg: boolean;
     AppCheckFirmMsg: boolean;
     CustColor1: TColor;
     CustColor2: TColor;
@@ -593,6 +594,7 @@ const
   MACRO_FREQ_MIN_ADV360 = 1;
   MACRO_FREQ_MAX_FS = 9;
   MACRO_FREQ_MAX_RGB = 9;
+  MACRO_FREQ_MAX_ADV360 = 9;
   DEFAULT_MACRO_FREQ_ADV2 = 0;
   DEFAULT_MACRO_FREQ_FS = 0;
   DEFAULT_MACRO_FREQ_RGB = 1;

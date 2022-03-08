@@ -80,6 +80,7 @@ type
     procedure SetStartupFileNumber(number: integer);
     procedure SetCustomColor(value: TColor; index: integer);
     procedure SetWindowsComboMsg(value: boolean);
+    procedure SetUpDownKeystrokeMsg(value: boolean);
     procedure SetPitchBlack(value: boolean);
     function VersionIsEqualKBD(major, minor, revision: integer): boolean;
     function VersionIsEqualLED(major, minor, revision: integer): boolean;
@@ -149,6 +150,7 @@ type
     SaveMsgLighting = 'savelighting_msg';
     SaveSettingsMsg = 'savesettings_msg';
     WindowsComboMsg = 'windowscombo_msg';
+    UpDownKeystrokeMsg = 'updownkeystroke_msg';
     CustColor1 = 'cust_color_1';
     CustColor2 = 'cust_color_2';
     CustColor3 = 'cust_color_3';
@@ -898,13 +900,10 @@ begin
         SaveValueBoolean(FAppSettings.CopyMacroMsg, CopyMacroMsg);
         SaveValueBoolean(FAppSettings.ResetKeyMsg, ResetKeyMsg);
         SaveValueBoolean(FAppSettings.AppCheckFirmMsg, AppCheckFirmMsg);
-
-        if (GApplication in [APPL_RGB, APPL_TKO]) then
-        begin
-          SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
-          SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
-          SaveValueBoolean(FAppSettings.WindowsComboMsg, WindowsComboMsg);
-        end;
+        SaveValueBoolean(FAppSettings.SaveMsgLighting, SaveMsgLighting);
+        SaveValueBoolean(FAppSettings.SaveSettingsMsg, SaveSettingsMsg);
+        SaveValueBoolean(FAppSettings.WindowsComboMsg, WindowsComboMsg);
+        SaveValueBoolean(FAppSettings.UpDownKeystrokeMsg, UpDownKeystrokeMsg);
         SaveValueRGB(FAppSettings.CustColor1, CustColor1);
         SaveValueRGB(FAppSettings.CustColor2, CustColor2);
         SaveValueRGB(FAppSettings.CustColor3, CustColor3);
@@ -986,6 +985,8 @@ begin
             FAppSettings.ResetKeyMsg := Copy(currentLine, length(ResetKeyMsg) + 2, length(currentLine)) = 'on'
           else if (Copy(currentLine, 1, length(WindowsComboMsg)) = WindowsComboMsg) then
             FAppSettings.WindowsComboMsg := Copy(currentLine, length(WindowsComboMsg) + 2, length(currentLine)) = 'on'
+          else if (Copy(currentLine, 1, length(UpDownKeystrokeMsg)) = UpDownKeystrokeMsg) then
+            FAppSettings.UpDownKeystrokeMsg := Copy(currentLine, length(UpDownKeystrokeMsg) + 2, length(currentLine)) = 'on'
           else if (Copy(currentLine, 1, length(AppCheckFirmMsg)) = AppCheckFirmMsg) then
             FAppSettings.AppCheckFirmMsg := Copy(currentLine, length(AppCheckFirmMsg) + 2, length(currentLine)) = 'on'
           else if (Copy(currentLine, 1, length(CustColor1) + 1) = CustColor1 + '=') then //Add = so that it doesn't take cust_color_10, 11, etc.
@@ -1178,6 +1179,11 @@ end;
 procedure TFileService.SetWindowsComboMsg(value: boolean);
 begin
   FAppSettings.WindowsComboMsg := value;
+end;
+
+procedure TFileService.SetUpDownKeystrokeMsg(value: boolean);
+begin
+  FAppSettings.UpDownKeystrokeMsg := value;
 end;
 
 procedure TFileService.SetPitchBlack(value: boolean);

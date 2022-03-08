@@ -6,14 +6,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-  Menus, ECSwitch, ECSlider, u_const, ColorSpeedButtonCS,
-  LabelBox, RichMemo, HSLRingPicker, mbColorPreview, u_form_tapandhold, contnrs,
+  Menus, ECSwitch, ECSlider, u_const, ColorSpeedButtonCS, LabelBox, RichMemo,
+  BCLabel, HSLRingPicker, mbColorPreview, u_form_tapandhold, contnrs,
   u_key_layer, u_key_service, u_file_service, u_common_ui, U_Keys, UserDialog,
-  FileUtil, u_form_troubleshoot, u_form_settings_adv360, LCLIntf,
-  u_form_export, u_form_about_office, buttons, u_form_diagnostics,
-  u_form_firmware, u_form_timingdelays, LResources, lcltype, BGRABitmap,
-  BGRABitmapTypes, BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
-  u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout
+  FileUtil, u_form_troubleshoot, u_form_settings_adv360, LCLIntf, u_form_export,
+  u_form_about_office, buttons, u_form_diagnostics, u_form_firmware,
+  u_form_timingdelays, LResources, lcltype, BGRABitmap, BGRABitmapTypes,
+  BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
+  u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout, BCTypes
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -21,6 +21,7 @@ type
   { TFormMainAdv360 }
 
   TFormMainAdv360 = class(TForm)
+    btnAddMacro: TColorSpeedButtonCS;
     btnAltLayouts: TColorSpeedButtonCS;
     btnAssignMacro: TColorSpeedButtonCS;
     btnBackspaceMacro: TColorSpeedButtonCS;
@@ -30,7 +31,6 @@ type
     btnCommonShortcuts: TColorSpeedButtonCS;
     btnCopy: TColorSpeedButtonCS;
     btnCopyMacro: TColorSpeedButtonCS;
-    btnAddMacro: TColorSpeedButtonCS;
     btnDoneMacro: TColorSpeedButtonCS;
     btnFactoryReset: TColorSpeedButtonCS;
     btnFn1LayerMacro: TColorSpeedButtonCS;
@@ -39,6 +39,8 @@ type
     btnLeftCommand: TColorSpeedButtonCS;
     btnQuickThumbKeys: TColorSpeedButtonCS;
     btnFunctionMacro: TColorSpeedButtonCS;
+    btnResetAllMacros: TColorSpeedButtonCS;
+    btnResetMacro: TColorSpeedButtonCS;
     btnRightCommand: TColorSpeedButtonCS;
     btnUpDown: TColorSpeedButtonCS;
     btnKpLayerMacro: TColorSpeedButtonCS;
@@ -54,8 +56,6 @@ type
     btnNumbers: TColorSpeedButtonCS;
     btnBaselayer: TColorSpeedButtonCS;
     btnNavKeys: TColorSpeedButtonCS;
-    btnResetAllMacros: TColorSpeedButtonCS;
-    btnResetMacro: TColorSpeedButtonCS;
     btnRightAlt: TColorSpeedButtonCS;
     btnRightCtrl: TColorSpeedButtonCS;
     btnRightLED1: TColorSpeedButtonCS;
@@ -125,6 +125,7 @@ type
     lblLayerRepo: TLabel;
     lblLayerSelect1: TLabel;
     lblMacOsWarning: TLabel;
+    lblMacroRepository: TLabel;
     lblMacroSpeedText: TLabel;
     lblMultiplay: TLabel;
     lblMultiplayText: TLabel;
@@ -133,7 +134,6 @@ type
     lblRepeatMultiplay: TLabel;
     lblSpeed1: TLabel;
     lblSpeed2: TLabel;
-    lblTriggerRepo: TLabel;
     lblCustomColors3: TLabel;
     lblCustomColors4: TLabel;
     lblGColorFn2: TLabel;
@@ -148,7 +148,6 @@ type
     lblLeftLed1Info: TLabel;
     lblLeftLed2Info: TLabel;
     lblLeftLed3Info: TLabel;
-    lblMacroRepository: TLabel;
     lblPreMixedColorsFn1: TLabel;
     lblPreMixedColorsFn2: TLabel;
     lblPreMixedColorsFn3: TLabel;
@@ -159,6 +158,7 @@ type
     lblRightLed2Info: TLabel;
     lblRightLed3Info: TLabel;
     lblSpeedRepo: TLabel;
+    lblTriggerRepo: TLabel;
     lbRow5_6: TLabelBox;
     lbRow5_7: TLabelBox;
     lbRow5_8: TLabelBox;
@@ -325,6 +325,7 @@ type
     pnlLighting: TPanel;
     pnlMacro: TPanel;
     pnlMacroRepo: TPanel;
+    pnlMacroRepoTop: TPanel;
     pnlMain: TPanel;
     pnlMenu: TPanel;
     pnlMenuMacro: TPanel;
@@ -619,14 +620,14 @@ type
     copyMacro: boolean;
     function GetActiveLedIndicator: integer;
     function GetControlUnderMouse: string;
-    function AcceptMacro: boolean;
+    function AcceptMacro(isCopy: boolean = false): boolean;
     procedure ActivateCoTrigger(coTriggerBtn: TColorSpeedButtonCS);
     procedure AddMacroMenuItem(var popMenu: TPopupMenu; itemName: string;
       keyCode: integer);
     procedure AddProfileMenuItem(var popMenu: TPopupMenu; itemName: string; idx: integer);
     procedure AfterColorChange;
     procedure AppDeactivate(Sender: TObject);
-    function CanAssignMacro: boolean;
+    function CanAssignMacro(key: word): boolean;
     procedure CancelMacro;
     procedure ChangeActiveLayer(layerIdx: integer);
     function CheckConfigMode(modeToCheck: integer): boolean;
@@ -1083,7 +1084,7 @@ begin
   keyService := TKeyService.Create;
   fileService := TFileService.Create;
   SetSaveState(ssNone);
-  SetMacroState(msNone);
+  SetMacroState(mstNone);
   NeedInput := False;
   RemapMode := false;
   loadingMacro := false;
@@ -1278,7 +1279,7 @@ begin
 
   //Windows
   {$ifdef Win32}
-  lblMacOsWarning.Visible := false;
+  pnlMacroRepoBot.Visible := false;
   btnLeftCommand.Visible := false;
   btnRightCommand.Visible := false;
   {$endif}
@@ -1290,7 +1291,7 @@ begin
   btnWindowsCombos.Visible := false;
   btnUpDown.Top := btnWindowsCombos.Top;
   imgSmartSet1.Left := imgSmartSet1.Left - 4;
-  lblMacOsWarning.Visible := true;
+  pnlMacroRepoBot.Visible := true;
 
   //Change Macro co-trigger images
   //btnLeftCtrl.Caption := 'Left Control';
@@ -1448,56 +1449,60 @@ begin
   SetUpDownKeystroke(ksNone);
   btnAssignMacro.Font.Color := clWhite;
   btnAssignMacro.Font.Size := 16;
-  btnAssignMacro.Down := (MacroState in [msNew, msEditTrigger]);
-  //btnAssignMacro.Enabled := (MacroState <> msEdit);
-  if (MacroState in [msNew, msEditTrigger]) then
+  btnAssignMacro.Down := (MacroState in [mstNew, mstEditTrigger]);
+  //btnAssignMacro.Enabled := (MacroState <> mstEdit);
+  if (MacroState in [mstNew, mstEditTrigger]) then
   begin
     btnAssignMacro.Font.Color := activeColor;
     btnAssignMacro.Caption := 'Input your Primary Trigger Key or click one above';
+    //self.SetFocus;
   end
-  else if (MacroState = msNone) then
+  else if (MacroState = mstNone) then
   begin
     copyMacro := false;
     btnAssignMacro.Caption := 'Click here to add a new Macro';
     memoMacro.Text := '';
     ResetMacroRepo;
   end;
-  //textMacroInput.Visible := (MacroState <> msNone);
-  memoMacro.Enabled := MacroState <> msNone;
+  //textMacroInput.Visible := (MacroState <> mstNone);
+  memoMacro.Enabled := MacroState = mstEdit;
+  textMacroInput.Color := memoMacro.Color;
+
+  SetMenuEnabled;
 
   //Set enabled
-  sliderMacroSpeed.Enabled := MacroState = msEdit;
-  sliderMultiplay.Enabled := MacroState = msEdit;
-  chkRepeatMultiplay.Enabled := MacroState = msEdit;
-  btnLeftCtrl.Enabled := MacroState = msEdit;
-  btnLeftCommand.Enabled := MacroState = msEdit;
-  btnLeftAlt.Enabled := MacroState = msEdit;
-  btnLeftShift.Enabled := MacroState = msEdit;
-  btnRightCtrl.Enabled := MacroState = msEdit;
-  btnRightAlt.Enabled := MacroState = msEdit;
-  btnRightCommand.Enabled := MacroState = msEdit;
-  btnRightShift.Enabled := MacroState = msEdit;
-  btnBaseLayerMacro.Enabled := MacroState = msEdit;
-  btnKpLayerMacro.Enabled := MacroState = msEdit;
-  btnFn1LayerMacro.Enabled := MacroState = msEdit;
-  btnFn2LayerMacro.Enabled := MacroState = msEdit;
-  btnFn3LayerMacro.Enabled := MacroState = msEdit;
+  sliderMacroSpeed.Enabled := MacroState = mstEdit;
+  sliderMultiplay.Enabled := MacroState = mstEdit;
+  chkRepeatMultiplay.Enabled := MacroState = mstEdit;
+  btnLeftCtrl.Enabled := MacroState = mstEdit;
+  btnLeftCommand.Enabled := MacroState = mstEdit;
+  btnLeftAlt.Enabled := MacroState = mstEdit;
+  btnLeftShift.Enabled := MacroState = mstEdit;
+  btnRightCtrl.Enabled := MacroState = mstEdit;
+  btnRightAlt.Enabled := MacroState = mstEdit;
+  btnRightCommand.Enabled := MacroState = mstEdit;
+  btnRightShift.Enabled := MacroState = mstEdit;
+  btnBaseLayerMacro.Enabled := MacroState = mstEdit;
+  btnKpLayerMacro.Enabled := MacroState = mstEdit;
+  btnFn1LayerMacro.Enabled := MacroState = mstEdit;
+  btnFn2LayerMacro.Enabled := MacroState = mstEdit;
+  btnFn3LayerMacro.Enabled := MacroState = mstEdit;
 
   //Disabled state for image buttons
-  btnCancelMacro.Disabled := MacroState = msNone;
-  btnDoneMacro.Disabled := MacroState <> msEdit;
-  btnBackspaceMacro.Disabled := MacroState <> msEdit;
-  btnMouseClicksMacro.Disabled := MacroState <> msEdit;
-  btnClearMacro.Disabled := MacroState <> msEdit;
-  btnCommonShortcuts.Disabled := MacroState <> msEdit;
-  btnCopy.Disabled := MacroState <> msEdit;
-  btnTimingDelays.Disabled := MacroState <> msEdit;
-  btnPaste.Disabled := MacroState <> msEdit;
-  btnWindowsCombos.Disabled := MacroState <> msEdit;
-  btnMultimediaMacro.Disabled := MacroState <> msEdit;
-  btnFunctionMacro.Disabled := MacroState <> msEdit;
-  btnSpeedMacro.Disabled := MacroState <> msEdit;
-  btnUpDown.Disabled := MacroState <> msEdit;
+  btnCancelMacro.Disabled := MacroState = mstNone;
+  btnDoneMacro.Disabled := MacroState <> mstEdit;
+  btnBackspaceMacro.Disabled := MacroState <> mstEdit;
+  btnMouseClicksMacro.Disabled := MacroState <> mstEdit;
+  btnClearMacro.Disabled := MacroState <> mstEdit;
+  btnCommonShortcuts.Disabled := MacroState <> mstEdit;
+  btnCopy.Disabled := MacroState <> mstEdit;
+  btnTimingDelays.Disabled := MacroState <> mstEdit;
+  btnPaste.Disabled := MacroState <> mstEdit;
+  btnWindowsCombos.Disabled := MacroState <> mstEdit;
+  btnMultimediaMacro.Disabled := MacroState <> mstEdit;
+  btnFunctionMacro.Disabled := MacroState <> mstEdit;
+  btnSpeedMacro.Disabled := MacroState <> mstEdit;
+  btnUpDown.Disabled := MacroState <> mstEdit;
 end;
 
 procedure TFormMainAdv360.InitKeyButtons(container: TWinControl);
@@ -2275,9 +2280,13 @@ begin
       begin
         bothLayers := (mnuAction = VK_FN_SHIFT) or (mnuAction = VK_FN_TOGGLE);
         SetModifiedKey(mnuAction, '', false, bothLayers, true, true);
-        ResetPopupMenu;
-        ResetSingleKey;
+      end
+      else if (IsMacroLoaded) then
+      begin
+        SetModifiedKey(mnuAction, '', true);
       end;
+      ResetPopupMenu;
+      ResetSingleKey;
     end;
   end;
 end;
@@ -2329,7 +2338,7 @@ begin
   mnu := (sender as TMenuItem);
   mnuAction := mnu.Tag;
 
-  if (MacroState = msEdit) and (mnuAction > 0) then
+  if (MacroState = mstEdit) and (mnuAction > 0) then
   begin
     if (mnuAction = VK_CUT) then
     begin
@@ -2429,12 +2438,9 @@ begin
     begin
       SetUpDownKeystroke(ksDown);
     end
-    else
+    else if (IsMacroLoaded) then
     begin
-      if (IsKeyLoaded) then
-      begin
-        SetModifiedKey(mnuAction, '', true);
-      end;
+      SetModifiedKey(mnuAction, '', true);
     end;
 
     //ResetPopupMenuMacro;
@@ -2776,7 +2782,7 @@ begin
   if (Sender is TPanel) then
     pnl := (Sender as TPanel)
   else
-    pnl := (Sender as TLabel).Parent as TPanel;
+    pnl := (Sender as TBCLabel).Parent as TPanel;
 
   pnl.Color := KINESIS_GREEN_OFFICE;
 end;
@@ -2788,7 +2794,7 @@ begin
   if (Sender is TPanel) then
     pnl := (Sender as TPanel)
   else
-    pnl := (Sender as TLabel).Parent as TPanel;
+    pnl := (Sender as TBCLabel).Parent as TPanel;
 
   if (pnl <> activeMacroPanel) then
   begin
@@ -3283,13 +3289,13 @@ procedure TFormMainAdv360.PositionMenuItems;
 begin
   //Position layout menu (last first)
   btnQuickThumbKeys.Top := 0;
-  btnSpecialActions.Top := 0;
-  btnMultimodifiers.Top := 0;
   btnTapAndHold.Top := 0;
   btnAltLayouts.Top := 0;
   btnNumericKeypad.Top := 0;
   btnLayerToggling.Top := 0;
   btnLayerShifting.Top := 0;
+  btnMultimodifiers.Top := 0;
+  btnSpecialActions.Top := 0;
   btnFunctionKeys.Top := 0;
   btnMouseClicks.Top := 0;
   btnMultimedia.Top := 0;
@@ -3556,7 +3562,7 @@ begin
   begin
     SetSaveState(ssModified);
     keyService.RemoveAllMacros;
-    SetMacroState(msNone);
+    SetMacroState(mstNone);
     activeMacro := nil;
     activeMacroPanel := nil;
     LoadMacroRepo;
@@ -3589,7 +3595,7 @@ begin
     begin
       SetSaveState(ssModified);
       keyService.RemoveMacro(activeMacro);
-      SetMacroState(msNone);
+      SetMacroState(mstNone);
       activeMacro := nil;
       activeMacroPanel := nil;
       LoadMacroRepo;
@@ -4105,20 +4111,24 @@ begin
 end;
 
 procedure TFormMainAdv360.SetMenuEnabled;
+var
+  isEnabledMacro: boolean;
 begin
-  btnMultimedia.Enabled := IsKeyLoaded;
-  btnMouseClicks.Enabled := IsKeyLoaded;
-  btnFunctionKeys.Enabled := IsKeyLoaded;
+  isEnabledMacro := IsKeyLoaded or (IsMacroLoaded and (MacroState = mstEdit));
+
   btnLayerShifting.Enabled := IsKeyLoaded;
   btnLayerToggling.Enabled := IsKeyLoaded;
   btnTapAndHold.Enabled := IsKeyLoaded;
   btnMultimodifiers.Enabled := IsKeyLoaded;
-  btnSpecialActions.Enabled := IsKeyLoaded;
-  btnLetters.Enabled := IsKeyLoaded;
-  btnNumbers.Enabled := IsKeyLoaded;
-  btnNavKeys.Enabled := IsKeyLoaded;
-  btnPunctuation.Enabled := IsKeyLoaded;
-  btnModifiers.Enabled := IsKeyLoaded;
+  btnMultimedia.Enabled := isEnabledMacro;
+  btnMouseClicks.Enabled := isEnabledMacro;
+  btnFunctionKeys.Enabled := isEnabledMacro;
+  btnSpecialActions.Enabled := isEnabledMacro;
+  btnLetters.Enabled := isEnabledMacro;
+  btnNumbers.Enabled := isEnabledMacro;
+  btnNavKeys.Enabled := isEnabledMacro;
+  btnPunctuation.Enabled := isEnabledMacro;
+  btnModifiers.Enabled := isEnabledMacro;
 end;
 
 procedure TFormMainAdv360.bCoTriggerClick(Sender: TObject);
@@ -4332,12 +4342,12 @@ procedure TFormMainAdv360.KeyButtonClick(Sender: TObject);
 var
   kbKey: TKBKey;
 begin
-  if (MacroState in [msNew, msEditTrigger]) then
+  if (MacroState in [mstNew, mstEditTrigger]) then
   begin
     kbKey := keyService.GetKbKeyByIndex(keyService.ActiveLayer, (sender as TLabelBox).Index);
     if (kbKey <> nil) then
     begin
-      SetModifiedKey(kbKey.TriggerKey.Key, '', true);
+      SetModifiedKey(kbKey.ModifiedOrOriginalKey.Key, '', true);
     end;
   end
   else if (not MacroMode) then
@@ -4353,7 +4363,7 @@ begin
   if (Sender is TPanel) then
     pnl := (Sender as TPanel)
   else
-    pnl := (Sender as TLabel).Parent as TPanel;
+    pnl := (Sender as TBCLabel).Parent as TPanel;
 
   activeMacroPanel := pnl;
   activeMacroPanel.Color := KINESIS_GREEN_OFFICE;
@@ -4365,7 +4375,7 @@ procedure TFormMainAdv360.SetActiveMacro(keyIdx: integer);
 begin
   activeMacro := keyService.GetMacro(keyIdx);
   keyService.BackupMacro(activeMacro);
-  SetMacroState(msEdit);
+  SetMacroState(mstEdit);
   LoadMacro;
   memoMacro.SetFocus;
 end;
@@ -4378,7 +4388,7 @@ end;
 
 //function TFormMainAdv360.EditingMacro(showWarning: boolean = false): boolean;
 //begin
-//  result := (MacroState = msEdit);//pnlMacro.Visible;
+//  result := (MacroState = mstEdit);//pnlMacro.Visible;
 //  if (result and showWarning) then
 //    ShowDialog('Macro', 'Please close Macro Editor before proceeding', mtWarning, [mbOk]);
 //end;
@@ -4392,10 +4402,11 @@ function TFormMainAdv360.ValidateBeforeDone: boolean;
 var
   errorMsg: string;
   errorTitle: string;
+  errorNumber: integer;
   customBtns: TCustomButtons;
   isValid: boolean;
 begin
-  isValid := keyService.ValidateMacros(activeMacro, errorMsg, errorTitle);
+  isValid := keyService.ValidateMacros(activeMacro, errorMsg, errorTitle, errorNumber);
 
   if isValid then
   begin
@@ -4424,13 +4435,24 @@ begin
   end
   else
   begin
-    ShowDialog(errorTitle, errorMsg, mtError, [mbOk], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
+    //Check to replace existing macro
+    if (errorNumber = 5) then
+    begin
+      createCustomButton(customBtns, 'Overwrite Existing Macro', 175, nil, bkYes);
+      createCustomButton(customBtns, 'OK', 175, nil, bkOK);
+      if (ShowDialog(errorTitle, errorMsg, mtError, [], DEFAULT_DIAG_HEIGHT_RGB, customBtns) = mrYes) then
+      begin
+        isValid := keyService.RemoveDuplicateMacro(activeMacro);
+      end;
+    end
+    else
+      ShowDialog(errorTitle, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, customBtns);
   end;
 
   result := isValid;
 end;
 
-function TFormMainAdv360.AcceptMacro: boolean;
+function TFormMainAdv360.AcceptMacro(isCopy: boolean = false): boolean;
 begin
   result := true;
   //KeyModified := false;
@@ -4442,7 +4464,8 @@ begin
     begin
       SetSaveState(ssModified);
       activeMacro.IsNew := false;
-      SetMacroState(msNone);
+      if not(isCopy) then
+        SetMacroState(mstNone);
       activeMacro := nil;
       activeMacroPanel := nil;
       LoadMacroRepo;
@@ -4461,17 +4484,18 @@ begin
   SetWindowsCombo(false);
   if (IsMacroLoaded) then
   begin
-    SetMacroState(msNone);
+    SetMacroState(mstNone);
     if (activeMacro.IsNew) then
       keyService.RemoveLastMacro
     else
       keyService.RestoreMacro(activeMacro); //Returns to previous values
     activeMacro := nil;
     activeMacroPanel := nil;
+    textMacroInput.Visible := false;
   end
   else
   begin
-    SetMacroState(msNone);
+    SetMacroState(mstNone);
   end;
   RefreshRemapInfo;
   SetHovered(btnCancelMacro, false, true);
@@ -4774,16 +4798,23 @@ var
   aColor:TColor;
 begin
   value := Round(sliderMultiplay.Position);
-  if (value = -1) or (chkRepeatMultiplay.Checked) then
-  begin
-    lblMultiplay.Caption := 'R';
-    aColor := KINESIS_DARK_GRAY_ADV360;
-  end
-  else
-  begin
-    lblMultiplay.Caption := IntToStr(value);
-    aColor := KINESIS_GREEN_OFFICE;
-  end;
+  //if (value = -1) or (chkRepeatMultiplay.Checked) then
+  //begin
+  //  lblMultiplay.Caption := 'R';
+  //  aColor := KINESIS_DARK_GRAY_ADV360;
+  //end
+  //else
+  //begin
+  //  lblMultiplay.Caption := IntToStr(value);
+  //  aColor := KINESIS_GREEN_OFFICE;
+  //end;
+  if (value < MACRO_FREQ_MIN_ADV360) then
+    value := MACRO_FREQ_MIN_ADV360
+  else if (value > MACRO_FREQ_MAX_ADV360) then
+    value := MACRO_FREQ_MAX_ADV360;
+  lblMultiplay.Caption := IntToStr(value);
+  aColor := KINESIS_GREEN_OFFICE;
+
   sliderMultiplay.Knob.Color := aColor;
   sliderMultiplay.ProgressColor := aColor;
   sliderMultiplay.Scale.TickColor := aColor;
@@ -4799,7 +4830,7 @@ begin
   begin
     chkRepeatMultiplay.Checked := false;
     sliderPos := sliderMultiplay.Position;
-    if (Frac(sliderPos) >= 1) then
+    if (Frac(sliderPos) >= MACRO_FREQ_MIN_ADV360) then
     begin
       value := Round(sliderPos);
       sliderMultiplay.Position := value;
@@ -5185,8 +5216,8 @@ end;
 
 procedure TFormMainAdv360.btnAddMacroClick(Sender: TObject);
 begin
-  if (MacroState = msNone) then
-    SetMacroState(msNew);
+  if (MacroState = mstNone) then
+    SetMacroState(mstNew);
 end;
 
 procedure TFormMainAdv360.btnCopyMacroClick(Sender: TObject);
@@ -5199,9 +5230,9 @@ begin
     ResetPopupMenuMacro;
 
     copiedMacro := keyService.CopyMacro(activeMacro);
-    if (AcceptMacro) then
+    if (AcceptMacro(true)) then
     begin
-      SetMacroState(msNew);
+      SetMacroState(mstNew);
       copyMacro := true;
 
       if (ShowNotification(fileService.AppSettings.CopyMacroMsg)) then
@@ -5223,12 +5254,12 @@ end;
 
 procedure TFormMainAdv360.btnAssignMacroClick(Sender: TObject);
 begin
-  if (MacroState in [msNone, msNew]) then
-    SetMacroState(msNew)
-  else if (MacroState = msEdit) then
-    SetMacroState(msEditTrigger)
-  else if (MacroState = msEditTrigger) then
-    SetMacroState(msEdit);
+  if (MacroState in [mstNone, mstNew]) then
+    SetMacroState(mstNew)
+  else if (MacroState = mstEdit) then
+    SetMacroState(mstEditTrigger)
+  else if (MacroState = mstEditTrigger) then
+    SetMacroState(mstEdit);
 end;
 
 procedure TFormMainAdv360.lblRepeatMultiplayClick(Sender: TObject);
@@ -5251,21 +5282,13 @@ procedure TFormMainAdv360.OpenTapAndHold;
 begin
   if (IsKeyLoaded) then
   begin
-    if (activeKbKey.IsMacro) then //jm check macro list
+    if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
     begin
-      ShowDialog('Tap and Hold', 'You cannot assign a Tap and Hold Action to a macro trigger key.',
-        mtWarning, [mbOk], DEFAULT_DIAG_HEIGHT_RGB);
-    end
-    else
-    begin
-      if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
-      begin
-        KeyModified := true;
-        SetSaveState(ssModified);
-        keyService.SetTapAndHold(activeKbKey, FormTapAndHold.tapAction, FormTapAndHold.holdAction, FormTapAndHold.timingDelay);
-        UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
-        RefreshRemapInfo;
-      end;
+      KeyModified := true;
+      SetSaveState(ssModified);
+      keyService.SetTapAndHold(activeKbKey, FormTapAndHold.tapAction, FormTapAndHold.holdAction, FormTapAndHold.timingDelay);
+      UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
+      RefreshRemapInfo;
     end;
   end;
 end;
@@ -6489,7 +6512,7 @@ var
   newKeyIdx: integer;
 begin
   result := -1;
-  if (IsMacroLoaded and (MacroState = msEdit) and (cursorPos < LengthUTF8(memoMacro.Text))) then
+  if (IsMacroLoaded and (MacroState = mstEdit) and (cursorPos < LengthUTF8(memoMacro.Text))) then
   begin
     keyIdx := keyService.GetKeyAtPosition(activeMacro, cursorPos);
     for i := cursorPos + 1 to LengthUTF8(memoMacro.Text) do
@@ -6511,7 +6534,7 @@ var
   prevKeyIdx: integer;
 begin
   result := -1; //cursorPos - 1;
-  if (IsMacroLoaded and (MacroState = msEdit) and (cursorPos > 1)) then
+  if (IsMacroLoaded and (MacroState = mstEdit) and (cursorPos > 1)) then
   begin
     keyIdx := keyService.GetKeyAtPosition(activeMacro, cursorPos);
     for i := cursorPos - 1 downto 0 do
@@ -6526,21 +6549,18 @@ begin
   end;
 end;
 
-function TFormMainAdv360.CanAssignMacro: boolean;
+function TFormMainAdv360.CanAssignMacro(key: word): boolean;
+var
+  kbKey: TKBKey;
 begin
-  result := IsMacroLoaded;
+  result := true;
 
-  //jm todo
-  //if (result) and not(macroKbKey.CanAssignMacro) then
-  //begin
-  //  result := false;
-  //  ShowDialog('Macro', 'You cannot assign a macro to this key.', mtWarning, [mbOK]);
-  //end
-  //else if (result) and (macroKbKey.TapAndHold) then
-  //begin
-  //  result := false;
-  //  ShowDialog('Macro', 'You cannot assign a macro to a Tap and Hold action key.', mtWarning, [mbOK]);
-  //end;
+  kbKey := keyService.GetPositionKBKey(key, keyService.ActiveLayer.LayerIndex, true);
+  if (result) and not(kbKey.CanAssignMacro) then
+  begin
+    result := false;
+    ShowDialog('Macro', 'You cannot assign a macro to this key.', mtWarning, [mbOK]);
+  end;
 end;
 
 procedure TFormMainAdv360.SetModifiedKey(key: word; Modifiers: string;
@@ -6562,25 +6582,31 @@ begin
   begin
     if (isMacro) then
     begin
-      if (MacroState = msNew) then
+      if (MacroState = mstNew) then
       begin
-        if copyMacro and (copiedMacro <> nil) then
+        if (CanAssignMacro(key)) then
         begin
-          macroIdx := keyService.AddCopiedMacro(copiedMacro, key, keyService.ActiveLayer.LayerIndex)
-        end
-        else
-          macroIdx := keyService.AddMacro(key, keyService.ActiveLayer.LayerIndex);
-        SetActiveMacro(macroIdx);
-        copyMacro := false;
+          if copyMacro and (copiedMacro <> nil) then
+          begin
+            macroIdx := keyService.AddCopiedMacro(copiedMacro, key, keyService.ActiveLayer.LayerIndex)
+          end
+          else
+            macroIdx := keyService.AddMacro(key, keyService.ActiveLayer.LayerIndex);
+          SetActiveMacro(macroIdx);
+          copyMacro := false;
+        end;
       end
-      else if (MacroState = msEditTrigger) and (IsMacroLoaded) then
+      else if (MacroState = mstEditTrigger) and (IsMacroLoaded) then
       begin
-        activeMacro.TriggerKey := key;
-        SetMacroState(msEdit);
-        LoadMacro;
-        memoMacro.SetFocus;
+        if (CanAssignMacro(key)) then
+        begin
+          activeMacro.TriggerKey := key;
+          SetMacroState(mstEdit);
+          LoadMacro;
+          memoMacro.SetFocus;
+        end
       end
-      else if (CanAssignMacro) and (IsMacroLoaded) then
+      else if (IsMacroLoaded) then
       begin
         nbKeystrokes := keyService.CountKeystrokes(activeMacro);
         inc(nbKeystrokes);
@@ -6721,10 +6747,9 @@ end;
 
 procedure TFormMainAdv360.LoadMacroRepo;
 var
-  i, j, count:integer;
+  i, count:integer;
   macro: TKeyList;
-  edit: TEdit;
-  lbl: TLabel;
+  lbl: TBCLabel;
   pnl: TPanel;
   macroIdx: integer;
   aLayer: TKBLayer;
@@ -6747,7 +6772,7 @@ begin
     pnl.Tag := macroIdx;
     pnl.Left := 0;
     pnl.Width := scrollMacroRepo.Width;
-    pnl.Height := 35;
+    pnl.Height := 20;
     pnl.Top := (count * pnl.Height);
     pnl.BevelInner := bvRaised;
     pnl.BevelOuter := bvNone;
@@ -6760,10 +6785,11 @@ begin
     pnl.OnMouseEnter := @MacroRepoMouseEnter;
     pnl.OnMouseLeave := @MacroRepoMouseLeave;
 
-    lbl := TLabel.Create(pnl);
+    lbl := TBCLabel.Create(pnl);
     lbl.Parent := pnl;
     lbl.AutoSize := false;
-    lbl.Layout := tlCenter;
+    lbl.FontEx.TextAlignment := bcaLeftCenter;
+    //lbl.Layout := tlCenter;
     lbl.Left := lblLayerRepo.Left;
     lbl.Width := lblTriggerRepo.Left - lblLayerRepo.Left;
     lbl.Font.Size := fontSize;
@@ -6775,11 +6801,13 @@ begin
     lbl.OnMouseEnter := @MacroRepoMouseEnter;
     lbl.OnMouseLeave := @MacroRepoMouseLeave;
 
-    lbl := TLabel.Create(pnl);
+    lbl := TBCLabel.Create(pnl);
     lbl.Parent := pnl;
     lbl.AutoSize := false;
-    lbl.WordWrap := true;
-    lbl.Layout := tlCenter;
+    lbl.FontEx.EndEllipsis := true;
+    //lbl.WordWrap := true;
+    //lbl.Layout := tlCenter;
+    lbl.FontEx.TextAlignment := bcaLeftCenter;
     lbl.Top := 0;
     lbl.Left := lblTriggerRepo.Left;
     lbl.Width := lblSpeedRepo.Left - lblTriggerRepo.Left + 30;
@@ -6791,11 +6819,12 @@ begin
     lbl.OnMouseEnter := @MacroRepoMouseEnter;
     lbl.OnMouseLeave := @MacroRepoMouseLeave;
 
-    lbl := TLabel.Create(pnl);
+    lbl := TBCLabel.Create(pnl);
     lbl.Parent := pnl;
     lbl.AutoSize := false;
-    lbl.Alignment := taRightJustify;
-    lbl.Layout := tlCenter;
+    //lbl.Alignment := taRightJustify;
+    //lbl.Layout := tlCenter;
+    lbl.FontEx.TextAlignment := bcaRightCenter;
     lbl.Left := lblSpeedRepo.Left;
     lbl.Width := lblSpeedRepo.Width;
     lbl.Font.Size := fontSize;
@@ -6807,10 +6836,11 @@ begin
     lbl.OnMouseEnter := @MacroRepoMouseEnter;
     lbl.OnMouseLeave := @MacroRepoMouseLeave;
 
-    lbl := TLabel.Create(pnl);
+    lbl := TBCLabel.Create(pnl);
     lbl.Parent := pnl;
     lbl.AutoSize := false;
-    lbl.Layout := tlCenter;
+    //lbl.Layout := tlCenter;
+    lbl.FontEx.TextAlignment := bcaLeftCenter;
     lbl.Left := lblMultiRepo.Left;
     lbl.Width := lblMultiRepo.Width;
     lbl.Font.Size := fontSize;
@@ -6825,66 +6855,6 @@ begin
     lbl.OnMouseEnter := @MacroRepoMouseEnter;
     lbl.OnMouseLeave := @MacroRepoMouseLeave;
 
-    //edit := TEdit.Create(scrollMacroRepo);
-    //edit.Tag := macroIdx;
-    //edit.Left := lblLayerRepo.Left;
-    //edit.Font.Size := fontSize;
-    //edit.Font.Name := self.Font.Name;
-    //edit.Top := (count * edit.Height) + 10;
-    //edit.ReadOnly := true;
-    //edit.TabStop := false;
-    //edit.Parent := scrollMacroRepo;
-    //edit.Visible := true;
-    //edit.Width := lblTriggerRepo.Left - lblLayerRepo.Left - 10;
-    //edit.Caption := aLayer.LayerName;
-    //edit.OnClick := @EditMacroClick;
-    ////macroRepoList.Add(edit);
-    //
-    //edit := TEdit.Create(scrollMacroRepo);
-    //edit.Tag := macroIdx;
-    //edit.Left := lblTriggerRepo.Left;
-    //edit.Font.Size := fontSize;
-    //edit.Font.Name := self.Font.Name;
-    //edit.Top := (count * edit.Height) + 10;
-    //edit.ReadOnly := true;
-    //edit.TabStop := false;
-    //edit.Parent := scrollMacroRepo;
-    //edit.Visible := true;
-    //edit.Width := lblSpeedRepo.Left - lblTriggerRepo.Left + 20;
-    //edit.Caption := GetMacroAssignTo(macro);
-    //edit.OnClick := @EditMacroClick;
-    //
-    //edit := TEdit.Create(scrollMacroRepo);
-    //edit.Tag := macroIdx;
-    //edit.Width := 20;
-    //edit.Left := lblSpeedRepo.Left + lblSpeedRepo.Width - edit.Width;
-    //edit.Font.Size := fontSize;
-    //edit.Font.Name := self.Font.Name;
-    //edit.Top := (count * edit.Height) + 10;
-    //edit.ReadOnly := true;
-    //edit.TabStop := false;
-    //edit.Parent := scrollMacroRepo;
-    //edit.Visible := true;
-    //edit.Width := 20;
-    //edit.Caption := IntToStr(macro.MacroSpeed);
-    //edit.OnClick := @EditMacroClick;
-    //
-    //edit := TEdit.Create(scrollMacroRepo);
-    //edit.Tag := macroIdx;
-    //edit.Width := 20;
-    //edit.Left := lblMultiRepo.Left + lblMultiRepo.Width - edit.Width;
-    //edit.Font.Size := fontSize;
-    //edit.Font.Name := self.Font.Name;
-    //edit.Top := (count * edit.Height) + 10;
-    //edit.ReadOnly := true;
-    //edit.TabStop := false;
-    //edit.Parent := scrollMacroRepo;
-    //edit.Visible := true;
-    //if (macro.MacroRptFreq < MACRO_FREQ_MIN_ADV360) then
-    //  edit.Caption := 'R'
-    //else
-    //  edit.Caption := IntToStr(macro.MacroRptFreq);
-    //edit.OnClick := @EditMacroClick;
     //
     inc(count);
   end;
@@ -6897,7 +6867,7 @@ var
 begin
   canClose := true;
 
-  if (MacroState in [msEdit, msEditTrigger]) then
+  if (MacroState in [mstEdit, mstEditTrigger]) then
   begin
     msgResult := ShowDialog('Apply changes',
         'This macro has been modified, do you want to apply these changes?', mtConfirmation,
@@ -6916,7 +6886,7 @@ begin
     pnlMacro.Visible := false;
     pnlMacroRepo.Visible := false;
     MacroMode := false;
-    SetMacroState(msNone);
+    SetMacroState(mstNone);
   end;
 end;
 
@@ -7376,7 +7346,6 @@ begin
     memoMacro.Text := keyService.GetMacroText(activeMacro, aKeysPos);
 
     //Replace empty space with special space character
-    //JM: Todo check on mac UnicodeString vs AnsiToUtf8
     memoMacro.Text := StringReplace(memoMacro.Text, ' ', UnicodeString(#$e2#$90#$a3), [rfReplaceAll]);
     SetMemoTextColor(memoMacro, aKeysPos);
 
@@ -7444,6 +7413,9 @@ begin
 end;
 
 procedure TFormMainAdv360.SetUpDownKeystroke(value: TKeyState);
+var
+  sTitle: string;
+  hideNotif: integer;
 begin
   UpDownKeystroke := value;
   if (MacroMode) then
@@ -7457,6 +7429,24 @@ begin
     begin
       btnUpDown.Down := true;
       SetHovered(btnUpDown, true, true);
+
+      if (UpDownKeystroke = ksDown) then
+        sTitle := 'Downstroke Active'
+      else
+        sTitle := 'Upstroke Active';
+
+      if (ShowNotification(fileService.AppSettings.UpDownKeystrokeMsg)) then
+      begin
+        hideNotif := ShowDialog(sTitle, 'Now press the desired key to add a half-stroke to your macro. Remember to pair each downstroke with a subsequent upstroke to prevent having a stuck key.',
+          mtInformation, [mbOK], DEFAULT_DIAG_HEIGHT_RGB, nil, 'Hide this notification?');
+
+        if (hideNotif >= DISABLE_NOTIF) then
+        begin
+          fileService.SetUpDownKeystrokeMsg(true);
+          fileService.SaveAppSettings;
+        end;
+      end;
+
       memoMacro.SetFocus;
     end;
   end;
