@@ -90,6 +90,7 @@ begin
   FormTapAndHold.lblHoldAction.Font.Color := fontColor;
   FormTapAndHold.lblDelay.Font.Color := fontColor;
   FormTapAndHold.lblTitle.Font.Color := fontColor;
+  FormTapAndHold.lblNote.Font.Color := fontColor;
   if (GMasterAppId = APPL_MASTER_OFFICE) then
   begin
     LoadButtonImage(FormTapAndHold.btnCancel, FormTapAndHold.imgListTiming, 4);

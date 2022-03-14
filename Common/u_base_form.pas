@@ -51,6 +51,8 @@ end;
 
 procedure TBaseForm.FormCreate(Sender: TObject);
 begin
+  btnClose.Top := 0;
+  btnClose.Left := self.Width - btnClose.Width;
   if (GMasterAppId = APPL_MASTER_OFFICE) and not(IsDarkTheme) then
   begin
     btnClose.Visible := false;
@@ -62,8 +64,6 @@ procedure TBaseForm.FormResize(Sender: TObject);
 begin
   lblTitle.Width := self.Width - (btnClose.Width * 2);
   lblTitle.Left := btnClose.Width;
-  btnClose.Left := self.Width - btnClose.Width;
-  btnClose.Top := 0;
 end;
 
 procedure TBaseForm.FormShow(Sender: TObject);

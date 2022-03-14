@@ -1085,7 +1085,7 @@ begin
     (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
     exit;
 
-  currentKey := key;
+  currentKey := GetCurrentKeyMac(key);
 
   //If not a modifier
   if not (IsModifier(currentKey)) then
@@ -1116,7 +1116,7 @@ procedure TFormMainRGB.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftSt
 {$ifdef Darwin}var currentKey: longint;{$endif}
 begin
   {$ifdef Darwin}
-  currentKey := key;
+  currentKey := GetCurrentKeyMac(key);
 
   //When last key pressed is released we reset it
   if currentKey = lastKeyPressed then

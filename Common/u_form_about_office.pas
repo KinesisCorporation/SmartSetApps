@@ -63,6 +63,7 @@ begin
   FormAboutOffice.lblVersion.Font.Color := fontColor;
   FormAboutOffice.lblFirmware.Font.Color := fontColor;
   FormAboutOffice.lblCompany.Font.Color := fontColor;
+  FormAboutOffice.lblWebsite.Font.Color := KINESIS_GREEN_OFFICE;
 
   FormAboutOffice.ShowModal;
 end;

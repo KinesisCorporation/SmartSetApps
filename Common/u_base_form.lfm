@@ -7,14 +7,13 @@ object BaseForm: TBaseForm
   ClientHeight = 375
   ClientWidth = 607
   Color = 1644825
-  DesignTimePPI = 192
   Font.Color = clWhite
   Font.Name = 'Tahoma'
   OnCreate = FormCreate
   OnResize = FormResize
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.0.4'
   Scaled = False
   object lineBorderLeft: TLineObj
     Left = 0
@@ -52,7 +51,6 @@ object BaseForm: TBaseForm
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       Layout = tlCenter
-      ParentColor = False
       ParentFont = False
     end
     object btnCloseLight: TColorSpeedButtonCS

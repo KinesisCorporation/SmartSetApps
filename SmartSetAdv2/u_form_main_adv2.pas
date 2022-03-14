@@ -627,7 +627,7 @@ begin
     (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
     exit;
 
-  currentKey := key;
+  currentKey := GetCurrentKeyMac(key);
 
   //Mac version of Advantage2 does not support generic modifier, replace with left versions
   if (currentKey = VK_MENU) then
@@ -666,7 +666,7 @@ procedure TFormMainAdv2.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftS
 {$ifdef Darwin}var currentKey: longint;{$endif}
 begin
   {$ifdef Darwin}
-  currentKey := key;
+  currentKey := GetCurrentKeyMac(key);
 
   //Mac version of Advantage2 does not support generic modifier, replace with left versions
   if (currentKey = VK_MENU) then

@@ -1823,7 +1823,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_3), 3));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_4), 4));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_5), 5));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, true, true, GetKeyConfig(VK_KEYPAD_TOGGLE)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_6), 8));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_7), 9));
@@ -2017,7 +2017,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3, true, true, GetKeyConfig(VK_3)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4, true, true, GetKeyConfig(VK_4)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5, true, true, GetKeyConfig(VK_5)));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, true, true, GetKeyConfig(VK_KEYPAD_TOGGLE)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8, true, true, GetKeyConfig(VK_6)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9, true, true, GetKeyConfig(VK_7)));
@@ -2114,7 +2114,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3, true, true, GetKeyConfig(VK_3)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4, true, true, GetKeyConfig(VK_4)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5, true, true, GetKeyConfig(VK_5)));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, true, true, GetKeyConfig(VK_KEYPAD_TOGGLE)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8, true, true, GetKeyConfig(VK_6)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9, true, true, GetKeyConfig(VK_7)));
@@ -2211,7 +2211,7 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F4), 3, true, true, GetKeyConfig(VK_3)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F5), 4, true, true, GetKeyConfig(VK_4)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F6), 5, true, true, GetKeyConfig(VK_5)));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_KP_LAYER_TOGGLE), 6, true, true, GetKeyConfig(VK_KEYPAD_TOGGLE)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SMARTSET), 7, false, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F7), 8, true, true, GetKeyConfig(VK_6)));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_F8), 9, true, true, GetKeyConfig(VK_7)));
@@ -3570,8 +3570,9 @@ begin
             if (aCoTriggers.Count >= 4) then
               activeMacro.CoTrigger4 := aCoTriggers[3].CopyKey;
 
-            activeMacro.MacroSpeed := -1;
-            activeMacro.MacroRptFreq := -1;
+            //Set Default macro speed and multiplay
+            activeMacro.MacroSpeed := DEFAULT_MACRO_SPEED_RGB;
+            activeMacro.MacroRptFreq := DEFAULT_MACRO_FREQ_RGB;
 
             //Get Macro text
             while (valueText <> '') do
@@ -3590,6 +3591,7 @@ begin
                 Delete(sKey, 1, 1); //removes - or +
               Delete(valueText, 1, keyEnd); //removes currentkey
 
+              //Load macro speed
               if (activeMacro.Count = 0) and
                 (Length(sKey) > 1) and
                 (Copy(sKey, 1, Length(MACRO_SPEED_TEXT_EDGE)) = MACRO_SPEED_TEXT_EDGE) and
@@ -3597,9 +3599,7 @@ begin
               begin
                 tempInt := ConvertToInt(Copy(sKey, Length(MACRO_SPEED_TEXT_EDGE) + 1, Length(MACRO_SPEED_TEXT_EDGE) + 2));
                 if (tempInt >= 0{MACRO_SPEED_MIN}) and (tempInt <= MACRO_SPEED_MAX_RGB) then
-                  activeMacro.MacroSpeed := tempInt
-                else
-                  activeMacro.MacroSpeed := DEFAULT_MACRO_SPEED_RGB;
+                  activeMacro.MacroSpeed := tempInt;
 
                 //Check minimum multiplay for each device
                 if (GActiveDevice.DeviceNumber = APPL_ADV360) then
@@ -3608,16 +3608,14 @@ begin
                     activeMacro.MacroSpeed := MACRO_SPEED_MIN_ADV360;
                 end;
               end
-              else if (activeMacro.Count = 0) and
+              else if (activeMacro.Count = 0) and  //Load macro multiplay
                 (Length(sKey) > 1) and
                 (Copy(sKey, 1, Length(MACRO_REPEAT_EDGE)) = MACRO_REPEAT_EDGE) and
                 (IsNumber(sKey, Length(MACRO_REPEAT_EDGE) + 1)) then
               begin
                 tempInt := ConvertToInt(Copy(sKey, Length(MACRO_REPEAT_EDGE) + 1, Length(MACRO_REPEAT_EDGE) + 2));
                 if (tempInt >= 0{MACRO_FREQ_MIN}) and (tempInt <= MACRO_FREQ_MAX_RGB) then
-                  activeMacro.MacroRptFreq := tempInt
-                else
-                  activeMacro.MacroRptFreq := DEFAULT_MACRO_FREQ_RGB;
+                  activeMacro.MacroRptFreq := tempInt;
 
                 //Check minimum multiplay for each device
                 if (GActiveDevice.DeviceNumber = APPL_ADV360) then
@@ -3943,17 +3941,17 @@ begin
   for indIdx := 0 to FLedIndicators.Count - 1 do
   begin
     ledInd := FLedIndicators[indIdx];
-    indStr := '[IND' + IntToStr(indIdx + 1) + ']>';
+    indStr := UpperCase(LED_IND_START) + IntToStr(indIdx + 1) + ']>';
     //if (ledInd.FnToken = ifGameMode) then
     //  layoutContent.Add(indStr + '[game]' + RGBColorToString(ledInd.IndColor[0], true))
     if (ledInd.FnToken = ifNKRO) then
-      layoutContent.Add(indStr + '[nkro]' + RGBColorToString(ledInd.IndColor[0], true))
+      layoutContent.Add(indStr + LED_NKRO + RGBColorToString(ledInd.IndColor[0], true))
     else if (ledInd.FnToken = ifScrollLock) then
-      layoutContent.Add(indStr + '[sclk]' + RGBColorToString(ledInd.IndColor[0], true))
+      layoutContent.Add(indStr + LED_SCROLL_LOCK + RGBColorToString(ledInd.IndColor[0], true))
     else if (ledInd.FnToken = ifNumLock) then
-      layoutContent.Add(indStr + '[nmlk]' + RGBColorToString(ledInd.IndColor[0], true))
+      layoutContent.Add(indStr + LED_NUM_LOCK + RGBColorToString(ledInd.IndColor[0], true))
     else if (ledInd.FnToken = ifCaps) then
-      layoutContent.Add(indStr + '[caps]' + RGBColorToString(ledInd.IndColor[0], true))
+      layoutContent.Add(indStr + LED_CAPS + RGBColorToString(ledInd.IndColor[0], true))
     else if (ledInd.FnToken = ifLayer) then
     begin
       layoutContent.Add(indStr + '[layd]' + RGBColorToString(ledInd.IndColor[0], true));
@@ -3963,11 +3961,11 @@ begin
       layoutContent.Add(indStr + '[lay3]' + RGBColorToString(ledInd.IndColor[4], true));
     end
     else if (ledInd.FnToken = ifProfile) then
-      layoutContent.Add(indStr + '[prof]' + RGBColorToString(ledInd.IndColor[0], true))
+      layoutContent.Add(indStr + LED_PROFILE + RGBColorToString(ledInd.IndColor[0], true))
     else if (ledInd.FnToken = ifBattery) then
-      layoutContent.Add(indStr + '[batt]')
+      layoutContent.Add(indStr + LED_BATTERY)
     else if (ledInd.FnToken = ifDisable) then
-      layoutContent.Add(indStr + '[null]');
+      layoutContent.Add(indStr + LED_NULL);
   end;
 
   Result := layoutContent;
@@ -4232,39 +4230,46 @@ begin
     //Check first line for Led Mode
     firstLine := AnsiLowerCase(aContent.Strings[0]);
 
-    posSep := Pos('>', firstLine);
-    isSingleKey := Copy(firstLine, 1, 1) = SK_START;
-
-    //Check if it's a valid line
-    if (posSep <> 0) and (isSingleKey) then
+    if (GApplication = APPL_ADV360) then
     begin
-      configText := Copy(firstLine, 1, posSep - 1);
-      valueText := Copy(firstLine, posSep + 1, Length(firstLine));
+      result := (pos(LED_IND_START, firstLine) <> 0);
+    end
+    else
+    begin
+      posSep := Pos('>', firstLine);
+      isSingleKey := Copy(firstLine, 1, 1) = SK_START;
 
-      //Has more than one [ in value text
-      isColorValue := Pos(SK_START, Copy(valueText, 2, Length(valueText))) <> 0;
+      //Check if it's a valid line
+      if (posSep <> 0) and (isSingleKey) then
+      begin
+        configText := Copy(firstLine, 1, posSep - 1);
+        valueText := Copy(firstLine, posSep + 1, Length(firstLine));
 
-      result := (pos(LED_MONO, firstLine) <> 0) or
-        (pos(LED_BREATHE, firstLine) <> 0) or
-        (pos(LED_SPECTRUM, firstLine) <> 0) or
-        (pos(LED_WAVE, firstLine) <> 0) or
-        (pos(LED_REACTIVE, firstLine) <> 0) or
-        (pos(LED_STARLIGHT, firstLine) <> 0) or
-        (pos(LED_REBOUND, firstLine) <> 0) or
-        (pos(LED_RIPPLE, firstLine) <> 0) or
-        (pos(LED_FIREBALL, firstLine) <> 0) or
-        (pos(LED_LOOP, firstLine) <> 0) or
-        (pos(LED_PULSE, firstLine) <> 0) or
-        (pos(LED_RAIN, firstLine) <> 0) or
-        (pos(EDGE_MONO, firstLine) <> 0) or
-        (pos(EDGE_BREATHE, firstLine) <> 0) or
-        (pos(EDGE_SPECTRUM, firstLine) <> 0) or
-        (pos(EDGE_WAVE, firstLine) <> 0) or
-        (pos(EDGE_REBOUND, firstLine) <> 0) or
-        (pos(EDGE_LOOP, firstLine) <> 0) or
-        (pos(EDGE_PULSE, firstLine) <> 0) or
-        (pos(EDGE_FROZENWAVE, firstLine) <> 0) or
-        isColorValue;
+        //Has more than one [ in value text
+        isColorValue := Pos(SK_START, Copy(valueText, 2, Length(valueText))) <> 0;
+
+        result := (pos(LED_MONO, firstLine) <> 0) or
+          (pos(LED_BREATHE, firstLine) <> 0) or
+          (pos(LED_SPECTRUM, firstLine) <> 0) or
+          (pos(LED_WAVE, firstLine) <> 0) or
+          (pos(LED_REACTIVE, firstLine) <> 0) or
+          (pos(LED_STARLIGHT, firstLine) <> 0) or
+          (pos(LED_REBOUND, firstLine) <> 0) or
+          (pos(LED_RIPPLE, firstLine) <> 0) or
+          (pos(LED_FIREBALL, firstLine) <> 0) or
+          (pos(LED_LOOP, firstLine) <> 0) or
+          (pos(LED_PULSE, firstLine) <> 0) or
+          (pos(LED_RAIN, firstLine) <> 0) or
+          (pos(EDGE_MONO, firstLine) <> 0) or
+          (pos(EDGE_BREATHE, firstLine) <> 0) or
+          (pos(EDGE_SPECTRUM, firstLine) <> 0) or
+          (pos(EDGE_WAVE, firstLine) <> 0) or
+          (pos(EDGE_REBOUND, firstLine) <> 0) or
+          (pos(EDGE_LOOP, firstLine) <> 0) or
+          (pos(EDGE_PULSE, firstLine) <> 0) or
+          (pos(EDGE_FROZENWAVE, firstLine) <> 0) or
+          isColorValue;
+      end;
     end;
   end;
 end;
@@ -4823,7 +4828,7 @@ var
     ledInd.FnToken := ifDisable;
     ledInd.LayerIdx := 0;
 
-    if (pos('[nkro]', valueText) <> 0) then
+    if (pos(LED_NKRO, valueText) <> 0) then
     begin
       ledInd.FnToken := ifNKRO;
       Delete(valueText, 1, 6);
@@ -4833,32 +4838,32 @@ var
     //  ledInd.FnToken := ifGameMode;
     //  Delete(valueText, 1, 6);
     //end
-    else if (pos('[prof]', valueText) <> 0) then
+    else if (pos(LED_PROFILE, valueText) <> 0) then
     begin
       ledInd.FnToken := ifProfile;
       Delete(valueText, 1, 6);
     end
-    else if (pos('[caps]', valueText) <> 0) then
+    else if (pos(LED_CAPS, valueText) <> 0) then
     begin
       ledInd.FnToken := ifCaps;
       Delete(valueText, 1, 6);
     end
-    else if (pos('[nmlk]', valueText) <> 0) then
+    else if (pos(LED_NUM_LOCK, valueText) <> 0) then
     begin
       ledInd.FnToken := ifNumLock;
       Delete(valueText, 1, 6);
     end
-    else if (pos('[sclk]', valueText) <> 0) then
+    else if (pos(LED_SCROLL_LOCK, valueText) <> 0) then
     begin
       ledInd.FnToken := ifScrollLock;
       Delete(valueText, 1, 6);
     end
-    else if (pos('[batt]', valueText) <> 0) then
+    else if (pos(LED_BATTERY, valueText) <> 0) then
     begin
       ledInd.FnToken := ifBattery;
       Delete(valueText, 1, 6);
     end
-    else if (pos('[null]', valueText) <> 0) then
+    else if (pos(LED_NULL, valueText) <> 0) then
     begin
       ledInd.FnToken := ifDisable;
       Delete(valueText, 1, 6);

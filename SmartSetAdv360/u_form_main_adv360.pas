@@ -460,6 +460,9 @@ type
     procedure btnWindowsCombosClick(Sender: TObject);
     procedure btnResetKeyClick(Sender: TObject);
     procedure chkRepeatMultiplayClick(Sender: TObject);
+    procedure memoMacroKeyPress(Sender: TObject; var Key: char);
+    procedure memoMacroKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
+      );
     procedure pnlLightingClick(Sender: TObject);
     procedure ringPickerFn1Change(Sender: TObject);
     procedure ringPickerFn2Change(Sender: TObject);
@@ -520,6 +523,7 @@ type
     procedure MenuDrawItem(Sender: TObject; ACanvas: TCanvas;
       ARect: TRect; AState: TOwnerDrawState);
     procedure MenuItemClick(Sender: TObject);
+    procedure MenuItemOnPopup(Sender: TObject);
     procedure MacroMenuItemClick(Sender: TObject);
     procedure ProfileMenuItemClick(Sender: TObject);
     procedure PopupProfileClose(Sender: TObject);
@@ -951,6 +955,7 @@ begin
   //If we need keyboard input (ex: file prompt) allow key presses
   if InputFocused then
   begin
+    key := 0;
     exit;
   end;
 
@@ -960,7 +965,7 @@ begin
     (FormTapAndHold.eTapAction.Focused or FormTapAndHold.eHoldAction.Focused)) then
     exit;
 
-  currentKey := key;
+  currentKey := GetCurrentKeyMac(key);
 
   //If not a modifier
   if not (IsModifier(currentKey)) then
@@ -991,7 +996,14 @@ procedure TFormMainAdv360.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShif
 {$ifdef Darwin}var currentKey: longint;{$endif}
 begin
   {$ifdef Darwin}
-  currentKey := key;
+  //If we need keyboard input (ex: file prompt) allow key presses
+  if InputFocused then
+  begin
+    key := 0;
+    exit;
+  end;
+
+  currentKey := GetCurrentKeyMac(key);
 
   //When last key pressed is released we reset it
   if currentKey = lastKeyPressed then
@@ -1280,6 +1292,7 @@ begin
   //Windows
   {$ifdef Win32}
   pnlMacroRepoBot.Visible := false;
+  lblMacOsWarning.Visible := false;
   btnLeftCommand.Visible := false;
   btnRightCommand.Visible := false;
   {$endif}
@@ -1291,7 +1304,8 @@ begin
   btnWindowsCombos.Visible := false;
   btnUpDown.Top := btnWindowsCombos.Top;
   imgSmartSet1.Left := imgSmartSet1.Left - 4;
-  pnlMacroRepoBot.Visible := true;
+  lblMacOsWarning.Visible := true;
+  //pnlMacroRepoBot.Visible := true;
 
   //Change Macro co-trigger images
   //btnLeftCtrl.Caption := 'Left Control';
@@ -1740,6 +1754,7 @@ begin
   //Laying Shifting
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  popMenu.OnPopup := TNotifyEvent(@MenuItemOnPopup);
   AddMenuItem(popMenu, 'Base Shift', VK_BASE_LAYER_SHIFT);
   AddMenuItem(popMenu, 'Kp Shift', VK_KP_LAYER_SHIFT);
   AddMenuItem(popMenu, 'Fn1 Shift', VK_FN1_LAYER_SHIFT);
@@ -1750,6 +1765,7 @@ begin
   //Layer Toggling
   popMenu := TPopupMenu.Create(self);
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  popMenu.OnPopup := TNotifyEvent(@MenuItemOnPopup);
   AddMenuItem(popMenu, 'Base Toggle', VK_BASE_LAYER_TOGGLE);
   AddMenuItem(popMenu, 'Kp Toggle', VK_KP_LAYER_TOGGLE);
   AddMenuItem(popMenu, 'Fn1 Toggle', VK_FN1_LAYER_TOGGLE);
@@ -3294,11 +3310,11 @@ begin
   btnNumericKeypad.Top := 0;
   btnLayerToggling.Top := 0;
   btnLayerShifting.Top := 0;
-  btnMultimodifiers.Top := 0;
   btnSpecialActions.Top := 0;
   btnFunctionKeys.Top := 0;
   btnMouseClicks.Top := 0;
   btnMultimedia.Top := 0;
+  btnMultimodifiers.Top := 0;
   btnModifiers.Top := 0;
   btnPunctuation.Top := 0;
   btnNavKeys.Top := 0;
@@ -4246,12 +4262,6 @@ begin
      ResetProfileMenu;
 end;
 
-procedure TFormMainAdv360.memoMacroKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  key := 0;
-end;
-
 function TFormMainAdv360.MouseInControl(oControl: TControl): boolean;
 var
   pt: TPoint;
@@ -4706,9 +4716,61 @@ begin
   end;
 end;
 
+procedure TFormMainAdv360.memoMacroKeyPress(Sender: TObject; var Key: char);
+begin
+  key := #0;
+end;
+
+procedure TFormMainAdv360.memoMacroKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  key := 0;
+end;
+
+procedure TFormMainAdv360.memoMacroKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  key := 0;
+end;
+
 procedure TFormMainAdv360.pnlLightingClick(Sender: TObject);
 begin
   UnselectActiveKey;
+end;
+
+procedure TFormMainAdv360.MenuItemOnPopup(Sender: TObject);
+var
+  popMnu: TPopupMenu;
+  i: integer;
+  mnu: TMenuItem;
+begin
+  popMnu := (sender as TPopupMenu);
+  for i:= 0 to popMnu.Items.Count - 1 do
+  begin
+    mnu := popMnu.Items[i];
+    mnu.Enabled := true;
+
+    if (mnu.Tag = VK_BASE_LAYER_SHIFT) or (mnu.Tag = VK_BASE_LAYER_TOGGLE) then
+    begin
+      mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_BASE_360);
+    end
+    else if (mnu.Tag = VK_KP_LAYER_SHIFT) or (mnu.Tag = VK_KP_LAYER_TOGGLE) then
+    begin
+      mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_KEYPAD_360);
+    end
+    else if (mnu.Tag = VK_FN1_LAYER_SHIFT) or (mnu.Tag = VK_FN1_LAYER_TOGGLE) then
+    begin
+      mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN1_360);
+    end
+    else if (mnu.Tag = VK_FN2_LAYER_SHIFT) or (mnu.Tag = VK_FN2_LAYER_TOGGLE) then
+    begin
+      mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN2_360);
+    end
+    else if (mnu.Tag = VK_FN3_LAYER_SHIFT) or (mnu.Tag = VK_FN3_LAYER_TOGGLE) then
+    begin
+      mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN3_360);
+    end;
+  end;
 end;
 
 procedure TFormMainAdv360.MenuDrawItem(Sender: TObject; ACanvas: TCanvas;

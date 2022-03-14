@@ -17,7 +17,10 @@ inherited FormDiagnostics: TFormDiagnostics
     ClientWidth = 823
     TabOrder = 1
     inherited lblTitle: TLabel
-      Width = 984
+      Left = 2
+      Height = 33
+      Top = 2
+      Width = 819
     end
     inherited btnCloseLight: TColorSpeedButtonCS
       Left = 788
@@ -44,9 +47,8 @@ inherited FormDiagnostics: TFormDiagnostics
     Left = 30
     Height = 16
     Top = 48
-    Width = 729
-    Caption = 'Step 1: Please enter the keyboard’s serial number which found on the underside of the right key module (eg 97BRNUSAA0000).'
-    ParentColor = False
+    Width = 685
+    Caption = 'Step 1: Please enter the keyboard’s serial number which is found on the underside of the right key module (eg SERXX).'
   end
   object btnCreateDiagnosticFile: TColorSpeedButtonCS[5]
     Left = 30
@@ -84,7 +86,7 @@ inherited FormDiagnostics: TFormDiagnostics
   end
   object eSerial: TEdit[6]
     Left = 32
-    Height = 24
+    Height = 25
     Top = 80
     Width = 162
     Font.Color = clBlack
@@ -100,7 +102,6 @@ inherited FormDiagnostics: TFormDiagnostics
     Width = 720
     AutoSize = False
     Caption = 'Step 2: Contact Kinesis Tech Support and upload the diagnostic file just created to the Ticket Submission page.'
-    ParentColor = False
     WordWrap = True
   end
   object btnContactTechSupport: TColorSpeedButtonCS[8]

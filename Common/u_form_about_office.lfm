@@ -1,7 +1,7 @@
 inherited FormAboutOffice: TFormAboutOffice
-  Left = 1097
+  Left = 692
   Height = 256
-  Top = 755
+  Top = 323
   Width = 416
   Caption = 'Help'
   ClientHeight = 256
@@ -51,32 +51,29 @@ inherited FormAboutOffice: TFormAboutOffice
     Alignment = taCenter
     AutoSize = False
     Caption = 'lblVersion'
-    ParentColor = False
   end
   object lblCompany: TLabel[5]
     Left = 19
-    Height = 21
+    Height = 18
     Top = 104
-    Width = 136
+    Width = 142
     Caption = 'Kinesis Corporation'
     Font.Color = clWhite
     Font.Height = -16
     Font.Name = 'Segoe UI'
-    ParentColor = False
     ParentFont = False
   end
   object lblWebsite: TLabel[6]
     Cursor = crHandPoint
     Left = 19
-    Height = 17
+    Height = 16
     Top = 124
-    Width = 131
+    Width = 139
     Caption = 'www.Kinesis-Ergo.com'
-    Font.Color = clHighlight
+    Font.Color = 10340201
     Font.Height = -13
     Font.Name = 'Segoe UI'
     Font.Style = [fsUnderline]
-    ParentColor = False
     ParentFont = False
     OnClick = lblWebsiteClick
   end
@@ -88,7 +85,6 @@ inherited FormAboutOffice: TFormAboutOffice
     Alignment = taCenter
     AutoSize = False
     Caption = 'lblFirmware'
-    ParentColor = False
   end
   object btnReadManual: TColorSpeedButtonCS[8]
     Left = 13

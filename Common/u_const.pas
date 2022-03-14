@@ -265,6 +265,7 @@ function ReadFromRegistry(keyName: string): string;
 function ShowNotification(hideNotif: boolean): boolean;
 function IsGen2Device(device: integer): boolean;
 function CheckMultimodifier(value: string): boolean;
+function GetCurrentKeyMac(key: word): word;
 
 const
   //START OF VIRTUAL KEY OPTIONS
@@ -686,6 +687,16 @@ const
   LED_RAIN = '[rain]';
   LED_PITCH_BLACK = '[black]';
   LED_OFF = '0';
+
+  //Led indicators
+  LED_IND_START = '[ind';
+  LED_NKRO = '[nkro]';
+  LED_SCROLL_LOCK = '[sclk]';
+  LED_NUM_LOCK = '[nmlk]';
+  LED_CAPS = '[caps]';
+  LED_PROFILE = '[prof]';
+  LED_BATTERY = '[batt]';
+  LED_NULL = '[null]';
 
   //Edge modes
   EDGE_MONO = '[mono_edge]';
@@ -1297,6 +1308,29 @@ begin
     value.Contains('[xxws]');
 end;
 
+//Get right or left key for each modifier
+function GetCurrentKeyMac(key: word): word;
+begin
+  result := key;
+
+  if Key = VK_SHIFT then
+  begin
+    result := VK_LSHIFT;
+  end
+  else if Key = VK_LBUTTON then
+  begin
+    result := VK_LWIN;
+  end
+  else if Key = VK_MENU THEN
+  begin
+    result := VK_LMENU;
+  end
+  else if Key = VK_CONTROL then
+  begin
+    result := VK_LCONTROL;
+  end;
+end;
+
 function GetKeyModifierText(iKey: integer): string;
 begin
   Result := '';
@@ -1447,6 +1481,7 @@ begin
     end;
 
     //Misc keys
+    ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize, '', 'Keypad'));
     ConfigKeys.Add(TKey.Create(VK_APPS, 'menu', 'PC' + #10 + 'Menu'));
     ConfigKeys.Add(TKey.Create(VK_KP_MENU, 'menu', 'PC' + #10 + 'Menu'));
     ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'shutdn', 'Shut' + #10 + 'down'));
@@ -1514,8 +1549,14 @@ begin
       ConfigKeys.Add(TKey.Create(VK_DOWN, 'down', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 10, UNICODE_FONT));
       ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshf', 'Left' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Left Shift'));
       ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshf', 'Right' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Right Shift'));
+      {$ifdef Win32}
       ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctr', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Ctrl'));
       ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctr', 'Right' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Right Ctrl'));
+      {$endif}
+      {$ifdef Darwin}
+      ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctr', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Control'));
+      ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctr', 'Right' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Right Control'));
+      {$endif}
       ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'nmlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
       ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'nmlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
 
@@ -1550,6 +1591,7 @@ begin
       ConfigKeys.Add(TKey.Create(VK_MOUSE_MOVE_DOWN, 'moud', 'Mouse' + #10 + 'Move Down'));
 
       //Misc keys
+      ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kp', 'Kp' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Keypad Toggle'));
       ConfigKeys.Add(TKey.Create(VK_APPS, 'app', 'App'));
       ConfigKeys.Add(TKey.Create(VK_KP_MENU, 'app', 'App'));
       ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'pwdn', 'Power'));
@@ -1597,6 +1639,7 @@ begin
       ConfigKeys.Add(TKey.Create(VK_MOUSE_BTN5, 'mous5', 'Mouse' + #10 + 'Btn 5'));
 
       //Misc keys
+      ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize, '', 'Keypad'));
       ConfigKeys.Add(TKey.Create(VK_APPS, 'menu', 'PC' + #10 + 'Menu'));
       ConfigKeys.Add(TKey.Create(VK_KP_MENU, 'menu', 'PC' + #10 + 'Menu'));
       ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'shutdn', 'Shut' + #10 + 'down', 'shtdn'));
@@ -1614,8 +1657,12 @@ begin
   ConfigKeys.Add(TKey.Create(VK_MSPACE, 'mspc', 'Space', 'mspc', ' ', '', false, false, '', true, false, 0, '', 'Middle Space')); //User-Defined key for FSEdge
   ConfigKeys.Add(TKey.Create(VK_HOME, 'home', 'Home'));
   ConfigKeys.Add(TKey.Create(VK_END, 'end', 'End'));
-  ConfigKeys.Add(TKey.Create(VK_SHIFT, 'Shift', 'Shift', 'shift'));
-  ConfigKeys.Add(TKey.Create(VK_CONTROL, 'Ctrl', 'Ctrl', 'ctrl'));
+
+  if (GApplication = APPL_PEDAL) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_SHIFT, 'Shift', 'Shift', 'shift'));
+    ConfigKeys.Add(TKey.Create(VK_CONTROL, 'Ctrl', 'Ctrl', 'ctrl'));
+  end;
 
   //F1 to F24
   ConfigKeys.Add(TKey.Create(VK_F1, 'F1'));
@@ -1662,7 +1709,7 @@ begin
     ConfigKeys.Add(TKey.Create(VK_BACK, 'bspc',  'Back' + #10 + 'Space', '', '', '', false, false, '', true, false, 0, '', 'Backspace'));
     ConfigKeys.Add(TKey.Create(VK_DELETE, 'del', 'Delete'));
   end;
-  ConfigKeys.Add(TKey.Create(VK_MENU, 'alt', 'Alt'));
+
   ConfigKeys.Add(TKey.Create(VK_LMENU, 'lalt', 'Left' + #10 + 'Alt', '', '', '', false, false, '', true, false, 0, '', 'Left Alt'));
   ConfigKeys.Add(TKey.Create(VK_RMENU, 'ralt', 'Right' + #10 + 'Alt', '', '', '', false, false, '', true, false, 0, '', 'Right Alt'));
   if (GApplication = APPL_PEDAL) then
@@ -1674,6 +1721,11 @@ begin
   begin
     ConfigKeys.Add(TKey.Create(VK_LWIN, 'lwin', 'Left' + #10 + 'Win', '', '', '', false, false, '', true, false, 0, '', 'Left Win'));
     ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Win', '', '', '', false, false, '', true, false, 0, '', 'Right Win'));
+  end;
+
+  if (GApplication = APPL_PEDAL) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_MENU, 'alt', 'Alt'));
   end;
   {$endif}
 
@@ -1701,10 +1753,23 @@ begin
     ConfigKeys.Add(TKey.Create(VK_LMENU, 'lopt', 'Left' + #10 + 'Opt', 'lalt', '', '', false, false, '', true, False, 0, '', 'Left Option'));
     ConfigKeys.Add(TKey.Create(VK_RMENU, 'ropt', 'Right' + #10 + 'Opt', 'ralt', '', '', false, false, '', true, False, 0, '', 'Right Option'));
   end;
-  ConfigKeys.Add(TKey.Create(VK_MENU, 'Opt', 'Opt', 'alt'));
-  ConfigKeys.Add(TKey.Create(VK_LWIN, 'Cmd', 'Cmd', 'lwin'));
-  ConfigKeys.Add(TKey.Create(VK_LCMD_MAC, 'lwin', 'Left' + #10 + 'Cmd'));
-  ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd'));
+
+  if (IsGen2Device(GApplication)) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_LWIN, 'lwin', 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Cmd'));
+    ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Right Cmd'));
+  end
+  else
+  begin
+    ConfigKeys.Add(TKey.Create(VK_LWIN, 'Cmd', 'Cmd', 'lwin'));
+    ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd'));
+    ConfigKeys.Add(TKey.Create(VK_LCMD_MAC, 'lwin', 'Left' + #10 + 'Cmd'));
+  end;
+
+  if (GApplication = APPL_PEDAL) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_MENU, 'Opt', 'Opt', 'alt'));
+  end;
   {$endif}
 
   //Custom for special events
@@ -1833,7 +1898,6 @@ begin
   //Layer shift/toggle keys
   ConfigKeys.Add(TKey.Create(VK_KEYPAD, '', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_SHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Shift'));
-  ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize, '', 'Keypad'));
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_SHIFT, 'defs', 'Base' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Shift'));
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_TOGGLE, 'deft', 'Base' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Toggle'));
   ConfigKeys.Add(TKey.Create(VK_KP_LAYER_SHIFT, 'keys', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Shift'));

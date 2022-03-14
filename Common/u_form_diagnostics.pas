@@ -93,9 +93,15 @@ begin
 end;
 
 procedure TFormDiagnostics.FormCreate(Sender: TObject);
+var
+  serialNo: string;
 begin
   inherited;
   lblTitle.Caption := 'Diagnostics';
+  serialNo := '97BRNUSAA0000';
+  if (GApplication = APPL_ADV360) then
+    serialNo := 's360GB10000';
+  lblStep1.Caption := StringReplace(lblStep1.Caption, 'SERXX', serialNo, [rfReplaceAll]);
   diagnosticFileCreated := false;
 end;
 
