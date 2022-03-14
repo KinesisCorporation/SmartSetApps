@@ -1479,7 +1479,8 @@ begin
     ResetMacroRepo;
   end;
   //textMacroInput.Visible := (MacroState <> mstNone);
-  memoMacro.Enabled := MacroState = mstEdit;
+  memoMacro.Enabled := (MacroState = mstEdit);
+  memoMacro.ReadOnly := not(memoMacro.Enabled);
   textMacroInput.Color := memoMacro.Color;
 
   SetMenuEnabled;
@@ -4718,19 +4719,19 @@ end;
 
 procedure TFormMainAdv360.memoMacroKeyPress(Sender: TObject; var Key: char);
 begin
-  key := #0;
+  Key := #0;
 end;
 
 procedure TFormMainAdv360.memoMacroKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  key := 0;
+  Key := 0;
 end;
 
 procedure TFormMainAdv360.memoMacroKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  key := 0;
+  Key := 0;
 end;
 
 procedure TFormMainAdv360.pnlLightingClick(Sender: TObject);
@@ -6618,7 +6619,7 @@ begin
   result := true;
 
   kbKey := keyService.GetPositionKBKey(key, keyService.ActiveLayer.LayerIndex, true);
-  if (result) and not(kbKey.CanAssignMacro) then
+  if (result) and (kbKey <> nil) and not(kbKey.CanAssignMacro) then
   begin
     result := false;
     ShowDialog('Macro', 'You cannot assign a macro to this key.', mtWarning, [mbOK]);
