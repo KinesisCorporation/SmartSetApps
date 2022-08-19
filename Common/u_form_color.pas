@@ -162,7 +162,8 @@ procedure TFormColorSelect.ringPickerChange(Sender: TObject);
 begin
   if (not loadingColor) then
   begin
-    ColorChange(ringPicker.SelectedColor);
+    if (ringPicker.SelectedColor <> clBlack) then
+      ColorChange(ringPicker.SelectedColor);
   end;
 end;
 

@@ -696,7 +696,7 @@ end;
 
 procedure TFormDashboard.btnAccessWebsiteClick(Sender: TObject);
 begin
-  OpenUrl('https://polarityworks.github.io/keymap-editor/');
+  OpenUrl('https://kinesiscorporation.github.io/Adv360-Pro-GUI/');
 end;
 
 

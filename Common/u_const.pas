@@ -480,6 +480,7 @@ const
   VK_DOWN_KEYSTROKE = 11204;
   VK_QTK_MAC_MODE = 11205;
   VK_QTK_LINUX_MODE = 11206;
+  VK_PEDAL = 11207;
   //END OF VIRTUAL KEY OPTIONS
 
   MAPVK_VK_TO_VSC = 0;
@@ -1894,6 +1895,7 @@ begin
   ConfigKeys.Add(TKey.Create(VK_MPEDAL, 'mp-kpshf', 'Kp' + #10 + 'Shift'));
   ConfigKeys.Add(TKey.Create(VK_RPEDAL, 'rp-kpent', 'Kp' + #10 + 'Enter'));
   ConfigKeys.Add(TKey.Create(VK_STOP_MACRO_PLAYBACK, 'mstp', 'Stop' + #10 + 'macro playback', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_PEDAL, 'pedl', 'Tab'));
 
   //Layer shift/toggle keys
   ConfigKeys.Add(TKey.Create(VK_KEYPAD, '', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));

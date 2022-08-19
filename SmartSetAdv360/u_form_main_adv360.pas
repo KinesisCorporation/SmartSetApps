@@ -77,6 +77,7 @@ type
     btnLeftLED1: TColorSpeedButtonCS;
     btnTimingDelays: TColorSpeedButtonCS;
     btnWindowsCombos: TColorSpeedButtonCS;
+    chkShowFootPedal: TCheckBox;
     chkRepeatMultiplay: TCheckBox;
     colorPreviewFn1: TmbColorPreview;
     colorPreviewFn2: TmbColorPreview;
@@ -111,6 +112,7 @@ type
     eRedFn1: TEdit;
     eRedFn2: TEdit;
     eRedFn3: TEdit;
+    imgPedal: TImage;
     imgSmartSet: TImage;
     imgListSave: TImageList;
     Label11: TLabel;
@@ -172,6 +174,7 @@ type
     lbRow7_6: TLabelBox;
     lbRow8_1: TLabelBox;
     lbRow8_2: TLabelBox;
+    lbPedal: TLabelBox;
     MainMenu1: TMainMenu;
     memoMacro: TRichMemo;
     pnlMacroRepoBot: TPanel;
@@ -426,6 +429,7 @@ type
     procedure btnTapAndHoldClick(Sender: TObject);
     procedure btnUpDownClick(Sender: TObject);
     procedure CheckVDriveTmrTimer(Sender: TObject);
+    procedure chkShowFootPedalClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -622,6 +626,7 @@ type
     showingVDriveErrorDlg: boolean;
     macroRepoList: TObjectList;
     copyMacro: boolean;
+    procedure CheckShowFootPedal;
     function GetActiveLedIndicator: integer;
     function GetControlUnderMouse: string;
     function AcceptMacro(isCopy: boolean = false): boolean;
@@ -1105,7 +1110,6 @@ begin
   appError := false;
   activeMacroMenu := '';
   oldWindowState := wsNormal;
-  ringPickerBase.SquarePickerHintFormat:='Adjust the brightness of your color using the color square';
   InitKeyButtons(pnlMain);
   Application.OnDeactivate := @AppDeactivate;
   CloseMacroEditor;
@@ -1116,6 +1120,7 @@ begin
   lblMacroEditor.Hint := 'Each layout can store ' + IntToStr(maxKeystrokes) +
       ' total macro characters and up to ' + IntToStr(maxMacros) + ' macros';
   currentProfileNumber := 0;
+  CheckShowFootPedal;
 
   activeColor := KINESIS_GREEN_OFFICE;
   fontColor := KINESIS_DARK_GRAY_RGB;
@@ -1207,6 +1212,8 @@ begin
     btnFactoryReset.Left := btnEject.Left;
     {$endif};
 
+    //No longer editable
+    btnSettings.Visible := false;
     if (GDemoMode) then
     begin
       btnProfile.Visible := false;
@@ -1382,6 +1389,17 @@ begin
     CheckVDrive;
 end;
 
+procedure TFormMainAdv360.chkShowFootPedalClick(Sender: TObject);
+begin
+  CheckShowFootPedal;
+end;
+
+procedure TFormMainAdv360.CheckShowFootPedal;
+begin
+  imgPedal.Visible := chkShowFootPedal.Checked;
+  lbPedal.Visible := chkShowFootPedal.Checked;
+end;
+
 procedure TFormMainAdv360.FormDestroy(Sender: TObject);
 begin
   RemoveKeyboardHook;
@@ -1537,6 +1555,8 @@ begin
         keyButton.Caption := '';
         keyButton.Font.Name := defaultKeyFontName;
         keyButton.Font.Size := defaultKeyFontSize;
+        if (keyButton = lbPedal) then
+          keyButton.Font.Size := keyButton.Font.Size + 3;
         keyButton.OnClick := @KeyButtonClick;
         keyButton.OnMouseDown := @KeyButtonMouseDown;
         keyButton.Hint := 'Select a key to begin programming';
@@ -1863,7 +1883,7 @@ begin
   AddMenuItem(popMenu, 'Semi Colon   ;', VK_LCL_COMMA);
   AddMenuItem(popMenu, 'Apostrophe   ''''', VK_LCL_QUOTE);
   AddMenuItem(popMenu, 'Open Bracket   [', VK_LCL_OPEN_BRAKET);
-  AddMenuItem(popMenu, 'Open Bracket   ]', VK_LCL_CLOSE_BRAKET);
+  AddMenuItem(popMenu, 'Close Bracket   ]', VK_LCL_CLOSE_BRAKET);
   AddMenuItem(popMenu, 'Back slash   \', VK_LCL_BACKSLASH);
   AddMenuItem(popMenu, 'Forward slash   /', VK_LCL_SLASH);
   btnPunctuation.PopupMenu := popMenu;
@@ -2647,6 +2667,8 @@ begin
       end;
       SetActiveLayer(LAYER_BASE_360);
       SetActiveKeyButton(nil);
+      if (MacroMode) then
+        LoadMacroRepo;
       RefreshRemapInfo;
     finally
       if (layoutContent <> nil) and mustFree then
@@ -3121,6 +3143,9 @@ begin
       keyButton.Font.Size := fontSize
     else
       keyButton.Font.Size := defaultKeyFontSize;
+
+    if (keyButton = lbPedal) then
+      keyButton.Font.Size := keyButton.Font.Size + 3;
 
     if (fontName <> '') then
       keyButton.Font.Name := fontName
@@ -3646,9 +3671,9 @@ end;
 
 procedure TFormMainAdv360.btnSettingsClick(Sender: TObject);
 begin
-  ShowSettingsAdv360(backColor, fontColor);
-  (sender as TColorSpeedButtonCS).Down := false;
-  SetHovered(sender, false, true);
+  //ShowSettingsAdv360(backColor, fontColor);
+  //(sender as TColorSpeedButtonCS).Down := false;
+  //SetHovered(sender, false, true);
 end;
 
 procedure TFormMainAdv360.imgBackgroundClick(Sender: TObject);
@@ -3957,16 +3982,18 @@ begin
   end;
 end;
 
+//Settings not editable anymore
 procedure TFormMainAdv360.SaveStateSettings;
-var
-  errorMsg: string;
-const
-  TitleStateFile = 'Save State.txt File';
 begin
-  errorMsg := fileService.SaveStateSettings(GActiveDevice);
-
-  if (errorMsg <> '') then
-    ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
+//var
+//  errorMsg: string;
+//const
+//  TitleStateFile = 'Save State.txt File';
+//begin
+//  errorMsg := fileService.SaveStateSettings(GActiveDevice);
+//
+//  if (errorMsg <> '') then
+//    ShowDialog(TitleStateFile, errorMsg, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
 end;
 
 procedure TFormMainAdv360.watchTutorialClick(Sender: TObject);
@@ -4790,28 +4817,6 @@ begin
   aCanvas.Font.Name := self.Font.Name;
   aCanvas.Font.Size := 13;
 
-  //Disable menu items based on active layer
-  if (mnu.Tag = VK_BASE_LAYER_SHIFT) or (mnu.Tag = VK_BASE_LAYER_TOGGLE) then
-  begin
-    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_BASE_360);
-  end
-  else if (mnu.Tag = VK_KP_LAYER_SHIFT) or (mnu.Tag = VK_KP_LAYER_TOGGLE) then
-  begin
-    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_KEYPAD_360);
-  end
-  else if (mnu.Tag = VK_FN1_LAYER_SHIFT) or (mnu.Tag = VK_FN1_LAYER_TOGGLE) then
-  begin
-    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN1_360);
-  end
-  else if (mnu.Tag = VK_FN2_LAYER_SHIFT) or (mnu.Tag = VK_FN2_LAYER_TOGGLE) then
-  begin
-    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN2_360);
-  end
-  else if (mnu.Tag = VK_FN3_LAYER_SHIFT) or (mnu.Tag = VK_FN3_LAYER_TOGGLE) then
-  begin
-    mnu.Enabled := (keyService.ActiveLayer.LayerIndex <> LAYER_FN3_360);
-  end;
-
   if (not mnu.Enabled) then
     aCanvas.font.color := KINESIS_LIGHTER_GRAY_ADV360;
 
@@ -5634,47 +5639,62 @@ begin
 end;
 
 procedure TFormMainAdv360.ringPickerKpChange(Sender: TObject);
+var
+  ringPicker: THSLRingPicker;
 begin
-  if (not loadingColor) then
+  ringPicker := (sender as THSLRingPicker);
+  if (not loadingColor) and (ringPicker.SelectedColor <> clBlack) then
   begin
-    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_KEYPAD_360);
+    ColorChange(ringPicker.SelectedColor, GetActiveLedIndicator, LAYER_KEYPAD_360);
     AfterColorChange;
   end;
 end;
 
 procedure TFormMainAdv360.ringPickerChange(Sender: TObject);
+var
+  ringPicker: THSLRingPicker;
 begin
-  if (not loadingColor) then
+  ringPicker := (sender as THSLRingPicker);
+  if (not loadingColor) and (ringPicker.SelectedColor <> clBlack) then
   begin
-    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_BASE_360);
+    ColorChange(ringPicker.SelectedColor, GetActiveLedIndicator, LAYER_BASE_360);
     AfterColorChange;
   end;
 end;
 
 
 procedure TFormMainAdv360.ringPickerFn1Change(Sender: TObject);
+var
+  ringPicker: THSLRingPicker;
 begin
-  if (not loadingColor) then
+  ringPicker := (sender as THSLRingPicker);
+  if (not loadingColor) and (ringPicker.SelectedColor <> clBlack) then
   begin
-    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_FN1_360);
+    ColorChange(ringPicker.SelectedColor, GetActiveLedIndicator, LAYER_FN1_360);
     AfterColorChange;
   end;
 end;
 
 procedure TFormMainAdv360.ringPickerFn2Change(Sender: TObject);
+var
+  ringPicker: THSLRingPicker;
 begin
-  if (not loadingColor) then
+  ringPicker := (sender as THSLRingPicker);
+  if (not loadingColor) and (ringPicker.SelectedColor <> clBlack) then
   begin
-    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_FN2_360);
+    ColorChange(ringPicker.SelectedColor, GetActiveLedIndicator, LAYER_FN2_360);
     AfterColorChange;
   end;
 end;
 
 procedure TFormMainAdv360.ringPickerFn3Change(Sender: TObject);
+var
+  ringPicker: THSLRingPicker;
 begin
-  if (not loadingColor) then
+  ringPicker := (sender as THSLRingPicker);
+  if (not loadingColor) and (ringPicker.SelectedColor <> clBlack) then
   begin
-    ColorChange((sender as THSLRingPicker).SelectedColor, GetActiveLedIndicator, LAYER_FN3_360);
+    ColorChange(ringPicker.SelectedColor, GetActiveLedIndicator, LAYER_FN3_360);
     AfterColorChange;
   end;
 end;
@@ -6822,6 +6842,7 @@ begin
   for i := (scrollMacroRepo.ComponentCount - 1) downto 0 do
   begin
     scrollMacroRepo.Components[i].Free;
+    //scrollMacroRepo.RemoveControl(TControl(scrollMacroRepo.Components[i]));
   end;
 
   count := 0;

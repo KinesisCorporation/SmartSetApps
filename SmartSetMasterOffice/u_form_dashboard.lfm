@@ -1,13 +1,12 @@
 object FormDashboard: TFormDashboard
-  Left = 903
+  Left = 138
   Height = 826
-  Top = 480
+  Top = 96
   Width = 1595
   Caption = 'Dashboard'
   ClientHeight = 826
   ClientWidth = 1595
   Color = clWhite
-  DesignTimePPI = 192
   Font.Color = clWhite
   Font.Height = -96
   Font.Name = 'Tahoma'
