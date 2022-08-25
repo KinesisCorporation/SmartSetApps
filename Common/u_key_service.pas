@@ -1900,7 +1900,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 76, true, true, GetKeyConfig(VK_PEDAL)));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 76, true, true, GetKeyConfig(VK_PEDAL)));
 
   result := aKBLayer;
 end;
@@ -1998,7 +1998,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 76, true, true, GetKeyConfig(VK_PEDAL)));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 76, true, true, GetKeyConfig(VK_PEDAL)));
 
   result := aKBLayer;
 end;
@@ -2096,7 +2096,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 76, true, true, GetKeyConfig(VK_PEDAL)));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 76, true, true, GetKeyConfig(VK_PEDAL)));
 
   result := aKBLayer;
 end;
@@ -2194,7 +2194,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 76, true, true, GetKeyConfig(VK_PEDAL)));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 76, true, true, GetKeyConfig(VK_PEDAL)));
 
   result := aKBLayer;
 end;
@@ -2292,7 +2292,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 74));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 75));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_TAB), 76, true, true, GetKeyConfig(VK_PEDAL)));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NULL), 76, true, true, GetKeyConfig(VK_PEDAL)));
 
   result := aKBLayer;
 end;
