@@ -4322,7 +4322,7 @@ begin
       end
       else
       begin
-        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
+        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor, blueColor)) then
         begin
           KeyModified := true;
           SetSaveState(ssModified);

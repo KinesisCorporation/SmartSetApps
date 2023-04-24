@@ -669,6 +669,8 @@ type
     function IsKeyLoaded: boolean;
     function IsMacroLoaded: boolean;
     procedure KeyButtonClick(Sender: TObject);
+    procedure OnTapAndHoldDone(Sender: TObject);
+    procedure OnTapAndHoldClosed(Sender: TObject);
     procedure ResetMacroRepo;
     procedure SelectMacroClick(Sender: TObject);
     procedure KeyButtonMouseDown(Sender: TObject; Button: TMouseButton;
@@ -762,6 +764,7 @@ type
     procedure ShowHideParameters(param: integer; state: boolean);
     procedure ShowIntroDialogs;
     function ShowTroubleshootingDialog(init: boolean): boolean;
+    function CheckTapAndHoldOpened: boolean;
     procedure UnselectActiveKey;
     procedure SetCustomColor(iTag: integer; custColor: TColor);
     procedure UpdateColors;
@@ -1880,7 +1883,7 @@ begin
   AddMenuItem(popMenu, 'Hash   `', VK_LCL_TILDE);
   AddMenuItem(popMenu, 'Comma   ,', VK_LCL_COMMA);
   AddMenuItem(popMenu, 'Period   .', VK_LCL_POINT);
-  AddMenuItem(popMenu, 'Semi Colon   ;', VK_LCL_COMMA);
+  AddMenuItem(popMenu, 'Semi Colon   ;', VK_LCL_SEMI_COMMA);
   AddMenuItem(popMenu, 'Apostrophe   ''''', VK_LCL_QUOTE);
   AddMenuItem(popMenu, 'Open Bracket   [', VK_LCL_OPEN_BRAKET);
   AddMenuItem(popMenu, 'Close Bracket   ]', VK_LCL_CLOSE_BRAKET);
@@ -2313,7 +2316,11 @@ begin
     end
     else
     begin
-      if (IsKeyLoaded) then
+      if (TapAndHoldOpened) then
+      begin
+        SetKeyPress(mnuAction, '');
+      end
+      else if (IsKeyLoaded) then
       begin
         bothLayers := (mnuAction = VK_FN_SHIFT) or (mnuAction = VK_FN_TOGGLE);
         SetModifiedKey(mnuAction, '', false, bothLayers, true, true);
@@ -4160,10 +4167,11 @@ var
 begin
   isEnabledMacro := IsKeyLoaded or (IsMacroLoaded and (MacroState = mstEdit));
 
-  btnLayerShifting.Enabled := IsKeyLoaded;
-  btnLayerToggling.Enabled := IsKeyLoaded;
+  btnMacro.Enabled := (not TapAndHoldOpened);
+  btnLayerShifting.Enabled := IsKeyLoaded and (not TapAndHoldOpened);
+  btnLayerToggling.Enabled := IsKeyLoaded and (not TapAndHoldOpened);
   btnTapAndHold.Enabled := IsKeyLoaded;
-  btnMultimodifiers.Enabled := IsKeyLoaded;
+  btnMultimodifiers.Enabled := IsKeyLoaded and (not TapAndHoldOpened);
   btnMultimedia.Enabled := isEnabledMacro;
   btnMouseClicks.Enabled := isEnabledMacro;
   btnFunctionKeys.Enabled := isEnabledMacro;
@@ -4173,6 +4181,9 @@ begin
   btnNavKeys.Enabled := isEnabledMacro;
   btnPunctuation.Enabled := isEnabledMacro;
   btnModifiers.Enabled := isEnabledMacro;
+  btnQuickThumbKeys.Enabled := (not TapAndHoldOpened);
+  btnAltLayouts.Enabled := (not TapAndHoldOpened);
+  btnNumericKeypad.Enabled := (not TapAndHoldOpened);
 end;
 
 procedure TFormMainAdv360.bCoTriggerClick(Sender: TObject);
@@ -5135,12 +5146,15 @@ end;
 
 procedure TFormMainAdv360.btnMacroClick(Sender: TObject);
 begin
-  if (MacroMode) then
-    CloseMacroEditor
-  else
+  //if (not CheckTapAndHoldOpened) then
   begin
-    SetActiveKeyButton(nil);
-    OpenMacroEditor;
+    if (MacroMode) then
+      CloseMacroEditor
+    else
+    begin
+      SetActiveKeyButton(nil);
+      OpenMacroEditor;
+    end;
   end;
 end;
 
@@ -5346,19 +5360,51 @@ begin
   ResetPopupMenu;
 end;
 
+function TFormMainAdv360.CheckTapAndHoldOpened: boolean;
+begin
+  result := false;
+  if (TapAndHoldOpened) then
+  begin
+    ShowDialog('Tap and Hold', 'You must close the Tap and Hold menu', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
+    result := true;
+  end;
+end;
+
 procedure TFormMainAdv360.OpenTapAndHold;
 begin
   if (IsKeyLoaded) then
   begin
-    if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
-    begin
-      KeyModified := true;
-      SetSaveState(ssModified);
-      keyService.SetTapAndHold(activeKbKey, FormTapAndHold.tapAction, FormTapAndHold.holdAction, FormTapAndHold.timingDelay);
-      UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
-      RefreshRemapInfo;
-    end;
+    ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor, activeColor, false, @OnTapAndHoldDone, @OnTapAndHoldClosed);
+    SetMenuEnabled;
+  //if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor, activeColor, false, @OnTapAndHoldDone)) then
+  //begin
+  //  KeyModified := true;
+  //  SetSaveState(ssModified);
+  //  keyService.SetTapAndHold(activeKbKey, FormTapAndHold.tapAction, FormTapAndHold.holdAction, FormTapAndHold.timingDelay);
+  //  UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
+  //  RefreshRemapInfo;
+  //end;
   end;
+end;
+
+procedure TFormMainAdv360.OnTapAndHoldDone(Sender: TObject);
+begin
+  if (IsKeyLoaded) then
+  begin
+    FormTapAndHold.Close;
+    KeyModified := true;
+    SetSaveState(ssModified);
+    keyService.SetTapAndHold(activeKbKey, FormTapAndHold.tapAction, FormTapAndHold.holdAction, FormTapAndHold.timingDelay);
+    UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
+    RefreshRemapInfo;
+  end
+  else
+     ShowDialog('Tap and Hold', 'You must select a key', mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
+end;
+
+procedure TFormMainAdv360.OnTapAndHoldClosed(Sender: TObject);
+begin
+  SetMenuEnabled;
 end;
 
 procedure TFormMainAdv360.OpenMultimodifiers;
@@ -5783,13 +5829,16 @@ end;
 
 procedure TFormMainAdv360.TopMenuClick(Sender: TObject);
 begin
-  if (sender = pnlLayoutBtn) and (keyService.ConfigMode <> CONFIG_LAYOUT) then
+  if (not CheckTapAndHoldOpened) then
   begin
-    SetConfigMode(CONFIG_LAYOUT);
-  end
-  else if (sender = pnlLightingBtn) and (keyService.ConfigMode <> CONFIG_LIGHTING) then
-  begin
-    SetConfigMode(CONFIG_LIGHTING);
+    if (sender = pnlLayoutBtn) and (keyService.ConfigMode <> CONFIG_LAYOUT) then
+    begin
+      SetConfigMode(CONFIG_LAYOUT);
+    end
+    else if (sender = pnlLightingBtn) and (keyService.ConfigMode <> CONFIG_LIGHTING) then
+    begin
+      SetConfigMode(CONFIG_LIGHTING);
+    end;
   end;
 end;
 
@@ -7088,49 +7137,14 @@ function TFormMainAdv360.GetMacroAssignTo(macro: TKeyList): string;
 var
   selKey: string;
   keyAssigned: string;
-  nbCoTriggers: integer;
   aKey: TKey;
 begin
   result := '';
   if (macro <> nil) then
   begin
-    nbCoTriggers := 0;
-
     aKey := keyService.GetKeyConfig(macro.TriggerKey);
     selKey := aKey.OtherDisplayText;
-
-    if macro.CoTrigger1 <> nil then
-    begin
-      inc(nbCoTriggers);
-      keyAssigned := macro.CoTrigger1.OtherDisplayText;
-    end;
-
-    if macro.CoTrigger2 <> nil then
-    begin
-      inc(nbCoTriggers);
-      if (keyAssigned <> '') then
-        keyAssigned := keyAssigned + ' + ' + macro.CoTrigger2.OtherDisplayText
-      else
-        keyAssigned := macro.CoTrigger2.OtherDisplayText;
-    end;
-
-    if macro.CoTrigger3 <> nil then
-    begin
-      inc(nbCoTriggers);
-      if (keyAssigned <> '') then
-        keyAssigned := keyAssigned + ' + ' + macro.CoTrigger3.OtherDisplayText
-      else
-        keyAssigned := macro.CoTrigger3.OtherDisplayText;
-    end;
-
-    if macro.CoTrigger4 <> nil then
-    begin
-      inc(nbCoTriggers);
-      if (keyAssigned <> '') then
-        keyAssigned := keyAssigned + ' + ' + macro.CoTrigger4.OtherDisplayText
-      else
-        keyAssigned := macro.CoTrigger4.OtherDisplayText;
-    end;
+    keyAssigned := keyService.GetCoTriggerText(macro);
   end;
 
   if (keyAssigned <> '') then

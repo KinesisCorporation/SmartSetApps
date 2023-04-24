@@ -49,9 +49,9 @@ inherited FormUserDialog: TFormUserDialog
   end
   object chkCheckBox: TCheckBox[4]
     Left = 16
-    Height = 35
-    Top = 153
-    Width = 36
+    Height = 19
+    Top = 169
+    Width = 20
     Anchors = [akLeft, akBottom]
     Color = clWhite
     ParentColor = False

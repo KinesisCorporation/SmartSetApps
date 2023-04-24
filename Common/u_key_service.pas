@@ -187,6 +187,7 @@ type
     function FindKeyConfig(iKey: word): TKey; overload;
     function FindKeyConfig(sKey: string): TKey; overload;
     function GetKeyConfig(iKey: word): TKey;
+    function GetCoTriggerText(macro: TKeyList): string;
     procedure AddModifier(key: word);
     procedure RemoveModifier(key: word);
     procedure ClearModifiers;
@@ -236,6 +237,7 @@ type
       resetMacro: boolean = true);
     function GetKBKey(key: word; layerIdx: integer): TKBKey;
     function GetPositionKBKey(key: word; layerIdx: integer; isMacro: boolean = false): TKBKey;
+    function GetKBKeyTrigger(key: word): TKBKey;
     function GetKbKeyByIndex(aLayer: TKBLayer; index: integer): TKBKey;
     function GetEdgeKeyByIndex(aLayer: TKBLayer; index: integer): TKBKey;
     function CopyMacro(aMacro: TKeyList): TKeyList;
@@ -2532,6 +2534,40 @@ begin
   end;
 end;
 
+function TKeyService.GetCoTriggerText(macro: TKeyList): string;
+begin
+  result := '';
+  if (macro <> nil) then
+  begin
+    if macro.CoTrigger1 <> nil then
+      result := macro.CoTrigger1.OtherDisplayText;
+
+    if macro.CoTrigger2 <> nil then
+    begin
+      if (result <> '') then
+        result := result + ' + ' + macro.CoTrigger2.OtherDisplayText
+      else
+        result := macro.CoTrigger2.OtherDisplayText;
+    end;
+
+    if macro.CoTrigger3 <> nil then
+    begin
+      if (result <> '') then
+        result := result + ' + ' + macro.CoTrigger3.OtherDisplayText
+      else
+        result := macro.CoTrigger3.OtherDisplayText;
+    end;
+
+    if macro.CoTrigger4 <> nil then
+    begin
+      if (result <> '') then
+        result := result + ' + ' + macro.CoTrigger4.OtherDisplayText
+      else
+        result := macro.CoTrigger4.OtherDisplayText;
+    end;
+  end;
+end;
+
 //Checks if modifier is already in list
 function TKeyService.ModifierExits(key: word): boolean;
 var
@@ -3533,14 +3569,19 @@ begin
               if (IsModifier(aKey.Key)) and (configText <> '') then
                 aCoTriggers.Add(aKey.CopyKey)
               else
-                aKBKey := GetPositionKBKey(aKey.Key, layerIdx, true);
+              begin
+                if IsGen2Device(GApplication) then
+                  aKBKey := GetKBKeyTrigger(aKey.Key)
+                else
+                  aKBKey := GetPositionKBKey(aKey.Key, layerIdx, true);
+              end;
             end;
           end;
 
           if IsGen2Device(GApplication) then
           begin
             activeMacro := TKeyList.Create;
-            activeMacro.TriggerKey := aKBKey.TriggerKey.Key;
+            activeMacro.TriggerKey := aKBKey.OriginalKey.Key;
             activeMacro.LayerIdx := layerIdx;
           end
           else
@@ -10168,6 +10209,34 @@ begin
         break;
       end;
     end;
+end;
+
+function TKeyService.GetKBKeyTrigger(key: word): TKBKey;
+var
+  keyIdx: integer;
+  layerIdx: integer;
+  aLayer: TKBLayer;
+  aKey: TKBKey;
+begin
+  Result := nil;
+
+  for layerIdx := 0 to FKBLayers.Count - 1 do
+  begin
+    if (result = nil) then
+    begin
+      aLayer := GetLayer(layerIdx);
+
+      for keyIdx := 0 to aLayer.KBKeyList.Count - 1 do
+      begin
+        aKey := aLayer.KBKeyList[keyIdx];
+        if (aKey.OriginalKey.Key = key) then
+        begin
+          result := aKey;
+          break;
+        end;
+      end;
+    end;
+  end;
 end;
 
 function TKeyService.GetEdgeKey(key: word; layerIdx: integer): TKBKey;

@@ -7,13 +7,16 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, u_base_form, u_const, UserDialog, lcltype,
-  u_keys, u_common_ui, u_key_service, ColorSpeedButtonCS, LineObj;
+  u_keys, u_common_ui, u_key_service, ColorSpeedButtonCS, LineObj, menus,
+  u_form_select_macro;
 
 type
 
   { TFormTapAndHold }
 
   TFormTapAndHold = class(TBaseForm)
+    btnSelMacroTap: TColorSpeedButtonCS;
+    btnSelMacroHold: TColorSpeedButtonCS;
     btnCancel: TColorSpeedButtonCS;
     btnAccept: TColorSpeedButtonCS;
     btnCancel1: TColorSpeedButtonCS;
@@ -22,6 +25,7 @@ type
     eTimingDelay: TEdit;
     eTapAction: TEdit;
     imgListTiming: TImageList;
+    lblInfo: TLabel;
     lblNote: TLabel;
     lblTapAction: TLabel;
     lblHoldAction: TLabel;
@@ -34,34 +38,55 @@ type
     procedure btnCancelMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure btnAcceptClick(Sender: TObject);
+    procedure btnSelMacroHoldClick(Sender: TObject);
+    procedure btnSelMacroTapClick(Sender: TObject);
+    procedure eHoldActionEnter(Sender: TObject);
     procedure eHoldActionKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure eTapActionEnter(Sender: TObject);
     procedure eTapActionKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure eTimingDelayChange(Sender: TObject);
     procedure eTimingDelayKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
+    backColor: TColor;
+    fontColor: TColor;
+    activeColor: TColor;
+    popMacrosTap: TPopupMenu;
+    popMacrosHold: TPopupMenu;
+    acceptEvent: TNotifyEvent;
+    closeEvent: TNotifyEvent;
+    lastEdit: TEdit;
+    procedure AddMenuItem(var popMenu: TPopupMenu; itemName: string;
+      keyCode: integer);
+    procedure InitPopupMenus;
+    procedure MenuDrawItem(Sender: TObject; ACanvas: TCanvas; ARect: TRect;
+      AState: TOwnerDrawState);
+    procedure MenuItemClick(Sender: TObject);
     function Validate: boolean;
   public
     tapAction: word;
     holdAction: word;
     timingDelay: integer;
+    isModal: boolean;
     keyService: TKeyService;
     procedure SetKeyPress(key: word; edit: TEdit = nil);
   end;
 
 var
   FormTapAndHold: TFormTapAndHold;
-  function ShowTapAndHold(aKeyService: TKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
+  TapAndHoldOpened: boolean;
+  function ShowTapAndHold(aKeyService: TKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor; activeColor: TColor; showModal: boolean = true; OnAccept: TNotifyEvent = nil; OnClose: TNotifyEvent = nil): boolean;
 
 implementation
 
 {$R *.lfm}
 
-function ShowTapAndHold(aKeyService: TKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor): boolean;
+function ShowTapAndHold(aKeyService: TKeyService; aTapAction: TKey; aHoldAction: TKey; iTimingDelay: integer; backColor: TColor; fontColor: TColor; activeColor: TColor; showModal: boolean = true; OnAccept: TNotifyEvent = nil; OnClose: TNotifyEvent = nil): boolean;
 var
   DefaultDelay: integer;
 begin
@@ -83,7 +108,16 @@ begin
   if (iTimingDelay <= 0) then
     iTimingDelay := DefaultDelay;
 
+  //Set Modal and events
+  FormTapAndHold.isModal := showModal;
+  FormTapAndHold.acceptEvent := OnAccept;
+  FormTapAndHold.closeEvent := OnClose;
+  FormTapAndHold.lblInfo.Visible := not showModal;
+
   //Loads colors
+  FormTapAndHold.backColor := backColor;
+  FormTapAndHold.fontColor := fontColor;
+  FormTapAndHold.activeColor := activeColor;
   FormTapAndHold.Color := backColor;
   FormTapAndHold.Font.Color := fontColor;
   FormTapAndHold.lblTapAction.Font.Color := fontColor;
@@ -91,6 +125,7 @@ begin
   FormTapAndHold.lblDelay.Font.Color := fontColor;
   FormTapAndHold.lblTitle.Font.Color := fontColor;
   FormTapAndHold.lblNote.Font.Color := fontColor;
+  FormTapAndHold.lblInfo.Font.Color := fontColor;
   if (GMasterAppId = APPL_MASTER_OFFICE) then
   begin
     LoadButtonImage(FormTapAndHold.btnCancel, FormTapAndHold.imgListTiming, 4);
@@ -108,10 +143,18 @@ begin
    else
     FormTapAndHold.holdAction := 0;
 
-  //Shows dialog and returns value
-  if FormTapAndHold.ShowModal = mrOK then
+  if (showModal) then
   begin
-    result := true;
+    //Shows dialog and returns value
+    if FormTapAndHold.ShowModal() = mrOK then
+    begin
+      result := true;
+    end;
+  end
+  else
+  begin
+    FormTapAndHold.FormStyle:= fsStayOnTop;
+    FormTapAndHold.Show();
   end;
 end;
 
@@ -131,6 +174,38 @@ begin
   //Duplicates value
   //eTapAction.SelText := eTapAction.Text;
   eTapAction.SelLength := 0;
+  InitPopupMenus;
+  TapAndHoldOpened := true;
+  btnSelMacroTap.Visible := (GApplication = APPL_ADV360) and (fileService.VersionBiggerEqualKBD(1, 0, 69) or GDemoMode);
+  btnSelMacroHold.Visible := (GApplication = APPL_ADV360) and (fileService.VersionBiggerEqualKBD(1, 0, 69) or GDemoMode);
+end;
+
+procedure TFormTapAndHold.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  TapAndHoldOpened := false;
+  if (Assigned(closeEvent)) then
+     closeEvent(self);
+  self := nil;
+end;
+
+procedure TFormTapAndHold.InitPopupMenus;
+var
+  macroIdx: integer;
+  macro: TKeyList;
+  aKey: TKey;
+begin
+  popMacrosTap := TPopupMenu.Create(self);
+  popMacrosHold := TPopupMenu.Create(self);
+  popMacrosTap.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  popMacrosHold.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
+  for macroIdx := 0 to keyService.Macros.Count - 1 do
+  begin
+    macro := TKeyList(keyService.Macros[macroIdx]);
+    aKey := keyService.GetKeyConfig(macro.TriggerKey);
+    AddMenuItem(popMacrosTap, aKey.OtherDisplayText, aKey.Key);
+    AddMenuItem(popMacrosHold, aKey.OtherDisplayText, aKey.Key);
+  end;
 end;
 
 procedure TFormTapAndHold.btnCancelClick(Sender: TObject);
@@ -140,6 +215,8 @@ begin
     LoadButtonImage(sender, imgListTiming, 4)
   else
     LoadButtonImage(sender, imgListTiming, 0);
+  if (not isModal) then
+    Close;
 end;
 
 procedure TFormTapAndHold.btnAcceptMouseExit(Sender: TObject);
@@ -198,11 +275,85 @@ end;
 procedure TFormTapAndHold.btnAcceptClick(Sender: TObject);
 begin
   if (Validate) then
+  begin
     ModalResult := mrOK;
+    if (not isModal) then
+    begin
+      if (Assigned(acceptEvent)) then
+         acceptEvent(self);
+    end;
+  end;
   if (GMasterAppId = APPL_MASTER_OFFICE) then
     LoadButtonImage(sender, imgListTiming, 6)
   else
     LoadButtonImage(sender, imgListTiming, 2);
+end;
+
+procedure TFormTapAndHold.btnSelMacroHoldClick(Sender: TObject);
+var
+  trigger: integer;
+begin
+  trigger := ShowSelectMacro('Assign a Macro to the Tap Action', keyService, backColor, fontColor, activeColor);
+  if (trigger > 0) then
+    SetKeyPress(trigger, eHoldAction);
+//var
+//  pt: TPoint;
+//begin
+  //pt := eHoldAction.ClientToScreen(Point(0,0));
+  //popMacrosHold.PopUp(pt.x, pt.y + eHoldAction.Height);
+end;
+
+procedure TFormTapAndHold.btnSelMacroTapClick(Sender: TObject);
+var
+  trigger: integer;
+begin
+  trigger := ShowSelectMacro('Assign a Macro to the Tap Action', keyService, backColor, fontColor, activeColor);
+  if (trigger > 0) then
+    SetKeyPress(trigger, eTapAction);
+//var
+//  pt: TPoint;
+//begin
+//  pt := eTapAction.ClientToScreen(Point(0,0));
+//  popMacrosTap.PopUp(pt.x, pt.y + eTapAction.Height);
+end;
+
+procedure TFormTapAndHold.eHoldActionEnter(Sender: TObject);
+begin
+  lastEdit := (Sender as TEdit);
+end;
+
+procedure TFormTapAndHold.AddMenuItem(var popMenu: TPopupMenu; itemName: string; keyCode: integer);
+var
+  menuItem: TMenuItem;
+begin
+  menuItem := TMenuItem.Create(popMenu);
+  menuItem.Caption := itemName;
+  menuItem.Tag := keyCode;
+  menuItem.OnClick := @MenuItemClick;
+  popMenu.Items.Add(menuItem);
+end;
+
+procedure TFormTapAndHold.MenuItemClick(Sender: TObject);
+var
+  mnu: TMenuItem;
+  keyCode: Integer;
+begin
+  mnu := (sender as TMenuItem);
+  keyCode := mnu.Tag;
+
+  if (keyCode > 0) then
+  begin
+    if (mnu.GetParentMenu = popMacrosTap) then
+    begin
+      eTapAction.Text := mnu.Caption;
+      tapAction := keyCode;
+    end
+    else
+    begin
+      eHoldAction.Text := mnu.Caption;
+      holdAction := keyCode;
+    end;
+  end;
 end;
 
 procedure TFormTapAndHold.eHoldActionKeyDown(Sender: TObject; var Key: Word;
@@ -212,6 +363,11 @@ begin
   SetKeyPress(key, eHoldAction);
   {$endif}
   key := 0;
+end;
+
+procedure TFormTapAndHold.eTapActionEnter(Sender: TObject);
+begin
+  lastEdit := (Sender as TEdit);
 end;
 
 procedure TFormTapAndHold.eTapActionKeyDown(Sender: TObject; var Key: Word;
@@ -262,19 +418,46 @@ begin
     aKey := keyService.GetKeyConfig(key);
     if (aKey <> nil) then
     begin
-      if (edit = eTapAction) or (eTapAction.Focused) then
+      if (edit = eTapAction) or ((edit = nil) and eTapAction.Focused) then
       begin
         eTapAction.Text := aKey.OtherDisplayText;
         tapAction := key;
       end
-      else if (edit = eHoldAction) or (eHoldAction.Focused) then
+      else if (edit = eHoldAction) or ((edit = nil) and eHoldAction.Focused) then
       begin
         eHoldAction.Text := aKey.OtherDisplayText;
         holdAction := key;
+      end
+      else
+      begin
+        if (lastEdit <> nil) then
+          SetKeyPress(key, lastEdit);
       end;
     end;
     FreeAndNil(aKey);
   end;
+end;
+
+procedure TFormTapAndHold.MenuDrawItem(Sender: TObject; ACanvas: TCanvas;
+    ARect: TRect; AState: TOwnerDrawState);
+var
+  mnu: TMenuItem;
+begin
+  mnu := (sender as TMenuItem);
+  aCanvas.font.color := fontColor;
+  aCanvas.brush.color := backColor;
+  acanvas.brush.style := bsSolid;
+  if (odSelected in AState) then
+    aCanvas.brush.color := activeColor;
+
+  aCanvas.Font.Name := self.Font.Name;
+  aCanvas.Font.Size := 13;
+
+  if (not mnu.Enabled) then
+    aCanvas.font.color := KINESIS_LIGHTER_GRAY_ADV360;
+
+  aCanvas.fillrect( aRect );
+  acanvas.textrect( aRect, arect.left+4, arect.top+2, mnu.caption );
 end;
 
 end.
