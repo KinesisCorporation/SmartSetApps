@@ -644,7 +644,7 @@ begin
     end;
   finally
     button.Enabled := true;
-    Screen.Cursor := crDefault;
+    Screen.Cursor := crArrow;
     LoadButtonImage(sender, imgListButtons, 0);
   end;
 end;
@@ -690,7 +690,7 @@ begin
     end;
   finally
     button.Enabled := true;
-    Screen.Cursor := crDefault;
+    Screen.Cursor := crArrow;
   end;
 end;
 
@@ -774,7 +774,7 @@ begin
     end;
   finally
     button.Enabled := true;
-    Screen.Cursor := crDefault;
+    Screen.Cursor := crArrow;
   end;
 end;
 
@@ -813,7 +813,7 @@ begin
     end;
   finally
     button.Enabled := true;
-    Screen.Cursor := crDefault;
+    Screen.Cursor := crArrow;
   end;
 end;
 

@@ -164,6 +164,8 @@ procedure TFormTapAndHold.FormCreate(Sender: TObject);
 begin
   inherited;
   lblTitle.Caption := 'Assign Tap and Hold Action';
+  btnSelMacroHold.Height := eHoldAction.Height;
+  btnSelMacroTap.Height := eTapAction.Height;
 end;
 
 procedure TFormTapAndHold.FormShow(Sender: TObject);
