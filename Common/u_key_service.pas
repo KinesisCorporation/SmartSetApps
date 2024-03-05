@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, u_keys, LCLType, u_const, u_key_layer, character, LCLIntf,
-  Graphics, u_gif, u_led_ind, Contnrs;
+  Graphics, u_gif, u_led_ind, Contnrs, u_text_line;
 
 type
   { TKeyService }
@@ -79,6 +79,8 @@ type
     FBackupMacro: TKeyList;
     FBackupMacroKey: TKBKey;
     FMacros: TObjectList;
+    //FInvalidLines: TInvalidLines;
+    FTextLines: TTextLines;
 
     //Gifs using programming
     FRainGif: TGif;
@@ -263,6 +265,8 @@ type
     function RemoveKeyMacro(macro: TKeyList; index: integer): boolean;
     function GetMacroCount: integer;
     function RemoveDuplicateMacro(aMacro: TKeyList): boolean;
+    function GetInvalidLinesText(layerIdx: integer = -1): string;
+    function HasInvalidLines: boolean;
 
     property ConfigMode: integer read FConfigMode write FConfigMode;
     property ActiveKbKey: TKBKey read FActiveKbKey write FActiveKbKey;
@@ -270,6 +274,7 @@ type
     property ConfigKeys: TKeyList read FConfigKeys write FConfigKeys;
     property ActiveModifiers: TKeyList read FActiveModifiers write FActiveModifiers;
     property Macros: TObjectList read FMacros write FMacros;
+    property TextLines: TTextLines read FTextLines write FTextLines;
     //property BackupKey: TKBKey read FBackupKey write FBackupKey;
     //property KeyboardLayouts: TKeyboardLayoutList read FKeyboardLayouts write FKeyboardLayouts;
 
@@ -333,6 +338,8 @@ begin
   FBackupMacro := TKeyList.Create;
   FBackupMacroKey := TKBKey.Create;
   LedIndicators := TLedIndList.Create(6);
+  FTextLines := TTextLines.Create;
+  //SetLength(FInvalidLines, 0);
   //KeyboardLayouts := TKeyboardLayoutList.Create;
 
   ResetLedOptions;
@@ -379,6 +386,8 @@ begin
      FreeAndNil(FEdgeLoopRightGif);
   if (FEdgeReboundGif <> nil) then
      FreeAndNil(FEdgeReboundGif);
+  FreeAndNil(FTextLines);
+  //SetLength(FInvalidLines, 0);
   inherited Destroy;
 end;
 
@@ -2741,6 +2750,34 @@ begin
   end;
 end;
 
+function TKeyService.GetInvalidLinesText(layerIdx: integer): string;
+var
+  i: integer;
+begin
+  result := '';
+  //for i := 0 to Length(FInvalidLines) - 1 do
+  //begin
+  //  if ((layerIdx < 0) or (layerIdx = FInvalidLines[i].LayerIdx)) then
+  //  begin
+  //    if (result <> '') then
+  //       result := result + #10#13;
+  //    result := result + FInvalidLines[i].LineText;
+  //  end;
+  //end;
+end;
+
+function TKeyService.HasInvalidLines: boolean;
+var
+  i:integer;
+begin
+  result := false;
+  for i := 0 to TextLines.Count - 1 do
+  begin
+    if (not TextLines[i].IsValid) and (not TextLines[i].Removed) then
+      result := true;
+  end;
+end;
+
 function TKeyService.GetMacroCount: integer;
 var
   i, j:integer;
@@ -3188,6 +3225,7 @@ var
   prevModifiers: string;
   curKeyModifiers: TKeyList;
   prevKeyModifiers: TKeyList;
+  textLine: TTextLine;
 begin
   layoutContent := TStringList.Create;
 
@@ -3336,6 +3374,19 @@ begin
         FreeAndNil(prevKeyModifiers);
       end;
     end;
+
+    //Invalid lines to keep
+    for kIdx := 0 to TextLines.Count - 1 do
+    begin
+      textLine := TextLines[kIdx];
+      if ((not textLine.IsValid) and (textLine.LayerIdx = aLayer.LayerIndex)) then
+      begin
+        if (textLine.Keep and (not textLine.Removed)) then
+          layoutContent.Add(textLine.RawText)
+        else
+          textLine.Removed := true;
+      end;
+    end;
   end;
 
   Result := layoutContent;
@@ -3408,11 +3459,37 @@ var
   activeMacro: TKeyList;
   tempInt: integer;
   curLayerIdx: integer;
-  tempText: string;
+  isValidConfig: bool;
+  isValidValue: bool;
+  tapAction: TKey;
+  holdAction: TKey;
+  timingDelay: integer;
+  macroSpeed: integer;
+  macroRptFreq: integer;
+  configSegment: string;
+  valueSegment: string;
+  macroSegment: string;
+  textLine: TTextLine;
+  lineId: integer;
+
+  procedure AddLineSegment(text: string; isValid: boolean);
+  var
+    lineSegment: TLineSegment;
+  begin
+    lineSegment := TLineSegment.Create(text, isValid);
+    textLine.Add(lineSegment);
+  end;
+
+  procedure AddLine(line: TTextLine);
+  begin
+    FTextLines.Add(line);
+  end;
+
 begin
   lastKey := 0;
   lastKeyState := ksNone;
   curLayerIdx := 0;
+  lineId := 0;
   aCoTriggers := TKeyList.Create;
 
   FMacros.Clear;
@@ -3422,6 +3499,11 @@ begin
   begin
     for i := 0 to aLayoutContent.Count - 1 do
     begin
+      inc(lineId);
+      isValidConfig := false;
+      isValidValue := false;
+      configSegment := '';
+      valueSegment := '';
       currentLine := TrimRight(AnsiLowerCase(aLayoutContent.Strings[i]));
 
       //Reset values
@@ -3435,7 +3517,9 @@ begin
       begin
         if (currentLine.StartsWith(ADV360_LAYER_PREFIX) and currentLine.EndsWith(ADV360_LAYER_SUFFIX)) then
         begin
-          //tempText := UpperCase(Copy(currentLine, Length(LAYER_PREFIX) + 1, Length(currentLine)));
+          isValidValue := true;
+          isValidConfig := true;
+
           if (currentLine = TEXT_LAYER_DEFAULT) then
             curLayerIdx := LAYER_BASE_360
           else if (currentLine = TEXT_LAYER_KP) then
@@ -3445,7 +3529,12 @@ begin
           else if (currentLine = TEXT_LAYER_FN2) then
             curLayerIdx := LAYER_FN2_360
           else if (currentLine = TEXT_LAYER_FN3) then
-            curLayerIdx := LAYER_FN3_360;
+            curLayerIdx := LAYER_FN3_360
+          else
+          begin
+            isValidValue := false;
+            isValidConfig := false;
+          end;
         end;
         layerIdx := curLayerIdx;
       end
@@ -3462,229 +3551,243 @@ begin
           layerIdx := TOPLAYER_IDX;
       end;
 
-      posSep := Pos('>', currentLine);
-      isSingleKey := Copy(currentLine, 1, 1) = SK_START;
-      isMacro := Copy(currentLine, 1, 1) = MK_START;
-      isTapHold := isSingleKey and (Pos('[' + TAP_AND_HOLD, currentLine) > 0);
+      textLine := TTextLine.Create(lineId, layerIdx);
+      textLine.RawText := currentLine;
+
+      posSep := Pos(SEPARATOR, currentLine);
+      if (posSep > 0) then
+      begin
+         configText := Copy(currentLine, 1, posSep - 1);
+         valueText := Copy(currentLine, posSep + 1, Length(currentLine));
+      end
+      else
+      begin
+         configText := Copy(currentLine, 1, Length(currentLine));
+         valueText := '';
+      end;
+      configSegment := configText;
+      valueSegment := valueText;
+
+      isSingleKey := (Pos(SK_START, configText) > 0) or (Pos(SK_END, configText) > 0); //Copy(configText, 1, 1) = SK_START;
+      isMacro := (Pos(MK_START, configText) > 0) or (Pos(MK_END, configText) > 0) ;   //Copy(configText, 1, 1) = MK_START;
+      isTapHold := isSingleKey and (Pos('[' + TAP_AND_HOLD, valueText) > 0); //Has more than one value on the right
+      isMultimodifier := isSingleKey and CheckMultimodifier(valueText);
 
       //Check if it's a valid line
       if (posSep <> 0) and (isSingleKey or isMacro or isTapHold) then
       begin
-        configText := Copy(currentLine, 1, posSep - 1);
-        valueText := Copy(currentLine, posSep + 1, Length(currentLine));
-        isMultimodifier := isSingleKey and CheckMultimodifier(valueText);
+        if (isSingleKey or isTapHold) then
+        begin
+          isValidConfig := (Copy(configText, 1, 1) = SK_START) and (Pos(SK_END, configText) > 0);
+
+          //Load configured key
+          keyStart := 1;//Pos(SK_START, configText);
+          keyEnd := Pos(SK_END, configText);
+          if (keyEnd = 0) then
+            keyEnd := Length(configText);
+          sKey := Copy(configText, keyStart + 1, keyEnd - 2);
+
+          aKey := FindKeyConfig(sKey);
+
+          //Gets key from layer
+          if aKey <> nil then
+            aKBKey := GetPositionKBKey(aKey.Key, layerIdx);
+
+          isValidConfig := isValidConfig and (aKBKey <> nil);
+
+          AddLineSegment(configSegment, isValidConfig);
+          AddLineSegment(SEPARATOR, true);
+        end
+        else if (isMacro) then
+          isValidConfig := (Copy(configText, 1, 1) = MK_START) and (Pos(MK_END, configText) > 0);
 
         if (isTapHold) then
         begin
-          //Load configured key
-          keyStart := Pos(SK_START, configText);
-          keyEnd := Pos(SK_END, configText);
-          sKey := Copy(configText, keyStart + 1, keyEnd - 2);
+          tapAction := nil;
+          holdAction := nil;
+          timingDelay := -1;
 
-          aKey := FindKeyConfig(sKey);
-
-          //Gets key from layer
-          if aKey <> nil then
-            aKBKey := GetPositionKBKey(aKey.Key, layerIdx);
-
-          if (aKBKey <> nil) then
+          //Load values for tap and hold
+          for tapHold := 1 to 3 do
           begin
-            aKBKey.TapAndHold := true;
-            //Load values for tap and hold
-            for tapHold := 1 to 3 do
-            begin
-              keyStart := Pos(SK_START, valueText);
-              keyEnd := Pos(SK_END, valueText);
-              sKey := Copy(valueText, keyStart + 1, keyEnd - 2);
-              Delete(valueText, 1, keyEnd); //removes currentkey
-
-              //Sets modified key
-              if (tapHold = 1) or (tapHold = 3) then
-              begin
-                aKey := FindKeyConfig(sKey);
-                if aKey <> nil then
-                begin
-                  if (tapHold = 1) then
-                    aKBKey.TapAction := aKey.CopyKey
-                  else
-                    aKBKey.HoldAction := aKey.CopyKey;
-                end;
-              end
-              else
-              begin
-                sKey := Copy(sKey, Length(TAP_AND_HOLD) + 1, Length(sKey));
-                aKBKey.TimingDelay := ConvertToInt(sKey, DEFAULT_SPEED_TAP_HOLD);
-              end;
-            end;
-          end;
-        end
-        else if (isSingleKey) then
-        begin
-          //Load configured key
-          keyStart := Pos(SK_START, configText);
-          keyEnd := Pos(SK_END, configText);
-          sKey := Copy(configText, keyStart + 1, keyEnd - 2);
-
-          aKey := FindKeyConfig(sKey);
-
-          //Gets key from layer
-          if aKey <> nil then
-            aKBKey := GetPositionKBKey(aKey.Key, layerIdx);
-
-          if (aKBKey <> nil) then
-          begin
-            //Load value key
-            keyStart := Pos(SK_START, valueText);
+            keyStart := 1;//Pos(SK_START, valueText);
             keyEnd := Pos(SK_END, valueText);
             sKey := Copy(valueText, keyStart + 1, keyEnd - 2);
+            Delete(valueText, 1, keyEnd); //removes currentkey
 
-            if (isMultimodifier) then
+            //Sets modified key
+            if (tapHold = 1) or (tapHold = 3) then
             begin
-              aKBKey.Multimodifiers := sKey;
+              aKey := FindKeyConfig(sKey);
+              if aKey <> nil then
+              begin
+                if (tapHold = 1) then
+                  tapAction := aKey.CopyKey //aKBKey.TapAction := aKey.CopyKey
+                else
+                  holdAction := aKey.CopyKey; //aKBKey.HoldAction := aKey.CopyKey;
+              end;
             end
             else
             begin
-              //Sets modified key
-              aKey := FindKeyConfig(sKey);
-              if aKey <> nil then
-                SetKBKey(aKBKey, aKey.Key, false);
+              sKey := Copy(sKey, Length(TAP_AND_HOLD) + 1, Length(sKey));
+              timingDelay := ConvertToInt(sKey); //aKBKey.TimingDelay :=
             end;
           end;
+
+          isValidValue := (tapAction <> nil) and (holdAction <> nil) and (timingDelay >= 0);
+          if (isValidValue) and (isValidConfig) then
+          begin
+            aKBKey.TapAndHold := true;
+            aKBKey.TapAction := tapAction;
+            aKBKey.HoldAction := holdAction;
+            aKBKey.TimingDelay := timingDelay;
+          end;
+
+          AddLineSegment(valueSegment, isValidValue);
         end
-        else if (isMacro) then
+        else if (isSingleKey) then
         begin
-          //Loads key and co-triggers
-          while (configText <> '') do
-          begin
-            aKey := nil;
-            keyStart := Pos(MK_START, configText);
-            keyEnd := Pos(MK_END, configText);
-            sKey := Copy(configText, keyStart + 1, keyEnd - 2);
-            Delete(configText, 1, keyEnd); //remove currentkey
+          //Load value key
+          keyStart := 1;//Pos(SK_START, valueText);
+          keyEnd := Pos(SK_END, valueText);
+          sKey := Copy(valueText, keyStart + 1, keyEnd - 2);
 
-            aKey := FindKeyConfig(sKey);
-            if (aKey <> nil) then
-            begin
-              //If it is Key + modifier
-              if (IsModifier(aKey.Key)) and (configText <> '') then
-                aCoTriggers.Add(aKey.CopyKey)
-              else
-              begin
-                if IsGen2Device(GApplication) then
-                  aKBKey := GetKBKeyTrigger(aKey.Key)
-                else
-                  aKBKey := GetPositionKBKey(aKey.Key, layerIdx, true);
-              end;
-            end;
-          end;
-
-          if IsGen2Device(GApplication) then
+          if (isMultimodifier) and (sKey <> '') then
           begin
-            activeMacro := TKeyList.Create;
-            activeMacro.TriggerKey := aKBKey.OriginalKey.Key;
-            activeMacro.LayerIdx := layerIdx;
+            if (aKBKey <> nil) then
+               aKBKey.Multimodifiers := sKey;
+            isValidValue := true;
           end
           else
           begin
-            //Loads active Macro
-            if (aKBKey <> nil) then
+            //Sets modified key
+            aKey := FindKeyConfig(sKey);
+            if aKey <> nil then
             begin
-              if (aKBKey.Macro1.Count = 0) then
-                activeMacro := aKBKey.Macro1
-              else if (aKBKey.Macro2.Count = 0) then
-                activeMacro := aKBKey.Macro2
-              else if (aKBKey.Macro3.Count = 0) then
-                activeMacro := aKBKey.Macro3
-              else if (aKBKey.Macro4.Count = 0) then
-                activeMacro := aKBKey.Macro4
-              else if (aKBKey.Macro5.Count = 0) then
-                activeMacro := aKBKey.Macro5;
+              if (aKBKey <> nil) then
+                 SetKBKey(aKBKey, aKey.Key, false);
+              isValidValue := true;
+            end;
+          end;
+          AddLineSegment(valueSegment, isValidValue);
+        end
+        else if (isMacro) then
+        begin
+          //Loads key and co-triggers (left side)
+          if (isValidConfig) then
+          begin
+            while (configText <> '') do
+            begin
+              aKey := nil;
+              keyStart := 1;//Pos(MK_START, configText);
+              keyEnd := Pos(MK_END, configText);
+              sKey := Copy(configText, keyStart + 1, keyEnd - 2);
+              Delete(configText, 1, keyEnd); //remove currentkey
+
+              aKey := FindKeyConfig(sKey);
+              if (aKey <> nil) then
+              begin
+                //If it is Key + modifier
+                if (IsModifier(aKey.Key)) and (configText <> '') then
+                  aCoTriggers.Add(aKey.CopyKey)
+                else
+                begin
+                  if IsGen2Device(GApplication) then
+                    aKBKey := GetKBKeyTrigger(aKey.Key)
+                  else
+                    aKBKey := GetPositionKBKey(aKey.Key, layerIdx, true);
+
+                  if (aKBKey = nil) then
+                     isValidConfig := false;
+                end;
+              end
+              else
+                isValidConfig := false;
             end;
           end;
 
-          //If kbKey and activeMacro, load values
-          if (aKBKey <> nil) and (activeMacro <> nil) and (aKBKey.CanAssignMacro) then
+          AddLineSegment(configSegment, isValidConfig);
+          AddLineSegment(SEPARATOR, true);
+
+          //Load macro (right side)
+          activeMacro := TKeyList.Create;
+          macroSpeed := -1;
+          macroRptFreq := -1;
+
+          //Get Macro text
+          while (valueText <> '') do
           begin
-            if not IsGen2Device(GApplication) then
-              aKBKey.IsMacro := true;
+            //For macros, sets isValidValue as true, and invalidates it if not valid
+            isValidValue := true;
+            aKey := nil;
+            keyStart := 1; //Pos(MK_START, valueText);
+            keyEnd := Pos(MK_END, valueText);
+            if (keyEnd = 0) then
+              keyEnd := Length(valueText);
+            macroSegment := Copy(valueText, keyStart, keyEnd); //include MK_START and MK_END
+            sKey := Copy(valueText, keyStart + 1, keyEnd - 2);
+            if copy(sKey, 1, 1) = '-' then  //Checks for keyup or keydown
+              keyState := ksDown
+            else if copy(sKey, 1, 1) = '+' then
+              keyState := ksUp
+            else
+              keyState := ksNone;
+            if keyState <> ksNone then
+              Delete(sKey, 1, 1); //removes - or +
+            Delete(valueText, 1, keyEnd); //removes currentkey
+            if (keyEnd = 0) then
+              Delete(valueText, 1, Length(valueText)); //Removes rest if not keyEnd
 
-            if (aCoTriggers.Count >= 1) then
-              activeMacro.CoTrigger1 := aCoTriggers[0].CopyKey;
-            if (aCoTriggers.Count >= 2) then
-              activeMacro.CoTrigger2 := aCoTriggers[1].CopyKey;
-            if (aCoTriggers.Count >= 3) then
-              activeMacro.CoTrigger3 := aCoTriggers[2].CopyKey;
-            if (aCoTriggers.Count >= 4) then
-              activeMacro.CoTrigger4 := aCoTriggers[3].CopyKey;
+            //Load macro speed
+            if (activeMacro.Count = 0) and
+              (Length(sKey) > 1) and
+              (Copy(sKey, 1, Length(MACRO_SPEED_TEXT_EDGE)) = MACRO_SPEED_TEXT_EDGE) and
+              (IsNumber(sKey, Length(MACRO_SPEED_TEXT_EDGE) + 1)) then
+            begin
+              tempInt := ConvertToInt(Copy(sKey, Length(MACRO_SPEED_TEXT_EDGE) + 1, Length(MACRO_SPEED_TEXT_EDGE) + 2));
+              if (tempInt >= 0{MACRO_SPEED_MIN}) and (tempInt <= MACRO_SPEED_MAX_RGB) then
+                macroSpeed := tempInt;
 
-            //Set Default macro speed and multiplay
-            activeMacro.MacroSpeed := DEFAULT_MACRO_SPEED_RGB;
-            activeMacro.MacroRptFreq := DEFAULT_MACRO_FREQ_RGB;
+              //Check minimum multiplay for each device
+              if (GActiveDevice.DeviceNumber = APPL_ADV360) then
+              begin
+                if (macroSpeed < MACRO_SPEED_MIN_ADV360) then
+                  macroSpeed := MACRO_SPEED_MIN_ADV360;
+              end;
+              AddLineSegment(macroSegment, true);
+            end
+            else if (activeMacro.Count = 0) and  //Load macro multiplay
+              (Length(sKey) > 1) and
+              (Copy(sKey, 1, Length(MACRO_REPEAT_EDGE)) = MACRO_REPEAT_EDGE) and
+              (IsNumber(sKey, Length(MACRO_REPEAT_EDGE) + 1)) then
+            begin
+              tempInt := ConvertToInt(Copy(sKey, Length(MACRO_REPEAT_EDGE) + 1, Length(MACRO_REPEAT_EDGE) + 2));
+              if (tempInt >= 0{MACRO_FREQ_MIN}) and (tempInt <= MACRO_FREQ_MAX_RGB) then
+                macroRptFreq := tempInt;
 
-            //Get Macro text
-            while (valueText <> '') do
+              //Check minimum multiplay for each device
+              if (GActiveDevice.DeviceNumber = APPL_ADV360) then
+              begin
+                if (macroRptFreq < MACRO_FREQ_MIN_ADV360) then
+                  macroRptFreq := MACRO_FREQ_MIN_ADV360;
+              end;
+              AddLineSegment(macroSegment, true);
+            end
+            else
             begin
               aKey := nil;
-              keyStart := Pos(MK_START, valueText);
-              keyEnd := Pos(MK_END, valueText);
-              sKey := Copy(valueText, keyStart + 1, keyEnd - 2);
-              if copy(sKey, 1, 1) = '-' then  //Checks for keyup or keydown
-                keyState := ksDown
-              else if copy(sKey, 1, 1) = '+' then
-                keyState := ksUp
-              else
-                keyState := ksNone;
-              if keyState <> ksNone then
-                Delete(sKey, 1, 1); //removes - or +
-              Delete(valueText, 1, keyEnd); //removes currentkey
+              if (sKey <> '') then
+                 aKey := FindKeyConfig(sKey);
 
-              //Load macro speed
-              if (activeMacro.Count = 0) and
-                (Length(sKey) > 1) and
-                (Copy(sKey, 1, Length(MACRO_SPEED_TEXT_EDGE)) = MACRO_SPEED_TEXT_EDGE) and
-                (IsNumber(sKey, Length(MACRO_SPEED_TEXT_EDGE) + 1)) then
+              //Checks for replacement key values (US English)
+              if aKey <> nil then
               begin
-                tempInt := ConvertToInt(Copy(sKey, Length(MACRO_SPEED_TEXT_EDGE) + 1, Length(MACRO_SPEED_TEXT_EDGE) + 2));
-                if (tempInt >= 0{MACRO_SPEED_MIN}) and (tempInt <= MACRO_SPEED_MAX_RGB) then
-                  activeMacro.MacroSpeed := tempInt;
-
-                //Check minimum multiplay for each device
-                if (GActiveDevice.DeviceNumber = APPL_ADV360) then
-                begin
-                  if (activeMacro.MacroSpeed < MACRO_SPEED_MIN_ADV360) then
-                    activeMacro.MacroSpeed := MACRO_SPEED_MIN_ADV360;
-                end;
-              end
-              else if (activeMacro.Count = 0) and  //Load macro multiplay
-                (Length(sKey) > 1) and
-                (Copy(sKey, 1, Length(MACRO_REPEAT_EDGE)) = MACRO_REPEAT_EDGE) and
-                (IsNumber(sKey, Length(MACRO_REPEAT_EDGE) + 1)) then
-              begin
-                tempInt := ConvertToInt(Copy(sKey, Length(MACRO_REPEAT_EDGE) + 1, Length(MACRO_REPEAT_EDGE) + 2));
-                if (tempInt >= 0{MACRO_FREQ_MIN}) and (tempInt <= MACRO_FREQ_MAX_RGB) then
-                  activeMacro.MacroRptFreq := tempInt;
-
-                //Check minimum multiplay for each device
-                if (GActiveDevice.DeviceNumber = APPL_ADV360) then
-                begin
-                  if (activeMacro.MacroRptFreq < MACRO_FREQ_MIN_ADV360) then
-                    activeMacro.MacroRptFreq := MACRO_FREQ_MIN_ADV360;
-                end;
-              end
-              else
-              begin
-                aKey := FindKeyConfig(sKey);
-
-                //Checks for replacement key values (US English)
-                if aKey <> nil then
-                begin
-                  replacementKey := GetReplacementKey(aKey.Key, false);
-                  if (replacementKey <> '') then
-                    aKey := FindKeyConfig(replacementKey);
-                end;
+                replacementKey := GetReplacementKey(aKey.Key, false);
+                if (replacementKey <> '') then
+                  aKey := FindKeyConfig(replacementKey);
               end;
 
-              if aKey <> nil then
+              if (aKey <> nil) then
               begin
                 if IsModifier(aKey.Key) then
                 begin
@@ -3744,17 +3847,65 @@ begin
                 end;
                 lastKey := aKey.Key;
                 lastKeyState := keyState;
-              end;
-            end; //end while loop valueText
+              end
+              else
+                isValidValue := false;
 
-            //Gen2 device add to macro list
-            if IsGen2Device(GApplication) and (activeMacro <> nil) then
+              AddLineSegment(macroSegment, isValidValue);
+            end;
+          end; //end while loop valueText
+
+          if (isValidValue) and (isValidConfig) and (activeMacro <> nil) and (aKBKey.CanAssignMacro) then
+          begin
+            if (aCoTriggers.Count >= 1) then
+              activeMacro.CoTrigger1 := aCoTriggers[0].CopyKey;
+            if (aCoTriggers.Count >= 2) then
+              activeMacro.CoTrigger2 := aCoTriggers[1].CopyKey;
+            if (aCoTriggers.Count >= 3) then
+              activeMacro.CoTrigger3 := aCoTriggers[2].CopyKey;
+            if (aCoTriggers.Count >= 4) then
+              activeMacro.CoTrigger4 := aCoTriggers[3].CopyKey;
+
+            //Set macro speed and multiplay
+            if (macroSpeed <> -1) then
+              activeMacro.MacroSpeed := macroSpeed
+            else
+              activeMacro.MacroSpeed := DEFAULT_MACRO_SPEED_RGB;
+            if (macroRptFreq <> -1) then
+              activeMacro.MacroRptFreq := macroRptFreq
+            else
+              activeMacro.MacroRptFreq := DEFAULT_MACRO_FREQ_RGB;
+
+            if IsGen2Device(GApplication) then
             begin
+              activeMacro.TriggerKey := aKBKey.OriginalKey.Key;
+              activeMacro.LayerIdx := layerIdx;
               FMacros.Add(activeMacro);
+            end
+            else
+            begin
+              aKBKey.IsMacro := true;
+              //Loads active Macro
+              if (aKBKey.Macro1.Count = 0) then
+                aKBKey.Macro1.Assign(activeMacro, true)
+              else if (aKBKey.Macro2.Count = 0) then
+                aKBKey.Macro2.Assign(activeMacro, true)
+              else if (aKBKey.Macro3.Count = 0) then
+                aKBKey.Macro3.Assign(activeMacro, true)
+              else if (aKBKey.Macro4.Count = 0) then
+                aKBKey.Macro4.Assign(activeMacro, true)
+              else if (aKBKey.Macro5.Count = 0) then
+                aKBKey.Macro5.Assign(activeMacro, true);
+
+              FreeAndNil(activeMacro);
             end;
           end;
         end;
-      end;
+      end
+      else //Whole line marked as invalid
+        AddLineSegment(currentLine, isValidValue and isValidConfig);
+
+      AddLine(textLine);
     end;
   end;
 
@@ -9707,6 +9858,7 @@ var
   layerPrefix: string;
   lastLayer: integer;
   layerHeader: string;
+  textLine: TTextLine;
 
   function GetLayerHeader(idx: integer): string;
   begin
@@ -9815,6 +9967,19 @@ begin
           if (lineText <> '') then
             layoutContent.Add(lineText);
         end;
+      end;
+    end;
+
+    //Invalid lines to keep
+    for kIdx := 0 to TextLines.Count - 1 do
+    begin
+      textLine := TextLines[kIdx];
+      if ((not textLine.IsValid) and (textLine.LayerIdx = aLayer.LayerIndex)) then
+      begin
+        if (textLine.Keep and (not textLine.Removed)) then
+          layoutContent.Add(textLine.RawText)
+        else
+          textLine.Removed := true;
       end;
     end;
   end;
@@ -10028,6 +10193,7 @@ var
 begin
   for i := 0 to KBLayers.Count - 1 do
     ResetLayer(KBLayers[i]);
+  FTextLines.Clear;
 end;
 
 procedure TKeyService.ResetLayer(aLayer: TKBLayer);
@@ -10745,6 +10911,8 @@ end;
 
 procedure TKeyService.LoadConfigKeys;
 begin
+  if ((FConfigKeys <> nil) and (FConfigKeys.Count > 0)) then
+    FConfigKeys.Clear;
   FConfigKeys := GetConfigKeys;
 end;
 

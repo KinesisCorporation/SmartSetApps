@@ -152,8 +152,14 @@ type
     MinorLED: integer;
     RevisionLED: integer;
   end;
+//
+//  TInvalidLine = record
+//    LineText: string;
+//    LayerIdx: integer;
+//  end;
 
   TCustomButtons = array of TCustomButton;
+  //TInvalidLines = array of TInvalidLine;
 
   TKeysPos = array of TKeyPos;
 
@@ -572,6 +578,7 @@ const
   SK_END = ']';
   MK_START = '{';
   MK_END = '}';
+  SEPARATOR = '>';
   KEYPAD_KEY = 'kp-';
   KEYPAD_KEY_EDGE = 'fn ';
   KP_PREFIX_LENGTH = 3;

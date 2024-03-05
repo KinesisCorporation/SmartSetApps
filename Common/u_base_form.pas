@@ -62,6 +62,7 @@ end;
 
 procedure TBaseForm.FormResize(Sender: TObject);
 begin
+  btnClose.Left := self.Width - btnClose.Width;
   lblTitle.Width := self.Width - (btnClose.Width * 2);
   lblTitle.Left := btnClose.Width;
 end;

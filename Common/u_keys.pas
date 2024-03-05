@@ -89,7 +89,7 @@ type
     destructor Destroy; override;
     function Add(AObject: TKey): integer; reintroduce; virtual;
     function Remove(AObject: TKey): integer; reintroduce; virtual;
-    procedure Assign(aKeyList: TKeyList);
+    procedure Assign(aKeyList: TKeyList; coTriggers: boolean = false);
     function Compare(aKeyList: TKeyList): boolean;
     function ContrainsKey(aKey: TKey): boolean;
     property Items[index: integer]: TKey read GetItem write SetItem; default;
@@ -267,7 +267,7 @@ begin
 end;
 
 //Assigns all values from another key list
-procedure TKeyList.Assign(aKeyList: TKeyList);
+procedure TKeyList.Assign(aKeyList: TKeyList; coTriggers: boolean = false);
 var
   i: integer;
 begin
@@ -277,10 +277,13 @@ begin
     self.FTriggerKey := aKeyList.FTriggerKey;
     self.FLayerIdx := aKeyList.FLayerIdx;
     self.FMultiKey := aKeyList.FMultiKey;
-    //self.FCoTrigger1 := aKeyList.FCoTrigger1.CopyKey;
-    //self.FCoTrigger2 := aKeyList.FCoTrigger2.CopyKey;
-    //self.FCoTrigger3 := aKeyList.FCoTrigger3.CopyKey;
-    //self.FCoTrigger4 := aKeyList.FCoTrigger4.CopyKey;
+    if (coTriggers) then
+    begin
+      self.FCoTrigger1 := aKeyList.FCoTrigger1.CopyKey;
+      self.FCoTrigger2 := aKeyList.FCoTrigger2.CopyKey;
+      self.FCoTrigger3 := aKeyList.FCoTrigger3.CopyKey;
+      self.FCoTrigger4 := aKeyList.FCoTrigger4.CopyKey;
+    end;
     self.FMacroIdx := aKeyList.FMacroIdx;
     self.FMacroSpeed := aKeyList.FMacroSpeed;
     self.FMacroRptFreq := aKeyList.FMacroRptFreq;

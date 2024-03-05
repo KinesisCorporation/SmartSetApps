@@ -1268,7 +1268,7 @@ begin
   appError := false;
   activeMacroMenu := '';
   oldWindowState := wsNormal;
-  ringPicker.SquarePickerHintFormat:='Adjust the brightness of your color using the color square';
+  //ringPicker.SquarePickerHintFormat:='Adjust the brightness of your color using the color square';
   InitKeyButtons(pnlMain);
   LoadKeyButtonRows;
   //jm temp SetOtherPanelClick(self);
@@ -5975,7 +5975,7 @@ begin
       end
       else
       begin
-        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor)) then
+        if (ShowTapAndHold(keyService, activeKbKey.TapAction, activeKbKey.HoldAction, activeKbKey.TimingDelay, backColor, fontColor, activeColor)) then
         begin
           KeyModified := true;
           SetSaveState(ssModified, SaveStateLighting);

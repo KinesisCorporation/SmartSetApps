@@ -13,7 +13,8 @@ uses
   u_form_about_office, buttons, u_form_diagnostics, u_form_firmware,
   u_form_timingdelays, LResources, lcltype, BGRABitmap, BGRABitmapTypes,
   BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
-  u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout, BCTypes
+  u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout, BCTypes,
+  u_form_invalid_lines
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -626,6 +627,7 @@ type
     showingVDriveErrorDlg: boolean;
     macroRepoList: TObjectList;
     copyMacro: boolean;
+    procedure CheckInvalidLines;
     procedure CheckShowFootPedal;
     function GetActiveLedIndicator: integer;
     function GetControlUnderMouse: string;
@@ -684,8 +686,7 @@ type
     procedure ShapeColorSendToBack;
     procedure LaunchDemoMode;
     procedure LoadAppSettings;
-    function LoadKeyboardLayout(layoutFile: string; fileContent: TStringList
-      ): boolean;
+    function LoadKeyboardLayout(layoutFile: string; fileContent: TStringList; checkInvalid: boolean = true): boolean;
     procedure LoadKeyButtonRows;
     procedure LoadLayer(layer: TKBLayer);
     function LoadLedFile(ledFile: string; fileContent: TStringList): boolean;
@@ -1190,6 +1191,7 @@ begin
   tmrAfterFormShown.Enabled := false;
   // After show code
   ShowIntroDialogs;
+  CheckInvalidLines;
 end;
 
 function TFormMainAdv360.InitApp(scanVDrive: boolean = false): boolean;
@@ -1238,7 +1240,7 @@ begin
       if (LoadStateSettings) then
       begin
         LoadAppSettings;
-        LoadKeyboardLayout(currentLayoutFile, nil);
+        LoadKeyboardLayout(currentLayoutFile, nil, false);
         LoadLedFile(currentLedFile, nil);
 
         CheckProfileNo;
@@ -2631,7 +2633,8 @@ begin
   end;
 end;
 
-function TFormMainAdv360.LoadKeyboardLayout(layoutFile: string; fileContent: TStringList): boolean;
+function TFormMainAdv360.LoadKeyboardLayout(layoutFile: string;
+  fileContent: TStringList; checkInvalid: boolean): boolean;
 var
   errorMsg: string;
   layoutContent: TStringList;
@@ -2734,6 +2737,12 @@ begin
         FreeAndNil(ledContent);
     end;
   end;
+end;
+
+procedure TFormMainAdv360.CheckInvalidLines;
+begin
+  if (keyService.HasInvalidLines) then
+     ShowSelectInvalidLines('Invalid lines', keyService, backColor, fontColor, activeColor);
 end;
 
 function TFormMainAdv360.CheckVDrive: boolean;
@@ -3773,6 +3782,8 @@ begin
 
   if (continue) then
   begin
+    CheckInvalidLines;
+
     layoutContent := keyService.ConvertToTextFileFmt;
     if fileService.SaveFile(currentLayoutFile, layoutContent, true, errorMsg) then
     begin
@@ -3858,7 +3869,7 @@ begin
         currentProfileNumber := fileService.GetFileNumber(currentLayoutFile);
 
         SaveAll(true, true);
-        LoadKeyboardLayout(currentLayoutFile, nil);
+        LoadKeyboardLayout(currentLayoutFile, nil, false);
       end;
     end;
   finally
