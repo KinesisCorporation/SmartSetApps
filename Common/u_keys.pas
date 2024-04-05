@@ -34,6 +34,7 @@ type
     FFontName: string;
     FOtherDisplayText: string;
     FImageName: string;
+    FSearchText: string;
   public
     //constructor Create(iKey: word; sValue: string; sSaveValue: string = '';
     //  sShiftedValue: string = ''; sMultiValue: string = '';
@@ -41,7 +42,7 @@ type
     constructor Create(iKey: word; sValue: string; sDisplayText: string = ''; sSaveValue: string = ''; sMultiValue: string = ''; sShiftedValue: string = '';
       bConvertToUnicode: boolean = false; bShowShiftedValue: boolean = false;
       sModifiers: string = ''; WriteDownUp: boolean = True; DiffPressRel: boolean = False; iDisplaySize: integer = 0; sFontName: string = '';
-      sOtherDisplayText: string = ''; ImageName: string = ''; UpDown: TKeyState = ksNone);
+      sOtherDisplayText: string = ''; sSearchText: string = ''; ImageName: string = ''; UpDown: TKeyState = ksNone);
     function CopyKey: TKey;
     function Compare(aKey: TKey): boolean;
     property Key: word read FKey;
@@ -58,6 +59,7 @@ type
     property FontName: string read FFontName write FFontName;
     property DisplaySize: integer read FDisplaySize write FDisplaySize;
     property OtherDisplayText: string read FOtherDisplayText write FOtherDisplayText;
+    property SearchText: string read FSearchText write FSearchText;
     property ImageName: string read FImageName write FImageName;
     property UpDown: TKeyState read FUpDown write FUpDown;
   end;
@@ -117,7 +119,7 @@ uses u_const;
 constructor TKey.Create(iKey: word; sValue: string; sDisplayText: string; sSaveValue: string; sMultiValue: string;
   sShiftedValue: string; bConvertToUnicode: boolean; bShowShiftedValue: boolean; sModifiers: string;
   WriteDownUp: boolean; DiffPressRel: boolean; iDisplaySize: integer; sFontName: string; sOtherDisplayText: string;
-  ImageName: string = ''; UpDown: TKeyState = ksNone);
+  sSearchText: string = ''; ImageName: string = ''; UpDown: TKeyState = ksNone);
 begin
   inherited Create;
   FKey := iKey;
@@ -144,6 +146,7 @@ begin
     FOtherDisplayText := sDisplayText
   else
     FOtherDisplayText := sOtherDisplayText;
+  FSearchText := sSearchText;
   FImageName := ImageName;
   FUpDown := UpDown;
 end;
@@ -155,7 +158,7 @@ begin
   if self <> nil then
     Result := TKey.Create(self.Key, self.Value, self.DisplayText, self.SaveValue, self.MultiValue, self.ShiftedValue,
       self.ConvertToUnicode, self.ShowShiftedValue, self.Modifiers, self.WriteDownUp,
-      self.DiffPressRel, self.DisplaySize, self.FontName, self.OtherDisplayText, self.ImageName, self.FUpDown);
+      self.DiffPressRel, self.DisplaySize, self.FontName, self.OtherDisplayText, self.SearchText, self.ImageName, self.FUpDown);
 end;
 
 //Compares current key to key passed in parameter
@@ -179,6 +182,7 @@ begin
       (self.FontName = aKey.FontName) and
       (self.DisplaySize = aKey.DisplaySize) and
       (self.OtherDisplayText = aKey.OtherDisplayText) and
+      (self.SearchText = aKey.SearchText) and
       (self.ImageName = aKey.ImageName) and
       (self.UpDown = aKey.UpDown);
   end;

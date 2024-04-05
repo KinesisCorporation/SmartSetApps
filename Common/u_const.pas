@@ -499,6 +499,7 @@ const
   TAG_BOTH_KEY = 3; //Tag for menu items that can be used in multi keys and single keys
   LOG_FILES_TO_KEEP = 100; //Number of log files to keep
   DOUBLECLICK_TEXT = 'lmouse-dblclick'; //text for left mouse double click
+  SKIP_SEARCH = 'SKIP_SEARCH';
 
   //List of MenuItem names
   miLeftMouse = 'miLeftMouse';
@@ -1395,72 +1396,72 @@ begin
   begin
     ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'escape', 'Esc', '', '', '', false, false, '', true, false, 0, '', 'Escape'));
     ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Screen')); //Print screen key
-    ConfigKeys.Add(TKey.Create(VK_PRINT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Screen')); //Old print key...
+    ConfigKeys.Add(TKey.Create(VK_PRINT, 'prtscr', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Screen', SKIP_SEARCH)); //Old print key...
     ConfigKeys.Add(TKey.Create(VK_SCROLL, 'scroll', 'Scroll' + #10 + 'Lock', '', '', '', false, false, '', true, false, smallFontSize, '', 'Scroll Lock'));
     ConfigKeys.Add(TKey.Create(VK_SPACE, 'space', 'Space', 'space', ' '));///UTFString(#$e2#$90#$a3)));
     ConfigKeys.Add(TKey.Create(VK_INSERT, 'insert', 'Insert'));
     ConfigKeys.Add(TKey.Create(VK_NEXT, 'pdown', 'Page' + #10 + 'Down', '', '', '', false, false, '', true, false, 0, '', 'Page Down'));
     ConfigKeys.Add(TKey.Create(VK_PRIOR, 'pup', 'Page' + #10 + 'Up', '', '', '', false, false, '', true, false, 0, '', 'Page Up'));
     ConfigKeys.Add(TKey.Create(VK_PAUSE, 'pause', 'Pause' + #10 + 'Break', '', '', '', false, false, '', true, false, smallFontSize, '', 'Pause Break'));
-    ConfigKeys.Add(TKey.Create(VK_RIGHT, 'right', UnicodeToUTF8(8594), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_LEFT, 'left', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_UP, 'up', UnicodeToUTF8(8593), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_DOWN, 'down', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 16, UNICODE_FONT));
+    ConfigKeys.Add(TKey.Create(VK_RIGHT, 'right', UnicodeToUTF8(8594), '', '', '', false, false, '', true, false, 16, UNICODE_FONT, '', 'Right'));
+    ConfigKeys.Add(TKey.Create(VK_LEFT, 'left', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 16, UNICODE_FONT, '', 'Left'));
+    ConfigKeys.Add(TKey.Create(VK_UP, 'up', UnicodeToUTF8(8593), '', '', '', false, false, '', true, false, 16, UNICODE_FONT, '', 'Up'));
+    ConfigKeys.Add(TKey.Create(VK_DOWN, 'down', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 16, UNICODE_FONT, '', 'Down'));
     ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshift', 'Left' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Left Shift'));
     ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift', 'Right' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Right Shift'));
     ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctrl', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Ctrl'));
     ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctrl', 'Right' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Right Ctrl'));
     ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'numlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
-    ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'numlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
+    ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'numlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock', SKIP_SEARCH));
 
     //Special chars
-    ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '+' + #10 + '=', '=', '=', '+', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '_' + #10 + '-', 'hyphen', '-', '_', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '?' + #10 + '/', '/', '/', '?', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '|' + #10 + '\', '\', '\', '|', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', '"' + #10 + '''', '''', '''', '"', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '~' + #10 + '`', '`', '`', '~', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', ':' + #10 + ';', ';', ';', ':', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', '<' + #10 + ',', ',', ',', '<', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '>' + #10 + '.', '.', '.', '>', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '{' + #10 + '[', 'obrack', '[', '{', true, true));
-    ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '}' + #10 + ']', 'cbrack', ']', '}', true, true));
-    ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl-\', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
+    ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '+' + #10 + '=', '=', '=', '+', true, true, '', True, False, 0, '', '', 'Equals'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '_' + #10 + '-', 'hyphen', '-', '_', true, true, '', True, False, 0, '', '', 'Hyphen'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '?' + #10 + '/', '/', '/', '?', true, true, '', True, False, 0, '', '', 'Forward slash'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '|' + #10 + '\', '\', '\', '|', true, true, '', True, False, 0, '', '', 'Back slash'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', '"' + #10 + '''', '''', '''', '"', true, true, '', True, False, 0, '', '', 'Apostrophe'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '~' + #10 + '`', '`', '`', '~', true, true, '', True, False, 0, '', '', 'Hash'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', ':' + #10 + ';', ';', ';', ':', true, true, '', True, False, 0, '', '', 'Semi Colon'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', '<' + #10 + ',', ',', ',', '<', true, true, '', True, False, 0, '', '', 'Comma'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '>' + #10 + '.', '.', '.', '>', true, true, '', True, False, 0, '', '', 'Period'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '{' + #10 + '[', 'obrack', '[', '{', true, true, '', True, False, 0, '', '', 'Open Bracket'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '}' + #10 + ']', 'cbrack', ']', '}', true, true, '', True, False, 0, '', '', 'Close Bracket'));
+    ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl-\', 'intl-\', 'intl-\', true, true, '', True, False, 0, '', '', 'International Key'));  //International <> key between Left Shift and Z
 
     //Keypad keys
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0', '0'));
-    ConfigKeys.Add(TKey.Create(VK_KP_0, 'kp0', '0'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD1, 'kp1', '1'));
-    ConfigKeys.Add(TKey.Create(VK_KP_1, 'kp1', '1'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD2, 'kp2', '2'));
-    ConfigKeys.Add(TKey.Create(VK_KP_2, 'kp2', '2'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD3, 'kp3', '3'));
-    ConfigKeys.Add(TKey.Create(VK_KP_3, 'kp3', '3'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD4, 'kp4', '4'));
-    ConfigKeys.Add(TKey.Create(VK_KP_4, 'kp4', '4'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD5, 'kp5', '5'));
-    ConfigKeys.Add(TKey.Create(VK_KP_5, 'kp5', '5'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD6, 'kp6', '6'));
-    ConfigKeys.Add(TKey.Create(VK_KP_6, 'kp6', '6'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD7, 'kp7', '7'));
-    ConfigKeys.Add(TKey.Create(VK_KP_7, 'kp7', '7'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD8, 'kp8', '8'));
-    ConfigKeys.Add(TKey.Create(VK_KP_8, 'kp8', '8'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD9, 'kp9', '9'));
-    ConfigKeys.Add(TKey.Create(VK_KP_9, 'kp9', '9'));
-    ConfigKeys.Add(TKey.Create(VK_DIVIDE, 'kp/', '/', 'kpdiv'));
-    ConfigKeys.Add(TKey.Create(VK_KP_DIVIDE, 'kp/', '/', 'kpdiv'));
-    ConfigKeys.Add(TKey.Create(VK_MULTIPLY, 'kp*', '*', 'kpmult'));
-    ConfigKeys.Add(TKey.Create(VK_KP_MULT, 'kp*', '*', 'kpmult'));
-    ConfigKeys.Add(TKey.Create(VK_SUBTRACT, 'kp-', '-', 'kpmin'));
-    ConfigKeys.Add(TKey.Create(VK_KP_MIN, 'kp-', '-', 'kpmin'));
-    ConfigKeys.Add(TKey.Create(VK_ADD, 'kp+', '+', 'kpplus'));
-    ConfigKeys.Add(TKey.Create(VK_KP_PLUS, 'kp+', '+', 'kpplus'));
-    ConfigKeys.Add(TKey.Create(VK_DECIMAL, 'kp.', '.'));
-    ConfigKeys.Add(TKey.Create(VK_KP_PERI, 'kp.', '.'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0', '0', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_0, 'kp0', '0', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 0'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD1, 'kp1', '1', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_1, 'kp1', '1', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 1'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD2, 'kp2', '2', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_2, 'kp2', '2', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 2'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD3, 'kp3', '3', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_3, 'kp3', '3', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 3'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD4, 'kp4', '4', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_4, 'kp4', '4', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 4'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD5, 'kp5', '5', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_5, 'kp5', '5', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 5'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD6, 'kp6', '6', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_6, 'kp6', '6', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 6'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD7, 'kp7', '7', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_7, 'kp7', '7', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 7'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD8, 'kp8', '8', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_8, 'kp8', '8', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 8'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD9, 'kp9', '9', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_KP_9, 'kp9', '9', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 9'));
+    ConfigKeys.Add(TKey.Create(VK_DIVIDE, 'kp/', '/', 'kpdiv', '', '', false, false, '', true, false, 0, '', '', 'Keypad divide'));
+    ConfigKeys.Add(TKey.Create(VK_KP_DIVIDE, 'kp/', '/', 'kpdiv', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_MULTIPLY, 'kp*', '*', 'kpmult', '', '', false, false, '', true, false, 0, '', '', 'Keypad multiply'));
+    ConfigKeys.Add(TKey.Create(VK_KP_MULT, 'kp*', '*', 'kpmult', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_SUBTRACT, 'kp-', '-', 'kpmin', '', '', false, false, '', true, false, 0, '', '', 'Keypad minus'));
+    ConfigKeys.Add(TKey.Create(VK_KP_MIN, 'kp-', '-', 'kpmin', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_ADD, 'kp+', '+', 'kpplus', '', '', false, false, '', true, false, 0, '', '', 'Keypad add'));
+    ConfigKeys.Add(TKey.Create(VK_KP_PLUS, 'kp+', '+', 'kpplus', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_DECIMAL, 'kp.', '.', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad period'));
+    ConfigKeys.Add(TKey.Create(VK_KP_PERI, 'kp.', '.', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
     ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter', 'Kp' + #10 + 'Enter', 'kpenter', '', '', false, false, '', true, false, 0, '', 'Keypad Enter'));
     //ConfigKeys.Add(TKey.Create(VK_OEM_NEC_EQUAL, 'kp=', '='));
-    ConfigKeys.Add(TKey.Create(VK_KP_EQUAL, 'kp=', '='));
+    ConfigKeys.Add(TKey.Create(VK_KP_EQUAL, 'kp=', '=', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad Equals'));
 
     //Number keys
     ConfigKeys.Add(TKey.Create(VK_0, '0', ')' + #10 + '0', '0', '0', ')', true, true, '', true, false, 0, '', '0 )'));
@@ -1483,15 +1484,15 @@ begin
     end
     else if (GApplication in [APPL_PEDAL]) then
     begin
-      ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmouse'));
-      ConfigKeys.Add(TKey.Create(VK_MOUSE_MIDDLE, 'mmouse'));
-      ConfigKeys.Add(TKey.Create(VK_MOUSE_RIGHT, 'rmouse'));
+      ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmouse', '', '', '', '', false, false, '', true, false, 0, '', '', 'Left Mouse'));
+      ConfigKeys.Add(TKey.Create(VK_MOUSE_MIDDLE, 'mmouse', '', '', '', '', false, false, '', true, false, 0, '', '', 'Middle Mouse'));
+      ConfigKeys.Add(TKey.Create(VK_MOUSE_RIGHT, 'rmouse', '', '', '', '', false, false, '', true, false, 0, '', '', 'Right Mouse'));
     end;
 
     //Misc keys
     ConfigKeys.Add(TKey.Create(VK_KEYPAD_TOGGLE, 'kptoggle', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize, '', 'Keypad'));
     ConfigKeys.Add(TKey.Create(VK_APPS, 'menu', 'PC' + #10 + 'Menu'));
-    ConfigKeys.Add(TKey.Create(VK_KP_MENU, 'menu', 'PC' + #10 + 'Menu'));
+    ConfigKeys.Add(TKey.Create(VK_KP_MENU, 'menu', 'PC' + #10 + 'Menu', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
     ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'shutdn', 'Shut' + #10 + 'down'));
     ConfigKeys.Add(TKey.Create(VK_MIC_MUTE, 'micmute', 'Mic' + #10 + 'Mute', '', '', '', false, false, '', true, false, smallFontSize));
     ConfigKeys.Add(TKey.Create(VK_FN_TOGGLE, 'fntoggle', 'Fn' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize));
@@ -1507,26 +1508,26 @@ begin
     ConfigKeys.Add(TKey.Create(VK_PRINT, 'prnt', 'Print' + #10 + 'Scrn', '', '', '', false, false, '', true, false, smallFontSize, '', 'Print Screen')); //Old print key...
     ConfigKeys.Add(TKey.Create(VK_SPACE, 'spc', 'Space', 'spc', ' '));
     ConfigKeys.Add(TKey.Create(VK_INSERT, 'insert', 'Insert', 'ins'));
-    ConfigKeys.Add(TKey.Create(VK_RIGHT, 'rght', UnicodeToUTF8(8594), '', '', '', false, false, '', true, false, 10, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_UP, 'up', UnicodeToUTF8(8593), '', '', '', false, false, '', true, false, 10, UNICODE_FONT));
+    ConfigKeys.Add(TKey.Create(VK_RIGHT, 'rght', UnicodeToUTF8(8594), '', '', '', false, false, '', true, false, 10, UNICODE_FONT, '', 'Right'));
+    ConfigKeys.Add(TKey.Create(VK_UP, 'up', UnicodeToUTF8(8593), '', '', '', false, false, '', true, false, 10, UNICODE_FONT, '', 'Up'));
 
     //Keypad keys
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0', '0'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD1, 'kp1', '1'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD2, 'kp2', '2'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD3, 'kp3', '3'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD4, 'kp4', '4'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD5, 'kp5', '5'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD6, 'kp6', '6'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD7, 'kp7', '7'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD8, 'kp8', '8'));
-    ConfigKeys.Add(TKey.Create(VK_NUMPAD9, 'kp9', '9'));
-    ConfigKeys.Add(TKey.Create(VK_DIVIDE, 'kp/', '/'));
-    ConfigKeys.Add(TKey.Create(VK_MULTIPLY, 'kp*', '*'));
-    ConfigKeys.Add(TKey.Create(VK_SUBTRACT, 'kp-', '-'));
-    ConfigKeys.Add(TKey.Create(VK_ADD, 'kp+', '+'));
-    ConfigKeys.Add(TKey.Create(VK_DECIMAL, 'kp.', '.'));
-    ConfigKeys.Add(TKey.Create(VK_KP_EQUAL, 'kp=', '='));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0', '0', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 0'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD1, 'kp1', '1', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 1'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD2, 'kp2', '2', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 2'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD3, 'kp3', '3', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 3'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD4, 'kp4', '4', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 4'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD5, 'kp5', '5', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 5'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD6, 'kp6', '6', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 6'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD7, 'kp7', '7', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 7'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD8, 'kp8', '8', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 8'));
+    ConfigKeys.Add(TKey.Create(VK_NUMPAD9, 'kp9', '9', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad 9'));
+    ConfigKeys.Add(TKey.Create(VK_DIVIDE, 'kp/', '/', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad divide'));
+    ConfigKeys.Add(TKey.Create(VK_MULTIPLY, 'kp*', '*', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad multiply'));
+    ConfigKeys.Add(TKey.Create(VK_SUBTRACT, 'kp-', '-', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad substract'));
+    ConfigKeys.Add(TKey.Create(VK_ADD, 'kp+', '+', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad add'));
+    ConfigKeys.Add(TKey.Create(VK_DECIMAL, 'kp.', '.', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad period'));
+    ConfigKeys.Add(TKey.Create(VK_KP_EQUAL, 'kp=', '=', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad equals'));
     //ConfigKeys.Add(TKey.Create(VK_OEM_NEC_EQUAL, 'kp=', '='));
 
     //Number keys
@@ -1553,8 +1554,8 @@ begin
       ConfigKeys.Add(TKey.Create(VK_PRIOR, 'pgup', 'Page' + #10 + 'Up', '', '', '', false, false, '', true, false, 0, '', 'Page Up'));
       ConfigKeys.Add(TKey.Create(VK_SCROLL, 'sclk', 'Scroll' + #10 + 'Lock', '', '', '', false, false, '', true, false, smallFontSize, '', 'Scroll Lock'));
       ConfigKeys.Add(TKey.Create(VK_PAUSE, 'paus', 'Pause' + #10 + 'Break', '', '', '', false, false, '', true, false, smallFontSize, '', 'Pause Break'));
-      ConfigKeys.Add(TKey.Create(VK_LEFT, 'left', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 10, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_DOWN, 'down', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 10, UNICODE_FONT));
+      ConfigKeys.Add(TKey.Create(VK_LEFT, 'left', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 10, UNICODE_FONT, '', 'Left'));
+      ConfigKeys.Add(TKey.Create(VK_DOWN, 'down', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 10, UNICODE_FONT, '', 'Down'));
       ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshf', 'Left' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Left Shift'));
       ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshf', 'Right' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Right Shift'));
       {$ifdef Win32}
@@ -1569,21 +1570,21 @@ begin
       ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'nmlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
 
       //Special chars
-      ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '= +', 'eql', '=', '+', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '- _', 'hyph', '-', '_', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '/ ?', 'fsls', '/', '?', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '\ |', 'bsls', '\', '|', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', ''' "', 'apos', '''', '"', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '` ~', 'grav', '`', '~', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '; :', 'scol', ';', ':', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', ', <', 'comm', ',', '<', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '. >', 'perd', '.', '>', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '[ {', 'obrk', '[', '{', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '] }', 'cbrk', ']', '}', true, true));
-      ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'int#', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
+      ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '= +', 'eql', '=', '+', true, true, '', true, false, 0, '', '', 'Equals'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '- _', 'hyph', '-', '_', true, true, '', true, false, 0, '', '', 'Hyphen'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '/ ?', 'fsls', '/', '?', true, true, '', true, false, 0, '', '', 'Forward slash'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '\ |', 'bsls', '\', '|', true, true, '', true, false, 0, '', '', 'Back slash'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', ''' "', 'apos', '''', '"', true, true, '', true, false, 0, '', '', 'Apostrophe'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '` ~', 'grav', '`', '~', true, true, '', true, false, 0, '', '', 'Hash'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '; :', 'scol', ';', ':', true, true, '', true, false, 0, '', '', 'Semi Colon'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', ', <', 'comm', ',', '<', true, true, '', true, false, 0, '', '', 'Comma'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '. >', 'perd', '.', '>', true, true, '', true, false, 0, '', '', 'Period'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '[ {', 'obrk', '[', '{', true, true, '', true, false, 0, '', '', 'Open Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '] }', 'cbrk', ']', '}', true, true, '', true, false, 0, '', '', 'Close Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'int#', 'intl-\', 'intl-\', true, true, '', true, false, 0, '', '', 'International Key')); //International <> key between Left Shift and Z
 
       //Keypad
-      ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpen', 'Kp' + #10 + 'Enter'));
+      ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpen', 'Kp' + #10 + 'Enter', '', '', '', false, false, '', true, false, 0, '', '', 'Keypad Enter'));
 
       //Mouse actions
       ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmou', 'Left' + #10 + 'Mouse'));
@@ -1613,8 +1614,8 @@ begin
       ConfigKeys.Add(TKey.Create(VK_PRIOR, 'pup', 'Page' + #10 + 'Up', '', '', '', false, false, '', true, false, 0, '', 'Page Up'));
       ConfigKeys.Add(TKey.Create(VK_SCROLL, 'scrlk', 'Scroll' + #10 + 'Lock', '', '', '', false, false, '', true, false, smallFontSize, '', 'Scroll Lock'));
       ConfigKeys.Add(TKey.Create(VK_PAUSE, 'pause', 'Pause' + #10 + 'Break', '', '', '', false, false, '', true, false, smallFontSize, '', 'Pause Break'));
-      ConfigKeys.Add(TKey.Create(VK_LEFT, 'lft', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 10, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_DOWN, 'dwn', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 10, UNICODE_FONT));
+      ConfigKeys.Add(TKey.Create(VK_LEFT, 'lft', UnicodeToUTF8(8592), '', '', '', false, false, '', true, false, 10, UNICODE_FONT, '', 'Left'));
+      ConfigKeys.Add(TKey.Create(VK_DOWN, 'dwn', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 10, UNICODE_FONT, '', 'Down'));
       ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshift', 'Left' + #10 + 'Shift', 'lshft', '', '', false, false, '', true, false, 0, '', 'Left Shift'));
       ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift', 'Right' + #10 + 'Shift', 'rshft', '', '', false, false, '', true, false, 0, '', 'Right Shift'));
       ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctrl', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Ctrl'));
@@ -1623,21 +1624,21 @@ begin
       ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'numlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
 
       //Special chars
-      ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '= +', '=', '=', '+', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '- _', 'hyph', '-', '_', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '/ ?', '/', '/', '?', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '\ |', '\', '\', '|', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', ''' "', 'apos', '''', '"', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '` ~', 'tilde', '`', '~', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '; :', 'colon', ';', ':', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', ', <', 'com', ',', '<', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '. >', 'per', '.', '>', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '[ {', 'obrk', '[', '{', true, true));
-      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '] }', 'cbrk', ']', '}', true, true));
-      ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl\', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
+      ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '= +', '=', '=', '+', true, true, '', true, false, 0, '', '', 'Equals'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '- _', 'hyph', '-', '_', true, true, '', true, false, 0, '', '', 'Hyphen'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '/ ?', '/', '/', '?', true, true, '', true, false, 0, '', '', 'Forward slash'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '\ |', '\', '\', '|', true, true, '', true, false, 0, '', '', 'Back slash'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', ''' "', 'apos', '''', '"', true, true, '', true, false, 0, '', '', 'Apostrophe'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '` ~', 'tilde', '`', '~', true, true, '', true, false, 0, '', '', 'Hash'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '; :', 'colon', ';', ':', true, true, '', true, false, 0, '', '', 'Semi Colon'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', ', <', 'com', ',', '<', true, true, '', true, false, 0, '', '', 'Comma'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '. >', 'per', '.', '>', true, true, '', true, false, 0, '', '', 'Period'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '[ {', 'obrk', '[', '{', true, true, '', true, false, 0, '', '', 'Open Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '] }', 'cbrk', ']', '}', true, true, '', true, false, 0, '', '', 'Close Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl\', 'intl-\', 'intl-\', true, true, '', true, false, 0, '', '', 'International Key')); //International <> key between Left Shift and Z
 
       //Keypad
-      ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter', 'Kp' + #10 + 'Enter', 'kpent'));
+      ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter', 'Kp' + #10 + 'Enter', 'kpent', '', '', false, false, '', true, false, 0, '', '', 'Keypad Enter'));
 
       //Mouse actions
       ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmous', 'Left' + #10 + 'Mouse'));
@@ -1707,13 +1708,13 @@ begin
   {$ifdef Win32}
   if (GApplication in [APPL_ADV2, APPL_PEDAL]) then
   begin
-    ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter', ' Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
+    ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter', 'Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
     ConfigKeys.Add(TKey.Create(VK_BACK, 'bspace',  'Back' + #10 + 'Space', '', '', '', false, false, '', true, false, 0, '', 'Backspace'));
     ConfigKeys.Add(TKey.Create(VK_DELETE, 'delete', 'Delete'));
   end
   else
   begin
-    ConfigKeys.Add(TKey.Create(VK_RETURN, 'ent', ' Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
+    ConfigKeys.Add(TKey.Create(VK_RETURN, 'ent', 'Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
     ConfigKeys.Add(TKey.Create(VK_BACK, 'bspc',  'Back' + #10 + 'Space', '', '', '', false, false, '', true, false, 0, '', 'Backspace'));
     ConfigKeys.Add(TKey.Create(VK_DELETE, 'del', 'Delete'));
   end;
@@ -1764,45 +1765,45 @@ begin
 
   if (IsGen2Device(GApplication)) then
   begin
-    ConfigKeys.Add(TKey.Create(VK_LWIN, 'lwin', 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Cmd'));
-    ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Right Cmd'));
+    ConfigKeys.Add(TKey.Create(VK_LWIN, 'lwin', 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Cmd', 'Command'));
+    ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Right Cmd', 'Right Command'));
   end
   else
   begin
-    ConfigKeys.Add(TKey.Create(VK_LWIN, 'Cmd', 'Cmd', 'lwin'));
-    ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd'));
-    ConfigKeys.Add(TKey.Create(VK_LCMD_MAC, 'lwin', 'Left' + #10 + 'Cmd'));
+    ConfigKeys.Add(TKey.Create(VK_LWIN, 'Cmd', 'Cmd', 'lwin', '', '', false, false, '', true, false, 0, '', '', 'Command'));
+    ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd', '', '', '', false, false, '', true, false, 0, '', '', 'Right Command'));
+    ConfigKeys.Add(TKey.Create(VK_LCMD_MAC, 'lwin', 'Left' + #10 + 'Cmd', '', '', '', false, false, '', true, false, 0, '', '', 'Left Command'));
   end;
 
   if (GApplication = APPL_PEDAL) then
   begin
-    ConfigKeys.Add(TKey.Create(VK_MENU, 'Opt', 'Opt', 'alt'));
+    ConfigKeys.Add(TKey.Create(VK_MENU, 'Opt', 'Opt', 'alt', '', '', false, false, '', true, false, 0, '', '', 'Option'));
   end;
   {$endif}
 
   //Custom for special events
-  ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', 'speed1', '', '', false, false, '', False));
-  ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', 'speed3', '', '', false, false, '', False));
-  ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', 'speed5', '', '', false, false, '', False));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_1, 's1'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_2, 's2'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_3, 's3'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_4, 's4'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_5, 's5'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_6, 's6'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_7, 's7'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_8, 's8'));
-  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_9, 's9'));
+  ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', 'speed1', '', '', false, false, '', False, FALSE, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', 'speed3', '', '', false, false, '', False, FALSE, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', 'speed5', '', '', false, false, '', False, FALSE, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_1, 's1', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_2, 's2', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_3, 's3', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_4, 's4', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_5, 's5', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_6, 's6', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_7, 's7', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_8, 's8', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_MACRO_SPEED_9, 's9', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
   if not(GApplication in [APPL_RGB, APPL_TKO]) then
   begin
-    ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False));
-    ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', 'd500', '', '', false, false, '', False));
+    ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', 'd500', '', '', false, false, '', False, false, 0, '', '', SKIP_SEARCH));
   end;
-  ConfigKeys.Add(TKey.Create(VK_RAND_DELAY, 'dran', '', 'dran', '', '', false, false, '', False));
+  ConfigKeys.Add(TKey.Create(VK_RAND_DELAY, 'dran', '', 'dran', '', '', false, false, '', False, FALSE, 0, '', '', SKIP_SEARCH));
 
   //Timing delays 1 to 999
   for i := MIN_TIMING_DELAY to MAX_TIMING_DELAY do
-    ConfigKeys.Add(TKey.Create(VK_MIN_DELAY + (i - 1), 'd' + Format('%.3d', [i]), '', 'd' + Format('%.3d', [i]), '', '', false, false, '', False));
+    ConfigKeys.Add(TKey.Create(VK_MIN_DELAY + (i - 1), 'd' + Format('%.3d', [i]), '', 'd' + Format('%.3d', [i]), '', '', false, false, '', False, false, 0, '', '', SKIP_SEARCH));
 
   //Media keys with unicode
   mediaFontSize := 4;
@@ -1810,62 +1811,62 @@ begin
   begin
     if (GApplication in [APPL_RGB, APPL_TKO]) then
     begin
-      ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute', UnicodeToUTF8(128264), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-', UnicodeToUTF8(128265), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+', UnicodeToUTF8(128266), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT))
+      ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute', UnicodeToUTF8(128264), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Mute'));
+      ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-', UnicodeToUTF8(128265), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Volume Down'));
+      ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+', UnicodeToUTF8(128266), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Volume Up'))
     end
     else
     begin
-      ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute', UnicodeToUTF8(128360), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-', UnicodeToUTF8(128361), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+', UnicodeToUTF8(128362), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
+      ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute', UnicodeToUTF8(128360), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Mute'));
+      ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-', UnicodeToUTF8(128361), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Volume Down'));
+      ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+', UnicodeToUTF8(128362), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Volume Up'));
     end;
 
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_STOP, 'stop', UnicodeToUTF8(9724), '', '', '', false, false, '', true, false, 0, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_PREV_TRACK, 'prev', UnicodeToUTF8(9198), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_NEXT_TRACK, 'next', UnicodeToUTF8(9197), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_KP_PLAY, 'play', UnicodeToUTF8(9199), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_KP_PREV, 'prev', UnicodeToUTF8(9198), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_KP_NEXT, 'next', UnicodeToUTF8(9197), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_KP_MUTE, 'mute', UnicodeToUTF8(128360), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_KP_VOLDOWN, 'vol-', UnicodeToUTF8(128361), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_KP_VOLUP, 'vol+', UnicodeToUTF8(128362), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_FORWARD, 'fwrd', UnicodeToUTF8(9193), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_REWIND, 'rewd', UnicodeToUTF8(9194), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_PAUSE, 'cpau', UnicodeToUTF8(9208), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_EJECT, 'ejct', UnicodeToUTF8(9167), '', '', '', false, false, '', true, false, 0, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_RECORD, 'recr', UnicodeToUTF8(9210), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_NULL, 'null', UnicodeToUTF8(8855), '', '', '', false, false, '', true, false, 0, UNICODE_FONT));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_STOP, 'stop', UnicodeToUTF8(9724), '', '', '', false, false, '', true, false, 0, UNICODE_FONT, '', 'Stop'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_PREV_TRACK, 'prev', UnicodeToUTF8(9198), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Previous Track'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_NEXT_TRACK, 'next', UnicodeToUTF8(9197), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Next Track'));
+    ConfigKeys.Add(TKey.Create(VK_KP_PLAY, 'play', UnicodeToUTF8(9199), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Play/Pause'));
+    ConfigKeys.Add(TKey.Create(VK_KP_PREV, 'prev', UnicodeToUTF8(9198), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Previous'));
+    ConfigKeys.Add(TKey.Create(VK_KP_NEXT, 'next', UnicodeToUTF8(9197), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Next'));
+    ConfigKeys.Add(TKey.Create(VK_KP_MUTE, 'mute', UnicodeToUTF8(128360), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Mute'));
+    ConfigKeys.Add(TKey.Create(VK_KP_VOLDOWN, 'vol-', UnicodeToUTF8(128361), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Volume Down'));
+    ConfigKeys.Add(TKey.Create(VK_KP_VOLUP, 'vol+', UnicodeToUTF8(128362), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Volume Up'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_FORWARD, 'fwrd', UnicodeToUTF8(9193), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Forward'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_REWIND, 'rewd', UnicodeToUTF8(9194), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Rewind'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_PAUSE, 'cpau', UnicodeToUTF8(9208), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Pause'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_EJECT, 'ejct', UnicodeToUTF8(9167), '', '', '', false, false, '', true, false, 0, UNICODE_FONT, '', 'Eject'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_RECORD, 'recr', UnicodeToUTF8(9210), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Record'));
+    ConfigKeys.Add(TKey.Create(VK_NULL, 'null', UnicodeToUTF8(8855), '', '', '', false, false, '', true, false, 0, UNICODE_FONT, '', 'Null'));
 
     if IsGen2Device(GApplication) then
     begin
-      ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY, 'play', UnicodeToUTF8(9654), '', '', '', false, false, '', true, false, 0, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'plpa', UnicodeToUTF8(9199), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_LED, 'ledt', UnicodeToUTF8(9728), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT))
+      ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY, 'play', UnicodeToUTF8(9654), '', '', '', false, false, '', true, false, 0, UNICODE_FONT, '', 'Play'));
+      ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'plpa', UnicodeToUTF8(9199), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Play/Pause'));
+      ConfigKeys.Add(TKey.Create(VK_LED, 'ledt', UnicodeToUTF8(9728), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Led'))
     end
     else
     begin
-      ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'play', UnicodeToUTF8(9199), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-      ConfigKeys.Add(TKey.Create(VK_LED, 'LED', UnicodeToUTF8(9728), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
+      ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'play', UnicodeToUTF8(9199), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Play/Pause'));
+      ConfigKeys.Add(TKey.Create(VK_LED, 'LED', UnicodeToUTF8(9728), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Led'));
     end;
-    ConfigKeys.Add(TKey.Create(VK_LED_PLUS, 'led+', UnicodeToUTF8(128262), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
-    ConfigKeys.Add(TKey.Create(VK_LED_MINUS, 'led-', UnicodeToUTF8(128261), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT));
+    ConfigKeys.Add(TKey.Create(VK_LED_PLUS, 'led+', UnicodeToUTF8(128262), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Led +'));
+    ConfigKeys.Add(TKey.Create(VK_LED_MINUS, 'led-', UnicodeToUTF8(128261), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, '', 'Led -'));
   end
   else
   begin
     ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute', 'Mute'));
-    ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-', 'Vol-'));
-    ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+', 'Vol+'));
+    ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-', 'Vol-', '', '', '', false, false, '', true, false, 0, '', '', 'Volume Down'));
+    ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+', 'Vol+', '', '', '', false, false, '', true, false, 0, '', '', 'Volume Up'));
 
     ConfigKeys.Add(TKey.Create(VK_MEDIA_STOP, 'stop', 'Stop'));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_PREV_TRACK, 'prev', 'Prev'));
-    ConfigKeys.Add(TKey.Create(VK_MEDIA_NEXT_TRACK, 'next', 'Next'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_PREV_TRACK, 'prev', 'Prev', '', '', '', false, false, '', true, false, 0, '', '', 'Previous Track'));
+    ConfigKeys.Add(TKey.Create(VK_MEDIA_NEXT_TRACK, 'next', 'Next', '', '', '', false, false, '', true, false, 0, '', '', 'Next Track'));
     ConfigKeys.Add(TKey.Create(VK_KP_PLAY, 'play', 'Play'));
-    ConfigKeys.Add(TKey.Create(VK_KP_PREV, 'prev', 'Prev'));
+    ConfigKeys.Add(TKey.Create(VK_KP_PREV, 'prev', 'Prev', '', '', '', false, false, '', true, false, 0, '', '', 'Previous'));
     ConfigKeys.Add(TKey.Create(VK_KP_NEXT, 'next', 'Next'));
     ConfigKeys.Add(TKey.Create(VK_KP_MUTE, 'mute', 'Mute'));
-    ConfigKeys.Add(TKey.Create(VK_KP_VOLDOWN, 'vol-', 'Vol-'));
-    ConfigKeys.Add(TKey.Create(VK_KP_VOLUP, 'vol+', 'Vol+'));
+    ConfigKeys.Add(TKey.Create(VK_KP_VOLDOWN, 'vol-', 'Vol-', '', '', '', false, false, '', true, false, 0, '', '', 'Volume Down'));
+    ConfigKeys.Add(TKey.Create(VK_KP_VOLUP, 'vol+', 'Vol+', '', '', '', false, false, '', true, false, 0, '', '', 'Volume Up'));
     ConfigKeys.Add(TKey.Create(VK_MEDIA_FORWARD, 'fwrd', 'Forward'));
     ConfigKeys.Add(TKey.Create(VK_MEDIA_REWIND, 'rewd', 'Rewind'));
     ConfigKeys.Add(TKey.Create(VK_MEDIA_PAUSE, 'cpau', 'Pause'));
@@ -1874,14 +1875,14 @@ begin
 
     if IsGen2Device(GApplication) then
     begin
-      ConfigKeys.Add(TKey.Create(VK_NULL, 'null', 'NUL'));
+      ConfigKeys.Add(TKey.Create(VK_NULL, 'null', 'NUL', '', '', '', false, false, '', true, false, 0, '', '', 'Null'));
       ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY, 'play',  'Play'));
       ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'plpa', 'Play' + #10 + 'Pause'));
       ConfigKeys.Add(TKey.Create(VK_LED, 'ledt', 'LED'))
     end
     else
     begin
-      ConfigKeys.Add(TKey.Create(VK_NULL, 'null', ' '));
+      ConfigKeys.Add(TKey.Create(VK_NULL, 'null', ' ', '', '', '', false, false, '', true, false, 0, '', '', 'Null'));
       ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'play', 'Play' + #10 + 'Pause'));
       ConfigKeys.Add(TKey.Create(VK_LED, 'LED', 'LED'));
     end;
@@ -1892,20 +1893,24 @@ begin
   //Misc keys
   ConfigKeys.Add(TKey.Create(VK_MEDIA_RANDOM_PLAY, 'ranp', 'Rand' + #10 + 'Play', '', '', '', false, false, '', true, false, smallFontSize));
   ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_SKIP, 'plsk', 'Play' + #10 + 'Skip', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_CALC, 'calc', 'Calc'));
-  ConfigKeys.Add(TKey.Create(VK_KP_CALC, 'calc', 'Calc'));
-  ConfigKeys.Add(TKey.Create(VK_DIF_PRESS_REL, '{ }', '', ' '));
-  ConfigKeys.Add(TKey.Create(VK_PROGRAM, '', 'Pro-' + #10 + 'gram', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_FUNCTION, 'Fn', 'Fn'));
-  ConfigKeys.Add(TKey.Create(VK_SMARTSET, 'ss', ' ', '', '', '', false, false, '', true, false, 0, '', '', 'imgSmartSet'));
-  ConfigKeys.Add(TKey.Create(VK_LPEDAL, 'lp-tab', 'Tab'));
-  ConfigKeys.Add(TKey.Create(VK_MPEDAL, 'mp-kpshf', 'Kp' + #10 + 'Shift'));
-  ConfigKeys.Add(TKey.Create(VK_RPEDAL, 'rp-kpent', 'Kp' + #10 + 'Enter'));
+  ConfigKeys.Add(TKey.Create(VK_CALC, 'calc', 'Calc', '', '', '', false, false, '', true, false, 0, '', '', 'Calculator'));
+  ConfigKeys.Add(TKey.Create(VK_KP_CALC, 'calc', 'Calc', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_DIF_PRESS_REL, '{ }', '', ' ', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROGRAM, '', 'Pro-' + #10 + 'gram', '', '', '', false, false, '', true, false, smallFontSize, '', '', 'Program'));
+  ConfigKeys.Add(TKey.Create(VK_FUNCTION, 'Fn', 'Fn', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_SMARTSET, 'ss', ' ', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH, 'imgSmartSet'));
   ConfigKeys.Add(TKey.Create(VK_STOP_MACRO_PLAYBACK, 'mstp', 'Stop' + #10 + 'macro playback', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_PEDAL, 'pedl', 'Tab'));
+  ConfigKeys.Add(TKey.Create(VK_PEDAL, 'pedl', 'Tab', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+
+  if (GApplication in [APPL_ADV2]) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_LPEDAL, 'lp-tab', 'Tab', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_MPEDAL, 'mp-kpshf', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+    ConfigKeys.Add(TKey.Create(VK_RPEDAL, 'rp-kpent', 'Kp' + #10 + 'Enter', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  end;
 
   //Layer shift/toggle keys
-  ConfigKeys.Add(TKey.Create(VK_KEYPAD, '', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize));
+  ConfigKeys.Add(TKey.Create(VK_KEYPAD, '', 'Key-' + #10 + 'pad', '', '', '', false, false, '', true, false, smallFontSize, '', '', SKIP_SEARCH));
   ConfigKeys.Add(TKey.Create(VK_KEYPAD_SHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Kp Shift'));
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_SHIFT, 'defs', 'Base' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Shift'));
   ConfigKeys.Add(TKey.Create(VK_BASE_LAYER_TOGGLE, 'deft', 'Base' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Base Toggle'));
@@ -1921,81 +1926,84 @@ begin
   ConfigKeys.Add(TKey.Create(VK_FN3_LAYER_TOGGLE, 'fn3t', 'Fn3' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'Fn3 Toggle'));
 
   //Profile keys
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_0, 'pro0', 'Profile 0'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_1, 'pro1', 'Profile 1'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_2, 'pro2', 'Profile 2'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_3, 'pro3', 'Profile 3'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_4, 'pro4', 'Profile 4'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_5, 'pro5', 'Profile 5'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_6, 'pro6', 'Profile 6'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_7, 'pro7', 'Profile 7'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_8, 'pro8', 'Profile 8'));
-  ConfigKeys.Add(TKey.Create(VK_PROFILE_9, 'pro9', 'Profile 9'));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_0, 'pro0', 'Profile 0', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_1, 'pro1', 'Profile 1', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_2, 'pro2', 'Profile 2', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_3, 'pro3', 'Profile 3', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_4, 'pro4', 'Profile 4', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_5, 'pro5', 'Profile 5', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_6, 'pro6', 'Profile 6', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_7, 'pro7', 'Profile 7', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_8, 'pro8', 'Profile 8', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_PROFILE_9, 'pro9', 'Profile 9', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
 
   //Hotkeys
-  ConfigKeys.Add(TKey.Create(VK_HK0, 'hk0', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 0'));
-  ConfigKeys.Add(TKey.Create(VK_HK1, 'hk1', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 1'));
-  ConfigKeys.Add(TKey.Create(VK_HK2, 'hk2', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 2'));
-  ConfigKeys.Add(TKey.Create(VK_HK3, 'hk3', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 3'));
-  ConfigKeys.Add(TKey.Create(VK_HK4, 'hk4', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 4'));
-  ConfigKeys.Add(TKey.Create(VK_HK5, 'hk5', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 5'));
-  ConfigKeys.Add(TKey.Create(VK_HK6, 'hk6', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 6'));
-  ConfigKeys.Add(TKey.Create(VK_HK7, 'hk7', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 7'));
-  ConfigKeys.Add(TKey.Create(VK_HK8, 'hk8', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 8'));
+  ConfigKeys.Add(TKey.Create(VK_HK0, 'hk0', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 0', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK1, 'hk1', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 1', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK2, 'hk2', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 2', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK3, 'hk3', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 3', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK4, 'hk4', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 4', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK5, 'hk5', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 5', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK6, 'hk6', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 6', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK7, 'hk7', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 7', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK8, 'hk8', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 8', SKIP_SEARCH));
   if (GApplication in [APPL_RGB, APPL_TKO]) then
-    ConfigKeys.Add(TKey.Create(VK_HK9, 'hk9', 'Fn' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'hotkey 9'))
+    ConfigKeys.Add(TKey.Create(VK_HK9, 'hk9', 'Fn' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'hotkey 9', SKIP_SEARCH))
   else
-    ConfigKeys.Add(TKey.Create(VK_HK9, 'hk9', 'Fn' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'hotkey 9'));
+    ConfigKeys.Add(TKey.Create(VK_HK9, 'hk9', 'Fn' + #10 + 'Toggle', '', '', '', false, false, '', true, false, smallFontSize, '', 'hotkey 9', SKIP_SEARCH));
   if (GApplication in [APPL_FSEDGE, APPL_RGB, APPL_TKO]) then
   begin
     if (CanUseUnicode) then
-      ConfigKeys.Add(TKey.Create(VK_HK10, 'hk10', UnicodeToUTF8(9728), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, 'hotkey 10'))
+      ConfigKeys.Add(TKey.Create(VK_HK10, 'hk10', UnicodeToUTF8(9728), '', '', '', false, false, '', true, false, mediaFontSize, UNICODE_FONT, 'hotkey 10', SKIP_SEARCH))
     else
-      ConfigKeys.Add(TKey.Create(VK_HK10, 'hk10', 'LED', '', '', '', false, false, '', true, false, 0, '', 'hotkey 10'));
+      ConfigKeys.Add(TKey.Create(VK_HK10, 'hk10', 'LED', '', '', '', false, false, '', true, false, 0, '', 'hotkey 10', SKIP_SEARCH));
   end
   else
-    ConfigKeys.Add(TKey.Create(VK_HK10, 'hk10', 'PC' + #10 + 'Menu', '', '', '', false, false, '', true, false, 0, '', 'hotkey 10'));
+    ConfigKeys.Add(TKey.Create(VK_HK10, 'hk10', 'PC' + #10 + 'Menu', '', '', '', false, false, '', true, false, 0, '', 'hotkey 10', SKIP_SEARCH));
 
   //TKO Edge Lighting
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L1, 'L1'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L2, 'L2'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L3, 'L3'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L4, 'L4'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L5, 'L5'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L6, 'L6'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L7, 'L7'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L8, 'L8'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_L9, 'L9'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B1, 'B1'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B2, 'B2'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B3, 'B3'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B4, 'B4'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B5, 'B5'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B6, 'B6'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B7, 'B7'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B8, 'B8'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B9, 'B9'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B10, 'B10'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B11, 'B11'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B12, 'B12'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B13, 'B13'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B14, 'B14'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_B15, 'B15'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R1, 'R1'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R2, 'R2'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R3, 'R3'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R4, 'R4'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R5, 'R5'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R6, 'R6'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R7, 'R7'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R8, 'R8'));
-  ConfigKeys.Add(TKey.Create(VK_EDGE_R9, 'R9'));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L1, 'L1', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L2, 'L2', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L3, 'L3', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L4, 'L4', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L5, 'L5', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L6, 'L6', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L7, 'L7', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L8, 'L8', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_L9, 'L9', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B1, 'B1', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B2, 'B2', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B3, 'B3', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B4, 'B4', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B5, 'B5', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B6, 'B6', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B7, 'B7', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B8, 'B8', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B9, 'B9', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B10, 'B10', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B11, 'B11', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B12, 'B12', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B13, 'B13', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B14, 'B14', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_B15, 'B15', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R1, 'R1', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R2, 'R2', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R3, 'R3', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R4, 'R4', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R5, 'R5', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R6, 'R6', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R7, 'R7', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R8, 'R8', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_EDGE_R9, 'R9', '', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
   //TKO Edge Lighting
 
   //FOR ADVANTAGE 2 KEYBOARD / Internal keyboard app
-  ConfigKeys.Add(TKey.Create(VK_KP_KPSHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
-  ConfigKeys.Add(TKey.Create(VK_KP_ENTER1, 'kpenter1', 'Kp' + #10 + 'Enter'));
-  ConfigKeys.Add(TKey.Create(VK_KP_ENTER2, 'kpenter2', 'Kp' + #10 + 'Enter'));
+  if (GApplication in [APPL_ADV2]) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_KP_KPSHIFT, 'kpshft', 'Kp' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize));
+    ConfigKeys.Add(TKey.Create(VK_KP_ENTER1, 'kpenter1', 'Kp' + #10 + 'Enter'));
+    ConfigKeys.Add(TKey.Create(VK_KP_ENTER2, 'kpenter2', 'Kp' + #10 + 'Enter'));
+  end;
 
   result := ConfigKeys;
 end;

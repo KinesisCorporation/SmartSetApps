@@ -108,6 +108,7 @@ type
     function CompareKey(key1: word; aKeyList: TKeyList): boolean;
     function CompareTriggers(aKeyList1: TKeyList; aKeyList2: TKeyList): boolean;
     function CheckUpDownKS(aKeyList: TKeyList): boolean;
+    function CountMacroKeyStrokes(aMacro: TKeyList): integer;
     function GetBaseLayerAdv360: TKBLayer;
     function GetEdgeKey(key: word; layerIdx: integer): TKBKey;
     function GetFN1LayerAdv360: TKBLayer;
@@ -10700,6 +10701,7 @@ var
   i:integer;
   tempMacro: TKeyList;
   valid: boolean;
+  keyCount: integer;
 begin
   valid := true;
   errorMsg := '';
@@ -10768,11 +10770,43 @@ begin
             break;
           end;
         end;
+
+        //Check for max keystrokes in Macro (Adv360)
+        if (valid) and (GApplication = APPL_ADV360) then
+        begin
+          keyCount := CountMacroKeyStrokes(tempMacro);
+          if (keyCount > MAX_KEYSTROKES_MACRO_ADV360) then
+          begin
+            valid := false;
+            errorMsg := 'Macros are limited to ' + IntToStr(MAX_KEYSTROKES_MACRO_ADV360) + ' characters.' + #10 +
+              'Current length: ' + IntToStr(keyCount);
+            errorMsgTitle := 'Maximum Length Reached';
+            errorNumber := 6;
+            break;
+          end;
+        end;
       end;
     end;
   end;
 
   result := valid;
+end;
+
+function TKeyService.CountMacroKeyStrokes(aMacro: TKeyList): integer;
+var
+  macroText: string;
+  aKey: TKey;
+begin
+  result := 0;
+  if (GApplication = APPL_ADV360) then
+  begin
+    aKey := FindKeyConfig(aMacro.TriggerKey);
+
+    //Get macro text that will be saved
+    macroText := GetTextMacro(aKey, aMacro, '');
+
+    result := length(macroText);
+  end;
 end;
 
 function TKeyService.CountModifiers(modifiers: string): integer;

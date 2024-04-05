@@ -14,7 +14,7 @@ uses
   u_form_timingdelays, LResources, lcltype, BGRABitmap, BGRABitmapTypes,
   BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
   u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout, BCTypes,
-  u_form_invalid_lines
+  u_form_invalid_lines, u_form_search_keys
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -32,6 +32,7 @@ type
     btnCommonShortcuts: TColorSpeedButtonCS;
     btnCopy: TColorSpeedButtonCS;
     btnCopyMacro: TColorSpeedButtonCS;
+    btnSearch: TColorSpeedButtonCS;
     btnDoneMacro: TColorSpeedButtonCS;
     btnFactoryReset: TColorSpeedButtonCS;
     btnFn1LayerMacro: TColorSpeedButtonCS;
@@ -41,8 +42,10 @@ type
     btnQuickThumbKeys: TColorSpeedButtonCS;
     btnFunctionMacro: TColorSpeedButtonCS;
     btnResetAllMacros: TColorSpeedButtonCS;
+    btnResetLayer: TColorSpeedButtonCS;
     btnResetMacro: TColorSpeedButtonCS;
     btnRightCommand: TColorSpeedButtonCS;
+    btnSearchMacro: TColorSpeedButtonCS;
     btnUpDown: TColorSpeedButtonCS;
     btnKpLayerMacro: TColorSpeedButtonCS;
     btnLeftAlt: TColorSpeedButtonCS;
@@ -420,12 +423,15 @@ type
     procedure btnProfileMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btnResetAllMacrosClick(Sender: TObject);
+    procedure btnResetLayerClick(Sender: TObject);
     procedure btnResetMacroClick(Sender: TObject);
     procedure btnRightLED1Click(Sender: TObject);
     procedure btnRightLED2Click(Sender: TObject);
     procedure btnRightLED3Click(Sender: TObject);
     procedure btnSaveAsMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure btnSearchClick(Sender: TObject);
+    procedure btnSearchMacroClick(Sender: TObject);
     procedure btnSpeedMacroClick(Sender: TObject);
     procedure btnTapAndHoldClick(Sender: TObject);
     procedure btnUpDownClick(Sender: TObject);
@@ -836,7 +842,8 @@ begin
     (FormMainAdv360.eHTMLFn1.Focused) or
     (FormMainAdv360.eHTMLFn2.Focused) or
     (FormMainAdv360.eHTMLFn3.Focused) or
-    ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused);
+    ((FormTapAndHold <> nil) and FormTapAndHold.eTimingDelay.Focused) or
+    ((FormSearchKeys <> nil) and FormSearchKeys.filterKeys.Focused);
 end;
 
 { Key Hook }
@@ -1541,6 +1548,7 @@ begin
   btnFunctionMacro.Disabled := MacroState <> mstEdit;
   btnSpeedMacro.Disabled := MacroState <> mstEdit;
   btnUpDown.Disabled := MacroState <> mstEdit;
+  btnSearchMacro.Disabled := MacroState <> mstEdit;
 end;
 
 procedure TFormMainAdv360.InitKeyButtons(container: TWinControl);
@@ -1629,6 +1637,8 @@ begin
   hoveredList.Add(THoveredObj.Create(btnCancel, imgListMiniIcons, 2, 3));
   hoveredList.Add(THoveredObj.Create(btnResetKey, imgListMiniIcons, 4, 5));
   hoveredList.Add(THoveredObj.Create(btnResetAll, imgListMiniIcons, 6, 7));
+  hoveredList.Add(THoveredObj.Create(btnSearch, imgListMiniIcons, 10, 11));
+  hoveredList.Add(THoveredObj.Create(btnResetLayer, imgListMiniIcons, 12, 13));
 
   //Marco repo section buttons
   hoveredList.Add(THoveredObj.Create(btnAddMacro, imgListMiniIcons, 8, 9));
@@ -1649,6 +1659,7 @@ begin
   hoveredList.Add(THoveredObj.Create(btnFunctionMacro, imgListMacroActions, 18, 19));
   hoveredList.Add(THoveredObj.Create(btnSpeedMacro, imgListMacroActions, 20, 21));
   hoveredList.Add(THoveredObj.Create(btnUpDown, imgListMacroActions, 22, 23));
+  hoveredList.Add(THoveredObj.Create(btnSearchMacro, imgListMacroActions, 24, 25));
 
   //Macro buttons
   hoveredList.Add(THoveredObj.Create(btnCancelMacro, imgListMacro, 0, 1));
@@ -3007,6 +3018,7 @@ begin
     btnDone.Disabled := not IsKeyLoaded;
     btnCancel.Disabled := not IsKeyLoaded;
     btnResetKey.Disabled := not IsKeyLoaded;
+    btnSearch.Disabled := not IsKeyLoaded;
 
     UpdateKeyButtonKey(activeKbKey, activeKeyBtn);
     SetMenuEnabled;
@@ -3248,9 +3260,11 @@ begin
       btnResetAll.Hint := 'Erase color assignments for all keys';
     end;
 
+    btnSearch.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
     btnCancel.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
     btnDone.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
     btnResetKey.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
+    btnResetLayer.Visible := keyService.ConfigMode = CONFIG_LAYOUT;
     btnResetAll.Visible := true;
 
     if (keyService.ConfigMode = CONFIG_LAYOUT) then
@@ -3585,6 +3599,36 @@ begin
     btnSaveAs.Down := false;
     SetHovered(sender, false);
   end;
+end;
+
+procedure TFormMainAdv360.btnSearchClick(Sender: TObject);
+var
+  key: integer;
+begin
+  if (IsKeyLoaded) then
+  begin
+    key := ShowSearchKeys('Search Keys', keyService, backColor, fontColor, activeColor);
+    if (key >= 0) then
+    begin
+      SetModifiedKey(key, '', false);
+    end;
+  end;
+  SetHovered(sender, false, true);
+end;
+
+procedure TFormMainAdv360.btnSearchMacroClick(Sender: TObject);
+var
+  key: integer;
+begin
+  if (IsMacroLoaded) then
+  begin
+    key := ShowSearchKeys('Search Keys (Macro)', keyService, backColor, fontColor, activeColor);
+    if (key >= 0) then
+    begin
+      SetModifiedKey(key, '', true);
+    end;
+  end;
+  SetHovered(sender, false, true);
 end;
 
 procedure TFormMainAdv360.btnSpeedMacroClick(Sender: TObject);
@@ -4720,6 +4764,22 @@ begin
       ResetLedIndicators;
     end;
   end;
+  SetHovered(sender, false, true);
+end;
+
+procedure TFormMainAdv360.btnResetLayerClick(Sender: TObject);
+begin
+  if ShowDialog('Reset a Layer',
+    'Reset all the actions on the ' + keyService.ActiveLayer.LayerName + ' Layer ?' ,
+    mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
+  begin
+    keyService.ResetLayer(keyService.ActiveLayer);
+    LoadLayer(keyService.ActiveLayer);
+    SetActiveKeyButton(nil);
+    RefreshRemapInfo;
+    SetSaveState(ssModified);
+  end;
+
   SetHovered(sender, false, true);
 end;
 

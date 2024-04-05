@@ -8,13 +8,15 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls, u_base_form, u_const, UserDialog, lcltype,
   u_keys, u_common_ui, u_key_service, ColorSpeedButtonCS, LineObj, menus,
-  u_form_select_macro;
+  u_form_select_macro, u_form_search_keys;
 
 type
 
   { TFormTapAndHold }
 
   TFormTapAndHold = class(TBaseForm)
+    btnSearchTapAction: TColorSpeedButtonCS;
+    btnSearchHoldAction: TColorSpeedButtonCS;
     btnSelMacroTap: TColorSpeedButtonCS;
     btnSelMacroHold: TColorSpeedButtonCS;
     btnCancel: TColorSpeedButtonCS;
@@ -24,6 +26,7 @@ type
     eHoldAction: TEdit;
     eTimingDelay: TEdit;
     eTapAction: TEdit;
+    imgListMiniIcons: TImageList;
     imgListTiming: TImageList;
     lblInfo: TLabel;
     lblNote: TLabel;
@@ -38,6 +41,10 @@ type
     procedure btnCancelMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure btnAcceptClick(Sender: TObject);
+    procedure btnSearchHoldActionClick(Sender: TObject);
+    procedure btnSearchLeave(Sender: TObject);
+    procedure btnSearchMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure btnSearchTapActionClick(Sender: TObject);
     procedure btnSelMacroHoldClick(Sender: TObject);
     procedure btnSelMacroTapClick(Sender: TObject);
     procedure eHoldActionEnter(Sender: TObject);
@@ -289,6 +296,43 @@ begin
     LoadButtonImage(sender, imgListTiming, 6)
   else
     LoadButtonImage(sender, imgListTiming, 2);
+end;
+
+procedure TFormTapAndHold.btnSearchLeave(Sender: TObject);
+begin
+  LoadButtonImage(sender, imgListMiniIcons, 0);
+end;
+
+procedure TFormTapAndHold.btnSearchMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  LoadButtonImage(sender, imgListMiniIcons, 1);
+end;
+
+procedure TFormTapAndHold.btnSearchTapActionClick(Sender: TObject);
+var
+  key: integer;
+begin
+  key := ShowSearchKeys('Search Keys (Tap Action)', keyService, backColor, fontColor, activeColor);
+  if (key >= 0) then
+  begin
+    SetKeyPress(key, eTapAction);
+    eTapAction.SetFocus;
+  end;
+  LoadButtonImage(sender, imgListMiniIcons, 0);
+end;
+
+procedure TFormTapAndHold.btnSearchHoldActionClick(Sender: TObject);
+var
+  key: integer;
+begin
+  key := ShowSearchKeys('Search Keys (Hold Action)', keyService, backColor, fontColor, activeColor);
+  if (key >= 0) then
+  begin
+    SetKeyPress(key, eHoldAction);
+    eHoldAction.SetFocus;
+  end;
+  LoadButtonImage(sender, imgListMiniIcons, 0);
 end;
 
 procedure TFormTapAndHold.btnSelMacroHoldClick(Sender: TObject);
