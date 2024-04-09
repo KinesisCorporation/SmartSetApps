@@ -1,6 +1,6 @@
 # SmartSetApps
 This repository is for SmartSet apps used for Kinesis Corporation keyboards and foot pedals.
-All apps are build using Lazarus IDE (pascal programming language): https://www.lazarus-ide.org/.
+All apps are built using Lazarus IDE (pascal programming language): https://www.lazarus-ide.org/.
 These apps currently support Windows 32-bit and MacOS 32-bit/64-bit.
 
 You can get compiled versions of the Apps and detailed installation and usage instructions on these websites:
