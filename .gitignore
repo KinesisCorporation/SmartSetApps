@@ -30,3 +30,19 @@ trace.log
 SmartSetAdv2/SmartSetKeyboard.lps
 SmartSetFSEdgePro/SmartSetFSEdge.lps
 SmartSetMaster/devmode.on
+
+Components/**/x86_64-darwin
+Components/**/x86_64-linux
+Components/**/x86_64-win64
+Components/**/i386-win32
+
+SmartSetAdv2/Adv2 SmartSet App (Mac)
+SmartSetAdv2/Adv2 SmartSet App (PC)
+SmartSetFSEdgePro/SmartSet App-Freestyle (PC)
+SmartSetMaster/SmartSetMaster (PC)
+SmartSetMasterOffice/SmartSetMasterErgo (Mac)
+SmartSetMasterOffice/SmartSetMasterOffice (PC)
+SmartSetRGB/SmartSet App-Freestyle (Mac)
+SmartSetRGB/SmartSet App-Freestyle (PC)
+SmartSetSavantElite/SE2 SmartSet App (Mac)
+SmartSetTKO/SmartSetTKO

@@ -13,6 +13,7 @@ interface
 uses
   {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
   {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
+  {$ifdef Linux}LCLIntf, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
   internetaccess, LazFileUtils, u_kinesis_device, registry, ExtCtrls, u_led_ind;
 
