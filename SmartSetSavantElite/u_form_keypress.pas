@@ -1703,6 +1703,9 @@ const
   {$ifdef Darwin}
   LINE_HEIGHT = 20;
   {$endif}
+  {$ifdef Linux}
+  LINE_HEIGHT = 20; // wild guess
+  {$endif}
 begin
    memoSender := TRichMemo(Sender);
 

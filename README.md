@@ -1,4 +1,7 @@
 # SmartSetApps
+
+[![Build](https://github.com/KinesisCorporation/SmartSetApps/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/KinesisCorporation/SmartSetApps/actions/workflows/build.yml)
+
 This repository is for SmartSet apps used for Kinesis Corporation keyboards and foot pedals.
 All apps are build using Lazarus IDE (pascal programming language): https://www.lazarus-ide.org/.
 These apps currently support Windows 32-bit and MacOS 32-bit/64-bit.
