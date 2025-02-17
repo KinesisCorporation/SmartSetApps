@@ -11,9 +11,9 @@ unit u_const;
 interface
 
 uses
-  {$ifdef Win32}Windows, shlobj, w32internetaccess, {$endif}
-  {$ifdef Darwin}LCLIntf, ns_url_request, CocoaUtils, CocoaAll, {$endif}
-  {$ifdef Linux}LCLIntf, {$endif}
+  {$ifdef Win64}Windows, shlobj, w32internetaccess, {$endif}
+  LCLIntf,
+  {$ifdef Darwin}ns_url_request, CocoaUtils, CocoaAll, {$endif}
   lcltype, Classes, SysUtils, FileUtil, Controls, Graphics, character, LazUTF8, U_Keys, Buttons,
   internetaccess, LazFileUtils, u_kinesis_device, registry, ExtCtrls, u_led_ind;
 
@@ -170,7 +170,7 @@ type
   end;
   TPedalsPos = array of TPedalPos;
 
-{$ifdef Win32}
+{$ifdef Win64}
 type
     LPDWORD = ^DWORD;
 function AddFontMemResourceEx(pbFont: Pointer; cbFont: DWORD; pdv: Pointer; pcFonts: LPDWORD): LongWord; stdcall;
@@ -935,7 +935,7 @@ begin
 
   //Call Windows ToUnicode function
   //Must call twice to eliminate Dead-Keys
-  {$ifdef Win32}
+  {$ifdef Win64}
   ToUnicode(Key, 0, keyboardState, UnicodeKeys, 256, 0);
   ToUnicode(Key, 0, keyboardState, UnicodeKeys, 256, 0);
   {$endif}
@@ -956,7 +956,7 @@ function ConvertToEnUS(Key: Word): integer;
 var
    scanCode: word;
 begin
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Gets currenty keyboard scan Code
   scanCode := MapVirtualKey(Key, 0);
 
@@ -970,7 +970,7 @@ function ConvertToLayout(Key: Word): integer;
 var
    scanCode: word;
 begin
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Gets English US Scan Code
   scanCode := MapVirtualKeyEx(Key, 0, ENGLISH_US_LAYOUT_VALUE);
 
@@ -982,11 +982,11 @@ end;
 //Return KeyboardLayout for the user
 function GetCurrentKeyoardLayout: string;
 var
-  {$ifdef Win32}LayoutName: array [0 .. KL_NAMELENGTH + 1] of Char; {$endif}
+  {$ifdef Win64}LayoutName: array [0 .. KL_NAMELENGTH + 1] of Char; {$endif}
   layout: string;
 begin
   layout := ENGLISH_US_LAYOUT_NAME;
-  {$ifdef Win32}
+  {$ifdef Win64}
   try
     if (GetKeyboardLayoutName(@LayoutName)) then
       layout := StrPas(LayoutName);
@@ -1000,7 +1000,7 @@ end;
 function CanUseUnicode: boolean;
 begin
   result := false;
-  {$ifdef Win32}
+  {$ifdef Win64}
   result := (Win32MajorVersion >= 10); //Windows 10 and up
   {$endif}
 end;
@@ -1009,7 +1009,7 @@ end;
 function IsPreWin8: boolean;
 begin
   result := false;
-  {$ifdef Win32}
+  {$ifdef Win64}
   result := (Win32MajorVersion <= 6) and (Win32MinorVersion < 2);
   {$endif}
 end;
@@ -1119,7 +1119,7 @@ end;
 
 function GetAvailableDrives: TStringList;
 var
-{$ifdef Win32}
+{$ifdef Win64}
   Drive: Char;
   DriveLetter: string;
   OldMode: Word;
@@ -1127,7 +1127,7 @@ var
   aListDrives: TStringList;
 begin
   aListDrives := TStringList.Create;
-  {$ifdef Win32}
+  {$ifdef Win64}
   // Empty Floppy or Zip drives can generate a Windows error.
   // We disable system errors during the listing.
   // Note that another way to skip these errors would be to use DEVICE_IO_CONTROL.
@@ -1157,7 +1157,7 @@ begin
 end;
 
 function GetVolumeLabel(DriveChar: Char): string;
-{$ifdef Win32}
+{$ifdef Win64}
 var
   NotUsed:     DWORD;
   VolumeFlags: DWORD;
@@ -1167,7 +1167,7 @@ var
 {$endif}
 begin
   result := '';
-  {$ifdef Win32}
+  {$ifdef Win64}
   GetVolumeInformation(PChar(DriveChar + ':\'),
   Buf, SizeOf(VolumeInfo), @VolumeSerialNumber, NotUsed,
   VolumeFlags, nil, 0);
@@ -1233,7 +1233,7 @@ begin
   if not DirectoryExists(GApplicationPath + firmwareFolder) then
   begin
     GDesktopMode := true;
-    {$ifdef Win32}
+    {$ifdef Win64}
     driveList := GetAvailableDrives;
     for i := 0 to driveList.Count - 1 do
     begin
@@ -1425,8 +1425,8 @@ begin
     ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', ':' + #10 + ';', ';', ';', ':', true, true, '', True, False, 0, '', '', 'Semi Colon'));
     ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', '<' + #10 + ',', ',', ',', '<', true, true, '', True, False, 0, '', '', 'Comma'));
     ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '>' + #10 + '.', '.', '.', '>', true, true, '', True, False, 0, '', '', 'Period'));
-    ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '{' + #10 + '[', 'obrack', '[', '{', true, true, '', True, False, 0, '', '', 'Open Bracket'));
-    ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '}' + #10 + ']', 'cbrack', ']', '}', true, true, '', True, False, 0, '', '', 'Close Bracket'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRACKET, '[', '{' + #10 + '[', 'obrack', '[', '{', true, true, '', True, False, 0, '', '', 'Open Bracket'));
+    ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRACKET, ']', '}' + #10 + ']', 'cbrack', ']', '}', true, true, '', True, False, 0, '', '', 'Close Bracket'));
     ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl-\', 'intl-\', 'intl-\', true, true, '', True, False, 0, '', '', 'International Key'));  //International <> key between Left Shift and Z
 
     //Keypad keys
@@ -1559,13 +1559,17 @@ begin
       ConfigKeys.Add(TKey.Create(VK_DOWN, 'down', UnicodeToUTF8(8595), '', '', '', false, false, '', true, false, 10, UNICODE_FONT, '', 'Down'));
       ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshf', 'Left' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Left Shift'));
       ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshf', 'Right' + #10 + 'Shift', '', '', '', false, false, '', true, false, 0, '', 'Right Shift'));
-      {$ifdef Win32}
+      {$ifdef Win64}
       ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctr', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Ctrl'));
       ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctr', 'Right' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Right Ctrl'));
       {$endif}
       {$ifdef Darwin}
       ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctr', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Control'));
       ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctr', 'Right' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Right Control'));
+      {$endif}
+      {$ifdef Linux}
+      ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctr', 'Left' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Left Ctrl'));
+      ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctr', 'Right' + #10 + 'Ctrl', '', '', '', false, false, '', true, False, 0, '', 'Right Ctrl'));
       {$endif}
       ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'nmlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
       ConfigKeys.Add(TKey.Create(VK_KP_NUMLCK, 'nmlk', 'Num' + #10 + 'Lock', '', '', '', false, false, '', true, false, 0, '', 'Num Lock'));
@@ -1580,8 +1584,8 @@ begin
       ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '; :', 'scol', ';', ':', true, true, '', true, false, 0, '', '', 'Semi Colon'));
       ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', ', <', 'comm', ',', '<', true, true, '', true, false, 0, '', '', 'Comma'));
       ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '. >', 'perd', '.', '>', true, true, '', true, false, 0, '', '', 'Period'));
-      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '[ {', 'obrk', '[', '{', true, true, '', true, false, 0, '', '', 'Open Bracket'));
-      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '] }', 'cbrk', ']', '}', true, true, '', true, false, 0, '', '', 'Close Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRACKET, '[', '[ {', 'obrk', '[', '{', true, true, '', true, false, 0, '', '', 'Open Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRACKET, ']', '] }', 'cbrk', ']', '}', true, true, '', true, false, 0, '', '', 'Close Bracket'));
       ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'int#', 'intl-\', 'intl-\', true, true, '', true, false, 0, '', '', 'International Key')); //International <> key between Left Shift and Z
 
       //Keypad
@@ -1634,8 +1638,8 @@ begin
       ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '; :', 'colon', ';', ':', true, true, '', true, false, 0, '', '', 'Semi Colon'));
       ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', ', <', 'com', ',', '<', true, true, '', true, false, 0, '', '', 'Comma'));
       ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '. >', 'per', '.', '>', true, true, '', true, false, 0, '', '', 'Period'));
-      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '[ {', 'obrk', '[', '{', true, true, '', true, false, 0, '', '', 'Open Bracket'));
-      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '] }', 'cbrk', ']', '}', true, true, '', true, false, 0, '', '', 'Close Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRACKET, '[', '[ {', 'obrk', '[', '{', true, true, '', true, false, 0, '', '', 'Open Bracket'));
+      ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRACKET, ']', '] }', 'cbrk', ']', '}', true, true, '', true, false, 0, '', '', 'Close Bracket'));
       ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl\', 'intl-\', 'intl-\', true, true, '', true, false, 0, '', '', 'International Key')); //International <> key between Left Shift and Z
 
       //Keypad
@@ -1706,7 +1710,41 @@ begin
       true, true));
 
   //Windows specific
-  {$ifdef Win32}
+  {$ifdef Win64}
+  if (GApplication in [APPL_ADV2, APPL_PEDAL]) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter', 'Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
+    ConfigKeys.Add(TKey.Create(VK_BACK, 'bspace',  'Back' + #10 + 'Space', '', '', '', false, false, '', true, false, 0, '', 'Backspace'));
+    ConfigKeys.Add(TKey.Create(VK_DELETE, 'delete', 'Delete'));
+  end
+  else
+  begin
+    ConfigKeys.Add(TKey.Create(VK_RETURN, 'ent', 'Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
+    ConfigKeys.Add(TKey.Create(VK_BACK, 'bspc',  'Back' + #10 + 'Space', '', '', '', false, false, '', true, false, 0, '', 'Backspace'));
+    ConfigKeys.Add(TKey.Create(VK_DELETE, 'del', 'Delete'));
+  end;
+
+  ConfigKeys.Add(TKey.Create(VK_LMENU, 'lalt', 'Left' + #10 + 'Alt', '', '', '', false, false, '', true, false, 0, '', 'Left Alt'));
+  ConfigKeys.Add(TKey.Create(VK_RMENU, 'ralt', 'Right' + #10 + 'Alt', '', '', '', false, false, '', true, false, 0, '', 'Right Alt'));
+  if (GApplication = APPL_PEDAL) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_LWIN, 'win', 'Left' + #10 + 'Win'));
+    ConfigKeys.Add(TKey.Create(VK_RWIN, 'win', 'Right' + #10 + 'Win'));
+  end
+  else
+  begin
+    ConfigKeys.Add(TKey.Create(VK_LWIN, 'lwin', 'Left' + #10 + 'Win', '', '', '', false, false, '', true, false, 0, '', 'Left Win'));
+    ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Win', '', '', '', false, false, '', true, false, 0, '', 'Right Win'));
+  end;
+
+  if (GApplication = APPL_PEDAL) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_MENU, 'alt', 'Alt'));
+  end;
+  {$endif}
+
+  //Linux specific
+  {$ifdef Linux}
   if (GApplication in [APPL_ADV2, APPL_PEDAL]) then
   begin
     ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter', 'Enter', '', '', '', false, false, '', true, false, 0, '', 'Enter'));
@@ -1939,15 +1977,15 @@ begin
   ConfigKeys.Add(TKey.Create(VK_PROFILE_9, 'pro9', 'Profile 9', '', '', '', false, false, '', true, false, 0, '', '', SKIP_SEARCH));
 
   //Hotkeys
-  ConfigKeys.Add(TKey.Create(VK_HK0, 'hk0', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 0', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK1, 'hk1', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 1', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK2, 'hk2', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 2', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK3, 'hk3', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 3', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK4, 'hk4', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 4', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK5, 'hk5', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 5', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK6, 'hk6', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 6', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK7, 'hk7', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 7', SKIP_SEARCH));
-  ConfigKeys.Add(TKey.Create(VK_HK8, 'hk8', ' ', '', '', '', false, false, '', true, false, 0, '', 'hotkey 8', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK0, 'hk0', 'LOGO', '', '', '', false, false, '', true, false, 0, '', 'hotkey 0', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK1, 'hk1', 'HK1', '', '', '', false, false, '', true, false, 0, '', 'hotkey 1', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK2, 'hk2', 'HK2', '', '', '', false, false, '', true, false, 0, '', 'hotkey 2', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK3, 'hk3', 'HK3', '', '', '', false, false, '', true, false, 0, '', 'hotkey 3', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK4, 'hk4', 'HK4', '', '', '', false, false, '', true, false, 0, '', 'hotkey 4', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK5, 'hk5', 'HK5', '', '', '', false, false, '', true, false, 0, '', 'hotkey 5', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK6, 'hk6', 'HK6', '', '', '', false, false, '', true, false, 0, '', 'hotkey 6', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK7, 'hk7', 'HK7', '', '', '', false, false, '', true, false, 0, '', 'hotkey 7', SKIP_SEARCH));
+  ConfigKeys.Add(TKey.Create(VK_HK8, 'hk8', 'HK8', '', '', '', false, false, '', true, false, 0, '', 'hotkey 8', SKIP_SEARCH));
   if (GApplication in [APPL_RGB, APPL_TKO]) then
     ConfigKeys.Add(TKey.Create(VK_HK9, 'hk9', 'Fn' + #10 + 'Shift', '', '', '', false, false, '', true, false, smallFontSize, '', 'hotkey 9', SKIP_SEARCH))
   else
@@ -2120,7 +2158,10 @@ var
 {$endif}
 begin
   try
-    {$ifdef Win32}
+    {$ifdef Win64}
+    result := httpRequest(url);
+    {$endif}
+    {$ifdef Linux}
     result := httpRequest(url);
     {$endif}
 
@@ -2137,13 +2178,13 @@ begin
 end;
 
 function GetDesktopDirectory: string;
-{$ifdef Win32}
+{$ifdef Win64}
 var
   PIDL: PItemIDList;
   InFolder: array[0..MAX_PATH] of Char;
   {$endif}
 begin
-  {$ifdef Win32}
+  {$ifdef Win64}
   { Get the desktop location }
   SHGetSpecialFolderLocation(0, CSIDL_DESKTOPDIRECTORY, PIDL);
   SHGetPathFromIDList(PIDL, InFolder);
@@ -2151,6 +2192,10 @@ begin
   {$endif}
 
   {$ifdef Darwin}
+  result := AppendPathDelim(GetUserDir + 'Desktop')
+  {$endif}
+
+  {$ifdef Linux}
   result := AppendPathDelim(GetUserDir + 'Desktop')
   {$endif}
 end;
@@ -2303,7 +2348,7 @@ begin
   aDevice.RootFolder := '';
   aDevice.Connected := false;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   driveList := GetAvailableDrives;
   for i := 0 to driveList.Count - 1 do
   begin
@@ -2354,14 +2399,14 @@ begin
 end;
 
 function LoadFontFromRes(FontName: string):THandle;
-{$ifdef Win32}
+{$ifdef Win64}
 var
   ResHandle: HRSRC;
   ResSize, NbFontAdded: Cardinal;
   ResAddr: HGLOBAL;
 {$endif}
 begin
-{$ifdef Win32}
+{$ifdef Win64}
   ResHandle := FindResource(system.HINSTANCE, PChar(FontName), RT_RCDATA);
   if ResHandle = 0 then
     RaiseLastOSError;
@@ -2440,9 +2485,17 @@ initialization
   GShowAllNotifs := false;
   GHideAllNotifs := false;
   GActiveDevice := nil;
+
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   GApplicationName := 'SmartSet App (Win)';
+  GApplicationPath := IncludeTrailingBackslash(ExtractFileDir(ParamStr(0)));
+  GExecutablePath := GApplicationPath;
+  {$endif}
+
+  //Linux
+  {$ifdef Linux}
+  GApplicationName := 'SmartSet App (Linux)';
   GApplicationPath := IncludeTrailingBackslash(ExtractFileDir(ParamStr(0)));
   GExecutablePath := GApplicationPath;
   {$endif}

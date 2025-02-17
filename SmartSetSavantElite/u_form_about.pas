@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-  StdCtrls, VersionSupport, lclintf, u_const;
+  StdCtrls, VersionSupport, lclintf, u_const, u_const_pedal;
 
 type
 

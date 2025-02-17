@@ -21,7 +21,8 @@ unit BCGameGrid;
 interface
 
 uses
-  Classes, SysUtils, {$IFDEF FPC}LResources, LCLProc,{$ENDIF} Types, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils, {$IFDEF FPC}LResources, LCLProc, LazMethodList, {$ENDIF}
+  Types, Forms, Controls, Graphics, Dialogs,
   {$IFNDEF FPC}BGRAGraphics, GraphType, FPImage, {$ENDIF}
   BCBaseCtrls, BGRABitmap, BGRABitmapTypes;
 

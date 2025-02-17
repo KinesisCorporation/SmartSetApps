@@ -164,7 +164,7 @@ end;
 procedure TFormUserDialog.FormCreate(Sender: TObject);
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   SetFont(self, 'Segoe UI');
   {$endif}
     //MacOS

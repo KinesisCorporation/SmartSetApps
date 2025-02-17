@@ -180,7 +180,7 @@ var
 begin
   result := false;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   if (device <> nil) then
      drive := device.DriveLetter;
   {$endif}
@@ -188,7 +188,7 @@ begin
   if (device <> nil) then
      drive := device.RootFolder;
   {$endif}
-  {$ifdef Win32}
+  {$ifdef Win64}
   try
     if (drive <> '') then
     begin

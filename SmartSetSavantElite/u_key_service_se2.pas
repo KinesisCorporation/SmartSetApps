@@ -163,7 +163,7 @@ begin
   self.ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctrl'));
   self.ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'numlk'));
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   self.ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter'));
   self.ConfigKeys.Add(TKey.Create(VK_BACK, 'bspace'));
   self.ConfigKeys.Add(TKey.Create(VK_DELETE, 'delete'));
@@ -223,8 +223,8 @@ begin
   self.ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '', ';', ';', ':', true, true));
   self.ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', '', ',', ',', '<', true, true));
   self.ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '', '.', '.', '>', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '', 'obrack', '[', '{', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '', 'cbrack', ']', '}', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRACKET, '[', '', 'obrack', '[', '{', true, true));
+  self.ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRACKET, ']', '', 'cbrack', ']', '}', true, true));
   self.ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl-\', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
 
   //Numpad keys
@@ -299,12 +299,12 @@ begin
   //keyboardLayout := TKeyboardLayout.Create('00000407', 'German (Germany)');
   //
   ////German key exceptions when loading and saving (original key, replacement key, original value, replacement value)
-  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_EQUAL, VK_LCL_CLOSE_BRAKET, '=', 'cbrack'));
-  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_MINUS, VK_LCL_OPEN_BRAKET, '-', 'obrack'));
+  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_EQUAL, VK_LCL_CLOSE_BRACKET, '=', 'cbrack'));
+  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_MINUS, VK_LCL_OPEN_BRACKET, '-', 'obrack'));
   //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_TILDE, VK_LCL_BACKSLASH, '`', '\'));
   //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_BACKSLASH, VK_LCL_SLASH, '\', '/'));
-  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_CLOSE_BRAKET, VK_LCL_EQUAL, ']', '='));
-  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_OPEN_BRAKET, VK_LCL_SEMI_COMMA, '[', ';'));
+  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_CLOSE_BRACKET, VK_LCL_EQUAL, ']', '='));
+  //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_OPEN_BRACKET, VK_LCL_SEMI_COMMA, '[', ';'));
   //keyboardLayout.KeyExceptions.Add(TKeyException.Create(VK_LCL_SLASH, VK_LCL_TILDE, '/', '`'));
   //
   //self.KeyboardLayouts.Add(keyboardLayout);
@@ -322,7 +322,7 @@ var
   key: TKey;
 begin
   result := '';
-  {$ifdef Win32}
+  {$ifdef Win64}
   if (FCurrentKBLayout <> ENGLISH_US_LAYOUT_NAME) then
   begin
     if (saving) then
@@ -405,7 +405,7 @@ begin
     ((aKey.Key >= VK_A) and (aKey.Key <= VK_Z)) or
     (aKey.Key in [VK_LCL_EQUAL, VK_LCL_MINUS, VK_LCL_SLASH,
     VK_LCL_BACKSLASH, VK_LCL_QUOTE, VK_LCL_TILDE, VK_LCL_SEMI_COMMA,
-    VK_LCL_COMMA, VK_LCL_POINT, VK_LCL_CLOSE_BRAKET, VK_LCL_OPEN_BRAKET]);
+    VK_LCL_COMMA, VK_LCL_POINT, VK_LCL_CLOSE_BRACKET, VK_LCL_OPEN_BRACKET]);
 end;
 
 //Returns values of modifiers
@@ -581,7 +581,7 @@ begin
         //Returns modifier value (Ctrl, Shfit, Alt, Win) + key value
         else if (aKey.Modifiers <> '') and not (IsModifier(aKey.Key)) then
         begin
-          {$ifdef Win32}
+          {$ifdef Win64}
           if (IsAltGr(aKey)) then
             keyTextAltGr := GetKeyText(aKey, '', true);
           {$endif}
@@ -624,7 +624,7 @@ end;
 //Returns key Text
 function TKeyServiceSE2.GetKeyText(aKey: TKey; defaultValue: string; checkAltGr: boolean): string;
 begin
-  {$ifdef Win32}
+  {$ifdef Win64}
     if (aKey.ConvertToUnicode) then
       result := KeyToUnicode(aKey.Key, (aKey.Modifiers = SHIFT_MOD) and (aKey.ShowShiftedValue), checkAltGr)
     else if (defaultValue <> '') then

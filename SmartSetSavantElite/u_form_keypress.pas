@@ -9,7 +9,7 @@ uses
   u_key_service_se2, u_keys, lcltype, Menus, ExtCtrls, Buttons, RichMemo,
   ColorSpeedButton, u_const, u_file_service_se2, u_form_about, lclintf, UserDialog,
   u_form_troubleshoot
-  {$ifdef Win32},Windows{$endif}
+  {$ifdef Win64},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonUtils, CarbonDef, CarbonProc}{$endif};
 
 type
@@ -189,8 +189,8 @@ var
   KBHook: HHook;
   lastKeyPressed: word;
 
-  {$ifdef Win32}
-  function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;  {this intercepts keyboard input}
+  {$ifdef Win64}
+  function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;  {this intercepts keyboard input}
   {$endif}
 //  {$ifdef Darwin}
 //  Mac_OS_Handler_UPP : EventHandlerUPP = nil;
@@ -221,9 +221,9 @@ uses u_form_dashboard;
 //end;
 //{$endif}
 
-{$ifdef Win32}
+{$ifdef Win64}
 //Keyboard hook to trap key presses and process them
-function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;
+function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;
 var
   Transition: TTransitionState;
   extended: TExtendedState;
@@ -657,7 +657,7 @@ procedure TFormMainSE2.SetKeyboardHook;
 {$ifdef Darwin}var eventType: EventTypeSpec;{$endif}
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   KBHook := SetWindowsHookEx(WH_KEYBOARD, @KeyboardHookProc, HInstance,
     GetCurrentThreadId());
   {$endif}
@@ -667,7 +667,7 @@ end;
 procedure TFormMainSE2.RemoveKeyboardHook;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   UnHookWindowsHookEx(KBHook);
   {$endif}
 end;
@@ -675,7 +675,7 @@ end;
 procedure TFormMainSE2.SetConfigOS;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   SetFont(self, 'Segoe UI');
   memoConfig.Color := clWhite;
   memoLeft.Color := clForm;
@@ -825,7 +825,7 @@ begin
   //
 
   menuItem := TMenuItem.Create(pmSpecial);
-  {$ifdef Win32}  //Windows
+  {$ifdef Win64}  //Windows
   menuItem.Caption := 'Cut (Ctrl + x)';
   {$endif}
   {$ifdef Darwin}  //MacOS
@@ -837,7 +837,7 @@ begin
   pmSpecial.Items.Add(menuItem);
 
   menuItem := TMenuItem.Create(pmSpecial);
-  {$ifdef Win32}  //Windows
+  {$ifdef Win64}  //Windows
   menuItem.Caption := 'Copy (Ctrl + c)';
   {$endif}
   {$ifdef Darwin}  //MacOS
@@ -849,7 +849,7 @@ begin
   pmSpecial.Items.Add(menuItem);
 
   menuItem := TMenuItem.Create(pmSpecial);
-  {$ifdef Win32}  //Windows
+  {$ifdef Win64}  //Windows
   menuItem.Caption := 'Paste (Ctrl + v)';
   {$endif}
   {$ifdef Darwin}  //MacOS
@@ -861,7 +861,7 @@ begin
   pmSpecial.Items.Add(menuItem);
 
   menuItem := TMenuItem.Create(pmSpecial);
-  {$ifdef Win32}  //Windows
+  {$ifdef Win64}  //Windows
   menuItem.Caption := 'Select All (Ctrl + a)';
   {$endif}
   {$ifdef Darwin}  //MacOS
@@ -873,7 +873,7 @@ begin
   pmSpecial.Items.Add(menuItem);
 
   menuItem := TMenuItem.Create(pmSpecial);
-  {$ifdef Win32}  //Windows
+  {$ifdef Win64}  //Windows
   menuItem.Caption := 'Undo (Ctrl + z)';
   {$endif}
   {$ifdef Darwin}  //MacOS
@@ -965,7 +965,7 @@ begin
   //
 
   menuItem := TMenuItem.Create(pmSpecial);
-  {$ifdef Win32}  //Windows
+  {$ifdef Win64}  //Windows
   menuItem.Caption := 'Web Browser Forward (Alt + right)';
   {$endif}
   {$ifdef Darwin}  //MacOS
@@ -977,7 +977,7 @@ begin
   pmSpecial.Items.Add(menuItem);
 
   menuItem := TMenuItem.Create(pmSpecial);
-  {$ifdef Win32}  //Windows
+  {$ifdef Win64}  //Windows
   menuItem.Caption := 'Web Browser Back (Alt + left)';
   {$endif}
   {$ifdef Darwin}  //MacOS
@@ -988,7 +988,7 @@ begin
   menuItem.Tag := TAG_MULTI_KEY;
   pmSpecial.Items.Add(menuItem);
 
-  {$ifdef Win32} //Ctrl + Alt + Delete and Alt + Tab on Windows only
+  {$ifdef Win64} //Ctrl + Alt + Delete and Alt + Tab on Windows only
   menuItem := TMenuItem.Create(pmSpecial);
   menuItem.Caption := 'Alt + Tab';
   menuItem.Name := miAltTab;
@@ -1138,7 +1138,7 @@ begin
     end
     else if TMenuItem(Sender).Name = miCut then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetKeyPress(VK_X, CTRL_MOD)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -1147,7 +1147,7 @@ begin
     end
     else if TMenuItem(Sender).Name = miCopy then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetKeyPress(VK_C, CTRL_MOD)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -1156,7 +1156,7 @@ begin
     end
     else if TMenuItem(Sender).Name = miPaste then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetKeyPress(VK_V, CTRL_MOD)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -1165,7 +1165,7 @@ begin
     end
     else if TMenuItem(Sender).Name = miSelectAll then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetKeyPress(VK_A, CTRL_MOD)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -1174,7 +1174,7 @@ begin
     end
     else if TMenuItem(Sender).Name = miUndo then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetKeyPress(VK_Z, CTRL_MOD)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -1183,7 +1183,7 @@ begin
     end
     else if TMenuItem(Sender).Name = miWebFwd then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetKeyPress(VK_RIGHT, ALT_MOD);
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -1192,7 +1192,7 @@ begin
     end
     else if TMenuItem(Sender).Name = miWebBack then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetKeyPress(VK_LEFT, ALT_MOD);
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -1697,7 +1697,7 @@ var
   memoSender: TRichMemo;
   i: integer;
 const
-  {$ifdef Win32}
+  {$ifdef Win64}
   LINE_HEIGHT = 25;
   {$endif}
   {$ifdef Darwin}
@@ -1762,7 +1762,7 @@ procedure TFormMainSE2.CheckKeyboardLayout;
   //activeKBLayout: string;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   //activeKBLayout := GetCurrentKeyoardLayout;
   //isValid := keyService.KeyboardLayouts.IsValidKBLayout(activeKBLayout);
   //lblWarningKbLanuage.Visible := not isValid;
@@ -1785,12 +1785,12 @@ procedure TFormMainSE2.UpdateStateSettings;
 begin
   self.DisableAlign;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Disable paint on form
   SendMessage(self.Handle, WM_SETREDRAW, Integer(False), 0);
   {$endif}
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Enable paint on form on repaint
   SendMessage(self.Handle, WM_SETREDRAW, Integer(True), 0);
   {$endif}

@@ -11,7 +11,7 @@ uses
   u_form_main_rgb, LCLIntf, u_form_loading, u_form_about_master,
   u_form_settings_master, u_form_firmware, u_common_ui,
   u_form_main_tko, u_form_scanvdrive
-  {$ifdef Win32},Windows{$endif};
+  {$ifdef Win64},Windows{$endif};
 
 type
 
@@ -455,7 +455,7 @@ begin
           appConnLabel.Font.Color := CONN_COLOR;
           appOpenBtn.Caption := 'Configure';
           appProfileLabel.Caption := 'Profile ' + fileService.GetStartupFileNo(aDevice);
-          {$ifdef Win32}
+          {$ifdef Win64}
           appEjectBtn.Visible := true;
           {$endif};
           appCheckUpdBtn.Caption := 'Check for Updates';
@@ -715,6 +715,9 @@ begin
         {$ifdef darwin}
         Application.CreateForm(TFormMainRGB, FormMainRGB);
         {$endif};
+        {$ifdef Linux}
+        Application.CreateForm(TFormMainRGB, FormMainRGB);
+        {$endif};
         FormMainRGB.Parent := pnlMain;
         if (FormMainRGB.InitForm(self)) then
           FormMainRGB.Show;
@@ -729,7 +732,13 @@ begin
       try
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading TKO...', backColor, fontColor);
+        {$ifdef Win64}
+        // already preloaded
+        {$endif};
         {$ifdef darwin}
+        Application.CreateForm(TFormMainTKO, FormMainTKO);
+        {$endif};
+        {$ifdef Linux}
         Application.CreateForm(TFormMainTKO, FormMainTKO);
         {$endif};
         FormMainTKO.Parent := pnlMain;
@@ -787,7 +796,7 @@ procedure TFormDashboard.UpdateStateSettings;
 begin
   self.DisableAlign;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Disable paint on form
   SendMessage(self.Handle, WM_SETREDRAW, Integer(False), 0);
   {$endif}
@@ -809,7 +818,7 @@ begin
     btnMaximize.Hint := 'Maximize';
   end;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Enable paint on form on repaint
   SendMessage(self.Handle, WM_SETREDRAW, Integer(True), 0);
   {$endif}
@@ -890,8 +899,14 @@ procedure TFormDashboard.tmrLoadFormsTimer(Sender: TObject);
 begin
   //Do only once, load application forms
   tmrLoadForms.Enabled := false;
-  {$ifdef Win32}
+  {$ifdef Win64}
   LoadAppForms;
+  {$endif};
+  {$ifdef Darwin}
+  // gets loaded later
+  {$endif};
+  {$ifdef Linux}
+  // gets loaded later
   {$endif};
 end;
 
@@ -941,10 +956,13 @@ end;
 procedure TFormDashboard.EnablePaintImages(value: boolean);
 begin
   //Enable/Disable visual effects on controls
-  {$ifdef Win32}
+  {$ifdef Win64}
   SendMessage(imgMain.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
   {$endif}
   {$ifdef Darwin}
+
+  {$endif}
+  {$ifdef Linux}
 
   {$endif}
 end;

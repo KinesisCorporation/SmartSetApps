@@ -10,12 +10,12 @@ uses
   BCLabel, HSLRingPicker, mbColorPreview, u_form_tapandhold, contnrs,
   u_key_layer, u_key_service, u_file_service, u_common_ui, U_Keys, UserDialog,
   FileUtil, u_form_troubleshoot, u_form_settings_adv360, LCLIntf, u_form_export,
-  u_form_about_office, buttons, u_form_diagnostics, u_form_firmware,
+  u_form_about_office, buttons, u_form_diagnostics, u_form_firmware, LazFileUtils,
   u_form_timingdelays, LResources, lcltype, BGRABitmap, BGRABitmapTypes,
   BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
   u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout, BCTypes,
   u_form_invalid_lines, u_form_search_keys
-  {$ifdef Win32},Windows{$endif};
+  {$ifdef Win64},Windows{$endif};
 
 type
 
@@ -809,8 +809,8 @@ var
   FormMainAdv360: TFormMainAdv360;
   KBHook: HHook;
   procedure SetKeyPress(Key: word; Modifiers: string);
-  {$ifdef Win32}
-  function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;  {this intercepts keyboard input}
+  {$ifdef Win64}
+  function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;  {this intercepts keyboard input}
   {$endif}
 
 implementation
@@ -848,10 +848,10 @@ end;
 
 { Key Hook }
 
-{$ifdef Win32}
+{$ifdef Win64}
 
 //Keyboard hook to trap key presses and process them
-function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;
+function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;
 var
   Transition: TTransitionState;
   extended: TExtendedState;
@@ -1166,7 +1166,7 @@ end;
 procedure TFormMainAdv360.SetKeyboardHook;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   KBHook := SetWindowsHookEx(WH_KEYBOARD, @KeyboardHookProc, HInstance,
     GetCurrentThreadId());
   {$endif}
@@ -1176,7 +1176,7 @@ end;
 procedure TFormMainAdv360.RemoveKeyboardHook;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   UnHookWindowsHookEx(KBHook);
   {$endif}
 end;
@@ -1309,7 +1309,7 @@ begin
   defaultKeyFontSize := 8;
 
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   pnlMacroRepoBot.Visible := false;
   lblMacOsWarning.Visible := false;
   btnLeftCommand.Visible := false;
@@ -1465,14 +1465,14 @@ procedure TFormMainAdv360.UpdateStateSettings;
 begin
   self.DisableAlign;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Disable paint on form
   SendMessage(self.Handle, WM_SETREDRAW, Integer(False), 0);
   {$endif}
 
   oldWindowState := self.WindowState;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Enable paint on form on repaint
   SendMessage(self.Handle, WM_SETREDRAW, Integer(True), 0);
   {$endif}
@@ -1666,7 +1666,7 @@ begin
   hoveredList.Add(THoveredObj.Create(btnDoneMacro, imgListMacro, 2, 3));
 
   ////Macro co-triggers
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //hoveredList.Add(THoveredObj.Create(btnLeftCtrl, imgListTriggers, 0, 1));
   //hoveredList.Add(THoveredObj.Create(btnLeftAlt, imgListTriggers, 2, 3));
   //hoveredList.Add(THoveredObj.Create(btnLeftShift, imgListTriggers, 4, 5));
@@ -1870,7 +1870,7 @@ begin
   AddMenuItem(popMenu, 'Space', VK_SPACE);
   AddMenuItem(popMenu, 'Escape', VK_ESCAPE);
   AddMenuItem(popMenu, 'Tab', VK_TAB);
-  {$ifdef Win32}
+  {$ifdef Win64}
   AddMenuItem(popMenu, 'Enter', VK_RETURN);
   AddMenuItem(popMenu, 'Delete', VK_DELETE);
   AddMenuItem(popMenu, 'Backspace', VK_BACK);
@@ -1898,8 +1898,8 @@ begin
   AddMenuItem(popMenu, 'Period   .', VK_LCL_POINT);
   AddMenuItem(popMenu, 'Semi Colon   ;', VK_LCL_SEMI_COMMA);
   AddMenuItem(popMenu, 'Apostrophe   ''''', VK_LCL_QUOTE);
-  AddMenuItem(popMenu, 'Open Bracket   [', VK_LCL_OPEN_BRAKET);
-  AddMenuItem(popMenu, 'Close Bracket   ]', VK_LCL_CLOSE_BRAKET);
+  AddMenuItem(popMenu, 'Open Bracket   [', VK_LCL_OPEN_BRACKET);
+  AddMenuItem(popMenu, 'Close Bracket   ]', VK_LCL_CLOSE_BRACKET);
   AddMenuItem(popMenu, 'Back slash   \', VK_LCL_BACKSLASH);
   AddMenuItem(popMenu, 'Forward slash   /', VK_LCL_SLASH);
   btnPunctuation.PopupMenu := popMenu;
@@ -1909,7 +1909,7 @@ begin
   popMenu.OnDrawItem := TMenuDrawItemEvent(@MenuDrawItem);
   AddMenuItem(popMenu, 'Left Shift', VK_LSHIFT);
   AddMenuItem(popMenu, 'Right Shift', VK_RSHIFT);
-  {$ifdef Win32}
+  {$ifdef Win64}
   AddMenuItem(popMenu, 'Left Windows', VK_LWIN);
   AddMenuItem(popMenu, 'Right Windows', VK_RWIN);
   AddMenuItem(popMenu, 'Left Alt', VK_LMENU);
@@ -2025,12 +2025,12 @@ begin
   AddMacroMenuItem(popCommonShortcuts, 'Paste', VK_PASTE);
   AddMacroMenuItem(popCommonShortcuts, 'Select All', VK_SELECTALL);
   AddMacroMenuItem(popCommonShortcuts, 'Undo', VK_UNDO);
-  {$ifdef Win32} //Windows
+  {$ifdef Win64} //Windows
   AddMacroMenuItem(popCommonShortcuts, 'Redo', VK_REDO);
   AddMacroMenuItem(popCommonShortcuts, 'Desktop', VK_DESKTOP);
   {$endif}
   AddMacroMenuItem(popCommonShortcuts, 'Last App', VK_LASTAPP);
-  {$ifdef Win32} //Windows
+  {$ifdef Win64} //Windows
   AddMacroMenuItem(popCommonShortcuts, 'Ctrl Alt Delete', VK_CTRLALTDEL);
   {$endif}
   //btnCommonShortcuts.PopupMenu := popMenu;
@@ -2399,7 +2399,7 @@ begin
   begin
     if (mnuAction = VK_CUT) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_X, L_CTRL_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2408,7 +2408,7 @@ begin
     end
     else if (mnuAction = VK_COPY) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_C, L_CTRL_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2417,7 +2417,7 @@ begin
     end
     else if (mnuAction = VK_PASTE) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_V, L_CTRL_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2426,7 +2426,7 @@ begin
     end
     else if (mnuAction = VK_PASTE) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_V, L_CTRL_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2435,7 +2435,7 @@ begin
     end
     else if (mnuAction = VK_SELECTALL) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_A, L_CTRL_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2444,7 +2444,7 @@ begin
     end
     else if (mnuAction = VK_UNDO) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_Z, L_CTRL_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2453,7 +2453,7 @@ begin
     end
     else if (mnuAction = VK_REDO) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_Y, L_CTRL_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2462,13 +2462,13 @@ begin
     end
     else if (mnuAction = VK_DESKTOP) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_D, L_WIN_MOD, true)
       {$endif}
     end
     else if (mnuAction = VK_LASTAPP) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_TAB, L_ALT_MOD, true)
       {$endif}
       {$ifdef Darwin}  //MacOS
@@ -2477,7 +2477,7 @@ begin
     end
     else if (mnuAction = VK_CTRLALTDEL) then
     begin
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       SetModifiedKey(VK_DELETE, L_CTRL_MOD + ',' + L_ALT_MOD, true)
       {$endif}
     end
@@ -2766,7 +2766,7 @@ end;
 
 procedure TFormMainAdv360.SetFormBorder(formBorder: TFormBorderStyle);
 begin
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   self.BorderStyle := formBorder;
   RepaintForm(true);
   //{$endif}
@@ -5495,7 +5495,7 @@ end;
 procedure TFormMainAdv360.EnablePaintImages(value: boolean);
 begin
   //Enable/Disable visual effects on controls
-  {$ifdef Win32}
+  {$ifdef Win64}
   SendMessage(imgBackground.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
   SendMessage(imgKeyboardLayout.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
   {$endif}
@@ -6024,12 +6024,12 @@ begin
     //  lbMenuMacro.Items.AddObject('Paste', TObject(VK_PASTE));
     //  lbMenuMacro.Items.AddObject('Select All', TObject(VK_SELECTALL));
     //  lbMenuMacro.Items.AddObject('Undo', TObject(VK_UNDO));
-    //  {$ifdef Win32} //Windows
+    //  {$ifdef Win64} //Windows
     //  lbMenuMacro.Items.AddObject('Redo', TObject(VK_REDO));
     //  lbMenuMacro.Items.AddObject('Desktop', TObject(VK_DESKTOP));
     //  {$endif}
     //  lbMenuMacro.Items.AddObject('Last App', TObject(VK_LASTAPP));
-    //  {$ifdef Win32} //Windows
+    //  {$ifdef Win64} //Windows
     //    lbMenuMacro.Items.AddObject('Ctrl Alt Delete', TObject(VK_CTRLALTDEL));
     //  {$endif}
     //end;
@@ -6361,7 +6361,7 @@ begin
       MacroModified := true;
       SetSaveState(ssModified);
 
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
         //HK1 - lalt + left
         aMacro.Add(keyService.GetKeyWithModifier(VK_LEFT, GetKeyModifierText(VK_LMENU)));
         keyService.SetKeyMacroIdx(keyService.ActiveLayer, 17, aMacro);
@@ -6925,7 +6925,7 @@ begin
   pnlMacro.Left := imgKeyboardLayout.Left + imgKeyboardLayout.Width - pnlMacro.Width;
   pnlMacroRepo.Visible := true;
   pnlMacroRepo.Left := pnlProfile.Left;
-  {$ifdef win32}
+  {$ifdef Win64}
   //causes bug with Cocoa osx
   pnlMacro.BringToFront;
   pnlMacroRepo.BringToFront;
@@ -7505,7 +7505,7 @@ begin
   if (IsMacroLoaded) then
   begin
     //Disable visual effects on Macro before assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(False), 0);
     {$endif}
     {$ifdef Darwin}
@@ -7535,7 +7535,7 @@ begin
     //{$endif}
 
     //Enable visual effects on Macro after assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(True), 0);
     {$endif}
     {$ifdef Darwin}

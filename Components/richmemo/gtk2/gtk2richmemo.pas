@@ -23,6 +23,16 @@ unit Gtk2RichMemo;
 
 interface
 
+{$ifdef RMLCLTRUNK}
+{$define OneParamGetWidgetInfo}
+{$else}
+{$if FPC_FULLVERSION<30000}
+{$else}
+{$define OneParamGetWidgetInfo}
+{$endif}
+{$endif}
+
+
 uses
   // Bindings
   gtk2, glib2, gdk2, pango,
@@ -786,7 +796,7 @@ begin
     BorderStyleShadowMap[TCustomMemo(AWinControl).BorderStyle]);
 
   SetMainWidget(Widget, TempWidget);
-  {$ifdef RMLCLTRUNK}
+  {$ifdef OneParamGetWidgetInfo}
   GetWidgetInfo(Widget)^.CoreWidget := TempWidget;
   {$else}
   GetWidgetInfo(Widget, True)^.CoreWidget := TempWidget;
@@ -871,7 +881,7 @@ class function TGtk2WSCustomRichMemo.GetStrings(const ACustomMemo: TCustomMemo
 var
   TextView: PGtkTextView;
 begin
-  {$ifdef RMLCLTRUNK}
+  {$ifdef OneParamGetWidgetInfo}
   TextView := PGtkTextView(GetWidgetInfo({%H-}Pointer(ACustomMemo.Handle))^.CoreWidget);
   {$else}
   TextView := PGtkTextView(GetWidgetInfo({%H-}Pointer(ACustomMemo.Handle), False)^.CoreWidget);
@@ -1758,4 +1768,3 @@ initialization
   WSGetFontParams:=@GtkWSGetFontParams;
 
 end.
-

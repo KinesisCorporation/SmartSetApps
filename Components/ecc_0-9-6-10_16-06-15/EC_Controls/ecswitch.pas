@@ -35,7 +35,8 @@ interface
 
 uses
   Classes, SysUtils, Controls, StdCtrls, Graphics, Math, ActnList, Forms,
-  LCLIntf, LMessages, LCLProc, LResources, LCLType, Themes, Types, ECTypes, dialogs;
+  LCLIntf, LMessages, LCLProc, LResources, LCLType, Themes, Types, ECTypes,
+  {$IFDEF FPC}LazMethodList, {$ENDIF} dialogs;
 
 type
   {$PACKENUM 2}

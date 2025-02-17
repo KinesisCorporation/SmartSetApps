@@ -9,7 +9,7 @@ uses
   StdCtrls, RichMemo, LabelBox, uEKnob, ueled, HSSpeedButton,
   u_base_form, u_keys, u_const, u_key_layer, lcltype,
   UserDialog
-  {$ifdef Win32},Windows{$endif};
+  {$ifdef Win64},Windows{$endif};
 
 type
 
@@ -648,7 +648,7 @@ begin
   if (MainForm.activeKbKey.IsMacro) then
   begin
     //Disable visual effects on Macro before assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(False), 0);
     {$endif}
     {$ifdef Darwin}
@@ -678,7 +678,7 @@ begin
     //{$endif}
 
     //Enable visual effects on Macro after assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(True), 0);
     {$endif}
     {$ifdef Darwin}

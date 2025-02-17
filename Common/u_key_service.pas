@@ -259,7 +259,7 @@ type
     function AddMacro(key: word; layerIdx: integer): integer;
     function AddCopiedMacro(copiedMacro: TKeyList; key: word; layerIdx: integer): integer;
     function GetMacro(keyIdx: integer): TKeyList;
-    function RemoveLastMacro: TKeyList;
+    procedure RemoveLastMacro;
     function AddKeyMacro(macro: TKeyList; iKey: word; modifiers: string; insertAtPos: integer; upDown: TKeyState = ksNone): TKey;
     procedure RemoveMacro(macro: TKeyList);
     procedure RemoveAllMacros;
@@ -453,8 +453,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 45));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 46));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 47));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 48));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 49));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 50));
 
@@ -499,7 +499,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -579,8 +579,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 45));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 46));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 47));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 48));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 49));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 50));
 
@@ -625,7 +625,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -705,8 +705,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 45));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 46));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 47));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 48));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 49));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 50));
 
@@ -751,7 +751,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -831,8 +831,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 45));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 46));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 47));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 48));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 49));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 50));
 
@@ -877,7 +877,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -931,8 +931,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 22));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 23));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 24));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 25));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 26));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 25));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 26));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 27));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_CAPITAL), 28));
@@ -1192,8 +1192,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_I), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_O), 45));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_P), 46));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 47));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 48));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 49));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 50));
 
@@ -1312,8 +1312,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD5), 44));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NUMPAD6), 45));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_SUBTRACT), 46));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 47));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 48));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 47));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 48));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_BACKSLASH), 49));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_END), 50));
 
@@ -1469,8 +1469,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 81));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 82));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 83));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 84));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 85));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 84));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 85));
 
   //For Pedals
   if (GMasterAppId = APPL_KINESIS_APP) then
@@ -1698,8 +1698,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_NEXT), 81));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 82));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 83));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 84));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 85));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 84));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 85));
 
   //For Pedals
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LPEDAL), 86));
@@ -1894,8 +1894,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63, true, true, GetKeyConfig(VK_RFN_LAYER_SHIFT)));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
@@ -1992,8 +1992,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DECIMAL), 61, true, true, GetKeyConfig(VK_LCL_OPEN_BRAKET)));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DECIMAL), 61, true, true, GetKeyConfig(VK_LCL_OPEN_BRACKET)));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_FN1_LAYER_SHIFT), 63, true, true, GetKeyConfig(VK_RFN_LAYER_SHIFT)));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
@@ -2090,8 +2090,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63, true, true, GetKeyConfig(VK_RFN_LAYER_SHIFT)));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
@@ -2188,8 +2188,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63, true, true, GetKeyConfig(VK_RFN_LAYER_SHIFT)));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
@@ -2286,8 +2286,8 @@ begin
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_RIGHT), 58));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_UP), 59));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_DOWN), 60));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRAKET), 61));
-  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRAKET), 62));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_OPEN_BRACKET), 61));
+  aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCL_CLOSE_BRACKET), 62));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_BASE_LAYER_SHIFT), 63, true, true, GetKeyConfig(VK_RFN_LAYER_SHIFT)));
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 64));
@@ -2408,7 +2408,7 @@ end;
 function TKeyService.GetKeyText(aKey: TKey; defaultValue: string;
   checkAltGr: boolean): string;
 begin
-{$ifdef Win32}
+{$ifdef Win64}
   if (aKey.ConvertToUnicode) then
     result := KeyToUnicode(aKey.Key, (IsShiftDown(aKey)) and (aKey.ShowShiftedValue), checkAltGr)
   else if (defaultValue <> '') then
@@ -2417,6 +2417,14 @@ begin
     result := aKey.Value;
 {$endif}
 {$ifdef Darwin}
+if (IsShiftDown(aKey) and (aKey.ShowShiftedValue)) then
+  result := aKey.ShiftedValue
+else if (defaultValue <> '') then
+  result := defaultValue
+else
+  result := aKey.Value;
+{$endif}
+{$ifdef Linux}
 if (IsShiftDown(aKey) and (aKey.ShowShiftedValue)) then
   result := aKey.ShiftedValue
 else if (defaultValue <> '') then
@@ -10174,7 +10182,7 @@ var
   key: TKey;
 begin
   result := '';
-  {$ifdef Win32}
+  {$ifdef Win64}
   if (GApplication = APPL_PEDAL) and (FCurrentKBLayout <> ENGLISH_US_LAYOUT_NAME) then
   begin
     if (saving) then
@@ -10506,7 +10514,7 @@ begin
   //Returns modifier value (Ctrl, Shfit, Alt, Win) + key value
   else if (aKey.Modifiers <> '') and not (IsModifier(aKey.Key)) then
   begin
-    {$ifdef Win32}
+    {$ifdef Win64}
     if (IsAltGr(aKey)) then
       keyTextAltGr := GetKeyText(aKey, '', true);
     {$endif}
@@ -10927,7 +10935,7 @@ begin
     result := nil;
 end;
 
-function TKeyService.RemoveLastMacro: TKeyList;
+procedure TKeyService.RemoveLastMacro;
 begin
   if (FMacros.Count > 0) then
     FMacros.Delete(FMacros.Count - 1);

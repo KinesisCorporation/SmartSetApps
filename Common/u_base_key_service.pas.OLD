@@ -460,7 +460,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -586,7 +586,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -712,7 +712,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -838,7 +838,7 @@ begin
 
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LCONTROL), 85, true, false));
   aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   //aKBLayer.KBKeyList.Add(TKBKey.Create(GetKeyConfig(VK_LWIN), 86, true, false));
   //{$endif}
   //{$ifdef Darwin}
@@ -2364,7 +2364,7 @@ end;
 function TBaseKeyService.GetKeyText(aKey: TKey; defaultValue: string;
   checkAltGr: boolean): string;
 begin
-{$ifdef Win32}
+{$ifdef Win64}
   if (aKey.ConvertToUnicode) then
     result := KeyToUnicode(aKey.Key, (IsShiftDown(aKey)) and (aKey.ShowShiftedValue), checkAltGr)
   else if (defaultValue <> '') then
@@ -9707,7 +9707,7 @@ var
   key: TKey;
 begin
   result := '';
-  {$ifdef Win32}
+  {$ifdef Win64}
   if (FCurrentKBLayout <> ENGLISH_US_LAYOUT_NAME) then
   begin
     if (saving) then
@@ -9983,7 +9983,7 @@ begin
   //Returns modifier value (Ctrl, Shfit, Alt, Win) + key value
   else if (aKey.Modifiers <> '') and not (IsModifier(aKey.Key)) then
   begin
-    {$ifdef Win32}
+    {$ifdef Win64}
     if (IsAltGr(aKey)) then
       keyTextAltGr := GetKeyText(aKey, '', true);
     {$endif}

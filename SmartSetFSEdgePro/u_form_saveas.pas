@@ -5,7 +5,7 @@ unit u_form_saveas;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Classes, SysUtils, FileUtil, LazFileUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   userdialog, u_const, ColorSpeedButtonCS;
 
 type

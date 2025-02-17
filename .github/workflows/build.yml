@@ -13,81 +13,64 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      ## MacOS Setup
-      - name: install lazarus (Mac)
-        if: matrix.os == 'macos-latest'
-        run: |
-          make install-lazarus-mac
-          echo /Applications/Lazarus >> $GITHUB_PATH
+      ### Setup
 
-      ## Linux Setup
-      - name: install lazarus (linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install lazarus
-
-      ## Windows Setup
-
-      - name: install make (windows)
-        if: matrix.os == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v1
+      - name: install lazarus
+        uses: gcarreno/setup-lazarus@v3
         with:
-          args: install make
+          lazarus-version: "stable"
 
-      - name: install 32-bit lazarus (windows)
-        if: matrix.os == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install --x86 lazarus
+      ### Build
 
-      # https://stackoverflow.com/a/64831469
-      - name: add lazarus to path (windows)
-        if: matrix.os == 'windows-latest'
-        run: echo "C:\lazarus" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: print version information
+        run: |
+          make --version
+          make version
 
-      ## Build
-
-      - run: lazbuild --version
-
-      - name: fpc version
+      - name: print version of fpc
         run: fpc -iW
-        if: matrix.os != 'windows-latest'
 
-      - run: make clean
+      - name: start with a clean build
+        run: make clean
 
-      - run: make smartset_master
-      - run: make smartset_master_office
+      # TODO: fix the commented out app to compile again
       # - run: make smartset_adv2
       # - run: make smartset_fsedge
+      - run: make smartset_master
+      - run: make smartset_master_office
+      - run: make smartset_rgb
       # - run: make smartset_savant_elite
       - run: make smartset_tko
-      - run: make smartset_rgb
 
+      ### Artifact Uploads
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: SmartSetMaster-${{ runner.os }}
-          path: SmartSetMaster
+      # TODO: these currently just upload the entire directory for each of the
+      #       apps, but in the future this can be fine tuned to just upload
+      #       the executables instead
 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: SmartSetMasterOffice-${{ runner.os }}
-          path: SmartSetMasterOffice
-
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetAdv2-${{ runner.os }}
           path: SmartSetAdv2
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetFSEdgePro-${{ runner.os }}
           path: SmartSetFSEdgePro
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SmartSetMaster-${{ runner.os }}
+          path: SmartSetMaster
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SmartSetMasterOffice-${{ runner.os }}
+          path: SmartSetMasterOffice
+
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetSavantElite-${{ runner.os }}
           path: SmartSetSavantElite

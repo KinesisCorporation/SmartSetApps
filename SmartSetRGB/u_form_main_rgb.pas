@@ -15,7 +15,7 @@ uses
     LazUtils, {smtpsend, mimepart, mimemess,} u_form_export,
     u_form_diagnostics, u_form_firmware, u_form_troubleshoot, LazFileUtils,
     u_gif, u_common_ui, u_form_expansion
-    {$ifdef Win32},Windows{$endif}, Types;
+    {$ifdef Win64},Windows{$endif}, Types;
 
 type
   { TFormMainRGB }
@@ -905,8 +905,8 @@ var
   //fileService: TFileService;
 
   procedure SetKeyPress(Key: word; Modifiers: string);
-  {$ifdef Win32}
-  function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;  {this intercepts keyboard input}
+  {$ifdef Win64}
+  function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;  {this intercepts keyboard input}
   {$endif}
 
 implementation
@@ -917,9 +917,9 @@ uses u_form_dashboard;
 
 { Key Hook }
 
-{$ifdef Win32}
+{$ifdef Win64}
 //Keyboard hook to trap key presses and process them
-function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;
+function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;
 var
   Transition: TTransitionState;
   extended: TExtendedState;
@@ -1043,7 +1043,7 @@ end;
 procedure TFormMainRGB.SetKeyboardHook;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   KBHook := SetWindowsHookEx(WH_KEYBOARD, @KeyboardHookProc, HInstance,
     GetCurrentThreadId());
   {$endif}
@@ -1053,7 +1053,7 @@ end;
 procedure TFormMainRGB.RemoveKeyboardHook;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   UnHookWindowsHookEx(KBHook);
   {$endif}
 end;
@@ -1223,11 +1223,14 @@ begin
 
   //Sets Height and Width of form
   logoSize := (imgLogoFSEdge2.Left + imgLogoFSEdge2.Width) - imgLogoFSEdge.Left;
-  {$ifdef Win32}
+  {$ifdef Win64}
   SetFormBorder(bsNone);
   {$endif}
   {$ifdef Darwin}
   SetFormBorder(bsNone);
+  {$endif}
+  {$ifdef Linux}
+  //SetFormBorder(bsNone);
   {$endif}
   self.Width := NORMAL_WIDTH;
   self.Height := NORMAL_HEIGHT;
@@ -1304,7 +1307,7 @@ begin
   //AddFontResource('fonts/Exo2-Regular.ttf');
   //AddFontResource('fonts/Quantify Bold v2.6.ttf');
   //SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
-  //jm temp {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
+  //jm temp {$ifdef Win64}self.BorderStyle := bsNone;{$endif}
 
   //Set correct z-order for images
   imgKeyboardLayout.SendToBack;
@@ -1363,6 +1366,8 @@ begin
     keyService.LoadLayerList;
 
     LoadKeyButtonRows;
+    if (GDebugMode) then
+      ShowMessage('LoadKeyButtonRows done');
 
     {$ifdef Darwin}
       btnEject.Visible := false;
@@ -1504,10 +1509,16 @@ end;
  procedure TFormMainRGB.SetConfigOS;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   defaultKeyFontName := 'Arial Narrow';
   defaultKeyFontSize := 10;
   //SetFont(self, 'Tahoma Bold');
+  {$endif}
+
+  //
+  {$ifdef Linux}
+  defaultKeyFontName := 'Arial';
+  defaultKeyFontSize := 10;
   {$endif}
 
   //MacOS
@@ -1788,7 +1799,15 @@ begin
   hoveredList.Add(THoveredObj.Create(btnDoneMacro, imgListMacro, 2, 3));
 
   //Macro co-triggers
-  {$ifdef Win32}
+  {$ifdef Win64}
+  hoveredList.Add(THoveredObj.Create(btnLeftCtrl, imgListTriggers, 0, 1));
+  hoveredList.Add(THoveredObj.Create(btnLeftAlt, imgListTriggers, 2, 3));
+  hoveredList.Add(THoveredObj.Create(btnLeftShift, imgListTriggers, 4, 5));
+  hoveredList.Add(THoveredObj.Create(btnRightCtrl, imgListTriggers, 6, 7));
+  hoveredList.Add(THoveredObj.Create(btnRightAlt, imgListTriggers, 8, 9));
+  hoveredList.Add(THoveredObj.Create(btnRightShift, imgListTriggers, 10, 11));
+  {$endif}
+  {$ifdef Linux}
   hoveredList.Add(THoveredObj.Create(btnLeftCtrl, imgListTriggers, 0, 1));
   hoveredList.Add(THoveredObj.Create(btnLeftAlt, imgListTriggers, 2, 3));
   hoveredList.Add(THoveredObj.Create(btnLeftShift, imgListTriggers, 4, 5));
@@ -5466,7 +5485,7 @@ procedure TFormMainRGB.UpdateStateSettings;
 begin
   self.DisableAlign;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Disable paint on form
   SendMessage(self.Handle, WM_SETREDRAW, Integer(False), 0);
   {$endif}
@@ -5484,7 +5503,7 @@ begin
 
   oldWindowState := self.WindowState;
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   //Enable paint on form on repaint
   SendMessage(self.Handle, WM_SETREDRAW, Integer(True), 0);
   {$endif}
@@ -5510,7 +5529,7 @@ end;
 
 procedure TFormMainRGB.SetFormBorder(formBorder: TFormBorderStyle);
 begin
-  //{$ifdef Win32}
+  //{$ifdef Win64}
   self.BorderStyle := formBorder;
   RepaintForm(true);
   //{$endif}
@@ -6006,7 +6025,7 @@ end;
 procedure TFormMainRGB.EnablePaintImages(value: boolean);
 begin
   //Enable/Disable visual effects on controls
-  {$ifdef Win32}
+  {$ifdef Win64}
   SendMessage(imgBackground.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
   SendMessage(imgKeyboardBack.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
   SendMessage(imgKeyboardLayout.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
@@ -6685,7 +6704,10 @@ begin
     else if (aMenuAction.ActionLabel = lblPreHotkeys) then
     begin
       lbMenu.Items.AddObject('Freestyle2 Hotkeys', TObject(VK_FS2_HOTKEYS));
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
+        lbMenu.Items.AddObject('Freestyle Pro Hotkeys', TObject(VK_FSPRO_HOTKEYS));
+      {$endif}
+      {$ifdef Linux}
         lbMenu.Items.AddObject('Freestyle Pro Hotkeys', TObject(VK_FSPRO_HOTKEYS));
       {$endif}
       {$ifdef darwin}
@@ -6767,7 +6789,10 @@ begin
       begin
         lbMenu.Items.AddObject('Right Windows', TObject(VK_RWIN));
         lbMenu.Items.AddObject('Left Windows', TObject(VK_LWIN));
-        {$ifdef Win32}
+        {$ifdef Win64}
+        lbMenu.Items.AddObject('Menu', TObject(VK_KP_MENU));
+        {$endif}
+        {$ifdef Linux}
         lbMenu.Items.AddObject('Menu', TObject(VK_KP_MENU));
         {$endif}
         {$ifdef darwin}
@@ -6813,12 +6838,12 @@ begin
       lbMenuMacro.Items.AddObject('Paste', TObject(VK_PASTE));
       lbMenuMacro.Items.AddObject('Select All', TObject(VK_SELECTALL));
       lbMenuMacro.Items.AddObject('Undo', TObject(VK_UNDO));
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
       lbMenuMacro.Items.AddObject('Redo', TObject(VK_REDO));
       lbMenuMacro.Items.AddObject('Desktop', TObject(VK_DESKTOP));
       {$endif}
       lbMenuMacro.Items.AddObject('Last App', TObject(VK_LASTAPP));
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
         lbMenuMacro.Items.AddObject('Ctrl Alt Delete', TObject(VK_CTRLALTDEL));
       {$endif}
     end
@@ -6949,7 +6974,7 @@ begin
     begin
       if (mnuAction = VK_CUT) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_X, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -6958,7 +6983,7 @@ begin
       end
       else if (mnuAction = VK_COPY) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_C, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -6967,7 +6992,7 @@ begin
       end
       else if (mnuAction = VK_PASTE) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_V, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -6976,7 +7001,7 @@ begin
       end
       else if (mnuAction = VK_PASTE) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_V, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -6985,7 +7010,7 @@ begin
       end
       else if (mnuAction = VK_SELECTALL) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_A, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -6994,7 +7019,7 @@ begin
       end
       else if (mnuAction = VK_UNDO) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_Z, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -7003,7 +7028,7 @@ begin
       end
       else if (mnuAction = VK_REDO) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_Y, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -7012,13 +7037,13 @@ begin
       end
       else if (mnuAction = VK_DESKTOP) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_D, L_WIN_MOD, true)
         {$endif}
       end
       else if (mnuAction = VK_LASTAPP) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_TAB, L_ALT_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -7027,7 +7052,7 @@ begin
       end
       else if (mnuAction = VK_CTRLALTDEL) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_DELETE, L_CTRL_MOD + ',' + L_ALT_MOD, true)
         {$endif}
       end
@@ -7333,7 +7358,45 @@ begin
       MacroModified := true;
       SetSaveState(ssModified, SaveStateLighting);
 
-      {$ifdef Win32} //Windows
+      {$ifdef Win64} //Windows
+        //HK1 - lalt + left
+        aMacro.Add(keyService.GetKeyWithModifier(VK_LEFT, GetKeyModifierText(VK_LMENU)));
+        keyService.SetKeyMacroIdx(keyService.ActiveLayer, 17, aMacro);
+
+        //HK2 - lalt + right
+        aMacro.Clear;
+        aMacro.Add(keyService.GetKeyWithModifier(VK_RIGHT, GetKeyModifierText(VK_LMENU)));
+        keyService.SetKeyMacroIdx(keyService.ActiveLayer, 18, aMacro);
+
+        //HK3 - LCONTROL + Z
+        aMacro.Clear;
+        aMacro.Add(keyService.GetKeyWithModifier(VK_Z, GetKeyModifierText(VK_LCONTROL)));
+        keyService.SetKeyMacroIdx(keyService.ActiveLayer, 34, aMacro);
+
+        //HK4 - lalt + home
+        aMacro.Clear;
+        aMacro.Add(keyService.GetKeyWithModifier(VK_HOME, GetKeyModifierText(VK_LMENU)));
+        keyService.SetKeyMacroIdx(keyService.ActiveLayer, 35, aMacro);
+
+        //HK5 - lcontrol + x
+        aMacro.Clear;
+        aMacro.Add(keyService.GetKeyWithModifier(VK_X, GetKeyModifierText(VK_LCONTROL)));
+        keyService.SetKeyMacroIdx(keyService.ActiveLayer, 51, aMacro);
+
+        //HK6 - Del
+        keyService.SetKBKeyIdx(keyService.ActiveLayer, 52, VK_DELETE);
+
+        //HK7 - lcontrol + c
+        aMacro.Clear;
+        aMacro.Add(keyService.GetKeyWithModifier(VK_C, GetKeyModifierText(VK_LCONTROL)));
+        keyService.SetKeyMacroIdx(keyService.ActiveLayer, 67, aMacro);
+
+        //HK8 - lcontrol + v
+        aMacro.Clear;
+        aMacro.Add(keyService.GetKeyWithModifier(VK_V, GetKeyModifierText(VK_LCONTROL)));
+        keyService.SetKeyMacroIdx(keyService.ActiveLayer, 68, aMacro);
+      {$endif}
+      {$ifdef Linux}
         //HK1 - lalt + left
         aMacro.Add(keyService.GetKeyWithModifier(VK_LEFT, GetKeyModifierText(VK_LMENU)));
         keyService.SetKeyMacroIdx(keyService.ActiveLayer, 17, aMacro);
@@ -7599,8 +7662,8 @@ begin
         KeyModified := true;
         SetSaveState(ssModified, SaveStateLighting);
 
-        keyService.SetKBKeyIdx(aLayer, 30, VK_LCL_OPEN_BRAKET);  //Replace -
-        keyService.SetKBKeyIdx(aLayer, 31, VK_LCL_CLOSE_BRAKET);  //Replace =
+        keyService.SetKBKeyIdx(aLayer, 30, VK_LCL_OPEN_BRACKET);  //Replace -
+        keyService.SetKBKeyIdx(aLayer, 31, VK_LCL_CLOSE_BRACKET);  //Replace =
         keyService.SetKBKeyIdx(aLayer, 37, VK_LCL_QUOTE);  //Replace q
         keyService.SetKBKeyIdx(aLayer, 38, VK_LCL_COMMA);  //Replace w
         keyService.SetKBKeyIdx(aLayer, 39, VK_LCL_POINT); //Replace e
@@ -8042,7 +8105,7 @@ begin
     pnlMacro.Left := imgKeyboardLayout.Left + imgKeyboardLayout.Width - pnlMacro.Width;
     //pnlMacro.Top := pnlEffectColor.Top;//FormMainRGB.Height - pnlMacro.Height - 50;
     lblMacro.Font.Color := KINESIS_BLUE_EDGE;
-    {$ifdef win32}
+    {$ifdef Win64}
     //causes bug with Cocoa osx
     pnlMacro.BringToFront;
     {$endif}
@@ -8523,7 +8586,7 @@ begin
   if (IsKeyLoaded) and (activeKbKey.IsMacro) then
   begin
     //Disable visual effects on Macro before assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(False), 0);
     {$endif}
     {$ifdef Darwin}
@@ -8553,7 +8616,7 @@ begin
     //{$endif}
 
     //Enable visual effects on Macro after assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(True), 0);
     {$endif}
     {$ifdef Darwin}

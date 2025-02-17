@@ -5,7 +5,7 @@ unit u_form_load;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  Classes, SysUtils, FileUtil, LazFileUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
   u_const, userdialog, ColorSpeedButtonCS;
 
 type

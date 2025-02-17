@@ -12,10 +12,10 @@ unit u_const_pedal;
 interface
 
 uses
-  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics, Buttons
-  {$ifdef Win32}, Windows, jwawinuser{$endif}
-  {$ifdef Linux}, LCLIntf{$endif}
-  {$ifdef Darwin},LCLIntf, CocoaUtils, CocoaAll{$endif};
+  Classes, SysUtils, lcltype, FileUtil, Controls, LazUTF8 , Graphics, Buttons,
+  {$ifdef Win64}Windows, jwawinuser, {$endif}
+  {$ifdef Darwin}CocoaUtils, CocoaAll, {$endif}
+  LCLIntf;
 
 type
   TPedal = (pNone, pLeft, pMiddle, pRight, pJack1, pJack2, pJack3, pJack4);
@@ -316,7 +316,7 @@ begin
 
   //Call Windows ToUnicode function
   //Must call twice to eliminate Dead-Keys
-  {$ifdef Win32}
+  {$ifdef Win64}
   ToUnicode(Key, 0, keyboardState, UnicodeKeys, 256, 0);
   ToUnicode(Key, 0, keyboardState, UnicodeKeys, 256, 0);
   {$endif}
@@ -337,7 +337,7 @@ var
    scanCode: word;
 begin
   //Gets currenty keyboard scan Code
-  {$ifdef Win32}
+  {$ifdef Win64}
   scanCode := MapVirtualKey(Key, 0);
 
   //Converts to English US virtual code
@@ -351,7 +351,7 @@ var
    scanCode: word;
 begin
   //Gets English US Scan Code
-  {$ifdef Win32}
+  {$ifdef Win64}
   scanCode := MapVirtualKeyEx(Key, 0, ENGLISH_US_LAYOUT_VALUE);
 
   //Converts to current keyboard virtual code
@@ -362,11 +362,11 @@ end;
 //Return KeyboardLayout for the user
 function GetCurrentKeyoardLayout: string;
 var
-  {$ifdef Win32}LayoutName: array [0 .. KL_NAMELENGTH + 1] of Char; {$endif}
+  {$ifdef Win64}LayoutName: array [0 .. KL_NAMELENGTH + 1] of Char; {$endif}
   layout: string;
 begin
   layout := ENGLISH_US_LAYOUT_NAME;
-  {$ifdef Win32}
+  {$ifdef Win64}
   try
     if (GetKeyboardLayoutName(@LayoutName)) then
       layout := StrPas(LayoutName);
@@ -395,13 +395,13 @@ begin
 end;
 
 //function GetCharFromVKey(vkey: Word): string;
-//{$ifdef Win32}
+//{$ifdef Win64}
 //var
 //  keystate: TKeyboardState;
 //  retcode: Integer;
 //{$endif}
 //begin
-//  {$ifdef Win32}
+//  {$ifdef Win64}
 //  Win32Check(GetKeyboardState(keystate));
 //  SetLength(Result, 2);
 //  retcode := ToAscii(vkey,
@@ -421,7 +421,7 @@ end;
 //end;
 
 //function VKeytoWideString (Key : Word) : WideString;
-//{$ifdef Win32}
+//{$ifdef Win64}
 //var
 //  WBuff         : array [0..255] of WideChar;
 //  KeyboardState : TKeyboardState;
@@ -430,7 +430,7 @@ end;
 //{$endif}
 //begin
 //  Result := '';
-//  {$ifdef Win32}
+//  {$ifdef Win64}
 //  GetKeyBoardState(KeyboardState);
 //  ZeroMemory(@WBuff[0], SizeOf(WBuff));
 //  UResult := ToUnicode(key, 0, KeyboardState, WBuff, Length(WBuff), 0);
@@ -447,7 +447,7 @@ initialization
   GDemoMode := false;
   GDesktopMode := false;
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   GApplicationName := 'Savant Elite2 SmartSet App (Win)';
   GApplicationPath := IncludeTrailingBackslash(ExtractFileDir(ParamStr(0)));
   {$endif}

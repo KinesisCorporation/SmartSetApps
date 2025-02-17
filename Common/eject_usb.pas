@@ -3,7 +3,7 @@ unit Eject_USB;
 interface
 
 uses
-  {$ifdef Win32}Windows,{$endif}
+  {$ifdef Win64}Windows,{$endif}
   {$ifdef darwin}Unix,{$endif}
   SysUtils;
 
@@ -12,7 +12,7 @@ function EjectVolume(drivePath: string): boolean;
 
 implementation
 
-{$ifdef Win32}
+{$ifdef Win64}
 type
   DEVICE_TYPE = DWORD;
   _DEVINST = DWORD;
@@ -141,7 +141,7 @@ type
 
   {$endif}
 
-  {$ifdef Win32}
+  {$ifdef Win64}
   function EjectUSB(const DriveLetter: string): boolean;
   const
     CfgMgrDllName = 'cfgmgr32.dll';

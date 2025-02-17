@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, runtimetypeinfocontrols, u_form_main, u_form_new, u_key_layer, u_const,
+  Forms, runtimetypeinfocontrols, u_form_main_adv2, u_form_new, u_key_layer, u_const,
   u_file_service, richmemopackage, uecontrols;
 
 {$R *.res}

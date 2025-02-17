@@ -264,7 +264,7 @@ begin
             keyboardVer := jObject.Get('kb360_version');
             lightingVer := jObject.Get('kb360_version');
           end;
-          {$ifdef Win32}
+          {$ifdef Win64}
           if (GMasterAppId = APPL_MASTER_GAMING) then
             appVer := jObject.Get('app_ver')
           else

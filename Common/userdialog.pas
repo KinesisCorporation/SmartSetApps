@@ -46,7 +46,7 @@ var
   procedure CloseDialog(resultType: integer);
 
 implementation
-//  
+//
 //uses u_form_main_rgb;
 
 {$R *.lfm}
@@ -199,7 +199,7 @@ procedure TFormUserDialog.FormCreate(Sender: TObject);
 begin
   inherited;
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   SetFont(self, 'Tahoma');
   {$endif}
     //MacOS

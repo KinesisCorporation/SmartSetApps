@@ -10,7 +10,7 @@ uses
   u_key_layer, u_file_service, LabelBox, LineObj, uEKnob, ueled, ECSwitch,
   ECSlider, HSSpeedButton, RichMemo, u_keys, userdialog, contnrs, u_form_about,
   LazUTF8, u_form_saveas, u_form_load
-  {$ifdef Win32},Windows{$endif}
+  {$ifdef Win64},Windows{$endif}
   {$ifdef Darwin}, MacOSAll, CarbonDef, CarbonProc{$endif};
 
 type
@@ -516,8 +516,8 @@ var
   MPos:TPoint; {Position of the Form before drag}
 
   procedure SetKeyPress(Key: word; Modifiers: string);
-  {$ifdef Win32}
-  function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;  {this intercepts keyboard input}
+  {$ifdef Win64}
+  function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;  {this intercepts keyboard input}
   {$endif}
 
 implementation
@@ -526,9 +526,9 @@ implementation
 
 { TFormMainOld }
 
-{$ifdef Win32}
+{$ifdef Win64}
 //Keyboard hook to trap key presses and process them
-function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;
+function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;
 var
   Transition: TTransitionState;
   extended: TExtendedState;
@@ -761,7 +761,7 @@ begin
     //Load config keys depending on app version
     keyService.LoadConfigKeys;
 
-    {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
+    {$ifdef Win64}self.BorderStyle := bsNone;{$endif}
     {$ifdef Darwin}
     self.BorderStyle := bsSizeable;
     btnClose.Visible := false;
@@ -984,7 +984,7 @@ const
   SliderSeparator = 25;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   defaultKeyFontName := 'Arial Narrow';
   defaultKeyFontSize := 8;
   SetFont(self, 'Tahoma Bold');
@@ -1062,7 +1062,7 @@ procedure TFormMainOld.SetKeyboardHook;
 {$ifdef Darwin}var eventType: EventTypeSpec;{$endif}
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   KBHook := SetWindowsHookEx(WH_KEYBOARD, @KeyboardHookProc, HInstance,
     GetCurrentThreadId());
   {$endif}
@@ -1072,7 +1072,7 @@ end;
 procedure TFormMainOld.RemoveKeyboardHook;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   UnHookWindowsHookEx(KBHook);
   {$endif}
 end;
@@ -1234,7 +1234,7 @@ procedure TFormMainOld.btnMinimizeClick(Sender: TObject);
 begin
   if (GApplication = APPL_FSEDGE) then
   begin
-    {$ifdef Win32}self.BorderStyle := bsSizeable;{$endif}
+    {$ifdef Win64}self.BorderStyle := bsSizeable;{$endif}
   end;
   Self.WindowState := wsMinimized;
 end;
@@ -1798,7 +1798,7 @@ begin
 
   if menuItem = miCutM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_X, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1807,7 +1807,7 @@ begin
   end
   else if menuItem = miCopyM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_C, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1816,7 +1816,7 @@ begin
   end
   else if menuItem = miPasteM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_V, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1825,7 +1825,7 @@ begin
   end
   else if menuItem = miSelectAllM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_A, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1834,7 +1834,7 @@ begin
   end
   else if menuItem = miUndoM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_Z, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1843,7 +1843,7 @@ begin
   end
   else if menuItem = miRedoM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_Y, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1852,7 +1852,7 @@ begin
   end
   else if menuItem = miDesktopM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_D, L_WIN_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1861,7 +1861,7 @@ begin
   end
   else if menuItem = miLastAppM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_TAB, L_ALT_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1870,7 +1870,7 @@ begin
   end
   else if menuItem = miCtrlAltDelM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_DELETE, L_CTRL_MOD + ',' + L_ALT_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1922,7 +1922,7 @@ begin
     SetModifiedKey(VK_F24, '', true)
   else if menuItem = miHomeM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_HOME, L_ALT_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1931,7 +1931,7 @@ begin
   end
   else if menuItem = miForwardM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_RIGHT, L_ALT_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1940,7 +1940,7 @@ begin
   end
   else if menuItem = miBackM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_lEFT, L_ALT_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1949,7 +1949,7 @@ begin
   end
   else if menuItem = miNewTabM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_T, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -1958,7 +1958,7 @@ begin
   end
   else if menuItem = miSwitchTabsM then
   begin
-    {$ifdef Win32} //Windows
+    {$ifdef Win64} //Windows
     SetModifiedKey(VK_TAB, L_CTRL_MOD, true)
     {$endif}
     {$ifdef Darwin}  //MacOS
@@ -2724,7 +2724,7 @@ begin
   if (GApplication = APPL_FSEDGE) then
   begin
     self.WindowState := wsNormal;
-    {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
+    {$ifdef Win64}self.BorderStyle := bsNone;{$endif}
   end;
 
   //To repaint red color in macro box
@@ -3321,7 +3321,7 @@ begin
   if (IsKeyLoaded) and (activeKbKey.IsMacro) then
   begin
     //Disable visual effects on Macro before assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(False), 0);
     {$endif}
     {$ifdef Darwin}
@@ -3351,7 +3351,7 @@ begin
     //{$endif}
 
     //Enable visual effects on Macro after assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(True), 0);
     {$endif}
     {$ifdef Darwin}

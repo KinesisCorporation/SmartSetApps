@@ -108,7 +108,7 @@ begin
     DebugInfo.Add('Exception message: ' + E.Message);
 
     DebugInfo.Add(CDELIMITER);
-    {$ifdef Win32}
+    {$ifdef Win64}
     DebugInfo.Add('Windows version: ' + IntToStr(Win32MajorVersion) +
       '.' + IntToStr(Win32MinorVersion));
     {$else}

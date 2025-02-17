@@ -5,7 +5,7 @@ unit u_form_main;
 interface
 
 uses
-    Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+    Classes, SysUtils, FileUtil, LazFileUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
     lcltype, Menus, ExtCtrls, Buttons, lclintf, u_const, u_key_service,
     u_key_layer, u_file_service, LabelBox, LineObj, RichMemo,
     uGifViewer, ueled, uEKnob, HSLRingPicker,
@@ -13,7 +13,7 @@ uses
     contnrs, u_form_about, LazUTF8, u_form_saveas, u_form_load,
     u_form_settings, AnimatedGif, MemBitmap, LResources, BGRABitmap, BGRABitmapTypes,
     u_form_timingdelays, u_form_intro
-    {$ifdef Win32},Windows{$endif};
+    {$ifdef Win64},Windows{$endif};
 
 type
 
@@ -736,8 +736,8 @@ var
   MPos:TPoint; {Position of the Form before drag}
 
   procedure SetKeyPress(Key: word; Modifiers: string);
-  {$ifdef Win32}
-  function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;  {this intercepts keyboard input}
+  {$ifdef Win64}
+  function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;  {this intercepts keyboard input}
   {$endif}
   function FormMacroActive: boolean;
 
@@ -754,9 +754,9 @@ implementation
 
 { Key Hook }
 
-{$ifdef Win32}
+{$ifdef Win64}
 //Keyboard hook to trap key presses and process them
-function KeyboardHookProc(Code, wParam, lParam: longint): longint; stdcall;
+function KeyboardHookProc(Code: longint; wParam: int64; lParam: int64): int64; stdcall;
 var
   Transition: TTransitionState;
   extended: TExtendedState;
@@ -879,7 +879,7 @@ procedure TFormMain.SetKeyboardHook;
 {$ifdef Darwin}var eventType: EventTypeSpec;{$endif}
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   KBHook := SetWindowsHookEx(WH_KEYBOARD, @KeyboardHookProc, HInstance,
     GetCurrentThreadId());
   {$endif}
@@ -889,7 +889,7 @@ end;
 procedure TFormMain.RemoveKeyboardHook;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   UnHookWindowsHookEx(KBHook);
   {$endif}
 end;
@@ -1080,7 +1080,7 @@ begin
   //AddFontResource('fonts/Exo2-Regular.ttf');
   //AddFontResource('fonts/Quantify Bold v2.6.ttf');
   //SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
-  //jm temp {$ifdef Win32}self.BorderStyle := bsNone;{$endif}
+  //jm temp {$ifdef Win64}self.BorderStyle := bsNone;{$endif}
 
   //Set correct z-order for images
   imgKeyboardLayout.SendToBack;
@@ -1235,7 +1235,7 @@ end;
 procedure TFormMain.SetConfigOS;
 begin
   //Windows
-  {$ifdef Win32}
+  {$ifdef Win64}
   defaultKeyFontName := 'Arial Narrow';
   defaultKeyFontSize := 10;
   //SetFont(self, 'Tahoma Bold');
@@ -3803,7 +3803,7 @@ end;
 
 procedure TFormMain.SetFormBorder(formBorder: TFormBorderStyle);
 begin
-  {$ifdef Win32}
+  {$ifdef Win64}
   self.BorderStyle := formBorder;
   RepaintForm(true);
   {$endif}
@@ -3978,7 +3978,7 @@ end;
 procedure TFormMain.EnablePaintImages(value: boolean);
 begin
   //Enable/Disable visual effects on controls
-  {$ifdef Win32}
+  {$ifdef Win64}
   SendMessage(imgBackground.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
   SendMessage(imgKeyboardBack.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
   SendMessage(imgKeyboardLayout.Canvas.Handle, WM_SETREDRAW, WPARAM(value), 0);
@@ -4741,7 +4741,7 @@ begin
     begin
       if (mnuAction = VK_CUT) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_X, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4750,7 +4750,7 @@ begin
       end
       else if (mnuAction = VK_COPY) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_C, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4759,7 +4759,7 @@ begin
       end
       else if (mnuAction = VK_PASTE) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_V, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4768,7 +4768,7 @@ begin
       end
       else if (mnuAction = VK_PASTE) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_V, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4777,7 +4777,7 @@ begin
       end
       else if (mnuAction = VK_SELECTALL) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_A, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4786,7 +4786,7 @@ begin
       end
       else if (mnuAction = VK_UNDO) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_Z, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4795,7 +4795,7 @@ begin
       end
       else if (mnuAction = VK_REDO) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_Y, L_CTRL_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4804,7 +4804,7 @@ begin
       end
       else if (mnuAction = VK_DESKTOP) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_D, L_WIN_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4813,7 +4813,7 @@ begin
       end
       else if (mnuAction = VK_LASTAPP) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_TAB, L_ALT_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -4822,7 +4822,7 @@ begin
       end
       else if (mnuAction = VK_CTRLALTDEL) then
       begin
-        {$ifdef Win32} //Windows
+        {$ifdef Win64} //Windows
         SetModifiedKey(VK_DELETE, L_CTRL_MOD + ',' + L_ALT_MOD, true)
         {$endif}
         {$ifdef Darwin}  //MacOS
@@ -5144,8 +5144,8 @@ begin
         KeyModified := true;
         SetSaveState(ssModified, SaveStateLighting);
 
-        keyService.SetKBKeyIdx(aLayer, 30, VK_LCL_OPEN_BRAKET);  //Replace -
-        keyService.SetKBKeyIdx(aLayer, 31, VK_LCL_CLOSE_BRAKET);  //Replace =
+        keyService.SetKBKeyIdx(aLayer, 30, VK_LCL_OPEN_BRACKET);  //Replace -
+        keyService.SetKBKeyIdx(aLayer, 31, VK_LCL_CLOSE_BRACKET);  //Replace =
         keyService.SetKBKeyIdx(aLayer, 37, VK_LCL_QUOTE);  //Replace q
         keyService.SetKBKeyIdx(aLayer, 38, VK_LCL_COMMA);  //Replace w
         keyService.SetKBKeyIdx(aLayer, 39, VK_LCL_POINT); //Replace e
@@ -6018,7 +6018,7 @@ begin
   if (activeKbKey.IsMacro) then
   begin
     //Disable visual effects on Macro before assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(False), 0);
     {$endif}
     {$ifdef Darwin}
@@ -6048,7 +6048,7 @@ begin
     //{$endif}
 
     //Enable visual effects on Macro after assigning text
-    {$ifdef Win32}
+    {$ifdef Win64}
     SendMessage(memoMacro.Handle, WM_SETREDRAW, WPARAM(True), 0);
     {$endif}
     {$ifdef Darwin}
