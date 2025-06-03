@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  u_const, userdialog, ColorSpeedButtonCS;
+  u_const, userdialog, ColorSpeedButtonCS, LazFileUtils;
 
 type
 
