@@ -20,11 +20,15 @@ type
     FHorizontalAlignment: TAlignment;
     FItems: TListOfTStringList;
     FReferenceDPI: integer;
+    FTargetRasterImageList: TImageList;
     FUseSVGAlignment: boolean;
     FVerticalAlignment: TTextLayout;
     FWidth: integer;
+    FRasterized: boolean;
+    FDataLineBreak: TTextLineBreakStyle;
     procedure ReadData(Stream: TStream);
     procedure SetHeight(AValue: integer);
+    procedure SetTargetRasterImageList(AValue: TImageList);
     procedure SetWidth(AValue: integer);
     procedure WriteData(Stream: TStream);
   protected
@@ -34,6 +38,9 @@ type
     function GetCount: integer;
     // Get SVG string
     function GetSVGString(AIndex: integer): string; overload;
+    procedure Rasterize;
+    procedure RasterizeIfNeeded;
+    procedure QueryRasterize;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -81,29 +88,81 @@ type
     property UseSVGAlignment: boolean read FUseSVGAlignment write FUseSVGAlignment default False;
     property HorizontalAlignment: TAlignment read FHorizontalAlignment write FHorizontalAlignment default taCenter;
     property VerticalAlignment: TTextLayout read FVerticalAlignment write FVerticalAlignment default tlCenter;
+    property TargetRasterImageList: TImageList read FTargetRasterImageList write SetTargetRasterImageList default nil;
   end;
 
 procedure Register;
 
 implementation
 
-uses LCLType;
+uses LCLType, XMLRead;
 
 procedure Register;
 begin
   RegisterComponents('BGRA Themes', [TBGRASVGImageList]);
 end;
 
+{$IF FPC_FULLVERSION < 30203}
+type
+
+  { TPatchedXMLConfig }
+
+  TPatchedXMLConfig = class(TXMLConfig)
+    public
+      procedure LoadFromStream(S : TStream); reintroduce;
+  end;
+
+
+{ TPatchedXMLConfig }
+
+procedure TPatchedXMLConfig.LoadFromStream(S: TStream);
+begin
+  FreeAndNil(Doc);
+  ReadXMLFile(Doc,S);
+  FModified := False;
+  if (Doc.DocumentElement.NodeName<>RootName) then
+    raise EXMLConfigError.CreateFmt(SWrongRootName,[RootName,Doc.DocumentElement.NodeName]);
+end;
+{$ENDIF}
 { TBGRASVGImageList }
 
 procedure TBGRASVGImageList.ReadData(Stream: TStream);
+
+  // Detects EOL marker used in the text stream
+  function GetLineEnding(AStream: TStream; AMaxLookAhead: integer = 4096): TTextLineBreakStyle;
+  var c: char;
+    i: integer;
+  begin
+    c := #0;
+    for i := 0 to AMaxLookAhead-1 do
+    begin
+      if AStream.Read(c, sizeof(c)) = 0 then break;
+      Case c of
+      #10: exit(tlbsLF);
+      #13: begin
+          if AStream.Read(c, sizeof(c)) = 0 then c := #0;
+          if c = #10 then
+            exit(tlbsCRLF)
+          else
+            exit(tlbsCR);
+        end;
+      end;
+    end;
+    // no marker found, return system default
+    exit(DefaultTextLineBreakStyle);
+  end;
+
 var
   FXMLConf: TXMLConfig;
 begin
   FXMLConf := TXMLConfig.Create(Self);
   try
+    // Detect the line EOL marker
     Stream.Position := 0;
-    FXMLConf.LoadFromStream(Stream);
+    FDataLineBreak:= GetLineEnding(Stream);
+    // Actually load the XML file
+    Stream.Position := 0;
+    {$IF FPC_FULLVERSION < 30203}TPatchedXMLConfig(FXMLConf){$ELSE}FXMLConf{$ENDIF}.LoadFromStream(Stream);
     Load(FXMLConf);
   finally
     FXMLConf.Free;
@@ -115,6 +174,15 @@ begin
   if FHeight = AValue then
     Exit;
   FHeight := AValue;
+  QueryRasterize;
+end;
+
+procedure TBGRASVGImageList.SetTargetRasterImageList(AValue: TImageList);
+begin
+  if FTargetRasterImageList=AValue then Exit;
+  if Assigned(FTargetRasterImageList) then FTargetRasterImageList.Clear;
+  FTargetRasterImageList:=AValue;
+  QueryRasterize;
 end;
 
 procedure TBGRASVGImageList.SetWidth(AValue: integer);
@@ -122,19 +190,33 @@ begin
   if FWidth = AValue then
     Exit;
   FWidth := AValue;
+  QueryRasterize;
 end;
 
 procedure TBGRASVGImageList.WriteData(Stream: TStream);
 var
   FXMLConf: TXMLConfig;
+  FTempStream: TStringStream;
+  FNormalizedData: string;
 begin
   FXMLConf := TXMLConfig.Create(Self);
+  FTempStream := TStringStream.Create;
   try
     Save(FXMLConf);
-    FXMLConf.SaveToStream(Stream);
+    // Save to temporary string stream.
+    // EOL marker will depend on OS (#13#10 or #10),
+    // because TXMLConfig automatically changes EOL to platform default.
+    FXMLConf.SaveToStream(FTempStream);
+    // Normalize EOL marker, as data will be saved as binary data.
+    // Saving without normalization would lead to different binary
+    // data when saving on different platforms.
+    FNormalizedData := AdjustLineBreaks(FTempStream.DataString, FDataLineBreak);
+    if FNormalizedData <> '' then
+      Stream.WriteBuffer(FNormalizedData[1], Length(FNormalizedData));
     FXMLConf.Flush;
   finally
     FXMLConf.Free;
+    FTempStream.Free;
   end;
 end;
 
@@ -161,7 +243,7 @@ begin
   try
     XMLConf.SetValue('Count', FItems.Count);
     for i := 0 to FItems.Count - 1 do
-      XMLConf.SetValue('Item' + i.ToString + '/SVG', FItems[i].Text);
+      XMLConf.SetValue('Item' + i.ToString + '/SVG', AdjustLineBreaks(FItems[i].Text, FDataLineBreak));
   finally
   end;
 end;
@@ -182,6 +264,7 @@ begin
   FUseSVGAlignment:= false;
   FHorizontalAlignment := taCenter;
   FVerticalAlignment := tlCenter;
+  FDataLineBreak := DefaultTextLineBreakStyle;
 end;
 
 destructor TBGRASVGImageList.Destroy;
@@ -197,16 +280,19 @@ begin
   list := TStringList.Create;
   list.Text := ASVG;
   Result := FItems.Add(list);
+  QueryRasterize;
 end;
 
 procedure TBGRASVGImageList.Remove(AIndex: integer);
 begin
   FItems.Remove(FItems[AIndex]);
+  QueryRasterize;
 end;
 
 procedure TBGRASVGImageList.Exchange(AIndex1, AIndex2: integer);
 begin
   FItems.Exchange(AIndex1, AIndex2);
+  QueryRasterize;
 end;
 
 function TBGRASVGImageList.GetSVGString(AIndex: integer): string;
@@ -214,9 +300,42 @@ begin
   Result := FItems[AIndex].Text;
 end;
 
+procedure TBGRASVGImageList.Rasterize;
+begin
+  if Assigned(FTargetRasterImageList) then
+  begin
+    FTargetRasterImageList.Clear;
+    FTargetRasterImageList.Width := Width;
+    FTargetRasterImageList.Height := Height;
+    {$IFDEF DARWIN}
+    PopulateImageList(FTargetRasterImageList, [Width, Width*2]);
+    {$ELSE}
+    PopulateImageList(FTargetRasterImageList, [Width]);
+    {$ENDIF}
+  end;
+end;
+
+procedure TBGRASVGImageList.RasterizeIfNeeded;
+begin
+  if not FRasterized then
+  begin
+    Rasterize;
+    FRasterized := true;
+  end;
+end;
+
+procedure TBGRASVGImageList.QueryRasterize;
+var method: TThreadMethod;
+begin
+  FRasterized := false;
+  method := RasterizeIfNeeded;
+  TThread.ForceQueue(nil, method);
+end;
+
 procedure TBGRASVGImageList.Replace(AIndex: integer; ASVG: string);
 begin
   FItems[AIndex].Text := ASVG;
+  QueryRasterize;
 end;
 
 function TBGRASVGImageList.GetCount: integer;

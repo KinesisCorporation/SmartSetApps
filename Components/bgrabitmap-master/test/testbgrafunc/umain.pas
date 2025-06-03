@@ -17,6 +17,7 @@ type
     Button_Last: TButton;
     Button_Next: TButton;
     Button_Prev: TButton;
+    CheckBox_TransparentDraw: TCheckBox;
     Label_TestName: TLabel;
     Panel1: TPanel;
     Timer1: TTimer;
@@ -26,7 +27,9 @@ type
     procedure Button_PrevClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormHide(Sender: TObject);
     procedure FormPaint(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   public
     NumTest: integer;
@@ -100,8 +103,11 @@ end;
 procedure TFMain.FormCreate(Sender: TObject);
 begin
   CurrentTest := nil;
-  ResourceDir:= {$IFDEF DARWIN}ExtractFilePath(Application.ExeName)+'../../../../'{$ELSE}
-                '..'+pathdelim{$ENDIF}+'img'+pathdelim;
+  {$IFDEF DARWIN}
+  ResourceDir := ExtractFilePath(Application.ExeName)+'../../../../'+'img'+pathdelim;
+  If not FileExists(ResourceDir+'pac_d1.bmp') then
+  {$ENDIF}
+  ResourceDir:= ExtractFilePath(Application.ExeName)+'..'+pathdelim+'img'+pathdelim;
 
   SetNumTest(1);
   stopwatch := TEpikTimer.Create(Application);
@@ -119,6 +125,11 @@ begin
   FreeAndNil(CurrentTest);
 end;
 
+procedure TFMain.FormHide(Sender: TObject);
+begin
+  Timer1.Enabled:= false;
+end;
+
 procedure TFMain.FormPaint(Sender: TObject);
 var
   strTime: string;
@@ -130,6 +141,7 @@ begin
     stopwatch.clear;
     stopwatch.Start;
 
+    CurrentTest.OpaqueDraw:= not CheckBox_TransparentDraw.Checked;
     CurrentTest.OnPaint(self.Canvas,0,Panel1.Height,ClientWidth,ClientHeight-Panel1.Height);
 
     drawElapsed := stopwatch.Elapsed;
@@ -137,7 +149,7 @@ begin
     if drawElapsed > 0.0001 then
     begin
       strTime := IntToStr(round(drawElapsed*1000))+ ' ms';
-      strTime += ', ' + IntToStr(round(1/drawElapsed)) + ' FPS';
+      strTime := strTime + ', ' + IntToStr(round(1/drawElapsed)) + ' FPS';
       ptText := Point(3,ClientHeight-25);
       with self.Canvas do
       begin
@@ -157,12 +169,17 @@ begin
   end;
 end;
 
+procedure TFMain.FormShow(Sender: TObject);
+begin
+  Timer1.Enabled:= true;
+end;
+
 procedure TFMain.Timer1Timer(Sender: TObject);
 var
   elapsed: Extended;
   r: TRect;
 begin
-  if CurrentTest <> nil then
+  if (CurrentTest <> nil) and Visible then
   begin
     Timer1.Enabled := false;
     elapsed := timeMeasure.Elapsed;

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 { A Graphic Button Control that uses SVG images as the button states
   for Normal,Hover and DOWN states.
 
@@ -347,7 +347,6 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I icons\bcsvgbutton.lrs}
   RegisterComponents('BGRA Button Controls',[TBCSVGButton]);
 end;
 {$ENDIF}

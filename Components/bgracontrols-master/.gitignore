@@ -5,6 +5,7 @@
 backup/*
 backup
 lib
+bin
 debug
 *.res
 *.lrt
@@ -16,5 +17,7 @@ debug
 *.app/*
 *.dSYM
 test/test_bccombobox/test_bccombobox
+!images/bgracontrols_images.res
 
 .DS_Store
+use/*/

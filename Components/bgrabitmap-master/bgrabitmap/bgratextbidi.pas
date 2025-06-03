@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Implementation of bidirectional text layout }
 unit BGRATextBidi;
 
 {$mode objfpc}{$H+}
@@ -17,8 +19,7 @@ type
   TParagraphLayoutSplitEvent = procedure(ASender: TObject; AParagraphIndex: integer;
       ASubBrokenIndex, ACharIndex: integer) of object;
 
-  { TBidiCaretPos }
-
+  { Position of carte in bidirectional text }
   TBidiCaretPos = record
     PartIndex: integer;
 
@@ -33,7 +34,7 @@ type
 
   PPartInfo = ^TPartInfo;
 
-  { TPartInfo }
+  { Information about a part of text (having same lavel and direction) }
 
   TPartInfo = record
          brokenLineIndex: integer;
@@ -47,8 +48,7 @@ type
 
   PBrokenLineInfo = ^TBrokenLineInfo;
 
-  { TBrokenLineInfo }
-
+  { Information about a broken line (limited by layout with or a separator) }
   TBrokenLineInfo = record
                 unbrokenLineIndex: integer;
                 startIndex, endIndex: integer;
@@ -62,6 +62,7 @@ type
               end;
 
   PParagraphInfo = ^TParagraphInfo;
+  { Information about a paragraph }
   TParagraphInfo = record
     alignment: TBidiTextAlignment;
     layoutComputed, overflow: boolean;
@@ -74,8 +75,7 @@ type
 
   TBidiTextLayout = class;
 
-  { TPartEnumerator }
-
+  { Enumerator for text parts }
   TPartEnumerator = record
   private
     FJustCreated: boolean;
@@ -103,8 +103,7 @@ type
     property BrokenLineInfo: PBrokenLineInfo read FCurBroken;
   end;
 
-  { TBidiTextLayout }
-
+  { Computes, updates, and render text using Unicode bidirectional algorithm }
   TBidiTextLayout = class
   private
     FAvailableHeight: single;
@@ -283,7 +282,7 @@ type
 
     function GetCaret(ACharIndex: integer): TBidiCaretPos;
     function GetUntransformedCaret(ACharIndex: integer): TBidiCaretPos;
-    function GetCharIndexAt(APosition: TPointF): integer;
+    function GetCharIndexAt(APosition: TPointF; ABetweenGlyphs: boolean = true): integer;
     function GetTextEnveloppe(AStartIndex, AEndIndex: integer; APixelCenteredCoordinates: boolean = true; AMergeBoxes: boolean = true; AVerticalClip: boolean = false): ArrayOfTPointF;
     function GetUntransformedTextEnveloppe(AStartIndex, AEndIndex: integer; APixelCenteredCoordinates: boolean = true; AMergeBoxes: boolean = true; AVerticalClip: boolean = false): ArrayOfTPointF;
     function GetParagraphAt(ACharIndex: Integer): integer; overload;
@@ -368,8 +367,7 @@ type
     property FontBidiMode: TFontBidiMode read GetFontBidiMode write SetFontBidiMode;
   end;
 
-  { TBidiLayoutTree }
-
+  { Tree of bidirectional text with actual size computation }
   TBidiLayoutTree = class(TBidiTree)
   private
     FBidiPos: single;
@@ -398,6 +396,7 @@ type
     property Height: single read GetHeight;
   end;
 
+  { Parameters for TBidiLayoutTree }
   TBidiLayoutTreeData = record
     Layout: TBidiTextLayout;
     MaxWidth: single;
@@ -2703,7 +2702,7 @@ begin
   end;
 end;
 
-function TBidiTextLayout.GetCharIndexAt(APosition: TPointF): integer;
+function TBidiTextLayout.GetCharIndexAt(APosition: TPointF; ABetweenGlyphs: boolean): integer;
 var
   brokenIndex,j, fit: Integer;
   u,u2: LongWord;
@@ -2762,13 +2761,17 @@ begin
           len := VectLen(axis);
           if len > 0 then
           begin
-            w := ((APosition-origin)*axis)/len;
+            w := ((APosition-origin)**axis)/len;
             //if there is just one char, it is the whole part
             if part^.endIndex = part^.startIndex + 1 then
             begin
-              if w > 0.5*len then
-                exit(part^.endIndex)
-              else
+              if ABetweenGlyphs then
+              begin
+                if w > 0.5*len then
+                  exit(part^.endIndex)
+                else
+                  exit(part^.startIndex);
+              end else
                 exit(part^.startIndex);
             end;
 
@@ -2785,7 +2788,7 @@ begin
               newW := TextSizeBidiOverrideSplit(part^.startIndex, part^.endIndex, part^.IsRightToLeft, newIndex).x;
               if newW >= w then
               begin
-                if (curW+newW)*0.5 + 1 < w then curIndex := newIndex;
+                if ABetweenGlyphs and ((curW+newW)*0.5 + 1 < w) then curIndex := newIndex;
                 break;
               end else
               begin

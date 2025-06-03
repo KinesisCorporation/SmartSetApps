@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 { Customizable component which using BGRABitmap for drawing. Control mostly rendered
   using framework.
 
@@ -435,8 +435,7 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$I images\bgracontrols_images.lrs}
-  //{$I icons\bcbutton_icon.lrs}
+  {$R images\bgracontrols_images.res}
   RegisterComponents('BGRA Button Controls', [TBCButton]);
   RegisterPropertyEditor(TypeInfo(integer), TBCButton,
     'ImageIndex', TBCButtonImageIndexPropertyEditor);
@@ -844,7 +843,7 @@ begin
   if FTextApplyGlobalOpacity then
   begin
     { Drawing text }
-    RenderText(r, scaledState.FontEx, actualCaption, ABGRA);
+    RenderText(r, scaledState.FontEx, actualCaption, ABGRA, Enabled);
     RenderGlyph(r_g, g);
     { Set global opacity }
     ABGRA.ApplyGlobalOpacity(FGlobalOpacity);
@@ -854,7 +853,7 @@ begin
     { Set global opacity }
     ABGRA.ApplyGlobalOpacity(FGlobalOpacity);
     { Drawing text }
-    RenderText(r, scaledState.FontEx, actualCaption, ABGRA);
+    RenderText(r, scaledState.FontEx, actualCaption, ABGRA, Enabled);
     RenderGlyph(r_g, g);
   end;
   if g <> FGlyph then g.Free;
@@ -2059,7 +2058,7 @@ begin
   FBGRANormal.Free;
   FBGRAHover.Free;
   FBGRAClick.Free;
-  {$IFDEF FPC}FreeThenNil(FGlyph);{$ELSE}FreeAndNil(FGlyph);{$ENDIF}
+  FreeAndNil(FGlyph);
   FRounding.Free;
   FRoundingDropDown.Free;
   inherited Destroy;

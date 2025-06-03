@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 { Equivalent of standard lazarus TPanel but using BGRA Controls framework for render
 
   Functionality:
@@ -122,6 +122,7 @@ type
     property Border;
     property BorderBCStyle;
     property Caption;
+    property Color;
     property Constraints;
     property DockSite;
     property DragCursor;
@@ -173,7 +174,6 @@ uses BCTools;
 {$IFDEF FPC}
 procedure Register;
 begin
-  //{$I icons\bcpanel_icon.lrs}
   RegisterComponents('BGRA Controls', [TBCPanel]);
 end;
 {$ENDIF}
@@ -271,7 +271,7 @@ begin
   end;
 
   if Caption <> '' then
-    RenderText(r,FFontEx,Caption,TBGRABitmap(FBGRA));
+    RenderText(r,FFontEx,Caption,TBGRABitmap(FBGRA),Enabled);
 
   if Assigned(FOnAfterRenderBCPanel) then
     FOnAfterRenderBCPanel(Self, FBGRA, r);

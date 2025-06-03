@@ -1,0 +1,21 @@
+﻿http://forum.lazarus.freepascal.org/index.php/topic,24521.30.html
+
+Remove DrawFocusRectNonThemed and SetFontParams from CanvasHelper
+
+Public methods must check validity of parameters.
+
+2018-09-19: small rects in Qt4 InvalidRect issue
+
+2018-05-27: property ImageWidth alongside with Images
+
+2018-04-08: TECGrid: Reconsider CellsOrd and DataCellsOrd
+
+2018-03-24: Color dialog with alpha?
+
+2018-01-20: TGlyphDesign: resolve painting for hi-dpi desktops
+
+2017-03-31/01: Better editing of TECConfCurve (adding nodes + Bezier values)
+
+2017-03-31/02: Clipping text of TBitmap.Canvas doesn't work (issue 32560).
+
+

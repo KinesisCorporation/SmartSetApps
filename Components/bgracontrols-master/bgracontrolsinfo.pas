@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
-unit bgracontrolsinfo;
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
+unit BGRAControlsInfo;
 
 {$mode objfpc}{$H+}
 
@@ -9,7 +9,7 @@ uses
   Classes, SysUtils;
 
 const
-  BGRAControlsVersion = 7010000;
+  BGRAControlsVersion = 9000200;
 
   function BGRAControlsVersionStr: string;
 

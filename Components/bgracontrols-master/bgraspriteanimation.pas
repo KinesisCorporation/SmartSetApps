@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -11,6 +11,7 @@
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
+- FreeMan35
 
 ***************************** END CONTRIBUTOR(S) *****************************}
 unit BGRASpriteAnimation;
@@ -20,14 +21,31 @@ unit BGRASpriteAnimation;
 interface
 
 uses
-  Classes, Controls, Dialogs, ExtCtrls, Forms, {$IFDEF FPC}LCLIntF, LResources,{$ENDIF} Graphics,
-  {$IFNDEF FPC}Types, BGRAGraphics, GraphType, FPImage, {$ENDIF}
+  Types, Classes, Controls, Dialogs, ExtCtrls, Forms, Graphics,
+  {$IFDEF FPC}
+  LCLIntF, LResources,
+  {$ELSE}
+  BGRAGraphics, GraphType, FPImage,
+  {$ENDIF}
   BCBaseCtrls, BGRABitmap, BGRABitmapTypes, BCTypes, BGRAAnimatedGif;
 
 type
+  TBGRASpriteAnimation = class;
+
+  { TSpriteBitmap }
+
+  TSpriteBitmap = class(TBitmap)
+  private
+    FOwner: TBGRASpriteAnimation;
+  protected
+    procedure AssignTo(Dest: TPersistent); override;
+  public
+    constructor Create(AOwner: TBGRASpriteAnimation); overload;
+    procedure Assign(Source: TPersistent); override;
+  end;
 
   TFlipMode = (flNone, flHorizontal, flVertical, flBoth);
-  TRotationMode = (rtNone, rtClockWise, rtCounterClockWise);
+  TRotationMode = (rtNone, rtClockWise, rtCounterClockWise, rt180);
 
   { TBGRASpriteAnimation }
 
@@ -41,7 +59,6 @@ type
     FAnimSpeed: cardinal;
     FAnimStatic: boolean;
     FAnimTimer: TTimer;
-    FAutoSize: boolean;
     FCenter: boolean;
     FOnLapChanged: TNotifyEvent;
     FOnLapChanging: TNotifyEvent;
@@ -75,7 +92,6 @@ type
     procedure SetFAnimRepeatLap(const AValue: cardinal);
     procedure SetFAnimSpeed(const AValue: cardinal);
     procedure SetFAnimStatic(const AValue: boolean);
-    procedure SetFAutoSize(const AValue: boolean);
     procedure SetFCenter(const AValue: boolean);
     procedure SetFProportional(const AValue: boolean);
     procedure SetFSprite(const AValue: TBitmap);
@@ -88,17 +104,23 @@ type
     procedure SetFSpriteRotation(const AValue: TRotationMode);
     procedure SetFStretch(const AValue: boolean);
     procedure SetFTile(const AValue: boolean);
+    procedure SpriteChange(Sender: TObject);
   protected
     { Protected declarations }
     procedure Paint; override;
+    procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: integer;
+      {%H-}WithThemeSpace: Boolean); override;
   public
     { Public declarations }
-    procedure GifImageToSprite(Gif: TBGRAAnimatedGif);//FreeMan35 added
+    procedure GifImageToSprite(Gif: TBGRAAnimatedGif);
+    procedure SpriteToGifImage(Gif: TBGRAAnimatedGif);
     procedure LoadFromResourceName(Instance: THandle; const ResName: string); overload;
     procedure LoadFromBitmapResource(const Resource: string); overload;
+    {$IF BGRABitmapVersion > 11030100}
+    procedure LoadFromBitmapStream(AStream: TStream);
+    {$ENDIF}
     procedure LoadFromBGRABitmap(const BGRA: TBGRABitmap);
     procedure SpriteToAnimatedGif(Filename: string);
-    //FreeMan35 added
     procedure AnimatedGifToSprite(Filename: string);
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -110,7 +132,6 @@ type
     property AnimRepeatLap: cardinal read FAnimRepeatLap write SetFAnimRepeatLap;
     property AnimSpeed: cardinal read FAnimSpeed write SetFAnimSpeed;
     property AnimStatic: boolean read FAnimStatic write SetFAnimStatic;
-    property AutoSize: boolean read FAutoSize write SetFAutoSize; // to be implemented
     property Center: boolean read FCenter write SetFCenter;
     property Proportional: boolean read FProportional write SetFProportional;
     property Sprite: TBitmap read FSprite write SetFSprite;
@@ -128,7 +149,9 @@ type
   published
     property Align;
     property Anchors;
+    property AutoSize;
     property Caption;
+    property Color;
     property Enabled;
     property OnClick;
     property OnDblClick;
@@ -156,9 +179,32 @@ implementation
 {$IFDEF FPC}
 procedure Register;
 begin
-  //{$I icons\bgraspriteanimation_icon.lrs}
   RegisterComponents('BGRA Controls', [TBGRASpriteAnimation]);
 end;
+
+{ TSpriteBitmap }
+
+procedure TSpriteBitmap.AssignTo(Dest: TPersistent);
+begin
+  if Dest is TBGRAAnimatedGif then
+    FOwner.SpriteToGifImage(TBGRAAnimatedGif(Dest));
+  inherited AssignTo(Dest);
+end;
+
+constructor TSpriteBitmap.Create(AOwner: TBGRASpriteAnimation);
+begin
+  inherited Create;
+  FOwner := AOwner;
+end;
+
+procedure TSpriteBitmap.Assign(Source: TPersistent);
+begin
+  if Source is TBGRAAnimatedGif then
+    FOwner.GifImageToSprite(TBGRAAnimatedGif(Source))
+  else
+    inherited Assign(Source);
+end;
+
 {$ENDIF}
 
 { TBGRASpriteAnimation }
@@ -241,9 +287,7 @@ begin
   if (FSprite = AValue) or (AValue = nil) then
     Exit;
 
-  FSprite := AValue;
-
-  Invalidate;
+  FSprite.Assign(AValue);
 end;
 
 procedure TBGRASpriteAnimation.SetFSpriteCount(const AValue: cardinal);
@@ -260,6 +304,8 @@ begin
     SetFAnimPosition(1);
 
   Invalidate;
+  InvalidatePreferredSize;
+  AdjustSize;
 end;
 
 procedure TBGRASpriteAnimation.SetFSpriteFillOpacity(const AValue: byte);
@@ -320,19 +366,11 @@ begin
 
   if csDesigning in ComponentState then
     Invalidate;
+  InvalidatePreferredSize;
+  AdjustSize;
 end;
 
 { General Variables }
-
-procedure TBGRASpriteAnimation.SetFAutoSize(const AValue: boolean);
-begin
-  if FAutoSize = AValue then
-    Exit;
-  FAutoSize := AValue;
-
-  if csDesigning in ComponentState then
-    Invalidate;
-end;
 
 procedure TBGRASpriteAnimation.SetFCenter(const AValue: boolean);
 begin
@@ -372,6 +410,13 @@ begin
 
   if csDesigning in ComponentState then
     Invalidate;
+end;
+
+procedure TBGRASpriteAnimation.SpriteChange(Sender: TObject);
+begin
+  Invalidate;
+  InvalidatePreferredSize;
+  AdjustSize;
 end;
 
 { Utils }
@@ -414,7 +459,7 @@ begin
   Result := Rect(0, 0, PicWidth, PicHeight);
 
   if Center then
-    OffsetRect(Result, (ImgWidth - PicWidth) div 2, (ImgHeight - PicHeight) div 2);
+    Types.OffsetRect(Result, (ImgWidth - PicWidth) div 2, (ImgHeight - PicHeight) div 2);
 end;
 
 function TBGRASpriteAnimation.DoCalculatePosition(AValue: integer): integer;
@@ -427,7 +472,7 @@ end;
 
 function TBGRASpriteAnimation.DoCalculateSize(AValue: cardinal): cardinal;
 begin
-  Result := trunc(AValue div FSpriteCount);
+  Result := AValue div FSpriteCount;
 end;
 
 procedure TBGRASpriteAnimation.DoSpriteResampleFilter(ABitmap: TBGRABitmap);
@@ -484,6 +529,13 @@ var
   TempSprite, TempSpriteBGRA: TBGRABitmap;
   TempSpriteWidth, TempSpriteHeight, TempSpritePosition: integer;
 begin
+  if (Color <> clNone) and (Color <> clDefault) then
+  begin
+    Canvas.Brush.Color := Color;
+    Canvas.Brush.Style := bsSolid;
+    Canvas.FillRect(ClientRect);
+  end;
+
   if csDesigning in ComponentState then
     DrawFrame;
 
@@ -508,7 +560,41 @@ begin
   end;
 end;
 
+procedure TBGRASpriteAnimation.CalculatePreferredSize(var PreferredWidth,
+  PreferredHeight: integer; WithThemeSpace: Boolean);
+begin
+  if SpriteRotation in [rtClockWise,rtCounterClockWise] then
+  begin
+    PreferredWidth := Sprite.Height;
+    PreferredHeight := Sprite.Width div SpriteCount;
+  end else
+  begin
+    PreferredWidth := Sprite.Width div SpriteCount;
+    PreferredHeight := Sprite.Height;
+  end;
+end;
+
 procedure TBGRASpriteAnimation.GifImageToSprite(Gif: TBGRAAnimatedGif);
+{$IF BGRABitmapVersion > 11030100}
+var
+  TempBitmap: TBGRABitmap;
+  n: integer;
+begin
+  if Gif.Count = 0 then exit;
+  TempBitmap := TBGRABitmap.Create(Gif.Width * Gif.Count, Gif.Height);
+  try
+    for n := 0 to Gif.Count-1 do
+    begin
+      Gif.CurrentImage := n;
+      TempBitmap.PutImage(Gif.Width * n, 0, Gif.MemBitmap, dmSet);
+    end;
+    TempBitmap.AssignToBitmap(FSprite);
+    SpriteCount := Gif.Count;
+    AnimSpeed := Gif.TotalAnimationTimeMs div Gif.Count;
+  finally
+    TempBitmap.Free;
+  end;
+{$ELSE}
 var
   TempBitmap: TBGRABitmap;
   n: integer;
@@ -530,6 +616,33 @@ begin
   FSprite.Canvas.FillRect(Rect(0, 0, FSprite.Width, FSprite.Height));
   FSprite.Canvas.Draw(0, 0, TempBitmap.Bitmap);
   TempBitmap.Free;
+{$ENDIF}
+end;
+
+procedure TBGRASpriteAnimation.SpriteToGifImage(Gif: TBGRAAnimatedGif);
+var
+  i: integer;
+  TempSpriteWidth: Integer;
+  TempSpritePosition: Integer;
+  TempSpriteBGRA, TempSprite: TBGRABitmap;
+begin
+  gif.Clear;
+  if AnimRepeat > high(Word) then
+    gif.LoopCount := 0
+  else
+    gif.LoopCount := AnimRepeat;
+  TempSpriteBGRA := TBGRABitmap.Create(FSprite);
+  TempSpriteWidth := TempSpriteBGRA.Width div FSpriteCount;
+  gif.SetSize(TempSpriteWidth, TempSpriteBGRA.Height);
+  for i:=0 to FSpriteCount-1 do
+  begin
+    TempSpritePosition := -TempSpriteWidth * i;
+    TempSprite := TBGRABitmap.Create(TempSpriteWidth, TempSpriteBGRA.Height);
+    TempSprite.BlendImage(TempSpritePosition, 0, TempSpriteBGRA, boLinearBlend);
+    gif.AddFullFrame(TempSprite, FAnimSpeed);
+    TempSprite.Free;
+  end;
+  TempSpriteBGRA.Free;
 end;
 
 procedure TBGRASpriteAnimation.LoadFromResourceName(Instance: THandle;
@@ -547,6 +660,17 @@ begin
 end;
 
 procedure TBGRASpriteAnimation.LoadFromBitmapResource(const Resource: string);
+{$IF BGRABitmapVersion > 11030100}
+var
+  stream: TStream;
+begin
+  stream := BGRAResource.GetResourceStream(Resource);
+  try
+    LoadFromBitmapStream(stream);
+  finally
+    stream.Free;
+  end;
+{$ELSE}
 var
   tempGif: TBGRAAnimatedGif;
 begin
@@ -557,37 +681,54 @@ begin
   finally
     tempGif.Free;
   end;
+{$ENDIF}
 end;
+
+{$IF BGRABitmapVersion > 11030100}
+procedure TBGRASpriteAnimation.LoadFromBitmapStream(AStream: TStream);
+var
+  tempGif: TBGRAAnimatedGif;
+  tempBGRA: TBGRABitmap;
+begin
+  if DetectFileFormat(AStream) = ifGif then
+  begin
+    tempGif := TBGRAAnimatedGif.Create;
+    try
+      tempGif.LoadFromStream(AStream);
+      GifImageToSprite(tempGif);
+    finally
+      tempGif.Free;
+    end;
+  end else
+  begin
+    tempBGRA := TBGRABitmap.Create;
+    try
+      tempBGRA.LoadFromStream(AStream);
+      tempBGRA.AssignToBitmap(FSprite);
+    finally
+      tempBGRA.FRee;
+    end;
+  end;
+end;
+{$ENDIF}
 
 procedure TBGRASpriteAnimation.LoadFromBGRABitmap(const BGRA: TBGRABitmap);
 begin
+  {$IF BGRABitmapVersion > 11030100}
+  BGRA.AssignToBitmap(FSprite);
+  {$ELSE}
   FSprite.Width := BGRA.Width;
   FSprite.Height := BGRA.Height;
   BGRA.Draw(FSprite.Canvas, 0, 0, False);
+  {$ENDIF}
 end;
 
 procedure TBGRASpriteAnimation.SpriteToAnimatedGif(Filename: string);
 var
-  i: integer;
   gif : TBGRAAnimatedGif;
-  TempSpriteWidth: Integer;
-  TempSpritePosition: Integer;
-  TempSpriteBGRA, TempSprite: TBGRABitmap;
 begin
   gif := TBGRAAnimatedGif.Create;
-  gif.LoopCount := High(Word);
-  TempSpriteBGRA := TBGRABitmap.Create(FSprite);
-  TempSpriteWidth := TempSpriteBGRA.Width div FSpriteCount;
-  gif.SetSize(TempSpriteWidth, TempSpriteBGRA.Height);
-  for i:=0 to FSpriteCount-1 do
-  begin
-    TempSpritePosition := -TempSpriteWidth * i;
-    TempSprite := TBGRABitmap.Create(TempSpriteWidth, TempSpriteBGRA.Height);
-    TempSprite.BlendImage(TempSpritePosition, 0, TempSpriteBGRA, boLinearBlend);
-    gif.AddFullFrame(TempSprite, FAnimSpeed);
-    TempSprite.Free;
-  end;
-  TempSpriteBGRA.Free;
+  SpriteToGifImage(Gif);
   gif.SaveToFile(Filename);
   gif.Free;
 end;
@@ -597,10 +738,11 @@ var
   TempGif: TBGRAAnimatedGif;
 begin
   TempGif := TBGRAAnimatedGif.Create(Filename);
-
-  GifImageToSprite(TempGif);
-
-  TempGif.Free;
+  try
+    GifImageToSprite(TempGif);
+  finally
+    TempGif.Free;
+  end;
 end;
 
 procedure TBGRASpriteAnimation.DoSpriteDraw(ABitmap: TBGRABitmap);
@@ -615,6 +757,7 @@ begin
   case FSpriteRotation of
     rtClockWise: BGRAReplace(ABitmap, ABitmap.RotateCW);
     rtCounterClockWise: BGRAReplace(ABitmap, ABitmap.RotateCCW);
+    rt180: ABitmap.RotateUDInplace;
   end;
 
   { TODO -oLainz : If there is no Sprite loaded and you set 'Tile' to true a division by cero error is shown }
@@ -667,11 +810,11 @@ begin
   FAnimTimer := TTimer.Create(Self);
   FAnimTimer.Interval := FAnimSpeed;
   FAnimTimer.OnTimer := DoAnimTimerOnTimer;
-  FAutoSize := False;
   FCenter := True;
   FProportional := True;
   FStretch := True;
-  FSprite := TBitmap.Create;
+  FSprite := TSpriteBitmap.Create(self);
+  FSprite.OnChange:=SpriteChange;
   FSpriteCount := 1;
   FSpriteFillOpacity := 255;
   FSpriteFlipMode := flNone;

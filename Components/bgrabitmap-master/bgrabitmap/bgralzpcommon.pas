@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Type and structure definitions for LazPaint image format }
 unit BGRALzpCommon;
 
 {$mode objfpc}{$H+}
@@ -28,8 +30,7 @@ type
   TLzpCompression = (lzpZStream, //slower and not necessarily better
                      lzpRLE);    //custom RLE for lzp files
 
-  { TLazPaintImageHeader }
-
+  { Format of header for LazPaint files }
   TLazPaintImageHeader = packed record
     magic: packed array[0..7] of char;
     zero1, headerSize: LongWord;
@@ -44,6 +45,13 @@ procedure LazPaintImageHeader_SwapEndianIfNeeded(AHeader: TLazPaintImageHeader);
 
 procedure EncodeLazRLE(var sourceBuffer; size:PtrInt; ADest: TStream);
 function DecodeLazRLE(ASource: TStream; var destBuffer; availableOutputSize: PtrInt; availableInputSize: int64 = -1): PtrInt;
+
+//routines to convert to/from Compression Flags
+procedure LzpSetCompression(var CompressionMode: LongWord; AValue: TLzpCompression);
+function LzpGetCompression(CompressionMode: LongWord): TLzpCompression;
+function LzpCompressionIsValid(CompressionMode: LongWord): Boolean;
+procedure LzpSetIncludeThumbnail(var CompressionMode: LongWord; AValue: Boolean);
+function LzpGetIncludeThumbnail(CompressionMode: LongWord): Boolean;
 
 implementation
 
@@ -620,6 +628,40 @@ begin
   finally
     ASource.Position:= ASource.Position-BufferSize+BufferPos;
   end;
+end;
+
+procedure LzpSetCompression(var CompressionMode: LongWord; AValue: TLzpCompression);
+begin
+  if AValue = lzpZStream then
+    CompressionMode := (CompressionMode and not LAZPAINT_COMPRESSION_MASK) or LAZPAINT_COMPRESSION_MODE_ZSTREAM
+  else
+    CompressionMode := (CompressionMode and not LAZPAINT_COMPRESSION_MASK) or LAZPAINT_COMPRESSION_MODE_RLE;
+end;
+
+function LzpGetCompression(CompressionMode: LongWord): TLzpCompression;
+begin
+  if (CompressionMode and LAZPAINT_COMPRESSION_MASK) = LAZPAINT_COMPRESSION_MODE_ZSTREAM then
+    result := lzpZStream
+  else
+    result := lzpRLE;
+end;
+
+function LzpCompressionIsValid(CompressionMode: LongWord): Boolean;
+begin
+  result:= ((CompressionMode and LAZPAINT_COMPRESSION_MASK) = LAZPAINT_COMPRESSION_MODE_ZSTREAM) or
+           ((CompressionMode and LAZPAINT_COMPRESSION_MASK) = LAZPAINT_COMPRESSION_MODE_RLE);
+end;
+
+procedure LzpSetIncludeThumbnail(var CompressionMode: LongWord; AValue: Boolean);
+begin
+  if AValue then
+    CompressionMode := CompressionMode or LAZPAINT_THUMBNAIL_PNG else
+    CompressionMode := CompressionMode and not LAZPAINT_THUMBNAIL_PNG;
+end;
+
+function LzpGetIncludeThumbnail(CompressionMode: LongWord): Boolean;
+begin
+  result := (CompressionMode and LAZPAINT_THUMBNAIL_PNG) <> 0;
 end;
 
 { TLazPaintImageHeader }

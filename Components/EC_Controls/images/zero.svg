@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="12"
+   height="12"
+   viewBox="0 0 3.1749999 3.1750001"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="zero.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="31.678384"
+     inkscape:cx="5.9114655"
+     inkscape:cy="5.576492"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     units="px"
+     inkscape:snap-grids="true"
+     inkscape:window-width="1680"
+     inkscape:window-height="1029"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid815" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-293.82498)">
+    <path
+       style="opacity:0.99500002;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.60000002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       d="M 6.0175781 0 A 5.9999999 5.9999999 0 0 0 0 5.9746094 A 5.9999999 5.9999999 0 0 0 5.9648438 12 L 6 12 A 5.9999999 5.9999999 0 0 0 12 6.0078125 A 5.9999999 5.9999999 0 0 0 6.0175781 0 z M 6.0078125 3 A 3 3 0 0 1 9 6.0039062 A 3 3 0 0 1 6 9 L 5.9824219 9 A 3 3 0 0 1 3 5.9882812 A 3 3 0 0 1 6.0078125 3 z "
+       transform="matrix(0.26458333,0,0,0.26458333,0,293.82498)"
+       id="path4506" />
+  </g>
+</svg>

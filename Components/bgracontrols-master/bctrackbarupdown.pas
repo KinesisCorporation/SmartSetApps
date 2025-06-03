@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -195,7 +195,6 @@ uses BGRABitmapTypes, Math, BCTools;
 {$IFDEF FPC}
 procedure Register;
 begin
-//{$I icons\bctrackbarupdown_icon.lrs}
   RegisterComponents('BGRA Controls', [TBCTrackbarUpdown]);
 end;
 {$ENDIF}
@@ -297,7 +296,7 @@ begin
   FEmptyText:= false;
   DoSelectAll;
   Invalidate;
-  NotifyChange;
+  if not (csLoading in ComponentState) then NotifyChange;
 end;
 
 procedure TCustomBCTrackbarUpdown.SetArrowColor(AValue: TColor);
@@ -585,6 +584,7 @@ begin
     SetFocus;
     SelectAll;
   end;
+  inherited MouseDown(Button, Shift, X, Y);
 end;
 
 procedure TCustomBCTrackbarUpdown.MouseMove(Shift: TShiftState; X, Y: Integer);

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -97,9 +97,6 @@ implementation
 {$IFDEF FPC}
 procedure Register;
 begin
-  {$IFDEF FPC}
-  {$I icons\bcgamegrid_icon.lrs}
-  {$ENDIF}
   RegisterComponents('BGRA Controls', [TBCGameGrid]);
 end;
 {$ENDIF}
@@ -182,14 +179,10 @@ begin
         (pos.y <= r.Bottom) then
       begin
         //DebugLn(['TControl.Click ',DbgSName(Self)]);
-        if Assigned(FOnClickControl) and (Action <> nil) and
-          (not CompareMethods(TMethod(Action.OnExecute), TMethod(FOnClickControl))) then
-          // the OnClick is set and differs from the Action => call the OnClick
-          FOnClickControl(Self, n, x, y)
-        else if (not (csDesigning in ComponentState)) and (ActionLink <> nil) then
-          ActionLink.Execute(Self)
-        else if Assigned(FOnClickControl) then
+        if Assigned(FOnClickControl) then
           FOnClickControl(Self, n, x, y);
+        if (not (csDesigning in ComponentState)) and (ActionLink <> nil) then
+          ActionLink.Execute(Self)
       end;
 
       Inc(n);

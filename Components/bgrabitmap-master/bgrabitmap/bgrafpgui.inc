@@ -3,8 +3,11 @@
 {$UNDEF INCLUDE_INTERFACE}
 type
   TColor = TfpgColor;
+
+  { Raw image for fpGUI }
   TRawImage = class(TfpgImage)
-    procedure BGRASetSizeAndTransparency(AWidth,AHeight: Integer; ATransparent: boolean);  
+    procedure BGRASetSizeAndTransparency(AWidth,AHeight: Integer; ATransparent: boolean);
+    procedure Assign(AOther: TObject); virtual;
   end;
   TGUICanvas = TfpgCanvas;
 
@@ -48,6 +51,21 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TRawImage.Assign(AOther: TObject);
+var
+  src: TRawImage;
+begin
+  if AOther is TRawImage then
+  begin
+    src := TRawImage(AOther);
+    BGRASetSizeAndTransparency(src.Width, src.Height, src.Masked);
+    move(src.ImageData^, ImageData^, ImageDataSize);
+    if Masked then
+      move(src.MaskData^, MaskData^, MaskDataSize);
+  end else
+    raise exception.Create('Unable to assign');
 end;
 
 function clRgbBtnHighlight: TColor;

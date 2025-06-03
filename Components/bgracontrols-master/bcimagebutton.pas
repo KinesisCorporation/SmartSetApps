@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -359,11 +359,7 @@ implementation
 
 {$IFDEF FPC}procedure Register;
 begin
-  {$IFDEF FPC}
-  {$I icons\bcimagebutton_icon.lrs}
-  {$ENDIF}
   RegisterComponents('BGRA Button Controls', [TBCImageButton]);
-  //{$I icons\bcxbutton_icon.lrs}
   RegisterComponents('BGRA Button Controls', [TBCXButton]);
 end;
 {$ENDIF}

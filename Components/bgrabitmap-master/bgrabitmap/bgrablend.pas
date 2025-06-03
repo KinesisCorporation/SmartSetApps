@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
-unit BGRABlend;
 
-{ This unit contains pixel blending functions. They take a destination adress as parameter,
-  and draw pixels at this address with different blending modes. These functions are used
-  by many functions in BGRABitmap library to do the low level drawing. }
+{ @abstract(Pixel blending functions for 32-bit BGRA/RGBA.)
+
+  Pixel functions take a destination adress as parameter
+  and draw pixels at this address with different blending modes.
+  These functions are used by many functions/classes in BGRABitmap library. }
+unit BGRABlend;
 
 {$mode objfpc}{$H+}
 
@@ -393,7 +395,7 @@ begin
       begin
         while ACount > 3 do
         begin
-          IBGRAScanner(Scanner).ScanPutPixels(buf, 4, dmSet);
+          IBGRAScanner(Scanner).ScanPutPixels({%H-}buf, 4, dmSet);
           pDest^ := MergeBGRAWithGammaCorrection(pDest^, not bAlpha, buf[0], bAlpha);
           (pDest+1)^ := MergeBGRAWithGammaCorrection((pDest+1)^, not bAlpha, buf[1], bAlpha);
           (pDest+2)^ := MergeBGRAWithGammaCorrection((pDest+2)^, not bAlpha, buf[2], bAlpha);
@@ -503,7 +505,7 @@ begin
       begin
         while ACount > 3 do
         begin
-          IBGRAScanner(Scanner).ScanPutPixels(buf, 4, dmSet);
+          IBGRAScanner(Scanner).ScanPutPixels({%H-}buf, 4, dmSet);
           if buf[0].alpha = 255 then pDest^ := MergeBGRAWithGammaCorrection(pDest^, not bAlpha, buf[0], bAlpha);
           if buf[1].alpha = 255 then (pDest+1)^ := MergeBGRAWithGammaCorrection((pDest+1)^, not bAlpha, buf[1], bAlpha);
           if buf[2].alpha = 255 then (pDest+2)^ := MergeBGRAWithGammaCorrection((pDest+2)^, not bAlpha, buf[2], bAlpha);
@@ -623,7 +625,7 @@ begin
       begin
         while ACount > 3 do
         begin
-          IBGRAScanner(Scanner).ScanPutPixels(buf, 4, dmSet);
+          IBGRAScanner(Scanner).ScanPutPixels({%H-}buf, 4, dmSet);
           DrawPixelInlineWithAlphaCheck(pDest, buf[0], bAlpha);
           DrawPixelInlineWithAlphaCheck(pDest+1, buf[1], bAlpha);
           DrawPixelInlineWithAlphaCheck(pDest+2, buf[2], bAlpha);
@@ -741,7 +743,7 @@ begin
       begin
         while ACount > 3 do
         begin
-          IBGRAScanner(Scanner).ScanPutPixels(buf, 4, dmSet);
+          IBGRAScanner(Scanner).ScanPutPixels({%H-}buf, 4, dmSet);
           FastBlendPixelInline(pDest, buf[0], bAlpha);
           FastBlendPixelInline(pDest+1, buf[1], bAlpha);
           FastBlendPixelInline(pDest+2, buf[2], bAlpha);
@@ -859,7 +861,7 @@ begin
       begin
         while ACount > 3 do
         begin
-          IBGRAScanner(Scanner).ScanPutPixels(buf, 4, dmSet);
+          IBGRAScanner(Scanner).ScanPutPixels({%H-}buf, 4, dmSet);
           PLongWord(@buf[0])^ := PLongWord(pdest)^ xor PLongWord(@buf[0])^;
           PLongWord(@buf[1])^ := PLongWord(pdest+1)^ xor PLongWord(@buf[1])^;
           PLongWord(@buf[2])^ := PLongWord(pdest+2)^ xor PLongWord(@buf[2])^;

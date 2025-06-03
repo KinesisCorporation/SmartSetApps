@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
   Created by BGRA Controls Team
   Dibo, Circular, lainz (007) and contributors.
@@ -11,7 +11,9 @@
 
 unit BGRAScript;
 
+{$DEFINE RO_FPC_MODE_SET}
 {$I bgracontrols.inc}
+
 { $define debug}
 
 interface

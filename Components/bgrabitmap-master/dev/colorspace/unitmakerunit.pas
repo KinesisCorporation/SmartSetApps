@@ -23,17 +23,21 @@ XYZ           |                  WordXYZA        XYZA
 type
   TColorspaceEnum = (csColor, csBGRAPixel, csFPColor, csStdRGBA, //sRGB
     csAdobeRGBA,
-    csStdHSLA, csStdHSVA, csStdCMYKA,              //based on sRGB
-    csByteMask, {csWordMask,}                        //linear grayscale
+    csStdHSLA, csStdHSVA, csStdCMYK,               //based on sRGB
+    csByteMask, {csWordMask,}                      //linear grayscale
     csExpandedPixel, csLinearRGBA,                 //linear RGB
     csHSLAPixel, csGSBAPixel,                      //based on linear RGB
+    csYCbCr601, csYCbCr601JPEG, csYCbCr709, csYCbCr709JPEG,  //based on sRGB
     csXYZA, csWordXYZA,                            //CIE XYZ
     csLabA, csLChA);                               //based on XYZ
 
   TChannelValueType = (cvtByte, cvtWord, cvtLongWord, cvtSingle, cvtDouble);
 
 const
+  BasicColorspaces = [csColor, csBGRAPixel, csFPColor,csExpandedPixel, csByteMask];
   ChannelValueTypeName : array[TChannelValueType] of string = ('byte', 'word', 'longword', 'single', 'double');
+  ChannelValueTypeFriendlyName : array[TChannelValueType] of string = ('8-bit', '16-bit', '32-bit integer',
+                                  '32-bit floating point', '64-bit floating point');
   ChannelValueTypePrecision : array[TChannelValueType] of integer = (1, 2, 4, 2, 6);
   ChannelValueTypeBitDepth : array[TChannelValueType] of integer = (8, 16, 32, 28, 58);
   MAXWORD = $ffff;
@@ -85,6 +89,16 @@ const
    VariableNames: 'hue,saturation,lightness,alpha';      FullNames: 'Hue,Saturation,Lightness,Alpha'; MinMax: '0,0,0,0,65535,65535,65535,65535';  IsBridge: false; HasImaginary: false),
    (Name: 'GSBAPixel';     Declaration: 'record helper'; Colorspace: 'GSB';         HasAlpha: true;   NeedRefWhite: false;  ValueType: cvtWord;    BasicHelper: true;
    VariableNames: 'hue,saturation,lightness,alpha';      FullNames: 'Hue,Saturation,Brightness,Alpha';MinMax: '0,0,0,0,65535,65535,65535,65535';  IsBridge: false; HasImaginary: false),
+
+   (Name: 'YCbCr601';      Declaration: 'packed record'; Colorspace: 'YCbCr BT.601';HasAlpha: false;       NeedRefWhite: false;  ValueType: cvtSingle; BasicHelper: false;
+   VariableNames: 'Y,Cb,Cr';                             FullNames: 'Luma,BlueDiff,RedDiff';               MinMax: '16,16,16,235,240,240';             IsBridge: false; HasImaginary: true),
+   (Name: 'YCbCr601JPEG';  Declaration: 'packed record'; Colorspace: 'YCbCr BT.601 JPEG';HasAlpha: false;  NeedRefWhite: false;  ValueType: cvtSingle; BasicHelper: false;
+   VariableNames: 'Y,Cb,Cr';                             FullNames: 'Luma,BlueDiff,RedDiff';               MinMax: '0,0.5,0.5,255,255.5,255.5';        IsBridge: false; HasImaginary: true),
+
+   (Name: 'YCbCr709';      Declaration: 'packed record'; Colorspace: 'YCbCr BT.709';HasAlpha: false;       NeedRefWhite: false;  ValueType: cvtSingle; BasicHelper: false;
+   VariableNames: 'Y,Cb,Cr';                             FullNames: 'Luma,BlueDiff,RedDiff';               MinMax: '16,16,16,235,240,240';             IsBridge: false; HasImaginary: true),
+   (Name: 'YCbCr709JPEG';  Declaration: 'packed record'; Colorspace: 'YCbCr BT.709 JPEG';HasAlpha: false;  NeedRefWhite: false;  ValueType: cvtSingle; BasicHelper: false;
+   VariableNames: 'Y,Cb,Cr';                             FullNames: 'Luma,BlueDiff,RedDiff';               MinMax: '0,0.5,0.5,255,255.5,255.5';        IsBridge: false; HasImaginary: true),
 
    (Name: 'XYZA';          Declaration: 'packed record'; Colorspace: 'CIE XYZ';     HasAlpha: true;   NeedRefWhite: true;   ValueType: cvtSingle;  BasicHelper: false;
    VariableNames: 'X,Y,Z,alpha';                         FullNames: 'X,Y,Z,Alpha';                    MinMax: '0,0,0,0,1,1,1,1';                  IsBridge: false; HasImaginary: true),
@@ -415,22 +429,22 @@ var
   begin
     Result := 'procedure ' + AFullname;
     if AParams <> '' then
-      Result += '(' + AParams + ')';
-    Result += ';';
+      Result := Result + '(' + AParams + ')';
+   Result := Result + ';';
     if AOverload then
-      Result += ' overload;';
+      Result := Result + ' overload;';
   end;
 
   function GetFunction(AFullname, AParams, AResultType: string; AOverload: boolean; AStatic: boolean = False): string;
   begin
     Result := 'function ' + AFullname;
     if AParams <> '' then
-      Result += '(' + AParams + ')';
-    Result += ': ' + AResultType + ';';
+      Result := result + '(' + AParams + ')';
+    Result := Result + ': ' + AResultType + ';';
     if AOverload then
-      Result += 'overload;';
+      Result := Result + 'overload;';
     if AStatic then
-      Result += 'static;';
+      Result := Result + 'static;';
   end;
 
   function Split(str: string): TStringArray;
@@ -470,12 +484,12 @@ var
       s := '';
       for i := 0 to Length(vn) - 1 do
       begin
-        s += 'A' + ColorspaceInfo[c1].Name + '.' + vn[i];
+        s := s + 'A' + ColorspaceInfo[c1].Name + '.' + vn[i];
         if i <> Length(vn) - 1 then
-          s += ',';
+          s := s + ',';
       end;
       if ad <> '' then
-        s += ', AAlpha';
+        s := s + ', AAlpha';
       ls := 'Result := T' + ColorspaceInfo[c2].Name + '.New(' + s + ');';
       AddProcedureImp(h, ls);
     end;
@@ -526,8 +540,8 @@ var
       begin
         cs1 := bp[i - 1];
         cs2 := bp[i];
-        s += GetConversionFunction(cs1,cs2) + '(';
-        lf += ')';
+        s := s + GetConversionFunction(cs1,cs2) + '(';
+        lf := lf + ')';
       end;
 
       needRefPoint := NeedXYZReferenceWhite(c1,c2);
@@ -541,7 +555,7 @@ var
         vn := GetVariablesNames(c2);
         avn := vn[Length(vn) - 1];
         if not avn.StartsWith('[') then avn := '.'+avn;
-        ls := ls + LineEnding + '  ' + 'Result' + avn + ' := AAlpha;';
+        ls := ls + LineEnding + '  ' + 'if Result' + avn + ' <> 0 then Result' + avn + ' := AAlpha;';
         h := GetFunction(functionName,
                          'const A' + ColorspaceInfo[c1].Name + ': T' + ColorspaceInfo[c1].Name + ';const AAlpha' + ': ' + ChannelValueTypeName[ColorspaceInfo[c2].ValueType] + '=' + vmax,
                          'T' + ColorspaceInfo[c2].Name, needRefPoint);
@@ -563,7 +577,7 @@ var
           fn := GetConversionFunction(cs1,cs2);
           bb := NeedXYZReferenceWhite(cs1, cs2);
           if bb then
-            ls += ',AReferenceWhite';
+            ls := ls + ',AReferenceWhite';
           ls := fn + '(' + ls + ')';
         end;
         ls := 'Result := ' + ls + ';';
@@ -575,7 +589,7 @@ var
           vn := GetVariablesNames(c2);
           avn := vn[Length(vn) - 1];
           if not avn.StartsWith('[') then avn := '.' + avn;
-          ls := ls + #13#10 + '  ' + 'Result' + avn + ' := AAlpha;';
+          ls := ls + #13#10 + '  ' + 'if Result' + avn + ' <> 0 then Result' + avn + ' := AAlpha;';
         end
         else
           h := GetFunction(functionName,
@@ -589,67 +603,83 @@ var
     i, j: TColorspaceEnum;
     convertFunc: string;
     pl: integer;
+    ext: boolean;
 
   begin
     AddImp('{Converters}');
     AddImp('');
 
-    for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+    for ext := false to true do
     begin
-      for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+      if ext then
       begin
-        if (ColorspaceInfo[j].Name = ColorspaceInfo[i].Name + 'A'){ or
-        ((not (i in AlphaSupportedColorspaces)) and  (j in AlphaSupportedColorspaces)) } then
+        Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+      end;
+      for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+      begin
+        for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if ([i,j] <= BasicColorspaces) xor ext then
         begin
-          AddAlphaConverter(i, j, '; const AAlpha: single = 1');
-          AddAlphaConverter(j, i, '');
+          if (ColorspaceInfo[j].Name = ColorspaceInfo[i].Name + 'A'){ or
+          ((not (i in AlphaSupportedColorspaces)) and  (j in AlphaSupportedColorspaces)) } then
+          begin
+            AddAlphaConverter(i, j, '; const AAlpha: single = 1');
+            AddAlphaConverter(j, i, '');
+          end;
         end;
       end;
-    end;
-    for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-    begin
-      for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+      for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
       begin
-        if (i <> j) and (ColorspaceInfo[j].Name <> ColorspaceInfo[i].Name + 'A') and (ColorspaceInfo[i].Name <> ColorspaceInfo[j].Name + 'A') then
+        for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if ([i,j] <= BasicColorspaces) xor ext then
         begin
-          convertFunc := '';
-          for pl := 0 to Length(PairsList) - 1 do
+          if (i <> j) and (ColorspaceInfo[j].Name <> ColorspaceInfo[i].Name + 'A') and (ColorspaceInfo[i].Name <> ColorspaceInfo[j].Name + 'A') then
           begin
-            if (PairsList[pl].First = i) and (PairsList[pl].Last = j) then
+            convertFunc := '';
+            for pl := 0 to Length(PairsList) - 1 do
             begin
-              convertFunc := PairsList[pl].ToLastFunc;
-              break;
+              if (PairsList[pl].First = i) and (PairsList[pl].Last = j) then
+              begin
+                convertFunc := PairsList[pl].ToLastFunc;
+                break;
+              end;
+              if (PairsList[pl].Last = i) and (PairsList[pl].First = j) then
+              begin
+                convertFunc := PairsList[pl].ToFirstFunc;
+                break;
+              end;
             end;
-            if (PairsList[pl].Last = i) and (PairsList[pl].First = j) then
-            begin
-              convertFunc := PairsList[pl].ToFirstFunc;
-              break;
-            end;
+            if convertFunc = '' then
+              convertFunc := AddConverter(i, j);
+
+            if convertFunc = '' then continue;
+
+            ConvMatrix[i,j] := true;
+
+            AddImp('procedure Convert' + ColorspaceInfo[i].Name+'ArrayTo'+ColorspaceInfo[j].Name+'Array' +
+                             '(ASource: pointer; ADest: Pointer; ACount: integer; '+
+                             'ASourceStride:integer=sizeOf(T'+ColorspaceInfo[i].Name+'); '+
+                             'ADestStride:integer=sizeOf(T'+ColorspaceInfo[j].Name+'); '+
+                             '{%H-}AReferenceWhite: PXYZReferenceWhite=nil);');
+            AddImp('begin');
+            if NeedXYZReferenceWhite(i,j) then
+              AddImp('  if AReferenceWhite = nil then AReferenceWhite := @CurrentReferenceWhite;');
+            AddImp('  while ACount > 0 do begin');
+            if NeedXYZReferenceWhite(i,j) then
+              AddImp('    T'+ColorspaceInfo[j].Name+'(ADest^) := '+convertFunc+'(T'+ColorspaceInfo[i].Name+'(ASource^), AReferenceWhite^);')
+            else
+              AddImp('    T'+ColorspaceInfo[j].Name+'(ADest^) := '+convertFunc+'(T'+ColorspaceInfo[i].Name+'(ASource^));');
+            AddImp('    inc(PByte(ASource), ASourceStride); inc(PByte(ADest), ADestStride); dec(ACount); end;');
+            AddImp('end;');
+            AddImp('');
           end;
-          if convertFunc = '' then
-            convertFunc := AddConverter(i, j);
-
-          if convertFunc = '' then continue;
-
-          ConvMatrix[i,j] := true;
-
-          AddImp('procedure Convert' + ColorspaceInfo[i].Name+'ArrayTo'+ColorspaceInfo[j].Name+'Array' +
-                           '(ASource: pointer; ADest: Pointer; ACount: integer; '+
-                           'ASourceStride:integer=sizeOf(T'+ColorspaceInfo[i].Name+'); '+
-                           'ADestStride:integer=sizeOf(T'+ColorspaceInfo[j].Name+'); '+
-                           '{%H-}AReferenceWhite: PXYZReferenceWhite=nil);');
-          AddImp('begin');
-          if NeedXYZReferenceWhite(i,j) then
-            AddImp('  if AReferenceWhite = nil then AReferenceWhite := @CurrentReferenceWhite;');
-          AddImp('  while ACount > 0 do begin');
-          if NeedXYZReferenceWhite(i,j) then
-            AddImp('    T'+ColorspaceInfo[j].Name+'(ADest^) := '+convertFunc+'(T'+ColorspaceInfo[i].Name+'(ASource^), AReferenceWhite^);')
-          else
-            AddImp('    T'+ColorspaceInfo[j].Name+'(ADest^) := '+convertFunc+'(T'+ColorspaceInfo[i].Name+'(ASource^));');
-          AddImp('    inc(PByte(ASource), ASourceStride); inc(PByte(ADest), ADestStride); dec(ACount); end;');
-          AddImp('end;');
-          AddImp('');
         end;
+      end;
+      if ext then
+      begin
+        Add('{$ENDIF}');
+        AddImp('{$ENDIF}');
       end;
     end;
   end;
@@ -711,8 +741,30 @@ var
       params.Free;
     end;
 
+    function TColorGetChannel(AColor: string; AChannel: integer): string;
+    begin
+      case AChannel of
+      0: result := '{$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}('+AColor+' shr 16) and $ff{$ELSE}'+AColor+' and $ff{$ENDIF}';
+      1: result := '('+AColor+' shr 8) and $ff';
+      2: result := '{$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}'+AColor+' and $ff{$ELSE}('+AColor+' shr 16) and $ff{$ENDIF}';
+      else
+        raise Exception.Create('Index out of bounds');
+      end;
+    end;
+
+    function TColorSetChannel(AColor: string; AChannel: integer; AValue: string): string;
+    begin
+      case AChannel of
+      0: result := '{$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}LongWord('+AColor+' and $00ffff) or ('+AValue+' shl 16){$ELSE}LongWord('+AColor+' and $ffff00) or '+AValue+'{$ENDIF}';
+      1: result := 'LongWord('+AColor+' and $ff00ff) or ('+AValue+' shl 8)';
+      2: result := '{$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}LongWord('+AColor+' and $ffff00) or '+AValue+'{$ELSE}LongWord('+AColor+' and $00ffff) or ('+AValue+' shl 16){$ENDIF}';
+      else
+        raise Exception.Create('Index out of bounds');
+      end;
+    end;
+
   var
-    ov, ba: boolean;
+    ov, ba, ext: boolean;
     vsam, vsfm, body, vn2: TStringArray;
     cn: integer;
     typeDeclaration, flagStr: string;
@@ -735,7 +787,8 @@ var
 
     if AColorspaceOnly then
     begin
-      Add('{ '+ColorTypeName+'Colorspace }');
+      Add('{ ' + ColorspaceInfo[Colorspace].Colorspace + ' colorspace ('
+      + ChannelValueTypeFriendlyName[ColorspaceInfo[Colorspace].ValueType] + ' channels) }');
       Add('');
       Add(ColorTypeName+'Colorspace = class(TCustomColorspace)');
       Add('  class function GetChannelName(AIndex: integer): string; override;');
@@ -808,14 +861,27 @@ var
 
       setlength(body, length(VariablesNames)+3);
       body[0] := 'case AIndex of';
-      for i := 0 to high(VariablesNames) do
-        body[i+1] := inttostr(i)+': result := ' + ColorTypeName + '(AColor^).' + VariablesNames[i] + ';';
+      if Colorspace = csColor then
+      begin
+        for i := 0 to high(VariablesNames) do
+         body[i+1] := inttostr(i)+': result := ' + TColorGetChannel(ColorTypeName + '(AColor^)', i) + ';';
+      end
+      else
+        for i := 0 to high(VariablesNames) do
+          body[i+1] := inttostr(i)+': result := ' + ColorTypeName + '(AColor^).' + VariablesNames[i] + ';';
       body[high(body)-1] := 'else raise ERangeError.Create(''Index out of bounds'');';
       body[high(body)] := 'end;';
       AddProcedureImp('class function '+ColorTypeName+'Colorspace.GetChannel(AColor: Pointer; AIndex: integer): single;', body);
 
       setlength(body, length(VariablesNames)+3);
       body[0] := 'case AIndex of';
+      if Colorspace = csColor then
+      begin
+        for i := 0 to high(VariablesNames) do
+         body[i+1] := inttostr(i)+': ' + ColorTypeName + '(AColor^) := ' +
+                   TColorSetChannel(ColorTypeName + '(AColor^)', i, 'Byte(Round(Clamp(AValue,' + MinValues[i] + ',' +MaxValues[i] + ')))') + ';';
+      end
+      else
       for i := 0 to high(VariablesNames) do
       begin
         if not (ColorspaceInfo[Colorspace].ValueType in[cvtSingle,cvtDouble]) then
@@ -830,7 +896,7 @@ var
       if ColorspaceInfo[Colorspace].NeedRefWhite then flagStr := 'cfMovableReferenceWhite' else
       if Colorspace >= csXYZA then flagStr := 'cfReferenceWhiteIndependent' else
         flagStr := 'cfFixedReferenceWhite';
-      if ColorspaceInfo[Colorspace].HasImaginary then flagStr += ',cfHasImaginaryColors';
+      if ColorspaceInfo[Colorspace].HasImaginary then flagStr := flagStr + ',cfHasImaginaryColors';
       AddProcedureImp('class function '+ColorTypeName+'Colorspace.GetFlags: TColorspaceFlags;',
                       'result := [' + flagStr + '];');
 
@@ -853,17 +919,19 @@ var
       begin
         typeDeclaration := 'record helper for ' + ColorTypeName
       end;
+      Add('{ Helper for ' + ColorTypeName + ' color }');
     end else
     begin
       HelperName := ColorTypeName;
       typeDeclaration := ColorspaceInfo[Colorspace].Declaration;
       ColorTypeDefined[Colorspace] := true;
+      Add('{ Pointer to ' + ColorTypeName + ' color }');
+      Add('P'+ColorspaceName+' = ^'+ColorTypeName+';');
+      Add('{ ' + ColorspaceInfo[Colorspace].Colorspace + ' color ('
+      + ChannelValueTypeFriendlyName[ColorspaceInfo[Colorspace].ValueType] + ' channels) }');
     end;
 
-    Add('{ ' + HelperName + ' }');
     Add('');
-    if not IsHelperOnly(Colorspace) and not AHelperOnly then
-      Add('P'+ColorspaceName+' = ^'+ColorTypeName+';');
     Add(HelperName + ' = ' + typeDeclaration);
 
     AddImp('{ ' + HelperName + ' }');
@@ -874,16 +942,16 @@ var
       Add('  ' + ColorspaceInfo[Colorspace].VariableNames + ': ' + ChannelValueTypeName[ColorspaceInfo[Colorspace].ValueType] + ';');
     end;
 
-    if not AHelperOnly or IsHelperOnly(Colorspace) then
+    if not AHelperOnly or (IsHelperOnly(Colorspace) and (Colorspace in [csColor, csFPColor])) then
     begin
       ov := ColorspaceInfo[Colorspace].HasAlpha;
 
       s := '';
       for i := 0 to Length(vsfm) - 1 do
       begin
-        s += 'A'+vsfm[i];
+        s := s + 'A'+vsfm[i];
         if i <> Length(vsfm) - 1 then
-          s += ',';
+           s := s + ',';
       end;
       AddNew(s, ov);
 
@@ -892,9 +960,9 @@ var
         s := '';
         for i := 0 to Length(vsfm) - 2 do
         begin
-          s += 'A'+vsfm[i];
+          s := s + 'A'+vsfm[i];
           if i <> Length(vsfm) - 2 then
-            s += ',';
+             s := s + ',';
         end;
         AddNew(s, ov);
       end;
@@ -902,31 +970,41 @@ var
 
     if AHelperOnly then
     begin
+      if not (Colorspace in BasicColorspaces) then
+      begin
+        Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+      end;
       h := 'class function '+HelperName+'.Colorspace: TColorspaceAny; static;';
       AddProcedureImp(h, 'result := T'+ColorspaceName+'Colorspace;');
       Add('  ' + StringReplace(h, HelperName+'.', '', []));
+      if not (Colorspace in BasicColorspaces) then
+      begin
+        Add('{$ENDIF}');
+        AddImp('{$ENDIF}');
+      end;
 
       if Colorspace = csColor then
       begin
         Add('private');
         h := GetFunction(HelperName+'.GetRed', '', 'byte', false);
-        AddProcedureImp(h, 'result := {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}(self shr 16) and $ff{$ELSE}self and $ff{$ENDIF};');
+        AddProcedureImp(h, 'result := ' + TColorGetChannel('self', 0) + ';');
         Add('  ' + StringReplace(h, HelperName+'.', '', []));
         h := GetFunction(HelperName+'.GetGreen', '', 'byte', false);
-        AddProcedureImp(h, 'result := (self shr 8) and $ff;');
+        AddProcedureImp(h, 'result := ' + TColorGetChannel('self', 1) + ';');
         Add('  ' + StringReplace(h, HelperName+'.', '', []));
         h := GetFunction(HelperName+'.GetBlue', '', 'byte', false);
-        AddProcedureImp(h, 'result := {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}self and $ff{$ELSE}(self shr 16) and $ff{$ENDIF};');
+        AddProcedureImp(h, 'result := ' + TColorGetChannel('self', 2) + ';');
         Add('  ' + StringReplace(h, HelperName+'.', '', []));
 
         h := GetProcedure(HelperName+'.SetRed', 'AValue: byte', false);
-        AddProcedureImp(h, 'self := {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}LongWord(self and $00ffff) or (AValue shl 16){$ELSE}LongWord(self and $ffff00) or AValue{$ENDIF};');
+        AddProcedureImp(h, 'self := ' + TColorSetChannel('self', 0, 'AValue') + ';');
         Add('  ' + StringReplace(h, HelperName+'.', '', []));
         h := GetProcedure(HelperName+'.SetGreen', 'AValue: byte', false);
-        AddProcedureImp(h, 'self := LongWord(self and $ff00ff) or (AValue shl 8);');
+        AddProcedureImp(h, 'self := ' + TColorSetChannel('self', 1, 'AValue') + ';');
         Add('  ' + StringReplace(h, HelperName+'.', '', []));
         h := GetProcedure(HelperName+'.SetBlue', 'AValue: byte', false);
-        AddProcedureImp(h, 'self := {$IFDEF TCOLOR_BLUE_IN_LOW_BYTE}LongWord(self and $ffff00) or AValue{$ELSE}LongWord(self and $00ffff) or (AValue shl 16){$ENDIF};');
+        AddProcedureImp(h, 'self := ' + TColorSetChannel('self', 2, 'AValue') + ';');
         Add('  ' + StringReplace(h, HelperName+'.', '', []));
         add('public');
       end;
@@ -944,62 +1022,77 @@ var
         Add('  ' + StringReplace(h, HelperName+'.', '', []));
       end;
 
-      for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+      for ext := false to true do
       begin
-        if (cs = Colorspace) or not ColorTypeDefined[cs] then Continue;
-        if ColorspaceInfo[Colorspace].BasicHelper and (ColorspaceInfo[cs].BasicHelper or (cs = csColor)) then continue;
-
-        n := ColorspaceInfo[cs].Name;
-        b := NeedXYZReferenceWhite(cs,Colorspace);
-        ba := not ColorspaceInfo[Colorspace].HasAlpha and ColorspaceInfo[cs].HasAlpha;
-
-        h := GetFunction('To' + n, '', 'T' + n, b or ba);
-        Add('  ' + h);
-        h := GetFunction(HelperName + '.To' + n, '', 'T' + n, b or ba);
-        AddProcedureImp(h, GetConvertProcedureImp(cs, ''));
-
-        if ba then
+        if ext then
         begin
-          h := GetFunction('To' + n, 'AAlpha: ' + ChannelValueTypeName[ColorspaceInfo[cs].ValueType], 'T' + n, b or ba);
+          Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+          AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        end;
+        for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if ((cs in BasicColorspaces) or (ColorspaceInfo[cs].BasicHelper)) xor ext then
+        begin
+          if (cs = Colorspace) or not ColorTypeDefined[cs] then Continue;
+          if ColorspaceInfo[Colorspace].BasicHelper and (ColorspaceInfo[cs].BasicHelper or (cs = csColor)) then continue;
+
+          n := ColorspaceInfo[cs].Name;
+          b := NeedXYZReferenceWhite(cs,Colorspace);
+          ba := not ColorspaceInfo[Colorspace].HasAlpha and ColorspaceInfo[cs].HasAlpha;
+
+          h := GetFunction('To' + n, '', 'T' + n, b or ba);
           Add('  ' + h);
-          h := GetFunction(HelperName + '.To' + n, 'AAlpha: ' + ChannelValueTypeName[ColorspaceInfo[cs].ValueType], 'T' + n, b or ba);
-          GetConversionFunction(Colorspace, cs, handlesExtraAlpha);
-          if handlesExtraAlpha then
-            AddProcedureImp(h, 'result := '+GetConversionFunctionRec(ColorSpace, cs, 'Self, AAlpha', '')+';')
-          else
+          h := GetFunction(HelperName + '.To' + n, '', 'T' + n, b or ba);
+          AddProcedureImp(h, GetConvertProcedureImp(cs, ''));
+
+          if ba then
           begin
-            vn2 := Split(ColorspaceInfo[cs].VariableNames);
-            AddProcedureImp(h, [GetConvertProcedureImp(cs, ''), 'result.'+vn2[high(vn2)]+' := AAlpha;']);
+            h := GetFunction('To' + n, 'AAlpha: ' + ChannelValueTypeName[ColorspaceInfo[cs].ValueType], 'T' + n, b or ba);
+            Add('  ' + h);
+            h := GetFunction(HelperName + '.To' + n, 'AAlpha: ' + ChannelValueTypeName[ColorspaceInfo[cs].ValueType], 'T' + n, b or ba);
+            GetConversionFunction(Colorspace, cs, handlesExtraAlpha);
+            if handlesExtraAlpha then
+              AddProcedureImp(h, 'result := '+GetConversionFunctionRec(ColorSpace, cs, 'Self, AAlpha', '')+';')
+            else
+            begin
+              vn2 := Split(ColorspaceInfo[cs].VariableNames);
+              AddProcedureImp(h, [GetConvertProcedureImp(cs, ''), 'if result.'+vn2[high(vn2)]+' <> 0 then result.'+vn2[high(vn2)]+' := AAlpha;']);
+            end;
+          end;
+
+          if b then
+          begin
+            h := GetFunction('To' + n, 'const AReferenceWhite: TXYZReferenceWhite', 'T' + n, b or ba);
+            Add('  ' + h);
+            h := GetFunction(HelperName + '.To' + n, 'const AReferenceWhite: TXYZReferenceWhite', 'T' + n, b or ba);
+            AddProcedureImp(h, GetConvertProcedureImp(cs, 'AReferenceWhite'));
           end;
         end;
 
-        if b then
+        for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if ((cs in BasicColorspaces) or (ColorspaceInfo[cs].BasicHelper)) xor ext then
         begin
-          h := GetFunction('To' + n, 'const AReferenceWhite: TXYZReferenceWhite', 'T' + n, b or ba);
+          if (cs = Colorspace) or not ColorTypeDefined[cs] then Continue;
+          if ColorspaceInfo[Colorspace].BasicHelper and (ColorspaceInfo[cs].BasicHelper or (cs = csColor)) then continue;
+
+          n := ColorspaceInfo[cs].Name;
+          nt := 'T' + n;
+          b := NeedXYZReferenceWhite(cs,Colorspace);
+          h := GetProcedure('From' + n, 'AValue: ' + nt, b);
           Add('  ' + h);
-          h := GetFunction(HelperName + '.To' + n, 'const AReferenceWhite: TXYZReferenceWhite', 'T' + n, b or ba);
-          AddProcedureImp(h, GetConvertProcedureImp(cs, 'AReferenceWhite'));
+          h := GetProcedure(HelperName + '.From' + n, 'AValue: ' + nt, b);
+          AddProcedureImp(h, GetFromConvertProcedureImp(cs, ''));
+          if b then
+          begin
+            h := GetProcedure('From' + n, 'AValue: ' + nt + '; ' + 'const AReferenceWhite: TXYZReferenceWhite', b);
+            Add('  ' + h);
+            h := GetProcedure(HelperName + '.From' + n, 'AValue: ' + nt + '; ' + 'const AReferenceWhite: TXYZReferenceWhite', b);
+            AddProcedureImp(h, GetFromConvertProcedureImp(cs, 'AReferenceWhite'));
+          end;
         end;
-      end;
-
-      for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-      begin
-        if (cs = Colorspace) or not ColorTypeDefined[cs] then Continue;
-        if ColorspaceInfo[Colorspace].BasicHelper and (ColorspaceInfo[cs].BasicHelper or (cs = csColor)) then continue;
-
-        n := ColorspaceInfo[cs].Name;
-        nt := 'T' + n;
-        b := NeedXYZReferenceWhite(cs,Colorspace);
-        h := GetProcedure('From' + n, 'AValue: ' + nt, b);
-        Add('  ' + h);
-        h := GetProcedure(HelperName + '.From' + n, 'AValue: ' + nt, b);
-        AddProcedureImp(h, GetFromConvertProcedureImp(cs, ''));
-        if b then
+        if ext then
         begin
-          h := GetProcedure('From' + n, 'AValue: ' + nt + '; ' + 'const AReferenceWhite: TXYZReferenceWhite', b);
-          Add('  ' + h);
-          h := GetProcedure(HelperName + '.From' + n, 'AValue: ' + nt + '; ' + 'const AReferenceWhite: TXYZReferenceWhite', b);
-          AddProcedureImp(h, GetFromConvertProcedureImp(cs, 'AReferenceWhite'));
+          Add('{$ENDIF}');
+          AddImp('{$ENDIF}');
         end;
       end;
 
@@ -1018,17 +1111,66 @@ var
   procedure MakeHelpers;
   var
     cs: TColorspaceEnum;
+    ext: boolean;
   begin
     for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
       ColorTypeDefined[cs] := IsHelperOnly(cs);
     InfSpaceAdd := '  ';
-    for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-      if not IsHelperOnly(cs) then
-        MakeHelper(cs, false, false);
-    for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-      MakeHelper(cs, false, true);
-    for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-      MakeHelper(cs, true, false);
+
+    // define color types
+    for ext := false to true do
+    begin
+      if ext then
+      begin
+        Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+      end;
+      for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if (cs in BasicColorspaces) xor ext then
+          MakeHelper(cs, false, false);
+      if ext then
+      begin
+        Add('{$ENDIF}');
+        AddImp('{$ENDIF}');
+      end;
+    end;
+
+    // define colorspace classes
+    for ext := false to true do
+    begin
+      if ext then
+      begin
+        Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+      end;
+      for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if (cs in BasicColorspaces) xor ext then
+          MakeHelper(cs, false, true);
+      if ext then
+      begin
+        Add('{$ENDIF}');
+        AddImp('{$ENDIF}');
+      end;
+    end;
+
+    // define color helpers
+    for ext := false to true do
+    begin
+      if ext then
+      begin
+        Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+      end;
+      for cs := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if (cs in BasicColorspaces) xor ext then
+          MakeHelper(cs, true, false);
+      if ext then
+      begin
+        Add('{$ENDIF}');
+        AddImp('{$ENDIF}');
+      end;
+    end;
+
     InfSpaceAdd := '';
   end;
 
@@ -1040,39 +1182,72 @@ var
     begin
       h := 'operator := (const AValue: T' + ColorspaceInfo[c1].Name + '): T' + ColorspaceInfo[c2].Name + ';';
       ls := 'Result := ' + GetConversionFunctionRec(c1,c2,'AValue') + ';';
+      Add('{ Implicit conversion of a color from T' + ColorspaceInfo[c1].Name + ' to T' + ColorspaceInfo[c2].Name + ' }');
       Add(h);
       AddProcedureImp(h, ls);
     end;
 
   var
     i, j: TColorspaceEnum;
+    ext: boolean;
   begin
     AddImp('{Operators}');
     AddImp('');
-    for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-      for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-        if (i <> j) and not ([i,j] <= [csHSLAPixel,csGSBAPixel]) and
-        not ((ColorspaceInfo[i].BasicHelper or (i = csColor)) and (ColorspaceInfo[j].BasicHelper or (j = csColor))) then
-          AddOperator(i, j);
+    for ext := false to true do
+    begin
+      if ext then
+      begin
+        Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+      end;
+      for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+          if (([i,j] <= BasicColorspaces) xor ext) and
+            (i <> j) and not ([i,j] <= [csHSLAPixel,csGSBAPixel]) and
+            not ((ColorspaceInfo[i].BasicHelper or (i = csColor)) and (ColorspaceInfo[j].BasicHelper or (j = csColor))) then
+              AddOperator(i, j);
+      if ext then
+      begin
+        Add('{$ENDIF}');
+        AddImp('{$ENDIF}');
+      end;
+    end;
+
+
   end;
 
   procedure RegisterColorspaces;
   var
     i,j: TColorspaceEnum;
+    ext: boolean;
   begin
-    for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-      AddImp('  ColorspaceCollection.Add(T' + ColorspaceInfo[i].Name +'Colorspace);');
-
-    for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-      for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
-        if (i <> j) and (ConvMatrix[i,j]) then
-          AddImp('  ColorspaceCollection.AddConversion(T' + ColorspaceInfo[i].Name +'Colorspace, T' + ColorspaceInfo[j].Name +'Colorspace,'
-                      +' @Convert' + ColorspaceInfo[i].Name +'ArrayTo' + ColorspaceInfo[j].Name +'Array);');
+    for ext := false to true do
+    begin
+      if ext then
+      begin
+        Add('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+        AddImp('{$IFDEF BGRABITMAP_EXTENDED_COLORSPACE}');
+      end;
+      for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        if (i in BasicColorspaces) xor ext then
+          AddImp('  ColorspaceCollection.Add(T' + ColorspaceInfo[i].Name +'Colorspace);');
+      for i := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+        for j := Low(TColorspaceEnum) to High(TColorspaceEnum) do
+          if (i <> j) and (ConvMatrix[i,j]) and
+           (([i,j] <= BasicColorspaces) xor ext) then
+            AddImp('  ColorspaceCollection.AddConversion(T' + ColorspaceInfo[i].Name +'Colorspace, T' + ColorspaceInfo[j].Name +'Colorspace,'
+                        +' @Convert' + ColorspaceInfo[i].Name +'ArrayTo' + ColorspaceInfo[j].Name +'Array);');
+      if ext then
+      begin
+        Add('{$ENDIF}');
+        AddImp('{$ENDIF}');
+      end;
+    end;
   end;
 
 begin
   writeln('Generating colorspaces...');
-  SetLength(PairsList, 0);
+  PairsList := nil;
 
   //direct conversions (using single predefined function)
   //TExpandedPixel is the first bridge between colorspaces
@@ -1093,8 +1268,13 @@ begin
   AddColorPair(csStdHSLA, csStdRGBA);
   AddColorPair(csStdHSVA, csStdRGBA);
   AddColorPair(csStdHSLA, csStdHSVA);
-  AddColorPair(csStdCMYKA, csStdRGBA);
+  AddColorPair(csStdCMYK, csStdRGBA);
   AddColorPair(csStdRGBA, csExpandedPixel, '','',true, 2);
+  AddColorPair(csStdRGBA, csFPColor);
+  AddColorPair(csStdRGBA, csYCbCr601);
+  AddColorPair(csStdRGBA, csYCbCr601JPEG);
+  AddColorPair(csStdRGBA, csYCbCr709);
+  AddColorPair(csStdRGBA, csYCbCr709JPEG);
 
  { AddColorPair(csWordMask, csExpandedPixel, 'ExpandedToWordMask', 'WordMaskToExpanded');
   AddColorPair(csByteMask, csWordMask, 'MaskWordToByte', 'MaskByteToWord');}
@@ -1145,7 +1325,7 @@ begin
   AddImp('{$ENDIF}');
   //Save
   intsl.AddStrings(impsl);
-  intsl.SaveToFile('generatedcolorspace.inc');
+  intsl.SaveToFile(ExtractFilePath(ParamStr(0))+'generatedcolorspace.inc');
   intsl.Free;
   impsl.Free;
   WriteLn('Done generating colorspaces.');

@@ -1,30 +1,30 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ @abstract(Paint.NET image format files.)
+
+  The unit registers a TFPCustomImageReader so that it can be read by any
+  image reading function of FreePascal, and also registers a reader for BGRALayers }
 unit BGRAPaintNet;
 
 {$mode objfpc}{$H+}
 
 interface
 
-{ This unit reads Paint.NET files. It needs BGRADNetDeserial to deserialize binary .Net objects.
+uses
+  BGRAClasses, SysUtils, BGRADNetDeserial, FPImage, BGRABitmapTypes, BGRABitmap, BGRALayers;
+
+type
+
+  { @abstract(Layered image reader for Paint.NET)
 
   A Paint.NET image consists in three parts :
   - Xml header
   - Binary serialized information (contains layer information)
   - Compressed data (pixel data)
 
-  The class TPaintDotNetFile do not read the Xml header. ComputeFlatImage builds the resulting image
-  by using blending operations to merge layers.
-
-  The unit registers a TFPCustomImageReader so that it can be read by any image reading function of FreePascal,
-  and also registers a reader for BGRALayers }
-
-uses
-  BGRAClasses, SysUtils, BGRADNetDeserial, FPImage, BGRABitmapTypes, BGRABitmap, BGRALayers;
-
-type
-
-  { TPaintDotNetFile }
-
+  The class TPaintDotNetFile do not read the Xml header.
+  ComputeFlatImage builds the resulting image
+  by using blending operations to merge layers. }
   TPaintDotNetFile = class(TBGRACustomLayeredBitmap)
   public
     procedure LoadFromFile(const filenameUTF8: string); override;
@@ -56,8 +56,7 @@ type
     procedure LoadLayer(dest: TMemoryStream; src: TStream; uncompressedSize: int64);
   end;
 
-  { TFPReaderPaintDotNet }
-
+  { Reader for PDN files (flattened) }
   TFPReaderPaintDotNet = class(TFPCustomImageReader)
     private
       FWidth,FHeight,FNbLayers: integer;
@@ -285,7 +284,7 @@ begin
     raise Exception.Create('Xml header size error');
   Stream.Position:= Stream.Position + XmlHeaderSize;
      {$hints off}
-  stream.ReadBuffer(CompressionFormat, sizeof(CompressionFormat));
+  stream.ReadBuffer({%H-}CompressionFormat, sizeof(CompressionFormat));
      {$hints on}
   CompressionFormat := LEToN(CompressionFormat);
   Content := TDotNetDeserialization.Create;
@@ -328,7 +327,7 @@ begin
     for j := 0 to nbbytes - 1 do
     begin
         {$hints off}
-      LayerData[i].ReadBuffer(b, 1);
+      LayerData[i].ReadBuffer({%H-}b, 1);
         {$hints on}
       AppendStr(Result, IntToHex(b, 2) + ' ');
     end;
@@ -357,7 +356,7 @@ begin
   Layers   := nil;
   for i := 0 to high(LayerData) do
     LayerData[i].Free;
-  setLength(LayerData, 0);
+  LayerData := nil;
 end;
 
 function TPaintDotNetFile.GetWidth: integer;
@@ -478,7 +477,7 @@ var
 
 begin
   {$hints off}
-  src.ReadBuffer(CompressionFlag, 1);
+  src.ReadBuffer({%H-}CompressionFlag, 1);
   {$hints on}
   if CompressionFlag = 1 then
     dest.CopyFrom(src, uncompressedSize)
@@ -512,7 +511,7 @@ begin
       dest.CopyFrom(chunks[i], chunks[i].size);
       chunks[i].Free;
     end;
-    setlength(chunks, 0);
+    chunks := nil;
   end
   else
     raise Exception('Unknown compression flag (' + IntToStr(CompressionFlag) + ')');
@@ -650,10 +649,11 @@ var AlreadyRegistered: boolean;
 procedure RegisterPaintNetFormat;
 begin
   if AlreadyRegistered then exit;
-  ImageHandlers.RegisterImageReader ('Paint.NET image', 'pdn', TFPReaderPaintDotNet);
+
+  BGRARegisterImageReader(ifPaintDotNet, TFPReaderPaintDotNet, True, 'Paint.NET image', 'pdn');
+
   RegisterLayeredBitmapReader('pdn', TPaintDotNetFile);
-  //TPicture.RegisterFileFormat('pdn', 'Paint.NET image', TPaintDotNetFile);
-  DefaultBGRAImageReader[ifPaintDotNet] := TFPReaderPaintDotNet;
+
   AlreadyRegistered := true;
 end;
 

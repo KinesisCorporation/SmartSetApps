@@ -1,14 +1,16 @@
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ @abstract(Configuration and computation of pen style and width, as well as line caps and join styles.)
+
+  A line consists in two points.
+  A polyline consists in one or more lines, defined by two points or more.
+  A poly-polyline consists in a series of polylines, defined by polyline points
+  separated by empty points (see EmptyPointF and EmptyPoint)
+}
 unit BGRAPen;
 
 {$mode objfpc}{$H+}
-
 interface
-
-{ This unit handles pen style and width, as well as line caps and join styles.
-
-  A line consists in two points.
-  A polyline consists in one or more lines, defined by two points or more than two points
-  A poly-polyline consists in a series of polylines, defined by polyline points separated by empty points (see EmptyPointF) }
 
 uses
   SysUtils, BGRAGraphics, BGRABitmapTypes, BGRATransform;
@@ -20,8 +22,7 @@ type
   TPenJoinStyle = BGRAGraphics.TPenJoinStyle;
   TPenEndCap = BGRAGraphics.TPenEndCap;
 
-  { TBGRAPenStroker }
-
+  { Class to hold pen stroker configuration and compute path }
   TBGRAPenStroker = class(TBGRACustomPenStroker)
     protected
       { Pen style can be defined by PenStyle property of by CustomPenStyle property.
@@ -368,8 +369,8 @@ begin
       betweenDash := true;
   for i := 0 to nb-2 do
   begin
-    len := (sqrt(sqr(leftPts[i+1].x-leftPts[i].x) + sqr(leftPts[i+1].y-leftPts[i].y))+
-           sqrt(sqr(rightPts[i+1].x-rightPts[i].x) + sqr(rightPts[i+1].y-rightPts[i].y)))/(2*width);
+    len := (VectLen(leftPts[i+1].x-leftPts[i].x, leftPts[i+1].y-leftPts[i].y)+
+           VectLen(rightPts[i+1].x-rightPts[i].x, rightPts[i+1].y-rightPts[i].y))/(2*width);
     lenDone := 0;
     while lenDone < len do
     begin
@@ -496,7 +497,7 @@ var
       exit;
     end;
     da := a2-a1;
-    precision := round( sqrt( sqr(pt2.x-pt1.x)+sqr(pt2.y-pt1.y) ) ) +2;
+    precision := round( VectLen( pt2.x-pt1.x, pt2.y-pt1.y) ) +2;
     setlength(result,precision);
     for i := 0 to precision-1 do
       result[i] := origin + PointF( cos(a1+i/(precision-1)*da)*hw,
@@ -717,7 +718,11 @@ begin
       (abs(pts[0].y-pts[nbPts-1].y)<=oneOver512) then dec(nbPts);
   if (plCycle in options) and (nbPts > 2) then
   begin
-    if (pts[nbPts-1] <> pts[0]) then
+    if (abs(pts[0].x-pts[nbPts-1].x)<=oneOver512) and
+       (abs(pts[0].y-pts[nbPts-1].y)<=oneOver512) then
+    begin
+      pts[nbPts-1] := pts[0];
+    end else
     begin
       pts[nbPts] := pts[0];
       inc(nbPts);
@@ -838,7 +843,7 @@ begin
     HasLittleBorder := false;
 
     //determine u-turn
-    turn := borders[i].leftSide.dir * borders[i+1].leftSide.dir;
+    turn := borders[i].leftSide.dir ** borders[i+1].leftSide.dir;
     if turn < -0.99999 then
     begin
       if joinstyle <> pjsRound then
@@ -883,12 +888,12 @@ begin
         maxDiff := borders[i+1].len;
       if penstyle <> nil then
         if maxDiff > 2*width then maxDiff := 2*width;
-      maxDiff := sqrt(sqr(maxDiff)+sqr(hw));
+      maxDiff := VectLen(maxDiff, hw);
 
       //leftside join
       leftInter := IntersectLine( borders[i].leftSide, borders[i+1].leftSide );
       diff := leftInter-pts[i+1];
-      len := sqrt(diff*diff);
+      len := VectLen(diff);
       if (len > maxMiter) and (turn >= 0) then //if miter too far
       begin
         diff.Scale(1/len);
@@ -1110,6 +1115,7 @@ var
 
 begin
   start := 0;
+  results := nil;
   nbResults := 0;
   nbTotalPts := 0;
   for i := 0 to high(linepts) do

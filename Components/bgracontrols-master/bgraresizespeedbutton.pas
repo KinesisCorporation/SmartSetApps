@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
   Created by Fox. Part of BGRA Controls.
   For detailed information see readme.txt
@@ -81,7 +81,6 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  //{$I icons\bgraresizespeedbutton_icon.lrs}
   RegisterComponents('BGRA Button Controls', [TBGRAResizeSpeedButton]);
 end;
 {$ENDIF}
