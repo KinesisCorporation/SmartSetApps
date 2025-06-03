@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Computation of thumbnails for all image formats }
 unit BGRAThumbnail;
 
 {$mode objfpc}{$H+}
@@ -172,6 +174,8 @@ begin
         reader := nil;
         try
           reader := CreateBGRAImageReader(ff);
+          if reader is TBGRAReaderBMP then
+            TBGRAReaderBMP(reader).TransparencyOption:= toAuto;
           result := GetStreamThumbnail(AStream, reader, AWidth, AHeight, ABackColor, ACheckers, ADest);
         finally
           reader.Free;

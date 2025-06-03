@@ -10,7 +10,7 @@ uses
   u_key_layer, u_file_service, LabelBox, LineObj, ColorSpeedButtonCS, uEKnob,
   ueled, ECSwitch, ECSlider, RichMemo, u_keys, userdialog,
   contnrs, u_form_about_office, LazUTF8, u_form_saveas, u_form_load,
-  u_form_timingdelays_fs, u_form_tapandhold, u_form_troubleshoot_fs
+  u_form_timingdelays_fs, u_form_tapandhold, u_form_troubleshoot_fs, LazFileUtils
   {$ifdef Win32},Windows{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonDef, CarbonProc}{$endif};
 
@@ -4124,6 +4124,10 @@ procedure TFormMainFS.SetActiveLayer(layerIdx: integer);
 begin
   activeLayer := keyService.GetLayer(layerIdx);
   LoadLayer(activeLayer);
+  if (layerIdx = TOPLAYER_IDX) then
+    lblLayer.Caption := 'Layer (Top)'
+  else
+    lblLayer.Caption:= 'Layer (Fn)';
 end;
 
 procedure TFormMainFS.UpdateKeyButtonKey(kbKey: TKBKey; keyButton: TLabelBox; unselectKey: boolean = false);

@@ -1,7 +1,17 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
-{ This unit provides some optimisations of TFPReaderPCX: decompression using a read buffer.
-  It also fixes the progress message and the InternalCheck. }
 
+{*****************************************************************************}
+{
+  circlar :
+  - decompression is done using a read buffer.
+  - fix for the progress message and the InternalCheck.
+
+  2023-06  - Massimo Magnano
+           - added Resolution support
+}
+{*****************************************************************************}
+
+{ Provides reader for PCX format }
 unit BGRAReadPCX;
 
 {$mode objfpc}{$H+}
@@ -11,6 +21,7 @@ interface
 uses FPImage, BGRAClasses, SysUtils, FPReadPCX;
 
 type
+  { Reader for PCX image format }
 
   { TBGRAReaderPCX }
 
@@ -19,13 +30,22 @@ type
     FBuffer: packed array of byte;
     FBufferPos, FBufferSize: integer;
     FBufferStream: TStream;
+
+    function GetBitsPerPixel: byte;
+    function GetGrayScale: Boolean;
     function InternalCheck(Stream: TStream): boolean; override;
+    procedure ReadResolutionValues(Img: TFPCustomImage);
     procedure InternalRead(Stream: TStream; Img: TFPCustomImage); override;
     procedure ReadScanLine({%H-}Row: integer; Stream: TStream); override;
     procedure WriteScanLine(Row: integer; Img: TFPCustomImage); override;
     procedure InitReadBuffer(AStream: TStream; ASize: integer);
     procedure CloseReadBuffer;
     function GetNextBufferByte: byte;
+
+  published
+    property GrayScale: Boolean read GetGrayScale;
+    property BitsPerPixel: byte read GetBitsPerPixel; // [1, 4, 8, 24]
+    property Compressed;  //: boolean r;
   end;
 
 implementation
@@ -72,6 +92,23 @@ begin
     Stream.ReadBuffer(FScanLine^, FLineSize);
 end;
 
+procedure TBGRAReaderPCX.ReadResolutionValues(Img: TFPCustomImage);
+begin
+  {$IF FPC_FULLVERSION<30203}
+  if (Img is TCustomUniversalBitmap) then
+  with TCustomUniversalBitmap(Img) do
+  begin
+    ResolutionUnit:=ruPixelsPerInch;
+    ResolutionX :=Header.HRes;
+    ResolutionY :=Header.VRes;
+  end;
+  {$ELSE}
+  Img.ResolutionUnit:=ruPixelsPerInch;
+  Img.ResolutionX :=Header.HRes;
+  Img.ResolutionY :=Header.VRes;
+  {$ENDIF}
+end;
+
 procedure TBGRAReaderPCX.InternalRead(Stream: TStream; Img: TFPCustomImage);
 var
   H, Row:   integer;
@@ -83,6 +120,7 @@ begin
   Progress(psStarting, 0, False, emptyRect, '', continue);
   Stream.Read(Header, SizeOf(Header));
   AnalyzeHeader(Img);
+  ReadResolutionValues(Img);
   case BytesPerPixel of
     1: CreateBWPalette(Img);
     4: CreatePalette16(Img);
@@ -209,6 +247,16 @@ begin
   end;
 end;
 
+function TBGRAReaderPCX.GetBitsPerPixel: byte;
+begin
+  Result:= Header.BitsPerPixel;
+end;
+
+function TBGRAReaderPCX.GetGrayScale: Boolean;
+begin
+  Result:= (Header.PaletteType = 2);
+end;
+
 function TBGRAReaderPCX.InternalCheck({%H-}Stream: TStream): boolean;
 var
   {%H-}magic: packed array[0..3] of byte;
@@ -222,7 +270,6 @@ begin
 end;
 
 initialization
-
-  DefaultBGRAImageReader[ifPcx] := TBGRAReaderPCX;
+  BGRARegisterImageReader(ifPcx, TBGRAReaderPCX, True, 'PCX Format', 'pcx');
 
 end.

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -72,6 +72,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure ClickMe;
   published
     property RoundBorders: single read FRoundBorders write SetFRoundBorders {$IFDEF FPC}default 5{$ENDIF};
     property NormalColor: TColor read FNormalColor write SetFNormalColor default clWhite;
@@ -176,7 +177,6 @@ end;
 
 {$IFDEF FPC}procedure Register;
 begin
-  //{$I icons\bcmaterialdesignbutton_icon.lrs}
   RegisterComponents('BGRA Button Controls', [TBCMaterialDesignButton]);
 end;
 {$ENDIF}
@@ -517,6 +517,13 @@ begin
   FreeAndNil(FBGRA);
   FreeAndNil(FBGRAShadow);
   inherited Destroy;
+end;
+
+procedure TBCMaterialDesignButton.ClickMe;
+begin
+  FMousePos := Point(Width div 2, Height div 2);
+  FTimer.Enabled := True;
+  inherited Click;
 end;
 
 end.

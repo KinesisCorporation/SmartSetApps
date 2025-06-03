@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
-    The original file is part of the Free Pascal run time library.
+    The original file FPReadTiff is part of the Free Pascal run time library.
     Copyright (c) 2012 by the Free Pascal development team
 
     Tiff writer for fpImage modified by circular.
@@ -25,20 +25,30 @@
    endian - currently using system endianess
    orientation with rotation
 }
+{*****************************************************************************}
+{
+  2023-06  - Massimo Magnano
+           - added Resolution support
+}
+{*****************************************************************************}
+
+{ Implements the writer for the TIFF image format }
 unit BGRAWriteTiff;
 
 {$mode objfpc}{$H+}
 
+{$i bgrabitmap.inc}
+
+{$IFNDEF BGRABITMAP_EXTENDED_COLORSPACE}{$STOP This unit need extended colorspaces}{$ENDIF}
+
 interface
 
 uses
-  Math, BGRAClasses, SysUtils, zbase, zdeflate, FPimage, FPTiffCmn,
-  BGRABitmapTypes;
+  Math, SysUtils, BGRAClasses, BGRABitmapTypes, zbase, zdeflate,
+  FPimage, FPTiffCmn;
 
 type
-
-  { TTiffWriterEntry }
-
+  { Entry in a TIFF file }
   TTiffWriterEntry = class
   public
     Tag: Word;
@@ -50,33 +60,20 @@ type
     destructor Destroy; override;
   end;
 
-  TTiffWriterChunk = record
-    Data: Pointer;
-    Bytes: LongWord;
-  end;
-  PTiffWriterChunk = ^TTiffWriterChunk;
-
-  { TTiffWriterChunkOffsets }
-
-  TTiffWriterChunkOffsets = class(TTiffWriterEntry)
-  public
-    Chunks: PTiffWriterChunk;
-    ChunkByteCounts: TTiffWriterEntry;
-    constructor Create(ChunkType: TTiffChunkType);
-    destructor Destroy; override;
-    procedure SetCount(NewCount: LongWord);
-  end;
+  {* Extends the TFPCustomImageWriter to write the TIFF image format }
 
   { TBGRAWriterTiff }
 
   TBGRAWriterTiff = class(TFPCustomImageWriter)
-  private
+  protected
+    FCompression: boolean;
     FPremultiplyRGB: boolean;
     FSaveCMYKAsRGB: boolean;
     fStartPos: Int64;
     FEntries: TFPList; // list of TFPList of TTiffWriterEntry
     fStream: TStream;
     fPosition: LongWord;
+
     procedure ClearEntries;
     procedure WriteTiff;
     procedure WriteHeader;
@@ -87,7 +84,9 @@ type
     procedure WriteBuf(var Buf; Count: LongWord);
     procedure WriteWord(w: Word);
     procedure WriteDWord(d: LongWord);
-  protected
+
+    procedure SetImgExtrasFromProperties(Img: TFPCustomImage); virtual;
+
     procedure InternalWrite(Stream: TStream; Img: TFPCustomImage); override;
     procedure AddEntryString(Tag: word; const s: string);
     procedure AddEntryShort(Tag: word; Value: Word);
@@ -106,6 +105,9 @@ type
     procedure Clear;
     procedure AddImage(Img: TFPCustomImage);
     procedure SaveToStream(Stream: TStream);
+
+  published
+    property Compression: boolean read FCompression write FCompression; //MaxM: at this time only None or ZLib, maybe a enum
     property SaveCMYKAsRGB: boolean read FSaveCMYKAsRGB write FSaveCMYKAsRGB;
     property PremultiplyRGB: boolean read FPremultiplyRGB write FPremultiplyRGB;
   end;
@@ -117,6 +119,24 @@ function CompressDeflate(InputData: PByte; InputCount: LongWord;
   ErrorMsg: PAnsiString = nil): boolean;
 
 implementation
+
+uses BGRAReadTiff;
+
+type
+  TTiffWriterChunk = record
+    Data: Pointer;
+    Bytes: LongWord;
+  end;
+  PTiffWriterChunk = ^TTiffWriterChunk;
+
+  TTiffWriterChunkOffsets = class(TTiffWriterEntry)
+  public
+    Chunks: PTiffWriterChunk;
+    ChunkByteCounts: TTiffWriterEntry;
+    constructor Create(ChunkType: TTiffChunkType);
+    destructor Destroy; override;
+    procedure SetCount(NewCount: LongWord);
+  end;
 
 function CompareTiffWriteEntries(Entry1, Entry2: Pointer): integer;
 begin
@@ -216,6 +236,13 @@ begin
   if fStream<>nil then
     fStream.WriteDWord(d);
   inc(fPosition,4);
+end;
+
+procedure TBGRAWriterTiff.SetImgExtrasFromProperties(Img: TFPCustomImage);
+begin
+  if FCompression
+  then Img.Extra[TiffCompression]:= IntToStr(TiffCompressionDeflateZLib)
+  else Img.Extra[TiffCompression]:= IntToStr(TiffCompressionNone);
 end;
 
 procedure TBGRAWriterTiff.ClearEntries;
@@ -392,7 +419,7 @@ var
   IFD: TTiffIFD;
   GrayBits, RedBits, GreenBits, BlueBits, AlphaBits: Word;
   ImgWidth, ImgHeight: LongWord;
-  Compression: Word;
+  curCompression: Word;
   BitsPerSample: array[0..3] of Word;
   SamplesPerPixel: Integer;
   ExtraSample, defaultColorBits: Word;
@@ -531,6 +558,28 @@ var
     end;
   end;
 
+  procedure WriteResolutionValues;
+  begin
+    {$IF FPC_FULLVERSION<30203}
+    if (Img is TCustomUniversalBitmap) then
+    with TCustomUniversalBitmap(Img) do
+    {$ELSE}
+    with Img do
+    {$ENDIF}
+    begin
+        IFD.ResolutionUnit :=ResolutionUnitToTifResolutionUnit(ResolutionUnit);
+        IFD.XResolution.Numerator :=Trunc(ResolutionX*1000);
+        IFD.XResolution.Denominator :=1000;
+        IFD.YResolution.Numerator :=Trunc(ResolutionY*1000);
+        IFD.YResolution.Denominator :=1000;
+     end;
+
+    Img.Extra[TiffResolutionUnit]:=IntToStr(IFD.ResolutionUnit);
+    Img.Extra[TiffXResolution]:=TiffRationalToStr(IFD.XResolution);
+    Img.Extra[TiffYResolution]:=TiffRationalToStr(IFD.YResolution);
+  end;
+
+
 begin
   ChunkOffsets:=nil;
   Chunk:=nil;
@@ -540,7 +589,10 @@ begin
     CurEntries:=TFPList.Create;
     FEntries.Add(CurEntries);
 
+    SetImgExtrasFromProperties(Img);
+
     IFD.ReadFPImgExtras(Img);
+
     if SaveCMYKAsRGB and (IFD.PhotoMetricInterpretation=5) then
       IFD.PhotoMetricInterpretation:=2;
     if (Img.Extra[TiffPhotoMetric]='') and (Img is TCustomUniversalBitmap) then
@@ -549,11 +601,14 @@ begin
         IFD.PhotoMetricInterpretation := 8;
     end;
 
-    if Img.Extra[TiffCompression]='' then
-      IFD.Compression:= TiffCompressionDeflateZLib;
+//    if Img.Extra[TiffCompression]='' then
+//      IFD.Compression:= TiffCompressionDeflateZLib;
 
     if not (IFD.PhotoMetricInterpretation in [0,1,2,8,9]) then
       TiffError('PhotoMetricInterpretation="'+Img.Extra[TiffPhotoMetric]+'" not supported');
+
+    //Resolution
+    WriteResolutionValues;
 
     GrayBits:=0;
     RedBits:=0;
@@ -608,15 +663,15 @@ begin
 
     ImgWidth:=Img.Width;
     ImgHeight:=Img.Height;
-    Compression:=IFD.Compression;
-    case Compression of
+    curCompression:=IFD.Compression;
+    case curCompression of
     TiffCompressionNone,
     TiffCompressionDeflateZLib: ;
     else
       {$ifdef FPC_DEBUG_IMAGE}
       writeln('TBGRAWriterTiff.AddImage unsupported compression '+TiffCompressionName(Compression)+', using deflate instead.');
       {$endif}
-      Compression:=TiffCompressionDeflateZLib;
+      curCompression:=TiffCompressionDeflateZLib;
     end;
 
     if IFD.Orientation in [1..4] then begin
@@ -643,7 +698,7 @@ begin
     // required meta entries
     AddEntryShortOrLong(256,ImgWidth);
     AddEntryShortOrLong(257,ImgHeight);
-    AddEntryShort(259,Compression);
+    AddEntryShort(259,curCompression);
     AddEntryShort(262,IFD.PhotoMetricInterpretation);
     AddEntryShort(274,IFD.Orientation);
     AddEntryShort(296,IFD.ResolutionUnit);
@@ -813,7 +868,7 @@ begin
         end;
 
         // compress
-        case Compression of
+        case curCompression of
         TiffCompressionDeflateZLib: EncodeDeflate(Chunk,ChunkBytes);
         end;
 
@@ -940,6 +995,7 @@ constructor TBGRAWriterTiff.Create;
 begin
   inherited Create;
   FEntries:=TFPList.Create;
+  FCompression:= true;
   FSaveCMYKAsRGB:= true;
   FPremultiplyRGB:= false;
 end;
@@ -1016,8 +1072,6 @@ begin
 end;
 
 initialization
-  if ImageHandlers.ImageWriter[TiffHandlerName]=nil then
-    ImageHandlers.RegisterImageWriter (TiffHandlerName, 'tif;tiff', TBGRAWriterTiff);
-  DefaultBGRAImageWriter[ifTiff] := TBGRAWriterTiff;
+  BGRARegisterImageWriter(ifTiff, TBGRAWriterTiff, True, TiffHandlerName, 'tif;tiff');
 
 end.

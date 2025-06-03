@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 { Customizable component which using BGRABitmap for drawing. Control mostly rendered
   using framework.
 
@@ -357,6 +357,7 @@ type
     { The unique name of the control in the form. }
     property Name;
     { TabStop }
+    property TabOrder;
     property TabStop;
     property ThemeManager: TBCThemeManager read FBCThemeManager write SetFBCThemeManager;
     property OnPaintButton;
@@ -412,7 +413,6 @@ end;
 {$IFDEF FPC}
 procedure Register;
 begin
-  //{$I icons\bcbuttonfocus_icon.lrs}
   RegisterComponents('BGRA Button Controls', [TBCButtonFocus]);
   {$IFDEF FPC}
   RegisterPropertyEditor(TypeInfo(integer), TBCButtonFocus,
@@ -775,7 +775,7 @@ begin
   if FTextApplyGlobalOpacity then
   begin
     { Drawing text }
-    RenderText(r, AState.FontEx, actualCaption, ABGRA);
+    RenderText(r, AState.FontEx, actualCaption, ABGRA, Enabled);
     RenderGlyph(r_g, g);
     { Set global opacity }
     ABGRA.ApplyGlobalOpacity(FGlobalOpacity);
@@ -785,7 +785,7 @@ begin
     { Set global opacity }
     ABGRA.ApplyGlobalOpacity(FGlobalOpacity);
     { Drawing text }
-    RenderText(r, AState.FontEx, actualCaption, ABGRA);
+    RenderText(r, AState.FontEx, actualCaption, ABGRA, Enabled);
     RenderGlyph(r_g, g);
   end;
   if g <> FGlyph then g.Free;
@@ -1787,7 +1787,6 @@ begin
   try
     with GetControlClassDefaultSize do
       SetInitialBounds(0, 0, CX, CY);
-    TabStop := True;
     ControlStyle := ControlStyle + [csAcceptsControls];
     FBGRANormal := TBGRABitmapEx.Create(Width, Height, BGRAPixelTransparent);
     FBGRAHover := TBGRABitmapEx.Create(Width, Height, BGRAPixelTransparent);
@@ -1858,7 +1857,7 @@ begin
   FBGRANormal.Free;
   FBGRAHover.Free;
   FBGRAClick.Free;
-  {$IFDEF FPC}FreeThenNil{$ELSE}FreeAndNil{$ENDIF}(FGlyph);
+  FreeAndNil(FGlyph);
   FRounding.Free;
   FRoundingDropDown.Free;
   inherited Destroy;

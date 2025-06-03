@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {
   Part of BGRA Controls. Made by third party.
   For detailed information see readme.txt
@@ -12,7 +12,7 @@
   (Compatibility with delphi VCL 11/2018)
 
 ***************************** END CONTRIBUTOR(S) *****************************}
-unit dtthemedclock;
+unit DTThemedClock;
 
 {$I bgracontrols.inc}
 
@@ -88,7 +88,6 @@ implementation
 {$IFDEF FPC}
 procedure Register;
 begin
-  //{$I icons\dtthemedclock_icon.lrs}
   RegisterComponents('BGRA Controls', [TDTThemedClock]);
 end;
 {$ENDIF}

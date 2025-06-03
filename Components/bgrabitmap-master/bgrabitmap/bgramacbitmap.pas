@@ -1,20 +1,25 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Implementation of BGRABitmap for Mac OS }
 unit BGRAMacBitmap;
+{ It should NOT be added to the **uses** clause. }
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  BGRAClasses, SysUtils, BGRALCLBitmap, BGRAGraphics, BGRABitmapTypes;
+  BGRAClasses, SysUtils, BGRALCLBitmap, BGRAGraphics, BGRABitmapTypes,
+  BGRADefaultBitmap;
 
 type
-
-  { TBGRAMacBitmap }
-
+  {* Implementation of 32-bit RGBA bitmap for Mac OS }
   TBGRAMacBitmap = class(TBGRALCLBitmap)
-     procedure DataDrawOpaque(ACanvas: TCanvas; Rect: TRect; AData: Pointer;
-       ALineOrder: TRawImageLineOrder; AWidth, AHeight: integer); override;
+    procedure DataDrawOpaque(ACanvas: TCanvas; Rect: TRect; AData: Pointer;
+      ALineOrder: TRawImageLineOrder; AWidth, AHeight: integer); override;
+    function MakeBitmapCopy(BackgroundColor: TColor; AMasked: boolean=False): TBitmap; override;
+    procedure TakeScreenshotOfPrimaryMonitor; override;
+    procedure TakeScreenshot(ARect: TRect); override;
   end;
 
 implementation
@@ -78,6 +83,68 @@ procedure TBGRAMacBitmap.DataDrawOpaque(ACanvas: TCanvas; Rect: TRect;
   AData: Pointer; ALineOrder: TRawImageLineOrder; AWidth, AHeight: integer);
 begin
   DataDrawOpaqueImplementation(ACanvas, Rect, AData, ALineOrder, AWidth, AHeight);
+end;
+
+function TBGRAMacBitmap.MakeBitmapCopy(BackgroundColor: TColor; AMasked: boolean): TBitmap;
+var
+  temp: TBGRADefaultBitmap;
+  x, y: Integer;
+  psrc, pdest: PBGRAPixel;
+begin
+  if not AMasked or not HasTransparentPixels then
+     Result:=inherited MakeBitmapCopy(BackgroundColor, AMasked)
+  else
+  begin
+    if not HasSemiTransparentPixels then
+    begin
+      result := TBitmap.Create;
+      result.Assign(Bitmap);
+    end else
+    begin
+      temp := NewBitmap(Width, Height, ColorToBGRA(BackgroundColor));
+      try
+        temp.PutImage(0, 0, self, dmDrawWithTransparency);
+        for y := 0 to Height-1 do
+        begin
+          psrc := ScanLine[y];
+          pdest := temp.ScanLine[y];
+          for x := 0 to Width-1 do
+          begin
+            if psrc^.alpha < 128 then
+               pdest^ := BGRAPixelTransparent;
+            inc(psrc);
+            inc(pdest);
+          end;
+        end;
+        result := TBitmap.Create;
+        result.Assign(temp.Bitmap);
+      finally
+        temp.Free;
+      end;
+    end;
+  end;
+end;
+
+procedure TBGRAMacBitmap.TakeScreenshotOfPrimaryMonitor;
+var primaryDC: THandle;
+begin
+  primaryDC := LCLIntf.GetDC(0);
+  try
+    LoadFromDevice(primaryDC, rect(0,0,2560,1440));
+  finally
+    LCLIntf.ReleaseDC(0, primaryDC);
+  end;
+end;
+
+procedure TBGRAMacBitmap.TakeScreenshot(ARect: TRect);
+var all: TBGRAMacBitmap;
+begin
+  all := TBGRAMacBitmap.Create;
+  all.TakeScreenshotOfPrimaryMonitor;
+  SetSize(ARect.Width, ARect.Height);
+  FillTransparent;
+  PutImage(-ARect.Left, -ARect.Top, all, dmSet);
+  all.Free;
 end;
 
 end.

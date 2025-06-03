@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Implementation of various SVG shapes }
 unit BGRASVGShapes;
 
 {$mode objfpc}{$H+}
@@ -12,8 +14,7 @@ uses
 type
   TSVGContent = class;
 
-  { TSVGElementWithContent }
-
+  { Any SVG element containing subelements }
   TSVGElementWithContent = class(TSVGElement)
   protected
     FContent: TSVGContent;
@@ -23,6 +24,8 @@ type
   public
     constructor Create(ADocument: TDOMDocument; AUnits: TCSSUnitConverter; ADataLink: TSVGDataLink); override;
     constructor Create(AElement: TDOMElement; AUnits: TCSSUnitConverter; ADataLink: TSVGDataLink); override;
+    procedure IterateElements(ACallback: TIterateElementCallback; AData: pointer;
+      ARecursive: boolean); override;
     procedure ListIdentifiers(AResult: TStringList); override;
     procedure RenameIdentifiers(AFrom, ATo: TStringList); override;
     procedure ConvertToUnit(AUnit: TCSSUnit); override;
@@ -33,13 +36,13 @@ type
 
   TSVGGradient = class;
   
-  { TSVGElementWithGradient }
-
+  { Any SVG element that is filled with a gradient }
   TSVGElementWithGradient = class(TSVGElement)
     private
       FFillGradientElement, FStrokeGradientElement: TSVGGradient;
       FGradientElementsDefined, FRegisteredToDatalink: boolean;
       FFillCanvasGradient, FStrokeCanvasGradient: IBGRACanvasGradient2D;
+      FResettingGradient: boolean;
       procedure DatalinkOnLink(Sender: TObject; AElement: TSVGElement;
         ALink: boolean);
       function EvaluatePercentage(fu: TFloatWithCSSUnit): single; { fu is a percentage of a number [0.0..1.0] }
@@ -67,8 +70,7 @@ type
       property StrokeGradientElement: TSVGGradient read GetStrokeGradientElement;
   end;       
 
-  { TSVGLine }
-
+  { SVG line object }
   TSVGLine = class(TSVGElement)
     private
       function GetX1: TFloatWithCSSUnit;
@@ -90,8 +92,7 @@ type
       property y2: TFloatWithCSSUnit read GetY2 write SetY2;
   end;
 
-  { TSVGRectangle }
-
+  { SVG rectangle object }
   TSVGRectangle = class(TSVGElementWithGradient)
     private
       function GetX: TFloatWithCSSUnit;
@@ -108,6 +109,7 @@ type
       procedure SetRY(AValue: TFloatWithCSSUnit);
     protected
       procedure InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
+      procedure InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
     public
       class function GetDOMTag: string; override;
       procedure ConvertToUnit(AUnit: TCSSUnit); override;
@@ -119,8 +121,7 @@ type
       property ry: TFloatWithCSSUnit read GetRY write SetRY;
   end;
 
-  { TSVGCircle }
-
+  { SVG circle object }
   TSVGCircle = class(TSVGElementWithGradient)
     private
       function GetCX: TFloatWithCSSUnit;
@@ -131,6 +132,7 @@ type
       procedure SetR(AValue: TFloatWithCSSUnit);
     protected
       procedure InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
+      procedure InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
     public
       class function GetDOMTag: string; override;
       procedure ConvertToUnit(AUnit: TCSSUnit); override;
@@ -139,8 +141,7 @@ type
       property r: TFloatWithCSSUnit read GetR write SetR;
   end;
 
-  { TSVGEllipse }
-
+  { SVG ellipse object }
   TSVGEllipse = class(TSVGElementWithGradient)
     private
       function GetCX: TFloatWithCSSUnit;
@@ -153,6 +154,7 @@ type
       procedure SetRY(AValue: TFloatWithCSSUnit);
     protected
       procedure InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
+      procedure InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
     public
       class function GetDOMTag: string; override;
       procedure ConvertToUnit(AUnit: TCSSUnit); override;
@@ -162,8 +164,7 @@ type
       property ry: TFloatWithCSSUnit read GetRY write SetRY;
   end;
 
-  { TSVGPath }
-
+  { SVG path object }
   TSVGPath = class(TSVGElementWithGradient)
     private
       FPath: TBGRAPath;
@@ -178,6 +179,7 @@ type
     protected
       function GetDOMElement: TDOMElement; override;
       procedure InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
+      procedure InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
     public
       class function GetDOMTag: string; override;
       constructor Create(ADocument: TDOMDocument; AUnits: TCSSUnitConverter; ADataLink: TSVGDataLink); override;
@@ -189,8 +191,7 @@ type
       property boundingBoxF: TRectF read GetBoundingBoxF;
   end;
 
-  { TSVGPolypoints }
-
+  { SVG polyline object }
   TSVGPolypoints = class(TSVGElementWithGradient)
     private
       FBoundingBox: TRectF;
@@ -204,6 +205,7 @@ type
       procedure ComputeBoundingBox(APoints: ArrayOfTPointF);
     protected
       procedure InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
+      procedure InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
     public
       constructor Create(ADocument: TDOMDocument; AUnits: TCSSUnitConverter; AClosed: boolean; ADataLink: TSVGDataLink); overload;
       destructor Destroy; override;
@@ -213,12 +215,10 @@ type
       property boundingBoxF: TRectF read GetBoundingBoxF;
   end;
 
-  { TSVGTextElement }
-
+  { Any SVG text object or subelement }
   TSVGTextElement = class(TSVGElementWithGradient);
 
-  { TSVGTextElementWithContent }
-
+  { Any SVG text element with subelements }
   TSVGTextElementWithContent = class(TSVGTextElement)
     protected
       FContent: TSVGContent;
@@ -226,12 +226,13 @@ type
       constructor Create(ADocument: TDOMDocument; AUnits: TCSSUnitConverter; ADataLink: TSVGDataLink); override;
       constructor Create(AElement: TDOMElement; AUnits: TCSSUnitConverter; ADataLink: TSVGDataLink); override;
       destructor Destroy; override;
+      procedure IterateElements(ACallback: TIterateElementCallback; AData: pointer;
+        ARecursive: boolean); override;
       procedure ConvertToUnit(AUnit: TCSSUnit); override;
       property Content: TSVGContent read FContent;
   end;
 
-  { TSVGTextPositioning }
-
+  { Any SVG element with position of subelements }
   TSVGTextPositioning = class(TSVGTextElementWithContent)
     private
       function GetX: ArrayOfTFloatWithCSSUnit;
@@ -253,8 +254,7 @@ type
       property rotate: ArrayOfTSVGNumber read GetRotate write SetRotate;
   end;
 
-  { TSVGTRef }
-
+  { Hypertext reference in SVG text }
   TSVGTRef = class(TSVGTextElement)
     private
       function GetXlinkHref: string;
@@ -276,8 +276,7 @@ type
     InheritedRotation: single;
   end;
 
-  { TSVGText }
-
+  { SVG text object }
   TSVGText = class(TSVGTextPositioning)
     private
       FInGetSimpleText: boolean;
@@ -346,15 +345,13 @@ type
       property textDirection: TSVGTextDirection read GetTextDirection write SetTextDirection;
   end;
 
-  { TSVGTSpan }
-
+  { SVG span of text }
   TSVGTSpan = class(TSVGText)
     public
       class function GetDOMTag: string; override;
   end;
 
-  { TSVGTextPath }
-
+  { SVG text on path }
   TSVGTextPath = class(TSVGTextElementWithContent)
     private
       function GetStartOffset: TFloatWithCSSUnit;
@@ -376,8 +373,7 @@ type
       property xlinkHref: string read GetXlinkHref write SetXlinkHref;
   end;
 
-  { TSVGAltGlyph }
-
+  { SVG alternate glyph (deprecated) }
   TSVGAltGlyph = class(TSVGTextElementWithContent)
     private
       function GetGlyphRef: string;
@@ -395,22 +391,19 @@ type
       property xlinkHref: string read GetXlinkHref write SetXlinkHref;
   end;
 
-  { TSVGAltGlyphDef }
-
+  { SVG collection of alternate glyph definitions (deprecated) }
   TSVGAltGlyphDef = class(TSVGTextElementWithContent)
     public
       class function GetDOMTag: string; override;
   end;
 
-  { TSVGAltGlyphItem }
-
+  { SVG alternate definition for a glyph (deprecated) }
   TSVGAltGlyphItem = class(TSVGTextElementWithContent)
     public
       class function GetDOMTag: string; override;
   end;
 
-  { TSVGGlyphRef }
-
+  { SVG single glyph for an alternate definition (deprecated) }
   TSVGGlyphRef = class(TSVGTextElement)
     private
       function GetX: TSVGNumber;
@@ -440,25 +433,24 @@ type
       property xlinkHref: string read GetXlinkHref write SetXlinkHref;
   end;
   
-  { TSVGClipPath }
-
-  TSVGClipPath = class(TSVGElement)
+  { SVG clipping path }
+  TSVGClipPath = class(TSVGElementWithContent)
     private
       function GetExternalResourcesRequired: boolean;
       function GetClipPathUnits: TSVGObjectUnits;
       procedure SetExternalResourcesRequired(AValue: boolean);
       procedure SetClipPathUnits(AValue: TSVGObjectUnits);
     protected
-      procedure InternalDraw({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit); override;
+      procedure InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); override;
     public
+      procedure ApplyClipTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
       class function GetDOMTag: string; override;
       property externalResourcesRequired: boolean
        read GetExternalResourcesRequired write SetExternalResourcesRequired;
       property clipPathUnits: TSVGObjectUnits read GetClipPathUnits write SetClipPathUnits;
   end;   
   
-  { TSVGColorProfile }
-
+  { SVG color profile for images (deprecated) }
   TSVGColorProfile = class(TSVGElement)
     private
       function GetLocal: string;
@@ -469,8 +461,6 @@ type
       procedure SetName(AValue: string);
       procedure SetRenderingIntent(AValue: TSVGRenderingIntent);
       procedure SetXlinkHref(AValue: string);
-    protected
-      procedure InternalDraw({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit); override;
     public
       class function GetDOMTag: string; override;
       property local: string read GetLocal write SetLocal;
@@ -479,8 +469,7 @@ type
       property xlinkHref: string read GetXlinkHref write SetXlinkHref;
   end;  
   
-  { TSVGImage }
-
+  { SVG image object }
   TSVGImage = class(TSVGElement)
     private
       function GetBitmap: TBGRACustomBitmap;
@@ -526,8 +515,7 @@ type
       property Bitmap: TBGRACustomBitmap read GetBitmap;
   end;   
   
-  { TSVGPattern }
-
+  { SVG pattern (for filling) }
   TSVGPattern = class(TSVGImage)
     private
       function GetPatternUnits: TSVGObjectUnits;
@@ -549,8 +537,7 @@ type
       property viewBox: TSVGViewBox read GetViewBox write SetViewBox;
   end;
   
-  { TSVGMarker }
-
+  { SVG marker (for chart) }
   TSVGMarker = class(TSVGElement)
     private
       function GetExternalResourcesRequired: boolean;
@@ -589,9 +576,8 @@ type
       property orient: TSVGOrient read GetOrient write SetOrient;
   end;
   
-  { TSVGMask }
-
-  TSVGMask = class(TSVGElement)
+  { SVG mask (alpha) }
+  TSVGMask = class(TSVGElementWithContent)
     private
       function GetExternalResourcesRequired: boolean;
       function GetX: TFloatWithCSSUnit;
@@ -607,9 +593,8 @@ type
       procedure SetHeight(AValue: TFloatWithCSSUnit);
       procedure SetMaskUnits(AValue: TSVGObjectUnits);
       procedure SetMaskContentUnits(AValue: TSVGObjectUnits);
-    protected
-      procedure InternalDraw({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit); override;
     public
+      procedure ApplyMaskTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
       class function GetDOMTag: string; override;
       procedure ConvertToUnit(AUnit: TCSSUnit); override;
       property externalResourcesRequired: boolean
@@ -625,8 +610,7 @@ type
   
   TConvMethod = (cmNone,cmHoriz,cmVertical,cmOrtho);
   
-  { TSVGGradient } 
-
+  { SVG gradient }
   TSVGGradient = class(TSVGElementWithContent)
     private
       function GetColorInterpolation: TSVGColorInterpolation;
@@ -657,10 +641,7 @@ type
       property colorInterpolation: TSVGColorInterpolation read GetColorInterpolation write SetColorInterpolation;
   end;        
 
-  { TSVGGradientLinear }
-
-  { TSVGLinearGradient }
-
+  { SVG linear gradient }
   TSVGLinearGradient = class(TSVGGradient)
     private
       function GetX1: TFloatWithCSSUnit;
@@ -680,8 +661,7 @@ type
       property y2: TFloatWithCSSUnit read GetY2 write SetY2;
   end;
 
-  { TSVGRadialGradient }
-
+  { SVG radial gradient }
   TSVGRadialGradient = class(TSVGGradient)
     private
       function GetCX: TFloatWithCSSUnit;
@@ -707,8 +687,7 @@ type
       property fr: TFloatWithCSSUnit read GetFR write SetFR;
   end;
 
-  { TSVGStopGradient }
-
+  { SVG gradient color-stop }
   TSVGStopGradient = class(TSVGElement)
     private
       function GetOffset: TFloatWithCSSUnit;
@@ -724,15 +703,13 @@ type
       property stopOpacity: single read GetStopOpacity write SetStopOpacity;
   end;
 
-  { TSVGDefine }
-
+  { SVG definitions }
   TSVGDefine = class(TSVGElementWithContent)
     public
     class function GetDOMTag: string; override;
   end; 
 
-  { TSVGGroup }
-
+  { SVG group }
   TSVGGroup = class(TSVGElementWithContent)
   private
     function GetFontSize: TFloatWithCSSUnit;
@@ -752,8 +729,7 @@ type
     property Name: string read GetName write SetName;
   end;
 
-  { TSVGLink }
-
+  { SVG link (for browsing) }
   TSVGLink = class(TSVGGroup)
   private
     function GetTarget: string;
@@ -768,15 +744,15 @@ type
     property XlinkTitle: string read GetXlinkTitle write SetXlinkTitle;
     property Target: string read GetTarget write SetTarget;
   end;
-  
-  { TSVGStyle }
 
+  { Set of rules for a selector in CSS }
   TSVGRuleset = record
     selector,
     declarations: string;
   end;
   ArrayOfTSVGStyleItem = packed array of TSVGRuleset;
 
+  { SVG style definition (CSS) }
   TSVGStyle = class(TSVGElement)
    private
      FRulesets: ArrayOfTSVGStyleItem;
@@ -803,8 +779,50 @@ type
      property RulesetCount: integer read GetRulesetCount;
   end;                  
 
-  { TSVGContent }
+  { @abstract(Content for an SVG element.)
 
+  It can be used to browse or add elements.
+
+**Example creating an SVG file:**
+
+@image(../doc/img/content.svg)
+
+```pascal
+uses BGRABitmapTypes, BGRASVG, BGRAUnits;
+var svg: TBGRASVG;
+begin
+  //it is recommended to initialise the SVG with size and unit
+  //otherwise, the size is kind of undefined
+
+  svg := TBGRASVG.Create(10,6,cuCentimeter);
+  svg.Content.AppendPath('M1,1 L9,1 9,5 1,5 z', cuCentimeter).fillColor := CSSGreen;
+  svg.Content.AppendRect(2,2,6,2, cuCentimeter).fillColor:= BGRA(255,255,0,192);
+  with svg.Content.AppendRect(0,0,svg.Units.ConvertWidth(1,cuCentimeter,cuPixel),
+  svg.Units.ConvertHeight(1,cuCentimeter,cuPixel), cuPixel) do
+  begin
+    fillColor := CSSBlue;
+    fillOpacity:= 0.2;
+  end;
+  svg.Content.AppendRoundRect(3,3,4,1, 0.3,0.3, cuCentimeter).fillColor := CSSOrange;
+  with svg.Content.AppendLine(30,140,250,30, cuPoint) do
+  begin
+    strokeColor := BGRABlack;
+    strokeOpacity:= 0.8;
+  end;
+  svg.Content.AppendLine(svg.ViewBox.min,svg.ViewBox.min+svg.ViewBox.size).strokeColor := CSSRed;
+  with svg.Content.AppendCircle(5,3,2.8,cuCentimeter) do
+  begin
+    strokeColor := CSSRed;
+    strokeWidth := FloatWithCSSUnit(2,cuPoint);
+    fillNone;
+  end;
+
+  //SVG can be saved in a file that can be viewed in
+  //a web browser or in InkScape for example
+  svg.SaveToFile('content.svg');
+  svg.Free;
+end.
+```}
   TSVGContent = class
     protected
       FDataLink: TSVGDataLink;
@@ -829,9 +847,12 @@ type
       destructor Destroy; override;
       procedure Clear;
       procedure ConvertToUnit(AUnit: TCSSUnit);
+      procedure IterateElements(ACallback: TIterateElementCallback; AData: pointer; ARecursive: boolean);
       procedure Recompute;
       procedure Draw(ACanvas2d: TBGRACanvas2D; x,y: single; AUnit: TCSSUnit); overload;
       procedure Draw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); overload;
+      procedure CopyPathTo(ACanvas2d: TBGRACanvas2D; x,y: single; AUnit: TCSSUnit); overload;
+      procedure CopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit); overload;
       function AppendElement(ASVGType: TSVGFactory): TSVGElement; overload;
       procedure BringElement(AElement: TObject; AFromContent: TSVGContent); overload;
       procedure CopyElement(AElement: TObject);
@@ -947,7 +968,7 @@ function CreateSVGElementFromNode(AElement: TDOMElement; AUnits: TCSSUnitConvert
 var
   factory: TSVGFactory;
 begin
-  factory := GetSVGFactory(AElement.TagName);
+  factory := GetSVGFactory(string(AElement.TagName));
   result := factory.Create(AElement,AUnits,ADataLink);
 end;
 
@@ -1037,6 +1058,12 @@ begin
   FContent := TSVGContent.Create(AElement,AUnits,FSubDataLink);
 end;
 
+procedure TSVGElementWithContent.IterateElements(
+  ACallback: TIterateElementCallback; AData: pointer; ARecursive: boolean);
+begin
+  Content.IterateElements(ACallback, AData, ARecursive);
+end;
+
 procedure TSVGElementWithContent.ListIdentifiers(AResult: TStringList);
 var
   i: Integer;
@@ -1082,17 +1109,22 @@ procedure TSVGElementWithGradient.Initialize;
 begin
   inherited Initialize;
   FRegisteredToDatalink:= false;
+  FGradientElementsDefined:= false;
+  FResettingGradient := false;
   ResetGradients;
 end;
 
 procedure TSVGElementWithGradient.ResetGradients;
 begin
+  if FResettingGradient then exit;
   if FGradientElementsDefined then
   begin
     if Assigned(DataLink) and FRegisteredToDatalink then
     begin
+      FResettingGradient := true;
       DataLink.RegisterLinkListener(@DatalinkOnLink, false);
       FRegisteredToDatalink := false;
+      FResettingGradient := false;
     end;
     FGradientElementsDefined := false;
   end;
@@ -1269,6 +1301,7 @@ var c,f: TPointF;
   end;
 
 begin
+  result := nil;
   g := ASVGGradient as TSVGRadialGradient;
   if g.gradientUnits = souObjectBoundingBox then
   begin
@@ -1379,6 +1412,12 @@ destructor TSVGTextElementWithContent.Destroy;
 begin
   FreeAndNil(FContent);
   inherited Destroy;
+end;
+
+procedure TSVGTextElementWithContent.IterateElements(
+  ACallback: TIterateElementCallback; AData: pointer; ARecursive: boolean);
+begin
+  Content.IterateElements(ACallback, AData, ARecursive);
 end;
 
 procedure TSVGTextElementWithContent.ConvertToUnit(AUnit: TCSSUnit);
@@ -2249,7 +2288,7 @@ end;
 
 procedure TSVGAltGlyph.InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
 begin
-  //todo
+  // deprecated
 end;
 
 class function TSVGAltGlyph.GetDOMTag: string;
@@ -2345,7 +2384,7 @@ end;
 
 procedure TSVGGlyphRef.InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
 begin
-  //todo
+  //deprecated
 end;
 
 class function TSVGGlyphRef.GetDOMTag: string;
@@ -2387,9 +2426,16 @@ begin
     Attribute['clipPathUnits'] := 'objectBoundingBox';
 end;
 
-procedure TSVGClipPath.InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+procedure TSVGClipPath.InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
 begin
-  //todo
+  Content.CopyPathTo(ACanvas2d, AUnit);
+end;
+
+procedure TSVGClipPath.ApplyClipTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+begin
+  ACanvas2d.beginPath;
+  CopyPathTo(ACanvas2d, AUnit);
+  ACanvas2d.clip;
 end;
 
 class function TSVGClipPath.GetDOMTag: string;
@@ -2458,11 +2504,6 @@ end;
 procedure TSVGColorProfile.SetXlinkHref(AValue: string);
 begin
   Attribute['xlink:href'] := AValue;
-end;
-
-procedure TSVGColorProfile.InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
-begin
-  //todo
 end;
 
 class function TSVGColorProfile.GetDOMTag: string;
@@ -2974,22 +3015,22 @@ end;
 
 function TSVGMask.GetX: TFloatWithCSSUnit;
 begin
-  result := HorizAttributeWithUnit['x'];
+  result := HorizAttributeWithUnit['x', FloatWithCSSUnit(0, cuPercent)];
 end;
 
 function TSVGMask.GetY: TFloatWithCSSUnit;
 begin
-  result := VerticalAttributeWithUnit['y'];
+  result := VerticalAttributeWithUnit['y', FloatWithCSSUnit(0, cuPercent)];
 end;
 
 function TSVGMask.GetWidth: TFloatWithCSSUnit;
 begin
-  result := HorizAttributeWithUnit['width'];
+  result := HorizAttributeWithUnitDef['width', FloatWithCSSUnit(100, cuPercent)];
 end;
 
 function TSVGMask.GetHeight: TFloatWithCSSUnit;
 begin
-  result := VerticalAttributeWithUnit['height'];
+  result := VerticalAttributeWithUnit['height', FloatWithCSSUnit(100, cuPercent)];
 end;
 
 function TSVGMask.GetMaskUnits: TSVGObjectUnits;
@@ -3052,9 +3093,33 @@ begin
     Attribute['maskContentUnits'] := 'objectBoundingBox';
 end;
 
-procedure TSVGMask.InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+procedure TSVGMask.ApplyMaskTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+var maskSurface: TBGRACustomBitmap;
+  maskContext: TBGRACanvas2D;
+  oldMatrix: TAffineMatrix;
+  vx,vy,vw,vh: single;
 begin
-  //todo
+  maskSurface := BGRABitmapFactory.Create(ACanvas2d.Width, ACanvas2d.Height, BGRABlack);
+  maskContext := TBGRACanvas2D.Create(maskSurface);
+  maskContext.copyStateFrom(ACanvas2D);
+  If HasAttribute('x') or HasAttribute('y') or
+    HasAttribute('width') or HasAttribute('height') then
+  begin
+    vx:= Units.ConvertWidth(x,AUnit).value;
+    vy:= Units.ConvertHeight(y,AUnit).value;
+    vw:= Units.ConvertWidth(width,AUnit).value;
+    vh:= Units.ConvertHeight(height,AUnit).value;
+    maskContext.beginPath;
+    maskContext.rect(vx, vy, vw, vh);
+    maskContext.clip;
+  end;
+  Content.Draw(maskContext, AUnit);
+  oldMatrix := ACanvas2d.matrix;
+  ACanvas2d.resetTransform;
+  ACanvas2d.mask(maskSurface, 0, 0);
+  ACanvas2d.matrix := oldMatrix;
+  maskContext.Free;
+  maskSurface.Free;
 end;
 
 class function TSVGMask.GetDOMTag: string;
@@ -3142,7 +3207,7 @@ constructor TSVGStyle.Create(AElement: TDOMElement;
   AUnits: TCSSUnitConverter; ADataLink: TSVGDataLink);
 begin
   inherited Create(AElement, AUnits, ADataLink);
-  Parse(AElement.TextContent);
+  Parse(string(AElement.TextContent));
 end;
 
 procedure TSVGStyle.Initialize;
@@ -3358,7 +3423,7 @@ end;
 
 procedure TSVGStyle.ReParse;
 begin
- Parse(FDomElem.TextContent);
+ Parse(string(FDomElem.TextContent));
 end;           
 
 { TSVGRectangle }
@@ -3455,6 +3520,18 @@ begin
     InitializeGradient(ACanvas2d, PointF(vx,vy),vw,vh,AUnit);
     Paint(ACanvas2D,AUnit);
   end;
+end;
+
+procedure TSVGRectangle.InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+var
+  vx,vy,vw,vh: Single;
+begin
+  vx:= Units.ConvertWidth(x,AUnit).value;
+  vy:= Units.ConvertHeight(y,AUnit).value;
+  vw:= Units.ConvertWidth(width,AUnit).value;
+  vh:= Units.ConvertHeight(height,AUnit).value;
+  ACanvas2d.roundRect(vx,vy, vw,vh,
+     Units.ConvertWidth(rx,AUnit).value,Units.ConvertHeight(ry,AUnit).value);
 end;
 
 { TSVGPolypoints }
@@ -3588,6 +3665,28 @@ begin
   end;
 end;
 
+procedure TSVGPolypoints.InternalCopyPathTo(ACanvas2d: TBGRACanvas2D;
+  AUnit: TCSSUnit);
+var
+  prevMatrix: TAffineMatrix;
+  pts: ArrayOfTPointF;
+begin
+  if AUnit <> cuCustom then
+  begin
+    prevMatrix := ACanvas2d.matrix;
+    ACanvas2d.scale(Units.ConvertWidth(1,cuCustom,AUnit),
+      Units.ConvertHeight(1,cuCustom,AUnit));
+    InternalCopyPathTo(ACanvas2d, cuCustom);
+    ACanvas2d.matrix:= prevMatrix;
+  end else
+  begin
+    pts := pointsF;
+    if length(pts) = 0 then exit;
+    ACanvas2d.moveTo(pts[0]);
+    ACanvas2d.polylineTo(pts);
+  end;
+end;
+
 { TSVGPath }
 
 function TSVGPath.GetPathLength: TFloatWithCSSUnit;
@@ -3686,6 +3785,21 @@ begin
   end;
 end;
 
+procedure TSVGPath.InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+var
+  prevMatrix: TAffineMatrix;
+begin
+  if AUnit <> cuCustom then
+  begin
+    prevMatrix := ACanvas2d.matrix;
+    ACanvas2d.scale(Units.ConvertWidth(1,cuCustom,AUnit),
+      Units.ConvertHeight(1,cuCustom,AUnit));
+    InternalCopyPathTo(ACanvas2d, cuCustom);
+    ACanvas2d.matrix:= prevMatrix;
+  end else
+    ACanvas2d.addPath(path);
+end;
+
 class function TSVGPath.GetDOMTag: string;
 begin
   Result:= 'path';
@@ -3750,6 +3864,18 @@ begin
   end;
 end;
 
+procedure TSVGEllipse.InternalCopyPathTo(ACanvas2d: TBGRACanvas2D;
+  AUnit: TCSSUnit);
+var
+  vcx,vcy,vrx,vry: Single;
+begin
+  vcx:= Units.ConvertWidth(cx,AUnit).value;
+  vcy:= Units.ConvertHeight(cy,AUnit).value;
+  vrx:= Units.ConvertWidth(rx,AUnit).value;
+  vry:= Units.ConvertHeight(ry,AUnit).value;
+  ACanvas2d.ellipse(vcx,vcy,vrx,vry);
+end;
+
 class function TSVGEllipse.GetDOMTag: string;
 begin
   Result:= 'ellipse';
@@ -3812,6 +3938,16 @@ begin
   end;
 end;
 
+procedure TSVGCircle.InternalCopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+var
+  vcx,vcy,vr: Single;
+begin
+  vcx:= Units.ConvertWidth(cx,AUnit).value;
+  vcy:= Units.ConvertHeight(cy,AUnit).value;
+  vr:= Units.ConvertOrtho(r,AUnit).value;
+  ACanvas2d.circle(vcx,vcy,vr);
+end;
+
 class function TSVGCircle.GetDOMTag: string;
 begin
   Result:= 'circle';
@@ -3868,6 +4004,8 @@ begin
 end;
 
 procedure TSVGLine.InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+var
+  aaBefore: Boolean;
 begin
   if not isStrokeNone then
   begin
@@ -3875,7 +4013,10 @@ begin
     ACanvas2d.beginPath;
     ACanvas2d.moveTo(Units.ConvertWidth(x1,AUnit).value,Units.ConvertHeight(y1,AUnit).value);
     ACanvas2d.lineTo(Units.ConvertWidth(x2,AUnit).value,Units.ConvertHeight(y2,AUnit).value);
+    aaBefore := ACanvas2d.antialiasing;
+    ACanvas2d.antialiasing:= antialiasing;
     ACanvas2d.stroke;
+    ACanvas2D.antialiasing := aaBefore;
   end;
 end;
 
@@ -4363,6 +4504,20 @@ begin
       Element[i].ConvertToUnit(AUnit);
 end;
 
+procedure TSVGContent.IterateElements(ACallback: TIterateElementCallback;
+  AData: pointer; ARecursive: boolean);
+var rec: boolean;
+  i: Integer;
+begin
+  for i := 0 to ElementCount-1 do
+    if IsSVGElement[i] then
+    begin
+      rec := ARecursive;
+      ACallback(Element[i], AData, rec);
+      if rec then Element[i].IterateElements(ACallback, AData, true);
+    end;
+end;
+
 procedure TSVGContent.Recompute;
 var
   i: Integer;
@@ -4391,6 +4546,28 @@ begin
   for i := 0 to ElementCount-1 do
     if IsSVGElement[i] then
       Element[i].Draw(ACanvas2d, AUnit);
+end;
+
+procedure TSVGContent.CopyPathTo(ACanvas2d: TBGRACanvas2D; x, y: single;
+  AUnit: TCSSUnit);
+var prevMatrix: TAffineMatrix;
+begin
+  if (x<>0) or (y<>0) then
+  begin
+    prevMatrix := ACanvas2d.matrix;
+    ACanvas2d.translate(x,y);
+    CopyPathTo(ACanvas2d, AUnit);
+    ACanvas2d.matrix := prevMatrix;
+  end else
+    CopyPathTo(ACanvas2d, AUnit);
+end;
+
+procedure TSVGContent.CopyPathTo(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
+var i: integer;
+begin
+  for i := 0 to ElementCount-1 do
+    if IsSVGElement[i] then
+      Element[i].CopyPathTo(ACanvas2d, AUnit);
 end;
 
 function TSVGContent.AppendElement(ASVGType: TSVGFactory): TSVGElement;
@@ -4450,7 +4627,7 @@ end;
 function TSVGContent.AppendDOMText(AText: string): TDOMText;
 begin
   result := TDOMText.Create(FDomElem.OwnerDocument);
-  result.Data:= AText;
+  result.Data:= DOMString(AText);
   AppendElement(result);
 end;
 

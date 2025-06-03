@@ -14,7 +14,7 @@ uses
   u_form_timingdelays, LResources, lcltype, BGRABitmap, BGRABitmapTypes,
   BGRAGradients, BGRAGradientScanner, u_form_intro, u_led_ind,
   u_form_multimodifiers, u_form_color, InfoDialog, u_form_alt_layout, BCTypes,
-  u_form_invalid_lines, u_form_search_keys
+  u_form_invalid_lines, u_form_search_keys, LazFileUtils
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -1224,8 +1224,10 @@ begin
     btnFactoryReset.Left := btnEject.Left;
     {$endif};
 
-    //No longer editable
+    //No longer used
     btnSettings.Visible := false;
+    btnFactoryReset.Visible := false;
+
     if (GDemoMode) then
     begin
       btnProfile.Visible := false;
@@ -1237,7 +1239,6 @@ begin
       btnExport.Visible := false;
       btnFirmware.Visible := false;
       btnDiagnostic.Visible := false;
-      btnFactoryReset.Visible := false;
       SetActiveLayer(LAYER_BASE_360);
       SetActiveKeyButton(nil);
       SetConfigMode(CONFIG_LAYOUT, true);

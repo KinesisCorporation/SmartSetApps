@@ -8,37 +8,35 @@ object FormNew: TFormNew
   ClientHeight = 193
   ClientWidth = 475
   Color = clWhite
-  DesignTimePPI = 168
   Font.Name = 'Segoe UI'
   OnCreate = FormCreate
   Position = poMainFormCenter
-  LCLVersion = '2.0.8.0'
   Scaled = False
   object rgQwerty: TRadioButton
     Left = 32
-    Height = 33
+    Height = 18
     Top = 36
-    Width = 34
-    OnChange = radioChange
-    OnClick = radioClick
+    Width = 18
     ParentFont = False
     TabOrder = 0
+    OnChange = radioChange
+    OnClick = radioClick
   end
   object rgDvorak: TRadioButton
     Left = 168
-    Height = 33
+    Height = 18
     Top = 36
-    Width = 34
-    OnChange = radioChange
-    OnClick = radioClick
+    Width = 18
     ParentFont = False
     TabOrder = 1
+    OnChange = radioChange
+    OnClick = radioClick
   end
   object lblQwerty: TLabel
     Left = 56
     Height = 19
     Top = 36
-    Width = 65
+    Width = 62
     Caption = 'QWERTY'
     Font.Height = -16
     Font.Name = 'Tahoma'
@@ -52,7 +50,7 @@ object FormNew: TFormNew
     Left = 192
     Height = 19
     Top = 36
-    Width = 50
+    Width = 49
     Caption = 'Dvorak'
     Font.Height = -16
     Font.Name = 'Tahoma'
@@ -64,13 +62,13 @@ object FormNew: TFormNew
   end
   object cboLayout: TComboBox
     Left = 32
-    Height = 27
+    Height = 20
     Hint = 'Assign to position a-z or 0-9'
     Top = 88
     Width = 56
     Font.Height = -16
     Font.Name = 'Tahoma'
-    ItemHeight = 19
+    ItemHeight = 26
     Items.Strings = (
       'a'
       'b'
@@ -109,41 +107,43 @@ object FormNew: TFormNew
       '8'
       '9'
     )
-    OnSelect = cboLayoutSelect
     ParentFont = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
+    OnSelect = cboLayoutSelect
   end
   object Label1: TLabel
     Left = 16
-    Height = 28
+    Height = 16
     Top = 8
-    Width = 384
+    Width = 268
     Caption = '1) Choose a QWERTY or Dvorak base layout.'
     ParentColor = False
   end
   object Label2: TLabel
     Left = 16
-    Height = 28
+    Height = 16
     Top = 64
-    Width = 459
+    Width = 322
     Caption = '2) Choose which hotkey to assign this custom layout.'
     ParentColor = False
   end
   object chkLoadAfterClose: TCheckBox
     Left = 32
-    Height = 33
+    Height = 18
     Top = 120
-    Width = 456
+    Width = 320
     Caption = 'Load this hotkey layout after closing the v-Drive.'
     TabOrder = 3
+    Visible = False
   end
   object btnCreate: TColorSpeedButtonCS
     Left = 248
     Height = 32
     Top = 152
     Width = 107
+    Alignment = taCenter
     Caption = 'Create'
     Font.Color = clWhite
     Font.Height = -13
@@ -153,7 +153,6 @@ object FormNew: TFormNew
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    Alignment = taCenter
     TextAutoSize = True
     Toggle = False
     Pressed = False
@@ -181,6 +180,7 @@ object FormNew: TFormNew
     Height = 32
     Top = 152
     Width = 107
+    Alignment = taCenter
     Caption = 'Cancel'
     Font.Color = clWhite
     Font.Height = -13
@@ -190,7 +190,6 @@ object FormNew: TFormNew
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    Alignment = taCenter
     TextAutoSize = True
     Toggle = False
     Pressed = False

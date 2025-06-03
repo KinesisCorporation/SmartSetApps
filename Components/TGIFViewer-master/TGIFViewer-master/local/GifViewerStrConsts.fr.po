@@ -17,10 +17,12 @@ msgid "Toutes les images dans le GIF sont corrompue. Fichier GIF. Affichage impo
 msgstr ""
 
 #: gifviewerstrconsts.rsbadscreensize
+#, object-pascal-format
 msgid "Dimension de l'image Invalides : %dx%d"
 msgstr "Dimension de l'image Invalides : %dx%d"
 
 #: gifviewerstrconsts.rsbadsignature
+#, object-pascal-format
 msgid "Signature GIF invalide : %s"
 msgstr "Signature GIF invalide : %s"
 
@@ -33,6 +35,7 @@ msgid "Scanline : Indice hors limite"
 msgstr "Scanline : Indice hors limite"
 
 #: gifviewerstrconsts.rsbufferoverflow
+#, object-pascal-format
 msgid "Image #%d : Le décodeur s'est arrêté pour empêcher un débordement de tampon"
 msgstr "Image #%d : Le décodeur s'est arrêté pour empêcher un débordement de tampon"
 
@@ -45,6 +48,7 @@ msgid "L'Image est vide"
 msgstr "L'Image est vide"
 
 #: gifviewerstrconsts.rsfilenotfound
+#, object-pascal-format
 msgid "Le fichier %s est introuvable !"
 msgstr "Le fichier %s est introuvable !"
 
@@ -53,14 +57,17 @@ msgid "Nombre de couleur dans la palette locale invalide."
 msgstr "Nombre de couleur dans la palette locale invalide."
 
 #: gifviewerstrconsts.rsinvalidbuffersize
+#, object-pascal-format
 msgid "Image #%d : La taille du tampon d'entrée et de sortie sont invalides ( Taille <= 0)"
 msgstr "Image #%d : La taille du tampon d'entrée et de sortie sont invalides ( Taille <= 0)"
 
 #: gifviewerstrconsts.rsinvalidinputbuffersize
+#, object-pascal-format
 msgid "Image #%d : La taille du tampon d'entrée est invalide ( Taille <= 0)"
 msgstr "Image #%d : La taille du tampon d'entrée est invalide ( Taille <= 0)"
 
 #: gifviewerstrconsts.rsinvalidoutputbuffersize
+#, object-pascal-format
 msgid "Image #%d : La taille du tampon de sortie est invalide ( Taille <= 0)"
 msgstr "Image #%d : La taille du tampon de sortie est invalide ( Taille <= 0)"
 
@@ -73,14 +80,17 @@ msgid "Dépassement du buffer de sortie dans le décodeur GIF LZW. Signaler ce b
 msgstr "Dépassement du buffer de sortie dans le décodeur GIF LZW. Signaler ce bug. C'est un bug sérieux !"
 
 #: gifviewerstrconsts.rslzwinvalidinput
+#, object-pascal-format
 msgid "Image #%d : Le décodeur a rencontré une entrée invalide (données corrompues)"
 msgstr "Image #%d : Le décodeur a rencontré une entrée invalide (données corrompues)"
 
 #: gifviewerstrconsts.rslzwoutputbuffertoosmall
+#, object-pascal-format
 msgid "Image #%d : Le décodeur n'a pas pu décoder toutes les données car le tampon de sortie est trop petit"
 msgstr "Image #%d : Le décodeur n'a pas pu décoder toutes les données car le tampon de sortie est trop petit"
 
 #: gifviewerstrconsts.rsresourcenotfound
+#, object-pascal-format
 msgid "Resource %s not found !"
 msgstr "Resource %s not found !"
 

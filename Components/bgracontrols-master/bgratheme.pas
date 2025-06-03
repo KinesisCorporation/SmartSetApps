@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 unit BGRATheme;
 
 {$mode objfpc}{$H+}
@@ -71,6 +71,9 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure InvalidateThemedControls;
+
+    function PreferredButtonWidth(const hasGlyph: boolean): Integer; virtual;
+    function PreferredButtonHeight(const hasGlyph: boolean): Integer; virtual;
 
     procedure DrawButton(Caption: string; State: TBGRAThemeButtonState;
       Focused: boolean; ARect: TRect; ASurface: TBGRAThemeSurface; AImageIndex: Integer = -1; AImageList: TBGRASVGImageList = nil); virtual;
@@ -246,6 +249,16 @@ var
 begin
   for i := 0 to ThemedControlCount-1 do
     ThemedControl[i].Invalidate;
+end;
+
+function TBGRATheme.PreferredButtonWidth(const hasGlyph: boolean): Integer;
+begin
+  Result := 125;
+end;
+
+function TBGRATheme.PreferredButtonHeight(const hasGlyph: boolean): Integer;
+begin
+  Result := 35;
 end;
 
 procedure TBGRATheme.DrawButton(Caption: string; State: TBGRAThemeButtonState;

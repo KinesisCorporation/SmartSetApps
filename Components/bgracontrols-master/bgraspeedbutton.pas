@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 { This component partialy solve problem with no alpha in lazarus GTK.
   It is using BGRABitmap library for drawing icons.
 
@@ -62,7 +62,6 @@ implementation
 {$IFDEF FPC}
 procedure Register;
 begin
-  //{$I icons\bgraspeedbutton_icon.lrs}
   RegisterComponents('BGRA Button Controls', [TBGRASpeedButton]);
 end;
 {$ENDIF}

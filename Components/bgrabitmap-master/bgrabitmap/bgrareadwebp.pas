@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Provides a reader for WebP format using libwebp }
 unit BGRAReadWebP;
 
 {$mode objfpc}{$H+}
@@ -9,14 +11,14 @@ uses
   BGRAClasses, SysUtils, FPImage;
 
 type
+  { Header for WebP files }
   TWebPHeader = record
     RIFFCode: array[1..4] of char;
     FileSize: LongWord;
     WebPCode: array[1..4] of char;
   end;
 
-  { TBGRAReaderWebP }
-
+  { Reader for WebP image format }
   TBGRAReaderWebP = class(TFPCustomImageReader)
   protected
     function ReadHeader(Str: TStream): TWebPHeader;
@@ -26,7 +28,7 @@ type
 
 implementation
 
-uses libwebp{$ifdef linux}, linuxlib{$endif}, BGRABitmapTypes;
+uses libwebp, BGRABitmapTypes;
 
 var
   MyLibWebPLoaded: boolean;
@@ -35,7 +37,7 @@ procedure NeedLibWebP;
 begin
   if not MyLibWebPLoaded then
   begin
-    if not LibWebPLoad({$ifdef linux}FindLinuxLibrary('libwebp.so', 6){$endif}) then
+    if not LibWebPLoad then
       raise exception.Create('Cannot find libwebp library ('+LibWebPFilename+')');
     MyLibWebPLoaded:= true;
   end;
@@ -136,8 +138,7 @@ begin
 end;
 
 initialization
-
-  DefaultBGRAImageReader[ifWebP] := TBGRAReaderWebP;
+  BGRARegisterImageReader(ifWebP, TBGRAReaderWebP, True, 'WebP Image Format', 'webp');
 
 finalization
 

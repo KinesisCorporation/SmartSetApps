@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Phoxo layered image format, with .oXo extension. }
 unit BGRAPhoxo;
 
 {$mode objfpc}{$H+}
@@ -19,16 +21,19 @@ const
   PhoxoBlock_EndOfFile = 255;
 
 type
+  { PhoXo file header }
   TPhoxoHeader = packed record
     magic: packed array[1..4] of char;
     version: LongWord;
   end;
 
+  { PhoXo block header }
   TPhoxoBlockHeader = packed record
     blockType : LongWord;
     blockSize : LongWord;
   end;
 
+  { PhoXo layer header }
   TPhoxoLayerHeader = packed record
     layerVisible: LongWord;
     layerLimited: LongWord;
@@ -37,8 +42,7 @@ type
     redMask,greenMask,blueMask: LongWord;
   end;
 
-  { TBGRAPhoxoDocument }
-
+  { Layered image in Phoxo format }
   TBGRAPhoxoDocument = class(TBGRALayeredBitmap)
   private
     FDPIX,FDPIY: integer;
@@ -60,6 +64,8 @@ type
     property DPIY: integer read FDPIY;
   end;
 
+  { Reader for Phoxo image (flattened) }
+
   { TBGRAReaderOXO }
 
   TBGRAReaderOXO = class(TFPCustomImageReader)
@@ -67,6 +73,7 @@ type
     FWidth,FHeight,FNbLayers: integer;
     FDPIX,FDPIY: integer;
   protected
+    procedure ReadResolutionValues(Img: TFPCustomImage);
     function InternalCheck(Stream: TStream): boolean; override;
     procedure InternalRead(Stream: TStream; Img: TFPCustomImage); override;
   public
@@ -77,8 +84,7 @@ type
     property DPIY: integer read FDPIY;
   end;
 
-  { TBGRAWriterOXO }
-
+  { Writer for Phoxo image (flattened) }
   TBGRAWriterOXO = class(TFPCustomImageWriter)
     protected
       procedure InternalWrite (Str:TStream; Img:TFPCustomImage); override;
@@ -111,11 +117,12 @@ end;
 procedure RegisterPhoxoFormat;
 begin
   if AlreadyRegistered then exit;
-  ImageHandlers.RegisterImageReader ('PhoXo', 'oXo', TBGRAReaderOXO);
+
+  BGRARegisterImageHandlers(ifPhoxo, TBGRAReaderOXO, TBGRAWriterOXO, True, 'PhoXo', 'oXo');
+
   RegisterLayeredBitmapReader('oXo', TBGRAPhoxoDocument);
   RegisterLayeredBitmapWriter('oXo', TBGRAPhoxoDocument);
-  DefaultBGRAImageReader[ifPhoxo] := TBGRAReaderOXO;
-  DefaultBGRAImageWriter[ifPhoxo] := TBGRAWriterOXO;
+
   AlreadyRegistered:= True;
 end;
 
@@ -140,6 +147,23 @@ begin
 end;
 
 { TBGRAReaderOXO }
+
+procedure TBGRAReaderOXO.ReadResolutionValues(Img: TFPCustomImage);
+begin
+  {$IF FPC_FULLVERSION<30203}
+  if (Img is TCustomUniversalBitmap) then
+  with TCustomUniversalBitmap(Img) do
+  begin
+    ResolutionUnit:=ruPixelsPerInch;
+    ResolutionX :=FDPIX;
+    ResolutionY :=FDPIY;
+  end;
+  {$ELSE}
+  Img.ResolutionUnit:=ruPixelsPerInch;
+  Img.ResolutionX :=FDPIX;
+  Img.ResolutionY :=FDPIY;
+  {$ENDIF}
+end;
 
 function TBGRAReaderOXO.InternalCheck(Stream: TStream): boolean;
 begin
@@ -175,6 +199,9 @@ begin
           for x := 0 to flat.Width-1 do
             Img.Colors[x,y] := BGRAToFPColor(flat.GetPixel(x,y));
       end;
+
+      ReadResolutionValues(img);
+
     finally
       flat.free;
     end;
@@ -295,7 +322,7 @@ end;
 procedure TBGRAPhoxoDocument.InternalLoadFromStream(AStream: TStream);
 var blockHeader: TPhoxoBlockHeader;
     blockData: PByte;
-    wCaption: widestring;
+    wCaption: UnicodeString;
     i: Integer;
 begin
   if not CheckFormat(AStream,False) then
@@ -420,7 +447,7 @@ procedure TBGRAPhoxoDocument.InternalSaveToStream(AStream: TStream);
   end;
 
   procedure WriteLayer(index: integer);
-  var wCaption: widestring;
+  var wCaption: UnicodeString;
       pCaption: PWord;
 
       layerHeader: TPhoxoLayerHeader;

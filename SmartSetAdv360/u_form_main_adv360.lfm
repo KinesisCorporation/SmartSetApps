@@ -20,7 +20,6 @@ object FormMainAdv360: TFormMainAdv360
   OnShow = FormShow
   Position = poScreenCenter
   ShowInTaskBar = stNever
-  LCLVersion = '2.2.2.0'
   Scaled = False
   object pnlSelectProfile: TPanel
     Left = 225
@@ -30,6 +29,7 @@ object FormMainAdv360: TFormMainAdv360
     ClientHeight = 220
     ClientWidth = 180
     Color = 1644825
+    ParentBackground = False
     ParentColor = False
     TabOrder = 1
     Visible = False
@@ -53,12 +53,12 @@ object FormMainAdv360: TFormMainAdv360
         'PROFILE 9'
       )
       ItemHeight = 23
+      Style = lbOwnerDrawFixed
+      TabOrder = 0
       OnClick = lbProfileClick
       OnDrawItem = lbProfileDrawItem
       OnMouseLeave = lbProfileMouseLeave
       OnMouseMove = lbProfileMouseMove
-      Style = lbOwnerDrawFixed
-      TabOrder = 0
     end
   end
   object pnlMain: TPanel
@@ -2783,6 +2783,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 215
       ClientWidth = 220
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       TabOrder = 7
       object lblLayerText1: TLabel
@@ -2843,13 +2844,13 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 7
-        OnExit = eHTMLExit
-        OnKeyDown = eHTMLKeyDown
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 2
+        OnExit = eHTMLExit
+        OnKeyDown = eHTMLKeyDown
       end
       object lblRColorFn2: TLabel
         Left = 72
@@ -2908,14 +2909,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 3
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eGreenFn2: TEdit
         Left = 91
@@ -2929,14 +2930,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 4
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eRedFn2: TEdit
         Left = 91
@@ -2950,14 +2951,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 5
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object lblPreMixedColorsFn2: TLabel
         Left = 3
@@ -3155,6 +3156,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 215
       ClientWidth = 220
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       TabOrder = 3
       object lblBaseColor: TLabel
@@ -3215,13 +3217,13 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 7
-        OnExit = eHTMLExit
-        OnKeyDown = eHTMLKeyDown
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 2
+        OnExit = eHTMLExit
+        OnKeyDown = eHTMLKeyDown
       end
       object lblRColor1: TLabel
         Left = 72
@@ -3280,14 +3282,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 3
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eGreenKp: TEdit
         Left = 91
@@ -3301,14 +3303,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 4
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eRedKp: TEdit
         Left = 91
@@ -3322,14 +3324,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 5
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object lblPreMixedColors1: TLabel
         Left = 3
@@ -96343,6 +96345,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 215
       ClientWidth = 220
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       TabOrder = 6
       object lblLayerText: TLabel
@@ -96403,13 +96406,13 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 7
-        OnExit = eHTMLExit
-        OnKeyDown = eHTMLKeyDown
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 2
+        OnExit = eHTMLExit
+        OnKeyDown = eHTMLKeyDown
       end
       object lblRColorFn1: TLabel
         Left = 72
@@ -96468,14 +96471,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 3
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eGreenFn1: TEdit
         Left = 91
@@ -96489,14 +96492,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 4
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eRedFn1: TEdit
         Left = 91
@@ -96510,14 +96513,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 5
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object lblPreMixedColorsFn1: TLabel
         Left = 3
@@ -96715,6 +96718,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 215
       ClientWidth = 220
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       TabOrder = 2
       object lblColor: TLabel
@@ -96775,13 +96779,13 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 7
-        OnExit = eHTMLExit
-        OnKeyDown = eHTMLKeyDown
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 2
+        OnExit = eHTMLExit
+        OnKeyDown = eHTMLKeyDown
       end
       object lblRColor: TLabel
         Left = 72
@@ -96840,14 +96844,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 3
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eGreen: TEdit
         Left = 91
@@ -96861,14 +96865,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 4
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eRed: TEdit
         Left = 91
@@ -96882,14 +96886,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 5
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object lblPreMixedColors: TLabel
         Left = 3
@@ -97200,6 +97204,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Save changes to Profile'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Font.Color = clBlack
       Glyph.Data = {
@@ -97475,7 +97480,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -97504,6 +97508,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Save this Profile to a new position'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Font.Color = clBlack
       Glyph.Data = {
@@ -97780,7 +97785,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -97809,6 +97813,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Customize Global Keyboard Settings'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clBlack
@@ -98086,7 +98091,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -98115,6 +98119,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Import a Layout or Lighting Effect'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clWhite
@@ -98392,7 +98397,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -98421,6 +98425,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Export a Layout or Lighting Effect'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clWhite
@@ -98698,7 +98703,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -98727,6 +98731,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Check for firmware updates'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clWhite
@@ -99004,7 +99009,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -99033,6 +99037,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Export diagnostic files for tech support'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clWhite
@@ -99310,7 +99315,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -99339,6 +99343,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Get help'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clWhite
@@ -99616,7 +99621,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -99647,6 +99651,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 227
       ClientWidth = 234
       Color = 1644825
+      ParentBackground = False
       ParentColor = False
       TabOrder = 5
       Visible = False
@@ -99670,11 +99675,11 @@ object FormMainAdv360: TFormMainAdv360
           '...'
         )
         ItemHeight = 19
-        OnMouseLeave = lbMenuMacroMouseLeave
-        OnMouseMove = lbMenuMacroMouseMove
         ParentFont = False
         Style = lbOwnerDrawFixed
         TabOrder = 0
+        OnMouseLeave = lbMenuMacroMouseLeave
+        OnMouseMove = lbMenuMacroMouseMove
       end
     end
     object lbRow1_1: TLabelBox
@@ -101573,6 +101578,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Eject keyboard'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clWhite
@@ -101850,7 +101856,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -101882,6 +101887,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 705
       ClientWidth = 342
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       TabOrder = 0
       object pnlLighting: TPanel
@@ -101894,6 +101900,7 @@ object FormMainAdv360: TFormMainAdv360
         ClientHeight = 50
         ClientWidth = 342
         Color = 13815235
+        ParentBackground = False
         ParentColor = False
         TabOrder = 1
         OnClick = pnlLightingClick
@@ -102214,6 +102221,7 @@ object FormMainAdv360: TFormMainAdv360
         ClientHeight = 600
         ClientWidth = 342
         Color = 13815235
+        ParentBackground = False
         ParentColor = False
         TabOrder = 3
         object btnMacro: TColorSpeedButtonCS
@@ -102855,6 +102863,7 @@ object FormMainAdv360: TFormMainAdv360
         ClientHeight = 40
         ClientWidth = 342
         Color = 13815235
+        ParentBackground = False
         ParentColor = False
         TabOrder = 2
         object btnCancel: TColorSpeedButtonCS
@@ -102863,6 +102872,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Cancel current changes'
           Top = 0
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -102951,7 +102961,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -102980,6 +102989,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Accept current changes'
           Top = 0
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -103068,7 +103078,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103097,6 +103106,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Reset current key to default value'
           Top = 0
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -103185,7 +103195,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103214,6 +103223,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Reset layout to default'
           Top = 0
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -103302,7 +103312,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103331,6 +103340,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Disable LED functionality'
           Top = 0
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -103420,7 +103430,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103465,9 +103474,9 @@ object FormMainAdv360: TFormMainAdv360
           Font.Color = 13816530
           Font.Height = -16
           Font.Name = 'Tahoma'
-          OnClick = chkShowFootPedalClick
           ParentFont = False
           TabOrder = 0
+          OnClick = chkShowFootPedalClick
         end
         object btnResetLayer: TColorSpeedButtonCS
           Left = 287
@@ -103475,6 +103484,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Reset all the actions on the active Layer (eg Base, KP, Fn1, Fn2, Fn3)'
           Top = 0
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -103563,7 +103573,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103592,6 +103601,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Search for tokens'
           Top = 0
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -103681,7 +103691,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103719,6 +103728,7 @@ object FormMainAdv360: TFormMainAdv360
         Font.Color = 13816530
         Font.Height = -21
         Font.Name = 'Tahoma'
+        ParentBackground = False
         ParentFont = False
         TabOrder = 4
         object lblLayerSelect: TLabel
@@ -103739,6 +103749,7 @@ object FormMainAdv360: TFormMainAdv360
           Height = 30
           Top = 36
           Width = 65
+          Alignment = taCenter
           AllowAllUp = True
           Caption = 'Base'
           Font.Color = clWhite
@@ -103749,7 +103760,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103777,6 +103787,7 @@ object FormMainAdv360: TFormMainAdv360
           Height = 30
           Top = 36
           Width = 65
+          Alignment = taCenter
           AllowAllUp = True
           Caption = 'Kp'
           Font.Color = clWhite
@@ -103787,7 +103798,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103815,6 +103825,7 @@ object FormMainAdv360: TFormMainAdv360
           Height = 30
           Top = 36
           Width = 65
+          Alignment = taCenter
           AllowAllUp = True
           Caption = 'Fn1'
           Font.Color = clWhite
@@ -103825,7 +103836,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103853,6 +103863,7 @@ object FormMainAdv360: TFormMainAdv360
           Height = 30
           Top = 36
           Width = 65
+          Alignment = taCenter
           AllowAllUp = True
           Caption = 'Fn2'
           Font.Color = clWhite
@@ -103863,7 +103874,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103891,6 +103901,7 @@ object FormMainAdv360: TFormMainAdv360
           Height = 30
           Top = 36
           Width = 65
+          Alignment = taCenter
           AllowAllUp = True
           Caption = 'Fn3'
           Font.Color = clWhite
@@ -103901,7 +103912,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -103935,6 +103945,7 @@ object FormMainAdv360: TFormMainAdv360
         ClientHeight = 38
         ClientWidth = 342
         Color = 13815235
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
         object pnlLightingBtn: TPanel
@@ -103951,6 +103962,7 @@ object FormMainAdv360: TFormMainAdv360
           Font.Height = -17
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
+          ParentBackground = False
           ParentColor = False
           ParentFont = False
           TabOrder = 0
@@ -103970,6 +103982,7 @@ object FormMainAdv360: TFormMainAdv360
           Font.Height = -17
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
+          ParentBackground = False
           ParentColor = False
           ParentFont = False
           TabOrder = 1
@@ -104402,6 +104415,7 @@ object FormMainAdv360: TFormMainAdv360
       Height = 46
       Top = 9
       Width = 196
+      Alignment = taCenter
       AllowAllUp = True
       Caption = 'PROFILE  '
       Font.Color = clWhite
@@ -104488,7 +104502,6 @@ object FormMainAdv360: TFormMainAdv360
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -104579,6 +104592,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 215
       ClientWidth = 220
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       TabOrder = 8
       object lblLayerText2: TLabel
@@ -104639,13 +104653,13 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 7
-        OnExit = eHTMLExit
-        OnKeyDown = eHTMLKeyDown
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 2
+        OnExit = eHTMLExit
+        OnKeyDown = eHTMLKeyDown
       end
       object lblRColorFn3: TLabel
         Left = 72
@@ -104704,14 +104718,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 3
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eGreenFn3: TEdit
         Left = 91
@@ -104725,14 +104739,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 4
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object eRedFn3: TEdit
         Left = 91
@@ -104746,14 +104760,14 @@ object FormMainAdv360: TFormMainAdv360
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         MaxLength = 3
-        OnExit = rgbExit
-        OnKeyDown = rgbKeyDown
-        OnKeyUp = rgbKeyUp
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
         TabStop = False
         TabOrder = 5
+        OnExit = rgbExit
+        OnKeyDown = rgbKeyDown
+        OnKeyUp = rgbKeyUp
       end
       object lblPreMixedColorsFn3: TLabel
         Left = 3
@@ -104949,6 +104963,7 @@ object FormMainAdv360: TFormMainAdv360
       Hint = 'Factory reset'
       Top = 9
       Width = 46
+      Alignment = taCenter
       AllowAllUp = True
       Anchors = [akTop, akRight]
       Font.Color = clWhite
@@ -105222,11 +105237,11 @@ object FormMainAdv360: TFormMainAdv360
         64FF786E64FFFFFFFF00
       }
       GroupIndex = 111
+      Visible = False
       OnClick = btnFactoryResetClick
       ShowHint = True
       ParentFont = False
       ParentShowHint = False
-      Alignment = taCenter
       TextAutoSize = True
       Toggle = False
       Pressed = False
@@ -105261,6 +105276,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 223
       ClientWidth = 372
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       TabOrder = 9
       object scrollMacroRepo: TScrollBox
@@ -105276,6 +105292,7 @@ object FormMainAdv360: TFormMainAdv360
         VertScrollBar.Tracking = True
         Align = alClient
         BorderStyle = bsNone
+        ParentBackground = False
         TabOrder = 0
       end
       object pnlMacroRepoBot: TPanel
@@ -105285,6 +105302,7 @@ object FormMainAdv360: TFormMainAdv360
         Width = 370
         Align = alBottom
         BevelOuter = bvNone
+        ParentBackground = False
         TabOrder = 1
       end
       object pnlMacroRepoTop: TPanel
@@ -105296,6 +105314,7 @@ object FormMainAdv360: TFormMainAdv360
         BevelOuter = bvNone
         ClientHeight = 68
         ClientWidth = 370
+        ParentBackground = False
         TabOrder = 2
         object lblMacroRepository: TLabel
           Left = 16
@@ -105372,6 +105391,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Add new macro'
           Top = 18
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -105460,7 +105480,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -105489,6 +105508,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Duplicate current macro'
           Top = 18
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -105577,7 +105597,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -105606,6 +105625,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Erase selected macro'
           Top = 18
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -105694,7 +105714,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -105723,6 +105742,7 @@ object FormMainAdv360: TFormMainAdv360
           Hint = 'Erase all macros'
           Top = 18
           Width = 25
+          Alignment = taCenter
           AllowAllUp = True
           Font.Color = clWhite
           Glyph.Data = {
@@ -105811,7 +105831,6 @@ object FormMainAdv360: TFormMainAdv360
           ShowHint = True
           ParentFont = False
           ParentShowHint = False
-          Alignment = taCenter
           TextAutoSize = True
           Toggle = False
           Pressed = False
@@ -105847,6 +105866,7 @@ object FormMainAdv360: TFormMainAdv360
       Font.Color = 1644825
       Font.Height = -32
       Font.Name = 'Tahoma'
+      ParentBackground = False
       ParentColor = False
       ParentFont = False
       TabOrder = 4
@@ -105871,12 +105891,12 @@ object FormMainAdv360: TFormMainAdv360
           '...'
         )
         ItemHeight = 19
-        OnDrawItem = lbMenuDrawItem
-        OnMouseLeave = lbMenuMouseLeave
-        OnMouseMove = lbMenuMouseMove
         ParentFont = False
         Style = lbOwnerDrawFixed
         TabOrder = 0
+        OnDrawItem = lbMenuDrawItem
+        OnMouseLeave = lbMenuMouseLeave
+        OnMouseMove = lbMenuMouseMove
       end
     end
     object imgPedal: TImage
@@ -106933,6 +106953,7 @@ object FormMainAdv360: TFormMainAdv360
       ClientHeight = 223
       ClientWidth = 1087
       Color = 13815235
+      ParentBackground = False
       ParentColor = False
       ParentShowHint = False
       ShowHint = True
@@ -106956,6 +106977,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Close Macro box'
         Top = 6
         Width = 32
+        Alignment = taCenter
         Anchors = [akTop, akRight]
         Font.Color = clWhite
         Glyph.Data = {
@@ -106998,7 +107020,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107026,6 +107047,7 @@ object FormMainAdv360: TFormMainAdv360
         Height = 30
         Top = 24
         Width = 65
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Base'
         Font.Color = clWhite
@@ -107036,7 +107058,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107064,6 +107085,7 @@ object FormMainAdv360: TFormMainAdv360
         Height = 30
         Top = 24
         Width = 65
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Kp'
         Font.Color = clWhite
@@ -107074,7 +107096,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107102,6 +107123,7 @@ object FormMainAdv360: TFormMainAdv360
         Height = 30
         Top = 24
         Width = 65
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Fn1'
         Font.Color = clWhite
@@ -107112,7 +107134,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107140,6 +107161,7 @@ object FormMainAdv360: TFormMainAdv360
         Height = 30
         Top = 24
         Width = 65
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Fn2'
         Font.Color = clWhite
@@ -107150,7 +107172,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107178,6 +107199,7 @@ object FormMainAdv360: TFormMainAdv360
         Height = 30
         Top = 24
         Width = 65
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Fn3'
         Font.Color = clWhite
@@ -107188,7 +107210,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107217,6 +107238,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Erase single key'
         Top = 61
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -107305,7 +107327,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107334,6 +107355,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Accept macro changes'
         Top = 170
         Width = 46
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -107609,7 +107631,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -107638,6 +107659,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Cancel macro changes'
         Top = 170
         Width = 46
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -107913,7 +107935,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108004,6 +108025,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Clear selected macro'
         Top = 86
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -108092,7 +108114,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108121,6 +108142,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Copy selected macro'
         Top = 111
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -108210,7 +108232,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108239,6 +108260,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Paste copied macro'
         Top = 136
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -108328,7 +108350,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108357,6 +108378,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Preprogrammed macros'
         Top = 61
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -108445,7 +108467,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108474,6 +108495,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Insert a delay within a macro'
         Top = 86
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -108562,7 +108584,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108591,6 +108612,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Assign a single or double mouse click'
         Top = 61
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -108679,7 +108701,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108708,6 +108729,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Program a Windows combination macro'
         Top = 111
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -108797,7 +108819,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108826,6 +108847,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 104
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Left Alt'
         Font.Color = clWhite
@@ -108836,7 +108858,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108865,6 +108886,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 81
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Left Ctrl'
         Font.Color = clWhite
@@ -108875,7 +108897,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108904,6 +108925,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 127
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Left Shift'
         Font.Color = clWhite
@@ -108914,7 +108936,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108943,6 +108964,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 196
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Right Shift'
         Font.Color = clWhite
@@ -108953,7 +108975,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -108982,6 +109003,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 150
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Right Ctrl'
         Font.Color = clWhite
@@ -108992,7 +109014,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109021,6 +109042,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 173
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Right Alt'
         Font.Color = clWhite
@@ -109031,7 +109053,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109140,8 +109161,6 @@ object FormMainAdv360: TFormMainAdv360
         ProgressColor = 10340201
         ProgressColor2 = 10340201
         RelativeScaleLength = -1
-        Scale.DateTimeFormat = 'hh:nn:ss'
-        Scale.LogarithmBase = 10
         Scale.Max = 9
         Scale.Min = 1
         Scale.TickColor = 10340201
@@ -109151,7 +109170,6 @@ object FormMainAdv360: TFormMainAdv360
         Scale.TickShortValue = 1
         Scale.ValueVisible = evvNone
         ScaleFontOptions.FontSize = 12
-        ScaleFontOptions.FontStyles = []
         ShowHint = True
         Style = eosPanel
         TabOrder = 2
@@ -109212,9 +109230,9 @@ object FormMainAdv360: TFormMainAdv360
         Height = 18
         Top = 143
         Width = 18
-        OnClick = chkRepeatMultiplayClick
         TabOrder = 3
         Visible = False
+        OnClick = chkRepeatMultiplayClick
       end
       object lblSpeed2: TLabel
         Left = 773
@@ -109262,8 +109280,6 @@ object FormMainAdv360: TFormMainAdv360
         ProgressColor = 10340201
         ProgressColor2 = 10340201
         RelativeScaleLength = -1
-        Scale.DateTimeFormat = 'hh:nn:ss'
-        Scale.LogarithmBase = 10
         Scale.Max = 9
         Scale.Min = 1
         Scale.TickColor = 10340201
@@ -109273,7 +109289,6 @@ object FormMainAdv360: TFormMainAdv360
         Scale.TickShortValue = 1
         Scale.ValueVisible = evvNone
         ScaleFontOptions.FontSize = 12
-        ScaleFontOptions.FontStyles = []
         ShowHint = True
         Style = eosPanel
         TabOrder = 0
@@ -109319,6 +109334,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Insert multimedia keys within a macro'
         Top = 111
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -109408,7 +109424,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109437,6 +109452,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Insert function keys (F1-F24) within a macro'
         Top = 161
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -109526,7 +109542,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109555,6 +109570,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Adjust playback speed within the macro'
         Top = 111
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -109643,7 +109659,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109715,6 +109730,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a macro trigger key above and an optional modifier co-triggers at left'
         Top = 170
         Width = 492
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Font.Height = -21
@@ -109723,7 +109739,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109765,6 +109780,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Up/Down keystroke'
         Top = 136
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -109854,7 +109870,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109883,6 +109898,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 81
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Left Command'
         Font.Color = clWhite
@@ -109893,7 +109909,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109922,6 +109937,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Select a modifer key to act as a co-trigger'
         Top = 173
         Width = 93
+        Alignment = taCenter
         AllowAllUp = True
         Caption = 'Right Command'
         Font.Color = clWhite
@@ -109932,7 +109948,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -109961,6 +109976,7 @@ object FormMainAdv360: TFormMainAdv360
         Hint = 'Search for tokens'
         Top = 136
         Width = 25
+        Alignment = taCenter
         AllowAllUp = True
         Font.Color = clWhite
         Glyph.Data = {
@@ -110050,7 +110066,6 @@ object FormMainAdv360: TFormMainAdv360
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False

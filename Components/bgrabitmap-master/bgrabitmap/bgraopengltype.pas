@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Basic types used with OpenGL }
 unit BGRAOpenGLType;
 
 {$mode objfpc}{$H+}
@@ -13,6 +15,7 @@ uses
 type
   TBGLTextureHandle = type Pointer;
   TOpenGLResampleFilter = (orfBox,orfLinear);
+  TOpenGLRepeatMode = (ormRepeat, ormMirroredRepeat, ormClamp);
   TOpenGLBlendMode = (obmNormal, obmAdd, obmMultiply);
   TWaitForGPUOption = (wfgQueueAllCommands, wfgFinishAllCommands);
   TFaceCulling = BGRABitmapTypes.TFaceCulling;
@@ -26,8 +29,7 @@ const
 
 type
 
-  { IBGLFont }
-
+  { Interface for a font drawn on OpenGL canvas }
   IBGLFont = interface
     function GetClipped: boolean;
     function GetPadding: TRectF;
@@ -76,8 +78,7 @@ type
     property Padding: TRectF read GetPadding write SetPadding;
   end;
 
-  { TBGLCustomFont }
-
+  { Abstract class for a font drawn on OpenGL canvas }
   TBGLCustomFont = class(TInterfacedObject, IBGLFont)
   protected
     FScale, FStepX: single;
@@ -156,9 +157,10 @@ type
     property Padding: TRectF read GetPadding write SetPadding;
   end;
 
-  { IBGLTexture }
-
+  { Interface for a texture in OpenGL (stored in VRAM) }
   IBGLTexture = interface ['{BF2FF051-EBC6-4102-8268-37A9D0297B92}']
+    function GetAllocatedHeight: integer;
+    function GetAllocatedWidth: integer;
     function GetFlipX: IBGLTexture;
     function GetFlipY: IBGLTexture;
     function GetFrame(AIndex: integer): IBGLTexture;
@@ -170,6 +172,8 @@ type
     function GetMask: IBGLTexture;
     function GetOpenGLBlendMode: TOpenGLBlendMode;
     function GetOpenGLTexture: TBGLTextureHandle;
+    function GetRepeatX: TOpenGLRepeatMode;
+    function GetRepeatY: TOpenGLRepeatMode;
     function GetResampleFilter: TOpenGLResampleFilter;
     function GetUseGradientColors: boolean;
     function GetWidth: integer;
@@ -177,6 +181,7 @@ type
     procedure SetFrameSize(x,y: integer);
     procedure SetImageCenter(const AValue: TPointF);
     procedure SetOpenGLBlendMode(AValue: TOpenGLBlendMode);
+    procedure SetRepetition(AValueX, AValueY: TOpenGLRepeatMode);
     procedure SetResampleFilter(AValue: TOpenGLResampleFilter);
     procedure SetGradientColors(ATopLeft, ATopRight, ABottomRight, ABottomLeft: TBGRAPixel);
     procedure SetUseGradientColors(AValue: boolean);
@@ -231,6 +236,8 @@ type
     procedure DrawQuad(const APoints3D: array of TPoint3D_128; const ANormals3D: array of TPoint3D_128; const ATexCoords: array of TPointF); overload;
     procedure DrawQuad(const APoints3D: array of TPoint3D_128; const ANormals3D: array of TPoint3D_128; const ATexCoords: array of TPointF; const AColors: array of TColorF); overload;
 
+    property AllocatedWidth: integer read GetAllocatedWidth;
+    property AllocatedHeight: integer read GetAllocatedHeight;
     property Width: integer read GetWidth;
     property Height: integer read GetHeight;
     property FrameCount: integer read GetFrameCount;
@@ -242,13 +249,14 @@ type
     property Mask: IBGLTexture read GetMask;
     property Handle: TBGLTextureHandle read GetOpenGLTexture;
     property ImageCenter: TPointF read GetImageCenter write SetImageCenter;
+    property RepeatX: TOpenGLRepeatMode read GetRepeatX;
+    property RepeatY: TOpenGLRepeatMode read GetRepeatY;
     property ResampleFilter: TOpenGLResampleFilter read GetResampleFilter write SetResampleFilter;
     property BlendMode: TOpenGLBlendMode read GetOpenGLBlendMode write SetOpenGLBlendMode;
     property GradientColors: boolean read GetUseGradientColors write SetUseGradientColors;
   end;
 
-  { TBGLCustomBitmap }
-
+  { Abstract RGBA bitmap that can be used with OpenGL by converting it into a texture }
   TBGLCustomBitmap = class(TBGRABitmap)
   protected
     FActualWidth,FActualHeight,
@@ -258,7 +266,7 @@ type
     FTexture: IBGLTexture;
     procedure Init; override;
     function GetTexture: IBGLTexture; virtual;
-    function GetOpenGLMaxTexSize: integer; virtual; abstract;
+    class function GetOpenGLMaxTexSize: integer; virtual; abstract;
     procedure NotifySizeTooBigForOpenGL; virtual;
     procedure NotifyOpenGLContextNotCreatedYet; virtual;
     function GetTextureGL: IUnknown; override;
@@ -270,7 +278,7 @@ type
     procedure NoClip; override;
     destructor Destroy; override;
     procedure SwapRedBlue; overload; override;
-    function Resample(newWidth, newHeight: integer; mode: TResampleMode=rmFineResample): TBGLCustomBitmap; override;
+    function Resample(newWidth, newHeight: integer; mode: TResampleMode=rmFineResample; ACopyProperties: Boolean=False): TBGLCustomBitmap; override;
     procedure ApplyGlobalOpacity(alpha: byte); overload; override;
     procedure ReplaceColor(before, after: TColor); overload; override;
     procedure ReplaceColor(const ABefore, AAfter: TBGRAPixel); overload; override;
@@ -285,10 +293,11 @@ type
     property MaxTextureSize: integer read GetOpenGLMaxTexSize;
   end;
 
-  { TBGLCustomTexture }
-
+  { Abstract class for a texture in OpenGL (stored in VRAM) }
   TBGLCustomTexture = class(TInterfacedObject, IBGLTexture)
   private
+    function GetAllocatedHeight: integer;
+    function GetAllocatedWidth: integer;
     function GetFlipX: IBGLTexture;
     function GetFlipY: IBGLTexture;
     function GetFrame(AIndex: integer): IBGLTexture;
@@ -318,15 +327,19 @@ type
     FUseGradientColor: boolean;
     FBlendMode: TOpenGLBlendMode;
 
-    function GetOpenGLMaxTexSize: integer; virtual; abstract;
+    class function GetOpenGLMaxTexSize: integer; virtual; abstract;
+    class function GetNonPowerOfTwoSizeSupport: boolean; virtual;
     function CreateOpenGLTexture(ARGBAData: PLongWord; AAllocatedWidth, AAllocatedHeight, AActualWidth, AActualHeight: integer; RGBAOrder: boolean): TBGLTextureHandle; virtual; abstract;
     procedure UpdateOpenGLTexture(ATexture: TBGLTextureHandle; ARGBAData: PLongWord; AAllocatedWidth, AAllocatedHeight, AActualWidth,AActualHeight: integer; RGBAOrder: boolean); virtual; abstract;
     class function SupportsBGRAOrder: boolean; virtual;
     procedure SetOpenGLTextureSize(ATexture: TBGLTextureHandle; AAllocatedWidth, AAllocatedHeight, AActualWidth, AActualHeight: integer); virtual; abstract;
+    function GetOpenGLAllocatedSize(ATexture: TBGLTextureHandle): TSize; virtual; abstract;
     procedure ComputeOpenGLFramesCoord(ATexture: TBGLTextureHandle; FramesX: Integer=1; FramesY: Integer=1); virtual; abstract;
     function GetOpenGLFrameCount(ATexture: TBGLTextureHandle): integer; virtual; abstract;
     function GetEmptyTexture: TBGLTextureHandle; virtual; abstract;
     procedure FreeOpenGLTexture(ATexture: TBGLTextureHandle); virtual; abstract;
+    function GetRepeatX: TOpenGLRepeatMode; virtual; abstract;
+    function GetRepeatY: TOpenGLRepeatMode; virtual; abstract;
     procedure UpdateGLResampleFilter(ATexture: TBGLTextureHandle; AFilter: TOpenGLResampleFilter); virtual; abstract;
     function GetUseGradientColors: boolean; virtual;
     procedure SetUseGradientColors(AValue: boolean); virtual;
@@ -369,6 +382,7 @@ type
     function FilterBlurRadial({%H-}ARadius: single; {%H-}ABlurType: TRadialBlurType): IBGLTexture; virtual;
 
     procedure SetFrameSize(x,y: integer);
+    procedure SetRepetition(AValueX, AValueY: TOpenGLRepeatMode); virtual; abstract;
     procedure Update(ARGBAData: PLongWord; AllocatedWidth, AllocatedHeight, ActualWidth,ActualHeight: integer; RGBAOrder: boolean = true);
     procedure SetFrame(AIndex: integer);
     procedure SetGradientColors(ATopLeft, ATopRight, ABottomRight, ABottomLeft: TBGRAPixel);
@@ -418,6 +432,8 @@ type
 
     property Width: integer read GetWidth;
     property Height: integer read GetHeight;
+    property AllocatedWidth: integer read GetAllocatedWidth;
+    property AllocatedHeight: integer read GetAllocatedHeight;
     property FrameCount: integer read GetFrameCount;
     property Frame[AIndex: integer]: IBGLTexture read GetFrame;
     property FrameWidth: integer read GetFrameWidth;
@@ -426,13 +442,14 @@ type
     property FlipY: IBGLTexture read GetFlipY;
     property Mask: IBGLTexture read GetMask;
     property Handle: TBGLTextureHandle read GetOpenGLTexture;
+    property RepeatX: TOpenGLRepeatMode read GetRepeatX;
+    property RepeatY: TOpenGLRepeatMode read GetRepeatY;
     property ResampleFilter: TOpenGLResampleFilter read GetResampleFilter write SetResampleFilter;
     property BlendMode: TOpenGLBlendMode read GetOpenGLBlendMode write SetOpenGLBlendMode;
     property GradientColors: boolean read GetUseGradientColors write SetUseGradientColors;
   end;
 
-  { TBGLCustomFrameBuffer }
-
+  { Abstract class for a frame buffer in OpenGL }
   TBGLCustomFrameBuffer = class
   protected
     FCanvas: pointer;
@@ -518,6 +535,16 @@ begin
 end;
 
 { TBGLCustomTexture }
+
+function TBGLCustomTexture.GetAllocatedHeight: integer;
+begin
+  result := GetOpenGLAllocatedSize(FOpenGLTexture).Height;
+end;
+
+function TBGLCustomTexture.GetAllocatedWidth: integer;
+begin
+  result := GetOpenGLAllocatedSize(FOpenGLTexture).Width;
+end;
 
 function TBGLCustomTexture.GetFlipX: IBGLTexture;
 begin
@@ -622,6 +649,11 @@ begin
     FResampleFilter:= AValue;
     UpdateGLResampleFilter(FOpenGLTexture, AValue);
   end;
+end;
+
+class function TBGLCustomTexture.GetNonPowerOfTwoSizeSupport: boolean;
+begin
+  result := false;
 end;
 
 class function TBGLCustomTexture.SupportsBGRAOrder: boolean;
@@ -817,8 +849,12 @@ constructor TBGLCustomTexture.Create(AFPImage: TFPCustomImage);
 var bmp: TBGLCustomBitmap;
 begin
   if (AFPImage is TBGRACustomBitmap) and
-    (AFPImage.Width = GetPowerOfTwo(AFPImage.Width)) and
-    (AFPImage.Height = GetPowerOfTwo(AFPImage.Height)) then
+    (
+      (Assigned(BGLTextureFactory) and BGLTextureFactory.GetNonPowerOfTwoSizeSupport) or
+
+      ((AFPImage.Width = GetPowerOfTwo(AFPImage.Width)) and
+      (AFPImage.Height = GetPowerOfTwo(AFPImage.Height)))
+    ) then
   begin
     with TBGRACustomBitmap(AFPImage) do
     begin
@@ -1642,7 +1678,7 @@ begin
 end;
 
 function TBGLCustomBitmap.Resample(newWidth, newHeight: integer;
-  mode: TResampleMode): TBGLCustomBitmap;
+  mode: TResampleMode; ACopyProperties: Boolean=False): TBGLCustomBitmap;
 var temp,resampled: TBGRACustomBitmap;
 begin
   temp := TBGRABitmap.Create(FActualWidth,FActualHeight);
@@ -1652,6 +1688,7 @@ begin
   temp.Free;
   Result:= NewBitmap(resampled) as TBGLCustomBitmap;
   resampled.Free;
+  if ACopyProperties then CopyPropertiesTo(Result);
 end;
 
 procedure TBGLCustomBitmap.ApplyGlobalOpacity(alpha: byte);
@@ -1704,8 +1741,15 @@ begin
   if AWidth < 0 then AWidth := 0;
   if AHeight < 0 then AHeight := 0;
   if (AWidth = Width) and (AHeight = Height) then exit;
-  AllocatedWidthNeeded := GetPowerOfTwo(AWidth);
-  AllocatedHeightNeeded := GetPowerOfTwo(AHeight);
+  if Assigned(BGLTextureFactory) and BGLTextureFactory.GetNonPowerOfTwoSizeSupport then
+  begin
+    AllocatedWidthNeeded := AWidth;
+    AllocatedHeightNeeded := AHeight;
+  end else
+  begin
+    AllocatedWidthNeeded := GetPowerOfTwo(AWidth);
+    AllocatedHeightNeeded := GetPowerOfTwo(AHeight);
+  end;
   MaxTexSize := GetOpenGLMaxTexSize;
   if (AllocatedWidthNeeded > MaxTexSize) or
      (AllocatedHeightNeeded > MaxTexSize) then

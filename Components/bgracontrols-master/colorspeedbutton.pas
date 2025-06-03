@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 {******************************* CONTRIBUTOR(S) ******************************
 - Edivando S. Santos Brasil | mailedivando@gmail.com
   (Compatibility with delphi VCL 11/2018)
@@ -557,7 +557,7 @@ begin
   if Toggle then
     Pressed := not Pressed;
 
-  if PopupMode then
+  if PopupMode and Assigned(PopupMenu) then
   begin
     p := Parent.ClientToScreen(Point(Left, Top));
     PopupMenu.PopUp(p.x, p.y + Height);

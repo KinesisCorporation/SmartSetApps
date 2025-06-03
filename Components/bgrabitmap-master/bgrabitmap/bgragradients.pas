@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Helper functions for gradients and shadows, as well as Phong shading }
 unit BGRAGradients;
 
 {$mode objfpc}{$H+}
@@ -45,18 +47,20 @@ procedure DoubleGradientAlphaFill(ABitmap: TBGRABitmap; ARect: TRect; AStart1,AS
                                  ADirection1,ADirection2,ADir: TGradientDirection; AValue: Single); overload;
 
 {----------------------------------------------------------------------}
-{ Phong shading functions. Use a height map (grayscale image or a precise map filled with MapHeightToBGRA)
-  to determine orientation and position of the surface.
-
-  Phong shading consist in adding an ambiant light, a diffuse light (angle between light and object),
-  and a specular light (angle between light, object and observer, i.e. reflected light) }
-
 type
   TRectangleMapOption = (rmoNoLeftBorder,rmoNoTopBorder,rmoNoRightBorder,rmoNoBottomBorder,rmoLinearBorder);
   TRectangleMapOptions = set of TRectangleMapOption;
 
-  { TPhongShading }
+  { @abstract(Renders shape and height maps using Phong shading.)
 
+    Phong shading consist in adding an ambiant light, a diffuse light (angle between light and object),
+    and a specular light (angle between light, object and observer, i.e. reflected light).
+
+    Height maps are grayscale images or a precise bitmaps filled with MapHeightToBGRA. They are used
+    to determine orientation and position of the surface.
+
+    See [tutorial on Phong shading](https://wiki.freepascal.org/BGRABitmap_tutorial_9).
+  }
   TPhongShading = class(TCustomPhongShading)
   public
     LightSourceIntensity : Single; //global intensity of the light
@@ -105,7 +109,35 @@ type
     { Draw a vertical cylinder of the specified color }
     procedure DrawVerticalCylinder(dest: TBGRACustomBitmap; bounds: TRect; Altitude: Single; Color: TBGRAPixel);
 
-    { Draw a hemisphere of the specified color }
+    { @abstract(Draw a hemisphere of the specified color.)
+
+**Example drawing a red sphere on a form:**
+
+@image(../doc/img/tphongshading_drawsphere.png)
+
+```pascal
+procedure TForm1.FormPaint(Sender: TObject);
+var
+  image: TBGRABitmap;
+  phong: TPhongShading;
+begin
+  phong := TPhongShading.Create;
+  phong.LightPosition := Point(100, 100);
+  phong.LightPositionZ := 150;
+  phong.SpecularIndex := 20;
+  phong.AmbientFactor := 0.4;
+  phong.LightSourceIntensity := 250;
+  phong.LightSourceDistanceTerm := 200;
+
+  image := TBGRABitmap.Create(ClientWidth,ClientHeight,ColorToBGRA(ColorToRGB(clBtnFace)));
+
+  phong.DrawSphere(image,rect(20,20,120,120),50,BGRA(255,0,0));
+
+  image.Draw(Canvas,0,0,True);
+  image.free;
+end;
+```
+}
     procedure DrawSphere(dest: TBGRACustomBitmap; bounds: TRect; Altitude: Single; Color: TBGRAPixel);
 
     { Draw a rectangle of the specified color }
@@ -174,13 +206,41 @@ function CreateRoundRectanglePreciseMap(width,height,borderWidth,borderHeight: i
 function CreatePerlinNoiseMap(AWidth, AHeight: integer; HorizontalPeriod: Single = 1;
   VerticalPeriod: Single = 1; Exponent: Double = 1; ResampleFilter: TResampleFilter = rfCosine): TBGRABitmap;
 
-{ Creates a tilable random grayscale image }
+{ @abstract(Creates a tilable random grayscale image.)
+
+**Example filling a form with Perlin noise:**
+
+@image(../doc/img/createcyclicperlinnoisemap.png)
+
+```pascal
+uses
+  BGRABitmap, BGRABitmapTypes, BGRAGradients;
+
+procedure TForm1.FormPaint(Sender: TObject);
+var
+  image,tex: TBGRABitmap;
+
+begin
+    image := TBGRABitmap.Create(ClientWidth,ClientHeight);
+
+    tex := CreateCyclicPerlinNoiseMap(100,100);
+    image.FillRect(0,0,image.Width,image.Height, tex, dmSet);
+    tex.free;
+
+    image.Draw(Canvas,0,0,True);
+    image.free;
+end;
+```
+
+See also [tutorial on creating textures](https://wiki.freepascal.org/BGRABitmap_tutorial_8).
+}
 function CreateCyclicPerlinNoiseMap(AWidth, AHeight: integer; HorizontalPeriod: Single = 1;
   VerticalPeriod: Single = 1; Exponent: Double = 1; ResampleFilter: TResampleFilter = rfCosine): TBGRABitmap;
 
 implementation
 
-uses Math, SysUtils{$IFDEF BGRABITMAP_USE_LCL}, BGRATextFX{$ENDIF}; {GraphType unit used by phongdraw.inc}
+uses Math, SysUtils{$IFDEF BGRABITMAP_USE_LCL}, BGRATextFX{$ENDIF},
+  BGRAFilterScanner, BGRAFilterBlur; {GraphType unit used by phongdraw.inc}
 
 {$IFDEF BGRABITMAP_USE_LCL}function TextShadow(AWidth, AHeight: Integer; AText: String;
   AFontHeight: Integer; ATextColor, AShadowColor: TBGRAPixel; AOffSetX,
@@ -213,8 +273,8 @@ begin
 
   ABitmap := TBGRABitmap.Create(ARect.Right,ARect.Bottom);
 
-  if AValue <> 0 then ARect1:=ARect;
-  if AValue <> 1 then ARect2:=ARect;
+  ARect1:=ARect;
+  ARect2:=ARect;
 
   if ADir = gdVertical then begin
     ARect1.Bottom:=Round(ARect1.Bottom * AValue);
@@ -223,7 +283,9 @@ begin
   else if ADir = gdHorizontal then begin
     ARect1.Right:=Round(ARect1.Right * AValue);
     ARect2.Left:=ARect1.Right;
-  end;
+  end
+  else
+    raise exception.Create('Unknown gradient direction');
   if ADirection1 = gdVertical then begin
     APoint1:=PointF(ARect1.Left,ARect1.Top);
     APoint2:=PointF(ARect1.Left,ARect1.Bottom);
@@ -231,7 +293,9 @@ begin
   else if ADirection1 = gdHorizontal then begin
     APoint1:=PointF(ARect1.Left,ARect1.Top);
     APoint2:=PointF(ARect1.Right,ARect1.Top);
-  end;
+  end
+  else
+    raise exception.Create('Unknown gradient direction');
   if ADirection2 = gdVertical then begin
     APoint3:=PointF(ARect2.Left,ARect2.Top);
     APoint4:=PointF(ARect2.Left,ARect2.Bottom);
@@ -239,7 +303,9 @@ begin
   else if ADirection2 = gdHorizontal then begin
     APoint3:=PointF(ARect2.Left,ARect2.Top);
     APoint4:=PointF(ARect2.Right,ARect2.Top);
-  end;
+  end
+  else
+    raise exception.Create('Unknown gradient direction');
 
   if AValue <> 0 then
     ABitmap.GradientFill(ARect1.Left,ARect1.Top,ARect1.Right,ARect1.Bottom,
@@ -1047,20 +1113,18 @@ function CreatePerlinNoiseMap(AWidth, AHeight: integer; HorizontalPeriod: Single
 
 var
   i: Integer;
-  temp: TBGRABitmap;
+  normalizeFilter: TBGRAFilterScannerNormalize;
 
 begin
   result := TBGRABitmap.Create(AWidth,AHeight);
   for i := 0 to 5 do
     AddNoise(round(AWidth / HorizontalPeriod / (32 shr i)),round(AHeight / VerticalPeriod / (32 shr i)), round(exp(ln((128 shr i)/128)*Exponent)*128),result);
 
-  temp := result.FilterNormalize(False);
-  result.Free;
-  result := temp;
+  normalizeFilter := TBGRAFilterScannerNormalize.Create(result, Point(0,0), rect(0,0,AWidth,AHeight), false);
+  result.Fill(normalizeFilter, dmSet);
+  normalizeFilter.Free;
 
-  temp := result.FilterBlurRadial(1,rbNormal);
-  result.Free;
-  result := temp;
+  BGRAReplace(result, BGRAFilterBlur.FilterBlurRadial(result, 1, 1, rbNormal));
 end;
 
 function CreateCyclicPerlinNoiseMap(AWidth, AHeight: integer; HorizontalPeriod: Single = 1;
@@ -1097,19 +1161,18 @@ function CreateCyclicPerlinNoiseMap(AWidth, AHeight: integer; HorizontalPeriod: 
 var
   i: Integer;
   temp: TBGRABitmap;
+  normalizeFilter: TBGRAFilterScannerNormalize;
 
 begin
   result := TBGRABitmap.Create(AWidth,AHeight);
   for i := 0 to 5 do
     AddNoise(round(AWidth / HorizontalPeriod / (32 shr i)),round(AHeight / VerticalPeriod / (32 shr i)), round(exp(ln((128 shr i)/128)*Exponent)*128),result);
 
-  temp := result.FilterNormalize(False);
-  result.Free;
-  result := temp;
+  normalizeFilter := TBGRAFilterScannerNormalize.Create(result, Point(0,0), rect(0,0,AWidth,AHeight), false);
+  result.Fill(normalizeFilter, dmSet);
+  normalizeFilter.Free;
 
-  temp := result.FilterBlurRadial(1,rbNormal);
-  result.Free;
-  result := temp;
+  BGRAReplace(result, BGRAFilterBlur.FilterBlurRadial(result, 1, 1, rbNormal));
 end;
 
 function CreateRoundRectanglePreciseMap(width, height, border: integer;

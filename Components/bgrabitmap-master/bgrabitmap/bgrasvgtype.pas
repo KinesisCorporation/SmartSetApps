@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ Base type definitions and implementation for SVG }
 unit BGRASVGType;
 
 {$mode objfpc}{$H+}
@@ -18,6 +20,7 @@ type
   TSVGElementList = specialize TFPGList<TSVGElement>;
   TSVGElementDictionary = specialize TFPGMap<string,TSVGElement>;
   TSVGFactory = class of TSVGElement;
+  TIterateElementCallback = procedure(AElement: TSVGElement; AData: pointer; var ARecursive: boolean) of object;
   
   TSVGFillMode = (
      sfmEvenOdd = Ord(fmAlternate),
@@ -97,6 +100,7 @@ type
    );
 
   TSVGOrientAuto = (soaNone,soaAuto,soaAutoReverse);
+  { Orientation to use for a marker relative to path }
   TSVGOrient = record
     auto: TSVGOrientAuto;
     angle: TSVGNumber;
@@ -105,26 +109,26 @@ type
   TFindStyleState = (fssNotSearched,
                      fssNotFound,
                      fssFound);
+  { One or more CSS attributes }
   TStyleAttribute = record
      attr  : string;
      pos   : integer;
   end;
   ArrayOfTStyleAttribute = array of TStyleAttribute;
   
-  { TSVGViewBox }
-
+  { SVG bounding box for coordinates }
   TSVGViewBox = record
     min, size: TPointF;
     function ToString: string;
     class function Parse(AValue: string): TSVGViewBox; static;
     class function DefaultValue: TSVGViewBox; static;
   end;
+  { Size defined in CSS units }
   TSVGSize = record
     width, height: TFloatWithCSSUnit;
   end;
 
-  { TSVGPreserveAspectRatio }
-
+  { SVG parameter to specify aspect ratio and alignment }
   TSVGPreserveAspectRatio = record
      Preserve, Slice: boolean;
      HorizAlign: TAlignment;
@@ -136,10 +140,19 @@ type
 
   TSVGRecomputeEvent = procedure(Sender: TObject) of object;
   TSVGLinkEvent = procedure(Sender: TObject; AElement: TSVGElement; ALink: boolean) of object;
-  TSVGLinkListeners = specialize TFPGList<TSVGLinkEvent>;
-  
-  { TSVGDataLink }
 
+  { Listeners on link changes between SVG elements }
+  TSVGLinkListeners = class(specialize TFPGList<TSVGLinkEvent>)
+    {$IF FPC_FULLVERSION >= 30301}
+    private
+      type PT = ^TSVGLinkEvent;
+    public
+    {$ENDIF}
+    function IndexOf(const Item: TSVGLinkEvent): Integer;
+    function Remove(const Item: TSVGLinkEvent): Integer;
+  end;
+  
+  { Class to listen to link changes between SVG elements }
   TSVGDataLink = class
    private
      FElements: TSVGElementDictionary;
@@ -177,8 +190,7 @@ type
      property Parent: TSVGDataLink read FParent write SetParent;
    end;
 
-  { TSVGCustomElement }
-
+  { Abstract SVG element }
   TSVGCustomElement = class
   protected
     FDomElem: TDOMElement;
@@ -279,6 +291,7 @@ type
     function HasAttribute(AName: string): boolean;
     function HasInlineStyle(AName: string): boolean;
 
+    procedure IterateElements(ACallback: TIterateElementCallback; AData: pointer; ARecursive: boolean); virtual;
     procedure ConvertToUnit(AUnit: TCSSUnit); virtual;
     function EnterFontSize(AIsRoot: boolean = false): TFloatWithCSSUnit; virtual;
     procedure ExitFontSize(APrevFontSize: TFloatWithCSSUnit); virtual;
@@ -296,8 +309,7 @@ type
     property StyleDef[AName,ADefault: string]: string read GetStyle;
   end;
 
-  { TSVGElement }
-
+  { SVG element on any type }
   TSVGElement = class(TSVGCustomElement)
   private
     FImportStyleState: TFindStyleState;
@@ -309,10 +321,12 @@ type
     function GetFillRule: string;
     function GetIsFillNone: boolean;
     function GetIsStrokeNone: boolean;
+    function GetMask: string;
     function GetMatrix(AUnit: TCSSUnit): TAffineMatrix;
     function GetMixBlendMode: TBlendOperation;
     function GetOpacity: single;
     function GetPaintOrder: TSVGPaintOrder;
+    function GetShapeRendering: string;
     function GetStroke: string;
     function GetStrokeColor: TBGRAPixel;
     function GetStrokeLineCap: string;
@@ -333,6 +347,7 @@ type
     procedure SetFillColor(AValue: TBGRAPixel);
     procedure SetFillOpacity(AValue: single);
     procedure SetFillRule(AValue: string);
+    procedure SetMask(AValue: string);
     procedure SetMatrix(AUnit: TCSSUnit; const AValue: TAffineMatrix);
     procedure SetMixBlendMode(AValue: TBlendOperation);
     procedure SetOpacity(AValue: single);
@@ -360,11 +375,13 @@ type
     procedure Init(ADocument: TDOMDocument; ATag: string; AUnits: TCSSUnitConverter); overload;
     procedure Init(AElement: TDOMElement; AUnits: TCSSUnitConverter); overload;
     procedure InternalDraw({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit); virtual;
+    procedure InternalCopyPathTo({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit); virtual;
     function GetStyleFromStyleSheet(const AName,ADefault: string): string; override;
     procedure ApplyFillStyle(ACanvas2D: TBGRACanvas2D; {%H-}AUnit: TCSSUnit); virtual;
     procedure ApplyStrokeStyle(ACanvas2D: TBGRACanvas2D; AUnit: TCSSUnit); virtual;
     procedure SetDatalink(AValue: TSVGDataLink); virtual;
     procedure SetFill(AValue: string); virtual;
+    procedure SetShapeRendering(AValue: string); virtual;
     procedure SetStroke(AValue: string); virtual;
     procedure Initialize; virtual;
     procedure Paint(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
@@ -378,10 +395,12 @@ type
     procedure ConvertToUnit(AUnit: TCSSUnit); override;
     procedure Recompute; virtual;
     procedure Draw({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit);
+    procedure CopyPathTo({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit);
     procedure fillNone;
     procedure strokeNone;
     procedure strokeDashArrayNone;
     procedure transformNone;
+    function antialiasing: boolean;
     function fillMode: TSVGFillMode;
     property DataLink: TSVGDataLink read FDataLink write SetDataLink;
     property DOMElement: TDOMElement read GetDOMElement;
@@ -392,6 +411,7 @@ type
     property matrix[AUnit: TCSSUnit]: TAffineMatrix read GetMatrix write SetMatrix;
     property isFillNone: boolean read GetIsFillNone;
     property isStrokeNone: boolean read GetIsStrokeNone;
+    property shapeRendering: string read GetShapeRendering write SetShapeRendering;
     property stroke: string read GetStroke write SetStroke;
     property strokeWidth: TFloatWithCSSUnit read GetStrokeWidth write SetStrokeWidth;
     property strokeColor: TBGRAPixel read GetStrokeColor write SetStrokeColor;
@@ -412,6 +432,7 @@ type
     property mixBlendMode: TBlendOperation read GetMixBlendMode write SetMixBlendMode;
     property opacity: single read GetOpacity write SetOpacity;
     property clipPath: string read GetClipPath write SetClipPath;
+    property mask: string read GetMask write SetMask;
     property Visible: boolean read GetVisible write SetVisible;
 
     property Attribute[AName: string]: string read GetAttribute write SetAttribute;
@@ -451,8 +472,7 @@ type
     property ArrayOfOrthoAttributeOrStyleWithUnit[AName: string]: ArrayOfTFloatWithCSSUnit read GetArrayOfOrthoAttributeOrStyleWithUnit;
   end;
 
-  { TSVGParser }
-
+  { Parser for SVG attributes }
   TSVGParser = class
   private
     function GetDone: boolean;
@@ -482,6 +502,26 @@ implementation
 
 uses BGRASVGShapes;
 
+{ TSVGLinkListeners }
+
+function TSVGLinkListeners.IndexOf(const Item: TSVGLinkEvent): Integer;
+begin
+  Result := 0;
+  while (Result < FCount) and not
+        ((TMethod(PT(FList)[Result]).Code = TMethod(Item).Code)
+        and (TMethod(PT(FList)[Result]).Data = TMethod(Item).Data)) do
+    Inc(Result);
+  if Result = FCount then
+    Result := -1;
+end;
+
+function TSVGLinkListeners.Remove(const Item: TSVGLinkEvent): Integer;
+begin
+  Result := IndexOf(Item);
+  if Result >= 0 then
+    Delete(Result);
+end;
+
 { TSVGCustomElement }
 
 function TSVGCustomElement.GetNamespaceCount: integer;
@@ -492,7 +532,7 @@ begin
   result := 0;
   for i := 0 to FDomElem.Attributes.Length-1 do
   begin
-    name := FDomElem.Attributes.Item[i].NodeName;
+    name := string(FDomElem.Attributes.Item[i].NodeName);
     if name.StartsWith('xmlns:') then inc(result);
   end;
 end;
@@ -506,7 +546,7 @@ begin
   result := '';
   for i := 0 to FDomElem.Attributes.Length-1 do
   begin
-    name := FDomElem.Attributes.Item[i].NodeName;
+    name := string(FDomElem.Attributes.Item[i].NodeName);
     if name.StartsWith('xmlns:') then
     begin
       if AIndex > 0 then dec(AIndex)
@@ -522,7 +562,7 @@ end;
 
 procedure TSVGCustomElement.SetNamespaceURI(APrefix: string; AValue: string);
 begin
-  if AValue = '' then FDomElem.RemoveAttribute('xmlns:' + APrefix)
+  if AValue = '' then FDomElem.RemoveAttribute(DOMString('xmlns:' + APrefix))
   else SetAttribute('xmlns:' + APrefix, AValue);
 end;
 
@@ -562,7 +602,7 @@ begin
             else break;
 
             styleDecl := curNode.GetAttribute('style');
-            result := GetPropertyFromStyleDeclarationBlock(styleDecl, AName, '');
+            result := GetPropertyFromStyleDeclarationBlock(string(styleDecl), AName, '');
             if result <> '' then exit;
             result := GetAttributeFromElement(curNode, AName, false);
             if (result = 'currentColor') and (AName <> 'color') then
@@ -706,7 +746,7 @@ begin
   LocateStyleDeclaration(ABlock, AProperty, startPos,colonPos, valueLength);
   if valueLength <> -1 then
   begin
-    delete(ABlock, startPos, colonPos+valueLength-startPos);
+    delete(ABlock, startPos, colonPos+valueLength-startPos+1);
     while (length(ABlock)>=startPos) and (ABlock[startPos] in[' ',#9,#10,#12,#13]) do delete(ABlock,startPos,1);
     if (length(ABlock)>=startPos) and (ABlock[startPos] = ';') then delete(ABlock,startPos,1);
     result := true;
@@ -770,7 +810,7 @@ begin
     else break;
 
     styleDecl := curNode.GetAttribute('style');
-    result := GetPropertyFromStyleDeclarationBlock(styleDecl, AName, '');
+    result := GetPropertyFromStyleDeclarationBlock(string(styleDecl), AName, '');
     if result <> '' then exit;
   end;
 
@@ -787,9 +827,9 @@ function TSVGCustomElement.GetAttributeFromElement(ANode: TDOMElement;
 begin
   repeat
     if ((AName = 'xlink:href') or (AName = 'xlink:title')) and
-       not ANode.hasAttribute(AName) and ANode.hasAttribute(AName.Substring(6)) then
-      result := Trim(ANode.GetAttribute(AName.Substring(6)))
-      else result := Trim(ANode.GetAttribute(AName));
+       not ANode.hasAttribute(DOMString(AName)) and ANode.hasAttribute(DOMString(AName.Substring(6))) then
+      result := string(Trim(ANode.GetAttribute(DOMString(AName.Substring(6)))))
+      else result := string(Trim(ANode.GetAttribute(DOMString(AName))));
 
     if result = 'inherit' then result := '';
     if (result = '') and ACanInherit and
@@ -1011,10 +1051,10 @@ end;
 procedure TSVGCustomElement.SetAttribute(AName: string; AValue: string);
 begin
   if ((AName = 'xlink:href') or (AName = 'xlink:title')) and
-     not FDomElem.hasAttribute(AName) and FDomElem.hasAttribute(AName.Substring(6)) then
-    FDomElem.SetAttribute(AName.Substring(6), AValue)
+     not FDomElem.hasAttribute(DOMString(AName)) and FDomElem.hasAttribute(DOMString(AName.Substring(6))) then
+    FDomElem.SetAttribute(DOMString(AName.Substring(6)), DOMString(AValue))
   else
-    FDomElem.SetAttribute(AName,AValue);
+    FDomElem.SetAttribute(DOMString(AName), DOMString(AValue));
 end;
 
 procedure TSVGCustomElement.SetAttributeWithUnit(AName: string;
@@ -1094,12 +1134,18 @@ end;
 
 function TSVGCustomElement.HasAttribute(AName: string): boolean;
 begin
-  result := FDomElem.hasAttribute(AName);
+  result := FDomElem.hasAttribute(DOMString(AName));
 end;
 
 function TSVGCustomElement.HasInlineStyle(AName: string): boolean;
 begin
   result := trim(GetInlineStyle(AName, '')) <> '';  //an empty declaration is illegal
+end;
+
+procedure TSVGCustomElement.IterateElements(ACallback: TIterateElementCallback;
+  AData: pointer; ARecursive: boolean);
+begin
+  // no content by default
 end;
 
 procedure TSVGCustomElement.ConvertToUnit(AUnit: TCSSUnit);
@@ -1155,7 +1201,7 @@ var
   end;
 
 begin
-  prefixColon := APrefix+':';
+  prefixColon := DOMString(APrefix)+':';
   result := NeedNamespaceRec(FDomElem);
 end;
 
@@ -1340,10 +1386,15 @@ begin
   while (FPos <= length(FText)) and (FText[FPos] in[#0..#32,',']) do inc(FPos);
   numberStart:= FPos;
   if (FPos <= length(FText)) and (FText[FPos] in['+','-']) then inc(FPos);
-  while (FPos <= length(FText)) and (FText[FPos] in['0'..'9','.']) do inc(FPos);
-  if (FPos <= length(FText)) and (FText[FPos] in['e','E']) then inc(FPos);
-  if (FPos <= length(FText)) and (FText[FPos] in['+','-']) then inc(FPos);
-  while (FPos <= length(FText)) and (FText[FPos] in['0'..'9','.']) do inc(FPos);
+  while (FPos <= length(FText)) and (FText[FPos] in['0'..'9']) do inc(FPos);
+  if (FPos <= length(FText)) and (FText[FPos] = '.') then inc(FPos);
+  while (FPos <= length(FText)) and (FText[FPos] in['0'..'9']) do inc(FPos);
+  if (FPos <= length(FText)) and (FText[FPos] in['e','E']) then
+  begin
+    inc(FPos);
+    if (FPos <= length(FText)) and (FText[FPos] in['+','-']) then inc(FPos);
+    while (FPos <= length(FText)) and (FText[FPos] in['0'..'9']) do inc(FPos);
+  end;
   if FPos = numberStart then
   begin
     FNumberError := true;
@@ -1523,7 +1574,10 @@ begin
   for i:= 0 to high(temp) do
     temp[i] := FLinkListeners.Items[i];
   for i := 0 to high(temp) do
-    temp[i](self, AElement, ALink);
+  begin
+    if FLinkListeners.IndexOf(temp[i]) <> -1 then
+      temp[i](self, AElement, ALink);
+  end;
   // children datalinks may use the element
   for i := FChildren.Count-1 downto 0 do
     TSVGDataLink(FChildren[i]).NotifyLink(AElement, ALink);
@@ -1681,7 +1735,7 @@ end;
 
 function TSVGElement.GetClipPath: string;
 begin
-  result := AttributeOrStyle['clip-path'];
+  result := GetAttributeOrStyle('clip-path', '', false);
 end;
 
 function TSVGElement.GetFill: string;
@@ -1720,6 +1774,11 @@ var strokeStr: string;
 begin
   strokeStr := stroke;
   result := (trim(strokeStr)='') or (compareText(trim(strokeStr),'none')=0);
+end;
+
+function TSVGElement.GetMask: string;
+begin
+  result := GetAttributeOrStyle('mask', '', false);
 end;
 
 function TSVGElement.GetMatrix(AUnit: TCSSUnit): TAffineMatrix;
@@ -1792,7 +1851,7 @@ var
     else if id = 'stroke' then exit(1)
     else if id = 'markers' then exit(2)
     else if id = '' then exit(-1)
-    else result := GetNext;
+    else result := GetNext();
   end;
 
 var
@@ -1818,6 +1877,11 @@ begin
     result := spoFillStrokeMarkers;
   end;
   parser.Free;
+end;
+
+function TSVGElement.GetShapeRendering: string;
+begin
+  result := GetAttributeOrStyle('shape-rendering','auto', false);
 end;
 
 function TSVGElement.GetStroke: string;
@@ -1898,7 +1962,7 @@ begin
   s_array:= strokeDashArray;
   if s_array = 'none' then
   begin
-    setlength(Result,0);
+    result := nil;
     exit;
   end;
   parser:=TSVGParser.Create(s_array);
@@ -1995,6 +2059,12 @@ begin
   RemoveStyle('fill-rule');
 end;
 
+procedure TSVGElement.SetMask(AValue: string);
+begin
+  Attribute['mask'] := AValue;
+  RemoveStyle('mask');
+end;
+
 procedure TSVGElement.SetMatrix(AUnit: TCSSUnit; const AValue: TAffineMatrix);
 begin
   if not IsAffineMatrixIdentity(AValue) then
@@ -2051,9 +2121,17 @@ begin
     spoStrokeMarkersFill: s := 'stroke markers';
     spoMarkersFillStroke: s := 'markers';
     spoMarkersStrokeFill: s := 'markers stroke';
+  else
+    raise exception.Create('Unknown paint order');
   end;
   Attribute['paint-order'] := s;
   RemoveStyle('paint-order');
+end;
+
+procedure TSVGElement.SetShapeRendering(AValue: string);
+begin
+  Attribute['shape-rendering'] := AValue;
+  RemoveStyle('shape-rendering');
 end;
 
 procedure TSVGElement.SetStroke(AValue: string);
@@ -2176,7 +2254,7 @@ begin
   if ATag='' then
     raise exception.Create('Cannot create a generic element');
 
-  FDomElem := ADocument.CreateElement(ATag);
+  FDomElem := ADocument.CreateElement(DOMString(ATag));
   FUnits := AUnits;
   if Assigned(FDataLink) then FDataLink.Link(self);
 end;
@@ -2192,6 +2270,11 @@ end;
 procedure TSVGElement.InternalDraw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
 begin
   //nothing
+end;
+
+procedure TSVGElement.InternalCopyPathTo({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit);
+begin
+ //nothing
 end;
 
 procedure TSVGElement.ApplyFillStyle(ACanvas2D: TBGRACanvas2D; AUnit: TCSSUnit);
@@ -2248,7 +2331,11 @@ procedure TSVGElement.Paint(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
       ACanvas2d.stroke;
     end;
   end;
+var
+  aaBefore: Boolean;
 begin
+  aaBefore := ACanvas2d.antialiasing;
+  ACanvas2d.antialiasing:= antialiasing;
   if paintOrder in [spoFillStrokeMarkers, spoFillMarkersStroke, spoMarkersFillStroke] then
   begin
     DoFill;
@@ -2258,6 +2345,7 @@ begin
     DoStroke;
     DoFill;
   end;
+  ACanvas2d.antialiasing:= aaBefore;
 end;
 
 constructor TSVGElement.Create(AElement: TDOMElement;
@@ -2300,7 +2388,7 @@ end;
 procedure TSVGElement.RenameIdentifiers(AFrom, ATo: TStringList);
 var
   idx: Integer;
-  strokeDone, fillDone, clipDone, HrefDone: boolean;
+  strokeDone, fillDone, clipDone, maskDone, HrefDone: boolean;
   before, after: String;
 begin
   if AFrom.Count <> ATo.Count then raise exception.Create('Identifier list size mismatch');
@@ -2309,6 +2397,7 @@ begin
   strokeDone := false;
   fillDone:= false;
   clipDone:= false;
+  maskDone:= false;
   HrefDone:= false;
   for idx := 0 to AFrom.Count-1 do
   begin
@@ -2320,6 +2409,8 @@ begin
     begin fill := after; fillDone := true; end;
     if not clipDone and (clipPath = before) then
     begin clipPath := after; clipDone := true; end;
+    if not maskDone and (mask = before) then
+    begin mask := after; maskDone := true; end;
     if not hrefDone and (Attribute['xlink:href'] = before) then
     begin Attribute['xlink:href'] := after; hrefDone := true; end;
   end;
@@ -2342,11 +2433,55 @@ end;
 
 procedure TSVGElement.Draw(ACanvas2d: TBGRACanvas2D; AUnit: TCSSUnit);
 var prevMatrix: TAffineMatrix;
+  clipUrl, maskUrl: string;
+  clipElem: TSVGClipPath;
+  maskElem: TSVGMask;
+  elementNotFound, stateChange: boolean;
 begin
   if not Visible then exit;
   prevMatrix := ACanvas2d.matrix;
   ACanvas2d.transform(matrix[AUnit]);
+  stateChange := false;
+  clipUrl := clipPath;
+  if clipUrl <> '' then
+  begin
+    clipElem := TSVGClipPath(DataLink.FindElementByRef(clipUrl, true, TSVGClipPath, elementNotFound));
+    if Assigned(clipElem) then
+    begin
+      if not stateChange then
+      begin
+        ACanvas2d.save;
+        stateChange:= true;
+      end;
+      clipElem.ApplyClipTo(ACanvas2d, AUnit);
+    end;
+  end;
+  maskUrl := mask;
+  if maskUrl <> '' then
+  begin
+    maskElem := TSVGMask(DataLink.FindElementByRef(maskUrl, true, TSVGMask, elementNotFound));
+    if Assigned(maskElem) then
+    begin
+      if not stateChange then
+      begin
+        ACanvas2d.save;
+        stateChange:= true;
+      end;
+      maskElem.ApplyMaskTo(ACanvas2d, AUnit);
+    end;
+  end;
   InternalDraw(ACanvas2d,AUnit);
+  if stateChange then ACanvas2d.restore;
+  ACanvas2d.matrix := prevMatrix;
+end;
+
+procedure TSVGElement.CopyPathTo({%H-}ACanvas2d: TBGRACanvas2D; {%H-}AUnit: TCSSUnit);
+var prevMatrix: TAffineMatrix;
+begin
+  if not Visible then exit;
+  prevMatrix := ACanvas2d.matrix;
+  ACanvas2d.transform(matrix[AUnit]);
+  InternalCopyPathTo(ACanvas2d,AUnit);
   ACanvas2d.matrix := prevMatrix;
 end;
 
@@ -2370,6 +2505,15 @@ begin
   FDomElem.RemoveAttribute('transform');
 end;
 
+function TSVGElement.antialiasing: boolean;
+begin
+  case shapeRendering of
+  'optimizeSpeed', 'crispEdges': result := false;
+  'geometricPrecision': result := true;
+  else {'auto'} result := true;
+  end;
+end;
+
 function TSVGElement.fillMode: TSVGFillMode;
 begin
   if fillRule = 'evenodd' then
@@ -2382,18 +2526,24 @@ function TSVGElement.FindStyleElementInternal(const classStr: string;
   out attributesStr: string): integer;
 var
   i: integer;
+  data: TSVGDataLink;
 begin
   attributesStr:= '';
-  with FDataLink do
-    for i:= 0 to StyleCount-1 do
-    begin
-      result:= (Styles[i] as TSVGStyle).Find(classStr);
-      if result <> -1 then
+  data := FDataLink;
+  while data <> nil do
+  begin
+    with data do
+      for i:= 0 to StyleCount-1 do
       begin
-        attributesStr:= (Styles[i] as TSVGStyle).Ruleset[result].declarations;
-        Exit;
+        result:= (Styles[i] as TSVGStyle).Find(classStr);
+        if result <> -1 then
+        begin
+          attributesStr:= (Styles[i] as TSVGStyle).Ruleset[result].declarations;
+          Exit;
+        end;
       end;
-    end;
+    data := data.Parent;
+  end;
   result:= -1;
 end;
 
@@ -2415,12 +2565,11 @@ procedure TSVGElement.ImportStyles;
 
 var
   fid: integer;
-  tag,styleC,s: string;
+  tag,styleC,s,c: string;
 begin
   FImportStyleState:= fssNotFound;
   SetLength(FImportedStyles,0);
-  tag:= FDomElem.TagName;
-  styleC:= classAttr;
+  tag:= string(FDomElem.TagName);
   (*
     if style element is:
     <style>
@@ -2441,16 +2590,18 @@ begin
   fid:= FindStyleElementInternal(tag,s);
   if fid <> -1 then
     AddStyle(s,fid);
+  styleC:= classAttr.Trim;
   if styleC <> '' then
+  for c in styleC.Trim.Split([' ']) do
   begin
     //Find as: "[tag].[class]" example "circle.style1"
-    fid:= FindStyleElementInternal(tag+'.'+styleC,s);
+    fid:= FindStyleElementInternal(tag+'.'+c,s);
     if fid <> -1 then
       AddStyle(s,fid)
     else
     begin
       //Find as: ".[class]" example ".style1"
-      fid:= FindStyleElementInternal('.'+styleC,s);
+      fid:= FindStyleElementInternal('.'+c,s);
       if fid <> -1 then
         AddStyle(s,fid);
     end;
@@ -2460,7 +2611,7 @@ end;
 procedure TSVGElement.SetVisible(AValue: boolean);
 begin
   if AValue <> Visible then
-    Style['display'] := 'inline';
+    Style['display'] := BoolToStr(AValue, 'inline', 'none');
   FDomElem.RemoveAttribute('display');
 end;
 

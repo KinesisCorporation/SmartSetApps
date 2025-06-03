@@ -9,7 +9,7 @@ uses
   lcltype, Menus, ExtCtrls, Buttons, lclintf, ComCtrls, u_const, u_key_service,
   u_key_layer, u_file_service, PanelBtn, LabelBox, LineObj, ColorSpeedButtonCS,
   ECSwitch, ECSlider, RichMemo, u_keys, userdialog, contnrs,
-  u_form_about_office, u_form_new, u_form_tapandhold, u_form_troubleshoot
+  u_form_about_office, u_form_new, u_form_tapandhold, u_form_troubleshoot, LazFileUtils
   {$ifdef Win32},Windows, JwaWinUser{$endif}
   {$ifdef Darwin}, MacOSAll{, CarbonUtils, CarbonDef, CarbonProc}{$endif};
 
@@ -325,7 +325,6 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure btnSpecialActionsMacroMouseUp(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure btnSpecialActionsRemapClick(Sender: TObject);
     procedure btnSpecialActionsRemapMouseUp(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure CheckVDriveTmrTimer(Sender: TObject);
@@ -1280,11 +1279,6 @@ begin
     RefreshRemapInfo;
     SetSaveState(ssModified);
   end;
-end;
-
-procedure TFormMainAdv2.btnSpecialActionsRemapClick(Sender: TObject);
-begin
-
 end;
 
 procedure TFormMainAdv2.btnSpecialActionsRemapMouseUp(Sender: TObject;
@@ -3114,6 +3108,10 @@ procedure TFormMainAdv2.SetActiveLayer(layerIdx: integer);
 begin
   activeLayer := keyService.GetLayer(layerIdx);
   LoadLayer(activeLayer);
+  if (layerIdx = TOPLAYER_IDX) then
+    lblLayer.Caption := 'Layer (Top)'
+  else
+    lblLayer.Caption:= 'Layer (Fn)';
 end;
 
 procedure TFormMainAdv2.UpdatePnlButtonKey(kbKey: TKBKey; pnlButton: TPanelBtn; unselectKey: boolean = false);

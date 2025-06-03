@@ -1,3 +1,4 @@
+{ Dynamic loader for libwebp library that reads and writes the WebP format }
 unit libwebp;
 
 // Copyright 2010 Google Inc.
@@ -12,6 +13,7 @@ unit libwebp;
 
 {$ALIGN ON}
 {$MINENUMSIZE 4}
+{$mode objfpc}
 
 interface
 
@@ -19,6 +21,9 @@ uses
   dynlibs;
 
 var
+  {$ifdef windows}
+  AlternateLibWebPFilename : string = 'libwebp.dll';
+  {$endif}
   LibWebPFilename : string =
   {$if defined(Win32)}
     'libwebp32.dll'
@@ -31,6 +36,7 @@ var
   {$else}
     ''
   {$endif};
+
 
 //-----------------------------------------------------------------------------
 
@@ -523,7 +529,7 @@ Procedure LibWebPUnload; // unload and frees the lib from memory : do not forget
 
 implementation
 
-uses sysutils;
+uses sysutils{$ifdef linux}, linuxlib{$endif}{$ifdef darwin}, darwinlib{$endif};
 
 // Internal, version-checked, entry point
 const
@@ -561,21 +567,28 @@ begin
    result:=true {is it already there ?}
   end else
   begin {go & load the library}
-    if Length(libfilename) = 0 then
+    if libfilename <> '' then
     begin
-      thelib := LibWebPFilename;
-      if thelib = '' then exit(false);
-      thelib := ExtractFilePath(ParamStr(0)) + DirectorySeparator + thelib;
-    end else thelib := libfilename;
-    LibWebPHandle := DynLibs.SafeLoadLibrary(thelib); // obtain the handle we want
-    {$IFDEF WINDOWS}
-    // second try on Windows without 32/64 suffix
-    if LibWebPHandle = DynLibs.NilHandle then
+      thelib := libfilename;
+      if Pos(DirectorySeparator, thelib)=0 then
+        thelib := ExtractFilePath(ParamStr(0)) + DirectorySeparator + thelib;
+      LibWebPHandle := DynLibs.SafeLoadLibrary(libfilename); // obtain the handle we want
+    end else
     begin
-      thelib := ExtractFilePath(ParamStr(0)) + DirectorySeparator + 'libwebp.dll';
+      {$ifdef linux}thelib := FindLinuxLibrary(LibWebPFilename);{$else}
+      {$ifdef darwin}thelib := FindDarwinLibrary(LibWebPFilename);{$else}
+      thelib := ExtractFilePath(ParamStr(0)) + DirectorySeparator + LibWebPFilename;
+      {$endif}{$endif}
       LibWebPHandle := DynLibs.SafeLoadLibrary(thelib); // obtain the handle we want
+      {$IFDEF WINDOWS}
+      // second try on Windows without 32/64 suffix
+      if LibWebPHandle = DynLibs.NilHandle then
+      begin
+        thelib := ExtractFilePath(ParamStr(0)) + DirectorySeparator + AlternateLibWebPFilename;
+        LibWebPHandle := DynLibs.SafeLoadLibrary(thelib); // obtain the handle we want
+      end;
+      {$ENDIF}
     end;
-    {$ENDIF}
     if LibWebPHandle <> DynLibs.NilHandle then
     begin {now we tie the functions to the VARs from above}
 

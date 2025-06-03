@@ -21,7 +21,6 @@ object FormMainAdv2: TFormMainAdv2
   OnShow = FormShow
   OnWindowStateChange = FormWindowStateChange
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
   Scaled = False
   object pnlMain: TPanel
     Left = 0
@@ -32,6 +31,7 @@ object FormMainAdv2: TFormMainAdv2
     BevelOuter = bvNone
     ClientHeight = 711
     ClientWidth = 1100
+    ParentBackground = False
     TabOrder = 0
     object pnlMenu: TPanel
       Left = 935
@@ -42,6 +42,7 @@ object FormMainAdv2: TFormMainAdv2
       BevelOuter = bvNone
       ClientHeight = 615
       ClientWidth = 165
+      ParentBackground = False
       TabOrder = 0
       object shpMenu: TShape
         Left = 9
@@ -125,8 +126,6 @@ object FormMainAdv2: TFormMainAdv2
         ProgressColor2 = 13529600
         ProgressMarkSize = 2
         RelativeScaleLength = -1
-        Scale.DateTimeFormat = 'hh:nn:ss'
-        Scale.LogarithmBase = 10
         Scale.Max = 9
         Scale.TickLength = 5
         Scale.TickLongValue = 5
@@ -135,7 +134,6 @@ object FormMainAdv2: TFormMainAdv2
         Scale.ValueFormat = esvfText
         Scale.ValueVisible = evvBounds
         ScaleFontOptions.FontSize = 7
-        ScaleFontOptions.FontStyles = []
         ShowHint = True
         TabOrder = 0
         TabStop = False
@@ -211,8 +209,6 @@ object FormMainAdv2: TFormMainAdv2
         ProgressColor2 = 13529600
         ProgressMarkSize = 2
         RelativeScaleLength = -1
-        Scale.DateTimeFormat = 'hh:nn:ss'
-        Scale.LogarithmBase = 10
         Scale.Max = 4
         Scale.TickLength = 5
         Scale.TickLongValue = 5
@@ -221,7 +217,6 @@ object FormMainAdv2: TFormMainAdv2
         Scale.ValueFormat = esvfText
         Scale.ValueVisible = evvBounds
         ScaleFontOptions.FontSize = 7
-        ScaleFontOptions.FontStyles = []
         ShowHint = True
         TabOrder = 1
         TabStop = False
@@ -262,7 +257,6 @@ object FormMainAdv2: TFormMainAdv2
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         Font.Style = [fsBold]
-        GlyphStyle = egsOnOff
         GrooveCheckedClr = 13529600
         GrooveUncheckedClr = 13529600
         Knob.BevelWidth = 1
@@ -315,7 +309,6 @@ object FormMainAdv2: TFormMainAdv2
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         Font.Style = [fsBold]
-        GlyphStyle = egsOnOff
         GrooveCheckedClr = 13529600
         GrooveUncheckedClr = 13529600
         Knob.BevelWidth = 1
@@ -368,7 +361,6 @@ object FormMainAdv2: TFormMainAdv2
         Font.Pitch = fpVariable
         Font.Quality = fqDraft
         Font.Style = [fsBold]
-        GlyphStyle = egsOnOff
         GrooveCheckedClr = 13529600
         GrooveUncheckedClr = 13529600
         Knob.BevelWidth = 1
@@ -561,6 +553,7 @@ object FormMainAdv2: TFormMainAdv2
         Hint = 'Load a different layout to the App for editing'
         Top = 48
         Width = 107
+        Alignment = taCenter
         Caption = 'Load'
         Font.Color = clWhite
         Font.Height = -13
@@ -570,7 +563,6 @@ object FormMainAdv2: TFormMainAdv2
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -598,6 +590,7 @@ object FormMainAdv2: TFormMainAdv2
         Height = 32
         Top = 88
         Width = 107
+        Alignment = taCenter
         Caption = 'New'
         Font.Color = clWhite
         Font.Height = -13
@@ -607,7 +600,6 @@ object FormMainAdv2: TFormMainAdv2
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -635,6 +627,7 @@ object FormMainAdv2: TFormMainAdv2
         Height = 32
         Top = 128
         Width = 107
+        Alignment = taCenter
         Caption = 'Save'
         Font.Color = clWhite
         Font.Height = -13
@@ -644,7 +637,6 @@ object FormMainAdv2: TFormMainAdv2
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -677,6 +669,7 @@ object FormMainAdv2: TFormMainAdv2
       BevelOuter = bvNone
       ClientHeight = 74
       ClientWidth = 1100
+      ParentBackground = False
       TabOrder = 1
       OnMouseDown = pnlTitleMouseDown
       OnMouseMove = pnlTitleMouseMove
@@ -831,9 +824,9 @@ object FormMainAdv2: TFormMainAdv2
       end
       object lblTitle: TLabel
         Left = 104
-        Height = 45
+        Height = 38
         Top = 20
-        Width = 452
+        Width = 446
         Caption = 'SmartSet App for Advantage2'
         Font.CharSet = ANSI_CHARSET
         Font.Color = 13529600
@@ -993,10 +986,10 @@ object FormMainAdv2: TFormMainAdv2
         }
       end
       object lblDemoMode: TLabel
-        Left = 616
+        Left = 615
         Height = 16
         Top = 35
-        Width = 75
+        Width = 77
         Anchors = []
         Caption = 'Demo Mode'
         Font.Color = 2350155
@@ -1008,10 +1001,10 @@ object FormMainAdv2: TFormMainAdv2
         Visible = False
       end
       object lblVDriveError: TLabel
-        Left = 609
+        Left = 608
         Height = 16
         Top = 35
-        Width = 147
+        Width = 148
         Anchors = []
         Caption = 'v-Drive Not Connected'
         Font.Color = clRed
@@ -1043,6 +1036,7 @@ object FormMainAdv2: TFormMainAdv2
         Hint = 'Minimize'
         Top = 0
         Width = 32
+        Alignment = taCenter
         AllowAllUp = True
         Anchors = [akTop, akRight]
         Font.Color = clBlack
@@ -1086,7 +1080,6 @@ object FormMainAdv2: TFormMainAdv2
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -1115,6 +1108,7 @@ object FormMainAdv2: TFormMainAdv2
         Hint = 'Maximize'
         Top = 0
         Width = 32
+        Alignment = taCenter
         AllowAllUp = True
         Anchors = [akTop, akRight]
         Font.Color = clBlack
@@ -1158,7 +1152,6 @@ object FormMainAdv2: TFormMainAdv2
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -1187,6 +1180,7 @@ object FormMainAdv2: TFormMainAdv2
         Hint = 'Close'
         Top = 0
         Width = 32
+        Alignment = taCenter
         AllowAllUp = True
         Anchors = [akTop, akRight]
         Font.Color = clBlack
@@ -1230,7 +1224,6 @@ object FormMainAdv2: TFormMainAdv2
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -1259,6 +1252,7 @@ object FormMainAdv2: TFormMainAdv2
         Hint = 'Help'
         Top = 0
         Width = 32
+        Alignment = taCenter
         AllowAllUp = True
         Anchors = [akTop, akRight]
         Font.Color = clBlack
@@ -1302,7 +1296,6 @@ object FormMainAdv2: TFormMainAdv2
         ShowHint = True
         ParentFont = False
         ParentShowHint = False
-        Alignment = taCenter
         TextAutoSize = True
         Toggle = False
         Pressed = False
@@ -1333,6 +1326,7 @@ object FormMainAdv2: TFormMainAdv2
       Width = 1100
       Align = alBottom
       BevelOuter = bvNone
+      ParentBackground = False
       TabOrder = 2
     end
     object pnlBody: TPanel
@@ -1350,6 +1344,7 @@ object FormMainAdv2: TFormMainAdv2
       Font.Name = 'Segoe UI'
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
+      ParentBackground = False
       ParentFont = False
       TabOrder = 3
       object pnlTopBody: TPanel
@@ -1361,12 +1356,13 @@ object FormMainAdv2: TFormMainAdv2
         BevelOuter = bvNone
         ClientHeight = 32
         ClientWidth = 935
+        ParentBackground = False
         TabOrder = 0
         object lblProgramming: TLabel
           Left = 28
-          Height = 30
+          Height = 24
           Top = 0
-          Width = 136
+          Width = 134
           Caption = 'Programming'
           Font.CharSet = ANSI_CHARSET
           Font.Height = -21
@@ -1379,9 +1375,9 @@ object FormMainAdv2: TFormMainAdv2
         end
         object lblProgramming1: TLabel
           Left = 552
-          Height = 30
+          Height = 24
           Top = 0
-          Width = 110
+          Width = 108
           Caption = 'Layout file:'
           Font.CharSet = ANSI_CHARSET
           Font.Height = -21
@@ -1394,9 +1390,9 @@ object FormMainAdv2: TFormMainAdv2
         end
         object lblLayoutFile: TLabel
           Left = 672
-          Height = 30
+          Height = 24
           Top = 0
-          Width = 15
+          Width = 16
           Caption = '...'
           Font.CharSet = ANSI_CHARSET
           Font.Height = -21
@@ -1415,6 +1411,7 @@ object FormMainAdv2: TFormMainAdv2
         BevelOuter = bvNone
         ClientHeight = 582
         ClientWidth = 935
+        ParentBackground = False
         TabOrder = 1
         object shpKeys: TShape
           Left = 13
@@ -1438,6 +1435,7 @@ object FormMainAdv2: TFormMainAdv2
           Font.Name = 'Segoe UI'
           Font.Pitch = fpVariable
           Font.Quality = fqDraft
+          ParentBackground = False
           ParentFont = False
           TabOrder = 0
           object gbThumbKeys: TGroupBox
@@ -1445,8 +1443,8 @@ object FormMainAdv2: TFormMainAdv2
             Height = 165
             Top = 145
             Width = 262
-            ClientHeight = 147
-            ClientWidth = 258
+            ClientHeight = 138
+            ClientWidth = 252
             Color = cl3DLight
             Font.CharSet = ANSI_CHARSET
             Font.Height = -11
@@ -1454,6 +1452,7 @@ object FormMainAdv2: TFormMainAdv2
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             Font.Style = [fsBold]
+            ParentBackground = False
             ParentBidiMode = False
             ParentColor = False
             ParentFont = False
@@ -1466,30 +1465,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 0
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1508,30 +1509,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 1
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1550,30 +1553,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 2
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1592,30 +1597,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 3
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1634,30 +1641,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 96
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -9
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 4
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 92
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 92
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1676,30 +1685,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 96
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 5
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 92
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 92
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1718,30 +1729,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 6
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1760,30 +1773,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 7
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1802,30 +1817,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 96
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 8
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 92
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 92
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1844,30 +1861,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 94
-              ClientWidth = 36
+              ClientHeight = 96
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 9
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 90
+              EmbeddedLabel.Height = 92
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 90
+              EmbeddedShape.Height = 92
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1886,30 +1905,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 10
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1928,30 +1949,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 40
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 46
-              ClientWidth = 36
+              ClientHeight = 48
+              ClientWidth = 38
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 11
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 42
+              EmbeddedLabel.Height = 44
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 32
+              EmbeddedLabel.Width = 34
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 42
+              EmbeddedShape.Height = 44
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 32
+              EmbeddedShape.Width = 34
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -1971,30 +1994,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 0
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2013,30 +2038,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 1
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2055,30 +2082,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 2
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2097,30 +2126,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 3
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2139,30 +2170,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 4
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2181,30 +2214,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 5
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2223,30 +2258,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 6
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2265,30 +2302,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 7
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2307,30 +2346,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 8
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2349,30 +2390,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 9
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2391,30 +2434,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 10
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2433,30 +2478,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 11
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2475,30 +2522,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 12
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2517,30 +2566,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 13
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2559,30 +2610,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 14
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2601,30 +2654,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 15
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2643,30 +2698,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 16
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2685,30 +2742,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 37
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 33
+            ClientHeight = 48
+            ClientWidth = 35
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -11
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 17
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 29
+            EmbeddedLabel.Width = 31
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 29
+            EmbeddedShape.Width = 31
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2727,30 +2786,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 18
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2769,30 +2830,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 19
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2811,30 +2874,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 20
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2853,30 +2918,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 21
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2895,30 +2962,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 22
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2937,30 +3006,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 23
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -2979,30 +3050,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 24
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3021,30 +3094,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 25
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3063,30 +3138,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 26
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3105,30 +3182,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 27
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3147,30 +3226,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 28
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3189,30 +3270,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 29
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3231,30 +3314,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 30
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3273,30 +3358,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 31
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3315,30 +3402,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 32
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3357,30 +3446,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 33
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3399,30 +3490,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 34
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3441,30 +3534,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 35
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3483,30 +3578,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 36
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3525,30 +3622,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 37
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3567,30 +3666,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 38
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3609,30 +3710,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 39
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3651,30 +3754,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 40
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3693,30 +3798,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 41
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3735,30 +3842,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 42
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3777,30 +3886,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 43
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3819,30 +3930,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 44
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3861,30 +3974,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 45
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3903,30 +4018,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 46
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3945,30 +4062,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 47
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -3987,30 +4106,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 48
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4029,30 +4150,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 49
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4071,30 +4194,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 50
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4113,30 +4238,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 51
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4155,30 +4282,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 52
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4197,30 +4326,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 53
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4239,30 +4370,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 54
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4281,30 +4414,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 55
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4323,30 +4458,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 56
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4365,30 +4502,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 57
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4407,30 +4546,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Script'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 58
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4449,30 +4590,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 59
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4491,30 +4634,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 60
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4533,30 +4678,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 61
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4575,30 +4722,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 62
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4617,30 +4766,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 63
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4659,30 +4810,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 64
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4701,30 +4854,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 65
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4743,30 +4898,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 66
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4785,30 +4942,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 67
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4827,30 +4986,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 68
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4869,30 +5030,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 69
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4911,30 +5074,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 70
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4953,30 +5118,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 71
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -4995,30 +5162,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 48
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 44
+            ClientHeight = 48
+            ClientWidth = 46
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 72
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 40
+            EmbeddedLabel.Width = 42
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 40
+            EmbeddedShape.Width = 42
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -5034,8 +5203,8 @@ object FormMainAdv2: TFormMainAdv2
             Height = 130
             Top = 8
             Width = 204
-            ClientHeight = 112
-            ClientWidth = 200
+            ClientHeight = 103
+            ClientWidth = 194
             Color = cl3DLight
             Font.CharSet = ANSI_CHARSET
             Font.Height = -11
@@ -5043,6 +5212,7 @@ object FormMainAdv2: TFormMainAdv2
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             Font.Style = [fsBold]
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 73
@@ -5054,30 +5224,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 56
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 86
-              ClientWidth = 52
+              ClientHeight = 88
+              ClientWidth = 54
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 0
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 82
+              EmbeddedLabel.Height = 84
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 48
+              EmbeddedLabel.Width = 50
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 82
+              EmbeddedShape.Height = 84
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 48
+              EmbeddedShape.Width = 50
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -5106,30 +5278,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 56
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 86
-              ClientWidth = 52
+              ClientHeight = 88
+              ClientWidth = 54
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 1
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 82
+              EmbeddedLabel.Height = 84
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 48
+              EmbeddedLabel.Width = 50
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 82
+              EmbeddedShape.Height = 84
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 48
+              EmbeddedShape.Width = 50
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -5158,30 +5332,32 @@ object FormMainAdv2: TFormMainAdv2
               Width = 56
               BevelInner = bvRaised
               BorderStyle = bsSingle
-              ClientHeight = 86
-              ClientWidth = 52
+              ClientHeight = 88
+              ClientWidth = 54
               Color = clBlack
               Font.Color = clWhite
               Font.Height = -11
               Font.Name = 'Arial Unicode MS'
+              ParentBackground = False
               ParentColor = False
               ParentFont = False
               TabOrder = 2
               EmbeddedLabel.Left = 2
-              EmbeddedLabel.Height = 82
+              EmbeddedLabel.Height = 84
               EmbeddedLabel.Top = 2
-              EmbeddedLabel.Width = 48
+              EmbeddedLabel.Width = 50
               EmbeddedLabel.Align = alClient
               EmbeddedLabel.Alignment = taCenter
               EmbeddedLabel.AutoSize = False
+              EmbeddedLabel.Color = clBlack
               EmbeddedLabel.Layout = tlCenter
               EmbeddedLabel.ParentColor = False
               EmbeddedLabel.ShowAccelChar = False
               EmbeddedLabel.WordWrap = True
               EmbeddedShape.Left = 2
-              EmbeddedShape.Height = 82
+              EmbeddedShape.Height = 84
               EmbeddedShape.Top = 2
-              EmbeddedShape.Width = 48
+              EmbeddedShape.Width = 50
               EmbeddedShape.Align = alClient
               EmbeddedShape.Brush.Color = clBlack
               EmbeddedShape.Pen.Color = clNone
@@ -5211,30 +5387,32 @@ object FormMainAdv2: TFormMainAdv2
             Width = 74
             BevelInner = bvRaised
             BorderStyle = bsSingle
-            ClientHeight = 46
-            ClientWidth = 70
+            ClientHeight = 48
+            ClientWidth = 72
             Color = clBlack
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Arial Unicode MS'
+            ParentBackground = False
             ParentColor = False
             ParentFont = False
             TabOrder = 74
             EmbeddedLabel.Left = 2
-            EmbeddedLabel.Height = 42
+            EmbeddedLabel.Height = 44
             EmbeddedLabel.Top = 2
-            EmbeddedLabel.Width = 66
+            EmbeddedLabel.Width = 68
             EmbeddedLabel.Align = alClient
             EmbeddedLabel.Alignment = taCenter
             EmbeddedLabel.AutoSize = False
+            EmbeddedLabel.Color = clBlack
             EmbeddedLabel.Layout = tlCenter
             EmbeddedLabel.ParentColor = False
             EmbeddedLabel.ShowAccelChar = False
             EmbeddedLabel.WordWrap = True
             EmbeddedShape.Left = 2
-            EmbeddedShape.Height = 42
+            EmbeddedShape.Height = 44
             EmbeddedShape.Top = 2
-            EmbeddedShape.Width = 66
+            EmbeddedShape.Width = 68
             EmbeddedShape.Align = alClient
             EmbeddedShape.Brush.Color = clBlack
             EmbeddedShape.Pen.Color = clNone
@@ -5285,6 +5463,7 @@ object FormMainAdv2: TFormMainAdv2
           Width = 13
           Align = alLeft
           BevelOuter = bvNone
+          ParentBackground = False
           TabOrder = 1
         end
         object pnlLayers: TPanel
@@ -5295,12 +5474,13 @@ object FormMainAdv2: TFormMainAdv2
           BevelOuter = bvNone
           ClientHeight = 40
           ClientWidth = 907
+          ParentBackground = False
           TabOrder = 2
           object lblRemap: TLabel
             Left = 7
-            Height = 30
+            Height = 24
             Top = 2
-            Width = 67
+            Width = 69
             Caption = 'Remap'
             Font.CharSet = ANSI_CHARSET
             Font.Color = 13529600
@@ -5313,11 +5493,11 @@ object FormMainAdv2: TFormMainAdv2
             ParentFont = False
           end
           object lblLayer: TLabel
-            Left = 159
-            Height = 30
-            Top = 2
-            Width = 64
-            Caption = 'Layer :'
+            Left = 104
+            Height = 24
+            Top = 3
+            Width = 111
+            Caption = 'Layer (Top)'
             Font.CharSet = ANSI_CHARSET
             Font.Height = -21
             Font.Name = 'Segoe UI'
@@ -5341,7 +5521,7 @@ object FormMainAdv2: TFormMainAdv2
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
             Font.Style = [fsBold]
-            GlyphStyle = egsText
+            GlyphStyle = egsNone
             GrooveCheckedClr = 13529600
             GrooveUncheckedClr = 13529600
             Knob.BevelWidth = 1
@@ -5355,8 +5535,6 @@ object FormMainAdv2: TFormMainAdv2
             SwitchWidth = 100
             TabOrder = 0
             TabStop = False
-            TextChecked = 'Top'
-            TextUnchecked = 'Kp'
             OnClick = swLayerSwitchClick
           end
           object btnCancelKey: TColorSpeedButtonCS
@@ -5364,6 +5542,7 @@ object FormMainAdv2: TFormMainAdv2
             Height = 29
             Top = 3
             Width = 75
+            Alignment = taCenter
             Caption = 'Cancel'
             Font.Color = clWhite
             Font.Height = -13
@@ -5373,7 +5552,6 @@ object FormMainAdv2: TFormMainAdv2
             ShowHint = True
             ParentFont = False
             ParentShowHint = False
-            Alignment = taCenter
             TextAutoSize = True
             Toggle = False
             Pressed = False
@@ -5401,6 +5579,7 @@ object FormMainAdv2: TFormMainAdv2
             Height = 29
             Top = 3
             Width = 75
+            Alignment = taCenter
             Caption = 'Done'
             Font.Color = clWhite
             Font.Height = -13
@@ -5410,7 +5589,6 @@ object FormMainAdv2: TFormMainAdv2
             ShowHint = True
             ParentFont = False
             ParentShowHint = False
-            Alignment = taCenter
             TextAutoSize = True
             Toggle = False
             Pressed = False
@@ -5439,17 +5617,16 @@ object FormMainAdv2: TFormMainAdv2
             Hint = 'Insert actions not found in the default layout'
             Top = 3
             Width = 109
+            Alignment = taCenter
             Caption = 'Special Actions'
             Font.Color = clWhite
             Font.Height = -13
             Font.Name = 'Tahoma'
             Font.Style = [fsBold]
-            OnClick = btnSpecialActionsRemapClick
             OnMouseUp = btnSpecialActionsRemapMouseUp
             ShowHint = True
             ParentFont = False
             ParentShowHint = False
-            Alignment = taCenter
             TextAutoSize = True
             Toggle = False
             Pressed = False
@@ -5477,6 +5654,7 @@ object FormMainAdv2: TFormMainAdv2
             Height = 29
             Top = 3
             Width = 76
+            Alignment = taCenter
             Caption = 'Reset Key'
             Font.Color = clWhite
             Font.Height = -13
@@ -5486,7 +5664,6 @@ object FormMainAdv2: TFormMainAdv2
             ShowHint = True
             ParentFont = False
             ParentShowHint = False
-            Alignment = taCenter
             TextAutoSize = True
             Toggle = False
             Pressed = False
@@ -5514,6 +5691,7 @@ object FormMainAdv2: TFormMainAdv2
             Height = 29
             Top = 3
             Width = 88
+            Alignment = taCenter
             Caption = 'Reset Layer'
             Font.Color = clWhite
             Font.Height = -13
@@ -5523,7 +5701,6 @@ object FormMainAdv2: TFormMainAdv2
             ShowHint = True
             ParentFont = False
             ParentShowHint = False
-            Alignment = taCenter
             TextAutoSize = True
             Toggle = False
             Pressed = False
@@ -5551,6 +5728,7 @@ object FormMainAdv2: TFormMainAdv2
             Height = 29
             Top = 3
             Width = 96
+            Alignment = taCenter
             Caption = 'Reset Layout'
             Font.Color = clWhite
             Font.Height = -13
@@ -5560,7 +5738,6 @@ object FormMainAdv2: TFormMainAdv2
             ShowHint = True
             ParentFont = False
             ParentShowHint = False
-            Alignment = taCenter
             TextAutoSize = True
             Toggle = False
             Pressed = False
@@ -5593,6 +5770,7 @@ object FormMainAdv2: TFormMainAdv2
           BevelOuter = bvNone
           ClientHeight = 224
           ClientWidth = 904
+          ParentBackground = False
           TabOrder = 3
           object pnlMacro: TPanel
             Left = -1
@@ -5607,6 +5785,7 @@ object FormMainAdv2: TFormMainAdv2
             Font.Name = 'Segoe UI'
             Font.Pitch = fpVariable
             Font.Quality = fqDraft
+            ParentBackground = False
             ParentFont = False
             TabOrder = 0
             OnClick = pnlMacroClick
@@ -5634,7 +5813,7 @@ object FormMainAdv2: TFormMainAdv2
             end
             object lblMacro: TLabel
               Left = 8
-              Height = 30
+              Height = 24
               Top = 8
               Width = 62
               Caption = 'Macro'
@@ -5660,9 +5839,9 @@ object FormMainAdv2: TFormMainAdv2
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
               Font.Style = [fsBold]
-              OnClick = rgMacroClick
               ParentFont = False
               TabOrder = 1
+              OnClick = rgMacroClick
             end
             object rgMacro2: TRadioButton
               Left = 665
@@ -5677,9 +5856,9 @@ object FormMainAdv2: TFormMainAdv2
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
               Font.Style = [fsBold]
-              OnClick = rgMacroClick
               ParentFont = False
               TabOrder = 2
+              OnClick = rgMacroClick
             end
             object rgMacro3: TRadioButton
               Left = 717
@@ -5694,9 +5873,9 @@ object FormMainAdv2: TFormMainAdv2
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
               Font.Style = [fsBold]
-              OnClick = rgMacroClick
               ParentFont = False
               TabOrder = 4
+              OnClick = rgMacroClick
             end
             object lblPlaybackSpeed: TStaticText
               Left = 757
@@ -5745,8 +5924,6 @@ object FormMainAdv2: TFormMainAdv2
               ProgressColor2 = 14064162
               ProgressMarkSize = 2
               RelativeScaleLength = -1
-              Scale.DateTimeFormat = 'hh:nn:ss'
-              Scale.LogarithmBase = 10
               Scale.Max = 9
               Scale.TickLength = 5
               Scale.TickLongValue = 5
@@ -5755,7 +5932,6 @@ object FormMainAdv2: TFormMainAdv2
               Scale.ValueFormat = esvfText
               Scale.ValueVisible = evvBounds
               ScaleFontOptions.FontSize = 7
-              ScaleFontOptions.FontStyles = []
               TabOrder = 3
               TabStop = False
               OnChange = slPlaybackSpeedChange
@@ -5774,11 +5950,11 @@ object FormMainAdv2: TFormMainAdv2
               Font.Name = 'Tahoma'
               Font.Pitch = fpVariable
               Font.Quality = fqDraft
-              OnClick = textMacroInputClick
               ParentFont = False
               ParentColor = False
               TabOrder = 6
               Transparent = False
+              OnClick = textMacroInputClick
             end
             object lblMacro1: TLabel
               Cursor = crHandPoint
@@ -5956,7 +6132,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 16
               Hint = 'Select a modifier to act as a macro co-trigger'
               Top = 134
-              Width = 77
+              Width = 78
               Caption = 'Co-Trigger :'
               Font.CharSet = ANSI_CHARSET
               Font.Height = -13
@@ -5975,6 +6151,7 @@ object FormMainAdv2: TFormMainAdv2
               Hint = 'Delete the last character from the text box'
               Top = 160
               Width = 120
+              Alignment = taCenter
               Caption = 'Backspace'
               Font.Color = clWhite
               Font.Height = -13
@@ -5984,7 +6161,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6013,6 +6189,7 @@ object FormMainAdv2: TFormMainAdv2
               Hint = 'Delete contents of the text box'
               Top = 160
               Width = 120
+              Alignment = taCenter
               Caption = 'Clear'
               Font.Color = clWhite
               Font.Height = -13
@@ -6022,7 +6199,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6051,6 +6227,7 @@ object FormMainAdv2: TFormMainAdv2
               Hint = 'Copy and paste a macro to a different trigger key or layout'
               Top = 160
               Width = 120
+              Alignment = taCenter
               Caption = 'Copy'
               Font.Color = clWhite
               Font.Height = -13
@@ -6060,7 +6237,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6089,6 +6265,7 @@ object FormMainAdv2: TFormMainAdv2
               Hint = 'Copy and paste a macro to a different trigger key or layout'
               Top = 160
               Width = 120
+              Alignment = taCenter
               Caption = 'Paste'
               Font.Color = clWhite
               Font.Height = -13
@@ -6098,7 +6275,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6127,6 +6303,7 @@ object FormMainAdv2: TFormMainAdv2
               Hint = 'Insert delays or pre-written macros'
               Top = 160
               Width = 120
+              Alignment = taCenter
               Caption = 'Special Actions'
               Font.Color = clWhite
               Font.Height = -13
@@ -6137,7 +6314,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6165,6 +6341,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 30
               Top = 160
               Width = 120
+              Alignment = taCenter
               Caption = 'Cancel'
               Font.Color = clWhite
               Font.Height = -13
@@ -6174,7 +6351,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6203,6 +6379,7 @@ object FormMainAdv2: TFormMainAdv2
               Hint = 'Assign your macro to the selected trigger key(s)'
               Top = 160
               Width = 120
+              Alignment = taCenter
               Caption = 'Done'
               Font.Color = clWhite
               Font.Height = -13
@@ -6212,7 +6389,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6240,6 +6416,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 25
               Top = 128
               Width = 105
+              Alignment = taCenter
               AllowAllUp = True
               Caption = 'Left Shift'
               Font.Color = clBlack
@@ -6252,7 +6429,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6280,6 +6456,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 25
               Top = 128
               Width = 105
+              Alignment = taCenter
               AllowAllUp = True
               Caption = 'Left Ctrl'
               Font.Color = clBlack
@@ -6292,7 +6469,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6320,6 +6496,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 25
               Top = 128
               Width = 105
+              Alignment = taCenter
               AllowAllUp = True
               Caption = 'Left Alt'
               Font.Color = clBlack
@@ -6332,7 +6509,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6360,6 +6536,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 25
               Top = 128
               Width = 105
+              Alignment = taCenter
               AllowAllUp = True
               Caption = 'Right Alt'
               Font.Color = clBlack
@@ -6372,7 +6549,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6400,6 +6576,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 25
               Top = 128
               Width = 105
+              Alignment = taCenter
               AllowAllUp = True
               Caption = 'Right Ctrl'
               Font.Color = clBlack
@@ -6412,7 +6589,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6440,6 +6616,7 @@ object FormMainAdv2: TFormMainAdv2
               Height = 25
               Top = 128
               Width = 105
+              Alignment = taCenter
               AllowAllUp = True
               Caption = 'Right Shift'
               Font.Color = clBlack
@@ -6452,7 +6629,6 @@ object FormMainAdv2: TFormMainAdv2
               ShowHint = True
               ParentFont = False
               ParentShowHint = False
-              Alignment = taCenter
               TextAutoSize = True
               Toggle = False
               Pressed = False
@@ -6847,327 +7023,36 @@ object FormMainAdv2: TFormMainAdv2
     Left = 464
     Top = 56
     Bitmap = {
-      4C690A0000001000000010000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FFFFFFDFFFFFFFE7FFFFFFE7FFFFFFE7FFFF
-      FFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFF
-      FFE7FFFFFFE7FFFFFFE7FFFFFFDFFFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFFEFFFFFFFEBFFFF
-      FFEBFFFFFFEBFFFFFFEBFFFFFFEBFFFFFFEBFFFFFFEBFFFFFFEBFFFFFFEBFFFF
-      FFEBFFFFFFEFFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFF2A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF2AFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFFF3FFFFFFEFFFFF
-      FFEFFFFFFFEFFFFFFFEFFFFFFFEFFFFFFFEFFFFFFFEFFFFFFFEFFFFFFFEFFFFF
-      FFEFFFFFFFF3FFFFFFFFFFFFFFF7FFFFFFDFFFFFFFE7FFFFFFE7FFFFFFE7FFFF
-      FFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFFFFE7FFFF
-      FFE7FFFFFFE7FFFFFFE7FFFFFFDF000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FFFFFF1EFFFFFF20FFFFFF20FFFFFF20FFFF
-      FF20FFFFFF20FFFFFF20FFFFFF20FFFFFF20FFFFFF20FFFFFF20FFFFFF20FFFF
-      FF20FFFFFF140000000000000000FFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFF9B0000000000000000FFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFF9B0000000000000000FFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFF9B0000000000000000FFFFFFF7FFFFFFDFFFFFFF24FFFFFF24FFFF
-      FF24FFFFFF24FFFFFF24FFFFFF24FFFFFF24FFFFFF24FFFFFF24FFFFFF52FFFF
-      FFFFFFFFFF9B0000000000000000FFFFFFF7FFFFFFD900000000000000000000
-      0000000000000000000000000000000000000000000000000000FFFFFF36FFFF
-      FFFFFFFFFF9B0000000000000000FFFFFFF7FFFFFFD900000000000000000000
-      0000FFFFFF66FFFFFFE5FFFFFFE5FFFFFFE5FFFFFFE5FFFFFFE5FFFFFFEBFFFF
-      FFFFFFFFFFF5FFFFFFE5FFFFFFDFFFFFFFF7FFFFFFD900000000000000000000
-      0000FFFFFF70FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFD900000000000000000000
-      0000FFFFFF70FFFFFFFBFFFFFF99FFFFFF97FFFFFF97FFFFFF99FFFFFF99FFFF
-      FF99FFFFFF9BFFFFFFC3FFFFFFF7FFFFFFF7FFFFFFD900000000000000000000
-      0000FFFFFF70FFFFFFF100000000000000000000000000000000000000000000
-      000000000000FFFFFF64FFFFFFF7FFFFFFF7FFFFFFD900000000000000000000
-      0000FFFFFF70FFFFFFF100000000000000000000000000000000000000000000
-      000000000000FFFFFF62FFFFFFF7FFFFFFF7FFFFFFFBFFFFFFE9FFFFFFE9FFFF
-      FFE9FFFFFFF3FFFFFFF100000000000000000000000000000000000000000000
-      000000000000FFFFFF62FFFFFFF7FFFFFFA5FFFFFFA9FFFFFFA9FFFFFFA9FFFF
-      FFA9FFFFFFCFFFFFFFF300000000000000000000000000000000000000000000
-      000000000000FFFFFF62FFFFFFF7000000000000000000000000000000000000
-      0000FFFFFF70FFFFFFF5FFFFFF12FFFFFF10FFFFFF10FFFFFF10FFFFFF0EFFFF
-      FF0EFFFFFF0EFFFFFF6AFFFFFFF7000000000000000000000000000000000000
-      0000FFFFFF70FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFF7000000000000000000000000000000000000
-      0000FFFFFF0EFFFFFF20FFFFFF20FFFFFF20FFFFFF20FFFFFF20FFFFFF20FFFF
-      FF20FFFFFF20FFFFFF20FFFFFF1E000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000C1000000C7000000C7000000C70000
-      00C7000000C7000000C7000000C7000000C7000000C7000000C7000000C70000
-      00C7000000C7000000C7000000C1000000F7000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000F7000000F7000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000F7000000C9000000CF000000CF000000CF0000
-      00CF000000CF000000CF000000CF000000CF000000CF000000CF000000CF0000
-      00CF000000CF000000CF000000C9000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000600000078000000BB000000D9000000F3000000D100000076000000060000
-      0000000000000000000000000000000000000000000000000000000000020000
-      00B3000000CF00000004000000020000009F000000FF000000FF000000B10000
-      0000000000000000000000000000000000000000000000000000000000440000
-      00FF000000F700000018000000000000001E000000FF000000FF000000FF0000
-      0042000000000000000000000000000000000000000000000000000000620000
-      00FF000000FF0000005C0000000000000002000000FF000000FF000000FF0000
-      006C000000000000000000000000000000000000000000000000000000160000
-      00D5000000E1000000240000000000000008000000FF000000FF000000FF0000
-      0050000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000003A000000FF000000FF000000D90000
-      0008000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000A5000000FF000000DD000000240000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000028000000FD000000A700000010000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000093000000780000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000A3000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000056000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000004C000000A30000005A0000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000024000000FB000000FF000000FF0000003600000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000038000000FF000000FF000000FF0000004E00000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000020000009D000000F5000000AD0000000600000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000DF000000E7000000E7000000E70000
-      00E7000000E7000000E7000000E7000000E7000000E7000000E7000000E70000
-      00E7000000E7000000E7000000DF000000F7000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000F7000000F7000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000F7000000F7000000FF000000EF000000EB0000
-      00EB000000EB000000EB000000EB000000EB000000EB000000EB000000EB0000
-      00EB000000EF000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF0000002A000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000002A000000FF000000F7000000F7000000FF000000F3000000EF0000
-      00EF000000EF000000EF000000EF000000EF000000EF000000EF000000EF0000
-      00EF000000F3000000FF000000F7000000DF000000E7000000E7000000E70000
-      00E7000000E7000000E7000000E7000000E7000000E7000000E7000000E70000
-      00E7000000E7000000E7000000DF000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000001E0000002000000020000000200000
-      0020000000200000002000000020000000200000002000000020000000200000
-      0020000000140000000000000000000000F7000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF0000009B0000000000000000000000F7000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF0000009B0000000000000000000000F7000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF0000009B0000000000000000000000F7000000DF00000024000000240000
-      0024000000240000002400000024000000240000002400000024000000520000
-      00FF0000009B0000000000000000000000F7000000D900000000000000000000
-      0000000000000000000000000000000000000000000000000000000000360000
-      00FF0000009B0000000000000000000000F7000000D900000000000000000000
-      000000000066000000E5000000E5000000E5000000E5000000E5000000EB0000
-      00FF000000F5000000E5000000DF000000F7000000D900000000000000000000
-      000000000070000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000F7000000F7000000D900000000000000000000
-      000000000070000000FB00000099000000970000009700000099000000990000
-      00990000009B000000C3000000F7000000F7000000D900000000000000000000
-      000000000070000000F100000000000000000000000000000000000000000000
-      00000000000000000064000000F7000000F7000000D900000000000000000000
-      000000000070000000F100000000000000000000000000000000000000000000
-      00000000000000000062000000F7000000F7000000FB000000E9000000E90000
-      00E9000000F3000000F100000000000000000000000000000000000000000000
-      00000000000000000062000000F7000000A5000000A9000000A9000000A90000
-      00A9000000CF000000F300000000000000000000000000000000000000000000
-      00000000000000000062000000F7000000000000000000000000000000000000
-      000000000070000000F5000000120000001000000010000000100000000E0000
-      000E0000000E0000006A000000F7000000000000000000000000000000000000
-      000000000070000000FF000000FF000000FF000000FF000000FF000000FF0000
-      00FF000000FF000000FF000000F7000000000000000000000000000000000000
-      00000000000E0000002000000020000000200000002000000020000000200000
-      002000000020000000200000001E00000000000000040000009F000000520000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0054000000A1000000040000000000000004000000A7000000FF000000FB0000
-      0054000000000000000000000000000000000000000000000000000000540000
-      00FB000000FF000000A7000000040000009F000000FF000000FF000000FF0000
-      00FB000000540000000000000000000000000000000000000054000000FB0000
-      00FF000000FF000000FF000000A10000004C000000F9000000FF000000FF0000
-      00FF000000FB00000054000000000000000000000054000000FB000000FF0000
-      00FF000000FF000000F90000004C000000000000004C000000F9000000FF0000
-      00FF000000FF000000FB0000005400000054000000FB000000FF000000FF0000
-      00FF000000F90000004C0000000000000000000000000000004C000000F90000
-      00FF000000FF000000FF000000FB000000FB000000FF000000FF000000FF0000
-      00F90000004C00000000000000000000000000000000000000000000004C0000
-      00F9000000FF000000FF000000FF000000FF000000FF000000FF000000F90000
-      004C000000000000000000000000000000000000000000000000000000000000
-      004C000000F9000000FF000000FF000000FF000000FF000000F90000004C0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0054000000FB000000FF000000FF000000FF000000FF000000FB000000540000
-      0000000000000000000000000000000000000000000000000000000000540000
-      00FB000000FF000000FF000000FF000000FF000000FF000000FF000000FB0000
-      0054000000000000000000000000000000000000000000000054000000FB0000
-      00FF000000FF000000FF000000FB000000FB000000FF000000FF000000FF0000
-      00FB0000005400000000000000000000000000000054000000FB000000FF0000
-      00FF000000FF000000F90000005000000050000000F9000000FF000000FF0000
-      00FF000000FB000000540000000000000054000000FB000000FF000000FF0000
-      00FF000000F90000004E00000000000000000000004E000000F9000000FF0000
-      00FF000000FF000000FB00000054000000A1000000FF000000FF000000FF0000
-      00F90000004C000000000000000000000000000000000000004C000000F90000
-      00FF000000FF000000FF000000A300000004000000A7000000FF000000F90000
-      004C0000000000000000000000000000000000000000000000000000004C0000
-      00F9000000FF000000A7000000040000000000000004000000A10000004C0000
-      0000000000000000000000000000000000000000000000000000000000000000
-      004C000000A1000000040000000000000000000000000000000000000000FFFF
-      FF06FFFFFF78FFFFFFBBFFFFFFD9FFFFFFF3FFFFFFD1FFFFFF76FFFFFF060000
-      0000000000000000000000000000000000000000000000000000FFFFFF02FFFF
-      FFB3FFFFFFCFFFFFFF04FFFFFF02FFFFFF9FFFFFFFFFFFFFFFFFFFFFFFB1FFFF
-      FF00000000000000000000000000000000000000000000000000FFFFFF44FFFF
-      FFFFFFFFFFF7FFFFFF1800000000FFFFFF1EFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FF42000000000000000000000000000000000000000000000000FFFFFF62FFFF
-      FFFFFFFFFFFFFFFFFF5C00000000FFFFFF02FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FF6C000000000000000000000000000000000000000000000000FFFFFF16FFFF
-      FFD5FFFFFFE1FFFFFF2400000000FFFFFF08FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FF50000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FFFFFF3AFFFFFFFFFFFFFFFFFFFFFFD9FFFF
-      FF08000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FFFFFFA5FFFFFFFFFFFFFFDDFFFFFF240000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000FFFFFF28FFFFFFFDFFFFFFA7FFFFFF10000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000FFFFFF93FFFFFF780000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000FFFFFFA3FFFFFF000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000FFFFFF56000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FFFFFF4CFFFFFFA3FFFFFF5A0000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF24FFFFFFFBFFFFFFFFFFFFFFFFFFFFFF3600000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF38FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4E00000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF02FFFFFF9DFFFFFFF5FFFFFFADFFFFFF0600000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000FFFFFFC1FFFFFFC7FFFFFFC7FFFFFFC7FFFF
-      FFC7FFFFFFC7FFFFFFC7FFFFFFC7FFFFFFC7FFFFFFC7FFFFFFC7FFFFFFC7FFFF
-      FFC7FFFFFFC7FFFFFFC7FFFFFFC1FFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFC9FFFFFFCFFFFFFFCFFFFFFFCFFFFF
-      FFCFFFFFFFCFFFFFFFCFFFFFFFCFFFFFFFCFFFFFFFCFFFFFFFCFFFFFFFCFFFFF
-      FFCFFFFFFFCFFFFFFFCFFFFFFFC9000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000FFFFFF04FFFFFF9FFFFFFF520000
-      000000000000000000000000000000000000000000000000000000000000FFFF
-      FF54FFFFFFA1FFFFFF0400000000FFFFFF04FFFFFFA7FFFFFFFFFFFFFFFBFFFF
-      FF54000000000000000000000000000000000000000000000000FFFFFF54FFFF
-      FFFBFFFFFFFFFFFFFFA7FFFFFF04FFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFBFFFFFF5400000000000000000000000000000000FFFFFF54FFFFFFFBFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFA1FFFFFF4CFFFFFFF9FFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFBFFFFFF540000000000000000FFFFFF54FFFFFFFBFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFF9FFFFFF4C00000000FFFFFF4CFFFFFFF9FFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFBFFFFFF54FFFFFF54FFFFFFFBFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFF9FFFFFF4C000000000000000000000000FFFFFF4CFFFFFFF9FFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFF9FFFFFF4C0000000000000000000000000000000000000000FFFFFF4CFFFF
-      FFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFF
-      FF4C00000000000000000000000000000000000000000000000000000000FFFF
-      FF4CFFFFFFF9FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9FFFFFF4C0000
-      000000000000000000000000000000000000000000000000000000000000FFFF
-      FF54FFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFF540000
-      0000000000000000000000000000000000000000000000000000FFFFFF54FFFF
-      FFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFF
-      FF540000000000000000000000000000000000000000FFFFFF54FFFFFFFBFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFBFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFBFFFFFF54000000000000000000000000FFFFFF54FFFFFFFBFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFF9FFFFFF50FFFFFF50FFFFFFF9FFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFBFFFFFF5400000000FFFFFF54FFFFFFFBFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFF9FFFFFF4E0000000000000000FFFFFF4EFFFFFFF9FFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFBFFFFFF54FFFFFFA1FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFF9FFFFFF4C00000000000000000000000000000000FFFFFF4CFFFFFFF9FFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFA3FFFFFF04FFFFFFA7FFFFFFFFFFFFFFF9FFFF
-      FF4C000000000000000000000000000000000000000000000000FFFFFF4CFFFF
-      FFF9FFFFFFFFFFFFFFA7FFFFFF0400000000FFFFFF04FFFFFFA1FFFFFF4C0000
-      000000000000000000000000000000000000000000000000000000000000FFFF
-      FF4CFFFFFFA1FFFFFF0400000000
+      4C7A0A0000001000000010000000910300000000000078DAED9A3D4B33411080
+      830449154444ACC4C242F20382588A650812C25B8895888558A412FF87850411
+      3942382C2CC4D24A2CC44A2C2C2C245888488A20214808927706E66058F66376
+      4F48900C3CC55DF24CD6DDD9BDBB3D339974311C0E5BC04720E87E0FC3E3FB17
+      FD0ED016D2D1F8058F3E2B4CFC3FE777A92E2474999F6AFE64D2CFDF4560C993
+      39E687CCBFD331F3710C9605540CFE8BB0AF8B121F8EF780770D6DF27B74DC32
+      F835CFF54FE70F803A7042D419A7C09DC3FF72F4C56E4A7F87F9D8D64F46D7C3
+      6F02170A8F9843E21B3EABD118CD02338C3C63DFE18BC6CFE0E785F378313389
+      51C72D701F08BA5803C340BE7FC17F001E0379980CFFD8C5347004DC00B82EE3
+      3AF8041CD267B69802AE696CB3747CCEEAE5CAE16FB0BA5AA0738B4ACDAD5BFC
+      1DF6BD6DD626EE1F58FC79E019780396E95C4EF1373DFB738DB92F94CF279AE4
+      BEB236496305F801626026A0168EA91642A391B216FF8D701E94A8FD5B012E8E
+      D3808D7BD1D35F556AAEECE963CD9F013DE052306FD3043E837C04D21A83EB57
+      E27780B6908EC62F78F45961E2FF39BF4B7521A1CBFCB4F3276DE0F575C99339
+      E687CCBFD331F35BB466BBA818FC17615F1785FE1EF0AEA14D7E8F8E5B06BFE6
+      B9FEE97CBC7ED58113A2CEC0F6DF39FC2F475FECA6F477988F6DFD64743D7CBC
+      BFBA5078A41C125F17351AA359BAEF4AC833F61DBE74FC749117CEE3E4F93F4B
+      F7E915410D5781889CC48DA93D03FADCE626F74531FB5DFE37997254957BAA21
+      B503EFD3FA8E1C3AB74F6EC691C3E5661C3924AE2D87D475E590B8A6BE928CAD
+      CD95E4D0B903C3B9AAC0EDD3B3DAA6A33E4C2EBFE72E5B7244C27ED68D4B4399
+      3FAE31E23962650E46C2F12D29F357DD3B9C068E801BDC97A5BDD427E0103F73
+      EC894E01D7B47F9AA5E373B65F7905D8FC0DB62FBDC0DE4FF05877ECC926B1CD
+      DAC4E3C0E2CF03CFC01BEEF7D3B99CE27B3DFFC3F7D7988BFD99F3F49BE4BE26
+      6DF27057801F20C6FDE7807743C7580B29DE2D356CE32DF047F6FC0FBF5DA2F6
+      6F05B8CBF44E2289A2A7BFAAD45CD9D3C79A3FA3771097AE793B89D1058CCD2D
+      701FC8ED18FCFFC403ADF7214CF6FFC7A306B3749DAE08BE5B052274981B533D
+      E09A5775B8C9BA18B3DFE5A1CDA1B84944B44EF76D390C2E3A25B6D66B73B85C
+      E57AA1CBE1741D3944AE2087D3B5F495736C1DAE3387C11D18CE55052EFEBD9B
+      84B13E2C6E99E52F5BEA2392F4B3615C1ACAFCB18E91922356E660241CDF129F
+      BFFF01144B34D6
     }
   end
   object CheckVDriveTmr: TIdleTimer

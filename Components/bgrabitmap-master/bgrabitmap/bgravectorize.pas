@@ -1,43 +1,42 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
+
+{ @abstract(This unit provides vectorizers for black'n'white images and text.)
+
+  The TBGRAVectorizedFontRenderer class can be provided as a renderer to TBGRABitmap.
+
+  **Font rendering units** : BGRAText, BGRATextFX, BGRAVectorize, BGRAFreeType
+}
 unit BGRAVectorize;
 
 {$mode objfpc}{$H+}
 
 interface
 
-{
-  Font rendering units : BGRAText, BGRATextFX, BGRAVectorize, BGRAFreeType
-
-  This unit provides vectorizers :
-  - VectorizeMonochrome function vectorizes a back'n'white image
-  - TBGRAVectorizedFont allows to vectorize and to load vectorized font and draw them
-
-  TBGRAVectorizedFontRenderer class works like other font renderers, i.e., it can
-  be assigned to the FontRenderer property. You can use it in two different modes :
-  - if you supply a directory, it will look for *.glyphs files in it to load fonts
-  - if you don't supply a directory, fonts will be vectorized from LCL
-
-  Note that unless you want to supply your own glyphs files, you don't need
-  to use explicitely this renderer, because TBGRATextEffectFontRenderer will
-  make use of it if necessary, according to effects parameters used.
-}
-
 uses
   BGRAClasses, SysUtils, BGRAGraphics, BGRABitmapTypes, BGRATypewriter,
   BGRATransform, BGRACanvas2D, BGRAText;
 
-//vectorize a monochrome bitmap
+{ Vectorize a monochrome bitmap (actually checking the green channel) }
 function VectorizeMonochrome(ASource: TBGRACustomBitmap; AZoom: single; APixelCenteredCoordinates: boolean;
   AWhiteBackground: boolean = true; ADiagonalFillPercent: single = 66; AIntermediateDiagonals: boolean = true): ArrayOfTPointF;
+{ Vectorize a rectangular area in a monochrome bitmap (actually checking the green channel) }
 function VectorizeMonochrome(ASource: TBGRACustomBitmap; ARect: TRect; AZoom: single; APixelCenteredCoordinates: boolean;
   AWhiteBackground: boolean = true; ADiagonalFillPercent: single = 66; AIntermediateDiagonals: boolean = true): ArrayOfTPointF;
 
 type
   TBGRAVectorizedFont = class;
 
-  //this is the class to assign to FontRenderer property of TBGRABitmap
-  { TBGRAVectorizedFontRenderer }
+  { @abstract(Font renderer using vectorized fonts and with effects.)
 
+    TBGRAVectorizedFontRenderer class works like other font renderers, i.e., it can
+    be assigned to the FontRenderer property. You can use it in two different modes :
+    - if you supply a directory, it will look for *.glyphs files in it to load fonts
+    - if you don't supply a directory, fonts will be vectorized from the system
+
+    If provides effect like TBGRATextEffectFontRenderer (outline and shadow) but that difference
+    is that the font is always vectorized whereas TBGRATextEffectFontRenderer will use bitmap
+    rendering when possible.
+  }
   TBGRAVectorizedFontRenderer = class(TBGRACustomFontRenderer)
   protected
     FVectorizedFontArray: array of record
@@ -76,6 +75,7 @@ type
     function GetFontPixelMetric: TFontPixelMetric; override;
     function GetFontPixelMetricF: TFontPixelMetricF; override;
     function FontExists(AName: string): boolean; override;
+    function TextVisible(const AColor: TBGRAPixel): boolean; override;
     procedure TextOutAngle(ADest: TBGRACustomBitmap; x, y: single; orientation: integer; s: string; c: TBGRAPixel; align: TAlignment); overload; override;
     procedure TextOutAngle(ADest: TBGRACustomBitmap; x, y: single; orientation: integer; s: string; c: TBGRAPixel; align: TAlignment; ARightToLeft: boolean); overload; override;
     procedure TextOutAngle(ADest: TBGRACustomBitmap; x, y: single; orientation: integer; s: string; texture: IBGRAScanner; align: TAlignment); overload; override;
@@ -98,15 +98,13 @@ type
     destructor Destroy; override;
   end;
 
+  { Size of glyphs in text }
   TGlyphSizes = array of record
     Text, Glyph: String;
     Width,Height: single;
   end;
-  TGlyphSizesCallbackData = record
-    Sizes: TGlyphSizes;
-    Count: integer;
-  end;
 
+  { Header of a serialized vectorized font }
   TBGRAVectorizedFontHeader = record
     Name: string;
     Style: TFontStyles;
@@ -114,20 +112,20 @@ type
     Resolution: integer;
     PixelMetric: TFontPixelMetric;
   end;
+  { General information on glyph stream }
   TBGRAGlyphsInfo = record
     Name: string;
     Style: TFontStyles;
     NbGlyphs: integer;
   end;
 
-  { TBGRAVectorizedFont }
-
+  { Allows to vectorize and to load vectorized font and draw them }
   TBGRAVectorizedFont = class(TBGRACustomTypeWriter)
   private
     FName : string;
     FStyle: TFontStyles;
     FResolution: integer;
-    FFont: TFont;
+    FVectorizeLCL: boolean;
     FBuffer: TBGRACustomBitmap;
     FFullHeight: single;
     FFontMatrix: TAffineMatrix;
@@ -149,7 +147,6 @@ type
     function GetEmHeight: single;
     function GetFontPixelMetric: TFontPixelMetric;
     function GetLCLHeight: single;
-    function GetVectorizeLCL: boolean;
     procedure SetEmHeight(AValue: single);
     procedure SetItalicSlope(AValue: single);
     procedure SetLCLHeight(AValue: single);
@@ -169,9 +166,10 @@ type
   protected
     procedure UpdateFont;
     procedure UpdateMatrix;
+    procedure NeedBuffer;
     function GetGlyph(AIdentifier: string): TBGRAGlyph; override;
     procedure DefaultWordBreakHandler(var ABefore, AAfter: string);
-    procedure Init(AVectorize: boolean);
+    procedure Init(AVectorizeLCL: boolean);
     function CustomHeaderSize: integer; override;
     procedure WriteCustomHeader(AStream: TStream); override;
     procedure ReadAdditionalHeader(AStream: TStream); override;
@@ -216,12 +214,18 @@ type
     property FontEmHeightRatio: single read GetFontEmHeightRatio;
     property FontPixelMetric: TFontPixelMetric read GetFontPixelMetric;
     property FontFound: boolean read FFontFound;
-    property VectorizeLCL: boolean read GetVectorizeLCL write SetVectorizeLCL;
+    property VectorizeLCL: boolean read FVectorizeLCL write SetVectorizeLCL;
   end;
 
 implementation
 
 uses BGRAUTF8{$IFDEF LCL}, Forms{$ENDIF};
+
+type
+  TGlyphSizesCallbackData = record
+    Sizes: TGlyphSizes;
+    Count: integer;
+  end;
 
 function VectorizeMonochrome(ASource: TBGRACustomBitmap; ARect: TRect; AZoom: single; APixelCenteredCoordinates: boolean;
   AWhiteBackground: boolean; ADiagonalFillPercent: single; AIntermediateDiagonals: boolean): ArrayOfTPointF;
@@ -377,13 +381,13 @@ var
         exit;
       end;
       u := pointF(points[end1].coord.x - points[start1].coord.x, points[end1].coord.y - points[start1].coord.y);
-      lu := sqrt(u*u);
+      lu := VectLen(u);
       if lu <> 0 then u.Scale(1/lu);
       v := pointF(points[end2].coord.x - points[start2].coord.x, points[end2].coord.y - points[start2].coord.y);
-      lv := sqrt(v*v);
+      lv := VectLen(v);
       if lv <> 0 then v.Scale(1/lv);
 
-      result := u*v > 0.999;
+      result := u**v > 0.999;
     end;
 
     function angle45(prev,cur,next: integer): boolean;
@@ -397,13 +401,13 @@ var
         exit;
       end;
       u := pointF(points[next].coord.x - points[cur].coord.x, points[next].coord.y - points[cur].coord.y);
-      lu := sqrt(u*u);
+      lu := VectLen(u);
       if lu <> 0 then u.Scale(1/lu);
       v := pointF(points[cur].coord.x - points[prev].coord.x, points[cur].coord.y - points[prev].coord.y);
-      lv := sqrt(v*v);
+      lv := VectLen(v);
       if lv <> 0 then v.Scale(1/lv);
 
-      dp := u*v;
+      dp := u**v;
       result := (dp > 0.70) and (dp < 0.72);
     end;
 
@@ -1163,7 +1167,7 @@ begin
     FVectorizedFontArray[high(FVectorizedFontArray)].FontStyle := FontStyle;
     FVectorizedFontArray[high(FVectorizedFontArray)].VectorizedFont := FVectorizedFont;
   end;
-  if FontEmHeight > 0 then
+  if FontEmHeightF > 0 then
     FVectorizedFont.EmHeight := FontEmHeightF
   else
     FVectorizedFont.FullHeight:= -FontEmHeightF;
@@ -1399,6 +1403,11 @@ begin
   {$ENDIF}
 end;
 
+function TBGRAVectorizedFontRenderer.TextVisible(const AColor: TBGRAPixel): boolean;
+begin
+  Result:=inherited TextVisible(AColor) or OutlineActuallyVisible;
+end;
+
 procedure TBGRAVectorizedFontRenderer.TextOutAngle(ADest: TBGRACustomBitmap; x,
   y: single; orientation: integer; s: string; c: TBGRAPixel; align: TAlignment);
 begin
@@ -1595,9 +1604,10 @@ end;
 
 function TBGRAVectorizedFont.GetFontPixelMetric: TFontPixelMetric;
 begin
-  if not FFontPixelMetricComputed and (FFont <> nil) then
+  if not FFontPixelMetricComputed and FVectorizeLCL then
   begin
-    FFontPixelMetric := BGRAText.GetLCLFontPixelMetric(FFont);
+    NeedBuffer;
+    FFontPixelMetric := FBuffer.FontPixelMetric;
     FFontPixelMetricComputed := true;
   end;
   result := FFontPixelMetric;
@@ -1606,11 +1616,6 @@ end;
 function TBGRAVectorizedFont.GetLCLHeight: single;
 begin
   result := FullHeight * FontFullHeightSign;
-end;
-
-function TBGRAVectorizedFont.GetVectorizeLCL: boolean;
-begin
-  result := FFont <> nil;
 end;
 
 procedure TBGRAVectorizedFont.GlyphCallbackForGlyphSizes(ATextUTF8: string; AGlyph: TBGRAGlyph;
@@ -1689,23 +1694,21 @@ end;
 function TBGRAVectorizedFont.GetFontEmHeightRatio: single;
 var
   lEmHeight, lFullHeight: single;
-  OldHeight: integer;
 begin
   if not FFontEmHeightRatioComputed then
   begin
-    if FFont <> nil then
+    if FVectorizeLCL then
     begin
-      OldHeight := FFont.Height;
-      FFont.Height := FontEmHeightSign * 100;
-      lEmHeight := BGRATextSize(FFont, fqSystem, 'Hg', 1).cy;
-      FFont.Height := FixSystemFontFullHeight(FFont.Name, FontFullHeightSign * 100);
-      lFullHeight := BGRATextSize(FFont, fqSystem, 'Hg', 1).cy;
+      NeedBuffer;
+      FBuffer.FontHeight := 100;
+      lEmHeight := FBuffer.TextSize('Hg').cy;
+      FBuffer.FontFullHeight := 100;
+      lFullHeight := FBuffer.TextSize('Hg').cy;
       if lEmHeight = 0 then
         FFontEmHeightRatio := 1
       else
         FFontEmHeightRatio := lFullHeight/lEmHeight;
       FFontEmHeightRatioComputed := true;
-      FFont.Height := OldHeight;
     end else
     begin
       result := 1;
@@ -1717,15 +1720,8 @@ end;
 
 procedure TBGRAVectorizedFont.SetVectorizeLCL(AValue: boolean);
 begin
-  if AValue then
-  begin
-    if FFont = nil then
-      FFont := TFont.Create;
-  end else
-  begin
-    if FFont <> nil then
-      FreeAndNil(FFont);
-  end;
+  if AValue = FVectorizeLCL then exit;
+  FVectorizeLCL := AValue;
   UpdateFont;
 end;
 
@@ -1734,13 +1730,9 @@ var i: integer;
   bestIndex, bestDistance: integer;
   distance: integer;
 begin
-  if FFont <> nil then
+  if FVectorizeLCL then
   begin
     ClearGlyphs;
-    FFont.Name := TBGRASystemFontRenderer.PatchSystemFontName(FName);
-    FFont.Style := FStyle;
-    FFont.Height := FixSystemFontFullHeight(FFont.Name, FontFullHeightSign * FResolution);
-    FFont.Quality := fqNonAntialiased;
     FFontEmHeightRatio := 1;
     FFontEmHeightRatioComputed := false;
     fillchar(FFontPixelMetric,sizeof(FFontPixelMetric),0);
@@ -1792,6 +1784,19 @@ begin
   TypeWriterMatrix := FFontMatrix*AffineMatrixRotationDeg(-Orientation*0.1)*AffineMatrixScale(FFullHeight,FFullHeight)*AffineMatrixLinear(PointF(1,0),PointF(-FItalicSlope,1));
 end;
 
+procedure TBGRAVectorizedFont.NeedBuffer;
+begin
+  if not Assigned(FBuffer) then
+  begin
+    FBuffer := BGRABitmapFactory.Create;
+    FBuffer.FontRenderer := TBGRASystemFontRenderer.Create;
+  end;
+  FBuffer.FontName := Name;
+  FBuffer.FontStyle := Style;
+  FBuffer.FontFullHeight := Resolution;
+  FBuffer.FontQuality := fqSystem;
+end;
+
 constructor TBGRAVectorizedFont.Create;
 begin
   inherited Create;
@@ -1806,7 +1811,6 @@ end;
 
 destructor TBGRAVectorizedFont.Destroy;
 begin
-  FFont.Free;
   FBuffer.Free;
   inherited Destroy;
 end;
@@ -2028,7 +2032,7 @@ begin
     case lineAlignment of
     twaMiddle: lineShift := 0.5;
     twaBottomLeft,twaBottomRight: lineShift := 1;
-    twaTopRight,twaTopLeft : lineShift := 0;
+    else {twaTopRight,twaTopLeft} lineShift := 0;
     end;
     pos.Offset(step*lineShift);
     repeat
@@ -2073,10 +2077,10 @@ begin
   if X2 <= X1 then exit;
   if AAlign in[twaTopLeft,twaTop,twaTopRight] then Y := Y1 else
   if AAlign in[twaLeft,twaMiddle,twaRight] then Y := (Y1+Y2)/2 else
-  if AAlign in[twaBottomLeft,twaBottom,twaBottomRight] then Y := Y2;
+  {twaBottomLeft,twaBottom,twaBottomRight} Y := Y2;
   if AAlign in[twaLeft,twaTopLeft,twaBottomLeft] then X := X1 else
   if AAlign in[twaTop,twaMiddle,twaBottom] then X := (X1+X2)/2 else
-  if AAlign in[twaRight,twaTopRight,twaBottomRight] then X := X2;
+  {twaRight,twaTopRight,twaBottomRight} X := X2;
   oldOrientation:= Orientation;
   Orientation:= 0;
   DrawTextWordBreak(ADest,ATextUTF8,X,Y,X2-X1,AAlign);
@@ -2174,10 +2178,10 @@ begin
   end;
   if AAlign in[twaTopLeft,twaTop,twaTopRight] then Y := Y1 else
   if AAlign in[twaLeft,twaMiddle,twaRight] then Y := (Y1+Y2)/2 else
-  if AAlign in[twaBottomLeft,twaBottom,twaBottomRight] then Y := Y2;
+  {twaBottomLeft,twaBottom,twaBottomRight} Y := Y2;
   if AAlign in[twaLeft,twaTopLeft,twaBottomLeft] then X := X1 else
   if AAlign in[twaTop,twaMiddle,twaBottom] then X := (X1+X2)/2 else
-  if AAlign in[twaRight,twaTopRight,twaBottomRight] then X := X2;
+  {twaRight,twaTopRight,twaBottomRight} X := X2;
   oldOrientation:= Orientation;
   Orientation:= 0;
   result := GetTextWordBreakGlyphBoxes(ATextUTF8,X,Y,X2-X1,AAlign);
@@ -2261,15 +2265,16 @@ var size: TSize;
   dx,dy: Integer;
 begin
   Result:=inherited GetGlyph(AIdentifier);
-  if (result = nil) and (FResolution > 0) and (FFont <> nil) then
+  if (result = nil) and (FResolution > 0) and FVectorizeLCL then
   begin
     g := TBGRAPolygonalGlyph.Create(AIdentifier);
-    size := BGRATextSize(FFont, fqSystem, AIdentifier, 1);
     dx := FResolution div 2;
     dy := FResolution div 2;
+    NeedBuffer;
+    size := FBuffer.TextSize(AIdentifier);
     FBuffer.SetSize(size.cx+2*dx,FResolution+2*dy);
     FBuffer.Fill(BGRAWhite);
-    BGRATextOut(FBuffer, FFont, fqSystem, dx,dy, AIdentifier, BGRABlack, nil, taLeftJustify);
+    FBuffer.TextOut(dx,dy, AIdentifier, BGRABlack);
     pts := VectorizeMonochrome(FBuffer,1/FResolution,False,true,50);
     g.SetPoints(pts);
     g.QuadraticCurves := FQuadraticCurves;
@@ -2288,7 +2293,7 @@ begin
   BGRADefaultWordBreakHandler(ABefore,AAfter);
 end;
 
-procedure TBGRAVectorizedFont.Init(AVectorize: boolean);
+procedure TBGRAVectorizedFont.Init(AVectorizeLCL: boolean);
 begin
   FName := 'Arial';
   FStyle := [];
@@ -2297,11 +2302,10 @@ begin
   FResolution := 100;
   FFontEmHeightRatio := 1;
   FFontEmHeightRatioComputed := false;
-  if AVectorize then
-    FFont := TFont.Create
-  else
-    FFont := nil;
-  FBuffer := BGRABitmapFactory.Create;
+  FVectorizeLCL:= AVectorizeLCL;
+  if BGRABitmapFactory = nil then
+    raise Exception.Create('No bitmap factory available');
+  FBuffer := nil;
   FFullHeight := 20;
   FItalicSlope := 0;
   LigatureWithF := true;
@@ -2315,13 +2319,37 @@ begin
   Result:= (inherited CustomHeaderSize) + 4+length(FName)+4 + sizeof(single) + 4 + 5*4;
 end;
 
+const
+  FS_BOLD = 1;
+  FS_ITALIC = 2;
+  FS_UNDERLINE = 4;
+  FS_STRIKE_OUT = 8;
+
+function IntToFontStyles(AFlags: integer): TFontStyles;
+begin
+  Result:= [];
+  if (AFlags and FS_BOLD)<>0 then Include(Result, fsBold);
+  if (AFlags and FS_ITALIC)<>0 then Include(Result, fsItalic);
+  if (AFlags and FS_UNDERLINE)<>0 then Include(Result, fsUnderline);
+  if (AFlags and FS_STRIKE_OUT)<>0 then Include(Result, fsStrikeOut);
+end;
+
+function FontStylesToInt(AStyles: TFontStyles): Integer;
+begin
+  Result := 0;
+  If fsBold in AStyles then Inc(Result, FS_BOLD);
+  If fsItalic in AStyles then Inc(Result, FS_ITALIC);
+  If fsUnderline in AStyles then Inc(Result, FS_UNDERLINE);
+  If fsStrikeOut in AStyles then Inc(Result, FS_STRIKE_OUT);
+end;
+
 procedure TBGRAVectorizedFont.WriteCustomHeader(AStream: TStream);
 var metric: TFontPixelMetric;
 begin
   inherited WriteCustomHeader(AStream);
   LEWriteLongint(AStream, length(FName));
   AStream.Write(FName[1],length(FName));
-  LEWriteLongint(AStream, integer(FStyle));
+  LEWriteLongint(AStream, FontStylesToInt(FStyle));
   LEWriteSingle(AStream, FontEmHeightRatio);
   LEWriteLongint(AStream, Resolution);
   metric := FontPixelMetric;
@@ -2350,7 +2378,7 @@ begin
   end;
   FFontPixelMetric := Header.PixelMetric;
   FFontPixelMetricComputed := True;
-  if FFont = nil then
+  if not FVectorizeLCL then
     FResolution := Header.Resolution;
 end;
 
@@ -2360,7 +2388,7 @@ begin
   lNameLength := LEReadLongint(AStream);
   setlength(result.Name, lNameLength);
   AStream.Read(result.Name[1],length(result.Name));
-  result.Style := TFontStyles(LEReadLongint(AStream));
+  result.Style := IntToFontStyles(LEReadLongint(AStream));
   result.EmHeightRatio:= LEReadSingle(AStream);
   result.Resolution := LEReadLongint(AStream);
   result.PixelMetric.Baseline := LEReadLongint(AStream);
@@ -2388,7 +2416,7 @@ function TBGRAVectorizedFont.ComputeKerning(AIdLeft, AIdRight: string): single;
 var
   together: String;
 begin
-  if Resolution = 0 then exit(0);
+  if (Resolution = 0) or not VectorizeLCL then exit(0);
   if IsRightToLeftUTF8(AIdLeft) then
   begin
     if IsRightToLeftUTF8(AIdRight) then
@@ -2397,7 +2425,8 @@ begin
       together := UTF8OverrideDirection(AIdRight + AIdLeft, true);
   end else
     together := AIdLeft + AIdRight;
-  result := BGRATextSize(FFont, fqSystem, together, 1).cx/Resolution
+  NeedBuffer;
+  result := FBuffer.TextSize(together).cx/Resolution
             - Glyph[AIdLeft].Width - Glyph[AIdRight].Width;
 end;
 

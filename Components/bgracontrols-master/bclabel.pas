@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: LGPL-3.0-only (modified to allow linking)
+// SPDX-License-Identifier: LGPL-3.0-linking-exception
 { Equivalent of standard lazarus TLabel but using BGRA Controls framework for text
   render.
 
@@ -135,7 +135,6 @@ uses BCTools;
 
 {$IFDEF FPC}procedure Register;
 begin
-  //{$I icons\bclabel_icon.lrs}
   RegisterComponents('BGRA Controls',[TBCLabel]);
 end;
 {$ENDIF}
@@ -156,7 +155,7 @@ begin
   CalculateBorderRect(FBorder,r);
 
   RenderBackgroundAndBorder(FBGRA.ClipRect, FBackground, TBGRABitmap(FBGRA), FRounding, FBorder, FInnerMargin);
-  RenderText(FBGRA.ClipRect, FFontEx, Caption, TBGRABitmap(FBGRA));
+  RenderText(FBGRA.ClipRect, FFontEx, Caption, TBGRABitmap(FBGRA), Enabled);
 
   {$IFDEF INDEBUG}
   FRenderCount := FRenderCount +1;

@@ -1,13 +1,8 @@
 // SPDX-License-Identifier: LGPL-3.0-linking-exception
-unit BGRAPath;
 
-{$mode objfpc}{$H+}
+{ @abstract(Implements path and path cursor)
 
-interface
-
-//todo: tangent interpolation
-
-{ There are different conventions for angles.
+  There are different conventions for angles.
 
   First is about the unit. It can be one of the following:
   - degrees (0..360)
@@ -34,8 +29,14 @@ interface
   in degrees. The convention used here is the usual degree convention:
     (degrees, top-most, clockwise) that can be shortened to (degree)
     because top-most and clockwise is the default for degrees.
+}
+unit BGRAPath;
 
-  }
+{$mode objfpc}{$H+}
+
+interface
+
+//todo: tangent interpolation
 
 uses
   BGRABitmapTypes, BGRATransform;
@@ -53,8 +54,7 @@ type
 
   TBGRAPath = class;
 
-  { TBGRAPathCursor }
-
+  { Cursor to determine position along a path }
   TBGRAPathCursor = class(TBGRACustomPathCursor)
   protected
     FPath: TBGRAPath;
@@ -119,8 +119,26 @@ type
     property AcceptedDeviation: single read FAcceptedDeviation;
   end;
 
-  { TBGRAPath }
+  { @abstract(Path (in 2D) that allows to define custom shapes that can be drawn.)
 
+**Example of drawing an arrow with a path:**
+```pascal
+procedure TForm1.BGRAVirtualScreen1Redraw(Sender: TObject; Bitmap: TBGRABitmap);
+var p: TBGRAPath;
+begin
+  p := TBGRAPath.Create;
+  p.scale(2);
+  p.moveTo(20, 20);
+  p.arcTo(60, 20, 60, 40, 20);
+  p.arcTo(60, 120, 80, 120, 20);
+  p.lineTo(120, 120);
+  Bitmap.ArrowEndAsClassic;
+  Bitmap.ArrowEndSize := PointF(5,5);
+  Bitmap.DrawPath(p, clBlack, 3);
+  Bitmap.ArrowEndAsNone;
+  p.Free;
+end;
+```}
   TBGRAPath = class(TBGRACustomPath)
   protected
     FData: PByte;
@@ -2075,6 +2093,8 @@ begin
         else
           result := ComputeClosedSpline(pts, SplineStyle, AAcceptedDeviation);
       end;
+    else
+      result := nil;
   end;
 end;
 
@@ -2216,6 +2236,7 @@ var p: integer;
   var numberStart: integer;
       errPos: integer;
       decimalFind: boolean;
+      str: String;
 
     procedure parseFloatInternal;
     begin
@@ -2241,7 +2262,8 @@ var p: integer;
       inc(p);
       parseFloatInternal;
     end;
-    val(copy(AValue,numberStart,p-numberStart),result,errPos);
+    str := copy(AValue,numberStart,p-numberStart);
+    val(str,result,errPos);
     if errPos <> 0 then numberError := true;
   end;
 
