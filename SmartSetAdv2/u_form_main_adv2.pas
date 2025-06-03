@@ -1128,7 +1128,7 @@ end;
 procedure TFormMainAdv2.pnlTitleMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 begin
-  if ssLeft in Shift then
+  if (not fromMasterApp) and (ssLeft in Shift) then
   begin
     self.Left := self.Left - (MPos.X-X);
     self.Top := self.Top - (MPos.Y-Y);
@@ -2718,7 +2718,7 @@ var
   errorMsg: string;
   layoutContent: TStringList;
   continue: boolean;
-  osExplorerText: string;
+  ejectText: string;
 begin
   result := false;
   errorMsg := '';
@@ -2738,13 +2738,13 @@ begin
 
       if fileService.SaveFile(currentLayoutFile, layoutContent, allowNew, errorMsg) then
       begin
-        osExplorerText := 'Windows Explorer';
+        ejectText := ' and then right-click the Kinesis removable drive in Windows Explorer and “Eject” it';
         {$ifdef Darwin}
-        osExplorerText := 'Finder';
+        ejectText := '';
         {$endif}
         if (showSaveDialog) then
           ShowDialog('Save', 'Save done!' + #10 +
-                             'Your changes will be implemented once the v-Drive has been closed. Before closing the v-Drive, exit the App and then right-click the “Kinesis-KB” drive in ' + osExplorerText + ' and “Eject” it.',
+                             'Your changes will be implemented once the v-Drive has been closed. Before closing the v-Drive, exit the App' + ejectText + '.',
                 mtConfirmation, [mbOK], DEFAULT_DIAG_HEIGHT_ADV2);
         SetSaveState(ssNone);
         result := true;
