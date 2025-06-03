@@ -3903,7 +3903,7 @@ begin
           end;
         end;
       end
-      else //Whole line marked as invalid
+      else if (trim(currentLine) <> '') then //Whole line marked as invalid
         AddLineSegment(currentLine, isValidValue and isValidConfig);
 
       AddLine(textLine);

@@ -16,6 +16,7 @@ type
   TFormScanVDrive = class(TBaseForm)
     btnTroubleshootingTips: TColorSpeedButtonCS;
     btnScan: TColorSpeedButtonCS;
+    lblAdv2MessageNew: TLabel;
     lblFSMessage: TLabel;
     lblAdv360Message: TLabel;
     lblAdv2Message: TLabel;
@@ -52,6 +53,8 @@ begin
   FormScanVDrive.lblRGBMessage.Font.Color := fontColor;
   FormScanVDrive.lblTKOMessage.Font.Color := fontColor;
   FormScanVDrive.lblAdv360Message.Font.Color := fontColor;
+  FormScanVDrive.lblAdv2Message.Font.Color := fontColor;
+  FormScanVDrive.lblAdv2MessageNew.Font.Color := fontColor;
 
   if (device.DeviceNumber = APPL_RGB) then
     FormScanVDrive.lblRGBMessage.Visible := true
@@ -60,7 +63,7 @@ begin
   else if (device.DeviceNumber = APPL_FSPRO) or (device.DeviceNumber = APPL_FSEDGE) then
     FormScanVDrive.lblFSMessage.Visible := true
   else if (device.DeviceNumber = APPL_ADV2) then
-    FormScanVDrive.lblAdv2Message.Visible := true
+    FormScanVDrive.lblAdv2MessageNew.Visible := true
   else if (device.DeviceNumber = APPL_ADV360) then
     FormScanVDrive.lblAdv360Message.Visible := true;
 

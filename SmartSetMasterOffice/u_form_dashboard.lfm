@@ -9375,15 +9375,16 @@ object FormDashboard: TFormDashboard
         TextPadding = 0
       end
       object btnAccessWebsite: TColorSpeedButtonCS
-        Left = 114
+        Left = 96
         Height = 40
-        Top = 129
+        Top = 200
         Width = 240
         Anchors = []
         Caption = 'Access the Pro GUI on Github'
         Font.Color = clWhite
         Font.Height = -16
         Font.Style = [fsBold]
+        Visible = False
         OnClick = btnAccessWebsiteClick
         ShowHint = True
         ParentFont = False
@@ -9423,6 +9424,7 @@ object FormDashboard: TFormDashboard
       Color = 1644825
       ParentColor = False
       TabOrder = 2
+      Visible = False
       object imgApp3: TImage
         Left = 1
         Height = 298
@@ -11114,7 +11116,6 @@ object FormDashboard: TFormDashboard
       Font.Color = clWhite
       Font.Height = -16
       Font.Style = [fsBold]
-      Visible = False
       OnClick = btnWatchTutorialClick
       ShowHint = True
       ParentFont = False
@@ -11152,7 +11153,6 @@ object FormDashboard: TFormDashboard
       Font.Color = clWhite
       Font.Height = -16
       Font.Style = [fsBold]
-      Visible = False
       OnClick = btnCheckUpdatesConnectedClick
       ShowHint = True
       ParentFont = False
@@ -11191,6 +11191,8 @@ object FormDashboard: TFormDashboard
       Font.Color = clWhite
       Font.Height = -16
       Font.Style = [fsBold]
+      Transparent = False
+      Visible = False
       OnClick = btnWatchTutorialClick
       ShowHint = True
       ParentFont = False
@@ -11228,6 +11230,8 @@ object FormDashboard: TFormDashboard
       Font.Color = clWhite
       Font.Height = -16
       Font.Style = [fsBold]
+      Transparent = False
+      Visible = False
       OnClick = btnCheckUpdatesConnectedClick
       ShowHint = True
       ParentFont = False
@@ -11957,7 +11961,6 @@ object FormDashboard: TFormDashboard
         A759378925020AFFBC797DF4FB6FBF3E05B97620FF7CF962F41FACD79B711F02
         D00B0000000049454E44AE426082
       }
-      Visible = False
     end
     object imgEject3: TImage
       Left = 1301
@@ -12271,6 +12274,7 @@ object FormDashboard: TFormDashboard
         A759378925020AFFBC797DF4FB6FBF3E05B97620FF7CF962F41FACD79B711F02
         D00B0000000049454E44AE426082
       }
+      Visible = False
     end
     object imgEject4: TImage
       Left = 264
@@ -13567,15 +13571,16 @@ object FormDashboard: TFormDashboard
       TextPadding = 0
     end
     object btnGetHelpAdv360Pro: TColorSpeedButtonCS
-      Left = 578
+      Left = 577
       Height = 40
-      Top = 351
+      Top = 392
       Width = 448
       Anchors = []
       Caption = 'Get Help with the Pro'
       Font.Color = clWhite
       Font.Height = -16
       Font.Style = [fsBold]
+      Visible = False
       OnClick = btnGetHelpAdv360ProClick
       ShowHint = True
       ParentFont = False
@@ -13606,8 +13611,8 @@ object FormDashboard: TFormDashboard
   end
   object imgListMenu: TImageList
     DrawingStyle = dsTransparent
-    Left = 1192
-    Top = 72
+    Left = 1304
+    Top = 48
     Bitmap = {
       4C690A0000001000000010000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

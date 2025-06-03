@@ -181,7 +181,7 @@ var
   procedure SetVDriveState(state: boolean);
 
 const
-  MAX_DEVICES = 3;
+  MAX_DEVICES = 2;
   MM_MAX_NUMAXES = 16;
   NORMAL_HEIGHT = 830;
   NORMAL_WIDTH = 1550;
@@ -383,7 +383,7 @@ var
   aDevice: TDevice;
 begin
   aDevice := TDevice.Create;
-  aDevice.DeviceName := 'ADVANTAGE 360';
+  aDevice.DeviceName := 'ADVANTAGE 360 SmartSet';
   aDevice.DeviceNumber := APPL_ADV360;
   aDevice.VDriveName := ADV360_DRIVE;
   aDevice.TutorialUrl := ADV360_TUTORIAL;
@@ -393,12 +393,12 @@ begin
   aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + v-Drive';
   deviceList.Add(aDevice);
 
-  aDevice := TDevice.Create;
-  aDevice.DeviceName := 'ADVANTAGE360 PROFESSIONAL';
-  aDevice.DeviceNumber := APPL_ADV360PRO;
-  aDevice.Programmable := false;
-  deviceList.Add(aDevice);
-
+  //aDevice := TDevice.Create;
+  //aDevice.DeviceName := 'ADVANTAGE360 PROFESSIONAL';
+  //aDevice.DeviceNumber := APPL_ADV360PRO;
+  //aDevice.Programmable := false;
+  //deviceList.Add(aDevice);
+  //
   aDevice := TDevice.Create;
   aDevice.DeviceName := 'ADVANTAGE 2';
   aDevice.DeviceNumber := APPL_ADV2;

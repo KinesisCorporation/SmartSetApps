@@ -1,9 +1,9 @@
 inherited FormScanVDrive: TFormScanVDrive
   Left = 427
-  Height = 172
+  Height = 191
   Top = 128
   Width = 871
-  ClientHeight = 172
+  ClientHeight = 191
   ClientWidth = 871
   Font.Height = -19
   KeyPreview = True
@@ -12,7 +12,7 @@ inherited FormScanVDrive: TFormScanVDrive
   OnKeyDown = FormKeyDown
   Position = poScreenCenter
   inherited lineBorderLeft: TLineObj
-    Height = 135
+    Height = 154
   end
   inherited pnlTop: TPanel
     Width = 871
@@ -36,12 +36,12 @@ inherited FormScanVDrive: TFormScanVDrive
     end
   end
   inherited lineBorderBottom: TLineObj
-    Top = 170
+    Top = 189
     Width = 871
   end
   inherited lineBorderRight: TLineObj
     Left = 869
-    Height = 135
+    Height = 154
   end
   object lblTKOMessage: TLabel[4]
     Left = 18
@@ -62,7 +62,7 @@ inherited FormScanVDrive: TFormScanVDrive
   object btnTroubleshootingTips: TColorSpeedButtonCS[5]
     Left = 704
     Height = 32
-    Top = 123
+    Top = 142
     Width = 150
     Anchors = [akRight, akBottom]
     Caption = 'Get Help'
@@ -100,7 +100,7 @@ inherited FormScanVDrive: TFormScanVDrive
   object btnScan: TColorSpeedButtonCS[6]
     Left = 536
     Height = 32
-    Top = 123
+    Top = 142
     Width = 150
     Anchors = [akRight, akBottom]
     Caption = 'Scan Again'
@@ -190,6 +190,22 @@ inherited FormScanVDrive: TFormScanVDrive
     Width = 832
     AutoSize = False
     Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by using the onboard shortcut Program + F1. Please connect the v-Drive and then click the “Scan Again” button below.'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+    Visible = False
+    WordWrap = True
+  end
+  object lblAdv2MessageNew: TLabel[11]
+    Left = 18
+    Height = 108
+    Top = 36
+    Width = 832
+    AutoSize = False
+    Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by first enabling Power User Mode (if necessary) using the onboard shortcut Program + Shift + Esc, and then connecting the v-Drive using the shortcut Program + F1. Please connect the v-Drive and then click the “Scan for v-Drive” button below.'
     Font.Color = clWhite
     Font.Height = -19
     Font.Name = 'Tahoma'
