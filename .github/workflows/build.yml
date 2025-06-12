@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       ## MacOS Setup
       - name: install lazarus (Mac)
@@ -25,23 +25,17 @@ jobs:
       ## Linux Setup
       - name: install lazarus (linux)
         if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install lazarus
+        run: sudo make install-lazarus-linux
 
       ## Windows Setup
 
       - name: install make (windows)
         if: matrix.os == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install make
+        run: choco install make
 
       - name: install 32-bit lazarus (windows)
         if: matrix.os == 'windows-latest'
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install --x86 lazarus
+        run: choco install --x86 lazarus --version=2.2.6
 
       # https://stackoverflow.com/a/64831469
       - name: add lazarus to path (windows)
@@ -67,27 +61,27 @@ jobs:
       - run: make smartset_rgb
 
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetMaster-${{ runner.os }}
           path: SmartSetMaster
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetMasterOffice-${{ runner.os }}
           path: SmartSetMasterOffice
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetAdv2-${{ runner.os }}
           path: SmartSetAdv2
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetFSEdgePro-${{ runner.os }}
           path: SmartSetFSEdgePro
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: SmartSetSavantElite-${{ runner.os }}
           path: SmartSetSavantElite

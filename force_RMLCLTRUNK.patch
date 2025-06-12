@@ -1,0 +1,36 @@
+diff --git a/Components/richmemo/gtk2/gtk2richmemo.pas b/Components/richmemo/gtk2/gtk2richmemo.pas
+index 0a3aff3..e0bf3b5 100644
+--- a/Components/richmemo/gtk2/gtk2richmemo.pas
++++ b/Components/richmemo/gtk2/gtk2richmemo.pas
+@@ -786,11 +786,11 @@ begin
+     BorderStyleShadowMap[TCustomMemo(AWinControl).BorderStyle]);
+ 
+   SetMainWidget(Widget, TempWidget);
+-  {$ifdef RMLCLTRUNK}
++  // {$ifdef RMLCLTRUNK}
+   GetWidgetInfo(Widget)^.CoreWidget := TempWidget;
+-  {$else}
+-  GetWidgetInfo(Widget, True)^.CoreWidget := TempWidget;
+-  {$endif}
++  // {$else}
++  // GetWidgetInfo(Widget, True)^.CoreWidget := TempWidget;
++  // {$endif}
+ 
+   gtk_text_view_set_editable(PGtkTextView(TempWidget), not TCustomMemo(AWinControl).ReadOnly);
+   gtk_text_view_set_justification(PGtkTextView(TempWidget), aGtkJustification[TCustomMemo(AWinControl).Alignment]);
+@@ -871,11 +871,11 @@ class function TGtk2WSCustomRichMemo.GetStrings(const ACustomMemo: TCustomMemo
+ var
+   TextView: PGtkTextView;
+ begin
+-  {$ifdef RMLCLTRUNK}
++  // {$ifdef RMLCLTRUNK}
+   TextView := PGtkTextView(GetWidgetInfo({%H-}Pointer(ACustomMemo.Handle))^.CoreWidget);
+-  {$else}
+-  TextView := PGtkTextView(GetWidgetInfo({%H-}Pointer(ACustomMemo.Handle), False)^.CoreWidget);
+-  {$endif}
++  // {$else}
++  // TextView := PGtkTextView(GetWidgetInfo({%H-}Pointer(ACustomMemo.Handle), False)^.CoreWidget);
++  // {$endif}
+   Result := TGtk2RichMemoStrings.Create(TextView, ACustomMemo);
+ end;
+ 
