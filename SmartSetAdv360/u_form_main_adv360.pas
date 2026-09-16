@@ -558,7 +558,6 @@ type
     procedure MacroRepoMouseEnter(Sender: TObject);
     procedure MacroRepoMouseLeave(Sender: TObject);
   private
-    closing: boolean;
     MacroMode: boolean;
     RemapMode: boolean;
     KeyModified: boolean;
@@ -790,6 +789,7 @@ type
     procedure ReturnToHome;
     procedure CheckProfileNo;
   public
+    closing: boolean;
     currentLayoutFile: string;
     currentLedFile: string;
     currentProfileNumber: integer;
@@ -1073,8 +1073,9 @@ begin
   //From master app
   if (fromMasterApp) then
   begin
-    FormStyle := TFormStyle.fsMDIChild;
+    //FormStyle := TFormStyle.fsMDIChild;
     WindowState:= TWindowState.wsMaximized;
+    BorderStyle := bsNone;
     NORMAL_HEIGHT := Parent.Height;
     NORMAL_WIDTH := Parent.Width;
     Maximize;
@@ -2768,7 +2769,9 @@ end;
 procedure TFormMainAdv360.SetFormBorder(formBorder: TFormBorderStyle);
 begin
   //{$ifdef Win32}
-  self.BorderStyle := formBorder;
+  BorderStyle := formBorder;
+  Caption:='';
+  BorderIcons:=[];
   RepaintForm(true);
   //{$endif}
 end;

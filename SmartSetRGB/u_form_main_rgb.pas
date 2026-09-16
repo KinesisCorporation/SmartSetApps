@@ -706,7 +706,6 @@ type
     appError: boolean;
     activeMacroMenu: string;
     logoSize: integer;
-    closing: boolean;
     profileMode: TProfileMode;
     cusWindowState: TCusWinState;
     NORMAL_HEIGHT: integer;
@@ -872,6 +871,7 @@ type
     procedure CheckFirmware;
   public
     { public declarations }
+    closing: boolean;
     currentLayoutFile: string;
     currentLedFile: string;
     currentProfileNumber: integer;
@@ -1207,7 +1207,7 @@ begin
   //From master app
   if (fromMasterApp) then
   begin
-    FormStyle := TFormStyle.fsMDIChild;
+    //FormStyle := TFormStyle.fsMDIChild;
     WindowState:= TWindowState.wsMaximized;
     //FormMainRGB.Maximize;
     pnlTop.Visible := false;

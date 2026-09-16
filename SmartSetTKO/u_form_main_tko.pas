@@ -12,7 +12,7 @@ uses
   FileUtil, u_form_intro, u_form_troubleshoot, u_form_settings, u_gif, LCLIntf,
   u_form_export, Types, u_form_about, buttons, u_form_diagnostics,
   u_form_firmware, u_form_timingdelays, LResources, lcltype, BGRABitmap,
-  BGRABitmapTypes, BGRAGradients, BGRAGradientScanner
+  BGRABitmapTypes, BGRAGradients, BGRAGradientScanner, lazfileutils
   {$ifdef Win32},Windows{$endif};
 
 type
@@ -493,7 +493,6 @@ type
     procedure PopupProfileClose(Sender: TObject);
     procedure PopupProfilePopup(Sender: TObject);
   private
-    closing: boolean;
     MacroMode: boolean;
     RemapMode: boolean;
     KeyModified: boolean;
@@ -753,6 +752,7 @@ type
     procedure InitPopupMenus;
     procedure AddMenuItem(var popMenu: TPopupMenu; itemName: string; keyCode: integer);
   public
+    closing: boolean;
     currentLayoutFile: string;
     currentLedFile: string;
     currentProfileNumber: integer;
@@ -1028,7 +1028,7 @@ begin
   //From master app
   if (fromMasterApp) then
   begin
-    FormStyle := TFormStyle.fsMDIChild;
+    //FormStyle := TFormStyle.fsMDIChild;
     WindowState:= TWindowState.wsMaximized;
     NORMAL_HEIGHT := Parent.Height;
     NORMAL_WIDTH := Parent.Width;

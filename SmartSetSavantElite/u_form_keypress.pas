@@ -140,7 +140,6 @@ type
     fontColor: TColor;
     backColor: TColor;
     fromMasterApp: boolean;
-    closing: boolean;
     pedalFilePath: string;
     pedalFolderPath: string;
     parentForm: TForm;
@@ -176,6 +175,7 @@ type
     procedure UpdateStateSettings;
   public
     { public declarations }
+    closing: boolean;
     function InitForm(mdiParent: TForm): boolean;
     procedure Maximize;
   end;
@@ -385,11 +385,14 @@ end;
 
 procedure TFormMainSE2.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  closing := true;
   if not CheckToSave(false) then
-    CloseAction := caNone
-  else
   begin
     closing := true;
+    CloseAction := caNone;
+  end
+  else
+  begin
     FreeAndNil(keyService);
     FreeAndNil(fileService);
     CloseAction := caFree;
@@ -442,7 +445,7 @@ begin
   //From master app
   if (fromMasterApp) then
   begin
-    FormStyle := TFormStyle.fsMDIChild;
+    //FormStyle := TFormStyle.fsMDIChild;
     WindowState:= TWindowState.wsMaximized;
     //NORMAL_HEIGHT := Parent.Height;
     //NORMAL_WIDTH := Parent.Width;

@@ -613,13 +613,13 @@ end;
 
 procedure TFormDashboard.CloseActiveForms;
 begin
-  if (FormMainRGB <> nil) and (FormMainRGB.Visible = true) then
+  if (FormMainRGB <> nil) and (FormMainRGB.Visible = true) and not(FormMainRGB.closing) then
   begin
     FormMainRGB.Close;
     FormMainRGB := nil;
-    //FreeAndNil(FormRGB);
+    //FreeAndNil(FormMainRGB);
   end;
-  if (FormMainTKO <> nil) and (FormMainTKO.Visible = true) then
+  if (FormMainTKO <> nil) and (FormMainTKO.Visible = true) and not(FormMainTKO.closing) then
   begin
     FormMainTKO.Close;
     FormMainTKO := nil;
@@ -715,6 +715,10 @@ begin
         {$ifdef darwin}
         Application.CreateForm(TFormMainRGB, FormMainRGB);
         {$endif};
+        {$ifdef Win32}
+        if (FormMainRGB = nil) or (FormMainRGB.closing) then
+           Application.CreateForm(TFormMainRGB, FormMainRGB);
+        {$endif}
         FormMainRGB.Parent := pnlMain;
         if (FormMainRGB.InitForm(self)) then
           FormMainRGB.Show;
@@ -732,6 +736,10 @@ begin
         {$ifdef darwin}
         Application.CreateForm(TFormMainTKO, FormMainTKO);
         {$endif};
+        {$ifdef Win32}
+        if (FormMainTKO = nil) or (FormMainTKO.closing) then
+           Application.CreateForm(TFormMainTKO, FormMainTKO);
+        {$endif}
         FormMainTKO.Parent := pnlMain;
         if (FormMainTKO.InitForm(self)) then
           FormMainTKO.Show;

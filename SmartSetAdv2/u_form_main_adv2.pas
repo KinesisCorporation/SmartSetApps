@@ -385,7 +385,6 @@ type
     defaultKeyFontName: string;
     defaultKeyFontSize: integer;
     appError: boolean;
-    closing: boolean;
     customWindowState: TCusWinState;
     defaultWidth: integer;
     defaultHeight: integer;
@@ -457,6 +456,7 @@ type
     procedure RepaintForm(fullRepaint: boolean);
   public
     { public declarations }
+    closing: boolean;
     keyService: TKeyService;
     fileService: TFileService;
     blueColor: TColor;
@@ -729,7 +729,7 @@ begin
   //From master app
   if (fromMasterApp) then
   begin
-    FormStyle := TFormStyle.fsMDIChild;
+    //FormStyle := TFormStyle.fsMDIChild;
     WindowState:= TWindowState.wsMaximized;
     //NORMAL_HEIGHT := Parent.Height;
     //NORMAL_WIDTH := Parent.Width;
@@ -986,11 +986,14 @@ end;
 
 procedure TFormMainAdv2.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  closing := true;
   if not CheckToSave(false) then
-    CloseAction := caNone
+  begin
+    CloseAction := caNone;
+    closing := false;
+  end
   else
   begin
-    closing := true;
     FreeAndNil(keyService);
     FreeAndNil(fileService);
     CloseAction := caFree;

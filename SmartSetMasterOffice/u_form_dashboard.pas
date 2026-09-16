@@ -31,7 +31,6 @@ type
     btnOpenApp4: TColorSpeedButtonCS;
     btnOpenApp5: TColorSpeedButtonCS;
     btnOpenApp6: TColorSpeedButtonCS;
-    btnAccessWebsite: TColorSpeedButtonCS;
     btnWatchTutorial2: TColorSpeedButtonCS;
     btnWatchTutorial3: TColorSpeedButtonCS;
     btnWatchTutorial4: TColorSpeedButtonCS;
@@ -728,22 +727,22 @@ end;
 
 procedure TFormDashboard.CloseActiveForms;
 begin
-  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible = true) then
+  if (FormMainAdv360 <> nil) and (FormMainAdv360.Visible = true) and not(FormMainAdv360.closing) then
   begin
     FormMainAdv360.Close;
     FormMainAdv360 := nil;
   end
-  else if (FormMainFS <> nil) and (FormMainFS.Visible = true) then
+  else if (FormMainFS <> nil) and (FormMainFS.Visible = true) and not(FormMainFS.closing) then
   begin
     FormMainFS.Close;
     FormMainFS := nil;
   end;
-  if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible = true) then
+  if (FormMainAdv2 <> nil) and (FormMainAdv2.Visible = true) and not(FormMainAdv2.closing) then
   begin
     FormMainAdv2.Close;
     FormMainAdv2 := nil;
   end;
-  if (FormMainSE2 <> nil) and (FormMainSE2.Visible = true) then
+  if (FormMainSE2 <> nil) and (FormMainSE2.Visible = true) and not(FormMainSE2.closing) then
   begin
     FormMainSE2.Close;
     FormMainSE2 := nil;
@@ -836,9 +835,8 @@ begin
         SetSelectedMenu(nil);
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading Advantage 360...', backColor, fontColor);
-        {$ifdef darwin}
-        Application.CreateForm(TFormMainAdv360, FormMainAdv360);
-        {$endif};
+        if (FormMainAdv360 = nil) or (FormMainAdv360.closing) then
+           Application.CreateForm(TFormMainAdv360, FormMainAdv360);
         FormMainAdv360.Parent := pnlMain;
         if (FormMainAdv360.InitForm(self)) then
            FormMainAdv360.Show;
@@ -854,9 +852,8 @@ begin
         SetSelectedMenu(nil);
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading FREESTYLE PRO...', backColor, fontColor);
-        {$ifdef darwin}
-        Application.CreateForm(TFormMainFS, FormMainFS);
-        {$endif};
+        if (FormMainFS = nil) or (FormMainFS.closing) then
+           Application.CreateForm(TFormMainFS, FormMainFS);
         FormMainFS.Parent := pnlMain;
         if (FormMainFS.InitForm(self)) then
            FormMainFS.Show;
@@ -873,9 +870,8 @@ begin
         SetSelectedMenu(nil);
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading ADVANTAGE 2...', backColor, fontColor);
-        {$ifdef darwin}
-        Application.CreateForm(TFormMainAdv2, FormMainAdv2);
-        {$endif};
+        if (FormMainAdv2 = nil) or (FormMainAdv2.closing) then
+           Application.CreateForm(TFormMainAdv2, FormMainAdv2);
         FormMainAdv2.Parent := pnlMain;
         if (FormMainAdv2.InitForm(self)) then
            FormMainAdv2.Show;
@@ -891,9 +887,8 @@ begin
         SetSelectedMenu(nil);
         GActiveDevice := device;
         ShowLoading('Loading...', 'Loading SAVANT ELITE 2...', backColor, fontColor);
-        {$ifdef darwin}
-        Application.CreateForm(TFormMainSE2, FormMainSE2);
-        {$endif};
+        if (FormMainSE2 = nil) or (FormMainSE2.closing) then
+           Application.CreateForm(TFormMainSE2, FormMainSE2);
         FormMainSE2.Parent := pnlMain;
         if (FormMainSE2.InitForm(self)) then
            FormMainSE2.Show;

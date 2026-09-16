@@ -476,7 +476,6 @@ type
     maxKeystrokes : integer;
     totalKeystrokes: integer;
     appError: boolean;
-    closing: boolean;
     customWindowState: TCusWinState;
     defaultWidth: integer;
     defaultHeight: integer;
@@ -550,6 +549,7 @@ type
     function ValidateBeforeSave: boolean;
   public
     { public declarations }
+    closing: boolean;
     keyService: TKeyService;
     fileService: TFileService;
     function InitForm(mdiParent: TForm): boolean;
@@ -798,7 +798,7 @@ begin
   //From master app
   if (fromMasterApp) then
   begin
-    FormStyle := TFormStyle.fsMDIChild;
+    //FormStyle := TFormStyle.fsMDIChild;
     WindowState:= TWindowState.wsMaximized;
     //NORMAL_HEIGHT := Parent.Height;
     //NORMAL_WIDTH := Parent.Width;
@@ -1128,11 +1128,14 @@ end;
 
 procedure TFormMainFS.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  closing := true;
   if not CheckToSave(false) then
-    CloseAction := caNone
+  begin
+    closing := false;
+    CloseAction := caNone;
+  end
   else
   begin
-    closing := true;
     FreeAndNil(keyService);
     FreeAndNil(fileService);
     CloseAction := caFree;
