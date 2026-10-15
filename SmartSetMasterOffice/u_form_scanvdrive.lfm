@@ -221,7 +221,7 @@ inherited FormScanVDrive: TFormScanVDrive
     Top = 36
     Width = 832
     AutoSize = False
-    Caption = 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the pedal in Program Mode to regenerate these files and try launching the App again. To activate Program Mode, Toggle recessed switch on underside (except waterproof models), or Press a pedal briefly while plugging in USB cable.'
+    Caption = 'To program the pedal, you must first connect the v-Drive by sliding the switch on the underside from Play Mode to Program Mode.'
     Font.Color = clWhite
     Font.Height = -19
     Font.Name = 'Tahoma'

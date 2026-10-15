@@ -426,7 +426,7 @@ begin
   aDevice.VDriveName := PEDAL_DRIVE;
   aDevice.TutorialUrl := PEDAL_TUTORIAL;
   aDevice.VersionFolder := VERSION_FOLDER_PEDAL;
-  aDevice.ScanVDriveHint := 'To program the foot pedal please plug in your device in the USB port';
+  aDevice.ScanVDriveHint := 'To program the pedal, you must first connect the v-Drive by sliding the switch on the underside from Play Mode to Program Mode';
   aDevice.CanCheckUpdate := false;
   deviceList.Add(aDevice);
 end;
