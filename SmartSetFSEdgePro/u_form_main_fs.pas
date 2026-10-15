@@ -783,6 +783,7 @@ var
   canShowApp: boolean;
 begin
   result := false;
+
   fromMasterApp := mdiParent <> nil;
   parentForm := mdiParent;
 
@@ -1826,10 +1827,7 @@ end;
 
 procedure TFormMainFS.btnSaveClick(Sender: TObject);
 begin
-  if fileService.NewFile then
-    SaveAs
-  else
-    Save(currentLayoutFile);
+  Save(currentLayoutFile);
 end;
 
 procedure TFormMainFS.CheckVDriveTmrTimer(Sender: TObject);

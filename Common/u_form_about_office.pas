@@ -166,13 +166,18 @@ begin
 end;
 
 procedure TFormAboutOffice.SetFirmwareVersion(firmwareVersion: string);
+var
+  firmText: string;
 begin
+  firmText := 'Keyboard Firmware :';
+  if (GApplication = APPL_PEDAL) then
+    firmText := 'Pedal Firmware :';
   if (firmwareVersion <> '') then
   begin
-    lblFirmware.Caption := 'Keyboard Firmware: v' + firmwareVersion
+    lblFirmware.Caption := firmText + ' v' + firmwareVersion
   end
   else
-    lblFirmware.Caption := 'Keyboard Firmware : not found';
+    lblFirmware.Caption := firmText + ' not found';
 end;
 
 procedure TFormAboutOffice.OpenHelpFile;

@@ -29,6 +29,7 @@ type
     lblCoTrigger: TLabel;
     lblFireball: TLabel;
     lblRipple: TLabel;
+    lblLayerText: TLabel;
     NewGifTimer: TIdleTimer;
     btnAllZone: TColorSpeedButtonCS;
     btnLeftModule: TColorSpeedButtonCS;
@@ -6466,6 +6467,10 @@ begin
       resetLayer := true;
     end;
     swLayerSwitch.Checked := layerIdx = TOPLAYER_IDX;
+    if (layerIdx = TOPLAYER_IDX) then
+       lblLayerText.Caption := 'Top'
+    else
+       lblLayerText.Caption := 'Fn'
   end;
   resetLayer := false;
 end;

@@ -7,10 +7,10 @@ inherited FormScanVDrive: TFormScanVDrive
   ClientWidth = 871
   Font.Height = -19
   KeyPreview = True
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
-  Position = poScreenCenter
   inherited lineBorderLeft: TLineObj
     Height = 154
   end
@@ -64,17 +64,17 @@ inherited FormScanVDrive: TFormScanVDrive
     Height = 32
     Top = 142
     Width = 150
+    Alignment = taCenter
     Anchors = [akRight, akBottom]
     Caption = 'Get Help'
     Font.Color = clWhite
     Font.Height = -16
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    OnClick = btnTroubleshootingTipsClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    Alignment = taCenter
+    OnClick = btnTroubleshootingTipsClick
     TextAutoSize = True
     Toggle = False
     Pressed = False
@@ -102,17 +102,17 @@ inherited FormScanVDrive: TFormScanVDrive
     Height = 32
     Top = 142
     Width = 150
+    Alignment = taCenter
     Anchors = [akRight, akBottom]
     Caption = 'Scan Again'
     Font.Color = clWhite
     Font.Height = -16
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    OnClick = btnScanClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    Alignment = taCenter
+    OnClick = btnScanClick
     TextAutoSize = True
     Toggle = False
     Pressed = False
@@ -206,6 +206,22 @@ inherited FormScanVDrive: TFormScanVDrive
     Width = 832
     AutoSize = False
     Caption = 'Before launching the SmartSet App it is necessary to connect the keyboard’s v-Drive to your PC by first enabling Power User Mode (if necessary) using the onboard shortcut Program + Shift + Esc, and then connecting the v-Drive using the shortcut Program + F1. Please connect the v-Drive and then click the “Scan for v-Drive” button below.'
+    Font.Color = clWhite
+    Font.Height = -19
+    Font.Name = 'Tahoma'
+    Layout = tlCenter
+    ParentColor = False
+    ParentFont = False
+    Visible = False
+    WordWrap = True
+  end
+  object lblSE2Message: TLabel[12]
+    Left = 18
+    Height = 108
+    Top = 36
+    Width = 832
+    AutoSize = False
+    Caption = 'The SmartSet App cannot find the necessary layout and settings files on the v-drive. Replug the pedal in Program Mode to regenerate these files and try launching the App again. To activate Program Mode, Toggle recessed switch on underside (except waterproof models), or Press a pedal briefly while plugging in USB cable.'
     Font.Color = clWhite
     Font.Height = -19
     Font.Name = 'Tahoma'

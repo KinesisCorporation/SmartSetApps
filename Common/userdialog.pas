@@ -25,6 +25,7 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyPress(Sender: TObject; var Key: char);
     procedure lblCheckBoxClick(Sender: TObject);
+    procedure pnlTopResize(Sender: TObject);
   private
     { private declarations }
     aButtons: array of TColorSpeedButtonCS;
@@ -256,6 +257,12 @@ end;
 procedure TFormUserDialog.lblCheckBoxClick(Sender: TObject);
 begin
   chkCheckBox.Checked := not chkCheckBox.Checked;
+end;
+
+procedure TFormUserDialog.pnlTopResize(Sender: TObject);
+begin
+  btnClose.Left := pnlTop.Width - btnClose.Width - 5;
+  btnCloseLight.Left := pnlTop.Width - btnCloseLight.Width - 5;
 end;
 
 procedure TFormUserDialog.btnOkClick(Sender: TObject);

@@ -187,11 +187,12 @@ var
   GApplicationPath: string; //Application start path
   GMasterAppId: integer; //Id of master application
   GExecutablePath: string; //Executable path
-  //GPedalsFile: string; //Location of Pedals.txt file
-  //GPedalsFilePath: string; //Location of Pedals.txt file folder
+  GPedalsFile: string; //Location of Pedals.txt file
+  GPedalsFilePath: string; //Location of Pedals.txt file folder
   GLayoutFilePath: string; //Location of layout file folder (FS Edge)
   GLedFilePath: string; //Location of led file folder (FS Edge)
   GSettingsFilePath: string; //Location of settings files (FS Edge)
+  GPedalVersionFile: string; //Location of the version.txt file (SE2)
   //GFirmwareFilePath: string; //Location of settings files (FS Edge)
   //GVersionFile: string; //Location of the version file
   //GStateFile: string; //Location of state.txt file
@@ -537,16 +538,16 @@ const
   TEXT_SEPARATOR = '-'; //For popupmenu separator
 
   //Modifier short values
-  SHIFT_MOD = 'S ';
+  SHIFT_MOD = 'S_';
   L_SHIFT_MOD = 'LS';
   R_SHIFT_MOD = 'RS';
-  CTRL_MOD = 'C ';
+  CTRL_MOD = 'C_';
   L_CTRL_MOD = 'LC';
   R_CTRL_MOD = 'RC';
-  ALT_MOD = 'A ';
+  ALT_MOD = 'A_';
   L_ALT_MOD = 'LA';
   R_ALT_MOD = 'RA';
-  WIN_MOD = 'W ';
+  WIN_MOD = 'W_';
   L_WIN_MOD = 'LW';
   R_WIN_MOD = 'RW';
 
@@ -1282,13 +1283,13 @@ end;
 procedure ResetAppPaths;
 begin
   //Warning ParamStr(0) might not work correctly on Mac OS
-  //GPedalsFilePath := IncludeTrailingBackslash(GApplicationPath + 'active');
+  GPedalsFilePath := IncludeTrailingBackslash(GApplicationPath + 'active');
   GLayoutFilePath := IncludeTrailingBackslash(GApplicationPath + 'layouts');
   GLedFilePath := IncludeTrailingBackslash(GApplicationPath + 'lighting');
   GSettingsFilePath := IncludeTrailingBackslash(GApplicationPath + 'settings');
   //GFirmwareFilePath := IncludeTrailingBackslash(GApplicationPath + 'firmware');
-  //GPedalsFile := GPedalsFilePath + 'pedals.txt';
-  //GVersionFile := GPedalsFilePath + VERSION_FILE;
+  GPedalsFile := GPedalsFilePath + 'pedals.txt';
+  GPedalVersionFile := GPedalsFilePath + VERSION_FILE;
   //GStateFile := GPedalsFilePath + ADV2_STATE_FILE;
   GDebugMode := FileExists(GApplicationPath + 'debug.on');
   GDebugFirmware := FileExists(GApplicationPath + 'debug_firm.on');
@@ -1768,6 +1769,11 @@ begin
   begin
     ConfigKeys.Add(TKey.Create(VK_LWIN, 'lwin', 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Cmd', 'Command'));
     ConfigKeys.Add(TKey.Create(VK_RWIN, 'rwin', 'Right' + #10 + 'Cmd', '', '', '', false, false, '', true, false, 0, '', 'Right Cmd', 'Right Command'));
+  end
+  else if (GApplication = APPL_PEDAL) then
+  begin
+    ConfigKeys.Add(TKey.Create(VK_LWIN, 'Cmd', '', 'win'));
+    ConfigKeys.Add(TKey.Create(VK_RWIN, 'Cmd', '', 'win'));
   end
   else
   begin

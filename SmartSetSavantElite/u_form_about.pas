@@ -68,11 +68,11 @@ begin
   //Line one is formatted like this: "Firmware version is 1.0.44"
   //Line two has firware date
   firmwareFound := false;
-  if FileExists(GVersionFile) then
+  if FileExists(GPedalVersionFile) then
   begin
     fileVersion := TStringList.Create;
     try
-      fileVersion.LoadFromFile(GVersionFile);
+      fileVersion.LoadFromFile(GPedalVersionFile);
       if fileVersion.Count > 1 then
       begin
         lblFirmware.Caption := 'Pedal – Firmware version : ' + Copy(fileVersion.Strings[1], FindFirstNumberPos(fileVersion.Strings[1]), Length(fileVersion.Strings[1]));

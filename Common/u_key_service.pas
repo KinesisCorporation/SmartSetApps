@@ -2435,7 +2435,7 @@ function TKeyService.IsAltGr(aKey: TKey): boolean;
 begin
   if (Pos(CTRL_MOD, aKey.Modifiers) <> 0) and
     (Pos(ALT_MOD, aKey.Modifiers) <> 0) and
-    (Length(aKey.Modifiers) = 3) then
+    (Length(aKey.Modifiers) = (Length(CTRL_MOD) + Length(ALT_MOD) + 1)) then  //Lenght = 5 (there's a comma in the value)
     result := true
   else
     result := false;

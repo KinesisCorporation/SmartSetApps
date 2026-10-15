@@ -101,6 +101,7 @@ type
     lbEdgeL7: TLabelBox;
     lbEdgeL8: TLabelBox;
     lbEdgeL9: TLabelBox;
+    lblLayerText: TLabel;
     pnlEdgeLighting: TPanel;
     SpectrumTimer: TIdleTimer;
     btnBackspaceMacro: TColorSpeedButtonCS;
@@ -6541,6 +6542,10 @@ begin
       resetLayer := true;
     end;
     swLayerSwitch.Checked := layerIdx = TOPLAYER_IDX;
+    if (layerIdx = TOPLAYER_IDX) then
+       lblLayerText.Caption := 'Top'
+    else
+       lblLayerText.Caption := 'Fn'
   end;
   resetLayer := false;
 end;

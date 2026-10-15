@@ -29,6 +29,7 @@ type
     FSettingsFile: string;
     FSettingsFolder: string;
     FProgrammable: boolean;
+    FCanCheckUpdate: boolean;
   public
     constructor Create;
     destructor Destroy;
@@ -49,6 +50,7 @@ type
     property SettingsFolder: string read FSettingsFolder write FSettingsFolder;
     property SettingsFile: string read FSettingsFile write FSettingsFile;
     property Programmable: boolean read FProgrammable write FProgrammable;
+    property CanCheckUpdate: boolean read FCanCheckUpdate write FCanCheckUpdate;
   end;
 
   { TKeyList }
@@ -130,6 +132,7 @@ begin
   FVersionFolder := 'firmware';
   FSettingsFolder := 'settings';
   FProgrammable := true;
+  FCanCheckUpdate := true;
 end;
 
 destructor TDevice.Destroy;

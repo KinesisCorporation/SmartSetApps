@@ -51,7 +51,7 @@ type
     imgMinimize: TImage;
     imgBackgroundTop: TImage;
     imgAppLogoAdv360: TImage;
-    imgAppLogoFsPro: TImage;
+    imgAppLogoSE2: TImage;
     lblAppName2: TLabel;
     lblAppName3: TLabel;
     lblAppName4: TLabel;
@@ -180,7 +180,7 @@ var
   procedure SetVDriveState(state: boolean);
 
 const
-  MAX_DEVICES = 2;
+  MAX_DEVICES = 3;
   MM_MAX_NUMAXES = 16;
   NORMAL_HEIGHT = 830;
   NORMAL_WIDTH = 1550;
@@ -390,6 +390,7 @@ begin
   aDevice.VersionFolder := VERSION_FOLDER_ADV360;
   aDevice.SettingsFile := ADV360_SETTINGS_FILE;
   aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + v-Drive';
+  aDevice.CanCheckUpdate := false;
   deviceList.Add(aDevice);
 
   //aDevice := TDevice.Create;
@@ -407,6 +408,7 @@ begin
   aDevice.SettingsFolder := VERSION_FOLDER_ADV2;
   aDevice.SettingsFile := ADV2_STATE_FILE;
   aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut Program + F1';
+  aDevice.CanCheckUpdate := false;
   deviceList.Add(aDevice);
 
   //aDevice := TDevice.Create;
@@ -415,18 +417,18 @@ begin
   //aDevice.VDriveName := FSPRO_DRIVE;
   //aDevice.TutorialUrl := FSPRO_TUTORIAL;
   ////tpdp aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
+  //aDevice.CanCheckUpdate := false;
   //deviceList.Add(aDevice);
-  //
-  //aDevice := TDevice.Create;
-  //aDevice.DeviceName := 'SAVANT ELITE2';
-  //aDevice.DeviceNumber := APPL_PEDAL;
-  //aDevice.VDriveName := PEDAL_DRIVE;
-  //aDevice.TutorialUrl := PEDAL_TUTORIAL;
-  //aDevice.VersionFolder := VERSION_FOLDER_PEDAL;
-  ////tpdp aDevice.ScanVDriveHint := 'To program the keyboard, you must first connect the v-Drive to the PC using the shortcut SmartSet + Right Shift + V';
-  //deviceList.Add(aDevice);
-  //
 
+  aDevice := TDevice.Create;
+  aDevice.DeviceName := 'SAVANT ELITE2';
+  aDevice.DeviceNumber := APPL_PEDAL;
+  aDevice.VDriveName := PEDAL_DRIVE;
+  aDevice.TutorialUrl := PEDAL_TUTORIAL;
+  aDevice.VersionFolder := VERSION_FOLDER_PEDAL;
+  aDevice.ScanVDriveHint := 'To program the foot pedal please plug in your device in the USB port';
+  aDevice.CanCheckUpdate := false;
+  deviceList.Add(aDevice);
 end;
 
 procedure TFormDashboard.UpdateDevices;
@@ -499,6 +501,7 @@ begin
           GetDeviceInformation(aDevice);
 
         appNameLabel.Caption := aDevice.DeviceName;
+        appCheckUpdBtn.Visible := (not aDevice.Connected) or (aDevice.CanCheckUpdate);
         if (not aDevice.Programmable) then
         begin
           appOpenBtn.Visible := false;
@@ -664,7 +667,7 @@ begin
   button := (sender as TColorSpeedButtonCS);
 
   try
-    Screen.Cursor := crHourGlass;
+    //Screen.Cursor := crHourGlass;
     button.Enabled := false;
 
     if (button = btnCheckUpdatesConnected1) then
@@ -695,7 +698,7 @@ begin
     end;
   finally
     button.Enabled := true;
-    Screen.Cursor := crArrow;
+    //Screen.Cursor := crArrow;
   end;
 end;
 
@@ -759,7 +762,7 @@ begin
   button := (sender as TColorSpeedButtonCS);
 
   try
-    Screen.Cursor := crHourGlass;
+    //Screen.Cursor := crHourGlass;
     button.Enabled := false;
 
     if (button = btnWatchTutorial1) then
@@ -779,7 +782,7 @@ begin
     end;
   finally
     button.Enabled := true;
-    Screen.Cursor := crArrow;
+    //Screen.Cursor := crArrow;
   end;
 end;
 
@@ -793,7 +796,7 @@ begin
   button := (sender as TColorSpeedButtonCS);
 
   try
-    Screen.Cursor := crHourGlass;
+    //Screen.Cursor := crHourGlass;
     button.Enabled := false;
 
     if (button = btnOpenApp1) then
@@ -818,7 +821,7 @@ begin
     end;
   finally
     button.Enabled := true;
-    Screen.Cursor := crArrow;
+    //Screen.Cursor := crArrow;
   end;
 end;
 
@@ -858,7 +861,7 @@ begin
         if (FormMainFS.InitForm(self)) then
            FormMainFS.Show;
         lblDemoMode.Visible := GDemoMode;
-        imgAppLogoFsPro.Visible := true;
+        imgAppLogoSE2.Visible := true;
       finally
         CloseLoading;
       end;
@@ -893,7 +896,7 @@ begin
         if (FormMainSE2.InitForm(self)) then
            FormMainSE2.Show;
         lblDemoMode.Visible := GDemoMode;
-        imgAppLogoFsPro.Visible := true;
+        imgAppLogoSE2.Visible := true;
       finally
         CloseLoading;
       end;
@@ -1021,7 +1024,7 @@ begin
 
     //Hide logos
     imgAppLogoAdv360.Visible := false;
-    imgAppLogoFsPro.Visible := false;
+    imgAppLogoSE2.Visible := false;
     imgAppLogoAdv2.Visible := false;
 
     SetSelectedMenu(lblHome);

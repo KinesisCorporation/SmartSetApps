@@ -49,6 +49,8 @@ type
     procedure ConvertFromTextFileFmt(aKeyList: TKeyList; pedalText: string);
     function GetKeyText(aKey: TKey; defaultValue: string = ''; checkAltGr: boolean = false): string;
     function IsAltGr(aKey: TKey): boolean;
+    function GetPedalText(aPedal: TPedalText; aPedalType: TPedal): string;
+    function GetPedalKeys(pedal: TPedal):TKeyList;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -63,9 +65,10 @@ type
     function GetModifierText: string;
     function BackupKeyList: boolean;
     function RestoreKeyList: boolean;
-    function LoadKeysFromFile(pedal: TKeyList; pedalText: TPedalText): boolean;
+    function LoadKeysFromFile(pedalType: TPedal; pedalText: TPedalText): boolean;
     function GetOutputText(aPedal: TKeyList; var aPedalsPos: TPedalsPos): string;
     function ConvertToTextFileFmt(aKeyList: TKeyList): TPedalText;
+    procedure ConvertToTextFileFmtPedal(aLayoutContent: TStringList; aPedalType: TPedal);
     function ActivePedalModified: boolean;
     procedure LoadKeyConfig;
     procedure LoadKeyboardLayouts;
@@ -136,150 +139,150 @@ var
   i: integer;
 begin
   self.ConfigKeys.Clear;
-  //Control keys
-  self.ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'escape'));
-  self.ConfigKeys.Add(TKey.Create(VK_PAUSE, 'pause'));
-  self.ConfigKeys.Add(TKey.Create(VK_PRINT, 'prtscr'));
-  self.ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prtscr'));
-  self.ConfigKeys.Add(TKey.Create(VK_SCROLL, 'scroll'));
-  self.ConfigKeys.Add(TKey.Create(VK_TAB, 'tab'));
-  self.ConfigKeys.Add(TKey.Create(VK_CAPITAL, 'caps'));
-  self.ConfigKeys.Add(TKey.Create(VK_SPACE, 'space', 'space', ' '));///UTF8String(#$e2#$90#$a3)));
-  //When multi-key and no modifiers, show empty space
-  self.ConfigKeys.Add(TKey.Create(VK_INSERT, 'insert'));
-  self.ConfigKeys.Add(TKey.Create(VK_HOME, 'home'));
-  self.ConfigKeys.Add(TKey.Create(VK_END, 'end'));
-  self.ConfigKeys.Add(TKey.Create(VK_NEXT, 'pdown'));
-  self.ConfigKeys.Add(TKey.Create(VK_PRIOR, 'pup'));
-  self.ConfigKeys.Add(TKey.Create(VK_RIGHT, 'right'));
-  self.ConfigKeys.Add(TKey.Create(VK_LEFT, 'left'));
-  self.ConfigKeys.Add(TKey.Create(VK_UP, 'up'));
-  self.ConfigKeys.Add(TKey.Create(VK_DOWN, 'down'));
-  self.ConfigKeys.Add(TKey.Create(VK_SHIFT, 'shift'));
-  self.ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshift'));
-  self.ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift'));
-  self.ConfigKeys.Add(TKey.Create(VK_CONTROL, 'ctrl'));
-  self.ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctrl'));
-  self.ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctrl'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'numlk'));
-  //Windows
-  {$ifdef Win32}
-  self.ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter'));
-  self.ConfigKeys.Add(TKey.Create(VK_BACK, 'bspace'));
-  self.ConfigKeys.Add(TKey.Create(VK_DELETE, 'delete'));
-  self.ConfigKeys.Add(TKey.Create(VK_MENU, 'alt'));
-  self.ConfigKeys.Add(TKey.Create(VK_LMENU, 'lalt'));
-  self.ConfigKeys.Add(TKey.Create(VK_RMENU, 'ralt'));
-  //self.ConfigKeys.Add(TKey.create(, 'Windows', 'win'));
-  self.ConfigKeys.Add(TKey.Create(VK_LWIN, 'win'));
-  self.ConfigKeys.Add(TKey.Create(VK_RWIN, 'win'));
-  {$endif}
-
-  //MacOS
-  {$ifdef Darwin}
-  self.ConfigKeys.Add(TKey.Create(VK_RETURN, 'return', 'enter'));
-  self.ConfigKeys.Add(TKey.Create(VK_BACK, 'delete', 'bspace'));
-  self.ConfigKeys.Add(TKey.Create(VK_DELETE, 'fwd-delete', 'delete'));
-  self.ConfigKeys.Add(TKey.Create(VK_MENU, 'opt', 'alt'));
-  self.ConfigKeys.Add(TKey.Create(VK_LMENU, 'lopt', 'lalt'));
-  self.ConfigKeys.Add(TKey.Create(VK_RMENU, 'ropt', 'ralt'));
-  self.ConfigKeys.Add(TKey.Create(VK_LWIN, 'cmd', 'win'));
-  self.ConfigKeys.Add(TKey.Create(VK_RWIN, 'cmd', 'win'));
-  {$endif}
-
-  //F1 to F24
-  self.ConfigKeys.Add(TKey.Create(VK_F1, 'F1'));
-  self.ConfigKeys.Add(TKey.Create(VK_F2, 'F2'));
-  self.ConfigKeys.Add(TKey.Create(VK_F3, 'F3'));
-  self.ConfigKeys.Add(TKey.Create(VK_F4, 'F4'));
-  self.ConfigKeys.Add(TKey.Create(VK_F5, 'F5'));
-  self.ConfigKeys.Add(TKey.Create(VK_F6, 'F6'));
-  self.ConfigKeys.Add(TKey.Create(VK_F7, 'F7'));
-  self.ConfigKeys.Add(TKey.Create(VK_F8, 'F8'));
-  self.ConfigKeys.Add(TKey.Create(VK_F9, 'F9'));
-  self.ConfigKeys.Add(TKey.Create(VK_F10, 'F10'));
-  self.ConfigKeys.Add(TKey.Create(VK_F11, 'F11'));
-  self.ConfigKeys.Add(TKey.Create(VK_F12, 'F12'));
-  self.ConfigKeys.Add(TKey.Create(VK_F13, 'F13'));
-  self.ConfigKeys.Add(TKey.Create(VK_F14, 'F14'));
-  self.ConfigKeys.Add(TKey.Create(VK_F15, 'F15'));
-  self.ConfigKeys.Add(TKey.Create(VK_F16, 'F16'));
-  self.ConfigKeys.Add(TKey.Create(VK_F17, 'F17'));
-  self.ConfigKeys.Add(TKey.Create(VK_F18, 'F18'));
-  self.ConfigKeys.Add(TKey.Create(VK_F19, 'F19'));
-  self.ConfigKeys.Add(TKey.Create(VK_F20, 'F20'));
-  self.ConfigKeys.Add(TKey.Create(VK_F21, 'F21'));
-  self.ConfigKeys.Add(TKey.Create(VK_F22, 'F22'));
-  self.ConfigKeys.Add(TKey.Create(VK_F23, 'F23'));
-  self.ConfigKeys.Add(TKey.Create(VK_F24, 'F24'));
-
-  //Character keys
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '', '=', '=', '+', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '', 'hyphen', '-', '_', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '', '/', '/', '?', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '', '\', '\', '|', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', '', '''', '''', '"', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '', '`', '`', '~', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '', ';', ';', ':', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', '', ',', ',', '<', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '', '.', '.', '>', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '', 'obrack', '[', '{', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '', 'cbrack', ']', '}', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl-\', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
-
-  //Numpad keys
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD1, 'kp1'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD2, 'kp2'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD3, 'kp3'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD4, 'kp4'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD5, 'kp5'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD6, 'kp6'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD7, 'kp7'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD8, 'kp8'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPAD9, 'kp9'));
-  self.ConfigKeys.Add(TKey.Create(VK_DIVIDE, 'kp/', 'kpdiv'));
-  self.ConfigKeys.Add(TKey.Create(VK_MULTIPLY, 'kp*', 'kpmult'));
-  self.ConfigKeys.Add(TKey.Create(VK_SUBTRACT, 'kp-', 'kpmin'));
-  self.ConfigKeys.Add(TKey.Create(VK_ADD, 'kp+', 'kpplus'));
-  self.ConfigKeys.Add(TKey.Create(VK_DECIMAL, 'kp.'));
-  self.ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter', 'kpenter'));
-
-  //0 to 9
-  self.ConfigKeys.Add(TKey.Create(VK_0, '0', '', '0', '0', ')', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_1, '1', '', '1', '1', '!', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_2, '2', '', '2', '2', '@', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_3, '3', '', '3', '3', '#', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_4, '4', '', '4', '4', '$', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_5, '5', '', '5', '5', '%', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_6, '6', '', '6', '6', '^', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_7, '7', '', '7', '7', '&', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_8, '8', '', '8', '8', '*', true, true));
-  self.ConfigKeys.Add(TKey.Create(VK_9, '9', '', '9', '9', '(', true, true));
-
-  //a to z
-  for i := VK_A to VK_Z do
-    self.ConfigKeys.Add(TKey.Create(i, LowerCase(Chr(i)), '', LowerCase(Chr(i)), LowerCase(Chr(i)), Chr(i),
-      true, true));
-
-  //Custom for special events
-  self.ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmouse'));
-  self.ConfigKeys.Add(TKey.Create(VK_MOUSE_MIDDLE, 'mmouse'));
-  self.ConfigKeys.Add(TKey.Create(VK_MOUSE_RIGHT, 'rmouse'));
-  self.ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', 'speed1', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', 'speed3', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', 'speed5', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', 'd125', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', 'd500', '', '', false, false, '', False));
-  self.ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute'));
-  self.ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-'));
-  self.ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+'));
-  self.ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'play'));
-  self.ConfigKeys.Add(TKey.Create(VK_MEDIA_PREV_TRACK, 'prev'));
-  self.ConfigKeys.Add(TKey.Create(VK_MEDIA_NEXT_TRACK, 'next'));
-  self.ConfigKeys.Add(TKey.Create(VK_CALC, 'calc'));
-  self.ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'shutdn'));
-  self.ConfigKeys.Add(TKey.Create(VK_DIF_PRESS_REL, '{ }', ' '));
+  self.ConfigKeys.AddList(GetConfigKeys);
+  ////Control keys
+  //self.ConfigKeys.Add(TKey.Create(VK_ESCAPE, 'escape'));
+  //self.ConfigKeys.Add(TKey.Create(VK_PAUSE, 'pause'));
+  //self.ConfigKeys.Add(TKey.Create(VK_PRINT, 'prtscr'));
+  //self.ConfigKeys.Add(TKey.Create(VK_SNAPSHOT, 'prtscr'));
+  //self.ConfigKeys.Add(TKey.Create(VK_SCROLL, 'scroll'));
+  //self.ConfigKeys.Add(TKey.Create(VK_TAB, 'tab'));
+  //self.ConfigKeys.Add(TKey.Create(VK_CAPITAL, 'caps'));
+  //self.ConfigKeys.Add(TKey.Create(VK_SPACE, 'space', '', '', ' '));
+  ////When multi-key and no modifiers, show empty space
+  //self.ConfigKeys.Add(TKey.Create(VK_INSERT, 'insert'));
+  //self.ConfigKeys.Add(TKey.Create(VK_HOME, 'home'));
+  //self.ConfigKeys.Add(TKey.Create(VK_END, 'end'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NEXT, 'pdown'));
+  //self.ConfigKeys.Add(TKey.Create(VK_PRIOR, 'pup'));
+  //self.ConfigKeys.Add(TKey.Create(VK_RIGHT, 'right'));
+  //self.ConfigKeys.Add(TKey.Create(VK_LEFT, 'left'));
+  //self.ConfigKeys.Add(TKey.Create(VK_UP, 'up'));
+  //self.ConfigKeys.Add(TKey.Create(VK_DOWN, 'down'));
+  //self.ConfigKeys.Add(TKey.Create(VK_SHIFT, 'shift'));
+  //self.ConfigKeys.Add(TKey.Create(VK_LSHIFT, 'lshift'));
+  //self.ConfigKeys.Add(TKey.Create(VK_RSHIFT, 'rshift'));
+  //self.ConfigKeys.Add(TKey.Create(VK_CONTROL, 'ctrl'));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCONTROL, 'lctrl'));
+  //self.ConfigKeys.Add(TKey.Create(VK_RCONTROL, 'rctrl'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMLOCK, 'numlk'));
+  ////Windows
+  //{$ifdef Win32}
+  //self.ConfigKeys.Add(TKey.Create(VK_RETURN, 'enter'));
+  //self.ConfigKeys.Add(TKey.Create(VK_BACK, 'bspace'));
+  //self.ConfigKeys.Add(TKey.Create(VK_DELETE, 'delete'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MENU, 'alt'));
+  //self.ConfigKeys.Add(TKey.Create(VK_LMENU, 'lalt'));
+  //self.ConfigKeys.Add(TKey.Create(VK_RMENU, 'ralt'));
+  //self.ConfigKeys.Add(TKey.Create(VK_LWIN, 'win'));
+  //self.ConfigKeys.Add(TKey.Create(VK_RWIN, 'win'));
+  //{$endif}
+  //
+  ////MacOS
+  //{$ifdef Darwin}
+  //self.ConfigKeys.Add(TKey.Create(VK_RETURN, 'return', '', 'enter'));
+  //self.ConfigKeys.Add(TKey.Create(VK_BACK, 'delete', '', 'bspace'));
+  //self.ConfigKeys.Add(TKey.Create(VK_DELETE, 'fwd-delete', '', 'delete'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MENU, 'opt', '', 'alt'));
+  //self.ConfigKeys.Add(TKey.Create(VK_LMENU, 'lopt', '', 'lalt'));
+  //self.ConfigKeys.Add(TKey.Create(VK_RMENU, 'ropt', '', 'ralt'));
+  //self.ConfigKeys.Add(TKey.Create(VK_LWIN, 'cmd', '', 'win'));
+  //self.ConfigKeys.Add(TKey.Create(VK_RWIN, 'cmd', '', 'win'));
+  //{$endif}
+  //
+  ////F1 to F24
+  //self.ConfigKeys.Add(TKey.Create(VK_F1, 'F1'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F2, 'F2'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F3, 'F3'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F4, 'F4'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F5, 'F5'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F6, 'F6'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F7, 'F7'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F8, 'F8'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F9, 'F9'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F10, 'F10'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F11, 'F11'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F12, 'F12'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F13, 'F13'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F14, 'F14'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F15, 'F15'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F16, 'F16'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F17, 'F17'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F18, 'F18'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F19, 'F19'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F20, 'F20'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F21, 'F21'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F22, 'F22'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F23, 'F23'));
+  //self.ConfigKeys.Add(TKey.Create(VK_F24, 'F24'));
+  //
+  ////Character keys
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_EQUAL, '=', '', '=', '=', '+', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_MINUS, '-', '', 'hyphen', '-', '_', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_SLASH, '/', '', '/', '/', '?', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_BACKSLASH, '\', '', '\', '\', '|', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_QUOTE, '''', '', '''', '''', '"', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_TILDE, '`', '', '`', '`', '~', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_SEMI_COMMA, ';', '', ';', ';', ':', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_COMMA, ',', '', ',', ',', '<', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_POINT, '.', '', '.', '.', '>', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_OPEN_BRAKET, '[', '', 'obrack', '[', '{', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_LCL_CLOSE_BRAKET, ']', '', 'cbrack', ']', '}', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_OEM_102, 'intl-\', '', 'intl-\', 'intl-\', 'intl-\', true, true)); //International <> key between Left Shift and Z
+  //
+  ////Numpad keys
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD0, 'kp0'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD1, 'kp1'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD2, 'kp2'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD3, 'kp3'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD4, 'kp4'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD5, 'kp5'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD6, 'kp6'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD7, 'kp7'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD8, 'kp8'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPAD9, 'kp9'));
+  //self.ConfigKeys.Add(TKey.Create(VK_DIVIDE, 'kp/', '', 'kpdiv'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MULTIPLY, 'kp*', '', 'kpmult'));
+  //self.ConfigKeys.Add(TKey.Create(VK_SUBTRACT, 'kp-', '', 'kpmin'));
+  //self.ConfigKeys.Add(TKey.Create(VK_ADD, 'kp+', '', 'kpplus'));
+  //self.ConfigKeys.Add(TKey.Create(VK_DECIMAL, 'kp.'));
+  //self.ConfigKeys.Add(TKey.Create(VK_NUMPADENTER, 'kpenter'));
+  //
+  ////0 to 9
+  //self.ConfigKeys.Add(TKey.Create(VK_0, '0', '', '', '0', ')', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_1, '1', '', '', '1', '!', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_2, '2', '', '', '2', '@', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_3, '3', '', '', '3', '#', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_4, '4', '', '', '4', '$', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_5, '5', '', '', '5', '%', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_6, '6', '', '', '6', '^', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_7, '7', '', '', '7', '&', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_8, '8', '', '', '8', '*', true, true));
+  //self.ConfigKeys.Add(TKey.Create(VK_9, '9', '', '', '9', '(', true, true));
+  //
+  ////a to z
+  //for i := VK_A to VK_Z do
+  //  self.ConfigKeys.Add(TKey.Create(i, LowerCase(Chr(i)), '', LowerCase(Chr(i)), LowerCase(Chr(i)), Chr(i),
+  //    true, true));
+  //
+  ////Custom for special events
+  //self.ConfigKeys.Add(TKey.Create(VK_MOUSE_LEFT, 'lmouse'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MOUSE_MIDDLE, 'mmouse'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MOUSE_RIGHT, 'rmouse'));
+  //self.ConfigKeys.Add(TKey.Create(VK_SPEED1, 'speed1', '', '', '', '', false, false, '', False));
+  //self.ConfigKeys.Add(TKey.Create(VK_SPEED3, 'speed3', '', '', '', '', false, false, '', False));
+  //self.ConfigKeys.Add(TKey.Create(VK_SPEED5, 'speed5', '', '', '', '', false, false, '', False));
+  //self.ConfigKeys.Add(TKey.Create(VK_125MS, 'd125', '', '', '', '', false, false, '', False));
+  //self.ConfigKeys.Add(TKey.Create(VK_500MS, 'd500', '', '', '', '', false, false, '', False));
+  //self.ConfigKeys.Add(TKey.Create(VK_VOLUME_MUTE, 'mute'));
+  //self.ConfigKeys.Add(TKey.Create(VK_VOLUME_DOWN, 'vol-'));
+  //self.ConfigKeys.Add(TKey.Create(VK_VOLUME_UP, 'vol+'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MEDIA_PLAY_PAUSE, 'play'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MEDIA_PREV_TRACK, 'prev'));
+  //self.ConfigKeys.Add(TKey.Create(VK_MEDIA_NEXT_TRACK, 'next'));
+  //self.ConfigKeys.Add(TKey.Create(VK_CALC, 'calc'));
+  //self.ConfigKeys.Add(TKey.Create(VK_SHUTDOWN, 'shutdn'));
+  //self.ConfigKeys.Add(TKey.Create(VK_DIF_PRESS_REL, '{ }', '', ' '));
 end;
 
 //Old Method, not used anymore
@@ -418,39 +421,61 @@ begin
   begin
     if aKey.Modifiers <> '' then
     begin
-      for i := 0 to Length(aKey.Modifiers) do
-      begin
-        if Pos(SHIFT_MOD, string(aKey.Modifiers[i])) <> 0 then
-          Result := Result + FindKeyConfig(VK_SHIFT).Value + '+';
-        if Pos(CTRL_MOD, string(aKey.Modifiers[i])) <> 0 then
-          Result := Result + FindKeyConfig(VK_CONTROL).Value + '+';
-        if Pos(ALT_MOD, string(aKey.Modifiers[i])) <> 0 then
-          Result := Result + FindKeyConfig(VK_MENU).Value + '+';
-        if Pos(WIN_MOD, string(aKey.Modifiers[i])) <> 0 then
-          Result := Result + FindKeyConfig(VK_LWIN).Value + '+';
-      end;
+      if Pos(SHIFT_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_SHIFT).Value + '+';
+      if Pos(L_SHIFT_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_LSHIFT).Value + '+';
+      if Pos(R_SHIFT_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_RSHIFT).Value + '+';
+      if Pos(CTRL_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_CONTROL).Value + '+';
+      if Pos(L_CTRL_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_LCONTROL).Value + '+';
+      if Pos(R_CTRL_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_RCONTROL).Value + '+';
+      if Pos(ALT_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_MENU).Value + '+';
+      if Pos(L_ALT_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_LMENU).Value + '+';
+      if Pos(R_ALT_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_RMENU).Value + '+';
+      if Pos(WIN_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_LWIN).Value + '+';
+      if Pos(L_WIN_MOD, string(aKey.Modifiers)) <> 0 then
+        Result := Result + FindKeyConfig(VK_LWIN).Value + '+';
     end;
   end;
 end;
 
 //Takes a list of modifiers in string and fills a list of keys with the values
 procedure TKeyServiceSE2.FillModifiersFromValues(aKeyList: TKeyList; sModifiers: string);
-var
-  i: integer;
 begin
   if sModifiers <> '' then
   begin
-    for i := 0 to Length(sModifiers) do
-    begin
-      if Pos(SHIFT_MOD, string(sModifiers[i])) <> 0 then
-        aKeyList.Add(FindKeyConfig(VK_SHIFT).CopyKey);
-      if Pos(CTRL_MOD, string(sModifiers[i])) <> 0 then
-        aKeyList.Add(FindKeyConfig(VK_CONTROL).CopyKey);
-      if Pos(ALT_MOD, string(sModifiers[i])) <> 0 then
-        aKeyList.Add(FindKeyConfig(VK_MENU).CopyKey);
-      if Pos(WIN_MOD, string(sModifiers[i])) <> 0 then
-        aKeyList.Add(FindKeyConfig(VK_LWIN).CopyKey);
-    end;
+    if Pos(SHIFT_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_SHIFT).CopyKey);
+    if Pos(L_SHIFT_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_LSHIFT).CopyKey);
+    if Pos(R_SHIFT_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_RSHIFT).CopyKey);
+    if Pos(CTRL_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_CONTROL).CopyKey);
+    if Pos(L_CTRL_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_LCONTROL).CopyKey);
+    if Pos(R_CTRL_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_RCONTROL).CopyKey);
+    if Pos(ALT_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_MENU).CopyKey);
+    if Pos(L_ALT_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_LMENU).CopyKey);
+    if Pos(R_ALT_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_RMENU).CopyKey);
+    if Pos(WIN_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_LWIN).CopyKey);
+    if Pos(L_WIN_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_LWIN).CopyKey);
+    if Pos(R_WIN_MOD, string(sModifiers)) <> 0 then
+      aKeyList.Add(FindKeyConfig(VK_RWIN).CopyKey);
   end;
 end;
 
@@ -501,7 +526,12 @@ end;
 //Returns current active pedal
 function TKeyServiceSE2.GetActivePedal: TKeyList;
 begin
-  case CurrentPedal of
+  result := GetPedalKeys(CurrentPedal);
+end;
+
+function TKeyServiceSE2.GetPedalKeys(pedal: TPedal): TKeyList;
+begin
+  case pedal of
     pLeft: Result := LPKeys;
     pMiddle: Result := MPKeys;
     pRight: Result := RPKeys;
@@ -647,16 +677,20 @@ function TKeyServiceSE2.IsAltGr(aKey: TKey): boolean;
 begin
   if (Pos(CTRL_MOD, aKey.Modifiers) <> 0) and
     (Pos(ALT_MOD, aKey.Modifiers) <> 0) and
-    (Length(aKey.Modifiers) = 3) then  //Lenght = 3 (there's a comman in the value)
+    (Length(aKey.Modifiers) = (Length(CTRL_MOD) + Length(ALT_MOD) + 1)) then  //Lenght = 5 (there's a comma in the value)
     result := true
   else
     result := false;
 end;
 
 //Loads pedals from file content
-function TKeyServiceSE2.LoadKeysFromFile(pedal: TKeyList; pedalText: TPedalText): boolean;
+function TKeyServiceSE2.LoadKeysFromFile(pedalType: TPedal; pedalText: TPedalText): boolean;
+var
+  pedal: TKeyList;
 begin
   Result := False;
+
+  pedal := GetPedalKeys(pedalType);
 
   if (pedal <> nil) then
   begin
@@ -870,6 +904,134 @@ begin
     tempText := '[' + saveValue + ']';
   end;
   Result.PedalText := tempText;
+end;
+
+procedure TKeyServiceSE2.ConvertToTextFileFmtPedal(aLayoutContent: TStringList; aPedalType: TPedal);
+var
+  i, j: integer;
+  isShiftLast, isShiftNext: boolean;
+  tempModifiers: TKeyList;
+  tempText: string;
+  saveValue: string;
+  pedalText: TPedalText;
+  aKeyList: TKeyList;
+
+  function GetSaveValue(aKey: TKey): string;
+  var
+    value: string;
+    replacementKey: string;
+  begin
+      value := aKey.SaveValue;
+      replacementKey := GetReplacementKey(aKey.Key, true);
+      if (replacementKey <> '') then
+         value := replacementKey;
+
+      result := value;
+  end;
+
+begin
+  pedalText.MultiKey := false;
+  pedalText.PedalText := '';
+  tempText := '';
+  aKeyList := GetPedalKeys(aPedalType);
+
+  if aKeyList = nil then
+    exit;
+
+  pedalText.MultiKey := aKeyList.MultiKey;
+  if aKeyList.MultiKey then
+  begin
+    tempModifiers := TKeyList.Create;
+    for i := 0 to aKeyList.Count - 1 do
+    begin
+      isShiftLast := False;
+      isShiftNext := False;
+      tempModifiers.Clear;
+
+      //Fills list of modifiers
+      FillModifiersFromValues(tempModifiers, aKeyList[i].Modifiers);
+
+      //Gets the save value
+      saveValue := GetSaveValue(aKeyList[i]);
+
+      //Checks if last key had shift modifier
+      if (i >= 1) then
+        if (aKeyList[i - 1].Modifiers = SHIFT_MOD) then
+          isShiftLast := True;
+
+      if (i < aKeyList.Count - 1) then
+        if (aKeyList[i + 1].Modifiers = SHIFT_MOD) then
+          isShiftNext := True;
+
+      //Writes modifiers first with - (except for shift if previous key has shift too)
+      if ((aKeyList[i].Modifiers <> SHIFT_MOD) or (not isShiftLast)) and (not IsModifier(aKeyList[i].Key)) then
+      begin
+        for j := 0 to tempModifiers.Count - 1 do
+          tempText := tempText + '{-' + tempModifiers.Items[j].SaveValue + '}';
+      end;
+
+      //If different press & release with combination, write using the old method with up and down value
+      if (aKeyList[i].DiffPressRel) then
+      begin
+        //Writes the key - and + if WriteDownUp is enabled, else writes only the value
+        if aKeyList[i].WriteDownUp then
+          tempText := tempText + '{-' + saveValue + '}' + DIFF_PRESS_REL_TEXT +
+          '{+' + saveValue + '}'
+        else
+          tempText := tempText + '{' + saveValue + '}';
+      end
+      else  //Write the key value, only need the - / + for modifiers
+        tempText := tempText + '{' + saveValue + '}';
+
+      //Writes modifiers last with + (except for shift if next key has shift too)
+      if ((aKeyList[i].Modifiers <> SHIFT_MOD) or (not isShiftNext)) and (not IsModifier(aKeyList[i].Key)) then
+      begin
+        for j := 0 to tempModifiers.Count - 1 do
+          tempText := tempText + '{+' + tempModifiers.Items[j].SaveValue + '}';
+      end;
+    end;
+    FreeAndNil(tempModifiers);
+  end
+  else if (aKeyList.Count > 0) then
+  begin
+    //Gets the save value
+    saveValue := GetSaveValue(aKeyList.Items[0]);
+    tempText := '[' + saveValue + ']';
+  end;
+  pedalText.PedalText := TempText;
+
+  aLayoutContent.Add(GetPedalText(pedalText, aPedalType));
+end;
+
+//Gets pedal text to save to file
+function TKeyServiceSE2.GetPedalText(aPedal: TPedalText; aPedalType: TPedal): string;
+begin
+  result := '';
+
+  if aPedalType <> pNone then
+  begin
+    if aPedal.MultiKey then
+      result := '{'
+    else
+      result := '[';
+
+    case aPedalType of
+      pLeft: result := result + LEFT_PEDAL_TEXT;
+      pMiddle: result := result + MIDDLE_PEDAL_TEXT;
+      pRight: result := result + RIGHT_PEDAL_TEXT;
+      pJack1: result := result + JACK1_PEDAL_TEXT;
+      pJack2: result := result + JACK2_PEDAL_TEXT;
+      pJack3: result := result + JACK3_PEDAL_TEXT;
+      pJack4: result := result + JACK4_PEDAL_TEXT;
+    end;
+
+    if aPedal.MultiKey then
+      result := result + '}>'
+    else
+      result := result + ']>';
+
+    result := result + aPedal.PedalText;
+  end;
 end;
 
 //Returns true if ActivePedal has been modified

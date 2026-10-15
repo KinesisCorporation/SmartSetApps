@@ -1,37 +1,37 @@
 object FormMainSE2: TFormMainSE2
-  Left = 908
+  Left = 414
   Height = 705
-  Top = 739
+  Top = 164
   Width = 1116
-  HorzScrollBar.Page = 1086
-  VertScrollBar.Page = 659
+  HorzScrollBar.Page = 1087
+  VertScrollBar.Page = 660
   AutoScroll = True
   Caption = 'Savant Elite2 Config App'
   ClientHeight = 705
   ClientWidth = 1116
   Color = clWhite
-  DesignTimePPI = 168
   Font.Color = clBlack
   Font.Height = -16
   Font.Name = 'Segoe UI'
+  Position = poScreenCenter
+  LCLVersion = '4.8.0.0'
+  Scaled = False
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
-  Scaled = False
   object pnlRight: TPanel
-    Left = 598
-    Height = 705
+    Left = 599
+    Height = 704
     Top = 0
     Width = 488
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 705
+    ClientHeight = 704
     ClientWidth = 488
+    ParentBackground = False
     TabOrder = 0
     object memoJack4: TRichMemo
       Left = 7
@@ -58,8 +58,8 @@ object FormMainSE2: TFormMainSE2
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Transparent = False
-      OnClick = bClearClick
       ParentFont = False
+      OnClick = bClearClick
     end
     object memoConfig: TRichMemo
       Left = 7
@@ -241,8 +241,8 @@ object FormMainSE2: TFormMainSE2
       }
       Layout = blGlyphRight
       Transparent = False
-      OnClick = bSpecialActionClick
       ParentFont = False
+      OnClick = bSpecialActionClick
     end
     object bSingleKey: TSpeedButton
       Left = 118
@@ -255,8 +255,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 1
       Transparent = False
-      OnClick = bSingleKeyClick
       ParentFont = False
+      OnClick = bSingleKeyClick
     end
     object bMultipleKeys: TSpeedButton
       Left = 213
@@ -268,8 +268,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 1
       Transparent = False
-      OnClick = bMultipleKeysClick
       ParentFont = False
+      OnClick = bMultipleKeysClick
     end
     object bBackspace: TSpeedButton
       Left = 8
@@ -280,8 +280,8 @@ object FormMainSE2: TFormMainSE2
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Transparent = False
-      OnClick = bBackspaceClick
       ParentFont = False
+      OnClick = bBackspaceClick
     end
     object lblJack1Modified: TLabel
       Left = 64
@@ -526,11 +526,11 @@ object FormMainSE2: TFormMainSE2
       Top = 180
       Width = 19
       Caption = '...'
-      OnClick = bMoreLeftClick
       ParentShowHint = False
       ShowHint = True
       TabOrder = 12
       TabStop = False
+      OnClick = bMoreLeftClick
     end
     object bMoreMiddle: TBitBtn
       Left = 460
@@ -539,11 +539,11 @@ object FormMainSE2: TFormMainSE2
       Top = 246
       Width = 19
       Caption = '...'
-      OnClick = bMoreMiddleClick
       ParentShowHint = False
       ShowHint = True
       TabOrder = 13
       TabStop = False
+      OnClick = bMoreMiddleClick
     end
     object bMoreRight: TBitBtn
       Left = 460
@@ -552,11 +552,11 @@ object FormMainSE2: TFormMainSE2
       Top = 314
       Width = 19
       Caption = '...'
-      OnClick = bMoreRightClick
       ParentShowHint = False
       ShowHint = True
       TabOrder = 14
       TabStop = False
+      OnClick = bMoreRightClick
     end
     object bMoreJack1: TBitBtn
       Left = 460
@@ -565,11 +565,11 @@ object FormMainSE2: TFormMainSE2
       Top = 398
       Width = 19
       Caption = '...'
-      OnClick = bMoreJack1Click
       ParentShowHint = False
       ShowHint = True
       TabOrder = 11
       TabStop = False
+      OnClick = bMoreJack1Click
     end
     object bMoreJack2: TBitBtn
       Left = 460
@@ -578,11 +578,11 @@ object FormMainSE2: TFormMainSE2
       Top = 466
       Width = 19
       Caption = '...'
-      OnClick = bMoreJack2Click
       ParentShowHint = False
       ShowHint = True
       TabOrder = 10
       TabStop = False
+      OnClick = bMoreJack2Click
     end
     object bMoreJack3: TBitBtn
       Left = 460
@@ -591,11 +591,11 @@ object FormMainSE2: TFormMainSE2
       Top = 534
       Width = 19
       Caption = '...'
-      OnClick = bMoreJack3Click
       ParentShowHint = False
       ShowHint = True
       TabOrder = 9
       TabStop = False
+      OnClick = bMoreJack3Click
     end
     object bMoreJack4: TBitBtn
       Left = 460
@@ -604,11 +604,11 @@ object FormMainSE2: TFormMainSE2
       Top = 602
       Width = 19
       Caption = '...'
-      OnClick = bMoreJack4Click
       ParentShowHint = False
       ShowHint = True
       TabOrder = 8
       TabStop = False
+      OnClick = bMoreJack4Click
     end
     object bCancel: TSpeedButton
       Left = 177
@@ -655,8 +655,8 @@ object FormMainSE2: TFormMainSE2
         0000000000000000000000000000000000000000000000000000
       }
       Transparent = False
-      OnClick = bCancelClick
       ParentFont = False
+      OnClick = bCancelClick
     end
     object bDone: TSpeedButton
       Left = 403
@@ -703,21 +703,22 @@ object FormMainSE2: TFormMainSE2
         0000000000000000000000000000000000000000000000000000
       }
       Transparent = False
-      OnClick = bDoneClick
       ParentFont = False
+      OnClick = bDoneClick
     end
   end
   object pnlLeft: TPanel
-    Left = 0
-    Height = 705
+    Left = 1
+    Height = 704
     Top = 0
     Width = 598
     Align = alLeft
     BevelOuter = bvNone
-    ClientHeight = 705
+    ClientHeight = 704
     ClientWidth = 598
     Font.Height = -12
     Font.Name = 'Segoe UI'
+    ParentBackground = False
     ParentFont = False
     TabOrder = 1
     object bExit: TSpeedButton
@@ -729,8 +730,8 @@ object FormMainSE2: TFormMainSE2
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Transparent = False
-      OnClick = bExitClick
       ParentFont = False
+      OnClick = bExitClick
     end
     object Image1: TImage
       Left = 14
@@ -1604,8 +1605,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 11
       Transparent = False
-      OnClick = bLeftClick
       ParentFont = False
+      OnClick = bLeftClick
     end
     object bMiddle: TSpeedButton
       Left = 259
@@ -1618,8 +1619,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 11
       Transparent = False
-      OnClick = bMiddleClick
       ParentFont = False
+      OnClick = bMiddleClick
     end
     object bRight: TSpeedButton
       Left = 457
@@ -1632,8 +1633,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 11
       Transparent = False
-      OnClick = bRightClick
       ParentFont = False
+      OnClick = bRightClick
     end
     object bJack3: TSpeedButton
       Left = 14
@@ -1646,8 +1647,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 11
       Transparent = False
-      OnClick = bJack3Click
       ParentFont = False
+      OnClick = bJack3Click
     end
     object bJack4: TSpeedButton
       Left = 14
@@ -1660,8 +1661,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 11
       Transparent = False
-      OnClick = bJack4Click
       ParentFont = False
+      OnClick = bJack4Click
     end
     object bJack1: TSpeedButton
       Left = 498
@@ -1674,8 +1675,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 11
       Transparent = False
-      OnClick = bJack1Click
       ParentFont = False
+      OnClick = bJack1Click
     end
     object bJack2: TSpeedButton
       Left = 498
@@ -1688,8 +1689,8 @@ object FormMainSE2: TFormMainSE2
       Font.Name = 'Segoe UI'
       GroupIndex = 11
       Transparent = False
-      OnClick = bJack2Click
       ParentFont = False
+      OnClick = bJack2Click
     end
     object lblInfoConfig: TLabel
       Left = 10
@@ -1728,8 +1729,8 @@ object FormMainSE2: TFormMainSE2
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Transparent = False
-      OnClick = bSaveAsClick
       ParentFont = False
+      OnClick = bSaveAsClick
     end
     object bSave: TSpeedButton
       Left = 154
@@ -1741,8 +1742,8 @@ object FormMainSE2: TFormMainSE2
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Transparent = False
-      OnClick = bSaveClick
       ParentFont = False
+      OnClick = bSaveClick
     end
     object bOpenFile: TSpeedButton
       Left = 10
@@ -1786,8 +1787,8 @@ object FormMainSE2: TFormMainSE2
       Font.Height = -13
       Font.Name = 'Segoe UI'
       Transparent = False
-      OnClick = bHelpClick
       ParentFont = False
+      OnClick = bHelpClick
     end
     object lblWarningKbLanuage: TLabel
       Cursor = crHandPoint
@@ -1807,6 +1808,38 @@ object FormMainSE2: TFormMainSE2
       Visible = False
       OnClick = lblWarningKbLanuageClick
     end
+  end
+  object lineBot: TLineObj
+    Left = 0
+    Height = 1
+    Top = 704
+    Width = 1116
+    Align = alBottom
+    Color = clActiveBorder
+    LineStyle = psSolid
+    LineWidth = 1
+  end
+  object lineLeft: TLineObj
+    Left = 0
+    Height = 704
+    Top = 0
+    Width = 1
+    Align = alLeft
+    Direction = drUpDown
+    Color = clActiveBorder
+    LineStyle = psSolid
+    LineWidth = 1
+  end
+  object lineRight: TLineObj
+    Left = 1115
+    Height = 704
+    Top = 0
+    Width = 1
+    Align = alRight
+    Direction = drUpDown
+    Color = clActiveBorder
+    LineStyle = psSolid
+    LineWidth = 1
   end
   object pedalOpenDialog: TOpenDialog
     Filter = 'Text files|*.txt'
@@ -1846,25 +1879,11 @@ object FormMainSE2: TFormMainSE2
     Left = 407
     Top = 122
     Bitmap = {
-      4C69010000000C0000000C000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000FFFFFF0000000000000000000000000000000000000000000000
-      0000FFFFFF00000000000000000000000000FFFFFF6AFFFFFF99FFFFFF020000
-      0000000000000000000000000000FFFFFF02FEFEFE99FFFFFF6E00000000FFFF
-      FF66FEFEFEFDFEFEFEFFFEFEFE9DFFFFFF020000000000000000FEFEFE02FEFE
-      FE99FEFEFEFFFFFFFFFFFFFFFF68FFFFFF8FFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FF9DFFFFFF02FEFEFE02FFFFFF99FFFFFFFFFFFFFFFFFFFFFFFFFEFEFE91FFFF
-      FF00FEFEFE91FEFEFEFFFEFEFEFFFFFFFFFFFFFFFF9FFEFEFE9BFFFFFFFFFEFE
-      FEFFFEFEFEFFFFFFFF93FFFFFF0000000000FFFFFF00FFFFFF8FFEFEFEFFFEFE
-      FEFFFEFEFEFFFEFEFEFFFFFFFFFFFEFEFEFFFFFFFF93FFFFFF00000000000000
-      000000000000FFFFFF00FFFFFF8FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFE
-      FE91FFFFFF000000000000000000000000000000000000000000FEFEFE00FEFE
-      FE8DFEFEFEFFFEFEFEFFFFFFFF91FFFFFF000000000000000000000000000000
-      0000000000000000000000000000FFFFFF00FFFFFF8BFFFFFF8FFFFFFF000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000FFFFFF00FFFFFF0000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000
+      4C7A010000000C0000000C000000800000000000000078DA9D51ED0A80200C14
+      1F36A21FBD484448BF22A427D5758B4D5648490787CEBB7DA8CEFD0311356B88
+      0770037DC5EB73CEAC8D127788134860B439882F2F6B821E5CE88E2835BDF42C
+      C059E0D97895FA2A1DD8EFE2D1F355EFC12BF751CDE63EBDF60D2AB395196A80
+      C69C4DFDF0F6CEA6CF24BD9AFFAED5FB851336880017
     }
   end
   object tmrAfterFormShown: TTimer

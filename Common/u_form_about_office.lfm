@@ -17,9 +17,6 @@ inherited FormAboutOffice: TFormAboutOffice
     Width = 416
     ClientWidth = 416
     inherited lblTitle: TLabel
-      Left = 2
-      Height = 33
-      Top = 2
       Width = 412
     end
     inherited btnCloseLight: TColorSpeedButtonCS
@@ -54,9 +51,9 @@ inherited FormAboutOffice: TFormAboutOffice
   end
   object lblCompany: TLabel[5]
     Left = 19
-    Height = 18
+    Height = 21
     Top = 104
-    Width = 142
+    Width = 136
     Caption = 'Kinesis Corporation'
     Font.Color = clWhite
     Font.Height = -16
@@ -66,9 +63,9 @@ inherited FormAboutOffice: TFormAboutOffice
   object lblWebsite: TLabel[6]
     Cursor = crHandPoint
     Left = 19
-    Height = 16
+    Height = 17
     Top = 124
-    Width = 139
+    Width = 131
     Caption = 'www.Kinesis-Ergo.com'
     Font.Color = 10340201
     Font.Height = -13
@@ -91,16 +88,16 @@ inherited FormAboutOffice: TFormAboutOffice
     Height = 32
     Top = 208
     Width = 112
+    Alignment = taCenter
     Caption = 'Read Manual'
     Font.Color = clWhite
     Font.Height = -14
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    OnClick = btnReadManualClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    Alignment = taCenter
+    OnClick = btnReadManualClick
     TextAutoSize = True
     Toggle = False
     Pressed = False
@@ -128,16 +125,16 @@ inherited FormAboutOffice: TFormAboutOffice
     Height = 32
     Top = 208
     Width = 150
+    Alignment = taCenter
     Caption = 'Request Support'
     Font.Color = clWhite
     Font.Height = -14
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    OnClick = btnRequestSupportClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    Alignment = taCenter
+    OnClick = btnRequestSupportClick
     TextAutoSize = True
     Toggle = False
     Pressed = False
@@ -165,16 +162,16 @@ inherited FormAboutOffice: TFormAboutOffice
     Height = 32
     Top = 208
     Width = 112
+    Alignment = taCenter
     Caption = 'Watch Tutorial'
     Font.Color = clWhite
     Font.Height = -14
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
-    OnClick = btnWatchTutorialClick
     ShowHint = True
     ParentFont = False
     ParentShowHint = False
-    Alignment = taCenter
+    OnClick = btnWatchTutorialClick
     TextAutoSize = True
     Toggle = False
     Pressed = False
