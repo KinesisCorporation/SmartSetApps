@@ -19,7 +19,7 @@ interface
 
 uses
   SysUtils,
-{$IF DEFINED(IPHONESIM) OR DEFINED(CPUARM) OR DEFINED(CPUAARCH64)}  //iOS
+{$IF DEFINED(IPHONESIM) OR DEFINED(CPUARM)}  //iOS
  {$IFDEF NoiPhoneAll}
   Foundation;
  {$ELSE}
