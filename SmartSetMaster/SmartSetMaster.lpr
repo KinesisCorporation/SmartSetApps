@@ -22,7 +22,6 @@ begin
     UseHeapTrace := false;
   {$endif}
   RequireDerivedFormResource:=True;
-  Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TFormDashboard, FormDashboard);
   Application.Run;

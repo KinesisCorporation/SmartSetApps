@@ -174,8 +174,10 @@ procedure TFormExport.btnAcceptClick(Sender: TObject);
 var
   layoutContent: TStringList;
   ledContent: TStringList;
+  edgeContent: TStringList;
   errorMsgLayout: string;
   errorMsgLed: string;
+  i: integer;
 begin
   if (SelectDirectoryDialog1.Execute) then
   begin
@@ -191,6 +193,9 @@ begin
       if (chkBoth.Checked) or (chkLighting.Checked) then
       begin
         ledContent := keyService.ConvertLedToTextFileFmt;
+        edgeContent := keyService.ConvertEdgeToTextFileFmt;
+        for i := 0 to edgeContent.Count - 1 do
+          ledContent.Add(edgeContent[i]);
         if not(fileService.SaveFile(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + ExtractFileName(currentLedFile), ledContent, true, errorMsgLed)) then
           ShowDialog('Export', 'Error exporting lighting file: ' + errorMsgLed, mtError, [mbOK], DEFAULT_DIAG_HEIGHT_RGB);
       end;
@@ -204,6 +209,8 @@ begin
         FreeAndNil(layoutContent);
       if (ledContent <> nil) then
         FreeAndNil(ledContent);
+      if (edgeContent <> nil) then
+        FreeAndNil(edgeContent);
     end;
   end;
   if (GMasterAppId = APPL_MASTER_OFFICE) then

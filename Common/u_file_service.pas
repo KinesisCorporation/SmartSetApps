@@ -60,7 +60,7 @@ type
     function LoadLayoutFile(aFileName: string): string;
     function FirmwareExists(aDevice: TDevice): boolean;
     function SaveAppSettings: string;
-    function LoadAppSettings(aFileName: string): string;
+    function LoadAppSettings(aFileName: string; createIfNotExists: boolean = true): string;
     procedure SetStatusPlaySpeed(value: integer);
     procedure SetMacroSpeed(value: integer);
     procedure SetVDriveStatus(value: boolean);
@@ -931,7 +931,7 @@ begin
   FAppSettings.CustColor12 := clNone;
 end;
 
-function TFileService.LoadAppSettings(aFileName: string): string;
+function TFileService.LoadAppSettings(aFileName: string; createIfNotExists: boolean = true): string;
 var
   fileExists: boolean;
   fileContent: TStringList;
@@ -947,6 +947,14 @@ begin
 
     sFilePath := GSettingsFilePath + APP_SETTINGS_FILE;
     fileExists := CheckIfFileExists(sFilePath);
+
+    // Create app settings if it doesn't already exists
+    if (not fileExists and createIfNotExists) then
+    begin
+      if (SaveAppSettings = '') then
+        fileExists := CheckIfFileExists(sFilePath);
+    end;
+
     if (fileExists) then
     begin
       fileContent := TStringList.Create;

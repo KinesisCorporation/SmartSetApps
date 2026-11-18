@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="SmartSetMasterOffice"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -13,11 +12,12 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="5"/>
+      <MajorVersionNr Value="1"/>
+      <RevisionNr Value="8"/>
       <StringTable CompanyName="Kinesis Corporation"/>
     </VersionInfo>
-    <BuildModes Count="1">
-      <Item1 Name="Default" Default="True"/>
+    <BuildModes>
+      <Item Name="Default" Default="True"/>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -25,71 +25,95 @@
     </PublishOptions>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="9">
-      <Item1>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="LazControls"/>
+      </Item>
+      <Item>
         <PackageName Value="installpkg"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <PackageName Value="creosource"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <PackageName Value="bgracontrols"/>
-      </Item3>
-      <Item4>
+      </Item>
+      <Item>
         <PackageName Value="richmemopackage"/>
-      </Item4>
-      <Item5>
+      </Item>
+      <Item>
         <PackageName Value="gifviewer_pkg"/>
-      </Item5>
-      <Item6>
+      </Item>
+      <Item>
         <PackageName Value="uEControls"/>
-      </Item6>
-      <Item7>
+      </Item>
+      <Item>
         <PackageName Value="mbColorLibLaz"/>
-      </Item7>
-      <Item8>
+      </Item>
+      <Item>
         <PackageName Value="eccontrols"/>
-      </Item8>
-      <Item9>
+      </Item>
+      <Item>
         <PackageName Value="LCL"/>
-      </Item9>
+      </Item>
     </RequiredPackages>
-    <Units Count="6">
-      <Unit0>
+    <Units>
+      <Unit>
         <Filename Value="SmartSetMasterOffice.lpr"/>
         <IsPartOfProject Value="True"/>
-      </Unit0>
-      <Unit1>
+      </Unit>
+      <Unit>
         <Filename Value="u_form_about_master.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormAboutMaster"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit1>
-      <Unit2>
+      </Unit>
+      <Unit>
         <Filename Value="u_form_dashboard.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormDashboard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit2>
-      <Unit3>
+      </Unit>
+      <Unit>
         <Filename Value="u_form_scanvdrive.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormScanVDrive"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit3>
-      <Unit4>
+      </Unit>
+      <Unit>
         <Filename Value="..\Common\u_const.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit4>
-      <Unit5>
+      </Unit>
+      <Unit>
         <Filename Value="..\Common\u_led_ind.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit5>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Common\u_form_select_macro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSelectMacro"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Common\u_invalid_line.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Common\u_text_line.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Common\u_form_search_keys.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSearchKeys"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -129,16 +153,16 @@
     </Linking>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="3">
-      <Item1>
+    <Exceptions>
+      <Item>
         <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <Name Value="EFOpenError"/>
-      </Item3>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>

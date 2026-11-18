@@ -15,6 +15,10 @@
 /SmartSetSavantElite/backup/
 /KinesisApp
 
+backup/
+*.bak
+*.~*
+*.lps
 Components/richmemo/lib/i386-win32/richmemopackage.compiled
 *.ppu
 *.o
@@ -25,11 +29,18 @@ Components/richmemo/lib/i386-win32/richmemopackage.compiled
 *.exe
 Versions/
 trace.log
+ppas.bat
+ppas.sh
+link*.res
 
 */lib
 SmartSetAdv2/SmartSetKeyboard.lps
 SmartSetFSEdgePro/SmartSetFSEdge.lps
 SmartSetMaster/devmode.on
+SmartSetMaster/SmartSetMaster.lps
+SmartSetMaster/SmartSetMaster.res
+SmartSetMasterOffice/SmartSetMasterOffice.lps
+SmartSetMasterOffice/SmartSetMasterOffice.res
 
 Components/**/x86_64-darwin
 Components/**/x86_64-linux
@@ -46,3 +57,5 @@ SmartSetRGB/SmartSet App-Freestyle (Mac)
 SmartSetRGB/SmartSet App-Freestyle (PC)
 SmartSetSavantElite/SE2 SmartSet App (Mac)
 SmartSetTKO/SmartSetTKO
+SmartSetMaster/SmartSetMaster.res
+SmartSetMasterOffice/SmartSetMasterOffice.res

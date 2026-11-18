@@ -20,6 +20,7 @@ type
     chkDisableStatus: TCheckBox;
     imgListMiniIcons: TImageList;
     lblDisableStatus: TLabel;
+    lblGameMode: TLabel;
     lblMacroSpeed: TLabel;
     lblActions1: TLabel;
     lblDisableSpeed: TLabel;
@@ -86,7 +87,7 @@ end;
 procedure TFormSettings.FormCreate(Sender: TObject);
 begin
   inherited;
-  lblTitle.Visible := false;
+  lblTitle.Caption := 'Keyboard Settings';
   LoadStateSettings;
   settingsChanged := false;
 end;
@@ -254,6 +255,10 @@ procedure TFormSettings.swGameModeChange(Sender: TObject);
 begin
   if (not loadingSettings) then
     settingsChanged := true;
+  if (swGameMode.Checked) then
+    lblGameMode.Caption := 'On'
+  else
+    lblGameMode.Caption := 'Off';
 end;
 
 procedure TFormSettings.btnSaveClick(Sender: TObject);

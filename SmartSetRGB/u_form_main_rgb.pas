@@ -797,7 +797,7 @@ type
     procedure LoadMacro;
     procedure OpenColorDialog;
     procedure ReloadKeyButtons;
-    procedure ReloadKeyButtonsColor(reset: boolean = false; repainForm: boolean = true);
+    procedure ReloadKeyButtonsColor(init: boolean = false; repainForm: boolean = true; reset: boolean = false);
     procedure RemoveCoTrigger(key: word);
     procedure RepaintForm(fullRepaint: boolean);
     procedure ResetCoTrigger(keyButton: TLabelBox);
@@ -2675,7 +2675,7 @@ begin
   RepaintForm(false);
 end;
 
-procedure TFormMainRGB.ReloadKeyButtonsColor(reset: boolean; repainForm: boolean);
+procedure TFormMainRGB.ReloadKeyButtonsColor(init: boolean; repainForm: boolean; reset: boolean);
 var
   i: integer;
   keyButton: TLabelBox;
@@ -2692,7 +2692,11 @@ begin
 
     keyButton.Caption := '';
     keyButton.BorderStyle := bsNone;
-    if reset then
+
+    if (reset) then
+      aKbKey.KeyColor := clNone;
+
+    if (init) then
     begin
       keyButton.BackColor := clNone;
       //aKbKey.KeyColor := clNone;
@@ -3223,6 +3227,7 @@ begin
 
     //imgLeftMenu.Visible := ConfigMode = CONFIG_LAYOUT;
     swLayerSwitch.Visible := (ConfigMode = CONFIG_LAYOUT) or (fileService.VersionBiggerEqualLED(1, 0, 44)) or (GDemoMode);
+    lblLayerText.Visible := swLayerSwitch.Visible;
     btnCancel.Visible := ConfigMode = CONFIG_LAYOUT;
     btnDone.Visible := ConfigMode = CONFIG_LAYOUT;
     btnResetKey.Visible := ConfigMode = CONFIG_LAYOUT;
@@ -5293,7 +5298,7 @@ begin
     if ShowDialog('Reset Lighting', sMessage,
           mtConfirmation, [mbYes, mbNo], DEFAULT_DIAG_HEIGHT_RGB) = mrYes then
     begin
-      ReloadKeyButtonsColor(true);
+      ReloadKeyButtonsColor(true, true, true);
       SetSaveState(SaveStateLayout, ssModified);
     end;
   end;
