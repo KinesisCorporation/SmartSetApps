@@ -3850,7 +3850,7 @@ begin
         begin
           if (profileNumber = fileService.StateSettings.StartupFileNumber) then
           begin
-            diagMessage := 'Use the Refresh Shortcut (SmartSet + “Refresh”) to preview your updates, or close the App and disconnect the v-Drive (SmartSet + “v-Drive”).';
+            diagMessage := 'Use the Refresh Shortcut (SmartSet + Hotkey 4) to preview your updates, or close the App and disconnect the v-Drive (SmartSet + Hotkey 3).';
             diagTitle := 'Profile ' + IntToStr(profileNumber) + ' Saved';
             dialHeight := DEFAULT_DIAG_HEIGHT_RGB;
           end
